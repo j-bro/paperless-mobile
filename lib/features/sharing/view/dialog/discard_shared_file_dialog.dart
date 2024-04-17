@@ -37,7 +37,7 @@ class DiscardSharedFileDialog extends StatelessWidget {
       ),
       title: Text(S.of(context)!.discardFile),
       content: Text(
-        "The shared file was not yet processed. Do you want to discrad the file?", //TODO: INTL
+        "The shared file was not yet processed. Do you want to discard the file?", //TODO: INTL
       ),
       actions: [
         DialogCancelButton(),
