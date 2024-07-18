@@ -43,7 +43,7 @@
 </div>
 
 ## ⚠️ Important Notes
-- Breaking changes **are still expected** between updates! Please perform a **clean instal** after updating the app before filing an issue or leaving a 1-star review in the App-Store!
+- Breaking changes **are still expected** between updates! Please perform a **clean install** after updating the app before filing an issue or leaving a 1-star review in the App-Store!
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
