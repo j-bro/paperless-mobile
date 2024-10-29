@@ -64,7 +64,7 @@ class DocumentScannerCubit extends Cubit<DocumentScannerState> {
         stackTrace: stackTrace,
       );
     }
-    final scans = state.scans..remove(file);
+    final scans = state.scans.where((f) => f != file).toList();
     emit(
       scans.isEmpty
           ? const DocumentScannerState()
