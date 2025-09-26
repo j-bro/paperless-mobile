@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_ce/hive.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:paperless_api/config/hive/hive_type_ids.dart';

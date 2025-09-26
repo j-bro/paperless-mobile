@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_ce/hive.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_api/src/models/permissions/users_and_groups_permissions.dart';
 
