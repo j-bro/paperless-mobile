@@ -5,7 +5,6 @@ import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/accessibility/accessibility_utils.dart';
 import 'package:paperless_mobile/helpers/connectivity_aware_action_wrapper.dart';
 import 'package:paperless_mobile/routing/routes/documents_route.dart';
-import 'package:paperless_mobile/routing/routes/shells/authenticated_route.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 

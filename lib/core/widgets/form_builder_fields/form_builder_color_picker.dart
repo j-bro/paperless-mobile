@@ -8,7 +8,7 @@ import 'package:paperless_mobile/core/widgets/dialog_utils/dialog_cancel_button.
 import 'package:paperless_mobile/core/widgets/dialog_utils/dialog_confirm_button.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
-extension on Color {
+extension ColorPlus on Color {
   /// String is in the format "aabbcc" or "ffaabbcc" with an optional leading "#".
   /*static Color fromHex(String hexString) {
     final buffer = StringBuffer();
@@ -19,14 +19,15 @@ extension on Color {
 
   /// Prefixes a hash sign if [leadingHashSign] is set to `true` (default is `true`).
   String toHex({bool leadingHashSign = true}) {
-    /// Converts an rgba value (0-255) into a 2-digit Hex code.
-    String hexValue(int rgbaVal) {
+    /// Converts an rgba value (0-1) into a 2-digit Hex code.
+    String hexValue(double rgbaFloating) {
+      final rgbaVal = (rgbaFloating * 255).round() & 0xFF;
       assert(rgbaVal == rgbaVal & 0xFF);
       return rgbaVal.toRadixString(16).padLeft(2, '0').toUpperCase();
     }
 
     return '${leadingHashSign ? '#' : ''}'
-        '${hexValue(alpha)}${hexValue(red)}${hexValue(green)}${hexValue(blue)}';
+        '${hexValue(a)}${hexValue(r)}${hexValue(g)}${hexValue(b)}';
   }
 }
 
@@ -72,19 +73,19 @@ class FormBuilderColorPickerField extends FormBuilderField<Color> {
   final Widget Function(Color?)? colorPreviewBuilder;
 
   FormBuilderColorPickerField({
-    Key? key,
+    super.key,
     //From Super
-    required String name,
-    FormFieldValidator<Color>? validator,
-    Color? initialValue,
+    required super.name,
+    super.validator,
+    super.initialValue,
     InputDecoration decoration = const InputDecoration(),
-    ValueChanged<Color?>? onChanged,
-    ValueTransformer<Color?>? valueTransformer,
-    bool enabled = true,
-    FormFieldSetter<Color>? onSaved,
-    AutovalidateMode autovalidateMode = AutovalidateMode.disabled,
-    VoidCallback? onReset,
-    FocusNode? focusNode,
+    super.onChanged,
+    super.valueTransformer,
+    super.enabled,
+    super.onSaved,
+    AutovalidateMode super.autovalidateMode = AutovalidateMode.disabled,
+    super.onReset,
+    super.focusNode,
     bool readOnly = false,
     this.colorPickerType = ColorPickerType.colorPicker,
     this.textCapitalization = TextCapitalization.none,
@@ -116,17 +117,6 @@ class FormBuilderColorPickerField extends FormBuilderField<Color> {
     this.controller,
     this.colorPreviewBuilder,
   }) : super(
-          key: key,
-          initialValue: initialValue,
-          name: name,
-          validator: validator,
-          valueTransformer: valueTransformer,
-          onChanged: onChanged,
-          autovalidateMode: autovalidateMode,
-          onSaved: onSaved,
-          enabled: enabled,
-          onReset: onReset,
-          focusNode: focusNode,
           builder: (FormFieldState<Color?> field) {
             final state = field as FormBuilderColorPickerFieldState;
             return TextField(
@@ -257,8 +247,6 @@ class FormBuilderColorPickerFieldState
           pickerColor: value ?? Colors.transparent,
           onColorChanged: _colorChanged,
         );
-      default:
-        throw 'Unknown ColorPickerType';
     }
   }
 

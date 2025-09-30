@@ -4,10 +4,10 @@ class DetailsItem extends StatelessWidget {
   final String label;
   final Widget content;
   const DetailsItem({
-    Key? key,
+    super.key,
     required this.label,
     required this.content,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

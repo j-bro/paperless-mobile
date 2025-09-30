@@ -43,7 +43,7 @@ class AddAccountPage extends StatefulWidget {
   final Widget? bottomLeftButton;
 
   const AddAccountPage({
-    Key? key,
+    super.key,
     required this.onSubmit,
     required this.submitText,
     required this.titleText,
@@ -53,7 +53,7 @@ class AddAccountPage extends StatefulWidget {
     this.initialPassword,
     this.initialClientCertificate,
     this.bottomLeftButton,
-  }) : super(key: key);
+  });
 
   @override
   State<AddAccountPage> createState() => _AddAccountPageState();
@@ -197,8 +197,8 @@ class _AddAccountPageState extends State<AddAccountPage> {
                           style: Theme.of(context).textTheme.bodySmall?.apply(
                                 color: Theme.of(context)
                                     .colorScheme
-                                    .onBackground
-                                    .withOpacity(0.6),
+                                    .onSurface
+                                    .withAlpha(153),
                               ),
                         ).padded(16),
                       ],
@@ -255,7 +255,7 @@ class _AddAccountPageState extends State<AddAccountPage> {
   }
 
   Widget _buildStatusIndicator() {
-    Widget _buildIconText(
+    Widget buildIconText(
       IconData icon,
       String text, [
       Color? color,
@@ -275,31 +275,31 @@ class _AddAccountPageState extends State<AddAccountPage> {
     Color errorColor = Theme.of(context).colorScheme.error;
     switch (_reachabilityStatus) {
       case ReachabilityStatus.notReachable:
-        return _buildIconText(
+        return buildIconText(
           Icons.close,
           S.of(context)!.couldNotEstablishConnectionToTheServer,
           errorColor,
         );
       case ReachabilityStatus.unknownHost:
-        return _buildIconText(
+        return buildIconText(
           Icons.close,
           S.of(context)!.hostCouldNotBeResolved,
           errorColor,
         );
       case ReachabilityStatus.missingClientCertificate:
-        return _buildIconText(
+        return buildIconText(
           Icons.close,
           S.of(context)!.loginPageReachabilityMissingClientCertificateText,
           errorColor,
         );
       case ReachabilityStatus.invalidClientCertificateConfiguration:
-        return _buildIconText(
+        return buildIconText(
           Icons.close,
           S.of(context)!.incorrectOrMissingCertificatePassphrase,
           errorColor,
         );
       case ReachabilityStatus.connectionTimeout:
-        return _buildIconText(
+        return buildIconText(
           Icons.close,
           S.of(context)!.connectionTimedOut,
           errorColor,
@@ -331,13 +331,13 @@ class _AddAccountPageState extends State<AddAccountPage> {
           clientCertFormModel,
         );
       } on PaperlessApiException catch (error) {
-        showErrorMessage(context, error);
+        if (mounted) showErrorMessage(context, error);
       } on ServerMessageException catch (error) {
-        showLocalizedError(context, error.message);
+        if (mounted) showLocalizedError(context, error.message);
       } on InfoMessageException catch (error) {
-        showInfoMessage(context, error);
+        if (mounted) showInfoMessage(context, error);
       } catch (error) {
-        showGenericError(context, error);
+        if (mounted) showGenericError(context, error);
       } finally {
         setState(() {
           _isFormSubmitted = false;

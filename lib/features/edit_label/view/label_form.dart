@@ -36,14 +36,14 @@ class LabelForm<T extends Label> extends StatefulWidget {
   final GlobalKey<FormBuilderState>? formKey;
 
   const LabelForm({
-    Key? key,
+    super.key,
     required this.initialValue,
     required this.fromJsonT,
     this.additionalFields = const [],
     required this.submitButtonConfig,
     required this.autofocusNameField,
     this.formKey,
-  }) : super(key: key);
+  });
 
   @override
   State<LabelForm> createState() => _LabelFormState<T>();
@@ -119,10 +119,10 @@ class _LabelFormState<T extends Label> extends State<LabelForm<T>> {
               items: selectableMatchingAlgorithmValues
                   .map(
                     (algo) => DropdownMenuItem<int?>(
+                      value: algo.value,
                       child: Text(
                         translateMatchingAlgorithmDescription(context, algo),
                       ),
-                      value: algo.value,
                     ),
                   )
                   .toList(),
@@ -176,9 +176,9 @@ class _LabelFormState<T extends Label> extends State<LabelForm<T>> {
         };
         final parsed = widget.fromJsonT(mergedJson);
         final createdLabel = await widget.submitButtonConfig.onSubmit(parsed);
-        context.pop(createdLabel);
+        if (mounted) context.pop(createdLabel);
       } on PaperlessApiException catch (error, stackTrace) {
-        showErrorMessage(context, error, stackTrace);
+        if (mounted) showErrorMessage(context, error, stackTrace);
       } on PaperlessFormValidationException catch (exception) {
         setState(() => _errors = exception.validationMessages);
       }

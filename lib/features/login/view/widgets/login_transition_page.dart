@@ -11,12 +11,12 @@ class LoginTransitionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
+    return PopScope(
+      canPop: false,
       child: AnnotatedRegion<SystemUiOverlayStyle>(
         value: buildOverlayStyle(
           Theme.of(context),
-          systemNavigationBarColor: Theme.of(context).colorScheme.background,
+          systemNavigationBarColor: Theme.of(context).colorScheme.surface,
         ),
         child: Scaffold(
           body: Stack(

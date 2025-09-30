@@ -105,7 +105,7 @@ class InboxCubit extends HydratedCubit<InboxState>
 
       if (inboxTags.isEmpty) {
         // no inbox tags = no inbox items.
-        return emit( 
+        return emit(
           state.copyWith(
             hasLoaded: true,
             value: [],
@@ -245,11 +245,6 @@ class InboxCubit extends HydratedCubit<InboxState>
   @override
   Map<String, dynamic> toJson(InboxState state) {
     return state.toJson();
-  }
-
-  @override
-  Future<void> close() {
-    return super.close();
   }
 
   @override

@@ -5,7 +5,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 abstract class PersistentRepository<T> extends Cubit<T> {
   final Map<Object, StreamSubscription> _subscribers = {};
 
-  PersistentRepository(T initialState) : super(initialState);
+  PersistentRepository(super.initialState);
 
   void addListener(
     Object subscriber, {

@@ -28,7 +28,6 @@ import 'package:paperless_mobile/helpers/connectivity_aware_action_wrapper.dart'
 import 'package:paperless_mobile/helpers/message_helpers.dart';
 import 'package:paperless_mobile/helpers/permission_helpers.dart';
 import 'package:paperless_mobile/routing/routes/scanner_route.dart';
-import 'package:paperless_mobile/routing/routes/shells/authenticated_route.dart';
 import 'package:path/path.dart' as p;
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -36,7 +35,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 class ScannerPage extends StatefulWidget {
-  const ScannerPage({Key? key}) : super(key: key);
+  const ScannerPage({super.key});
 
   @override
   State<ScannerPage> createState() => _ScannerPageState();
@@ -95,7 +94,7 @@ class _ScannerPageState extends State<ScannerPage>
 
   Widget _buildActions() {
     return ColoredBox(
-      color: Theme.of(context).colorScheme.background,
+      color: Theme.of(context).colorScheme.surface,
       child: SizedBox(
         height: kTextTabBarHeight,
         child: BlocBuilder<DocumentScannerCubit, DocumentScannerState>(
@@ -189,6 +188,7 @@ class _ScannerPageState extends State<ScannerPage>
       builder: (context) => const ExportScansDialog(),
     );
     if (fileName != null) {
+      if (!mounted) return;
       final cubit = context.read<DocumentScannerCubit>();
       final file = await _assembleFileBytes(
         forcePdf: true,
@@ -200,6 +200,7 @@ class _ScannerPageState extends State<ScannerPage>
         if (Platform.isAndroid && androidInfo!.version.sdkInt <= 29) {
           final isGranted = await askForPermission(Permission.storage);
           if (!isGranted) {
+            if (!mounted) return;
             showSnackBar(
               context,
               "Please grant Paperless Mobile permissions to access your filesystem.",
@@ -217,6 +218,7 @@ class _ScannerPageState extends State<ScannerPage>
           globalSettings.preferredLocaleSubtag,
         );
       } catch (error) {
+        if (!mounted) return;
         showGenericError(context, error);
       }
     }
@@ -247,6 +249,7 @@ class _ScannerPageState extends State<ScannerPage>
     if (kDebugMode) {
       dev.log('[ScannerPage] Wrote image to temporary file: ${file.path}');
     }
+    if (!context.mounted) return;
     context.read<DocumentScannerCubit>().addScan(file);
   }
 
@@ -257,11 +260,13 @@ class _ScannerPageState extends State<ScannerPage>
           .getValue()!
           .enforceSinglePagePdfUpload,
     );
+    if (!context.mounted) return;
     final uploadResult = await DocumentUploadRoute(
       $extra: file.bytes,
       fileExtension: file.extension,
     ).push<DocumentUploadResult>(context);
     if (uploadResult?.success ?? false) {
+      if (!context.mounted) return;
       // For paperless version older than 1.11.3, task id will always be null!
       context.read<DocumentScannerCubit>().reset();
       // context
@@ -288,12 +293,12 @@ class _ScannerPageState extends State<ScannerPage>
             Text(S.of(context)!.or),
             ConnectivityAwareActionWrapper(
               offlineBuilder: (context, child) => TextButton(
-                child: Text(S.of(context)!.uploadADocumentFromThisDevice),
                 onPressed: null,
+                child: Text(S.of(context)!.uploadADocumentFromThisDevice),
               ),
               child: TextButton(
-                child: Text(S.of(context)!.uploadADocumentFromThisDevice),
                 onPressed: _onUploadFromFilesystem,
+                child: Text(S.of(context)!.uploadADocumentFromThisDevice),
               ),
             ),
           ],
@@ -363,12 +368,14 @@ class _ScannerPageState extends State<ScannerPage>
       final filename = p.basenameWithoutExtension(path);
       File file = File(path);
       if (!supportedFileExtensions.contains(extension.toLowerCase())) {
+        if (!mounted) return;
         showErrorMessage(
           context,
           const PaperlessApiException(ErrorCode.unsupportedFileFormat),
         );
         return;
       }
+      if (!mounted) return;
       DocumentUploadRoute(
         $extra: file.readAsBytesSync(),
         filename: filename,

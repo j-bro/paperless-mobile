@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:hive_ce_flutter/adapters.dart';
 import 'package:paperless_mobile/core/database/hive/hive_extensions.dart';
 import 'package:paperless_mobile/features/login/cubit/authentication_cubit.dart';
-import 'package:paperless_mobile/features/settings/view/dialogs/switch_account_dialog.dart';
 import 'package:paperless_mobile/features/settings/view/widgets/global_settings_builder.dart';
 import 'package:paperless_mobile/features/users/view/widgets/user_account_list_tile.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
-import 'package:paperless_mobile/routing/routes/shells/authenticated_route.dart';
 import 'package:paperless_mobile/routing/routes/add_account_route.dart';
 import 'package:provider/provider.dart';
 
@@ -55,6 +53,7 @@ class ManageAccountsPage extends StatelessWidget {
                       icon: const Icon(Icons.more_vert),
                       itemBuilder: (context) => [
                         PopupMenuItem(
+                          value: 0,
                           child: ListTile(
                             title: Text(S.of(context)!.logout),
                             leading: const Icon(
@@ -62,7 +61,6 @@ class ManageAccountsPage extends StatelessWidget {
                               color: Colors.red,
                             ),
                           ),
-                          value: 0,
                         ),
                       ],
                       onSelected: (value) async {
@@ -86,14 +84,15 @@ class ManageAccountsPage extends StatelessWidget {
                           itemBuilder: (context) {
                             return [
                               PopupMenuItem(
+                                value: 0,
                                 child: ListTile(
                                   title: Text(S.of(context)!.switchAccount),
                                   leading:
                                       const Icon(Icons.switch_account_rounded),
                                 ),
-                                value: 0,
                               ),
                               PopupMenuItem(
+                                value: 1,
                                 child: ListTile(
                                   title: Text(S.of(context)!.remove),
                                   leading: const Icon(
@@ -101,7 +100,6 @@ class ManageAccountsPage extends StatelessWidget {
                                     color: Colors.red,
                                   ),
                                 ),
-                                value: 1,
                               )
                             ];
                           },

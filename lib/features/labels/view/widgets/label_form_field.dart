@@ -29,7 +29,7 @@ class LabelFormField<T extends Label> extends StatelessWidget {
   final bool canCreateNewLabel;
 
   const LabelFormField({
-    Key? key,
+    super.key,
     required this.name,
     required this.options,
     required this.labelText,
@@ -44,7 +44,7 @@ class LabelFormField<T extends Label> extends StatelessWidget {
     this.addLabelText,
     required this.allowSelectUnassigned,
     required this.canCreateNewLabel,
-  }) : super(key: key);
+  });
 
   String _buildText(BuildContext context, IdQueryParameter? value) {
     return switch (value) {
@@ -83,9 +83,9 @@ class LabelFormField<T extends Label> extends StatelessWidget {
         return Column(
           children: [
             OpenContainer<IdQueryParameter>(
-              middleColor: Theme.of(context).colorScheme.background,
-              closedColor: Theme.of(context).colorScheme.background,
-              openColor: Theme.of(context).colorScheme.background,
+              middleColor: Theme.of(context).colorScheme.surface,
+              closedColor: Theme.of(context).colorScheme.surface,
+              openColor: Theme.of(context).colorScheme.surface,
               closedShape: InputBorder.none,
               openElevation: 0,
               closedElevation: 0,

@@ -122,13 +122,17 @@ class EditLabelForm<T extends Label> extends StatelessWidget {
           false;
       if (shouldDelete) {
         try {
-          onDelete(context, label);
+          if (context.mounted) onDelete(context, label);
         } on PaperlessApiException catch (error) {
-          showErrorMessage(context, error);
+          if (context.mounted) {
+            showErrorMessage(context, error);
+          }
         } catch (error, stackTrace) {
           log("An error occurred!", error: error, stackTrace: stackTrace);
         }
-        context.pop();
+        if (context.mounted) {
+          context.pop();
+        }
       }
     } else {
       onDelete(context, label);

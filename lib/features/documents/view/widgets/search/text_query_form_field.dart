@@ -62,22 +62,22 @@ class TextQueryFormField extends StatelessWidget {
       enabled: !onlyExtendedQueryAllowed,
       itemBuilder: (context) => [
         PopupMenuItem(
+          value: QueryType.titleAndContent,
           child: ListTile(
             title: Text(S.of(context)!.titleAndContent),
           ),
-          value: QueryType.titleAndContent,
         ),
         PopupMenuItem(
+          value: QueryType.title,
           child: ListTile(
             title: Text(S.of(context)!.title),
           ),
-          value: QueryType.title,
         ),
         PopupMenuItem(
+          value: QueryType.extended,
           child: ListTile(
             title: Text(S.of(context)!.extended),
           ),
-          value: QueryType.extended,
         ),
       ],
       onSelected: (selection) {

@@ -128,13 +128,13 @@ class ScaffoldWithNavigationBarState extends State<ScaffoldWithNavigationBar> {
     final disabledColor = Theme.of(context).disabledColor;
 
     final disabledTheme = Theme.of(context).navigationBarTheme.copyWith(
-          labelTextStyle: MaterialStatePropertyAll(
+          labelTextStyle: WidgetStatePropertyAll(
             Theme.of(context)
                 .textTheme
                 .labelSmall
                 ?.copyWith(color: disabledColor),
           ),
-          iconTheme: MaterialStatePropertyAll(
+          iconTheme: WidgetStatePropertyAll(
             Theme.of(context).iconTheme.copyWith(color: disabledColor),
           ),
         );

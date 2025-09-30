@@ -4,7 +4,6 @@ import 'package:flutter_markdown_community/flutter_markdown.dart';
 import 'package:go_router/go_router.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
-import 'package:paperless_mobile/theme.dart';
 
 class ChangelogDialog extends StatelessWidget {
   const ChangelogDialog({super.key});

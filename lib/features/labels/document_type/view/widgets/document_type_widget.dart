@@ -7,12 +7,12 @@ class DocumentTypeWidget extends StatelessWidget {
   final TextStyle? textStyle;
   final void Function(int? id)? onSelected;
   const DocumentTypeWidget({
-    Key? key,
+    super.key,
     required this.documentType,
     this.isClickable = true,
     this.textStyle,
     this.onSelected,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

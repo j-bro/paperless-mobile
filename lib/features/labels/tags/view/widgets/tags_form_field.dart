@@ -52,9 +52,9 @@ class TagsFormField extends StatelessWidget {
         return Column(
           children: [
             OpenContainer<TagsQuery>(
-              middleColor: Theme.of(context).colorScheme.background,
-              closedColor: Theme.of(context).colorScheme.background,
-              openColor: Theme.of(context).colorScheme.background,
+              middleColor: Theme.of(context).colorScheme.surface,
+              closedColor: Theme.of(context).colorScheme.surface,
+              openColor: Theme.of(context).colorScheme.surface,
               closedShape: InputBorder.none,
               openElevation: 0,
               closedElevation: 0,

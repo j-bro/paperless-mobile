@@ -299,8 +299,8 @@ class _FullscreenLabelFormState<T extends Label>
               Text(S.of(context)!.noItemsFound).padded(),
               if (widget.onCreateNewLabel != null)
                 TextButton(
-                  child: Text(widget.addNewLabelText!),
                   onPressed: _onCreateNewLabel,
+                  child: Text(widget.addNewLabelText!),
                 ),
             ],
           ),

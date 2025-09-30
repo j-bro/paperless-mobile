@@ -175,7 +175,7 @@ class _FullscreenBulkEditTagsWidgetState
           removeTagIds: _removeTags,
           addTagIds: _addTags,
         );
-        context.pop();
+        if (mounted) context.pop();
       }
     }
   }

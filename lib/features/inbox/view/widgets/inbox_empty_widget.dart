@@ -5,10 +5,9 @@ import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
 class InboxEmptyWidget extends StatelessWidget {
   const InboxEmptyWidget({
-    Key? key,
+    super.key,
     required GlobalKey<RefreshIndicatorState> emptyStateRefreshIndicatorKey,
-  })  : _emptyStateRefreshIndicatorKey = emptyStateRefreshIndicatorKey,
-        super(key: key);
+  }) : _emptyStateRefreshIndicatorKey = emptyStateRefreshIndicatorKey;
 
   final GlobalKey<RefreshIndicatorState> _emptyStateRefreshIndicatorKey;
 

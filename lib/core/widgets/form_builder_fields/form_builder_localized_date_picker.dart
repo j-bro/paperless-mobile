@@ -3,11 +3,9 @@
 import 'dart:collection';
 
 import 'package:collection/collection.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/features/landing/view/widgets/mime_types_pie_chart.dart';
@@ -146,11 +144,11 @@ class _FormBuilderLocalizedDatePickerState
 
   @override
   Widget build(BuildContext context) {
-    return RawKeyboardListener(
+    return KeyboardListener(
       focusNode: FocusNode(),
-      onKey: (value) {
+      onKeyEvent: (value) {
         if (value.logicalKey == LogicalKeyboardKey.backspace &&
-            value is RawKeyDownEvent) {
+            value is KeyDownEvent) {
           final currentFocus = _textFieldControls
               .where((element) => element.node.hasFocus)
               .firstOrNull;

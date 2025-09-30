@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:paperless_mobile/core/service/file_service.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
@@ -32,6 +30,7 @@ class _ClearCacheSettingState extends State<ClearCacheSetting> {
       onTap: () async {
         final freedBytes = await FileService.instance
             .clearDirectoryContent(PaperlessDirectoryType.temporary);
+        if (!context.mounted) return;
         showSnackBar(
           context,
           S.of(context)!.freedDiskSpace(formatBytes(freedBytes)),

@@ -61,7 +61,7 @@ ThemeData buildTheme({
       scrolledUnderElevation: 0,
     ),
     chipTheme: ChipThemeData(
-      backgroundColor: colorScheme.surfaceVariant,
+      backgroundColor: colorScheme.surfaceContainerHighest,
       checkmarkColor: colorScheme.onSurfaceVariant,
       deleteIconColor: colorScheme.onSurfaceVariant,
     ),
@@ -82,14 +82,14 @@ SystemUiOverlayStyle buildOverlayStyle(
     Brightness.light => SystemUiOverlayStyle.dark.copyWith(
         systemNavigationBarColor: color,
         systemNavigationBarDividerColor: color,
-        statusBarColor: theme.colorScheme.background,
+        statusBarColor: theme.colorScheme.surface,
         // statusBarColor: theme.colorScheme.background,
         // systemNavigationBarDividerColor: theme.colorScheme.surface,
       ),
     Brightness.dark => SystemUiOverlayStyle.light.copyWith(
         systemNavigationBarColor: color,
         systemNavigationBarDividerColor: color,
-        statusBarColor: theme.colorScheme.background,
+        statusBarColor: theme.colorScheme.surface,
         // statusBarColor: theme.colorScheme.background,
         // systemNavigationBarDividerColor: theme.colorScheme.surface,
       ),

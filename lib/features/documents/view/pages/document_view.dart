@@ -10,12 +10,12 @@ class DocumentView extends StatefulWidget {
   final bool showAppBar;
   final bool showControls;
   const DocumentView({
-    Key? key,
+    super.key,
     required this.bytes,
     this.showAppBar = true,
     this.showControls = true,
     this.title,
-  }) : super(key: key);
+  });
 
   @override
   State<DocumentView> createState() => _DocumentViewState();

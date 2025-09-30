@@ -13,10 +13,10 @@ class ServerAddressFormField extends StatefulWidget {
   final ValueChanged<String?>? onChanged;
 
   const ServerAddressFormField({
-    Key? key,
+    super.key,
     this.onChanged,
     this.initialValue,
-  }) : super(key: key);
+  });
 
   @override
   State<ServerAddressFormField> createState() => _ServerAddressFormFieldState();

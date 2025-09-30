@@ -7,7 +7,6 @@ import 'package:paperless_mobile/features/documents/view/widgets/selection/bulk_
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/helpers/message_helpers.dart';
 import 'package:paperless_mobile/routing/routes/documents_route.dart';
-import 'package:paperless_mobile/routing/routes/shells/authenticated_route.dart';
 
 class DocumentSelectionSliverAppBar extends StatelessWidget {
   final DocumentsState state;
@@ -20,7 +19,7 @@ class DocumentSelectionSliverAppBar extends StatelessWidget {
       pinned: true,
       floating: true,
       snap: true,
-      backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
       title: Text(
         S.of(context)!.countSelected(state.selection.length),
       ),
@@ -40,15 +39,18 @@ class DocumentSelectionSliverAppBar extends StatelessWidget {
                 false;
             if (shouldDelete) {
               try {
+                if (!context.mounted) return;
                 await context
                     .read<DocumentsCubit>()
                     .bulkDelete(state.selection);
+                if (!context.mounted) return;
                 showSnackBar(
                   context,
                   S.of(context)!.documentsSuccessfullyDeleted,
                 );
                 context.read<DocumentsCubit>().resetSelection();
               } on PaperlessApiException catch (error, stackTrace) {
+                if (!context.mounted) return;
                 showErrorMessage(context, error, stackTrace);
               }
             }

@@ -82,7 +82,7 @@ packages:
     source: hosted
     version: "2.0.13"
   bloc:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: bloc
       sha256: e18b8e7825e9921d67a6d256dba0b6015ece8a577eb0a411845c46a352994d78
@@ -1150,7 +1150,7 @@ packages:
     source: hosted
     version: "1.16.0"
   mime:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: mime
       sha256: "41a20518f0cb1256669420fdba0cd90d21561e560ac240f26ef8322e45bb7ed6"
@@ -1165,7 +1165,7 @@ packages:
     source: path
     version: "0.0.1"
   mockito:
-    dependency: transitive
+    dependency: "direct dev"
     description:
       name: mockito
       sha256: "2314cbe9165bcd16106513df9cf3c3224713087f09723b128928dc11a4379f99"
@@ -1260,7 +1260,7 @@ packages:
     source: path
     version: "1.0.0+1"
   path:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path
       sha256: "75cca69d1490965be98c73ceaea117e8a04dd21217b37b292c9ddbec0d955bc5"

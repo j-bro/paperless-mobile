@@ -94,17 +94,17 @@ class _DocumentShareButtonState extends State<DocumentShareButton> {
         }
       }
       setState(() => _isDownloadPending = true);
-      await context.read<DocumentDetailsCubit>().shareDocument(
-            shareOriginal: original,
-          );
-    } on PaperlessApiException catch (error, stackTrace) {
-      showErrorMessage(context, error, stackTrace);
-    } catch (error) {
-      showGenericError(context, error);
-    } finally {
       if (mounted) {
-        setState(() => _isDownloadPending = false);
+        await context.read<DocumentDetailsCubit>().shareDocument(
+              shareOriginal: original,
+            );
       }
+    } on PaperlessApiException catch (error, stackTrace) {
+      if (mounted) showErrorMessage(context, error, stackTrace);
+    } catch (error) {
+      if (mounted) showGenericError(context, error);
+    } finally {
+      if (mounted) setState(() => _isDownloadPending = false);
     }
   }
 }

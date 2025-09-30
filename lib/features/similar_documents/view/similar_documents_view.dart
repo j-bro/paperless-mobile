@@ -12,7 +12,6 @@ import 'package:paperless_mobile/features/similar_documents/cubit/similar_docume
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/helpers/message_helpers.dart';
 import 'package:paperless_mobile/routing/routes/documents_route.dart';
-import 'package:paperless_mobile/routing/routes/shells/authenticated_route.dart';
 
 class SimilarDocumentsView extends StatefulWidget {
   final ScrollController pagingScrollController;

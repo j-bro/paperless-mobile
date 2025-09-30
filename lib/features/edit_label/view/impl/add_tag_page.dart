@@ -11,7 +11,7 @@ import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
 class AddTagPage extends StatelessWidget {
   final String? initialName;
-  const AddTagPage({Key? key, this.initialName}) : super(key: key);
+  const AddTagPage({super.key, this.initialName});
 
   @override
   Widget build(BuildContext context) {
@@ -27,13 +27,13 @@ class AddTagPage extends StatelessWidget {
         additionalFields: [
           FormBuilderColorPickerField(
             name: Tag.colorKey,
-            valueTransformer: (color) => "#${color?.value.toRadixString(16)}",
+            valueTransformer: (color) => color?.toHex(),
             decoration: InputDecoration(
               label: Text(S.of(context)!.color),
             ),
             colorPickerType: ColorPickerType.materialPicker,
             initialValue: Color((Random().nextDouble() * 0xFFFFFF).toInt())
-                .withOpacity(1.0),
+                .withAlpha(255),
             readOnly: true,
           ),
           FormBuilderField<bool>(

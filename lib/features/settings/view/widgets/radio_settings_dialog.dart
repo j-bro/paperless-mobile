@@ -44,17 +44,25 @@ class _RadioSettingsDialogState<T> extends State<RadioSettingsDialog<T>> {
       ],
       title: widget.titleText != null ? Text(widget.titleText!) : null,
       content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (widget.descriptionText != null)
-              Text(
-                widget.descriptionText!,
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-            ...widget.options.map(_buildOptionListTile).toList(),
-            if (widget.footer != null) widget.footer!,
-          ],
+        child: RadioGroup(
+          groupValue: _groupValue,
+          onChanged: (value) {
+            if (value != null) {
+              setState(() => _groupValue = value);
+            }
+          },
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (widget.descriptionText != null)
+                Text(
+                  widget.descriptionText!,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ...widget.options.map(_buildOptionListTile),
+              if (widget.footer != null) widget.footer!,
+            ],
+          ),
         ),
       ),
     );
@@ -62,8 +70,6 @@ class _RadioSettingsDialogState<T> extends State<RadioSettingsDialog<T>> {
 
   Widget _buildOptionListTile(RadioOption<T> option) {
     return RadioListTile<T>(
-      groupValue: _groupValue,
-      onChanged: (value) => setState(() => _groupValue = value!),
       value: option.value,
       title: Text(option.label),
     );

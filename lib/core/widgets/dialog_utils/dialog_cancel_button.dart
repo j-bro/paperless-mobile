@@ -8,8 +8,8 @@ class DialogCancelButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      child: Text(S.of(context)!.cancel),
       onPressed: onTap ?? () => Navigator.pop(context),
+      child: Text(S.of(context)!.cancel),
     );
   }
 }

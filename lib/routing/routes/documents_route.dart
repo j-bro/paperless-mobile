@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/repository/label_repository.dart';
-import 'package:paperless_mobile/core/service/file_service.dart';
 import 'package:paperless_mobile/features/document_bulk_action/cubit/document_bulk_action_cubit.dart';
 import 'package:paperless_mobile/features/document_bulk_action/view/widgets/fullscreen_bulk_edit_label_page.dart';
 import 'package:paperless_mobile/features/document_bulk_action/view/widgets/fullscreen_bulk_edit_tags_widget.dart';
@@ -85,7 +84,7 @@ class EditDocumentRoute extends GoRouteData with $EditDocumentRoute {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: buildOverlayStyle(
         theme,
-        systemNavigationBarColor: theme.colorScheme.background,
+        systemNavigationBarColor: theme.colorScheme.surface,
       ),
       child: BlocProvider(
         create: (context) => DocumentEditCubit(

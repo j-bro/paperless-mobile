@@ -106,6 +106,9 @@ dependencies:
   # camerawesome: ^2.0.0-dev.1
   pdfx: ^2.9.2
   markdown: ^7.1.1
+  path: ^1.9.1
+  bloc: ^9.0.1
+  mime: ^2.0.0
   # pdfrx:
   #   git:
   #     url: https://github.com/astubenbord/pdfrx
@@ -131,6 +134,7 @@ dev_dependencies:
     path: packages/mock_server
   go_router_builder: ^4.1.0
   flutter_gen_runner: ^5.3.2
+  mockito: ^5.5.0
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter.

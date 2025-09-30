@@ -14,7 +14,6 @@ import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/routing/routes/documents_route.dart';
 import 'package:paperless_mobile/routing/routes/inbox_route.dart';
 import 'package:paperless_mobile/routing/routes/saved_views_route.dart';
-import 'package:paperless_mobile/routing/routes/shells/authenticated_route.dart';
 import 'package:paperless_mobile/routing/routes/changelog_route.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -32,13 +31,12 @@ class _LandingPageState extends State<LandingPage> {
     try {
       final sp = await SharedPreferences.getInstance();
       final currentBuild = packageInfo.buildNumber;
-      final _existingVersions =
-          sp.getStringList('changelogSeenForBuilds') ?? [];
-      if (_existingVersions.contains(currentBuild)) {
+      final existingVersions = sp.getStringList('changelogSeenForBuilds') ?? [];
+      if (existingVersions.contains(currentBuild)) {
         return false;
       } else {
-        _existingVersions.add(currentBuild);
-        await sp.setStringList('changelogSeenForBuilds', _existingVersions);
+        existingVersions.add(currentBuild);
+        await sp.setStringList('changelogSeenForBuilds', existingVersions);
         return true;
       }
     } catch (e) {
@@ -50,7 +48,7 @@ class _LandingPageState extends State<LandingPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      if (await _shouldShowChangelog) {
+      if (await _shouldShowChangelog && mounted) {
         ChangelogRoute().push(context);
       }
     });
@@ -180,7 +178,7 @@ class _LandingPageState extends State<LandingPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Card(
-                color: Theme.of(context).colorScheme.surfaceVariant,
+                color: Theme.of(context).colorScheme.surfaceContainerHighest,
                 child: ListTile(
                   shape: Theme.of(context).cardTheme.shape,
                   titleTextStyle: Theme.of(context).textTheme.labelLarge,
@@ -195,7 +193,7 @@ class _LandingPageState extends State<LandingPage> {
                 ),
               ),
               Card(
-                color: Theme.of(context).colorScheme.surfaceVariant,
+                color: Theme.of(context).colorScheme.surfaceContainerHighest,
                 child: ListTile(
                   shape: Theme.of(context).cardTheme.shape,
                   titleTextStyle: Theme.of(context).textTheme.labelLarge,
@@ -212,7 +210,7 @@ class _LandingPageState extends State<LandingPage> {
                 ),
               ),
               Card(
-                color: Theme.of(context).colorScheme.surfaceVariant,
+                color: Theme.of(context).colorScheme.surfaceContainerHighest,
                 child: ListTile(
                   shape: Theme.of(context).cardTheme.shape,
                   titleTextStyle: Theme.of(context).textTheme.labelLarge,

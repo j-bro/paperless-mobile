@@ -27,7 +27,6 @@ import 'package:paperless_mobile/features/tasks/model/pending_tasks_notifier.dar
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/helpers/message_helpers.dart';
 import 'package:paperless_mobile/routing/routes/documents_route.dart';
-import 'package:paperless_mobile/routing/routes/shells/authenticated_route.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 class DocumentFilterIntent {
@@ -41,7 +40,7 @@ class DocumentFilterIntent {
 }
 
 class DocumentsPage extends StatefulWidget {
-  const DocumentsPage({Key? key}) : super(key: key);
+  const DocumentsPage({super.key});
 
   @override
   State<DocumentsPage> createState() => _DocumentsPageState();
@@ -56,7 +55,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
 
   final _nestedScrollViewKey = GlobalKey<NestedScrollViewState>();
 
-  final _savedViewsExpansionController = ExpansionTileController();
+  final _savedViewsExpansionController = ExpansibleController();
   bool _showExtendedFab = true;
 
   @override
@@ -106,7 +105,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
           context.read<LabelCubit>().reloadStoragePaths(),
       ]);
     } catch (error, stackTrace) {
-      showGenericError(context, error, stackTrace);
+      if (mounted) showGenericError(context, error, stackTrace);
     }
   }
 
@@ -244,19 +243,21 @@ class _DocumentsPageState extends State<DocumentsPage> {
               },
             ),
             resizeToAvoidBottomInset: true,
-            body: WillPopScope(
-              onWillPop: () async {
+            body: PopScope(
+              onPopInvokedWithResult: (didPop, result) async {
+                if (didPop) return;
+
                 final cubit = context.read<DocumentsCubit>();
                 if (cubit.state.selection.isNotEmpty) {
                   cubit.resetSelection();
-                  return false;
+                  return;
                 }
                 if (cubit.state.filter.appliedFiltersCount > 0 ||
                     cubit.state.filter.selectedView != null) {
                   await _onResetFilter();
-                  return false;
+                  return;
                 }
-                return true;
+                Navigator.of(context).pop();
               },
               child: NestedScrollView(
                 key: _nestedScrollViewKey,
@@ -282,8 +283,8 @@ class _DocumentsPageState extends State<DocumentsPage> {
                     handle: savedViewsHandle,
                     sliver: SliverPinnedHeader(
                       child: Material(
-                        child: _buildViewActions(),
                         elevation: 2,
+                        child: _buildViewActions(),
                       ),
                     ),
                   ),
@@ -336,12 +337,16 @@ class _DocumentsPageState extends State<DocumentsPage> {
               .read<DocumentsCubit>()
               .loadMore()
               .onError<PaperlessApiException>(
-                (error, stackTrace) => showErrorMessage(
+            (error, stackTrace) {
+              if (context.mounted) {
+                showErrorMessage(
                   context,
                   error,
                   stackTrace,
-                ),
-              );
+                );
+              }
+            },
+          );
           return true;
         }
         return false;
@@ -378,8 +383,10 @@ class _DocumentsPageState extends State<DocumentsPage> {
                     },
                     onUpdateView: (view) async {
                       await context.read<SavedViewCubit>().update(view);
-                      showSnackBar(
-                          context, S.of(context)!.savedViewSuccessfullyUpdated);
+                      if (context.mounted) {
+                        showSnackBar(context,
+                            S.of(context)!.savedViewSuccessfullyUpdated);
+                      }
                     },
                     onDeleteView: (view) async {
                       HapticFeedback.mediumImpact();
@@ -388,7 +395,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
                         builder: (context) =>
                             ConfirmDeleteSavedViewDialog(view: view),
                       );
-                      if (shouldRemove) {
+                      if (shouldRemove && context.mounted) {
                         final documentsCubit = context.read<DocumentsCubit>();
                         context.read<SavedViewCubit>().remove(view);
                         if (documentsCubit.state.filter.selectedView ==
@@ -454,7 +461,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
       builder: (context, state) {
         return Container(
           padding: const EdgeInsets.all(4),
-          color: Theme.of(context).colorScheme.background,
+          color: Theme.of(context).colorScheme.surface,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -511,12 +518,14 @@ class _DocumentsPageState extends State<DocumentsPage> {
         if (filterIntent.shouldReset) {
           await _onResetFilter();
         } else {
-          await context
-              .read<DocumentsCubit>()
-              .updateFilter(filter: filterIntent.filter!);
+          if (mounted) {
+            await context
+                .read<DocumentsCubit>()
+                .updateFilter(filter: filterIntent.filter!);
+          }
         }
       } on PaperlessApiException catch (error, stackTrace) {
-        showErrorMessage(context, error, stackTrace);
+        if (mounted) showErrorMessage(context, error, stackTrace);
       }
     }
   }

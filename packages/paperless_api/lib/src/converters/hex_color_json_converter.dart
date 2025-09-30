@@ -25,7 +25,7 @@ class HexColorJsonConverter implements JsonConverter<Color?, dynamic> {
       return null;
     }
     String val =
-        '#${(color.value & 0xFFFFFF).toRadixString(16).padLeft(6, '0').toLowerCase()}';
+        '#${(color.toARGB32() & 0xFFFFFF).toRadixString(16).padLeft(6, '0').toLowerCase()}';
     return val;
   }
 }

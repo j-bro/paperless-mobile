@@ -40,9 +40,9 @@ class _DocumentDownloadButtonState extends State<DocumentDownloadButton> {
       tooltip: S.of(context)!.downloadDocumentTooltip,
       icon: _isDownloadPending
           ? const SizedBox(
-              child: CircularProgressIndicator(),
               height: 16,
               width: 16,
+              child: CircularProgressIndicator(),
             )
           : const Icon(Icons.download),
       onPressed: widget.document != null && widget.enabled
@@ -91,21 +91,21 @@ class _DocumentDownloadButtonState extends State<DocumentDownloadButton> {
       }
 
       setState(() => _isDownloadPending = true);
-      final userId = context.read<LocalUserAccount>().id;
-      await context.read<DocumentDetailsCubit>().downloadDocument(
-            downloadOriginal: original,
-            locale: globalSettings.preferredLocaleSubtag,
-            userId: userId,
-          );
-      // showSnackBar(context, S.of(context)!.documentSuccessfullyDownloaded);
-    } on PaperlessApiException catch (error, stackTrace) {
-      showErrorMessage(context, error, stackTrace);
-    } catch (error) {
-      showGenericError(context, error);
-    } finally {
       if (mounted) {
-        setState(() => _isDownloadPending = false);
+        final userId = context.read<LocalUserAccount>().id;
+        await context.read<DocumentDetailsCubit>().downloadDocument(
+              downloadOriginal: original,
+              locale: globalSettings.preferredLocaleSubtag,
+              userId: userId,
+            );
+        // showSnackBar(context, S.of(context)!.documentSuccessfullyDownloaded);
       }
+    } on PaperlessApiException catch (error, stackTrace) {
+      if (mounted) showErrorMessage(context, error, stackTrace);
+    } catch (error) {
+      if (mounted) showGenericError(context, error);
+    } finally {
+      if (mounted) setState(() => _isDownloadPending = false);
     }
   }
 }

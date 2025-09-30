@@ -100,19 +100,19 @@ class _StoragePathAutofillFormBuilderFieldState
                   onPressed: () => _addParameterToInput("{created}", field),
                 ),
                 InputChip(
-                  label: Text(S.of(context)!.createdAt +
+                  label: Text("${S.of(context)!.createdAt}"
                       " (${S.of(context)!.storagePathYear})"),
                   onPressed: () =>
                       _addParameterToInput("{created_year}", field),
                 ),
                 InputChip(
-                  label: Text(S.of(context)!.createdAt +
+                  label: Text("${S.of(context)!.createdAt}"
                       " (${S.of(context)!.storagePathMonth})"),
                   onPressed: () =>
                       _addParameterToInput("{created_month}", field),
                 ),
                 InputChip(
-                  label: Text(S.of(context)!.createdAt +
+                  label: Text("${S.of(context)!.createdAt}"
                       " (${S.of(context)!.storagePathDay})"),
                   onPressed: () => _addParameterToInput("{created_day}", field),
                 ),
@@ -121,18 +121,18 @@ class _StoragePathAutofillFormBuilderFieldState
                   onPressed: () => _addParameterToInput("{added}", field),
                 ),
                 InputChip(
-                  label: Text(S.of(context)!.createdAt +
+                  label: Text("${S.of(context)!.createdAt}"
                       " (${S.of(context)!.storagePathYear})"),
                   onPressed: () => _addParameterToInput("{added_year}", field),
                 ),
                 InputChip(
-                  label: Text(S.of(context)!.createdAt +
+                  label: Text("${S.of(context)!.createdAt}"
                       " (${S.of(context)!.storagePathMonth})"),
                   onPressed: () => _addParameterToInput("{added_month}", field),
                 ),
                 InputChip(
-                  label: Text(S.of(context)!.createdAt +
-                      " (${S.of(context)!.storagePathDay})"),
+                  label: Text(
+                      "${S.of(context)!.createdAt} (${S.of(context)!.storagePathDay})"),
                   onPressed: () => _addParameterToInput("{added_day}", field),
                 ),
               ],

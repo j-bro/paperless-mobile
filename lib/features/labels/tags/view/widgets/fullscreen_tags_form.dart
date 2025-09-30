@@ -2,10 +2,8 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
-import 'package:paperless_mobile/features/edit_label/view/impl/add_tag_page.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/routing/routes/labels_route.dart';
-import 'package:paperless_mobile/routing/routes/shells/authenticated_route.dart';
 
 class FullscreenTagsForm extends StatefulWidget {
   final TagsQuery? initialValue;
@@ -254,8 +252,8 @@ class _FullscreenTagsFormState extends State<FullscreenTagsForm> {
           children: [
             Text(S.of(context)!.noItemsFound).padded(),
             TextButton(
-              child: Text(S.of(context)!.addTag),
               onPressed: _onAddTag,
+              child: Text(S.of(context)!.addTag),
             ),
           ],
         ),
@@ -317,8 +315,8 @@ class SelectableTagWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final includeColor = Colors.green.withOpacity(0.3);
-    final excludeColor = Colors.red.withOpacity(0.3);
+    final includeColor = Colors.green.withAlpha(76);
+    final excludeColor = Colors.red.withAlpha(76);
     return ListTile(
       title: Text(tag.name),
       trailing: Text(S.of(context)!.documentsAssigned(tag.documentCount ?? 0)),

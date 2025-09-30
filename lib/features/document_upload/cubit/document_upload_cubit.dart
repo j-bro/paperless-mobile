@@ -59,6 +59,7 @@ class DocumentUploadCubit extends Cubit<DocumentUploadState> {
         code: error.code,
         details: error.details,
       ));
+      return null;
     }
   }
 }

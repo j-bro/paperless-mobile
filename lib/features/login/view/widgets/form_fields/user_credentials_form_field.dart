@@ -17,12 +17,12 @@ class UserCredentialsFormField extends StatefulWidget {
   final String? initialPassword;
   final GlobalKey<FormBuilderState> formKey;
   const UserCredentialsFormField({
-    Key? key,
+    super.key,
     this.onFieldsSubmitted,
     this.initialUsername,
     this.initialPassword,
     required this.formKey,
-  }) : super(key: key);
+  });
 
   @override
   State<UserCredentialsFormField> createState() =>

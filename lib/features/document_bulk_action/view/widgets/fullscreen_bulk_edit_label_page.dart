@@ -55,26 +55,26 @@ class _FullscreenBulkEditLabelPageState<T extends Label>
       widget.selection.map(widget.labelMapper).toSet().toList();
 
   Iterable<int> _generateOrderedLabels() sync* {
-    final _availableValues = widget.options.values
+    final availableValues = widget.options.values
         .where(
             (e) => e.name.normalized().contains(_controller.text.normalized()))
         .map((e) => e.id!)
         .toSet();
     for (var label
-        in _initialValues.toSet().intersection(_availableValues.toSet())) {
+        in _initialValues.toSet().intersection(availableValues.toSet())) {
       if (label != null) {
         yield label;
       }
     }
     for (final id
-        in _availableValues.whereNot((e) => _initialValues.contains(e))) {
+        in availableValues.whereNot((e) => _initialValues.contains(e))) {
       yield id;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final _labels = _generateOrderedLabels();
+    final labels = _generateOrderedLabels();
     final hideFab = _selection == null ||
         (_initialValues.length == 1 &&
             _selection?.label == _initialValues.first);
@@ -83,8 +83,8 @@ class _FullscreenBulkEditLabelPageState<T extends Label>
       hintText: widget.hintText,
       leadingIcon: widget.leadingIcon,
       selectionBuilder: (context, index) =>
-          _buildItem(widget.options[_labels.elementAt(index)]!),
-      selectionCount: _labels.length,
+          _buildItem(widget.options[labels.elementAt(index)]!),
+      selectionCount: labels.length,
       floatingActionButton: !hideFab
           ? FloatingActionButton.extended(
               heroTag: "fab_fullscreen_bulk_edit_label",
@@ -150,7 +150,7 @@ class _FullscreenBulkEditLabelPageState<T extends Label>
       }
       if (shouldPerformAction) {
         widget.onSubmit(_selection!.label);
-        context.pop();
+        if (mounted) context.pop();
       }
     }
   }

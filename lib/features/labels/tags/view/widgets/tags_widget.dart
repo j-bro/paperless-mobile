@@ -72,9 +72,9 @@ class _MultiLineTagsWidget extends TagsWidget {
   Widget build(BuildContext context) {
     return Wrap(
       runAlignment: WrapAlignment.start,
-      children: _children,
       runSpacing: 4,
       spacing: 4,
+      children: _children,
     );
   }
 }

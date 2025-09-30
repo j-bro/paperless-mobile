@@ -3,14 +3,12 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:paperless_mobile/features/logging/models/parsed_log_message.dart';
 import 'package:paperless_mobile/core/service/file_service.dart';
 import 'package:paperless_mobile/features/notifications/services/local_notification_service.dart';
 import 'package:path/path.dart' as p;
-import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
 part 'app_logs_state.dart';
 

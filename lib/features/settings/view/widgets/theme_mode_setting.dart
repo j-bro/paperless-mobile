@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:paperless_mobile/features/settings/view/widgets/global_settings_builder.dart';
 import 'package:paperless_mobile/features/settings/view/widgets/radio_settings_dialog.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
-import 'package:paperless_mobile/theme.dart';
 
 class ThemeModeSetting extends StatelessWidget {
   const ThemeModeSetting({super.key});

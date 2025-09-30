@@ -205,8 +205,7 @@ class _InboxPageState extends State<InboxPage>
                               ),
                             ],
                           )
-                          .flattened
-                          .toList(),
+                          .flattened,
                       const SliverToBoxAdapter(
                         child: SizedBox(height: 78),
                       ),
@@ -266,7 +265,7 @@ class _InboxPageState extends State<InboxPage>
           ),
         ) ??
         false;
-    if (isActionConfirmed) {
+    if (isActionConfirmed && mounted) {
       await context.read<InboxCubit>().clearInbox();
     }
   }
@@ -279,29 +278,36 @@ class _InboxPageState extends State<InboxPage>
     final isConnectedToInternet =
         await context.read<ConnectivityStatusService>().isConnectedToInternet();
     if (!isConnectedToInternet) {
-      showSnackBar(context, S.of(context)!.youAreCurrentlyOffline);
+      if (mounted) showSnackBar(context, S.of(context)!.youAreCurrentlyOffline);
       return false;
     }
     try {
-      final removedTags = await context.read<InboxCubit>().removeFromInbox(doc);
-      showSnackBar(
-        context,
-        S.of(context)!.removeDocumentFromInbox,
-        action: SnackBarActionConfig(
-          label: S.of(context)!.undo,
-          onPressed: () => _onUndoMarkAsSeen(doc, removedTags),
-        ),
-      );
+      if (mounted) {
+        final removedTags =
+            await context.read<InboxCubit>().removeFromInbox(doc);
+        if (mounted) {
+          showSnackBar(
+            context,
+            S.of(context)!.removeDocumentFromInbox,
+            action: SnackBarActionConfig(
+              label: S.of(context)!.undo,
+              onPressed: () => _onUndoMarkAsSeen(doc, removedTags),
+            ),
+          );
+        }
+      }
       return true;
     } on PaperlessApiException catch (error, stackTrace) {
-      showErrorMessage(context, error, stackTrace);
+      if (mounted) showErrorMessage(context, error, stackTrace);
     } on ServerMessageException catch (error) {
-      showGenericError(context, error.message);
+      if (mounted) showGenericError(context, error.message);
     } catch (error) {
-      showErrorMessage(
-        context,
-        const PaperlessApiException.unknown(),
-      );
+      if (mounted) {
+        showErrorMessage(
+          context,
+          const PaperlessApiException.unknown(),
+        );
+      }
     }
     return false;
   }
@@ -315,7 +321,7 @@ class _InboxPageState extends State<InboxPage>
           .read<InboxCubit>()
           .undoRemoveFromInbox(document, removedTags);
     } on PaperlessApiException catch (error, stackTrace) {
-      showErrorMessage(context, error, stackTrace);
+      if (mounted) showErrorMessage(context, error, stackTrace);
     }
   }
 

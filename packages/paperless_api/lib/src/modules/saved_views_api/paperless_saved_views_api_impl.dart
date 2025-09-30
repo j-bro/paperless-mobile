@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:paperless_api/src/extensions/dio_exception_extension.dart';
 import 'package:paperless_api/src/models/paperless_api_exception.dart';

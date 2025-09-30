@@ -6,9 +6,9 @@ import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
 class ConfirmDeleteSavedViewDialog extends StatelessWidget {
   const ConfirmDeleteSavedViewDialog({
-    Key? key,
+    super.key,
     required this.view,
-  }) : super(key: key);
+  });
 
   final SavedView view;
 

@@ -10,10 +10,10 @@ class DocumentsEmptyState extends StatelessWidget {
   final VoidCallback? onReset;
 
   const DocumentsEmptyState({
-    Key? key,
+    super.key,
     required this.state,
     this.onReset,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

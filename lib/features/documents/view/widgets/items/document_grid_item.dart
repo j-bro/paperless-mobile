@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/database/tables/local_user_account.dart';
-import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/repository/label_repository.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/document_preview.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/items/document_item.dart';
@@ -131,7 +130,7 @@ class DocumentGridItem extends DocumentItem {
                             ),
                             if (document.archiveSerialNumber != null)
                               Text(
-                                '#' + document.archiveSerialNumber!.toString(),
+                                '#${document.archiveSerialNumber!}',
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodySmall

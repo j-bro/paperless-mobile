@@ -75,17 +75,17 @@ class _FormBuilderRelativeDateRangePickerState
               SizedBox(
                 width: 120,
                 child: DropdownButtonFormField<DateRangeUnit?>(
-                  value: field.value?.unit,
+                  initialValue: field.value?.unit,
                   items: DateRangeUnit.values
                       .map(
                         (unit) => DropdownMenuItem(
+                          value: unit,
                           child: Text(
                             _dateRangeUnitToLocalizedString(
                               unit,
                               _offset,
                             ),
                           ),
-                          value: unit,
                         ),
                       )
                       .toList(),

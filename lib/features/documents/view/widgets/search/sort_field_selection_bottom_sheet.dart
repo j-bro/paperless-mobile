@@ -60,7 +60,9 @@ class _SortFieldSelectionBottomSheetState
                       _currentSortField,
                       _currentSortOrder,
                     );
-                    Navigator.pop(context);
+                    if (context.mounted) {
+                      Navigator.pop(context);
+                    }
                   },
                 ),
               ],

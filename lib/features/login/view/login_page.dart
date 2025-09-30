@@ -67,21 +67,27 @@ class LoginPage extends StatelessWidget {
 
       // DocumentsRoute().go(context);
     } on PaperlessApiException catch (error, stackTrace) {
-      showErrorMessage(context, error, stackTrace);
+      if (context.mounted) showErrorMessage(context, error, stackTrace);
     } on PaperlessFormValidationException catch (exception, stackTrace) {
       if (exception.hasUnspecificErrorMessage()) {
-        showLocalizedError(context, exception.unspecificErrorMessage()!);
+        if (context.mounted) {
+          showLocalizedError(context, exception.unspecificErrorMessage()!);
+        }
       } else {
-        showGenericError(
-          context,
-          exception.validationMessages.values.first,
-          stackTrace,
-        ); //TODO: Check if we can show error message directly on field here.
+        if (context.mounted) {
+          showGenericError(
+            context,
+            exception.validationMessages.values.first,
+            stackTrace,
+          ); //TODO: Check if we can show error message directly on field here.
+        }
       }
     } on InfoMessageException catch (error) {
-      showInfoMessage(context, error);
+      if (context.mounted) showInfoMessage(context, error);
     } catch (unknownError, stackTrace) {
-      showGenericError(context, unknownError.toString(), stackTrace);
+      if (context.mounted) {
+        showGenericError(context, unknownError.toString(), stackTrace);
+      }
     }
   }
 }

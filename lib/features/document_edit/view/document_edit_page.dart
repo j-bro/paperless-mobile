@@ -4,7 +4,6 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:paperless_api/paperless_api.dart';
@@ -21,7 +20,6 @@ import 'package:paperless_mobile/features/labels/view/widgets/label_form_field.d
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/helpers/message_helpers.dart';
 import 'package:paperless_mobile/routing/routes/labels_route.dart';
-import 'package:paperless_mobile/routing/routes/shells/authenticated_route.dart';
 
 typedef ItemBuilder<T> = Widget Function(BuildContext context, T itemData);
 
@@ -391,11 +389,13 @@ class _DocumentEditPageState extends State<DocumentEditPage>
 
       try {
         await context.read<DocumentEditCubit>().updateDocument(mergedDocument);
-        showSnackBar(context, S.of(context)!.documentSuccessfullyUpdated);
+        if (mounted) {
+          showSnackBar(context, S.of(context)!.documentSuccessfullyUpdated);
+        }
       } on PaperlessApiException catch (error, stackTrace) {
-        showErrorMessage(context, error, stackTrace);
+        if (mounted) showErrorMessage(context, error, stackTrace);
       } finally {
-        context.pop();
+        if (mounted) context.pop();
       }
     }
   }

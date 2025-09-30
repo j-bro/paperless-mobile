@@ -82,7 +82,7 @@ class _EdgeDetectionShapeState extends State<EdgeDetectionShape> {
           CustomPaint(
             painter: EdgePainter(
               points: points,
-              color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
+              color: Theme.of(context).colorScheme.primary.withAlpha(128),
             ),
           )
         ],

@@ -15,11 +15,11 @@ class DocumentFilterPanel extends StatefulWidget {
   final DraggableScrollableController draggableSheetController;
 
   const DocumentFilterPanel({
-    Key? key,
+    super.key,
     required this.initialFilter,
     required this.scrollController,
     required this.draggableSheetController,
-  }) : super(key: key);
+  });
 
   @override
   State<DocumentFilterPanel> createState() => _DocumentFilterPanelState();
@@ -150,7 +150,7 @@ class _DocumentFilterPanelState extends State<DocumentFilterPanel> {
       width: 32,
       height: 4,
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.4),
+        color: Theme.of(context).colorScheme.onSurfaceVariant.withAlpha(102),
         borderRadius: BorderRadius.circular(16),
       ),
     );

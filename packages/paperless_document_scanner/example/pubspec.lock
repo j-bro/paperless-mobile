@@ -66,7 +66,7 @@ packages:
     source: hosted
     version: "0.3.5"
   camerawesome:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: camerawesome
       sha256: "8e7f61ac78d4e58f1b198d6baa74b8af931819843e5247262c79539fb2f9949c"

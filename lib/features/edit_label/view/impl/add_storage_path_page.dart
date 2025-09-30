@@ -8,7 +8,7 @@ import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
 class AddStoragePathPage extends StatelessWidget {
   final String? initialName;
-  const AddStoragePathPage({Key? key, this.initialName}) : super(key: key);
+  const AddStoragePathPage({super.key, this.initialName});
 
   @override
   Widget build(BuildContext context) {
