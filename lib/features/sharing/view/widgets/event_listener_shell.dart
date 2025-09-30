@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_ce/hive.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/bloc/connectivity_cubit.dart';
 import 'package:paperless_mobile/core/database/hive/hive_config.dart';
@@ -46,9 +46,10 @@ class _EventListenerShellState extends State<EventListenerShell>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    ReceiveSharingIntent.getInitialMedia().then(_onReceiveSharedFiles);
-    _subscription =
-        ReceiveSharingIntent.getMediaStream().listen(_onReceiveSharedFiles);
+    ReceiveSharingIntent.instance.getInitialMedia().then(_onReceiveSharedFiles);
+    _subscription = ReceiveSharingIntent.instance
+        .getMediaStream()
+        .listen(_onReceiveSharedFiles);
     context.read<PendingTasksNotifier>().addListener(_onTasksChanged);
     _documentDeletedSubscription =
         context.read<DocumentChangedNotifier>().$deleted.listen((event) {

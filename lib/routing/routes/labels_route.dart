@@ -15,19 +15,21 @@ import 'package:paperless_mobile/features/linked_documents/cubit/linked_document
 import 'package:paperless_mobile/features/linked_documents/view/linked_documents_page.dart';
 import 'package:paperless_mobile/routing/navigation_keys.dart';
 
+import 'shells/authenticated_route.dart';
+
 class LabelsBranch extends StatefulShellBranchData {
   static final GlobalKey<NavigatorState> $navigatorKey = labelsNavigatorKey;
   const LabelsBranch();
 }
 
-class LabelsRoute extends GoRouteData {
+class LabelsRoute extends GoRouteData with $LabelsRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const LabelsPage();
   }
 }
 
-class EditLabelRoute extends GoRouteData {
+class EditLabelRoute extends GoRouteData with $EditLabelRoute {
   static final GlobalKey<NavigatorState> $parentNavigatorKey =
       outerShellNavigatorKey;
 
@@ -46,7 +48,7 @@ class EditLabelRoute extends GoRouteData {
   }
 }
 
-class CreateLabelRoute extends GoRouteData {
+class CreateLabelRoute extends GoRouteData with $CreateLabelRoute {
   static final GlobalKey<NavigatorState> $parentNavigatorKey =
       outerShellNavigatorKey;
   final LabelType $extra;
@@ -68,7 +70,7 @@ class CreateLabelRoute extends GoRouteData {
   }
 }
 
-class LinkedDocumentsRoute extends GoRouteData {
+class LinkedDocumentsRoute extends GoRouteData with $LinkedDocumentsRoute {
   static final GlobalKey<NavigatorState> $parentNavigatorKey =
       outerShellNavigatorKey;
   final DocumentFilter $extra;

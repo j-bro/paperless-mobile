@@ -8,7 +8,8 @@ import 'package:paperless_mobile/features/document_scan/view/scanner_page.dart';
 import 'package:paperless_mobile/features/document_upload/cubit/document_upload_cubit.dart';
 import 'package:paperless_mobile/features/document_upload/view/document_upload_preparation_page.dart';
 import 'package:paperless_mobile/routing/navigation_keys.dart';
-import 'package:paperless_mobile/routing/routes.dart';
+
+import 'shells/authenticated_route.dart';
 
 class ScannerBranch extends StatefulShellBranchData {
   static final GlobalKey<NavigatorState> $navigatorKey = scannerNavigatorKey;
@@ -16,7 +17,7 @@ class ScannerBranch extends StatefulShellBranchData {
   const ScannerBranch();
 }
 
-class ScannerRoute extends GoRouteData {
+class ScannerRoute extends GoRouteData with $ScannerRoute {
   const ScannerRoute();
 
   @override
@@ -25,7 +26,7 @@ class ScannerRoute extends GoRouteData {
   }
 }
 
-class DocumentUploadRoute extends GoRouteData {
+class DocumentUploadRoute extends GoRouteData with $DocumentUploadRoute {
   static final GlobalKey<NavigatorState> $parentNavigatorKey =
       outerShellNavigatorKey;
   final FutureOr<Uint8List> $extra;

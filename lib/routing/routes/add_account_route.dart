@@ -19,7 +19,7 @@ part 'add_account_route.g.dart';
   path: '/add-account',
   name: R.addAccount,
 )
-class AddAccountRoute extends GoRouteData {
+class AddAccountRoute extends GoRouteData with $AddAccountRoute {
   const AddAccountRoute();
 
   static final $parentNavigatorKey = rootNavigatorKey;

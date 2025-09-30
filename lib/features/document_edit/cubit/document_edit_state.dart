@@ -1,7 +1,7 @@
 part of 'document_edit_cubit.dart';
 
 @freezed
-class DocumentEditState with _$DocumentEditState {
+sealed class DocumentEditState with _$DocumentEditState {
   const factory DocumentEditState({
     required DocumentModel document,
     FieldSuggestions? suggestions,

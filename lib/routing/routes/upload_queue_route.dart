@@ -4,7 +4,9 @@ import 'package:paperless_mobile/features/sharing/view/consumption_queue_view.da
 import 'package:paperless_mobile/routing/navigation_keys.dart';
 import 'package:paperless_mobile/routing/routes.dart';
 
-class UploadQueueRoute extends GoRouteData {
+import 'shells/authenticated_route.dart';
+
+class UploadQueueRoute extends GoRouteData with $UploadQueueRoute {
   static final GlobalKey<NavigatorState> $parentNavigatorKey =
       outerShellNavigatorKey;
 

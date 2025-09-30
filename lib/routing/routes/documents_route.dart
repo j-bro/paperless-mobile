@@ -18,19 +18,21 @@ import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/routing/navigation_keys.dart';
 import 'package:paperless_mobile/theme.dart';
 
+import 'shells/authenticated_route.dart';
+
 class DocumentsBranch extends StatefulShellBranchData {
   static final GlobalKey<NavigatorState> $navigatorKey = documentsNavigatorKey;
   const DocumentsBranch();
 }
 
-class DocumentsRoute extends GoRouteData {
+class DocumentsRoute extends GoRouteData with $DocumentsRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const DocumentsPage();
   }
 }
 
-class DocumentDetailsRoute extends GoRouteData {
+class DocumentDetailsRoute extends GoRouteData with $DocumentDetailsRoute {
   static final GlobalKey<NavigatorState> $parentNavigatorKey =
       outerShellNavigatorKey;
 
@@ -69,7 +71,7 @@ class DocumentDetailsRoute extends GoRouteData {
   }
 }
 
-class EditDocumentRoute extends GoRouteData {
+class EditDocumentRoute extends GoRouteData with $EditDocumentRoute {
   static final GlobalKey<NavigatorState> $parentNavigatorKey =
       outerShellNavigatorKey;
 
@@ -98,7 +100,7 @@ class EditDocumentRoute extends GoRouteData {
   }
 }
 
-class DocumentPreviewRoute extends GoRouteData {
+class DocumentPreviewRoute extends GoRouteData with $DocumentPreviewRoute {
   static final GlobalKey<NavigatorState> $parentNavigatorKey =
       outerShellNavigatorKey;
   final int id;
@@ -129,7 +131,7 @@ class BulkEditExtraWrapper {
   const BulkEditExtraWrapper(this.selection, this.type);
 }
 
-class BulkEditDocumentsRoute extends GoRouteData {
+class BulkEditDocumentsRoute extends GoRouteData with $BulkEditDocumentsRoute {
   /// Selection
   final BulkEditExtraWrapper $extra;
   BulkEditDocumentsRoute(this.$extra);

@@ -3,13 +3,15 @@ import 'package:go_router/go_router.dart';
 import 'package:paperless_mobile/features/landing/view/landing_page.dart';
 import 'package:paperless_mobile/routing/navigation_keys.dart';
 
+import 'shells/authenticated_route.dart';
+
 class LandingBranch extends StatefulShellBranchData {
   static final GlobalKey<NavigatorState> $navigatorKey = landingNavigatorKey;
 
   const LandingBranch();
 }
 
-class LandingRoute extends GoRouteData {
+class LandingRoute extends GoRouteData with $LandingRoute {
   const LandingRoute();
   @override
   Widget build(BuildContext context, GoRouterState state) {

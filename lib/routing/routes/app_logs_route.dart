@@ -9,7 +9,7 @@ import 'package:paperless_mobile/theme.dart';
 part 'app_logs_route.g.dart';
 
 @TypedGoRoute<AppLogsRoute>(path: '/app-logs')
-class AppLogsRoute extends GoRouteData {
+class AppLogsRoute extends GoRouteData with $AppLogsRoute {
   static final $parentNavigatorKey = rootNavigatorKey;
 
   @override

@@ -9,7 +9,7 @@ const _defaultListTileTheme = ListTileThemeData(
   tileColor: Colors.transparent,
 );
 
-final _defaultCardTheme = CardTheme(
+final _defaultCardTheme = CardThemeData(
   shape: RoundedRectangleBorder(
     borderRadius: BorderRadius.circular(12),
   ),
