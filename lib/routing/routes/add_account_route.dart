@@ -52,10 +52,7 @@ class AddAccountRoute extends GoRouteData with $AddAccountRoute {
               if (!context.mounted) return;
               await context.read<AuthenticationCubit>().switchAccount(userId);
             } else {
-              if (!context.mounted) return;
-              while (context.canPop()) {
-                context.pop();
-              }
+              if (context.mounted) context.pop();
             }
           } on PaperlessApiException catch (error, stackTrace) {
             if (context.mounted) showErrorMessage(context, error, stackTrace);

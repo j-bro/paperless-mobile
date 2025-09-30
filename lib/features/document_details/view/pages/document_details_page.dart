@@ -535,9 +535,7 @@ class _DocumentDetailsPageState extends State<DocumentDetailsPage> {
         }
       } finally {
         if (mounted) {
-          do {
-            context.pop();
-          } while (context.canPop());
+          context.pop();
         }
       }
     }
