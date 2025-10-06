@@ -8,7 +8,7 @@ part 'permissions.g.dart';
 
 @HiveType(typeId: PaperlessApiHiveTypeIds.permissions)
 @freezed
-class Permissions with _$Permissions {
+abstract class Permissions with _$Permissions {
   const factory Permissions({
     @HiveField(0) required UsersAndGroupsPermissions view,
     @HiveField(1) required UsersAndGroupsPermissions change,

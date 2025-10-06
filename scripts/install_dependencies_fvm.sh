@@ -11,7 +11,10 @@ do
     pushd $dir
     echo "Installing dependencies for $dir"
     fvm flutter packages pub get
-    fvm dart run build_runner build --delete-conflicting-outputs
+    if grep -Fxq "build_runner" pubspec.yaml
+    then
+        fvm dart run build_runner build --delete-conflicting-outputs 
+    fi
     popd
 done
 

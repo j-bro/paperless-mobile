@@ -18,7 +18,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 3.2.1+405
 
 environment:
-  sdk: ">=3.5.0 <4.0.0"
+  sdk: ">=3.8.0 <4.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -123,11 +123,11 @@ dev_dependencies:
     sdk: flutter
   flutter_test:
     sdk: flutter
-  build_runner: ^2.4.6
+  build_runner: ^2.6.0
   bloc_test: ^10.0.0
   dependency_validator: ^5.0.2
   flutter_lints: ^6.0.0
-  json_serializable: ^6.5.4
+  json_serializable: ^6.11.1
   freezed: ^3.2.3
   hive_ce_generator: ^1.9.3
   mock_server:
