@@ -1,7 +1,7 @@
 enum ProcessingStatus { starting, working, success, error }
 
 enum ProcessingMessage {
-  newFile,
+  new_file,
   parsing_document,
   generating_thumbnail,
   parse_date,
