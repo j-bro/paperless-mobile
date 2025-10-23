@@ -8,7 +8,7 @@ import 'package:paperless_mobile/core/widgets/dialog_utils/dialog_cancel_button.
 import 'package:paperless_mobile/core/widgets/dialog_utils/dialog_confirm_button.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
-extension ColorPlus on Color {
+extension HexColor on Color {
   /// String is in the format "aabbcc" or "ffaabbcc" with an optional leading "#".
   /*static Color fromHex(String hexString) {
     final buffer = StringBuffer();
