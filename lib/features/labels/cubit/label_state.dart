@@ -1,7 +1,7 @@
 part of 'label_cubit.dart';
 
 @freezed
-sealed class LabelState with _$LabelState {
+abstract class LabelState with _$LabelState {
   const factory LabelState({
     @Default({}) Map<int, Correspondent> correspondents,
     @Default({}) Map<int, DocumentType> documentTypes,
