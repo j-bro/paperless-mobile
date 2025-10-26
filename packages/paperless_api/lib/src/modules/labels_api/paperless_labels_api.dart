@@ -10,27 +10,31 @@ import 'package:paperless_api/src/models/models.dart';
 /// </ul>
 ///
 abstract class PaperlessLabelsApi {
-  Future<Correspondent?> getCorrespondent(int id);
-  Future<List<Correspondent>> getCorrespondents([Iterable<int>? ids]);
-  Future<Correspondent> saveCorrespondent(Correspondent correspondent);
-  Future<Correspondent> updateCorrespondent(Correspondent correspondent);
-  Future<int> deleteCorrespondent(Correspondent correspondent);
+  Future<Correspondent?> getCorrespondent(int id, {bool? fullPermissions});
+  Future<List<Correspondent>> getCorrespondents(LabelGetOptions? options);
+  Future<Correspondent> createCorrespondent(LabelRequest correspondent);
+  Future<Correspondent> putCorrespondent(LabelRequest correspondent);
+  Future<Correspondent> patchCorrespondent(LabelPatchRequest correspondent);
+  Future<int> deleteCorrespondent(int id);
 
-  Future<Tag?> getTag(int id);
-  Future<List<Tag>> getTags([Iterable<int>? ids]);
-  Future<Tag> saveTag(Tag tag);
-  Future<Tag> updateTag(Tag tag);
-  Future<int> deleteTag(Tag tag);
+  Future<Tag?> getTag(int id, {bool? fullPermissions});
+  Future<List<Tag>> getTags(LabelGetOptions? options);
+  Future<Tag> createTag(TagRequest tag);
+  Future<Tag> putTag(TagRequest tag);
+  Future<Tag> patchTag(TagPatchRequest tag);
+  Future<int> deleteTag(int id);
 
-  Future<DocumentType?> getDocumentType(int id);
-  Future<List<DocumentType>> getDocumentTypes([Iterable<int>? ids]);
-  Future<DocumentType> saveDocumentType(DocumentType type);
-  Future<DocumentType> updateDocumentType(DocumentType documentType);
-  Future<int> deleteDocumentType(DocumentType documentType);
+  Future<DocumentType?> getDocumentType(int id, {bool? fullPermissions});
+  Future<List<DocumentType>> getDocumentTypes(LabelGetOptions? options);
+  Future<DocumentType> createDocumentType(LabelRequest type);
+  Future<DocumentType> putDocumentType(LabelRequest documentType);
+  Future<DocumentType> patchDocumentType(LabelPatchRequest documentType);
+  Future<int> deleteDocumentType(int id);
 
-  Future<StoragePath?> getStoragePath(int id);
-  Future<List<StoragePath>> getStoragePaths([Iterable<int>? ids]);
-  Future<StoragePath> saveStoragePath(StoragePath path);
-  Future<StoragePath> updateStoragePath(StoragePath path);
-  Future<int> deleteStoragePath(StoragePath path);
+  Future<StoragePath?> getStoragePath(int id, {bool? fullPermissions});
+  Future<List<StoragePath>> getStoragePaths(LabelGetOptions? options);
+  Future<StoragePath> createStoragePath(StoragePathRequest storagePath);
+  Future<StoragePath> putStoragePath(StoragePathRequest storagePath);
+  Future<StoragePath> patchStoragePath(StoragePathPatchRequest storagePath);
+  Future<int> deleteStoragePath(int id);
 }

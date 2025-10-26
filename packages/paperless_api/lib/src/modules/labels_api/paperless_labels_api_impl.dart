@@ -13,7 +13,10 @@ class PaperlessLabelApiImpl implements PaperlessLabelsApi {
 
   PaperlessLabelApiImpl(this._client);
   @override
-  Future<Correspondent?> getCorrespondent(int id) async {
+  Future<Correspondent?> getCorrespondent(
+    int id, {
+    bool? fullPermissions,
+  }) async {
     return getSingleResult(
       "/api/correspondents/$id/",
       Correspondent.fromJson,
@@ -23,69 +26,93 @@ class PaperlessLabelApiImpl implements PaperlessLabelsApi {
   }
 
   @override
-  Future<Tag?> getTag(int id) async {
-    return getSingleResult(
-      "/api/tags/$id/",
-      Tag.fromJson,
-      ErrorCode.tagLoadFailed,
-      client: _client,
-    );
-  }
-
-  @override
-  Future<List<Tag>> getTags([Iterable<int>? ids]) async {
-    final results = await getCollection(
-      "/api/tags/?page=1&page_size=100000",
-      Tag.fromJson,
-      ErrorCode.tagLoadFailed,
-      client: _client,
-      minRequiredApiVersion: 2,
-    );
-    return results
-        .where((element) => ids?.contains(element.id) ?? true)
-        .toList();
-  }
-
-  @override
-  Future<DocumentType?> getDocumentType(int id) async {
+  Future<DocumentType?> getDocumentType(int id, {bool? fullPermissions}) async {
     return getSingleResult(
       "/api/document_types/$id/",
       DocumentType.fromJson,
       ErrorCode.documentTypeLoadFailed,
       client: _client,
+      queryParams: removeNullValues({"full_perms": fullPermissions}),
     );
   }
 
   @override
-  Future<List<Correspondent>> getCorrespondents([Iterable<int>? ids]) async {
+  Future<StoragePath?> getStoragePath(int id, {bool? fullPermissions}) {
+    return getSingleResult(
+      "/api/storage_paths/$id/",
+      StoragePath.fromJson,
+      ErrorCode.storagePathLoadFailed,
+      queryParams: removeNullValues({'full_perms': fullPermissions}),
+      client: _client,
+    );
+  }
+
+  @override
+  Future<Tag?> getTag(int id, {bool? fullPermissions}) async {
+    return getSingleResult(
+      "/api/tags/$id/",
+      Tag.fromJson,
+      ErrorCode.tagLoadFailed,
+      client: _client,
+      queryParams: removeNullValues({"full_perms": fullPermissions}),
+    );
+  }
+
+  @override
+  Future<List<Correspondent>> getCorrespondents(
+    LabelGetOptions? options,
+  ) async {
     final results = await getCollection(
-      "/api/correspondents/?page=1&page_size=100000",
+      "/api/correspondents/",
       Correspondent.fromJson,
       ErrorCode.correspondentLoadFailed,
+      queryParams: removeNullValues(options?.toJson()),
       client: _client,
     );
 
-    return results
-        .where((element) => ids?.contains(element.id) ?? true)
-        .toList();
+    return results;
   }
 
   @override
-  Future<List<DocumentType>> getDocumentTypes([Iterable<int>? ids]) async {
+  Future<List<DocumentType>> getDocumentTypes(LabelGetOptions? options) async {
     final results = await getCollection(
       "/api/document_types/?page=1&page_size=100000",
       DocumentType.fromJson,
       ErrorCode.documentTypeLoadFailed,
+      queryParams: removeNullValues(options?.toJson()),
       client: _client,
     );
 
-    return results
-        .where((element) => ids?.contains(element.id) ?? true)
-        .toList();
+    return results;
   }
 
   @override
-  Future<Correspondent> saveCorrespondent(Correspondent correspondent) async {
+  Future<List<Tag>> getTags(LabelGetOptions? options) async {
+    final results = await getCollection(
+      "/api/tags/",
+      Tag.fromJson,
+      ErrorCode.tagLoadFailed,
+      queryParams: options?.toJson(),
+      client: _client,
+    );
+    return results;
+  }
+
+  @override
+  Future<List<StoragePath>> getStoragePaths(LabelGetOptions? options) async {
+    final results = await getCollection(
+      "/api/storage_paths/?page=1&page_size=100000",
+      StoragePath.fromJson,
+      ErrorCode.storagePathLoadFailed,
+      client: _client,
+      queryParams: options?.toJson(),
+    );
+
+    return results;
+  }
+
+  @override
+  Future<Correspondent> createCorrespondent(LabelRequest correspondent) async {
     try {
       final response = await _client.post(
         '/api/correspondents/',
@@ -103,27 +130,23 @@ class PaperlessLabelApiImpl implements PaperlessLabelsApi {
   }
 
   @override
-  Future<DocumentType> saveDocumentType(DocumentType type) async {
+  Future<DocumentType> createDocumentType(LabelRequest documentType) async {
     try {
       final response = await _client.post(
         '/api/document_types/',
-        data: type.toJson(),
-        options: Options(
-          validateStatus: (status) => status == 201,
-        ),
+        data: documentType.toJson(),
+        options: Options(validateStatus: (status) => status == 201),
       );
       return DocumentType.fromJson(response.data);
     } on DioException catch (exception) {
       throw exception.unravel(
-        orElse: const PaperlessApiException(
-          ErrorCode.documentTypeCreateFailed,
-        ),
+        orElse: const PaperlessApiException(ErrorCode.documentTypeCreateFailed),
       );
     }
   }
 
   @override
-  Future<Tag> saveTag(Tag tag) async {
+  Future<Tag> createTag(TagRequest tag) async {
     try {
       final response = await _client.post(
         '/api/tags/',
@@ -136,22 +159,19 @@ class PaperlessLabelApiImpl implements PaperlessLabelsApi {
       return Tag.fromJson(response.data);
     } on DioException catch (exception) {
       throw exception.unravel(
-        orElse: const PaperlessApiException(
-          ErrorCode.tagCreateFailed,
-        ),
+        orElse: const PaperlessApiException(ErrorCode.tagCreateFailed),
       );
     }
   }
 
   @override
-  Future<int> deleteCorrespondent(Correspondent correspondent) async {
-    assert(correspondent.id != null);
+  Future<int> deleteCorrespondent(int id) async {
     try {
       await _client.delete(
-        '/api/correspondents/${correspondent.id}/',
+        '/api/correspondents/$id/',
         options: Options(validateStatus: (status) => status == 204),
       );
-      return correspondent.id!;
+      return id;
     } on DioException catch (exception) {
       throw exception.unravel(
         orElse: const PaperlessApiException(
@@ -162,46 +182,74 @@ class PaperlessLabelApiImpl implements PaperlessLabelsApi {
   }
 
   @override
-  Future<int> deleteDocumentType(DocumentType documentType) async {
-    assert(documentType.id != null);
+  Future<int> deleteDocumentType(int id) async {
     try {
       await _client.delete(
-        '/api/document_types/${documentType.id}/',
+        '/api/document_types/$id/',
         options: Options(validateStatus: (status) => status == 204),
       );
-      return documentType.id!;
+      return id;
     } on DioException catch (exception) {
       throw exception.unravel(
-        orElse: const PaperlessApiException(
-          ErrorCode.documentTypeDeleteFailed,
-        ),
+        orElse: const PaperlessApiException(ErrorCode.documentTypeDeleteFailed),
       );
     }
   }
 
   @override
-  Future<int> deleteTag(Tag tag) async {
-    assert(tag.id != null);
+  Future<int> deleteTag(int id) async {
     try {
       await _client.delete(
-        '/api/tags/${tag.id}/',
+        '/api/tags/$id/',
         options: Options(validateStatus: (status) => status == 204),
       );
-      return tag.id!;
+      return id;
     } on DioException catch (exception) {
       throw exception.unravel(
-        orElse: const PaperlessApiException(
-          ErrorCode.tagDeleteFailed,
-        ),
+        orElse: const PaperlessApiException(ErrorCode.tagDeleteFailed),
       );
     }
   }
 
   @override
-  Future<Correspondent> updateCorrespondent(Correspondent correspondent) async {
-    assert(correspondent.id != null);
+  Future<int> deleteStoragePath(int id) async {
+    try {
+      await _client.delete(
+        '/api/storage_paths/$id/',
+        options: Options(validateStatus: (status) => status == 204),
+      );
+      return id;
+    } on DioException catch (exception) {
+      throw exception.unravel(
+        orElse: const PaperlessApiException(ErrorCode.storagePathDeleteFailed),
+      );
+    }
+  }
+
+  @override
+  Future<Correspondent> putCorrespondent(LabelRequest correspondent) async {
     try {
       final response = await _client.put(
+        '/api/correspondents/${correspondent.id}/',
+        data: correspondent.toJson(),
+        options: Options(validateStatus: (status) => status == 200),
+      );
+      return Correspondent.fromJson(response.data);
+    } on DioException catch (exception) {
+      throw exception.unravel(
+        orElse: const PaperlessApiException(
+          ErrorCode.correspondentUpdateFailed,
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Correspondent> patchCorrespondent(
+    LabelPatchRequest correspondent,
+  ) async {
+    try {
+      final response = await _client.patch(
         '/api/correspondents/${correspondent.id}/',
         data: json.encode(correspondent.toJson()),
         options: Options(validateStatus: (status) => status == 200),
@@ -217,8 +265,7 @@ class PaperlessLabelApiImpl implements PaperlessLabelsApi {
   }
 
   @override
-  Future<DocumentType> updateDocumentType(DocumentType documentType) async {
-    assert(documentType.id != null);
+  Future<DocumentType> putDocumentType(LabelRequest documentType) async {
     try {
       final response = await _client.put(
         '/api/document_types/${documentType.id}/',
@@ -228,16 +275,29 @@ class PaperlessLabelApiImpl implements PaperlessLabelsApi {
       return DocumentType.fromJson(response.data);
     } on DioException catch (exception) {
       throw exception.unravel(
-        orElse: const PaperlessApiException(
-          ErrorCode.documentTypeUpdateFailed,
-        ),
+        orElse: const PaperlessApiException(ErrorCode.documentTypeUpdateFailed),
       );
     }
   }
 
   @override
-  Future<Tag> updateTag(Tag tag) async {
-    assert(tag.id != null);
+  Future<DocumentType> patchDocumentType(LabelPatchRequest documentType) async {
+    try {
+      final response = await _client.patch(
+        '/api/document_types/${documentType.id}/',
+        data: documentType.toJson(),
+        options: Options(validateStatus: (status) => status == 200),
+      );
+      return DocumentType.fromJson(response.data);
+    } on DioException catch (exception) {
+      throw exception.unravel(
+        orElse: const PaperlessApiException(ErrorCode.documentTypeUpdateFailed),
+      );
+    }
+  }
+
+  @override
+  Future<Tag> putTag(TagRequest tag) async {
     try {
       final response = await _client.put(
         '/api/tags/${tag.id}/',
@@ -250,76 +310,48 @@ class PaperlessLabelApiImpl implements PaperlessLabelsApi {
       return Tag.fromJson(response.data);
     } on DioException catch (exception) {
       throw exception.unravel(
-        orElse: const PaperlessApiException(
-          ErrorCode.tagUpdateFailed,
-        ),
+        orElse: const PaperlessApiException(ErrorCode.tagUpdateFailed),
       );
     }
   }
 
   @override
-  Future<int> deleteStoragePath(StoragePath path) async {
-    assert(path.id != null);
+  Future<Tag> patchTag(TagPatchRequest tag) async {
     try {
-      await _client.delete(
-        '/api/storage_paths/${path.id}/',
-        options: Options(validateStatus: (status) => status == 204),
+      final response = await _client.patch(
+        '/api/tags/${tag.id}/',
+        options: Options(
+          headers: {"Accept": "application/json; version=2"},
+          validateStatus: (status) => status == 200,
+        ),
+        data: tag.toJson(),
       );
-      return path.id!;
+      return Tag.fromJson(response.data);
     } on DioException catch (exception) {
       throw exception.unravel(
-        orElse: const PaperlessApiException(
-          ErrorCode.storagePathDeleteFailed,
-        ),
+        orElse: const PaperlessApiException(ErrorCode.tagUpdateFailed),
       );
     }
   }
 
   @override
-  Future<StoragePath?> getStoragePath(int id) {
-    return getSingleResult(
-      "/api/storage_paths/$id/",
-      StoragePath.fromJson,
-      ErrorCode.storagePathLoadFailed,
-      client: _client,
-    );
-  }
-
-  @override
-  Future<List<StoragePath>> getStoragePaths([Iterable<int>? ids]) async {
-    final results = await getCollection(
-      "/api/storage_paths/?page=1&page_size=100000",
-      StoragePath.fromJson,
-      ErrorCode.storagePathLoadFailed,
-      client: _client,
-    );
-
-    return results
-        .where((element) => ids?.contains(element.id) ?? true)
-        .toList();
-  }
-
-  @override
-  Future<StoragePath> saveStoragePath(StoragePath path) async {
+  Future<StoragePath> createStoragePath(LabelRequest storagePath) async {
     try {
       final response = await _client.post(
         '/api/storage_paths/',
-        data: path.toJson(),
+        data: storagePath.toJson(),
         options: Options(validateStatus: (status) => status == 201),
       );
       return StoragePath.fromJson(response.data);
     } on DioException catch (exception) {
       throw exception.unravel(
-        orElse: const PaperlessApiException(
-          ErrorCode.storagePathCreateFailed,
-        ),
+        orElse: const PaperlessApiException(ErrorCode.storagePathCreateFailed),
       );
     }
   }
 
   @override
-  Future<StoragePath> updateStoragePath(StoragePath path) async {
-    assert(path.id != null);
+  Future<StoragePath> putStoragePath(LabelRequest path) async {
     try {
       final response = await _client.put(
         '/api/storage_paths/${path.id}/',
@@ -329,9 +361,25 @@ class PaperlessLabelApiImpl implements PaperlessLabelsApi {
       return StoragePath.fromJson(response.data);
     } on DioException catch (exception) {
       throw exception.unravel(
-        orElse: const PaperlessApiException(
-          ErrorCode.storagePathUpdateFailed,
-        ),
+        orElse: const PaperlessApiException(ErrorCode.storagePathUpdateFailed),
+      );
+    }
+  }
+
+  @override
+  Future<StoragePath> patchStoragePath(
+    StoragePathPatchRequest storagePath,
+  ) async {
+    try {
+      final response = await _client.patch(
+        '/api/storage_paths/${storagePath.id}/',
+        data: storagePath.toJson(),
+        options: Options(validateStatus: (status) => status == 200),
+      );
+      return StoragePath.fromJson(response.data);
+    } on DioException catch (exception) {
+      throw exception.unravel(
+        orElse: const PaperlessApiException(ErrorCode.storagePathUpdateFailed),
       );
     }
   }

@@ -1,6 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:paperless_api/paperless_api.dart';
 
+const _mfaCodeRequiredMessage = "MFA code is required";
+const _missingClientCertificateMessage = "No required SSL certificate was sent";
+
 class DioHttpErrorInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
@@ -20,6 +23,20 @@ class DioHttpErrorInterceptor extends Interceptor {
         );
       } else if (PaperlessFormValidationException.canParse(data)) {
         final exception = PaperlessFormValidationException.fromJson(data);
+        if (exception.hasUnspecificErrorMessage()) {
+          final message = exception.unspecificErrorMessage();
+          if (message == _mfaCodeRequiredMessage) {
+            return handler.reject(
+              DioException(
+                message: message,
+                requestOptions: err.requestOptions,
+                error: PaperlessApiException(ErrorCode.mfaCodeRequired),
+                response: err.response,
+                type: DioExceptionType.badResponse,
+              ),
+            );
+          }
+        }
         handler.reject(
           DioException(
             requestOptions: err.requestOptions,
@@ -29,13 +46,14 @@ class DioHttpErrorInterceptor extends Interceptor {
           ),
         );
       } else if (data is String) {
-        if (data.contains("No required SSL certificate was sent")) {
+        if (data.contains(_missingClientCertificateMessage)) {
           handler.reject(
             DioException(
               requestOptions: err.requestOptions,
               type: DioExceptionType.badResponse,
               error: const PaperlessApiException(
-                  ErrorCode.missingClientCertificate),
+                ErrorCode.missingClientCertificate,
+              ),
             ),
           );
         } else {

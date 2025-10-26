@@ -8,12 +8,7 @@ import 'package:paperless_api/src/models/labels/matching_algorithm.dart';
 
 part 'label_model.g.dart';
 
-enum LabelType {
-  correspondent,
-  documentType,
-  tag,
-  storagePath,
-}
+enum LabelType { correspondent, documentType, tag, storagePath }
 
 sealed class Label extends Equatable implements Comparable {
   static const idKey = "id";
@@ -26,7 +21,7 @@ sealed class Label extends Equatable implements Comparable {
 
   String get queryEndpoint;
 
-  final int? id;
+  final int id;
   final String name;
   final String? slug;
   final String match;
@@ -37,7 +32,7 @@ sealed class Label extends Equatable implements Comparable {
   final bool? userCanChange;
 
   const Label({
-    this.id,
+    required this.id,
     required this.name,
     this.matchingAlgorithm = MatchingAlgorithm.defaultValue,
     this.match = "",
@@ -79,7 +74,7 @@ class Correspondent extends Label {
   const Correspondent({
     this.lastCorrespondence,
     required super.name,
-    super.id,
+    required super.id,
     super.slug,
     super.match,
     super.matchingAlgorithm,
@@ -128,21 +123,21 @@ class Correspondent extends Label {
 
   @override
   List<Object?> get props => [
-        id,
-        name,
-        slug,
-        isInsensitive,
-        documentCount,
-        lastCorrespondence,
-        matchingAlgorithm,
-        match,
-      ];
+    id,
+    name,
+    slug,
+    isInsensitive,
+    documentCount,
+    lastCorrespondence,
+    matchingAlgorithm,
+    match,
+  ];
 }
 
 @JsonSerializable(includeIfNull: false, fieldRename: FieldRename.snake)
 class DocumentType extends Label {
   const DocumentType({
-    super.id,
+    required super.id,
     required super.name,
     super.slug,
     super.match,
@@ -185,14 +180,14 @@ class DocumentType extends Label {
 
   @override
   List<Object?> get props => [
-        id,
-        name,
-        slug,
-        isInsensitive,
-        documentCount,
-        matchingAlgorithm,
-        match,
-      ];
+    id,
+    name,
+    slug,
+    isInsensitive,
+    documentCount,
+    matchingAlgorithm,
+    match,
+  ];
 }
 
 @JsonSerializable(includeIfNull: false, fieldRename: FieldRename.snake)
@@ -201,7 +196,7 @@ class StoragePath extends Label {
   final String path;
 
   const StoragePath({
-    super.id,
+    required super.id,
     required super.name,
     this.path = '',
     super.slug,
@@ -249,25 +244,22 @@ class StoragePath extends Label {
 
   @override
   List<Object?> get props => [
-        id,
-        name,
-        slug,
-        isInsensitive,
-        documentCount,
-        path,
-        matchingAlgorithm,
-        match,
-      ];
+    id,
+    name,
+    slug,
+    isInsensitive,
+    documentCount,
+    path,
+    matchingAlgorithm,
+    match,
+  ];
 
   @override
   Map<String, dynamic> toJson() => _$StoragePathToJson(this);
 }
 
 @HexColorJsonConverter()
-@JsonSerializable(
-  fieldRename: FieldRename.snake,
-  explicitToJson: true,
-)
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class Tag extends Label {
   static const colorKey = 'color';
   static const isInboxTagKey = 'is_inbox_tag';
@@ -279,7 +271,7 @@ class Tag extends Label {
   final bool isInboxTag;
 
   const Tag({
-    super.id,
+    required super.id,
     required super.name,
     super.documentCount,
     super.isInsensitive,
@@ -328,17 +320,17 @@ class Tag extends Label {
 
   @override
   List<Object?> get props => [
-        id,
-        name,
-        slug,
-        isInsensitive,
-        documentCount,
-        matchingAlgorithm,
-        color,
-        textColor,
-        isInboxTag,
-        match,
-      ];
+    id,
+    name,
+    slug,
+    isInsensitive,
+    documentCount,
+    matchingAlgorithm,
+    color,
+    textColor,
+    isInboxTag,
+    match,
+  ];
 
   factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 

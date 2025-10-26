@@ -29,3 +29,5 @@ export 'task/task_status.dart';
 export 'user_model.dart';
 export 'exception/exceptions.dart';
 export 'note_model.dart' show NoteModel;
+export 'request/label_request.dart';
+export 'request/set_permissions.dart';

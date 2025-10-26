@@ -7,21 +7,19 @@ Future<T?> getSingleResult<T>(
   String url,
   T Function(Map<String, dynamic>) fromJson,
   ErrorCode errorCode, {
+  Map<String, dynamic>? queryParams,
   required Dio client,
-  int minRequiredApiVersion = 1,
 }) async {
   try {
     final response = await client.get(
       url,
+      queryParameters: removeNullValues(queryParams),
       options: Options(
-        headers: {'accept': 'application/json; version=$minRequiredApiVersion'},
+        headers: {'accept': 'application/json; version=9'},
         validateStatus: (status) => status == 200,
       ),
     );
-    return compute(
-      fromJson,
-      response.data as Map<String, dynamic>,
-    );
+    return compute(fromJson, response.data as Map<String, dynamic>);
   } on DioException catch (exception) {
     throw exception.unravel(orElse: PaperlessApiException(errorCode));
   }
@@ -31,16 +29,18 @@ Future<List<T>> getCollection<T>(
   String url,
   T Function(Map<String, dynamic>) fromJson,
   ErrorCode errorCode, {
+  Map<String, dynamic>? queryParams,
   required Dio client,
-  int minRequiredApiVersion = 1,
 }) async {
   try {
     final response = await client.get(
       url,
       options: Options(
-        headers: {'accept': 'application/json; version=$minRequiredApiVersion'},
+        headers: {'accept': 'application/json; version=9'},
         validateStatus: (status) => status == 200,
+        listFormat: ListFormat.csv,
       ),
+      queryParameters: queryParams,
     );
     final Map<String, dynamic> body = response.data;
     if (body['count'] == 0) {
@@ -57,6 +57,19 @@ Future<List<T>> getCollection<T>(
   } on DioException catch (exception) {
     throw exception.unravel(orElse: PaperlessApiException(errorCode));
   }
+}
+
+Map<String, dynamic>? removeNullValues(Map<String, dynamic>? map) {
+  if (map == null) {
+    return null;
+  }
+  final cleanedMap = <String, dynamic>{};
+  map.forEach((key, value) {
+    if (value != null) {
+      cleanedMap[key] = value;
+    }
+  });
+  return cleanedMap;
 }
 
 List<T> _collectionFromJson<T>(
