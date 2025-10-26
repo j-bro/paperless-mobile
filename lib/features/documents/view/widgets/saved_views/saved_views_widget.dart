@@ -9,7 +9,6 @@ import 'package:paperless_mobile/features/saved_view/cubit/saved_view_cubit.dart
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/helpers/connectivity_aware_action_wrapper.dart';
 import 'package:paperless_mobile/routing/routes/saved_views_route.dart';
-import 'package:paperless_mobile/routing/routes/shells/authenticated_route.dart';
 
 class SavedViewsWidget extends StatefulWidget {
   final void Function(SavedView view) onViewSelected;
@@ -17,7 +16,7 @@ class SavedViewsWidget extends StatefulWidget {
   final void Function(SavedView view) onDeleteView;
 
   final DocumentFilter filter;
-  final ExpansionTileController? controller;
+  final ExpansibleController? controller;
 
   const SavedViewsWidget({
     super.key,
@@ -94,8 +93,8 @@ class _SavedViewsWidgetState extends State<SavedViewsWidget>
                               Theme.of(context).textTheme.labelMedium?.copyWith(
                                     color: Theme.of(context)
                                         .colorScheme
-                                        .onBackground
-                                        .withOpacity(0.5),
+                                        .onSurface
+                                        .withAlpha(128),
                                   ),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,

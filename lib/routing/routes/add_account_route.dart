@@ -19,7 +19,7 @@ part 'add_account_route.g.dart';
   path: '/add-account',
   name: R.addAccount,
 )
-class AddAccountRoute extends GoRouteData {
+class AddAccountRoute extends GoRouteData with $AddAccountRoute {
   const AddAccountRoute();
 
   static final $parentNavigatorKey = rootNavigatorKey;
@@ -42,37 +42,44 @@ class AddAccountRoute extends GoRouteData {
                   enableBiometricAuthentication: false,
                   locale: Intl.getCurrentLocale(),
                 );
-            final shoudSwitch = await showDialog<bool>(
+            if (!context.mounted) return;
+            final shouldSwitch = await showDialog<bool>(
                   context: context,
                   builder: (context) => const SwitchAccountDialog(),
                 ) ??
                 false;
-            if (shoudSwitch) {
+            if (shouldSwitch) {
+              if (!context.mounted) return;
               await context.read<AuthenticationCubit>().switchAccount(userId);
             } else {
-              while (context.canPop()) {
-                context.pop();
-              }
+              if (context.mounted) context.pop();
             }
           } on PaperlessApiException catch (error, stackTrace) {
-            showErrorMessage(context, error, stackTrace);
+            if (context.mounted) showErrorMessage(context, error, stackTrace);
             // context.pop();
           } on PaperlessFormValidationException catch (exception, stackTrace) {
             if (exception.hasUnspecificErrorMessage()) {
-              showLocalizedError(context, exception.unspecificErrorMessage()!);
+              if (context.mounted) {
+                showLocalizedError(
+                    context, exception.unspecificErrorMessage()!);
+              }
               // context.pop();
             } else {
-              showGenericError(
-                context,
-                exception.validationMessages.values.first,
-                stackTrace,
-              ); //TODO: Check if we can show error message directly on field here.
+              if (context.mounted) {
+                showGenericError(
+                  context,
+                  exception.validationMessages.values.first,
+                  stackTrace,
+                ); //TODO: Check if we can show error message directly on field here.
+              }
             }
           } on InfoMessageException catch (error) {
-            showInfoMessage(context, error);
+            if (context.mounted) showInfoMessage(context, error);
             // context.pop();
           } catch (unknownError, stackTrace) {
-            showGenericError(context, unknownError.toString(), stackTrace);
+            if (context.mounted) {
+              showGenericError(context, unknownError.toString(), stackTrace);
+            }
             // context.pop();
           }
         },

@@ -8,9 +8,9 @@ import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 class BulkDeleteConfirmationDialog extends StatelessWidget {
   final DocumentsState state;
   const BulkDeleteConfirmationDialog({
-    Key? key,
+    super.key,
     required this.state,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class BulkDeleteConfirmationDialog extends StatelessWidget {
                 state.selection.length),
           ),
           const SizedBox(height: 16),
-          ...state.selection.map(_buildBulletPoint).toList(),
+          ...state.selection.map(_buildBulletPoint),
           const SizedBox(height: 16),
           Text(S.of(context)!.thisActionIsIrreversibleDoYouWishToProceedAnyway),
         ],

@@ -13,17 +13,23 @@ class PopWithUnsavedChanges extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+
         if (hasChangesPredicate()) {
           final shouldPop = await showDialog<bool>(
                 context: context,
                 builder: (context) => const UnsavedChangesWarningDialog(),
               ) ??
               false;
-          return shouldPop;
+          if (shouldPop && context.mounted) {
+            Navigator.of(context).pop(result);
+          }
+        } else if (context.mounted) {
+          Navigator.of(context).pop(result);
         }
-        return true;
       },
       child: child,
     );

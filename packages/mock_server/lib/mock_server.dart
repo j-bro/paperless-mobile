@@ -1,5 +1,3 @@
-library mock_server;
-
 export 'response_delay_factory.dart';
 
 import 'dart:convert';
@@ -20,7 +18,7 @@ class LocalMockApiServer {
 
   static const port = 3131;
 
-  static get baseUrl => 'http://$host:$port/';
+  static String get baseUrl => 'http://$host:$port/';
 
   final ResponseDelayFactory _delayGenerator;
 
@@ -272,7 +270,7 @@ class LocalMockApiServer {
           log.info(message);
         }
       }),
-    ).addHandler(app);
+    ).addHandler(app.call);
 
     var server = await shelf_io.serve(handler, host, port);
 
@@ -295,7 +293,7 @@ extension on Request {
 }
 
 extension JsonMockResponse on Response {
-  static ok<T>(T json, Duration delay) async {
+  static Future<Response> ok<T>(T json, Duration delay) async {
     await Future.delayed(delay); // Emulate lag
 
     return Response.ok(

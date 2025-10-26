@@ -17,13 +17,13 @@ class ScannedImageItem extends StatefulWidget {
   final int totalNumberOfFiles;
 
   const ScannedImageItem({
-    Key? key,
+    super.key,
     required this.file,
     required this.onDelete,
     required this.index,
     required this.totalNumberOfFiles,
     //required this.onImageOperation,
-  }) : super(key: key);
+  });
 
   @override
   State<ScannedImageItem> createState() => _ScannedImageItemState();
@@ -78,7 +78,7 @@ class _ScannedImageItemState extends State<ScannedImageItem> {
                             vertical: 4.0,
                           ),
                           decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.background,
+                            color: Theme.of(context).colorScheme.surface,
                             borderRadius: const BorderRadius.only(
                               bottomLeft: Radius.circular(12),
                             ),

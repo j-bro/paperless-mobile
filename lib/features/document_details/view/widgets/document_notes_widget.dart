@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:intl/intl.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_mobile/core/database/hive/hive_config.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/widgets/hint_card.dart';
 import 'package:paperless_mobile/core/widgets/hint_state_builder.dart';
 import 'package:paperless_mobile/features/document_details/cubit/document_details_cubit.dart';
-import 'package:paperless_mobile/features/settings/view/widgets/global_settings_builder.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/helpers/message_helpers.dart';
 import 'package:markdown/markdown.dart' show markdownToHtml;
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class DocumentNotesWidget extends StatefulWidget {
@@ -104,7 +99,9 @@ class _DocumentNotesWidgetState extends State<DocumentNotesWidget> {
                               .addNote(_noteContentController.text.trim());
                           _noteContentController.clear();
                         } catch (error) {
-                          showGenericError(context, error);
+                          if (context.mounted) {
+                            showGenericError(context, error);
+                          }
                         } finally {
                           setState(() {
                             _isNoteSubmitting = false;
@@ -155,7 +152,7 @@ class _DocumentNotesWidgetState extends State<DocumentNotesWidget> {
                                     color: Theme.of(context)
                                         .colorScheme
                                         .onSurface
-                                        .withOpacity(.5),
+                                        .withAlpha(128),
                                   ),
                         ),
                       IconButton(

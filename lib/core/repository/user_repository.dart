@@ -16,7 +16,7 @@ class UserRepository extends PersistentRepository<UserRepositoryState> {
 
   Future<Iterable<UserModel>> findAll() async {
     if (_userApi is PaperlessUserApiV3Impl) {
-      final users = await (_userApi as PaperlessUserApiV3Impl).findAll();
+      final users = await _userApi.findAll();
       emit(state.copyWith(users: {for (var e in users) e.id: e}));
       return users;
     }
@@ -30,7 +30,7 @@ class UserRepository extends PersistentRepository<UserRepositoryState> {
 
   Future<UserModel?> find(int id) async {
     if (_userApi is PaperlessUserApiV3Impl) {
-      final user = await (_userApi as PaperlessUserApiV3Impl).find(id);
+      final user = await _userApi.find(id);
       emit(state.copyWith(users: state.users..[id] = user));
       return user;
     }

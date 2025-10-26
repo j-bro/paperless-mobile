@@ -1,12 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/accessibility/accessibility_utils.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/routing/routes/saved_views_route.dart';
-import 'package:paperless_mobile/routing/routes/shells/authenticated_route.dart';
 
 class SavedViewChip extends StatefulWidget {
   final SavedView view;
@@ -51,7 +49,7 @@ class _SavedViewChipState extends State<SavedViewChip>
     var colorScheme = Theme.of(context).colorScheme;
     final effectiveBackgroundColor = widget.selected
         ? colorScheme.secondaryContainer
-        : colorScheme.surfaceVariant;
+        : colorScheme.surfaceContainerHighest ;
     final effectiveForegroundColor = widget.selected
         ? colorScheme.onSecondaryContainer
         : colorScheme.onSurfaceVariant;

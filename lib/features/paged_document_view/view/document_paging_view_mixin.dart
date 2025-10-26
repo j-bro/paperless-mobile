@@ -27,7 +27,7 @@ mixin DocumentPagingViewMixin<T extends StatefulWidget,
       try {
         await _bloc.loadMore();
       } on PaperlessApiException catch (error, stackTrace) {
-        showErrorMessage(context, error, stackTrace);
+        if (mounted) showErrorMessage(context, error, stackTrace);
       }
     }
   }

@@ -11,7 +11,7 @@ class EdgePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = color.withOpacity(0.5)
+      ..color = color.withAlpha(128)
       ..strokeWidth = 2
       ..strokeCap = StrokeCap.round;
 

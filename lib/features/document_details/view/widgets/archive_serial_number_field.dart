@@ -124,14 +124,15 @@ class _ArchiveSerialNumberFieldState extends State<ArchiveSerialNumberField> {
         .assignAsn(widget.document, asn: asn)
         .then((value) => _onAsnUpdated())
         .onError<PaperlessApiException>(
-          (error, stackTrace) => showErrorMessage(context, error, stackTrace),
-        )
-        .onError<PaperlessFormValidationException>(
+      (error, stackTrace) {
+        if (mounted) showErrorMessage(context, error, stackTrace);
+      },
+    ).onError<PaperlessFormValidationException>(
       (error, stackTrace) {
         setState(() => _errors = error.validationMessages);
       },
     );
-    FocusScope.of(context).unfocus();
+    if (mounted) FocusScope.of(context).unfocus();
   }
 
   Future<void> _onAutoAssign() async {
@@ -143,9 +144,12 @@ class _ArchiveSerialNumberFieldState extends State<ArchiveSerialNumberField> {
         )
         .then((value) => _onAsnUpdated())
         .onError<PaperlessApiException>(
-          (error, stackTrace) => showErrorMessage(context, error, stackTrace),
-        )
-        .catchError((error) => showGenericError(context, error));
+      (error, stackTrace) {
+        if (mounted) showErrorMessage(context, error, stackTrace);
+      },
+    ).catchError((error) {
+      if (mounted) showGenericError(context, error);
+    });
   }
 
   void _onAsnUpdated() {

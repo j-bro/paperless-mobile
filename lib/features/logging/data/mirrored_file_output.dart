@@ -9,8 +9,6 @@ import 'package:paperless_mobile/core/service/file_service.dart';
 import 'package:path/path.dart' as p;
 import 'package:synchronized/synchronized.dart';
 
-typedef f = FileOutput;
-
 class MirroredFileOutput extends LogOutput {
   var lock = Lock();
   MirroredFileOutput();

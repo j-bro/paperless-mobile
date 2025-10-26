@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:hive_flutter/adapters.dart';
+import 'package:hive_ce_flutter/adapters.dart';
 import 'package:paperless_mobile/core/database/hive/hive_extensions.dart';
 
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
@@ -17,12 +17,12 @@ class UserCredentialsFormField extends StatefulWidget {
   final String? initialPassword;
   final GlobalKey<FormBuilderState> formKey;
   const UserCredentialsFormField({
-    Key? key,
+    super.key,
     this.onFieldsSubmitted,
     this.initialUsername,
     this.initialPassword,
     required this.formKey,
-  }) : super(key: key);
+  });
 
   @override
   State<UserCredentialsFormField> createState() =>

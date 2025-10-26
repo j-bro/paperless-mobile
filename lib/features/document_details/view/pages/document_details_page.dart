@@ -27,7 +27,6 @@ import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/helpers/connectivity_aware_action_wrapper.dart';
 import 'package:paperless_mobile/helpers/message_helpers.dart';
 import 'package:paperless_mobile/routing/routes/documents_route.dart';
-import 'package:paperless_mobile/routing/routes/shells/authenticated_route.dart';
 import 'package:paperless_mobile/theme.dart';
 
 class DocumentDetailsPage extends StatefulWidget {
@@ -39,14 +38,14 @@ class DocumentDetailsPage extends StatefulWidget {
   final String? heroTag;
 
   const DocumentDetailsPage({
-    Key? key,
+    super.key,
     this.isLabelClickable = true,
     this.titleAndContentQueryString,
     this.thumbnailUrl,
     required this.id,
     this.heroTag,
     this.title,
-  }) : super(key: key);
+  });
 
   @override
   State<DocumentDetailsPage> createState() => _DocumentDetailsPageState();
@@ -138,12 +137,12 @@ class _DocumentDetailsPageState extends State<DocumentDetailsPage> {
                                                 colors: [
                                                   Theme.of(context)
                                                       .colorScheme
-                                                      .background
-                                                      .withOpacity(0.6),
+                                                      .surface
+                                                      .withAlpha(153),
                                                   Theme.of(context)
                                                       .colorScheme
-                                                      .background
-                                                      .withOpacity(0.3),
+                                                      .surface
+                                                      .withAlpha(77),
                                                 ],
                                                 begin: Alignment.topCenter,
                                                 end: Alignment.bottomCenter,
@@ -496,16 +495,24 @@ class _DocumentDetailsPageState extends State<DocumentDetailsPage> {
   void _onOpenFileInSystemViewer() async {
     final status =
         await context.read<DocumentDetailsCubit>().openDocumentInSystemViewer();
-    if (status == ResultType.done) return;
-    if (status == ResultType.noAppToOpen) {
-      showGenericError(context, S.of(context)!.noAppToDisplayPDFFilesFound);
-    }
-    if (status == ResultType.fileNotFound) {
-      showGenericError(context, translateError(context, ErrorCode.unknown));
-    }
-    if (status == ResultType.permissionDenied) {
-      showGenericError(
-          context, S.of(context)!.couldNotOpenFilePermissionDenied);
+    switch (status) {
+      case ResultType.done:
+        return;
+      case ResultType.noAppToOpen:
+        if (mounted) {
+          showGenericError(context, S.of(context)!.noAppToDisplayPDFFilesFound);
+        }
+      case ResultType.fileNotFound:
+        if (mounted) {
+          showGenericError(context, translateError(context, ErrorCode.unknown));
+        }
+      case ResultType.permissionDenied:
+        if (mounted) {
+          showGenericError(
+              context, S.of(context)!.couldNotOpenFilePermissionDenied);
+        }
+      case ResultType.error:
+      //TODO: Show and log error
     }
   }
 
@@ -518,14 +525,18 @@ class _DocumentDetailsPageState extends State<DocumentDetailsPage> {
         false;
     if (delete) {
       try {
-        await context.read<DocumentDetailsCubit>().delete(document);
-        // showSnackBar(context, S.of(context)!.documentSuccessfullyDeleted);
+        if (mounted) {
+          await context.read<DocumentDetailsCubit>().delete(document);
+          // showSnackBar(context, S.of(context)!.documentSuccessfullyDeleted);
+        }
       } on PaperlessApiException catch (error, stackTrace) {
-        showErrorMessage(context, error, stackTrace);
+        if (mounted) {
+          showErrorMessage(context, error, stackTrace);
+        }
       } finally {
-        do {
+        if (mounted) {
           context.pop();
-        } while (context.canPop());
+        }
       }
     }
   }

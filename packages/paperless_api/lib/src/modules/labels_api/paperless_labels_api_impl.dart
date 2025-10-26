@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:paperless_api/src/extensions/dio_exception_extension.dart';
@@ -166,7 +165,7 @@ class PaperlessLabelApiImpl implements PaperlessLabelsApi {
   Future<int> deleteDocumentType(DocumentType documentType) async {
     assert(documentType.id != null);
     try {
-      final response = await _client.delete(
+      await _client.delete(
         '/api/document_types/${documentType.id}/',
         options: Options(validateStatus: (status) => status == 204),
       );
@@ -262,7 +261,7 @@ class PaperlessLabelApiImpl implements PaperlessLabelsApi {
   Future<int> deleteStoragePath(StoragePath path) async {
     assert(path.id != null);
     try {
-      final response = await _client.delete(
+      await _client.delete(
         '/api/storage_paths/${path.id}/',
         options: Options(validateStatus: (status) => status == 204),
       );

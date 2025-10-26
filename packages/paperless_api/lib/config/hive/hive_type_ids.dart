@@ -1,4 +1,4 @@
-import 'package:hive/hive.dart';
+import 'package:hive_ce/hive.dart';
 import 'package:paperless_api/paperless_api.dart';
 
 class PaperlessApiHiveTypeIds {

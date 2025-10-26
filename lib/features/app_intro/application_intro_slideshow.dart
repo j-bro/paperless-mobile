@@ -21,8 +21,8 @@ class _ApplicationIntroSlideshowState extends State<ApplicationIntroSlideshow> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
+    return PopScope(
+      canPop: false,
       child: IntroductionScreen(
         globalBackgroundColor: Theme.of(context).canvasColor,
         showDoneButton: true,
@@ -32,7 +32,7 @@ class _ApplicationIntroSlideshowState extends State<ApplicationIntroSlideshow> {
           Navigator.pop(context);
         },
         dotsDecorator: DotsDecorator(
-          color: Theme.of(context).colorScheme.onBackground,
+          color: Theme.of(context).colorScheme.onSurface,
           activeColor: Theme.of(context).colorScheme.primary,
           activeSize: const Size(16.0, 8.0),
           activeShape: const RoundedRectangleBorder(

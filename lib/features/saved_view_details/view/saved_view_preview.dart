@@ -9,7 +9,6 @@ import 'package:paperless_mobile/features/landing/view/widgets/expansion_card.da
 import 'package:paperless_mobile/features/saved_view_details/cubit/saved_view_preview_cubit.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/routing/routes/documents_route.dart';
-import 'package:paperless_mobile/routing/routes/shells/authenticated_route.dart';
 import 'package:provider/provider.dart';
 
 class SavedViewPreview extends StatelessWidget {

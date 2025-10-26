@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_api/src/extensions/dio_exception_extension.dart';
-import 'package:paperless_api/src/models/paperless_api_exception.dart';
 
 class PaperlessTasksApiImpl implements PaperlessTasksApi {
   final Dio _client;

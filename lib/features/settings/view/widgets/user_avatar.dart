@@ -19,11 +19,13 @@ class UserAvatar extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(
-          color: backgroundColor.shade900.withOpacity(0.4),
+          color: backgroundColor.shade900.withAlpha(102),
           width: 2,
         ),
       ),
       child: CircleAvatar(
+        backgroundColor: backgroundColor,
+        foregroundColor: foregroundColor,
         child: Text(
           (account.paperlessUser.fullName ?? account.paperlessUser.username)
               .split(" ")
@@ -32,8 +34,6 @@ class UserAvatar extends StatelessWidget {
               .map((e) => e.toUpperCase())
               .join(""),
         ),
-        backgroundColor: backgroundColor,
-        foregroundColor: foregroundColor,
       ),
     );
   }

@@ -16,7 +16,7 @@ class ColoredTabBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: color ?? Theme.of(context).colorScheme.background,
+      color: color ?? Theme.of(context).colorScheme.surface,
       child: tabBar,
     );
   }

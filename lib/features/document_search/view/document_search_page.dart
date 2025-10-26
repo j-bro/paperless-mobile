@@ -13,7 +13,6 @@ import 'package:paperless_mobile/features/documents/view/widgets/adaptive_docume
 import 'package:paperless_mobile/features/documents/view/widgets/selection/view_type_selection_widget.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/routing/routes/documents_route.dart';
-import 'package:paperless_mobile/routing/routes/shells/authenticated_route.dart';
 
 class DocumentSearchPage extends StatefulWidget {
   const DocumentSearchPage({super.key});
@@ -36,7 +35,7 @@ class _DocumentSearchPageState extends State<DocumentSearchPage> {
     final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: theme.colorScheme.surfaceVariant,
+        backgroundColor: theme.colorScheme.surfaceContainerHighest,
         toolbarHeight: 72 - progressIndicatorHeight,
         leading: BackButton(
           color: theme.colorScheme.onSurfaceVariant,
@@ -161,7 +160,7 @@ class _DocumentSearchPageState extends State<DocumentSearchPage> {
           builder: (context) => RemoveHistoryEntryDialog(entry: entry),
         ) ??
         false;
-    if (shouldRemove) {
+    if (shouldRemove && mounted) {
       context.read<DocumentSearchCubit>().removeHistoryEntry(entry);
     }
   }

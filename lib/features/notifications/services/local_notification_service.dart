@@ -28,7 +28,6 @@ class LocalNotificationService {
       requestSoundPermission: false,
       requestBadgePermission: false,
       requestAlertPermission: false,
-      onDidReceiveLocalNotification: onDidReceiveLocalNotification,
     );
     final InitializationSettings initializationSettings =
         InitializationSettings(
@@ -247,15 +246,6 @@ class LocalNotificationService {
     await Future.wait([
       for (var id in _pendingNotifications[userId] ?? []) _plugin.cancel(id),
     ]);
-  }
-
-  void onDidReceiveLocalNotification(
-    int id,
-    String? title,
-    String? body,
-    String? payload,
-  ) {
-    debugPrint("onDidReceiveNotification!");
   }
 
   void onDidReceiveNotificationResponse(NotificationResponse response) {

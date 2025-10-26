@@ -13,7 +13,6 @@ import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/routing/routes/documents_route.dart';
 import 'package:paperless_mobile/routing/routes/saved_views_route.dart';
 import 'package:paperless_mobile/routing/routes/settings_route.dart';
-import 'package:paperless_mobile/routing/routes/shells/authenticated_route.dart';
 import 'package:paperless_mobile/routing/routes/upload_queue_route.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -54,8 +53,8 @@ class AppDrawer extends StatelessWidget {
                   style: Theme.of(context).textTheme.labelMedium?.copyWith(
                         color: Theme.of(context)
                             .colorScheme
-                            .onBackground
-                            .withOpacity(0.5),
+                            .onSurface
+                            .withAlpha(128),
                       ),
                 ),
                 Text(
@@ -65,8 +64,8 @@ class AppDrawer extends StatelessWidget {
                   style: Theme.of(context).textTheme.labelMedium?.copyWith(
                         color: Theme.of(context)
                             .colorScheme
-                            .onBackground
-                            .withOpacity(0.5),
+                            .onSurface
+                            .withAlpha(128),
                       ),
                 ),
               ],
@@ -127,7 +126,7 @@ class AppDrawer extends StatelessWidget {
               dense: true,
               leading: Assets.images.githubMark.svg(
                 colorFilter: ColorFilter.mode(
-                  Theme.of(context).colorScheme.onBackground,
+                  Theme.of(context).colorScheme.onSurface,
                   BlendMode.srcIn,
                 ),
                 height: 24,
@@ -258,7 +257,7 @@ class AppDrawer extends StatelessWidget {
         AssetImage('assets/logos/paperless_logo_green.png'),
       ),
       applicationName: 'Paperless Mobile',
-      applicationVersion: packageInfo.version + '+' + packageInfo.buildNumber,
+      applicationVersion: '${packageInfo.version}+${packageInfo.buildNumber}',
       children: [
         Text(S.of(context)!.developedBy('Anton Stubenbord')),
         const SizedBox(height: 16),

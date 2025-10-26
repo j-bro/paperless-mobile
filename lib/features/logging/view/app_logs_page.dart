@@ -87,7 +87,7 @@ class _AppLogsPageState extends State<AppLogsPage> {
                           .any((date) => day.isOnSameDayAs(date)),
                       initialEntryMode: DatePickerEntryMode.calendarOnly,
                     );
-                    if (selectedDate != null) {
+                    if (selectedDate != null && context.mounted) {
                       context.read<AppLogsCubit>().loadLogs(selectedDate);
                     }
                   },
@@ -127,7 +127,7 @@ class _AppLogsPageState extends State<AppLogsPage> {
                       return ParsedLogMessageTile(
                         message: logMessage,
                         backgroundColor: (index % 2 == 0)
-                            ? theme.colorScheme.background
+                            ? theme.colorScheme.surface
                             : altColor,
                       );
                     },
@@ -203,12 +203,12 @@ class FormattedLogMessageWidget extends StatelessWidget {
       _ => null,
     };
     final color = switch (message.level) {
-      Level.trace => c.onBackground.withOpacity(0.75),
+      Level.trace => c.onSurface.withAlpha(191),
       Level.warning => Colors.yellow.shade600,
       Level.error => Colors.red,
       Level.fatal => Colors.red.shade900,
       Level.info => Colors.blue,
-      _ => c.onBackground,
+      _ => c.onSurface,
     };
 
     final logStyle = Theme.of(context).textTheme.bodyMedium?.copyWith(

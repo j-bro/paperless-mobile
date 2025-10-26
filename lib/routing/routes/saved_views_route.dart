@@ -1,14 +1,16 @@
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/features/saved_view/view/add_saved_view_page.dart';
 import 'package:paperless_mobile/features/saved_view/view/edit_saved_view_page.dart';
 
-class SavedViewsRoute extends GoRouteData {
+import 'shells/authenticated_route.dart';
+
+class SavedViewsRoute extends GoRouteData with $SavedViewsRoute {
   const SavedViewsRoute();
 }
 
-class CreateSavedViewRoute extends GoRouteData {
+class CreateSavedViewRoute extends GoRouteData with $CreateSavedViewRoute {
   final DocumentFilter? $extra;
   final bool? showOnDashboard;
   final bool? showInSidebar;
@@ -28,7 +30,7 @@ class CreateSavedViewRoute extends GoRouteData {
   }
 }
 
-class EditSavedViewRoute extends GoRouteData {
+class EditSavedViewRoute extends GoRouteData with $EditSavedViewRoute {
   final SavedView $extra;
   const EditSavedViewRoute({required this.$extra});
 

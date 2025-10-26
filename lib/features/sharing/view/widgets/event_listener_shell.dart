@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_ce/hive.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/bloc/connectivity_cubit.dart';
 import 'package:paperless_mobile/core/database/hive/hive_config.dart';
@@ -14,7 +14,6 @@ import 'package:paperless_mobile/core/database/hive/hive_extensions.dart';
 import 'package:paperless_mobile/core/database/tables/local_user_account.dart';
 import 'package:paperless_mobile/core/notifier/document_changed_notifier.dart';
 import 'package:paperless_mobile/core/service/connectivity_status_service.dart';
-import 'package:paperless_mobile/core/service/file_service.dart';
 import 'package:paperless_mobile/features/document_upload/view/document_upload_preparation_page.dart';
 import 'package:paperless_mobile/features/inbox/cubit/inbox_cubit.dart';
 import 'package:paperless_mobile/features/notifications/services/local_notification_service.dart';
@@ -24,7 +23,6 @@ import 'package:paperless_mobile/features/tasks/model/pending_tasks_notifier.dar
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/helpers/message_helpers.dart';
 import 'package:paperless_mobile/routing/routes/scanner_route.dart';
-import 'package:paperless_mobile/routing/routes/shells/authenticated_route.dart';
 import 'package:path/path.dart' as p;
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 
@@ -46,12 +44,14 @@ class _EventListenerShellState extends State<EventListenerShell>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    ReceiveSharingIntent.getInitialMedia().then(_onReceiveSharedFiles);
-    _subscription =
-        ReceiveSharingIntent.getMediaStream().listen(_onReceiveSharedFiles);
+    ReceiveSharingIntent.instance.getInitialMedia().then(_onReceiveSharedFiles);
+    _subscription = ReceiveSharingIntent.instance
+        .getMediaStream()
+        .listen(_onReceiveSharedFiles);
     context.read<PendingTasksNotifier>().addListener(_onTasksChanged);
     _documentDeletedSubscription =
         context.read<DocumentChangedNotifier>().$deleted.listen((event) {
+      if (!mounted) return;
       showSnackBar(context, S.of(context)!.documentSuccessfullyDeleted);
     });
     _listenToInboxChanges();
@@ -145,6 +145,7 @@ class _EventListenerShellState extends State<EventListenerShell>
         files: files,
         userId: userId,
       );
+      if (!mounted) return;
       consumeLocalFiles(
         context,
         files: addedLocalFiles,
@@ -170,6 +171,7 @@ Future<void> consumeLocalFile(
   final hasInternetConnection =
       await context.read<ConnectivityStatusService>().isConnectedToInternet();
   if (!hasInternetConnection) {
+    if (!context.mounted) return;
     showSnackBar(
       context,
       "Could not consume $filename", //TODO: INTL
@@ -177,6 +179,7 @@ Future<void> consumeLocalFile(
     );
     return;
   }
+  if (!context.mounted) return;
   final consumptionNotifier = context.read<ConsumptionChangeNotifier>();
   final taskNotifier = context.read<PendingTasksNotifier>();
 
@@ -195,6 +198,7 @@ Future<void> consumeLocalFile(
         taskNotifier.listenToTaskChanges(taskId);
       }
     } catch (error) {
+      if (!context.mounted) return;
       await Fluttertoast.showToast(
         msg: S.of(context)!.couldNotUploadDocument,
       );
@@ -214,9 +218,11 @@ Future<void> consumeLocalFile(
         DocumentUploadResult(false, null);
 
     if (result.success) {
-      await Fluttertoast.showToast(
-        msg: S.of(context)!.documentSuccessfullyUploadedProcessing,
-      );
+      if (context.mounted) {
+        await Fluttertoast.showToast(
+          msg: S.of(context)!.documentSuccessfullyUploadedProcessing,
+        );
+      }
       await consumptionNotifier.discardFile(file, userId: userId);
 
       // if (result.taskId != null) {
@@ -226,12 +232,13 @@ Future<void> consumeLocalFile(
         SystemNavigator.pop();
       }
     } else {
+      if (!context.mounted) return;
       final shouldDiscard = await showDialog<bool>(
             context: context,
             builder: (context) => DiscardSharedFileDialog(bytes: bytes),
           ) ??
           false;
-      if (shouldDiscard) {
+      if (shouldDiscard && context.mounted) {
         await context
             .read<ConsumptionChangeNotifier>()
             .discardFile(file, userId: userId);

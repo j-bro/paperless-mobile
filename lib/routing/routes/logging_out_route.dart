@@ -10,7 +10,7 @@ part 'logging_out_route.g.dart';
   path: "/logging-out",
   name: R.loggingOut,
 )
-class LoggingOutRoute extends GoRouteData {
+class LoggingOutRoute extends GoRouteData with $LoggingOutRoute {
   static final $parentNavigatorKey = rootNavigatorKey;
   const LoggingOutRoute();
 

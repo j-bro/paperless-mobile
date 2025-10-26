@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_ce/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/database/hive/hive_config.dart';
@@ -23,7 +23,6 @@ import 'package:paperless_mobile/features/sharing/view/widgets/file_thumbnail.da
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/helpers/message_helpers.dart';
 import 'package:paperless_mobile/routing/routes/labels_route.dart';
-import 'package:paperless_mobile/routing/routes/shells/authenticated_route.dart';
 
 class DocumentUploadResult {
   final bool success;
@@ -39,12 +38,12 @@ class DocumentUploadPreparationPage extends StatefulWidget {
   final String? fileExtension;
 
   const DocumentUploadPreparationPage({
-    Key? key,
+    super.key,
     required this.fileBytes,
     this.title,
     this.filename,
     this.fileExtension,
-  }) : super(key: key);
+  });
 
   @override
   State<DocumentUploadPreparationPage> createState() =>
@@ -59,7 +58,6 @@ class _DocumentUploadPreparationPageState
   final GlobalKey<FormBuilderState> _formKey = GlobalKey();
   Map<String, String> _errors = {};
   late bool _syncTitleAndFilename;
-  bool _showDatePickerDeleteIcon = false;
   final _now = DateTime.now();
 
   @override
@@ -224,7 +222,7 @@ class _DocumentUploadPreparationPageState
                               firstDate: DateTime(1970, 1, 1),
                               lastDate: DateTime(2100, 1, 1),
                               locale: Localizations.localeOf(context),
-                              labelText: S.of(context)!.createdAt + " *",
+                              labelText: "${S.of(context)!.createdAt} *",
                               allowUnset: true,
                             ),
                             // Correspondent
@@ -240,7 +238,7 @@ class _DocumentUploadPreparationPageState
                                   name: initialName,
                                 ).push<Correspondent>(context),
                                 addLabelText: S.of(context)!.addCorrespondent,
-                                labelText: S.of(context)!.correspondent + " *",
+                                labelText: "${S.of(context)!.correspondent} *",
                                 name: DocumentModel.correspondentKey,
                                 options: labelRepository.correspondents,
                                 prefixIcon: const Icon(Icons.person_outline),
@@ -263,7 +261,7 @@ class _DocumentUploadPreparationPageState
                                   name: initialName,
                                 ).push<DocumentType>(context),
                                 addLabelText: S.of(context)!.addDocumentType,
-                                labelText: S.of(context)!.documentType + " *",
+                                labelText: "${S.of(context)!.documentType} *",
                                 name: DocumentModel.documentTypeKey,
                                 options: labelRepository.documentTypes,
                                 prefixIcon:
@@ -286,7 +284,7 @@ class _DocumentUploadPreparationPageState
                                 options: labelRepository.tags,
                               ),
                             Text(
-                              "* " + S.of(context)!.uploadInferValuesHint,
+                              "* ${S.of(context)!.uploadInferValuesHint}",
                               style: Theme.of(context).textTheme.bodySmall,
                               textAlign: TextAlign.justify,
                             ).padded(),
@@ -348,11 +346,13 @@ class _DocumentUploadPreparationPageState
           createdAt: createdAt?.toDateTime(),
           asn: asn,
         );
-        showSnackBar(
-          context,
-          S.of(context)!.documentSuccessfullyUploadedProcessing,
-        );
-        context.pop(DocumentUploadResult(true, taskId));
+        if (mounted) {
+          showSnackBar(
+            context,
+            S.of(context)!.documentSuccessfullyUploadedProcessing,
+          );
+          context.pop(DocumentUploadResult(true, taskId));
+        }
       } on PaperlessFormValidationException catch (exception) {
         setState(() => _errors = exception.validationMessages);
       } catch (error, stackTrace) {
@@ -363,11 +363,13 @@ class _DocumentUploadPreparationPageState
           error: error,
           stackTrace: stackTrace,
         );
-        showErrorMessage(
-          context,
-          const PaperlessApiException.unknown(),
-          stackTrace,
-        );
+        if (mounted) {
+          showErrorMessage(
+            context,
+            const PaperlessApiException.unknown(),
+            stackTrace,
+          );
+        }
       }
     }
   }

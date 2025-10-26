@@ -13,7 +13,7 @@ enum AssetImages {
 
   AssetImage get image => AssetImage(relativePath);
 
-  void load(context) => precacheImage(image, context);
+  void load(BuildContext context) => precacheImage(image, context);
 }
 
 late Image emptyInboxImage;

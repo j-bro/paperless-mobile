@@ -11,7 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hive_flutter/adapters.dart';
+import 'package:hive_ce_flutter/adapters.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl_standalone.dart';
@@ -26,9 +26,6 @@ import 'package:paperless_mobile/core/bloc/my_bloc_observer.dart';
 import 'package:paperless_mobile/core/database/hive/hive_config.dart';
 import 'package:paperless_mobile/core/database/hive/hive_extensions.dart';
 import 'package:paperless_mobile/core/database/hive/hive_initialization.dart';
-import 'package:paperless_mobile/core/database/tables/global_settings.dart';
-import 'package:paperless_mobile/core/database/tables/local_user_account.dart';
-import 'package:paperless_mobile/core/database/tables/local_user_app_state.dart';
 import 'package:paperless_mobile/core/exception/server_message_exception.dart';
 import 'package:paperless_mobile/core/factory/paperless_api_factory.dart';
 import 'package:paperless_mobile/core/factory/paperless_api_factory_impl.dart';
@@ -146,7 +143,8 @@ void main() async {
     );
 
     HydratedBloc.storage = await HydratedStorage.build(
-      storageDirectory: await getApplicationDocumentsDirectory(),
+      storageDirectory: HydratedStorageDirectory(
+          (await getApplicationDocumentsDirectory()).path),
     );
 
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
@@ -366,12 +364,12 @@ class _GoRouterShellState extends State<GoRouterShell> {
             return MaterialApp.router(
               builder: (context, child) {
                 return AnnotatedRegion<SystemUiOverlayStyle>(
-                  child: child!,
                   value: buildOverlayStyle(
                     Theme.of(context),
                     systemNavigationBarColor:
-                        Theme.of(context).colorScheme.background,
+                        Theme.of(context).colorScheme.surface,
                   ),
+                  child: child!,
                 );
               },
               routerConfig: _router,

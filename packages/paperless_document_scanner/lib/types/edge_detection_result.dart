@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:ffi/ffi.dart';
 import 'dart:ffi';
 
-class Coordinate extends Struct {
+final class Coordinate extends Struct {
   @Double()
   external double x;
 
@@ -15,7 +15,7 @@ class Coordinate extends Struct {
     ..y = y;
 }
 
-class NativeEdgeDetectionResult extends Struct {
+final class NativeEdgeDetectionResult extends Struct {
   external Pointer<Coordinate> topLeft;
   external Pointer<Coordinate> topRight;
   external Pointer<Coordinate> bottomLeft;

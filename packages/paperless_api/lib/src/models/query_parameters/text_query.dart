@@ -1,6 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:hive/hive.dart';
-import 'package:json_annotation/json_annotation.dart';
+import 'package:hive_ce/hive.dart';
 import 'package:paperless_api/config/hive/hive_type_ids.dart';
 
 import 'query_type.dart';
@@ -83,7 +81,7 @@ class TextQuery {
   }
 
   @override
-  bool operator ==(Object? other) {
+  bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! TextQuery) return false;
     if (queryText == null && other.queryText == null) {

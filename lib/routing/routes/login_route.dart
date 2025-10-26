@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hive_flutter/adapters.dart';
+import 'package:hive_ce_flutter/adapters.dart';
 import 'package:paperless_mobile/core/database/hive/hive_extensions.dart';
 import 'package:paperless_mobile/features/login/cubit/authentication_cubit.dart';
 import 'package:paperless_mobile/features/login/model/client_certificate.dart';
@@ -43,7 +43,7 @@ part 'login_route.g.dart';
     ),
   ],
 )
-class LoginRoute extends GoRouteData {
+class LoginRoute extends GoRouteData with $LoginRoute {
   static final $parentNavigatorKey = rootNavigatorKey;
   final String? serverUrl;
   final String? username;
@@ -76,7 +76,7 @@ class LoginRoute extends GoRouteData {
   }
 }
 
-class SwitchingAccountsRoute extends GoRouteData {
+class SwitchingAccountsRoute extends GoRouteData with $SwitchingAccountsRoute {
   static final $parentNavigatorKey = rootNavigatorKey;
 
   const SwitchingAccountsRoute();
@@ -91,7 +91,7 @@ class SwitchingAccountsRoute extends GoRouteData {
   }
 }
 
-class AuthenticatingRoute extends GoRouteData {
+class AuthenticatingRoute extends GoRouteData with $AuthenticatingRoute {
   static final $parentNavigatorKey = rootNavigatorKey;
 
   final String checkLoginStageName;
@@ -116,7 +116,7 @@ class AuthenticatingRoute extends GoRouteData {
   }
 }
 
-class VerifyIdentityRoute extends GoRouteData {
+class VerifyIdentityRoute extends GoRouteData with $VerifyIdentityRoute {
   static final $parentNavigatorKey = rootNavigatorKey;
 
   final String userId;
@@ -130,7 +130,8 @@ class VerifyIdentityRoute extends GoRouteData {
   }
 }
 
-class LoginToExistingAccountRoute extends GoRouteData {
+class LoginToExistingAccountRoute extends GoRouteData
+    with $LoginToExistingAccountRoute {
   static final $parentNavigatorKey = rootNavigatorKey;
 
   const LoginToExistingAccountRoute();
@@ -151,7 +152,7 @@ class LoginToExistingAccountRoute extends GoRouteData {
   }
 }
 
-class RestoringSessionRoute extends GoRouteData {
+class RestoringSessionRoute extends GoRouteData with $RestoringSessionRoute {
   static final $parentNavigatorKey = rootNavigatorKey;
 
   const RestoringSessionRoute();

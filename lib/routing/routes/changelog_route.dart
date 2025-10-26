@@ -7,7 +7,7 @@ import 'package:paperless_mobile/routing/utils/dialog_page.dart';
 part 'changelog_route.g.dart';
 
 @TypedGoRoute<ChangelogRoute>(path: '/changelogs')
-class ChangelogRoute extends GoRouteData {
+class ChangelogRoute extends GoRouteData with $ChangelogRoute {
   static final $parentNavigatorKey = rootNavigatorKey;
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {

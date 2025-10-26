@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:paperless_mobile/features/login/view/widgets/form_fields/client_certificate_form_field.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 

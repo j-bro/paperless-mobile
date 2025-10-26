@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/repository/label_repository.dart';
-import 'package:paperless_mobile/core/service/file_service.dart';
 import 'package:paperless_mobile/features/document_bulk_action/cubit/document_bulk_action_cubit.dart';
 import 'package:paperless_mobile/features/document_bulk_action/view/widgets/fullscreen_bulk_edit_label_page.dart';
 import 'package:paperless_mobile/features/document_bulk_action/view/widgets/fullscreen_bulk_edit_tags_widget.dart';
@@ -18,19 +17,21 @@ import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/routing/navigation_keys.dart';
 import 'package:paperless_mobile/theme.dart';
 
+import 'shells/authenticated_route.dart';
+
 class DocumentsBranch extends StatefulShellBranchData {
   static final GlobalKey<NavigatorState> $navigatorKey = documentsNavigatorKey;
   const DocumentsBranch();
 }
 
-class DocumentsRoute extends GoRouteData {
+class DocumentsRoute extends GoRouteData with $DocumentsRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const DocumentsPage();
   }
 }
 
-class DocumentDetailsRoute extends GoRouteData {
+class DocumentDetailsRoute extends GoRouteData with $DocumentDetailsRoute {
   static final GlobalKey<NavigatorState> $parentNavigatorKey =
       outerShellNavigatorKey;
 
@@ -69,7 +70,7 @@ class DocumentDetailsRoute extends GoRouteData {
   }
 }
 
-class EditDocumentRoute extends GoRouteData {
+class EditDocumentRoute extends GoRouteData with $EditDocumentRoute {
   static final GlobalKey<NavigatorState> $parentNavigatorKey =
       outerShellNavigatorKey;
 
@@ -83,7 +84,7 @@ class EditDocumentRoute extends GoRouteData {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: buildOverlayStyle(
         theme,
-        systemNavigationBarColor: theme.colorScheme.background,
+        systemNavigationBarColor: theme.colorScheme.surface,
       ),
       child: BlocProvider(
         create: (context) => DocumentEditCubit(
@@ -98,7 +99,7 @@ class EditDocumentRoute extends GoRouteData {
   }
 }
 
-class DocumentPreviewRoute extends GoRouteData {
+class DocumentPreviewRoute extends GoRouteData with $DocumentPreviewRoute {
   static final GlobalKey<NavigatorState> $parentNavigatorKey =
       outerShellNavigatorKey;
   final int id;
@@ -129,7 +130,7 @@ class BulkEditExtraWrapper {
   const BulkEditExtraWrapper(this.selection, this.type);
 }
 
-class BulkEditDocumentsRoute extends GoRouteData {
+class BulkEditDocumentsRoute extends GoRouteData with $BulkEditDocumentsRoute {
   /// Selection
   final BulkEditExtraWrapper $extra;
   BulkEditDocumentsRoute(this.$extra);

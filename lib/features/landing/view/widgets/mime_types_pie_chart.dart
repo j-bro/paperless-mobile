@@ -130,7 +130,7 @@ class _MimeTypesPieChartState extends State<MimeTypesPieChart> {
       yield PieChartSectionData(
         color: colorShades[i % colorShades.length],
         value: type.count.toDouble(),
-        title: percentage.toStringAsFixed(1) + "%",
+        title: "${percentage.toStringAsFixed(1)}%",
         radius: radius,
         titleStyle: TextStyle(
           fontSize: fontSize,

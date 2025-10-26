@@ -4,7 +4,6 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_api/src/converters/local_date_time_json_converter.dart';
 import 'package:paperless_api/src/models/custom_field_model.dart';
-import 'package:paperless_api/src/models/note_model.dart';
 import 'package:paperless_api/src/models/search_hit.dart';
 
 part 'document_model.g.dart';

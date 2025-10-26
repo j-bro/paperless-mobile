@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/database/tables/local_user_account.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
-import 'package:paperless_mobile/core/repository/user_repository.dart';
 import 'package:paperless_mobile/features/document_details/view/widgets/archive_serial_number_field.dart';
 import 'package:paperless_mobile/features/document_details/view/widgets/details_item.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';

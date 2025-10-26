@@ -1,7 +1,7 @@
 // ignore_for_file: invalid_annotation_target
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_ce/hive.dart';
 import 'package:paperless_api/config/hive/hive_type_ids.dart';
 
 part 'user_model.g.dart';

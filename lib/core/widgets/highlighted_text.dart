@@ -43,7 +43,7 @@ class HighlightedText extends StatelessWidget {
         key: key,
         textAlign: textAlign,
         textDirection: textDirection,
-        textScaleFactor: textScaleFactor,
+        textScaler: TextScaler.linear(textScaleFactor),
         maxLines: maxLines,
         strutStyle: strutStyle,
         textWidthBasis: textWidthBasis,
@@ -57,7 +57,7 @@ class HighlightedText extends StatelessWidget {
       key: key,
       textAlign: textAlign,
       textDirection: textDirection,
-      textScaleFactor: textScaleFactor,
+      textScaler: TextScaler.linear(textScaleFactor),
       maxLines: maxLines,
       strutStyle: strutStyle,
       textWidthBasis: textWidthBasis,
@@ -67,46 +67,46 @@ class HighlightedText extends StatelessWidget {
   }
 
   List<TextSpan> _buildChildren(BuildContext context) {
-    List<TextSpan> _spans = [];
-    int _start = 0;
+    List<TextSpan> spans = [];
+    int start = 0;
 
-    String _text = caseSensitive ? text : text.toLowerCase();
-    List<String> _highlights = caseSensitive
+    String maybeLowerText = caseSensitive ? text : text.toLowerCase();
+    List<String> maybeLowerHighlights = caseSensitive
         ? highlights
         : highlights.map((e) => e.toLowerCase()).toList();
 
     while (true) {
-      Map<int, String> _highlightsMap = {}; //key (index), value (highlight).
+      Map<int, String> highlightsMap = {}; //key (index), value (highlight).
 
-      for (final h in _highlights) {
-        final idx = _text.indexOf(h, _start);
+      for (final h in maybeLowerHighlights) {
+        final idx = maybeLowerText.indexOf(h, start);
         if (idx >= 0) {
-          _highlightsMap.putIfAbsent(_text.indexOf(h, _start), () => h);
+          highlightsMap.putIfAbsent(maybeLowerText.indexOf(h, start), () => h);
         }
       }
 
-      if (_highlightsMap.isNotEmpty) {
-        int _currentIndex = _highlightsMap.keys.reduce(min);
-        String _currentHighlight = text.substring(
-          _currentIndex,
-          _currentIndex + _highlightsMap[_currentIndex]!.length,
+      if (highlightsMap.isNotEmpty) {
+        int currentIndex = highlightsMap.keys.reduce(min);
+        String currentHighlight = text.substring(
+          currentIndex,
+          currentIndex + highlightsMap[currentIndex]!.length,
         );
 
-        if (_currentIndex == _start) {
-          _spans.add(_highlightSpan(_currentHighlight));
-          _start += _currentHighlight.length;
+        if (currentIndex == start) {
+          spans.add(_highlightSpan(currentHighlight));
+          start += currentHighlight.length;
         } else {
-          _spans
-              .add(_normalSpan(text.substring(_start, _currentIndex), context));
-          _spans.add(_highlightSpan(_currentHighlight));
-          _start = _currentIndex + _currentHighlight.length;
+          spans
+              .add(_normalSpan(text.substring(start, currentIndex), context));
+          spans.add(_highlightSpan(currentHighlight));
+          start = currentIndex + currentHighlight.length;
         }
       } else {
-        _spans.add(_normalSpan(text.substring(_start, text.length), context));
+        spans.add(_normalSpan(text.substring(start, text.length), context));
         break;
       }
     }
-    return _spans;
+    return spans;
   }
 
   TextSpan _highlightSpan(String value) {

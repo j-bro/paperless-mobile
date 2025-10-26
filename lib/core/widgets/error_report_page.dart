@@ -101,6 +101,7 @@ Note: If you have the GitHub Android app installed, the descriptions will not be
     ).then(
       (_) {
         setState(() => _stackTraceCopied = true);
+        if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text(
@@ -146,6 +147,7 @@ Note: If you have the GitHub Android app installed, the descriptions will not be
           return;
         }
       }
+      if (!mounted) return;
       Navigator.pop(
         context,
         GithubErrorReport(

@@ -56,7 +56,7 @@ class SettingsPage extends StatelessWidget {
           final host = user!.serverUrl.replaceFirst(RegExp(r"https?://"), "");
           return ListTile(
             title: Text(
-              S.of(context)!.loggedInAs(user.paperlessUser.username) + "@$host",
+              "${S.of(context)!.loggedInAs(user.paperlessUser.username)}@$host",
               style: Theme.of(context).textTheme.labelSmall,
               textAlign: TextAlign.center,
             ),
@@ -87,10 +87,8 @@ class SettingsPage extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      S.of(context)!.paperlessServerVersion +
-                          ' ' +
-                          serverData.version.toString() +
-                          ' (API v${serverData.apiVersion})',
+                      '${S.of(context)!.paperlessServerVersion}'
+                      ' ${serverData.version} (API v${serverData.apiVersion})',
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
                             color: Theme.of(context).colorScheme.secondary,
                           ),

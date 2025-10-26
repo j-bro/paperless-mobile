@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive_flutter/adapters.dart';
+import 'package:hive_ce_flutter/adapters.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/bloc/connectivity_cubit.dart';
 import 'package:paperless_mobile/core/database/hive/hive_config.dart';
@@ -16,10 +16,9 @@ import 'package:paperless_mobile/features/labels/view/widgets/label_tab_view.dar
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/helpers/connectivity_aware_action_wrapper.dart';
 import 'package:paperless_mobile/routing/routes/labels_route.dart';
-import 'package:paperless_mobile/routing/routes/shells/authenticated_route.dart';
 
 class LabelsPage extends StatefulWidget {
-  const LabelsPage({Key? key}) : super(key: key);
+  const LabelsPage({super.key});
 
   @override
   State<LabelsPage> createState() => _LabelsPageState();

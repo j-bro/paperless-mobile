@@ -25,7 +25,7 @@ class GithubIssueService {
         ..tryPutIfAbsent('assignees', () => assignees?.join(','))
         ..tryPutIfAbsent('project', () => project),
     );
-    debugPrint("[GitHubIssueService] Creating GitHub issue: " + uri.toString());
+    debugPrint("[GitHubIssueService] Creating GitHub issue: $uri");
     launchUrl(
       uri,
       mode: LaunchMode.externalApplication,
