@@ -1,8 +1,13 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:paperless_api/generated/lib/src/model/acknowledge_tasks.dart';
+import 'package:paperless_api/generated/lib/src/model/status_enum.dart';
+import 'package:paperless_api/generated/lib/src/model/tasks_view.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_api/src/extensions/dio_exception_extension.dart';
+import 'package:paperless_api/src/models/request/task_filter_options.dart';
+import 'package:paperless_api/src/request_utils.dart';
 
 class PaperlessTasksApiImpl implements PaperlessTasksApi {
   final Dio _client;
@@ -10,63 +15,39 @@ class PaperlessTasksApiImpl implements PaperlessTasksApi {
   PaperlessTasksApiImpl(this._client);
 
   @override
-  Future<Task?> find({int? id, String? taskId}) async {
-    assert((id != null) != (taskId != null));
-    if (id != null) {
-      return _findById(id);
-    } else if (taskId != null) {
-      return _findByTaskId(taskId);
-    }
-    return null;
-  }
-
-  /// API response returns List with single item
-  Future<Task?> _findById(int id) async {
-    final response = await _client.get("/api/tasks/$id/");
-    if (response.statusCode == 200) {
-      return Task.fromJson(response.data);
-    }
-    return null;
-  }
-
-  /// API response returns List with single item
-  Future<Task?> _findByTaskId(String taskId) async {
-    final response = await _client.get("/api/tasks/?task_id=$taskId");
-    if (response.statusCode == 200) {
-      if ((response.data as List).isNotEmpty) {
-        return Task.fromJson((response.data as List).first);
-      }
-    }
-    return null;
+  Future<TasksView?> find(int id) async {
+    return getSingleResult(
+      '/api/tasks/$id',
+      TasksView.fromJson,
+      ErrorCode.loadTasksError,
+      client: _client,
+    );
   }
 
   @override
-  Future<Iterable<Task>> findAll([Iterable<int>? ids]) async {
-    try {
-      final response = await _client.get(
-        "/api/tasks/",
-        options: Options(validateStatus: (status) => status == 200),
-      );
-      return (response.data as List).map((e) => Task.fromJson(e));
-    } on DioException catch (exception) {
-      throw exception.unravel(
-        orElse: const PaperlessApiException(ErrorCode.loadTasksError),
-      );
-    }
+  Future<Iterable<TasksView>> findAll([TaskFilterOptions? options]) async {
+    return getCollection(
+      '/api/tasks/',
+      TasksView.fromJson,
+      ErrorCode.loadTasksError,
+      client: _client,
+      queryParams: options?.toJson(),
+    );
   }
 
   @override
-  Stream<Task> listenForTaskChanges(String taskId) async* {
+  Stream<TasksView> listenForTaskChanges(String taskId) async* {
     bool isCompleted = false;
     while (!isCompleted) {
-      final task = await find(taskId: taskId);
-      if (task == null) {
+      final tasks = await findAll(TaskFilterOptions(taskId: taskId));
+      if (tasks.isEmpty) {
         throw Exception("Task with taskId $taskId does not exist.");
       }
+      final task = tasks.first;
       log("Found new task: ${task.taskId}, ${task.id}, ${task.status}");
       yield task;
-      if (task.status == TaskStatus.success ||
-          task.status == TaskStatus.failure) {
+      if (task.status == StatusEnum.SUCCESS ||
+          task.status == StatusEnum.FAILURE) {
         isCompleted = true;
       }
       await Future.delayed(const Duration(seconds: 1));
@@ -74,25 +55,19 @@ class PaperlessTasksApiImpl implements PaperlessTasksApi {
   }
 
   @override
-  Future<Task> acknowledgeTask(Task task) async {
-    final acknowledgedTasks = await acknowledgeTasks([task]);
-    return acknowledgedTasks.first.copyWith(acknowledged: true);
-  }
-
-  @override
-  Future<Iterable<Task>> acknowledgeTasks(Iterable<Task> tasks) async {
+  Future<void> acknowledgeTasks(Iterable<int> tasks) async {
     try {
       final response = await _client.post(
         "/api/acknowledge_tasks/",
-        data: {
-          'tasks': tasks.map((e) => e.id).toList(),
-        },
+        data: {'tasks': tasks.toList()},
         options: Options(validateStatus: (status) => status == 200),
       );
-      if (response.data['result'] != tasks.length) {
+      final acknowledgedTaskCount = AcknowledgeTasks.fromJson(
+        response.data,
+      ).result;
+      if (acknowledgedTaskCount != tasks.length) {
         throw const PaperlessApiException(ErrorCode.acknowledgeTasksError);
       }
-      return tasks.map((e) => e.copyWith(acknowledged: true)).toList();
     } on DioException catch (exception) {
       throw exception.unravel(
         orElse: const PaperlessApiException(ErrorCode.acknowledgeTasksError),

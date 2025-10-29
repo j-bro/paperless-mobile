@@ -84,4 +84,5 @@ enum ErrorCode {
   customFieldDeleteFailed,
   deleteNoteFailed,
   addNoteFailed,
+  customFieldUpdateFailed,
 }

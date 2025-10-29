@@ -1,0 +1,60 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+
+// ignore_for_file: unused_element
+import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:equatable/src/equatable_utils.dart';
+
+part 'index.g.dart';
+
+@CopyWith()
+@JsonSerializable(
+  checked: true,
+  createToJson: true,
+  disallowUnrecognizedKeys: false,
+  explicitToJson: true,
+)
+class Index {
+  /// Returns a new [Index] instance.
+  Index({
+    required this.status,
+
+    required this.error,
+
+    required this.lastModified,
+  });
+
+  @JsonKey(name: r'status', required: true, includeIfNull: false)
+  final String status;
+
+  @JsonKey(name: r'error', required: true, includeIfNull: false)
+  final String error;
+
+  @JsonKey(name: r'last_modified', required: true, includeIfNull: false)
+  final DateTime lastModified;
+
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        other is Index &&
+            runtimeType == other.runtimeType &&
+            equals(
+              [status, error, lastModified],
+              [other.status, other.error, other.lastModified],
+            );
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^ mapPropsToHashCode([status, error, lastModified]);
+
+  factory Index.fromJson(Map<String, dynamic> json) => _$IndexFromJson(json);
+
+  Map<String, dynamic> toJson() => _$IndexToJson(this);
+
+  @override
+  String toString() {
+    return toJson().toString();
+  }
+}

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
+import 'package:paperless_api/generated/lib/src/model/paperless_auth_token_request.dart';
 import 'package:paperless_api/paperless_api.dart';
 
 void main() {
@@ -18,21 +19,15 @@ void main() {
       // Valid credentials
       mockAdapter.onPost(
         "/api/token/",
-        data: {
-          "username": "username",
-          "password": "password",
-        },
+        data: {"username": "username", "password": "password"},
         (server) => server.reply(200, {"token": token}),
       );
       // Invalid credentials
       mockAdapter.onPost(
         "/api/token/",
-        data: {
-          "username": "wrongUsername",
-          "password": "wrongPassword",
-        },
+        data: {"username": "wrongUsername", "password": "wrongPassword"},
         (server) => server.reply(400, {
-          "non_field_errors": [invalidCredentialsServerMessage]
+          "non_field_errors": [invalidCredentialsServerMessage],
         }),
       );
     });
@@ -42,48 +37,52 @@ void main() {
       'should return a valid token when logging in with valid credentials',
       () {
         expect(
-          authenticationApi.login(
-            username: "username",
-            password: "password",
+          authenticationApi.token(
+            PaperlessAuthTokenRequest(
+              username: 'username',
+              password: 'password',
+            ),
           ),
           completion(token),
         );
       },
     );
 
-    test(
-      'should throw a PaperlessFormValidationException containing a reason '
-      'when logging in with invalid credentials',
-      () {
-        expect(
-          authenticationApi.login(
+    test('should throw a PaperlessFormValidationException containing a reason '
+        'when logging in with invalid credentials', () {
+      expect(
+        authenticationApi.token(
+          PaperlessAuthTokenRequest(
             username: "wrongUsername",
             password: "wrongPassword",
           ),
-          throwsA(isA<PaperlessFormValidationException>().having(
+        ),
+        throwsA(
+          isA<PaperlessFormValidationException>().having(
             (e) => e.unspecificErrorMessage(),
             "non-field specific error message",
             equals(invalidCredentialsServerMessage),
-          )),
-        );
-      },
-    );
+          ),
+        ),
+      );
+    });
 
-    test(
-      'should return an error when logging in with invalid credentials',
-      () {
-        expect(
-          authenticationApi.login(
+    test('should return an error when logging in with invalid credentials', () {
+      expect(
+        authenticationApi.token(
+          PaperlessAuthTokenRequest(
             username: "wrongUsername",
             password: "wrongPassword",
           ),
-          throwsA(isA<PaperlessFormValidationException>().having(
+        ),
+        throwsA(
+          isA<PaperlessFormValidationException>().having(
             (e) => e.unspecificErrorMessage(),
             "non-field specific error message",
             equals(invalidCredentialsServerMessage),
-          )),
-        );
-      },
-    );
+          ),
+        ),
+      );
+    });
   });
 }

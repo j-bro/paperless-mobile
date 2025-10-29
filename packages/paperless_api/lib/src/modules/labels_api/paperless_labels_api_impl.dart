@@ -1,6 +1,14 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:paperless_api/generated/lib/src/model/correspondent_request.dart';
+import 'package:paperless_api/generated/lib/src/model/document_type_request.dart';
+import 'package:paperless_api/generated/lib/src/model/patched_correspondent_request.dart';
+import 'package:paperless_api/generated/lib/src/model/patched_document_type_request.dart';
+import 'package:paperless_api/generated/lib/src/model/patched_storage_path_request.dart';
+import 'package:paperless_api/generated/lib/src/model/patched_tag_request.dart';
+import 'package:paperless_api/generated/lib/src/model/storage_path_request.dart';
+import 'package:paperless_api/generated/lib/src/model/tag_request.dart';
 import 'package:paperless_api/src/extensions/dio_exception_extension.dart';
 import 'package:paperless_api/src/models/models.dart';
 import 'package:paperless_api/src/modules/labels_api/paperless_labels_api.dart';
@@ -60,7 +68,7 @@ class PaperlessLabelApiImpl implements PaperlessLabelsApi {
 
   @override
   Future<List<Correspondent>> getCorrespondents(
-    LabelGetOptions? options,
+    GetFilterOptions? options,
   ) async {
     final results = await getCollection(
       "/api/correspondents/",
@@ -74,7 +82,7 @@ class PaperlessLabelApiImpl implements PaperlessLabelsApi {
   }
 
   @override
-  Future<List<DocumentType>> getDocumentTypes(LabelGetOptions? options) async {
+  Future<List<DocumentType>> getDocumentTypes(GetFilterOptions? options) async {
     final results = await getCollection(
       "/api/document_types/?page=1&page_size=100000",
       DocumentType.fromJson,
@@ -87,7 +95,7 @@ class PaperlessLabelApiImpl implements PaperlessLabelsApi {
   }
 
   @override
-  Future<List<Tag>> getTags(LabelGetOptions? options) async {
+  Future<List<Tag>> getTags(GetFilterOptions? options) async {
     final results = await getCollection(
       "/api/tags/",
       Tag.fromJson,
@@ -99,7 +107,7 @@ class PaperlessLabelApiImpl implements PaperlessLabelsApi {
   }
 
   @override
-  Future<List<StoragePath>> getStoragePaths(LabelGetOptions? options) async {
+  Future<List<StoragePath>> getStoragePaths(GetFilterOptions? options) async {
     final results = await getCollection(
       "/api/storage_paths/?page=1&page_size=100000",
       StoragePath.fromJson,
@@ -112,7 +120,9 @@ class PaperlessLabelApiImpl implements PaperlessLabelsApi {
   }
 
   @override
-  Future<Correspondent> createCorrespondent(LabelRequest correspondent) async {
+  Future<Correspondent> createCorrespondent(
+    CorrespondentRequest correspondent,
+  ) async {
     try {
       final response = await _client.post(
         '/api/correspondents/',
@@ -130,7 +140,9 @@ class PaperlessLabelApiImpl implements PaperlessLabelsApi {
   }
 
   @override
-  Future<DocumentType> createDocumentType(LabelRequest documentType) async {
+  Future<DocumentType> createDocumentType(
+    DocumentTypeRequest documentType,
+  ) async {
     try {
       final response = await _client.post(
         '/api/document_types/',
@@ -227,10 +239,13 @@ class PaperlessLabelApiImpl implements PaperlessLabelsApi {
   }
 
   @override
-  Future<Correspondent> putCorrespondent(LabelRequest correspondent) async {
+  Future<Correspondent> putCorrespondent(
+    int id,
+    CorrespondentRequest correspondent,
+  ) async {
     try {
       final response = await _client.put(
-        '/api/correspondents/${correspondent.id}/',
+        '/api/correspondents/$id/',
         data: correspondent.toJson(),
         options: Options(validateStatus: (status) => status == 200),
       );
@@ -246,11 +261,12 @@ class PaperlessLabelApiImpl implements PaperlessLabelsApi {
 
   @override
   Future<Correspondent> patchCorrespondent(
-    LabelPatchRequest correspondent,
+    int id,
+    PatchedCorrespondentRequest correspondent,
   ) async {
     try {
       final response = await _client.patch(
-        '/api/correspondents/${correspondent.id}/',
+        '/api/correspondents/$id/',
         data: json.encode(correspondent.toJson()),
         options: Options(validateStatus: (status) => status == 200),
       );
@@ -265,10 +281,13 @@ class PaperlessLabelApiImpl implements PaperlessLabelsApi {
   }
 
   @override
-  Future<DocumentType> putDocumentType(LabelRequest documentType) async {
+  Future<DocumentType> putDocumentType(
+    int id,
+    DocumentTypeRequest documentType,
+  ) async {
     try {
       final response = await _client.put(
-        '/api/document_types/${documentType.id}/',
+        '/api/document_types/$id/',
         data: documentType.toJson(),
         options: Options(validateStatus: (status) => status == 200),
       );
@@ -281,10 +300,13 @@ class PaperlessLabelApiImpl implements PaperlessLabelsApi {
   }
 
   @override
-  Future<DocumentType> patchDocumentType(LabelPatchRequest documentType) async {
+  Future<DocumentType> patchDocumentType(
+    int id,
+    PatchedDocumentTypeRequest documentType,
+  ) async {
     try {
       final response = await _client.patch(
-        '/api/document_types/${documentType.id}/',
+        '/api/document_types/$id/',
         data: documentType.toJson(),
         options: Options(validateStatus: (status) => status == 200),
       );
@@ -297,10 +319,10 @@ class PaperlessLabelApiImpl implements PaperlessLabelsApi {
   }
 
   @override
-  Future<Tag> putTag(TagRequest tag) async {
+  Future<Tag> putTag(int id, TagRequest tag) async {
     try {
       final response = await _client.put(
-        '/api/tags/${tag.id}/',
+        '/api/tags/$id/',
         options: Options(
           headers: {"Accept": "application/json; version=2"},
           validateStatus: (status) => status == 200,
@@ -316,10 +338,10 @@ class PaperlessLabelApiImpl implements PaperlessLabelsApi {
   }
 
   @override
-  Future<Tag> patchTag(TagPatchRequest tag) async {
+  Future<Tag> patchTag(int id, PatchedTagRequest tag) async {
     try {
       final response = await _client.patch(
-        '/api/tags/${tag.id}/',
+        '/api/tags/$id/',
         options: Options(
           headers: {"Accept": "application/json; version=2"},
           validateStatus: (status) => status == 200,
@@ -335,7 +357,7 @@ class PaperlessLabelApiImpl implements PaperlessLabelsApi {
   }
 
   @override
-  Future<StoragePath> createStoragePath(LabelRequest storagePath) async {
+  Future<StoragePath> createStoragePath(StoragePathRequest storagePath) async {
     try {
       final response = await _client.post(
         '/api/storage_paths/',
@@ -351,10 +373,10 @@ class PaperlessLabelApiImpl implements PaperlessLabelsApi {
   }
 
   @override
-  Future<StoragePath> putStoragePath(LabelRequest path) async {
+  Future<StoragePath> putStoragePath(int id, StoragePathRequest path) async {
     try {
       final response = await _client.put(
-        '/api/storage_paths/${path.id}/',
+        '/api/storage_paths/$id/',
         data: path.toJson(),
         options: Options(validateStatus: (status) => status == 200),
       );
@@ -368,11 +390,12 @@ class PaperlessLabelApiImpl implements PaperlessLabelsApi {
 
   @override
   Future<StoragePath> patchStoragePath(
-    StoragePathPatchRequest storagePath,
+    int id,
+    PatchedStoragePathRequest storagePath,
   ) async {
     try {
       final response = await _client.patch(
-        '/api/storage_paths/${storagePath.id}/',
+        '/api/storage_paths/$id/',
         data: storagePath.toJson(),
         options: Options(validateStatus: (status) => status == 200),
       );

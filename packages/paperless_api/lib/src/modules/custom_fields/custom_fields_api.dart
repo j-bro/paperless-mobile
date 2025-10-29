@@ -1,8 +1,14 @@
-import 'package:paperless_api/src/models/custom_field_model.dart';
+import 'package:paperless_api/generated/lib/src/model/custom_field.dart';
+import 'package:paperless_api/generated/lib/src/model/custom_field_request.dart';
+import 'package:paperless_api/generated/lib/src/model/patched_custom_field_request.dart';
+import 'package:paperless_api/src/models/models.dart';
+import 'package:paperless_api/src/modules/crud_api.dart';
 
-abstract interface class CustomFieldsApi {
-  Future<CustomFieldModel> createCustomField(CustomFieldModel customField);
-  Future<CustomFieldModel?> getCustomField(int id);
-  Future<List<CustomFieldModel>> getCustomFields();
-  Future<int> deleteCustomField(CustomFieldModel customField);
-}
+abstract class CustomFieldsApi
+    implements
+        CrudApi<
+          CustomField,
+          CustomFieldRequest,
+          PatchedCustomFieldRequest,
+          GetFilterOptions
+        > {}

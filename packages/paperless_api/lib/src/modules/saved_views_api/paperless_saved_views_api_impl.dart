@@ -1,82 +1,46 @@
 import 'package:dio/dio.dart';
-import 'package:paperless_api/src/extensions/dio_exception_extension.dart';
-import 'package:paperless_api/src/models/paperless_api_exception.dart';
-import 'package:paperless_api/src/models/saved_view_model.dart';
-import 'package:paperless_api/src/request_utils.dart';
+import 'package:paperless_api/generated/lib/src/model/patched_saved_view_request.dart';
+import 'package:paperless_api/generated/lib/src/model/saved_view.dart';
+import 'package:paperless_api/generated/lib/src/model/saved_view_request.dart';
+import 'package:paperless_api/paperless_api.dart';
+import 'package:paperless_api/src/modules/base_crud_api_impl_mixin.dart';
 
-import 'paperless_saved_views_api.dart';
+class PaperlessSavedViewsApiImpl extends PaperlessSavedViewsApi
+    with
+        BaseCrudApiImplMixin<
+          SavedView,
+          SavedViewRequest,
+          PatchedSavedViewRequest,
+          GetFilterOptions
+        > {
+  @override
+  final Dio client;
 
-class PaperlessSavedViewsApiImpl implements PaperlessSavedViewsApi {
-  final Dio _client;
-
-  PaperlessSavedViewsApiImpl(this._client);
+  PaperlessSavedViewsApiImpl(this.client);
 
   @override
-  Future<Iterable<SavedView>> findAll([Iterable<int>? ids]) async {
-    final result = await getCollection(
-      "/api/saved_views/?page_size=100000",
-      SavedView.fromJson,
-      ErrorCode.loadSavedViewsError,
-      client: _client,
-    );
-
-    return result.where((view) => ids?.contains(view.id!) ?? true);
-  }
-
+  String get path => "/api/saved_views/";
   @override
-  Future<SavedView> save(SavedView view) async {
-    try {
-      final response = await _client.post(
-        "/api/saved_views/",
-        data: view.toJson(),
-        options: Options(validateStatus: (status) => status == 201),
-      );
-      return SavedView.fromJson(response.data);
-    } on DioException catch (exception) {
-      throw exception.unravel(
-        orElse: const PaperlessApiException(ErrorCode.createSavedViewError),
-      );
-    }
-  }
-
+  SavedView parse(Map<String, dynamic> json) => SavedView.fromJson(json);
   @override
-  Future<SavedView> update(SavedView view) async {
-    try {
-      final response = await _client.patch(
-        "/api/saved_views/${view.id}/",
-        data: view.toJson(),
-        options: Options(validateStatus: (status) => status == 200),
-      );
-      return SavedView.fromJson(response.data);
-    } on DioException catch (exception) {
-      throw exception.unravel(
-        orElse: const PaperlessApiException(ErrorCode.updateSavedViewError),
-      );
-    }
-  }
-
+  Map<String, dynamic> requestToJson(SavedViewRequest request) =>
+      request.toJson();
   @override
-  Future<int> delete(SavedView view) async {
-    try {
-      await _client.delete(
-        "/api/saved_views/${view.id}/",
-        options: Options(validateStatus: (status) => status == 204),
-      );
-      return view.id!;
-    } on DioException catch (exception) {
-      throw exception.unravel(
-        orElse: const PaperlessApiException(ErrorCode.deleteSavedViewError),
-      );
-    }
-  }
-
+  Map<String, dynamic> patchedRequestToJson(PatchedSavedViewRequest request) =>
+      request.toJson();
   @override
-  Future<SavedView?> find(int id) {
-    return getSingleResult(
-      "/api/saved_views/$id/",
-      SavedView.fromJson,
-      ErrorCode.loadSavedViewsError,
-      client: _client,
-    );
-  }
+  Map<String, dynamic>? filterOptionsToJson(GetFilterOptions? options) =>
+      options?.toJson();
+  @override
+  ErrorCode get createErrorCode => ErrorCode.customFieldCreateFailed;
+  @override
+  ErrorCode get deleteErrorCode => ErrorCode.customFieldDeleteFailed;
+  @override
+  ErrorCode get getErrorCode => ErrorCode.customFieldLoadFailed;
+  @override
+  ErrorCode get listErrorCode => ErrorCode.customFieldLoadFailed;
+  @override
+  ErrorCode get patchErrorCode => ErrorCode.customFieldUpdateFailed;
+  @override
+  ErrorCode get putErrorCode => ErrorCode.customFieldUpdateFailed;
 }

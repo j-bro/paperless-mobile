@@ -12,6 +12,4 @@ export 'server_stats_api/paperless_server_stats_api_impl.dart';
 export 'tasks_api/paperless_tasks_api.dart';
 export 'tasks_api/paperless_tasks_api_impl.dart';
 export 'user_api/paperless_user_api.dart';
-export 'user_api/paperless_user_api_v2_impl.dart';
-export 'user_api/paperless_user_api_v3.dart';
-export 'user_api/paperless_user_api_v3_impl.dart';
+export 'user_api/paperless_user_api_impl.dart';

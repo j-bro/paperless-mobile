@@ -1,9 +1,9 @@
-import 'package:paperless_api/src/models/task/task.dart';
+import 'package:paperless_api/generated/lib/src/model/tasks_view.dart';
+import 'package:paperless_api/src/models/request/task_filter_options.dart';
 
 abstract class PaperlessTasksApi {
-  Future<Task?> find({int? id, String? taskId});
-  Future<Iterable<Task>> findAll([Iterable<int>? ids]);
-  Stream<Task> listenForTaskChanges(String taskId);
-  Future<Task> acknowledgeTask(Task task);
-  Future<Iterable<Task>> acknowledgeTasks(Iterable<Task> tasks);
+  Future<TasksView?> find(int id);
+  Future<Iterable<TasksView>> findAll([TaskFilterOptions? options]);
+  Stream<TasksView> listenForTaskChanges(String taskId);
+  Future<void> acknowledgeTasks(Iterable<int> tasks);
 }

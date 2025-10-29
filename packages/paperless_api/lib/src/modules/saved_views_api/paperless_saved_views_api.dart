@@ -1,12 +1,14 @@
-import 'package:paperless_api/src/models/saved_view_model.dart';
+import 'package:paperless_api/generated/lib/src/model/patched_saved_view_request.dart';
+import 'package:paperless_api/generated/lib/src/model/saved_view.dart';
+import 'package:paperless_api/generated/lib/src/model/saved_view_request.dart';
+import 'package:paperless_api/src/models/request/get_filter_options.dart';
+import 'package:paperless_api/src/modules/crud_api.dart';
 
-abstract class PaperlessSavedViewsApi {
-  Future<SavedView?> find(int id);
-  Future<Iterable<SavedView>> findAll([Iterable<int>? ids]);
-
-  Future<SavedView> save(SavedView view);
-  Future<int> delete(SavedView view);
-
-  /// Since API V3
-  Future<SavedView> update(SavedView view);
-}
+abstract class PaperlessSavedViewsApi
+    extends
+        CrudApi<
+          SavedView,
+          SavedViewRequest,
+          PatchedSavedViewRequest,
+          GetFilterOptions
+        > {}

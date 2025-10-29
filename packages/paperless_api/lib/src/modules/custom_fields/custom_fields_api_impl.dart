@@ -1,72 +1,48 @@
 import 'package:dio/dio.dart';
+import 'package:paperless_api/generated/lib/src/model/custom_field.dart';
+import 'package:paperless_api/generated/lib/src/model/custom_field_request.dart';
+import 'package:paperless_api/generated/lib/src/model/patched_custom_field_request.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_api/src/extensions/dio_exception_extension.dart';
-import 'package:paperless_api/src/models/custom_field_model.dart';
+import 'package:paperless_api/src/modules/base_crud_api_impl_mixin.dart';
 import 'package:paperless_api/src/modules/custom_fields/custom_fields_api.dart';
-import 'package:paperless_api/src/request_utils.dart';
 
-class CustomFieldsApiImpl implements CustomFieldsApi {
-  final Dio _dio;
+class CustomFieldsApiImpl extends CustomFieldsApi
+    with
+        BaseCrudApiImplMixin<
+          CustomField,
+          CustomFieldRequest,
+          PatchedCustomFieldRequest,
+          GetFilterOptions
+        > {
+  @override
+  final Dio client;
 
-  const CustomFieldsApiImpl(this._dio);
+  CustomFieldsApiImpl(this.client);
 
   @override
-  Future<CustomFieldModel> createCustomField(
-      CustomFieldModel customField) async {
-    try {
-      final response = await _dio.post(
-        "/api/custom_fields/",
-        data: customField.toJson(),
-        options: Options(
-          validateStatus: (status) => status == 201,
-        ),
-      );
-      return CustomFieldModel.fromJson(response.data);
-    } on DioException catch (exception) {
-      throw exception.unravel(
-        orElse: const PaperlessApiException(
-          ErrorCode.customFieldCreateFailed,
-        ),
-      );
-    }
-  }
-
+  String get path => "/api/custom_fields/";
   @override
-  Future<int> deleteCustomField(CustomFieldModel customField) async {
-    try {
-      await _dio.delete(
-        "/api/custom_fields/${customField.id}/",
-        options: Options(
-          validateStatus: (status) => status == 204,
-        ),
-      );
-      return customField.id!;
-    } on DioException catch (exception) {
-      throw exception.unravel(
-        orElse: const PaperlessApiException(
-          ErrorCode.customFieldDeleteFailed,
-        ),
-      );
-    }
-  }
-
+  CustomField parse(Map<String, dynamic> json) => CustomField.fromJson(json);
   @override
-  Future<CustomFieldModel?> getCustomField(int id) {
-    return getSingleResult(
-      '/api/custom_fields/$id/',
-      CustomFieldModel.fromJson,
-      ErrorCode.customFieldLoadFailed,
-      client: _dio,
-    );
-  }
-
+  Map<String, dynamic> requestToJson(CustomFieldRequest request) =>
+      request.toJson();
   @override
-  Future<List<CustomFieldModel>> getCustomFields() {
-    return getCollection(
-      '/api/custom_fields/?page=1&page_size=100000',
-      CustomFieldModel.fromJson,
-      ErrorCode.customFieldLoadFailed,
-      client: _dio,
-    );
-  }
+  Map<String, dynamic> patchedRequestToJson(
+    PatchedCustomFieldRequest request,
+  ) => request.toJson();
+  @override
+  Map<String, dynamic>? filterOptionsToJson(GetFilterOptions? options) =>
+      options?.toJson();
+  @override
+  ErrorCode get createErrorCode => ErrorCode.customFieldCreateFailed;
+  @override
+  ErrorCode get deleteErrorCode => ErrorCode.customFieldDeleteFailed;
+  @override
+  ErrorCode get getErrorCode => ErrorCode.customFieldLoadFailed;
+  @override
+  ErrorCode get listErrorCode => ErrorCode.customFieldLoadFailed;
+  @override
+  ErrorCode get patchErrorCode => ErrorCode.customFieldUpdateFailed;
+  @override
+  ErrorCode get putErrorCode => ErrorCode.customFieldUpdateFailed;
 }

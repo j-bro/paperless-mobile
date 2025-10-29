@@ -1,40 +1,46 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'paperless_server_statistics_model.g.dart';
+
+@JsonSerializable(createToJson: false)
 class PaperlessServerStatisticsModel {
   final int documentsTotal;
-  final int documentsInInbox;
-  final int? totalChars;
-  final List<DocumentFileTypeCount> fileTypeCounts;
+  final int documentsInbox;
+  final int? inboxTag;
+  final List<int> inboxTags;
+  final int tagCount;
+  final int correspondentCount;
+  final int documentTypeCount;
+  final int storagePathCount;
+  final int? currentAsn;
+  final List<DocumentFileTypeCount> documentFileTypeCounts;
+  final int? characterCount;
+
   PaperlessServerStatisticsModel({
-    required this.documentsTotal,
-    required this.documentsInInbox,
-    this.totalChars,
-    this.fileTypeCounts = const [],
+    this.documentsTotal = 0,
+    this.documentsInbox = 0,
+    this.inboxTag,
+    this.inboxTags = const [],
+    this.tagCount = 0,
+    this.correspondentCount = 0,
+    this.documentTypeCount = 0,
+    this.storagePathCount = 0,
+    this.currentAsn,
+    this.documentFileTypeCounts = const [],
+    this.characterCount,
   });
 
-  PaperlessServerStatisticsModel.fromJson(Map<String, dynamic> json)
-      : documentsTotal = json['documents_total'] ?? 0,
-        documentsInInbox = json['documents_inbox'] ?? 0,
-        totalChars = json["character_count"],
-        fileTypeCounts =
-            _parseFileTypeCounts(json['document_file_type_counts']);
-
-  static List<DocumentFileTypeCount> _parseFileTypeCounts(dynamic value) {
-    if (value is List) {
-      return value.map((e) => DocumentFileTypeCount.fromJson(e)).toList();
-    }
-    return [];
-  }
+  factory PaperlessServerStatisticsModel.fromJson(Map<String, dynamic> json) =>
+      _$PaperlessServerStatisticsModelFromJson(json);
 }
 
+@JsonSerializable(createToJson: false)
 class DocumentFileTypeCount {
   final String mimeType;
   final int count;
 
-  DocumentFileTypeCount({
-    required this.mimeType,
-    required this.count,
-  });
+  DocumentFileTypeCount({required this.mimeType, required this.count});
 
-  DocumentFileTypeCount.fromJson(Map<String, dynamic> json)
-      : mimeType = json['mime_type'],
-        count = json['mime_type_count'];
+  factory DocumentFileTypeCount.fromJson(Map<String, dynamic> json) =>
+      _$DocumentFileTypeCountFromJson(json);
 }
