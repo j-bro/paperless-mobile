@@ -33,6 +33,7 @@ openapi-generator generate \
 # Since the generator does not generate const constructor initializers, we have to fix that manually
 grep "= {}" ./lib/generated -lr | xargs sed -i .bak 's/= {}/= const {}/g'
 
+rm -rf ./lib/generated/doc
 fvm dart format ./lib/generated
 cd $BASE_PATH
 fvm dart run build_runner build --delete-conflicting-outputs

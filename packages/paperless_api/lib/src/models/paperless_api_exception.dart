@@ -85,4 +85,9 @@ enum ErrorCode {
   deleteNoteFailed,
   addNoteFailed,
   customFieldUpdateFailed,
+  userCreateError,
+  userUpdateError,
+  userListError,
+  userGetError,
+  userDeleteError,
 }
