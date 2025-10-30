@@ -29,6 +29,7 @@ class SavedViewFilterRuleRequest {
   @JsonKey(name: r'value', required: false, includeIfNull: false)
   final String? value;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is SavedViewFilterRuleRequest &&

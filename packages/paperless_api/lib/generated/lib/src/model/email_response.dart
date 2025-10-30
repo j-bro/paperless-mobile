@@ -23,6 +23,7 @@ class EmailResponse {
   @JsonKey(name: r'message', required: true, includeIfNull: false)
   final String message;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is EmailResponse &&

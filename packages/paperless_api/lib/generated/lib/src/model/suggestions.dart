@@ -45,6 +45,7 @@ class Suggestions {
   @JsonKey(name: r'dates', required: true, includeIfNull: false)
   final List<String> dates;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is Suggestions &&

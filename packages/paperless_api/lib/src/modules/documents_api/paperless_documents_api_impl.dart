@@ -2,9 +2,24 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:paperless_api/generated/lib/src/model/bulk_download.dart';
+import 'package:paperless_api/generated/lib/src/model/bulk_download_request.dart';
+import 'package:paperless_api/generated/lib/src/model/bulk_edit_documents_result.dart';
+import 'package:paperless_api/generated/lib/src/model/bulk_edit_request.dart';
+import 'package:paperless_api/generated/lib/src/model/document.dart';
+import 'package:paperless_api/generated/lib/src/model/document_request.dart';
+import 'package:paperless_api/generated/lib/src/model/metadata.dart';
+import 'package:paperless_api/generated/lib/src/model/paginated_document_list.dart';
+import 'package:paperless_api/generated/lib/src/model/paginated_log_entry_list.dart';
+import 'package:paperless_api/generated/lib/src/model/paginated_notes_list.dart';
+import 'package:paperless_api/generated/lib/src/model/patched_document_request.dart';
+import 'package:paperless_api/generated/lib/src/model/selection_data.dart';
+import 'package:paperless_api/generated/lib/src/model/share_link.dart';
+import 'package:paperless_api/generated/lib/src/model/suggestions.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_api/src/constants.dart';
 import 'package:paperless_api/src/extensions/dio_exception_extension.dart';
+import 'package:paperless_api/src/models/request/document_filter_options.dart';
 
 class PaperlessDocumentsApiImpl implements PaperlessDocumentsApi {
   final Dio client;
@@ -15,13 +30,14 @@ class PaperlessDocumentsApiImpl implements PaperlessDocumentsApi {
   Future<String?> create(
     Uint8List documentBytes, {
     required String filename,
-    required String title,
-    String contentType = 'application/octet-stream',
+    String? title,
     DateTime? createdAt,
     int? documentType,
     int? correspondent,
+    int? storagePath,
+    Iterable<int> customFields = const [],
     Iterable<int> tags = const [],
-    int? asn,
+    int? archiveSerialNumber,
     void Function(double progress)? onProgressChanged,
   }) async {
     final formData = FormData();
@@ -31,39 +47,35 @@ class PaperlessDocumentsApiImpl implements PaperlessDocumentsApi {
         MultipartFile.fromBytes(documentBytes, filename: filename),
       ),
     );
-    formData.fields.add(MapEntry('title', title));
 
-    if (createdAt != null) {
-      formData.fields.add(
+    formData.fields.addAll([
+      if (title != null) MapEntry('title', title),
+      if (storagePath != null)
+        MapEntry('storage_path', jsonEncode(storagePath)),
+      if (createdAt != null)
         MapEntry('created', apiDateFormat.format(createdAt)),
-      );
-    }
-    if (correspondent != null) {
-      formData.fields.add(MapEntry('correspondent', jsonEncode(correspondent)));
-    }
-    if (documentType != null) {
-      formData.fields.add(MapEntry('document_type', jsonEncode(documentType)));
-    }
-    if (asn != null) {
-      formData.fields.add(MapEntry('archive_serial_number', jsonEncode(asn)));
-    }
-    for (final tag in tags) {
-      formData.fields.add(MapEntry('tags', tag.toString()));
-    }
+      if (correspondent != null)
+        MapEntry('correspondent', jsonEncode(correspondent)),
+      if (documentType != null)
+        MapEntry('document_type', jsonEncode(documentType)),
+      if (storagePath != null)
+        MapEntry('storage_path', jsonEncode(storagePath)),
+      if (archiveSerialNumber != null)
+        MapEntry('archive_serial_number', jsonEncode(archiveSerialNumber)),
+      for (final tag in tags) MapEntry('tags', tag.toString()),
+      for (final field in customFields)
+        MapEntry('custom_fields', field.toString()),
+    ]);
+
     try {
-      final response = await client.post(
+      final response = await client.post<String>(
         '/api/documents/post_document/',
         data: formData,
         onSendProgress: (count, total) {
           onProgressChanged?.call(count.toDouble() / total.toDouble());
         },
-        options: Options(validateStatus: (status) => status == 200),
       );
-      if (response.data != "OK") {
-        return response.data as String;
-      } else {
-        return null;
-      }
+      return response.data;
     } on DioException catch (exception) {
       throw exception.unravel(
         orElse: const PaperlessApiException(ErrorCode.documentUploadFailed),
@@ -72,14 +84,13 @@ class PaperlessDocumentsApiImpl implements PaperlessDocumentsApi {
   }
 
   @override
-  Future<DocumentModel> update(DocumentModel doc) async {
+  Future<Document> put(int id, DocumentRequest request) async {
     try {
       final response = await client.put(
-        "/api/documents/${doc.id}/",
-        data: doc.toJson(),
-        options: Options(validateStatus: (status) => status == 200),
+        "/api/documents/$id/",
+        data: request.toJson(),
       );
-      return DocumentModel.fromJson(response.data);
+      return Document.fromJson(response.data);
     } on DioException catch (exception) {
       throw exception.unravel(
         orElse: const PaperlessApiException(ErrorCode.documentUpdateFailed),
@@ -88,24 +99,30 @@ class PaperlessDocumentsApiImpl implements PaperlessDocumentsApi {
   }
 
   @override
-  Future<PagedSearchResult<DocumentModel>> findAll(
-    DocumentFilter filter,
-  ) async {
-    final filterParams = filter.toQueryParameters()
-      ..addAll({'truncate_content': "true"});
+  Future<Document> patch(int id, PatchedDocumentRequest request) async {
     try {
-      final response = await client.get(
-        "/api/documents/",
-        queryParameters: filterParams,
-        options: Options(validateStatus: (status) => status == 200),
+      final response = await client.patch(
+        "/api/documents/$id/",
+        data: request.toJson(),
       );
-      return compute(
-        PagedSearchResult.fromJsonSingleParam,
-        PagedSearchResultJsonSerializer<DocumentModel>(
-          response.data,
-          DocumentModelJsonConverter(),
-        ),
+      return Document.fromJson(response.data);
+    } on DioException catch (exception) {
+      throw exception.unravel(
+        orElse: const PaperlessApiException(ErrorCode.documentUpdateFailed),
       );
+    }
+  }
+
+  @override
+  Future<PaginatedDocumentList> getAll([DocumentFilterOptions? options]) async {
+    final filterParams = options?.toJson() ?? {}
+      ..putIfAbsent('truncate_content', () => "true");
+    try {
+      return client.get("/api/documents/", queryParameters: filterParams).then((
+        response,
+      ) {
+        return PaginatedDocumentList.fromJson(response.data);
+      });
     } on DioException catch (exception) {
       throw exception.unravel(
         orElse: PaperlessApiException(
@@ -117,14 +134,11 @@ class PaperlessDocumentsApiImpl implements PaperlessDocumentsApi {
   }
 
   @override
-  Future<int> delete(DocumentModel doc) async {
+  Future<int> delete(int id) async {
     try {
-      await client.delete(
-        "/api/documents/${doc.id}/",
-        options: Options(validateStatus: (status) => status == 204),
-      );
+      await client.delete("/api/documents/$id/");
 
-      return Future.value(doc.id);
+      return Future.value(id);
     } on DioException catch (exception) {
       throw exception.unravel(
         orElse: const PaperlessApiException(ErrorCode.documentDeleteFailed),
@@ -137,6 +151,7 @@ class PaperlessDocumentsApiImpl implements PaperlessDocumentsApi {
     return "/api/documents/$documentId/thumb/";
   }
 
+  @override
   String getPreviewUrl(int documentId) {
     return "/api/documents/$documentId/preview/";
   }
@@ -146,10 +161,7 @@ class PaperlessDocumentsApiImpl implements PaperlessDocumentsApi {
     try {
       final response = await client.get(
         getPreviewUrl(documentId),
-        options: Options(
-          responseType: ResponseType.bytes,
-          validateStatus: (status) => status == 200,
-        ), //TODO: Check if bytes or stream is required
+        options: Options(responseType: ResponseType.bytes),
       );
       return response.data;
     } on DioException catch (exception) {
@@ -160,20 +172,10 @@ class PaperlessDocumentsApiImpl implements PaperlessDocumentsApi {
   }
 
   @override
-  Future<int> findNextAsn() async {
-    const DocumentFilter asnQueryFilter = DocumentFilter(
-      sortField: SortField.archiveSerialNumber,
-      sortOrder: SortOrder.descending,
-      asnQuery: AnyAssignedIdQueryParameter(),
-      page: 1,
-      pageSize: 1,
-    );
+  Future<int> getNextAsn() async {
     try {
-      final result = await findAll(asnQueryFilter);
-      return result.results
-              .map((e) => e.archiveSerialNumber)
-              .firstWhere((asn) => asn != null, orElse: () => 0)! +
-          1;
+      final response = await client.get<int>("/api/documents/next_asn/");
+      return response.data!;
     } on PaperlessApiException {
       throw const PaperlessApiException(ErrorCode.documentAsnQueryFailed);
     } on DioException catch (exception) {
@@ -184,28 +186,19 @@ class PaperlessDocumentsApiImpl implements PaperlessDocumentsApi {
   }
 
   @override
-  Future<Iterable<int>> bulkAction(BulkAction action) async {
+  Future<Iterable<int>> bulkAction(BulkEditRequest action) async {
     try {
-      await client.post(
-        "/api/documents/bulk_edit/",
-        data: action.toJson(),
-        options: Options(validateStatus: (status) => status == 200),
-      );
-      return action.documentIds;
+      await client.post("/api/documents/bulk_edit/", data: action.toJson());
+      return action.documents;
     } on DioException catch (exception) {
       throw exception.unravel(
-        orElse: const PaperlessApiException(
-          ErrorCode.documentBulkActionFailed,
-        ),
+        orElse: const PaperlessApiException(ErrorCode.documentBulkActionFailed),
       );
     }
   }
 
   @override
-  Future<Uint8List> downloadDocument(
-    int id, {
-    bool original = false,
-  }) async {
+  Future<Uint8List> downloadDocument(int id, {bool original = false}) async {
     try {
       final response = await client.get(
         "/api/documents/$id/download/",
@@ -214,9 +207,7 @@ class PaperlessDocumentsApiImpl implements PaperlessDocumentsApi {
       );
       return response.data;
     } on DioException catch (exception) {
-      throw exception.unravel(
-        orElse: const PaperlessApiException.unknown(),
-      );
+      throw exception.unravel(orElse: const PaperlessApiException.unknown());
     }
   }
 
@@ -228,23 +219,20 @@ class PaperlessDocumentsApiImpl implements PaperlessDocumentsApi {
     void Function(double)? onProgressChanged,
   }) async {
     try {
-      final response = await client.download(
+      await client.download(
         "/api/documents/$id/download/",
         localFilePath,
         onReceiveProgress: (count, total) =>
             onProgressChanged?.call(count / total),
         queryParameters: {'original': original},
       );
-      return response.data;
     } on DioException catch (exception) {
-      throw exception.unravel(
-        orElse: const PaperlessApiException.unknown(),
-      );
+      throw exception.unravel(orElse: const PaperlessApiException.unknown());
     }
   }
 
   @override
-  Future<DocumentMetaData> getMetaData(int id) async {
+  Future<Metadata> getMetaData(int id) async {
     debugPrint("Fetching data for /api/documents/$id/metadata/...");
 
     try {
@@ -255,85 +243,37 @@ class PaperlessDocumentsApiImpl implements PaperlessDocumentsApi {
           receiveTimeout: Duration(seconds: 10),
         ),
       );
-      debugPrint("Fetched data for /api/documents/$id/metadata/.");
 
-      return DocumentMetaData.fromJson(response.data);
+      return Metadata.fromJson(response.data);
     } on DioException catch (exception) {
-      throw exception.unravel(
-        orElse: const PaperlessApiException.unknown(),
-      );
+      throw exception.unravel(orElse: const PaperlessApiException.unknown());
     }
   }
 
   @override
-  Future<List<String>> autocomplete(String query, [int limit = 10]) async {
-    try {
-      final response = await client.get(
-        '/api/search/autocomplete/',
-        queryParameters: {
-          'term': query,
-          'limit': limit,
-        },
-        options: Options(validateStatus: (status) => status == 200),
-      );
-      return (response.data as List).cast<String>();
-    } on DioException catch (exception) {
-      throw exception.unravel(
-        orElse: const PaperlessApiException(
-          ErrorCode.autocompleteQueryError,
-        ),
-      );
-    }
-  }
-
-  @override
-  Future<FieldSuggestions> findSuggestions(DocumentModel document) async {
-    try {
-      final response = await client.get(
-        "/api/documents/${document.id}/suggestions/",
-        options: Options(validateStatus: (status) => status == 200),
-      );
-      return FieldSuggestions.fromJson(response.data)
-          .forDocumentId(document.id);
-    } on DioException catch (exception) {
-      throw exception.unravel(
-        orElse: const PaperlessApiException(ErrorCode.suggestionsQueryError),
-      );
-    }
-  }
-
-  @override
-  Future<DocumentModel> find(int id) async {
-    debugPrint("Fetching data from /api/documents/$id/...");
+  Future<Document> get(int id, {List<String>? fields, bool? fullPerms}) async {
     try {
       final response = await client.get(
         "/api/documents/$id/",
         options: Options(
-          validateStatus: (status) => status == 200,
           sendTimeout: Duration(seconds: 10),
           receiveTimeout: Duration(seconds: 10),
         ),
       );
-      debugPrint("Fetched data for /api/documents/$id/.");
-      return DocumentModel.fromJson(response.data);
+      return Document.fromJson(response.data);
     } on DioException catch (exception) {
-      throw exception.unravel(
-        orElse: const PaperlessApiException.unknown(),
-      );
+      throw exception.unravel(orElse: const PaperlessApiException.unknown());
     }
   }
 
   @override
-  Future<DocumentModel> deleteNote(DocumentModel document, int noteId) async {
+  Future<PaginatedNotesList> deleteNote(int documentId, int noteId) async {
     try {
       final response = await client.delete(
-        "/api/documents/${document.id}/notes/?id=$noteId",
-        options: Options(validateStatus: (status) => status == 200),
+        "/api/documents/$documentId/notes/",
+        queryParameters: {'id': noteId},
       );
-      final notes =
-          (response.data as List).map((e) => NoteModel.fromJson(e)).toList();
-
-      return document.copyWith(notes: notes);
+      return PaginatedNotesList.fromJson(response.data);
     } on DioException catch (exception) {
       throw exception.unravel(
         orElse: const PaperlessApiException(ErrorCode.deleteNoteFailed),
@@ -342,25 +282,120 @@ class PaperlessDocumentsApiImpl implements PaperlessDocumentsApi {
   }
 
   @override
-  Future<DocumentModel> addNote({
-    required DocumentModel document,
-    required String text,
-  }) async {
+  Future<PaginatedNotesList> addNote(int documentId, String text) async {
     try {
       final response = await client.post(
-        "/api/documents/${document.id}/notes/",
-        options: Options(validateStatus: (status) => status == 200),
+        "/api/documents/$documentId/notes/",
         data: {'note': text},
       );
-
-      final notes =
-          (response.data as List).map((e) => NoteModel.fromJson(e)).toList();
-
-      return document.copyWith(notes: notes);
+      return PaginatedNotesList.fromJson(response.data);
     } on DioException catch (exception) {
       throw exception.unravel(
         orElse: const PaperlessApiException(ErrorCode.addNoteFailed),
       );
+    }
+  }
+
+  @override
+  Future<BulkDownload> bulkDownload(BulkDownloadRequest request) async {
+    try {
+      final response = await client.post(
+        "/api/documents/bulk_download/",
+        data: request.toJson(),
+      );
+      return BulkDownload.fromJson(response.data);
+    } on DioException catch (exception) {
+      throw exception.unravel(
+        orElse: const PaperlessApiException(ErrorCode.bulkDownloadFailed),
+      );
+    }
+  }
+
+  @override
+  Future<BulkEditDocumentsResult> bulkEditDocuments(
+    BulkEditRequest request,
+  ) async {
+    try {
+      final response = await client.post(
+        "/api/documents/bulk_edit/",
+        data: request.toJson(),
+      );
+      return BulkEditDocumentsResult.fromJson(response.data);
+    } on DioException catch (exception) {
+      throw exception.unravel(
+        orElse: const PaperlessApiException(ErrorCode.bulkEditDocumentsFailed),
+      );
+    }
+  }
+
+  @override
+  Future<Suggestions> getFieldSuggestions(int documentId) async {
+    try {
+      final response = await client.get(
+        "/api/documents/$documentId/suggestions/",
+      );
+      return Suggestions.fromJson(response.data);
+    } on DioException catch (exception) {
+      throw exception.unravel(orElse: const PaperlessApiException.unknown());
+    }
+  }
+
+  @override
+  Future<PaginatedLogEntryList> getLogs(
+    int id, {
+    int? page,
+    int? pageSize,
+  }) async {
+    try {
+      final response = await client.get(
+        "/api/documents/$id/logs/",
+        queryParameters: {'page': page, 'page_size': pageSize},
+      );
+      return PaginatedLogEntryList.fromJson(response.data);
+    } on DioException catch (exception) {
+      throw exception.unravel(orElse: const PaperlessApiException.unknown());
+    }
+  }
+
+  @override
+  Future<PaginatedNotesList> getNotes(
+    int id, {
+    int? page,
+    int? pageSize,
+  }) async {
+    try {
+      final response = await client.get(
+        "/api/documents/$id/notes/",
+        queryParameters: {'page': page, 'page_size': pageSize},
+      );
+      return PaginatedNotesList.fromJson(response.data);
+    } on DioException catch (exception) {
+      throw exception.unravel(orElse: const PaperlessApiException.unknown());
+    }
+  }
+
+  @override
+  Future<SelectionData> getSelectionData(Iterable<int> documentIds) async {
+    try {
+      final response = await client.post(
+        "/api/documents/selection_data/",
+        data: {'document_ids': documentIds.toList()},
+      );
+      return SelectionData.fromJson(response.data);
+    } on DioException catch (exception) {
+      throw exception.unravel(orElse: const PaperlessApiException.unknown());
+    }
+  }
+
+  @override
+  Future<Iterable<ShareLink>> getShareLinks(int documentId) async {
+    try {
+      final response = await client.get<List<dynamic>>(
+        "/api/documents/$documentId/share_links/",
+      );
+      return response.data?.map((e) => ShareLink.fromJson(e)) ?? [];
+    } on DioException catch (exception) {
+      throw exception.unravel(orElse: const PaperlessApiException.unknown());
     }
   }
 }

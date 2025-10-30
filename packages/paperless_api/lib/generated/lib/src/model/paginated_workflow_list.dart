@@ -46,6 +46,7 @@ class PaginatedWorkflowList {
   @JsonKey(name: r'all', required: false, includeIfNull: false)
   final List<int>? all;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is PaginatedWorkflowList &&

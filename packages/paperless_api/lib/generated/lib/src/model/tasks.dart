@@ -40,6 +40,7 @@ class Tasks {
   @JsonKey(name: r'celery_status', required: true, includeIfNull: false)
   final String celeryStatus;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is Tasks &&

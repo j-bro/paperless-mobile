@@ -23,6 +23,7 @@ class AcknowledgeTasks {
   @JsonKey(name: r'result', required: true, includeIfNull: false)
   final int result;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is AcknowledgeTasks &&

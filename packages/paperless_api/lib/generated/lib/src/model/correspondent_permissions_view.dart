@@ -26,6 +26,7 @@ class CorrespondentPermissionsView {
   @JsonKey(name: r'groups', required: false, includeIfNull: false)
   final List<int>? groups;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is CorrespondentPermissionsView &&

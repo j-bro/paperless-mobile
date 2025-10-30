@@ -55,6 +55,7 @@ class UiSettingsViewUser {
   @JsonKey(name: r'is_superuser', required: false, includeIfNull: false)
   final bool? isSuperuser;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is UiSettingsViewUser &&

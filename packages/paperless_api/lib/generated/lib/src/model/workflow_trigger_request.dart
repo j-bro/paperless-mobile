@@ -141,6 +141,7 @@ class WorkflowTriggerRequest {
   )
   final int? scheduleDateCustomField;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is WorkflowTriggerRequest &&

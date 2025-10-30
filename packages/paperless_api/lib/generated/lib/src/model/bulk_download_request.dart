@@ -57,6 +57,7 @@ class BulkDownloadRequest {
   )
   final bool? followFormatting;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is BulkDownloadRequest &&

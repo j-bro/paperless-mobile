@@ -79,6 +79,7 @@ class Correspondent {
   @JsonKey(name: r'user_can_change', required: true, includeIfNull: false)
   final bool userCanChange;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is Correspondent &&

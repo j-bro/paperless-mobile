@@ -27,6 +27,7 @@ class TrashRequest {
   @JsonKey(name: r'action', required: true, includeIfNull: false)
   final TrashActionEnum action;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is TrashRequest &&

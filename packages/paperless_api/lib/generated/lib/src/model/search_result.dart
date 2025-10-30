@@ -97,6 +97,7 @@ class SearchResult {
   @JsonKey(name: r'custom_fields', required: true, includeIfNull: false)
   final List<CustomField> customFields;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is SearchResult &&

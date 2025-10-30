@@ -26,6 +26,7 @@ class ProfileTotpCreateRequest {
   @JsonKey(name: r'code', required: true, includeIfNull: false)
   final String code;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is ProfileTotpCreateRequest &&

@@ -90,4 +90,6 @@ enum ErrorCode {
   userListError,
   userGetError,
   userDeleteError,
+  bulkDownloadFailed,
+  bulkEditDocumentsFailed,
 }

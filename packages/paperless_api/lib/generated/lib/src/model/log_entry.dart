@@ -46,6 +46,7 @@ class LogEntry {
   @JsonKey(name: r'actor', required: true, includeIfNull: false)
   final Actor actor;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is LogEntry &&

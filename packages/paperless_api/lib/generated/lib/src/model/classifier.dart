@@ -35,6 +35,7 @@ class Classifier {
   @JsonKey(name: r'last_trained', required: true, includeIfNull: false)
   final DateTime lastTrained;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is Classifier &&

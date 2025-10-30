@@ -23,6 +23,7 @@ class DocumentListRequest {
   @JsonKey(name: r'documents', required: true, includeIfNull: false)
   final List<int> documents;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is DocumentListRequest &&

@@ -23,6 +23,7 @@ class ProfileDisconnectSocialAccountCreateRequest {
   @JsonKey(name: r'id', required: true, includeIfNull: false)
   final int id;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is ProfileDisconnectSocialAccountCreateRequest &&

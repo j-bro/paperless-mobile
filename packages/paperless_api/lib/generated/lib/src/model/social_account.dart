@@ -29,6 +29,7 @@ class SocialAccount {
   @JsonKey(name: r'name', required: true, includeIfNull: false)
   final String name;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is SocialAccount &&

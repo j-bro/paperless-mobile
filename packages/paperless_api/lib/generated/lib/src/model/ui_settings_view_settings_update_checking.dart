@@ -23,6 +23,7 @@ class UiSettingsViewSettingsUpdateChecking {
   @JsonKey(name: r'backend_setting', required: false, includeIfNull: false)
   final String? backendSetting;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is UiSettingsViewSettingsUpdateChecking &&

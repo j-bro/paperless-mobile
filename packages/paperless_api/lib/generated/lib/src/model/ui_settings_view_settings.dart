@@ -61,6 +61,7 @@ class UiSettingsViewSettings {
   @JsonKey(name: r'auditlog_enabled', required: false, includeIfNull: false)
   final bool? auditlogEnabled;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is UiSettingsViewSettings &&

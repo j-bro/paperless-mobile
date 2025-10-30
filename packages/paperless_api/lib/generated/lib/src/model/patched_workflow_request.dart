@@ -47,6 +47,7 @@ class PatchedWorkflowRequest {
   @JsonKey(name: r'actions', required: false, includeIfNull: false)
   final List<WorkflowActionRequest>? actions;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is PatchedWorkflowRequest &&

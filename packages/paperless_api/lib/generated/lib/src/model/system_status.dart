@@ -71,6 +71,7 @@ class SystemStatus {
   @JsonKey(name: r'sanity_check', required: true, includeIfNull: false)
   final SanityCheck sanityCheck;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is SystemStatus &&

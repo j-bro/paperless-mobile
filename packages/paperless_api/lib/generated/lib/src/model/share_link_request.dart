@@ -30,6 +30,7 @@ class ShareLinkRequest {
   @JsonKey(name: r'file_version', required: false, includeIfNull: false)
   final FileVersionEnum? fileVersion;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is ShareLinkRequest &&

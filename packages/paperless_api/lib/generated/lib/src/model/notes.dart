@@ -34,6 +34,7 @@ class Notes {
   @JsonKey(name: r'user', required: true, includeIfNull: false)
   final BasicUser user;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is Notes &&

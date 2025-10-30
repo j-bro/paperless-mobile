@@ -27,6 +27,7 @@ class CustomFieldInstanceRequest {
   @JsonKey(name: r'field', required: true, includeIfNull: false)
   final int field;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is CustomFieldInstanceRequest &&

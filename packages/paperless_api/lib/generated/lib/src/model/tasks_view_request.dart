@@ -81,6 +81,7 @@ class TasksViewRequest {
   @JsonKey(name: r'owner', required: false, includeIfNull: false)
   final int? owner;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is TasksViewRequest &&

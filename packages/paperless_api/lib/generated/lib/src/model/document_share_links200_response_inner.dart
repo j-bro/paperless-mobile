@@ -40,6 +40,7 @@ class DocumentShareLinks200ResponseInner {
   @JsonKey(name: r'slug', required: false, includeIfNull: false)
   final String? slug;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is DocumentShareLinks200ResponseInner &&

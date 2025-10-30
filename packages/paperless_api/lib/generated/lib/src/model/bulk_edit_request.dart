@@ -41,6 +41,7 @@ class BulkEditRequest {
   )
   final Map<String, Object>? parameters;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is BulkEditRequest &&

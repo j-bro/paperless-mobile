@@ -84,6 +84,7 @@ class Metadata {
   @JsonKey(name: r'lang', required: true, includeIfNull: false)
   final String lang;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is Metadata &&

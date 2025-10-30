@@ -23,6 +23,7 @@ class NoteCreateRequestRequest {
   @JsonKey(name: r'note', required: true, includeIfNull: false)
   final String note;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is NoteCreateRequestRequest &&

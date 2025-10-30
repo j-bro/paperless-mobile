@@ -31,6 +31,7 @@ class PatchedCustomFieldRequest {
   @JsonKey(name: r'extra_data', required: false, includeIfNull: false)
   final Object? extraData;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is PatchedCustomFieldRequest &&

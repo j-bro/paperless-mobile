@@ -28,6 +28,7 @@ class MailAccountProcessResponse {
   )
   final String? result;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is MailAccountProcessResponse &&

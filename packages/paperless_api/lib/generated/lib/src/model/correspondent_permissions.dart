@@ -27,6 +27,7 @@ class CorrespondentPermissions {
   @JsonKey(name: r'change', required: false, includeIfNull: false)
   final CorrespondentPermissionsView? change;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is CorrespondentPermissions &&

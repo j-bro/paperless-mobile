@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:paperless_api/generated/lib/src/model/patched_user_request.dart';
+import 'package:paperless_api/generated/lib/src/model/ui_settings_view.dart';
 import 'package:paperless_api/generated/lib/src/model/user.dart';
 import 'package:paperless_api/generated/lib/src/model/user_request.dart';
 import 'package:paperless_api/paperless_api.dart';
@@ -45,8 +46,31 @@ class PaperlessUserApiImpl extends PaperlessUserApi
   ErrorCode get putErrorCode => ErrorCode.userUpdateError;
 
   @override
-  Future<User> getCurrentUser() {
-    // TODO: implement getCurrentUser
-    throw UnimplementedError();
+  Future<User?> getCurrentUser() async {
+    final response = await client.get<Map<String, dynamic>>(
+      '/api/ui_settings/',
+    );
+    final uiSettings = UiSettingsView.fromJson(response.data!);
+    if (uiSettings.user?.id == null) {
+      throw PaperlessApiException(
+        ErrorCode.userGetError,
+        details: "Could not retrieve current user from UI settings.",
+      );
+    }
+    return get(uiSettings.user!.id!);
+  }
+
+  @override
+  Future<String> deactivateTotp(int id) {
+    try {
+      return client
+          .post<Map<String, dynamic>>('/api/users/$id/deactivate_totp/')
+          .then((response) => response.data!['detail'] as String);
+    } catch (e) {
+      throw PaperlessApiException(
+        ErrorCode.userUpdateError,
+        details: "Could not deactivate TOTP for user with id $id: $e",
+      );
+    }
   }
 }

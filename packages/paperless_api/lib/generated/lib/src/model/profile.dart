@@ -61,6 +61,7 @@ class Profile {
   @JsonKey(name: r'is_mfa_enabled', required: true, includeIfNull: false)
   final bool isMfaEnabled;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is Profile &&

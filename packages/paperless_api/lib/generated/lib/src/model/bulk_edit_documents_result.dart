@@ -23,6 +23,7 @@ class BulkEditDocumentsResult {
   @JsonKey(name: r'result', required: true, includeIfNull: false)
   final String result;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is BulkEditDocumentsResult &&

@@ -35,7 +35,6 @@ class PaperlessApiHiveTypeIds {
 }
 
 void registerPaperlessApiHiveTypeAdapters() {
-  Hive.registerAdapter(DocumentFilterAdapter());
   // TagsQuery
   Hive.registerAdapter(AnyAssignedTagsQueryAdapter());
   Hive.registerAdapter(NotAssignedTagsQueryAdapter());
@@ -43,10 +42,7 @@ void registerPaperlessApiHiveTypeAdapters() {
 
   Hive.registerAdapter(SortFieldAdapter());
   Hive.registerAdapter(SortOrderAdapter());
-  Hive.registerAdapter(AbsoluteDateRangeQueryAdapter());
-  Hive.registerAdapter(RelativeDateRangeQueryAdapter());
   Hive.registerAdapter(DateRangeUnitAdapter());
-  Hive.registerAdapter(UnsetDateRangeQueryAdapter());
   Hive.registerAdapter(TextQueryAdapter());
   Hive.registerAdapter(QueryTypeAdapter());
   // IdQueryParameter
@@ -55,6 +51,5 @@ void registerPaperlessApiHiveTypeAdapters() {
   Hive.registerAdapter(AnyAssignedIdQueryParameterAdapter());
   Hive.registerAdapter(NotAssignedIdQueryParameterAdapter());
   // Users and permissions
-  Hive.registerAdapter(GroupModelAdapter());
   Hive.registerAdapter(PermissionsAdapter());
 }

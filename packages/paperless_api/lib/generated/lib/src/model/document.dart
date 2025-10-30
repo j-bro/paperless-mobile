@@ -151,6 +151,7 @@ class Document {
   @JsonKey(name: r'mime_type', required: true, includeIfNull: false)
   final String mimeType;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is Document &&

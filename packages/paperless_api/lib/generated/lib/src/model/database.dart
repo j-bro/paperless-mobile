@@ -46,6 +46,7 @@ class Database {
   @JsonKey(name: r'migration_status', required: true, includeIfNull: false)
   final MigrationStatus migrationStatus;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is Database &&

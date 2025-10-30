@@ -30,6 +30,7 @@ class MigrationStatus {
   @JsonKey(name: r'unapplied_migrations', required: true, includeIfNull: false)
   final List<String> unappliedMigrations;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is MigrationStatus &&

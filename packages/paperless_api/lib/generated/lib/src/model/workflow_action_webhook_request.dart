@@ -64,6 +64,7 @@ class WorkflowActionWebhookRequest {
   @JsonKey(name: r'include_document', required: false, includeIfNull: false)
   final bool? includeDocument;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is WorkflowActionWebhookRequest &&

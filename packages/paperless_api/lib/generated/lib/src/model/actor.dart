@@ -26,6 +26,7 @@ class Actor {
   @JsonKey(name: r'username', required: true, includeIfNull: false)
   final String username;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is Actor &&

@@ -80,6 +80,7 @@ class UserRequest {
   @JsonKey(name: r'user_permissions', required: false, includeIfNull: false)
   final List<String>? userPermissions;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is UserRequest &&

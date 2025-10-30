@@ -106,6 +106,7 @@ class PatchedDocumentRequest {
   )
   final bool? removeInboxTags;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is PatchedDocumentRequest &&

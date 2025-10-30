@@ -45,6 +45,7 @@ class EmailRequestRequest {
   )
   final bool? useArchiveVersion;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is EmailRequestRequest &&

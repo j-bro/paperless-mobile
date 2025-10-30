@@ -35,6 +35,7 @@ class Index {
   @JsonKey(name: r'last_modified', required: true, includeIfNull: false)
   final DateTime lastModified;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is Index &&

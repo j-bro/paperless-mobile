@@ -35,6 +35,7 @@ class PaperlessAuthTokenRequest {
   @JsonKey(name: r'code', required: false, includeIfNull: false)
   final String? code;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is PaperlessAuthTokenRequest &&

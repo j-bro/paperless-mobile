@@ -66,6 +66,7 @@ class SelectionData {
   )
   final List<CustomFieldCounts> selectedCustomFields;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is SelectionData &&

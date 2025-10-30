@@ -65,6 +65,7 @@ class PatchedTagRequest {
   @JsonKey(name: r'set_permissions', required: false, includeIfNull: false)
   final CorrespondentRequestSetPermissions? setPermissions;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is PatchedTagRequest &&

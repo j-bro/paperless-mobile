@@ -40,6 +40,7 @@ class PatchedProfileRequest {
   @JsonKey(name: r'last_name', required: false, includeIfNull: false)
   final String? lastName;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is PatchedProfileRequest &&

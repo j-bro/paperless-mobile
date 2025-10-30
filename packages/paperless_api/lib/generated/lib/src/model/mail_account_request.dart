@@ -92,6 +92,7 @@ class MailAccountRequest {
   @JsonKey(name: r'expiration', required: false, includeIfNull: false)
   final DateTime? expiration;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is MailAccountRequest &&

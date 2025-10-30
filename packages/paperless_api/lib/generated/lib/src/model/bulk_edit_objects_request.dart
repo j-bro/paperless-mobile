@@ -57,6 +57,7 @@ class BulkEditObjectsRequest {
   )
   final bool? merge;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is BulkEditObjectsRequest &&

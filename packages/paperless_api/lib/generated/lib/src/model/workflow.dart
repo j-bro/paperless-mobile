@@ -52,6 +52,7 @@ class Workflow {
   @JsonKey(name: r'actions', required: true, includeIfNull: false)
   final List<WorkflowAction> actions;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is Workflow &&

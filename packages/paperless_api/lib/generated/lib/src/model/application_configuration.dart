@@ -187,6 +187,7 @@ class ApplicationConfiguration {
   @JsonKey(name: r'barcode_enable_tag', required: false, includeIfNull: false)
   final bool? barcodeEnableTag;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is ApplicationConfiguration &&

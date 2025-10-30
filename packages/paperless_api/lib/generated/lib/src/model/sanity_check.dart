@@ -35,6 +35,7 @@ class SanityCheck {
   @JsonKey(name: r'last_run', required: true, includeIfNull: false)
   final DateTime lastRun;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is SanityCheck &&

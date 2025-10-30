@@ -26,6 +26,7 @@ class GroupRequest {
   @JsonKey(name: r'permissions', required: true, includeIfNull: false)
   final List<String> permissions;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is GroupRequest &&

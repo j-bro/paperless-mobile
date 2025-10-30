@@ -224,6 +224,7 @@ class WorkflowActionRequest {
   @JsonKey(name: r'webhook', required: false, includeIfNull: false)
   final WorkflowActionWebhookRequest? webhook;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is WorkflowActionRequest &&

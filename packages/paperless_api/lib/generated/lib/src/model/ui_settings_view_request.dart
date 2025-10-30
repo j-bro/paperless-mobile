@@ -23,6 +23,7 @@ class UiSettingsViewRequest {
   @JsonKey(name: r'settings', required: false, includeIfNull: false)
   final Map<String, Object>? settings;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is UiSettingsViewRequest &&

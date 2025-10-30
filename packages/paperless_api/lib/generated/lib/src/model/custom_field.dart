@@ -47,6 +47,7 @@ class CustomField {
   @JsonKey(name: r'document_count', required: true, includeIfNull: false)
   final int documentCount;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is CustomField &&

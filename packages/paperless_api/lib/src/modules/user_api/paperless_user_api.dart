@@ -6,5 +6,6 @@ import 'package:paperless_api/src/modules/crud_api.dart';
 
 abstract class PaperlessUserApi
     extends CrudApi<User, UserRequest, PatchedUserRequest, UserFilterOptions> {
-  Future<User> getCurrentUser();
+  Future<User?> getCurrentUser();
+  Future<String> deactivateTotp(int id);
 }

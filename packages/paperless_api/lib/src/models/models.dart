@@ -1,9 +1,4 @@
-export 'bulk_edit_model.dart';
 export 'document_filter.dart';
-export 'document_meta_data_model.dart';
-export 'document_model.dart';
-export 'field_suggestions.dart';
-export 'group_model.dart';
 export 'labels/label_model.dart';
 export 'labels/matching_algorithm.dart';
 export 'paged_search_result.dart';

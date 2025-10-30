@@ -27,6 +27,7 @@ class NotesRequest {
   @JsonKey(name: r'created', required: false, includeIfNull: false)
   final DateTime? created;
 
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is NotesRequest &&
