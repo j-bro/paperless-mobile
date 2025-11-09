@@ -5,7 +5,7 @@ import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/constants.dart';
 import 'package:paperless_mobile/core/database/hive/hive_config.dart';
-import 'package:paperless_mobile/core/database/tables/global_settings.dart';
+import 'package:paperless_mobile/core/store/slices/global_settings.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/features/document_details/cubit/document_details_cubit.dart';
 import 'package:paperless_mobile/features/document_details/view/dialogs/select_file_type_dialog.dart';
@@ -36,10 +36,8 @@ class _DocumentShareButtonState extends State<DocumentShareButton> {
   @override
   Widget build(BuildContext context) {
     return ConnectivityAwareActionWrapper(
-      offlineBuilder: (context, child) => const IconButton(
-        icon: Icon(Icons.share),
-        onPressed: null,
-      ),
+      offlineBuilder: (context, child) =>
+          const IconButton(icon: Icon(Icons.share), onPressed: null),
       child: IconButton(
         tooltip: S.of(context)!.shareTooltip,
         icon: _isDownloadPending
@@ -58,8 +56,9 @@ class _DocumentShareButtonState extends State<DocumentShareButton> {
 
   Future<void> _onShare(DocumentModel document) async {
     try {
-      final globalSettings =
-          Hive.box<GlobalSettings>(HiveBoxes.globalSettings).getValue()!;
+      final globalSettings = Hive.box<GlobalSettings>(
+        HiveBoxes.globalSettings,
+      ).getValue()!;
       bool original;
 
       switch (globalSettings.defaultShareType) {
@@ -96,8 +95,8 @@ class _DocumentShareButtonState extends State<DocumentShareButton> {
       setState(() => _isDownloadPending = true);
       if (mounted) {
         await context.read<DocumentDetailsCubit>().shareDocument(
-              shareOriginal: original,
-            );
+          shareOriginal: original,
+        );
       }
     } on PaperlessApiException catch (error, stackTrace) {
       if (mounted) showErrorMessage(context, error, stackTrace);

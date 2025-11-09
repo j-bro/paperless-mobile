@@ -1,17 +1,10 @@
-import 'package:hive_ce/hive.dart';
-import 'package:paperless_api/config/hive/hive_type_ids.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-part 'query_type.g.dart';
-
-@HiveType(typeId: PaperlessApiHiveTypeIds.queryType)
+@JsonEnum(valueField: 'queryParam')
 enum QueryType {
-  @HiveField(0)
   title('title__icontains'),
-  @HiveField(1)
   titleAndContent('title_content'),
-  @HiveField(2)
   extended('query'),
-  @HiveField(3)
   asn('asn');
 
   final String queryParam;

@@ -7,8 +7,8 @@ import 'package:hive_ce_flutter/adapters.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/accessibility/accessible_page.dart';
 import 'package:paperless_mobile/core/database/hive/hive_config.dart';
-import 'package:paperless_mobile/core/database/tables/global_settings.dart';
-import 'package:paperless_mobile/core/database/tables/local_user_account.dart';
+import 'package:paperless_mobile/core/store/slices/global_settings.dart';
+import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
 import 'package:paperless_mobile/core/factory/paperless_api_factory.dart';
 import 'package:paperless_mobile/features/home/view/home_shell_widget.dart';
 import 'package:paperless_mobile/features/sharing/cubit/receive_share_cubit.dart';
@@ -32,14 +32,8 @@ part 'authenticated_route.g.dart';
 
 @TypedShellRoute<AuthenticatedRoute>(
   routes: [
-    TypedGoRoute<SettingsRoute>(
-      path: "/settings",
-      name: R.settings,
-    ),
-    TypedGoRoute<UploadQueueRoute>(
-      path: "/upload-queue",
-      name: R.uploadQueue,
-    ),
+    TypedGoRoute<SettingsRoute>(path: "/settings", name: R.settings),
+    TypedGoRoute<UploadQueueRoute>(path: "/upload-queue", name: R.uploadQueue),
     TypedGoRoute<SavedViewsRoute>(
       path: "/saved-views",
       routes: [
@@ -47,20 +41,14 @@ part 'authenticated_route.g.dart';
           path: "create",
           name: R.createSavedView,
         ),
-        TypedGoRoute<EditSavedViewRoute>(
-          path: "edit",
-          name: R.editSavedView,
-        ),
+        TypedGoRoute<EditSavedViewRoute>(path: "edit", name: R.editSavedView),
       ],
     ),
     TypedStatefulShellRoute<ScaffoldShellRoute>(
       branches: [
         TypedStatefulShellBranch<LandingBranch>(
           routes: [
-            TypedGoRoute<LandingRoute>(
-              path: "/landing",
-              name: R.landing,
-            )
+            TypedGoRoute<LandingRoute>(path: "/landing", name: R.landing),
           ],
         ),
         TypedStatefulShellBranch<DocumentsBranch>(
@@ -86,7 +74,7 @@ part 'authenticated_route.g.dart';
                   name: R.documentPreview,
                 ),
               ],
-            )
+            ),
           ],
         ),
         TypedStatefulShellBranch<ScannerBranch>(
@@ -109,10 +97,7 @@ part 'authenticated_route.g.dart';
               path: "/labels",
               name: R.labels,
               routes: [
-                TypedGoRoute<EditLabelRoute>(
-                  path: "edit",
-                  name: R.editLabel,
-                ),
+                TypedGoRoute<EditLabelRoute>(path: "edit", name: R.editLabel),
                 TypedGoRoute<CreateLabelRoute>(
                   path: "create",
                   name: R.createLabel,
@@ -126,12 +111,7 @@ part 'authenticated_route.g.dart';
           ],
         ),
         TypedStatefulShellBranch<InboxBranch>(
-          routes: [
-            TypedGoRoute<InboxRoute>(
-              path: "/inbox",
-              name: R.inbox,
-            )
-          ],
+          routes: [TypedGoRoute<InboxRoute>(path: "/inbox", name: R.inbox)],
         ),
       ],
     ),
@@ -151,28 +131,25 @@ class AuthenticatedRoute extends ShellRouteData {
     return accessiblePlatformPage(
       child: Builder(
         builder: (context) {
-          final currentUserId =
-              Hive.box<GlobalSettings>(HiveBoxes.globalSettings)
-                  .getValue()!
-                  .loggedInUserId;
+          final currentUserId = Hive.box<GlobalSettings>(
+            HiveBoxes.globalSettings,
+          ).getValue()!.loggedInUserId;
           if (currentUserId == null) {
             return const SizedBox.shrink();
           }
-          final authenticatedUser =
-              Hive.box<LocalUserAccount>(HiveBoxes.localUserAccount).get(
-            currentUserId,
-          )!;
+          final authenticatedUser = Hive.box<LocalUserAccount>(
+            HiveBoxes.localUserAccount,
+          ).get(currentUserId)!;
           final apiFactory = context.read<PaperlessApiFactory>();
           return HomeShellWidget(
             localUserId: authenticatedUser.id,
             paperlessApiVersion: authenticatedUser.apiVersion,
             paperlessProviderFactory: apiFactory,
             child: ChangeNotifierProvider(
-              create: (context) => ConsumptionChangeNotifier()
-                ..loadFromConsumptionDirectory(userId: currentUserId),
-              child: EventListenerShell(
-                child: navigator,
-              ),
+              create: (context) =>
+                  ConsumptionChangeNotifier()
+                    ..loadFromConsumptionDirectory(userId: currentUserId),
+              child: EventListenerShell(child: navigator),
             ),
           );
         },

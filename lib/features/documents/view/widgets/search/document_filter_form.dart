@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_mobile/core/database/tables/local_user_account.dart';
+import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/repository/label_repository.dart';
 import 'package:paperless_mobile/core/widgets/form_builder_fields/extended_date_range_form_field/form_builder_extended_date_range_picker.dart';
@@ -29,14 +29,17 @@ class DocumentFilterForm extends StatefulWidget {
     return initialFilter.copyWith(
       correspondent:
           v[DocumentFilterForm.fkCorrespondent] as IdQueryParameter? ??
-              DocumentFilter.initial.correspondent,
-      documentType: v[DocumentFilterForm.fkDocumentType] as IdQueryParameter? ??
+          DocumentFilter.initial.correspondent,
+      documentType:
+          v[DocumentFilterForm.fkDocumentType] as IdQueryParameter? ??
           DocumentFilter.initial.documentType,
-      storagePath: v[DocumentFilterForm.fkStoragePath] as IdQueryParameter? ??
+      storagePath:
+          v[DocumentFilterForm.fkStoragePath] as IdQueryParameter? ??
           DocumentFilter.initial.storagePath,
       tags:
           v[DocumentModel.tagsKey] as TagsQuery? ?? DocumentFilter.initial.tags,
-      query: v[DocumentFilterForm.fkQuery] as TextQuery? ??
+      query:
+          v[DocumentFilterForm.fkQuery] as TextQuery? ??
           DocumentFilter.initial.query,
       created: (v[DocumentFilterForm.fkCreatedAt] as DateRangeQuery),
       added: (v[DocumentFilterForm.fkAddedAt] as DateRangeQuery),
@@ -82,11 +85,7 @@ class _DocumentFilterFormState extends State<DocumentFilterForm> {
         slivers: [
           if (widget.header != null) widget.header!,
           ..._buildFormFieldList(labelRepository),
-          const SliverToBoxAdapter(
-            child: SizedBox(
-              height: 32,
-            ),
-          ),
+          const SliverToBoxAdapter(child: SizedBox(height: 32)),
         ],
       ),
     );
@@ -120,38 +119,34 @@ class _DocumentFilterFormState extends State<DocumentFilterForm> {
         },
         padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       ),
-      _buildCorrespondentFormField(labelRepository.correspondents)
-          .paddedSymmetrically(
-        horizontal: 16,
-        vertical: 4,
-      ),
-      _buildDocumentTypeFormField(labelRepository.documentTypes)
-          .paddedSymmetrically(
-        horizontal: 16,
-        vertical: 4,
-      ),
-      _buildStoragePathFormField(labelRepository.storagePaths)
-          .paddedSymmetrically(
-        horizontal: 16,
-        vertical: 4,
-      ),
-      _buildTagsFormField(labelRepository.tags).paddedSymmetrically(
-        horizontal: 16,
-        vertical: 4,
-      ),
+      _buildCorrespondentFormField(
+        labelRepository.correspondents,
+      ).paddedSymmetrically(horizontal: 16, vertical: 4),
+      _buildDocumentTypeFormField(
+        labelRepository.documentTypes,
+      ).paddedSymmetrically(horizontal: 16, vertical: 4),
+      _buildStoragePathFormField(
+        labelRepository.storagePaths,
+      ).paddedSymmetrically(horizontal: 16, vertical: 4),
+      _buildTagsFormField(
+        labelRepository.tags,
+      ).paddedSymmetrically(horizontal: 16, vertical: 4),
     ].map((e) => SliverToBoxAdapter(child: e)).toList();
   }
 
   void _checkQueryConstraints() {
-    final filter =
-        DocumentFilterForm.assembleFilter(widget.formKey, widget.initialFilter);
+    final filter = DocumentFilterForm.assembleFilter(
+      widget.formKey,
+      widget.initialFilter,
+    );
     if (filter.forceExtendedQuery) {
       setState(() => _allowOnlyExtendedQuery = true);
       final queryField =
           widget.formKey.currentState?.fields[DocumentFilterForm.fkQuery];
       queryField?.didChange(
-        (queryField.value as TextQuery?)
-            ?.copyWith(queryType: QueryType.extended),
+        (queryField.value as TextQuery?)?.copyWith(
+          queryType: QueryType.extended,
+        ),
       );
     } else {
       setState(() => _allowOnlyExtendedQuery = false);
@@ -196,8 +191,10 @@ class _DocumentFilterFormState extends State<DocumentFilterForm> {
       initialValue: widget.initialFilter.storagePath,
       prefixIcon: const Icon(Icons.folder_outlined),
       allowSelectUnassigned: false,
-      canCreateNewLabel:
-          context.watch<LocalUserAccount>().paperlessUser.canCreateStoragePaths,
+      canCreateNewLabel: context
+          .watch<LocalUserAccount>()
+          .paperlessUser
+          .canCreateStoragePaths,
     );
   }
 

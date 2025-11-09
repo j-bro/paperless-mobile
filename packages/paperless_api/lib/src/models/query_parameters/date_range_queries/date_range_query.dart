@@ -10,25 +10,49 @@ import 'date_range_unit.dart';
 
 part 'date_range_query.g.dart';
 
-sealed class DateRangeQuery with EquatableMixin {
+sealed class DateRangeQuery {
   const DateRangeQuery();
 
+  String get type;
   Map<String, String> toQueryParameter(DateRangeQueryField field);
+  Map<String, dynamic> toJson();
+  factory DateRangeQuery.fromJson(Map<String, dynamic> json) {
+    final type = json['type'] as String?;
+    switch (type) {
+      case 'UnsetDateRangeQuery':
+        return const UnsetDateRangeQuery();
+      case 'RelativeDateRangeQuery':
+        return RelativeDateRangeQuery.fromJson(json);
+      case 'AbsoluteDateRangeQuery':
+        return AbsoluteDateRangeQuery.fromJson(json);
+      default:
+        throw UnimplementedError('Unknown DateRangeQuery type: $type');
+    }
+  }
 }
 
+@JsonSerializable(createFactory: false)
 class UnsetDateRangeQuery extends DateRangeQuery {
   const UnsetDateRangeQuery();
+
+  @override
+  @JsonKey(includeToJson: true, includeFromJson: false)
+  final type = 'UnsetDateRangeQuery';
 
   @override
   Map<String, String> toQueryParameter(DateRangeQueryField field) => const {};
 
   @override
-  List<Object?> get props => [];
+  Map<String, dynamic> toJson() => _$UnsetDateRangeQueryToJson(this);
 }
 
 @CopyWith()
 @JsonSerializable()
-class RelativeDateRangeQuery extends DateRangeQuery {
+class RelativeDateRangeQuery extends DateRangeQuery with EquatableMixin {
+  @JsonKey(includeToJson: true, includeFromJson: false)
+  @override
+  final type = 'UnsetDateRangeQuery';
+
   final int offset;
   final DateRangeUnit unit;
 
@@ -58,11 +82,20 @@ class RelativeDateRangeQuery extends DateRangeQuery {
         return Jiffy.now().subtract(years: offset).dateTime;
     }
   }
+
+  @override
+  Map<String, dynamic> toJson() => _$RelativeDateRangeQueryToJson(this);
+  factory RelativeDateRangeQuery.fromJson(Map<String, dynamic> json) =>
+      _$RelativeDateRangeQueryFromJson(json);
 }
 
 @CopyWith()
 @JsonSerializable()
-class AbsoluteDateRangeQuery extends DateRangeQuery {
+class AbsoluteDateRangeQuery extends DateRangeQuery with EquatableMixin {
+  @JsonKey(includeToJson: true, includeFromJson: false)
+  @override
+  final type = 'AbsoluteDateRangeQuery';
+
   @LocalDateTimeJsonConverter()
   final DateTime? after;
 
@@ -94,4 +127,9 @@ class AbsoluteDateRangeQuery extends DateRangeQuery {
     }
     return params;
   }
+
+  @override
+  Map<String, dynamic> toJson() => _$AbsoluteDateRangeQueryToJson(this);
+  factory AbsoluteDateRangeQuery.fromJson(Map<String, dynamic> json) =>
+      _$AbsoluteDateRangeQueryFromJson(json);
 }

@@ -2,8 +2,8 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_ce_flutter/adapters.dart';
 import 'package:paperless_mobile/core/database/hive/hive_config.dart';
-import 'package:paperless_mobile/core/database/tables/local_user_account.dart';
-import 'package:paperless_mobile/core/database/tables/local_user_app_state.dart';
+import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
+import 'package:paperless_mobile/core/store/slices/local_user_app_state.dart';
 import 'package:paperless_mobile/features/document_search/cubit/document_search_cubit.dart';
 import 'package:paperless_mobile/features/document_search/view/document_search_page.dart';
 import 'package:paperless_mobile/features/settings/view/manage_accounts_page.dart';
@@ -53,8 +53,8 @@ class _DocumentSearchBarState extends State<DocumentSearchBar> {
                       children: [
                         IconButton(
                           icon: ListenableBuilder(
-                            listenable:
-                                context.read<ConsumptionChangeNotifier>(),
+                            listenable: context
+                                .read<ConsumptionChangeNotifier>(),
                             builder: (context, child) {
                               return Badge(
                                 isLabelVisible: context
@@ -72,11 +72,11 @@ class _DocumentSearchBarState extends State<DocumentSearchBar> {
                         Flexible(
                           child: Text(
                             S.of(context)!.searchDocuments,
-                            style:
-                                Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                      fontWeight: FontWeight.w500,
-                                      color: Theme.of(context).hintColor,
-                                    ),
+                            style: Theme.of(context).textTheme.bodyLarge
+                                ?.copyWith(
+                                  fontWeight: FontWeight.w500,
+                                  color: Theme.of(context).hintColor,
+                                ),
                           ),
                         ),
                       ],
@@ -94,8 +94,9 @@ class _DocumentSearchBarState extends State<DocumentSearchBar> {
           create: (_) => DocumentSearchCubit(
             context.read(),
             context.read(),
-            Hive.box<LocalUserAppState>(HiveBoxes.localUserAppState)
-                .get(context.read<LocalUserAccount>().id)!,
+            Hive.box<LocalUserAppState>(
+              HiveBoxes.localUserAppState,
+            ).get(context.read<LocalUserAccount>().id)!,
             context.read(),
           ),
           child: const DocumentSearchPage(),

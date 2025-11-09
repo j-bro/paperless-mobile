@@ -84,5 +84,23 @@ String translateError(BuildContext context, ErrorCode code) {
       'Could not delete custom field, please try again.', //TODO: INTL
     ErrorCode.deleteNoteFailed => 'Could not delete note, please try again.',
     ErrorCode.addNoteFailed => 'Could not create note, please try again.',
+    // TODO: Handle this case.
+    ErrorCode.mfaCodeRequired => throw UnimplementedError(),
+    // TODO: Handle this case.
+    ErrorCode.customFieldUpdateFailed => throw UnimplementedError(),
+    // TODO: Handle this case.
+    ErrorCode.userCreateError => throw UnimplementedError(),
+    // TODO: Handle this case.
+    ErrorCode.userUpdateError => throw UnimplementedError(),
+    // TODO: Handle this case.
+    ErrorCode.userListError => throw UnimplementedError(),
+    // TODO: Handle this case.
+    ErrorCode.userGetError => throw UnimplementedError(),
+    // TODO: Handle this case.
+    ErrorCode.userDeleteError => throw UnimplementedError(),
+    // TODO: Handle this case.
+    ErrorCode.bulkDownloadFailed => throw UnimplementedError(),
+    // TODO: Handle this case.
+    ErrorCode.bulkEditDocumentsFailed => throw UnimplementedError(),
   };
 }

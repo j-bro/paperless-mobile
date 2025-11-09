@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:paperless_mobile/core/database/tables/local_user_account.dart';
+import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
 import 'package:paperless_mobile/features/sharing/cubit/receive_share_cubit.dart';
 import 'package:paperless_mobile/features/sharing/view/widgets/file_thumbnail.dart';
 import 'package:paperless_mobile/features/sharing/view/widgets/event_listener_shell.dart';
@@ -53,9 +53,9 @@ class ConsumptionQueueView extends StatelessWidget {
                       avatar: const Icon(Icons.delete),
                       onPressed: () {
                         context.read<ConsumptionChangeNotifier>().discardFile(
-                              file,
-                              userId: currentUser.id,
-                            );
+                          file,
+                          userId: currentUser.id,
+                        );
                       },
                     ),
                   ],

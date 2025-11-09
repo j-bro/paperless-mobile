@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_mobile/core/database/tables/local_user_account.dart';
+import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
 import 'package:paperless_mobile/core/repository/label_repository.dart';
 import 'package:paperless_mobile/core/widgets/highlighted_text.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
@@ -40,8 +40,9 @@ class DocumentOverviewWidget extends StatelessWidget {
             ),
           ).paddedOnly(bottom: itemSpacing),
         DetailsItem.text(
-          DateFormat.yMMMMd(Localizations.localeOf(context).toString())
-              .format(document.created),
+          DateFormat.yMMMMd(
+            Localizations.localeOf(context).toString(),
+          ).format(document.created),
           context: context,
           label: S.of(context)!.createdAt,
         ).paddedOnly(bottom: itemSpacing),
@@ -75,8 +76,9 @@ class DocumentOverviewWidget extends StatelessWidget {
               padding: const EdgeInsets.only(top: 8.0),
               child: TagsWidget(
                 isClickable: false,
-                tags:
-                    document.tags.map((e) => labelRepository.tags[e]!).toList(),
+                tags: document.tags
+                    .map((e) => labelRepository.tags[e]!)
+                    .toList(),
               ),
             ),
           ).paddedOnly(bottom: itemSpacing),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_mobile/core/database/tables/local_user_account.dart';
+import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/features/document_details/view/widgets/archive_serial_number_field.dart';
 import 'package:paperless_mobile/features/document_details/view/widgets/details_item.dart';
@@ -31,14 +31,16 @@ class DocumentMetaDataWidget extends StatelessWidget {
             document: document,
           ).paddedOnly(bottom: itemSpacing),
         DetailsItem.text(
-          DateFormat.yMMMMd(Localizations.localeOf(context).toString())
-              .format(document.modified),
+          DateFormat.yMMMMd(
+            Localizations.localeOf(context).toString(),
+          ).format(document.modified),
           context: context,
           label: S.of(context)!.modifiedAt,
         ).paddedOnly(bottom: itemSpacing),
         DetailsItem.text(
-          DateFormat.yMMMMd(Localizations.localeOf(context).toString())
-              .format(document.added),
+          DateFormat.yMMMMd(
+            Localizations.localeOf(context).toString(),
+          ).format(document.added),
           context: context,
           label: S.of(context)!.addedAt,
         ).paddedOnly(bottom: itemSpacing),

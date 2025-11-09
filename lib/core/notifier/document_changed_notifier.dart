@@ -1,25 +1,25 @@
 import 'dart:async';
 
-import 'package:paperless_api/paperless_api.dart';
+import 'package:paperless_api/generated/lib/src/model/document.dart';
 import 'package:rxdart/subjects.dart';
 
-typedef DocumentChangedCallback = void Function(DocumentModel document);
+typedef DocumentChangedCallback = void Function(Document document);
 
 class DocumentChangedNotifier {
-  final Subject<DocumentModel> _updated = PublishSubject();
-  final Subject<DocumentModel> _deleted = PublishSubject();
+  final Subject<Document> _updated = PublishSubject();
+  final Subject<Document> _deleted = PublishSubject();
 
   final Map<dynamic, List<StreamSubscription>> _subscribers = {};
 
-  Stream<DocumentModel> get $updated => _updated.asBroadcastStream();
+  Stream<Document> get $updated => _updated.asBroadcastStream();
 
-  Stream<DocumentModel> get $deleted => _deleted.asBroadcastStream();
+  Stream<Document> get $deleted => _deleted.asBroadcastStream();
 
-  void notifyUpdated(DocumentModel updated) {
+  void notifyUpdated(Document updated) {
     _updated.add(updated);
   }
 
-  void notifyDeleted(DocumentModel deleted) {
+  void notifyDeleted(Document deleted) {
     _deleted.add(deleted);
   }
 

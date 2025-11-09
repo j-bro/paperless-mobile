@@ -5,8 +5,8 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:hive_ce_flutter/adapters.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/database/hive/hive_config.dart';
-import 'package:paperless_mobile/core/database/tables/global_settings.dart';
-import 'package:paperless_mobile/core/database/tables/local_user_account.dart';
+import 'package:paperless_mobile/core/store/slices/global_settings.dart';
+import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/repository/label_repository.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/date_and_document_type_widget.dart';
@@ -36,16 +36,17 @@ class DocumentDetailedItem extends DocumentItem {
 
   @override
   Widget build(BuildContext context) {
-    final currentUserId = Hive.box<GlobalSettings>(HiveBoxes.globalSettings)
-        .getValue()!
-        .loggedInUserId;
-    final paperlessUser = Hive.box<LocalUserAccount>(HiveBoxes.localUserAccount)
-        .get(currentUserId)!
-        .paperlessUser;
+    final currentUserId = Hive.box<GlobalSettings>(
+      HiveBoxes.globalSettings,
+    ).getValue()!.loggedInUserId;
+    final paperlessUser = Hive.box<LocalUserAccount>(
+      HiveBoxes.localUserAccount,
+    ).get(currentUserId)!.paperlessUser;
     final size = MediaQuery.of(context).size;
     final insets = MediaQuery.of(context).viewInsets;
     final padding = MediaQuery.of(context).viewPadding;
-    final availableHeight = size.height -
+    final availableHeight =
+        size.height -
         insets.top -
         insets.bottom -
         padding.top -
@@ -103,8 +104,8 @@ class DocumentDetailedItem extends DocumentItem {
               CorrespondentWidget(
                 onSelected: onCorrespondentSelected,
                 textStyle: Theme.of(context).textTheme.titleSmall?.apply(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
                 correspondent:
                     labelRepository.correspondents[document.correspondent],
               ).paddedLTRB(8, 8, 8, 0),
@@ -127,10 +128,9 @@ class DocumentDetailedItem extends DocumentItem {
                 if (document.archiveSerialNumber != null)
                   Text(
                     '#${document.archiveSerialNumber}',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall
-                        ?.apply(color: Theme.of(context).hintColor),
+                    style: Theme.of(context).textTheme.bodySmall?.apply(
+                      color: Theme.of(context).hintColor,
+                    ),
                   ),
               ],
             ).paddedLTRB(8, 4, 8, 8),
@@ -142,10 +142,7 @@ class DocumentDetailedItem extends DocumentItem {
                     backgroundColor: Colors.yellow,
                     color: Colors.black,
                   ),
-                  "p": Style(
-                    maxLines: 3,
-                    textOverflow: TextOverflow.ellipsis,
-                  ),
+                  "p": Style(maxLines: 3, textOverflow: TextOverflow.ellipsis),
                 },
               ).padded(),
           ],

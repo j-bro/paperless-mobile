@@ -1,17 +1,36 @@
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
-import 'package:hive_ce/hive.dart';
-import 'package:paperless_api/config/hive/hive_type_ids.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'tags_query.g.dart';
 
 sealed class TagsQuery with EquatableMixin {
   const TagsQuery();
+  //TODO: This can be removed, we have to map the DocumentFilter to DocumentFilterOptions.
   Map<String, String> toQueryParameter();
   bool matches(Iterable<int> ids);
+  Map<String, dynamic> toJson();
+
+  factory TagsQuery.fromJson(Map<String, dynamic> json) {
+    final type = json['__type'] as String?;
+    switch (type) {
+      case 'NotAssignedTagsQuery':
+        return NotAssignedTagsQuery();
+      case 'AnyAssignedTagsQuery':
+        return AnyAssignedTagsQuery.fromJson(json);
+      case 'IdsTagsQuery':
+        return IdsTagsQuery.fromJson(json);
+      default:
+        throw UnimplementedError('Unknown TagsQuery type: $type');
+    }
+  }
 }
 
-// @HiveType(typeId: PaperlessApiHiveTypeIds.notAssignedTagsQuery)
+@JsonSerializable()
 class NotAssignedTagsQuery extends TagsQuery {
+  @JsonKey(includeToJson: true, includeFromJson: false)
+  final __type = 'NotAssignedTagsQuery';
+
   const NotAssignedTagsQuery();
   @override
   Map<String, String> toQueryParameter() {
@@ -23,15 +42,24 @@ class NotAssignedTagsQuery extends TagsQuery {
 
   @override
   List<Object?> get props => [];
+
+  @override
+  Map<String, dynamic> toJson() => _$NotAssignedTagsQueryToJson(this);
+
+  factory NotAssignedTagsQuery.fromJson(Map<String, dynamic> json) {
+    return _$NotAssignedTagsQueryFromJson(json);
+  }
 }
 
-@HiveType(typeId: PaperlessApiHiveTypeIds.anyAssignedTagsQuery)
+@CopyWith()
+@JsonSerializable()
 class AnyAssignedTagsQuery extends TagsQuery {
-  @HiveField(0)
+  @JsonKey(includeToJson: true, includeFromJson: false)
+  final __type = 'AnyAssignedTagsQuery';
+
   final List<int> tagIds;
-  const AnyAssignedTagsQuery({
-    this.tagIds = const [],
-  });
+
+  const AnyAssignedTagsQuery({this.tagIds = const []});
 
   @override
   Map<String, String> toQueryParameter() {
@@ -44,28 +72,27 @@ class AnyAssignedTagsQuery extends TagsQuery {
   @override
   bool matches(Iterable<int> ids) => ids.isNotEmpty;
 
-  AnyAssignedTagsQuery copyWith({
-    List<int>? tagIds,
-  }) {
-    return AnyAssignedTagsQuery(
-      tagIds: tagIds ?? this.tagIds,
-    );
-  }
-
   @override
   List<Object?> get props => [tagIds];
+
+  @override
+  Map<String, dynamic> toJson() => _$AnyAssignedTagsQueryToJson(this);
+
+  factory AnyAssignedTagsQuery.fromJson(Map<String, dynamic> json) {
+    return _$AnyAssignedTagsQueryFromJson(json);
+  }
 }
 
-@HiveType(typeId: PaperlessApiHiveTypeIds.idsTagsQuery)
+@CopyWith()
+@JsonSerializable()
 class IdsTagsQuery extends TagsQuery {
-  @HiveField(0)
+  @JsonKey(includeToJson: true, includeFromJson: false)
+  final __type = 'IdsTagsQuery';
+
   final List<int> include;
-  @HiveField(1)
   final List<int> exclude;
-  const IdsTagsQuery({
-    this.include = const [],
-    this.exclude = const [],
-  });
+
+  const IdsTagsQuery({this.include = const [], this.exclude = const []});
   @override
   Map<String, String> toQueryParameter() {
     final Map<String, String> params = {};
@@ -84,44 +111,13 @@ class IdsTagsQuery extends TagsQuery {
         exclude.toSet().intersection(ids.toSet()).isEmpty;
   }
 
-  IdsTagsQuery copyWith({
-    List<int>? include,
-    List<int>? exclude,
-  }) {
-    return IdsTagsQuery(
-      include: include ?? this.include,
-      exclude: exclude ?? this.exclude,
-    );
-  }
-
   @override
   List<Object?> get props => [include, exclude];
-}
-
-/// Custom adapters
-
-class NotAssignedTagsQueryAdapter extends TypeAdapter<NotAssignedTagsQuery> {
-  @override
-  final int typeId = PaperlessApiHiveTypeIds.notAssignedTagsQuery;
 
   @override
-  NotAssignedTagsQuery read(BinaryReader reader) {
-    reader.readByte();
-    return const NotAssignedTagsQuery();
+  Map<String, dynamic> toJson() => _$IdsTagsQueryToJson(this);
+
+  factory IdsTagsQuery.fromJson(Map<String, dynamic> json) {
+    return _$IdsTagsQueryFromJson(json);
   }
-
-  @override
-  void write(BinaryWriter writer, NotAssignedTagsQuery obj) {
-    writer.writeByte(0);
-  }
-
-  @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is NotAssignedTagsQueryAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
 }

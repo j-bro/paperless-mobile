@@ -4,7 +4,7 @@ import 'package:hive_ce_flutter/adapters.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/database/hive/hive_config.dart';
 import 'package:paperless_mobile/core/database/hive/hive_extensions.dart';
-import 'package:paperless_mobile/core/database/tables/local_user_app_state.dart';
+import 'package:paperless_mobile/core/store/slices/local_user_app_state.dart';
 import 'package:paperless_mobile/core/factory/paperless_api_factory.dart';
 import 'package:paperless_mobile/core/repository/label_repository.dart';
 import 'package:paperless_mobile/core/repository/saved_view_repository.dart';
@@ -48,8 +48,9 @@ class HomeShellWidget extends StatelessWidget {
         final currentUserId = settings.loggedInUserId;
         final apiVersion = ApiVersion(paperlessApiVersion);
         return ValueListenableBuilder(
-          valueListenable:
-              Hive.localUserAccountBox.listenable(keys: [currentUserId]),
+          valueListenable: Hive.localUserAccountBox.listenable(
+            keys: [currentUserId],
+          ),
           builder: (context, box, _) {
             if (currentUserId == null) {
               //This only happens during logout...
@@ -67,17 +68,18 @@ class HomeShellWidget extends StatelessWidget {
                     Config(
                       // Isolated cache per user.
                       localUserId,
-                      fileService:
-                          DioFileService(context.read<SessionManager>().client),
+                      fileService: DioFileService(
+                        context.read<SessionManager>().client,
+                      ),
                     ),
                   ),
                 ),
                 Provider(
                   create: (context) =>
                       paperlessProviderFactory.createDocumentsApi(
-                    context.read<SessionManager>().client,
-                    apiVersion: paperlessApiVersion,
-                  ),
+                        context.read<SessionManager>().client,
+                        apiVersion: paperlessApiVersion,
+                      ),
                 ),
                 Provider(
                   create: (context) => paperlessProviderFactory.createLabelsApi(
@@ -88,16 +90,16 @@ class HomeShellWidget extends StatelessWidget {
                 Provider(
                   create: (context) =>
                       paperlessProviderFactory.createSavedViewsApi(
-                    context.read<SessionManager>().client,
-                    apiVersion: paperlessApiVersion,
-                  ),
+                        context.read<SessionManager>().client,
+                        apiVersion: paperlessApiVersion,
+                      ),
                 ),
                 Provider(
                   create: (context) =>
                       paperlessProviderFactory.createServerStatsApi(
-                    context.read<SessionManager>().client,
-                    apiVersion: paperlessApiVersion,
-                  ),
+                        context.read<SessionManager>().client,
+                        apiVersion: paperlessApiVersion,
+                      ),
                 ),
                 Provider(
                   create: (context) => paperlessProviderFactory.createTasksApi(
@@ -118,17 +120,18 @@ class HomeShellWidget extends StatelessWidget {
                   providers: [
                     ChangeNotifierProvider(
                       create: (context) {
-                        return LabelRepository(context.read())
-                          ..initialize(
-                            loadCorrespondents: currentLocalUser
-                                .paperlessUser.canViewCorrespondents,
-                            loadDocumentTypes: currentLocalUser
-                                .paperlessUser.canViewDocumentTypes,
-                            loadStoragePaths: currentLocalUser
-                                .paperlessUser.canViewStoragePaths,
-                            loadTags:
-                                currentLocalUser.paperlessUser.canViewTags,
-                          );
+                        return LabelRepository(context.read())..initialize(
+                          loadCorrespondents: currentLocalUser
+                              .paperlessUser
+                              .canViewCorrespondents,
+                          loadDocumentTypes: currentLocalUser
+                              .paperlessUser
+                              .canViewDocumentTypes,
+                          loadStoragePaths: currentLocalUser
+                              .paperlessUser
+                              .canViewStoragePaths,
+                          loadTags: currentLocalUser.paperlessUser.canViewTags,
+                        );
                       },
                     ),
                     ChangeNotifierProvider(
@@ -142,9 +145,8 @@ class HomeShellWidget extends StatelessWidget {
                     ),
                     if (currentLocalUser.hasMultiUserSupport)
                       Provider(
-                        create: (context) => UserRepository(
-                          context.read(),
-                        )..initialize(),
+                        create: (context) =>
+                            UserRepository(context.read())..initialize(),
                       ),
                   ],
                   builder: (context, _) {
@@ -156,8 +158,8 @@ class HomeShellWidget extends StatelessWidget {
                             context.read(),
                             context.read(),
                             Hive.box<LocalUserAppState>(
-                                    HiveBoxes.localUserAppState)
-                                .get(currentUserId)!,
+                              HiveBoxes.localUserAppState,
+                            ).get(currentUserId)!,
                             context.read(),
                           )..initialize(),
                         ),
@@ -182,19 +184,14 @@ class HomeShellWidget extends StatelessWidget {
                           },
                         ),
                         Provider(
-                          create: (context) => SavedViewCubit(
-                            context.read(),
-                          ),
+                          create: (context) => SavedViewCubit(context.read()),
                         ),
                         Provider(
-                          create: (context) => LabelCubit(
-                            context.read(),
-                          ),
+                          create: (context) => LabelCubit(context.read()),
                         ),
                         ChangeNotifierProvider(
-                          create: (context) => PendingTasksNotifier(
-                            context.read(),
-                          ),
+                          create: (context) =>
+                              PendingTasksNotifier(context.read()),
                         ),
                       ],
                       child: child,

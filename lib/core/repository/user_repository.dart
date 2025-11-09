@@ -1,54 +1,17 @@
-import 'package:equatable/equatable.dart';
+import 'package:cached_query_flutter/cached_query_flutter.dart';
+import 'package:paperless_api/generated/lib/src/model/user.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_mobile/core/repository/persistent_repository.dart';
-import 'package:paperless_mobile/features/logging/data/logger.dart';
 
-part 'user_repository_state.dart';
-
-class UserRepository extends PersistentRepository<UserRepositoryState> {
+class UserRepository {
   final PaperlessUserApi _userApi;
 
-  UserRepository(this._userApi) : super(const UserRepositoryState());
+  UserRepository(this._userApi);
 
   Future<void> initialize() async {
-    await findAll();
+    findAll().fetch();
   }
 
-  Future<Iterable<UserModel>> findAll() async {
-    if (_userApi is PaperlessUserApiV3Impl) {
-      final users = await _userApi.findAll();
-      emit(state.copyWith(users: {for (var e in users) e.id: e}));
-      return users;
-    }
-    logger.fw(
-      "Tried to access API v3 features while using an older API version.",
-      className: 'UserRepository',
-      methodName: 'findAll',
-    );
-    return [];
+  Query<List<User>> findAll() {
+    return Query<List<User>>(key: 'users', queryFn: _userApi.getAll);
   }
-
-  Future<UserModel?> find(int id) async {
-    if (_userApi is PaperlessUserApiV3Impl) {
-      final user = await _userApi.find(id);
-      emit(state.copyWith(users: state.users..[id] = user));
-      return user;
-    }
-    logger.fw(
-      "Tried to access API v3 features while using an older API version.",
-      className: 'UserRepository',
-      methodName: 'findAll',
-    );
-    return null;
-  }
-
-  // @override
-  // UserRepositoryState? fromJson(Map<String, dynamic> json) {
-  //   return UserRepositoryState.fromJson(json);
-  // }
-
-  // @override
-  // Map<String, dynamic>? toJson(UserRepositoryState state) {
-  //   return state.toJson();
-  // }
 }

@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
-import 'package:hive_ce/hive.dart';
-import 'package:paperless_api/config/hive/hive_type_ids.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'id_query_parameter.g.dart';
 
-sealed class IdQueryParameter with EquatableMixin {
+sealed class IdQueryParameter {
   const IdQueryParameter();
+
   Map<String, String> toQueryParameter(String field);
   bool matches(int? id);
 
@@ -13,10 +13,31 @@ sealed class IdQueryParameter with EquatableMixin {
   bool get isSet => this is SetIdQueryParameter;
   bool get isOnlyNotAssigned => this is NotAssignedIdQueryParameter;
   bool get isOnlyAssigned => this is AnyAssignedIdQueryParameter;
+
+  factory IdQueryParameter.fromJson(Map<String, dynamic> json) {
+    final type = json['__type'] as String?;
+    switch (type) {
+      case 'UnsetIdQueryParameter':
+        return const UnsetIdQueryParameter();
+      case 'NotAssignedIdQueryParameter':
+        return const NotAssignedIdQueryParameter();
+      case 'AnyAssignedIdQueryParameter':
+        return const AnyAssignedIdQueryParameter();
+      case 'SetIdQueryParameter':
+        return SetIdQueryParameter.fromJson(json);
+      default:
+        throw Exception('Unknown IdQueryParameter type: $type');
+    }
+  }
+
+  Map<String, dynamic> toJson();
 }
 
-// @HiveType(typeId: PaperlessApiHiveTypeIds.unsetIdQueryParameter)
-class UnsetIdQueryParameter extends IdQueryParameter {
+@JsonSerializable(ignoreUnannotated: true)
+class UnsetIdQueryParameter extends IdQueryParameter with EquatableMixin {
+  @JsonKey(includeToJson: true, includeFromJson: false)
+  final __type = 'UnsetIdQueryParameter';
+
   const UnsetIdQueryParameter();
   @override
   Map<String, String> toQueryParameter(String field) => {};
@@ -25,11 +46,17 @@ class UnsetIdQueryParameter extends IdQueryParameter {
   bool matches(int? id) => true;
 
   @override
+  Map<String, dynamic> toJson() => _$UnsetIdQueryParameterToJson(this);
+
+  @override
   List<Object?> get props => [];
 }
 
-// @HiveType(typeId: PaperlessApiHiveTypeIds.notAssignedIdQueryParameter)
-class NotAssignedIdQueryParameter extends IdQueryParameter {
+@JsonSerializable(ignoreUnannotated: true)
+class NotAssignedIdQueryParameter extends IdQueryParameter with EquatableMixin {
+  @JsonKey(includeToJson: true, includeFromJson: false)
+  final __type = 'NotAssignedIdQueryParameter';
+
   const NotAssignedIdQueryParameter();
 
   @override
@@ -38,13 +65,20 @@ class NotAssignedIdQueryParameter extends IdQueryParameter {
   }
 
   @override
-  bool matches(int? id) => id == null;
-  @override
   List<Object?> get props => [];
+
+  @override
+  bool matches(int? id) => id == null;
+
+  @override
+  Map<String, dynamic> toJson() => _$NotAssignedIdQueryParameterToJson(this);
 }
 
-// @HiveType(typeId: PaperlessApiHiveTypeIds.anyAssignedIdQueryParameter)
-class AnyAssignedIdQueryParameter extends IdQueryParameter {
+@JsonSerializable(ignoreUnannotated: true)
+class AnyAssignedIdQueryParameter extends IdQueryParameter with EquatableMixin {
+  @JsonKey(includeToJson: true, includeFromJson: false)
+  final __type = 'AnyAssignedIdQueryParameter';
+
   const AnyAssignedIdQueryParameter();
   @override
   Map<String, String> toQueryParameter(String field) {
@@ -52,14 +86,21 @@ class AnyAssignedIdQueryParameter extends IdQueryParameter {
   }
 
   @override
-  bool matches(int? id) => id != null;
-  @override
   List<Object?> get props => [];
+
+  @override
+  bool matches(int? id) => id != null;
+
+  @override
+  Map<String, dynamic> toJson() => _$AnyAssignedIdQueryParameterToJson(this);
 }
 
-@HiveType(typeId: PaperlessApiHiveTypeIds.setIdQueryParameter)
+@JsonSerializable(ignoreUnannotated: true)
 class SetIdQueryParameter extends IdQueryParameter with EquatableMixin {
-  @HiveField(0)
+  @JsonKey(includeToJson: true, includeFromJson: false)
+  final __type = 'SetIdQueryParameter';
+
+  @JsonKey()
   final int id;
 
   const SetIdQueryParameter({required this.id});
@@ -74,86 +115,10 @@ class SetIdQueryParameter extends IdQueryParameter with EquatableMixin {
 
   @override
   List<Object?> get props => [id];
-}
-
-/// Custom Adapters
-
-class UnsetIdQueryParameterAdapter extends TypeAdapter<UnsetIdQueryParameter> {
-  @override
-  final int typeId = 116;
 
   @override
-  UnsetIdQueryParameter read(BinaryReader reader) {
-    reader.readByte();
-    return const UnsetIdQueryParameter();
+  Map<String, dynamic> toJson() => _$SetIdQueryParameterToJson(this);
+  factory SetIdQueryParameter.fromJson(Map<String, dynamic> json) {
+    return _$SetIdQueryParameterFromJson(json);
   }
-
-  @override
-  void write(BinaryWriter writer, UnsetIdQueryParameter obj) {
-    writer.writeByte(0);
-  }
-
-  @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is UnsetIdQueryParameterAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
-}
-
-class NotAssignedIdQueryParameterAdapter
-    extends TypeAdapter<NotAssignedIdQueryParameter> {
-  @override
-  final int typeId = 117;
-
-  @override
-  NotAssignedIdQueryParameter read(BinaryReader reader) {
-    reader.readByte();
-    return const NotAssignedIdQueryParameter();
-  }
-
-  @override
-  void write(BinaryWriter writer, NotAssignedIdQueryParameter obj) {
-    writer.writeByte(0);
-  }
-
-  @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is NotAssignedIdQueryParameterAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
-}
-
-class AnyAssignedIdQueryParameterAdapter
-    extends TypeAdapter<AnyAssignedIdQueryParameter> {
-  @override
-  final int typeId = 118;
-
-  @override
-  AnyAssignedIdQueryParameter read(BinaryReader reader) {
-    reader.readByte();
-    return const AnyAssignedIdQueryParameter();
-  }
-
-  @override
-  void write(BinaryWriter writer, AnyAssignedIdQueryParameter obj) {
-    writer.writeByte(0);
-  }
-
-  @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is AnyAssignedIdQueryParameterAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
 }

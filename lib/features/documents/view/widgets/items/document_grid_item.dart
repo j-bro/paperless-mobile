@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_mobile/core/database/tables/local_user_account.dart';
+import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
 import 'package:paperless_mobile/core/repository/label_repository.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/document_preview.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/items/document_item.dart';
@@ -40,8 +40,9 @@ class DocumentGridItem extends DocumentItem {
           child: InkWell(
             borderRadius: BorderRadius.circular(12),
             onTap: _onTap,
-            onLongPress:
-                onSelected != null ? () => onSelected!(document) : null,
+            onLongPress: onSelected != null
+                ? () => onSelected!(document)
+                : null,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -131,15 +132,13 @@ class DocumentGridItem extends DocumentItem {
                             if (document.archiveSerialNumber != null)
                               Text(
                                 '#${document.archiveSerialNumber!}',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall
+                                style: Theme.of(context).textTheme.bodySmall
                                     ?.copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurface,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onSurface,
                                     ),
-                              )
+                              ),
                           ],
                         ),
                       ],

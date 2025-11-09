@@ -22,16 +22,10 @@ class PaperlessUserApiImpl extends PaperlessUserApi
 
   @override
   String get path => "/api/users/";
+
   @override
   User parse(Map<String, dynamic> json) => User.fromJson(json);
-  @override
-  Map<String, dynamic> requestToJson(UserRequest request) => request.toJson();
-  @override
-  Map<String, dynamic> patchedRequestToJson(PatchedUserRequest request) =>
-      request.toJson();
-  @override
-  Map<String, dynamic>? filterOptionsToJson(UserFilterOptions? options) =>
-      options?.toJson();
+
   @override
   ErrorCode get createErrorCode => ErrorCode.userCreateError;
   @override

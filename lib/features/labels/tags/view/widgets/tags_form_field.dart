@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_mobile/core/database/tables/local_user_account.dart';
+import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
 import 'package:paperless_mobile/core/workarounds/colored_chip.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/features/labels/tags/view/widgets/fullscreen_tags_form.dart';
@@ -39,7 +39,8 @@ class TagsFormField extends StatelessWidget {
       enabled: enabled,
       builder: (field) {
         final values = _generateOptions(context, field.value, field).toList();
-        final isEmpty = (field.value is IdsTagsQuery &&
+        final isEmpty =
+            (field.value is IdsTagsQuery &&
                 (field.value as IdsTagsQuery).include.isEmpty) ||
             field.value == null;
         bool anyAssigned = field.value is AnyAssignedTagsQuery;
@@ -90,7 +91,8 @@ class TagsFormField extends StatelessWidget {
                 onSubmit: closeForm,
                 initialValue: field.value,
                 allowOnlySelection: allowOnlySelection,
-                allowCreation: allowCreation &&
+                allowCreation:
+                    allowCreation &&
                     context
                         .watch<LocalUserAccount>()
                         .paperlessUser
@@ -161,13 +163,13 @@ class TagsFormField extends StatelessWidget {
     } else {
       final widgets = switch (query) {
         IdsTagsQuery(include: var inc, exclude: var exc) => [
-            for (var i in inc) _buildTagIdQueryWidget(context, i, field, false),
-            for (var e in exc) _buildTagIdQueryWidget(context, e, field, true),
-          ],
+          for (var i in inc) _buildTagIdQueryWidget(context, i, field, false),
+          for (var e in exc) _buildTagIdQueryWidget(context, e, field, true),
+        ],
         AnyAssignedTagsQuery query => [
-            for (var id in query.tagIds)
-              _buildAnyAssignedTagWidget(context, id, field, query),
-          ],
+          for (var id in query.tagIds)
+            _buildAnyAssignedTagWidget(context, id, field, query),
+        ],
         NotAssignedTagsQuery() => [_buildNotAssignedTagWidget(context, field)],
       };
       for (var child in widgets) {
@@ -186,12 +188,16 @@ class TagsFormField extends StatelessWidget {
     final formValue = field.value as IdsTagsQuery;
     final tag = options[id]!;
     return QueryTagChip(
-      onDeleted: () => field.didChange(formValue.copyWith(
-        include:
-            formValue.include.whereNot((element) => element == id).toList(),
-        exclude:
-            formValue.exclude.whereNot((element) => element == id).toList(),
-      )),
+      onDeleted: () => field.didChange(
+        formValue.copyWith(
+          include: formValue.include
+              .whereNot((element) => element == id)
+              .toList(),
+          exclude: formValue.exclude
+              .whereNot((element) => element == id)
+              .toList(),
+        ),
+      ),
       onSelected: allowExclude
           ? () {
               if (formValue.include.contains(id)) {
@@ -283,10 +289,7 @@ class QueryTagChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return ColoredChipWrapper(
       child: InputChip(
-        labelPadding: const EdgeInsets.symmetric(
-          horizontal: 4,
-          vertical: 2,
-        ),
+        labelPadding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
         padding: const EdgeInsets.all(4),
         selectedColor: backgroundColor,
         visualDensity: const VisualDensity(vertical: -2),

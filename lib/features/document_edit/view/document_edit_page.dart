@@ -7,7 +7,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_mobile/core/database/tables/local_user_account.dart';
+import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/repository/label_repository.dart';
 import 'package:paperless_mobile/core/widgets/dialog_utils/pop_with_unsaved_changes.dart';
@@ -54,9 +54,10 @@ class _DocumentEditPageState extends State<DocumentEditPage>
       duration: const Duration(milliseconds: 150),
       vsync: this,
     );
-    _animation =
-        CurvedAnimation(parent: _animationController, curve: Curves.easeInCubic)
-            .drive(Tween<double>(begin: 0, end: 1));
+    _animation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInCubic,
+    ).drive(Tween<double>(begin: 0, end: 1));
   }
 
   @override
@@ -79,7 +80,7 @@ class _DocumentEditPageState extends State<DocumentEditPage>
               storagePath,
               tags,
               createdAt,
-              content
+              content,
             ) = _currentValues;
             final isContentTouched =
                 _formKey.currentState?.fields[fkContent]?.isDirty ?? false;
@@ -124,7 +125,7 @@ class _DocumentEditPageState extends State<DocumentEditPage>
                         _animationController.forward();
                       }
                     },
-                  )
+                  ),
                 ],
               ),
               body: Stack(
@@ -219,7 +220,8 @@ class _DocumentEditPageState extends State<DocumentEditPage>
                       options: labelRepository.correspondents,
                       initialValue: state.document.correspondent != null
                           ? SetIdQueryParameter(
-                              id: state.document.correspondent!)
+                              id: state.document.correspondent!,
+                            )
                           : const UnsetIdQueryParameter(),
                       name: fkCorrespondent,
                       prefixIcon: const Icon(Icons.person_outlined),
@@ -245,7 +247,8 @@ class _DocumentEditPageState extends State<DocumentEditPage>
                       labelText: S.of(context)!.documentType,
                       initialValue: state.document.documentType != null
                           ? SetIdQueryParameter(
-                              id: state.document.documentType!)
+                              id: state.document.documentType!,
+                            )
                           : const UnsetIdQueryParameter(),
                       options: labelRepository.documentTypes,
                       name: _DocumentEditPageState.fkDocumentType,
@@ -304,9 +307,7 @@ class _DocumentEditPageState extends State<DocumentEditPage>
                   maxLines: null,
                   keyboardType: TextInputType.multiline,
                   initialValue: state.document.content,
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
-                  ),
+                  decoration: const InputDecoration(border: InputBorder.none),
                 ),
                 const SizedBox(height: 84),
               ],
@@ -325,15 +326,19 @@ class _DocumentEditPageState extends State<DocumentEditPage>
     List<int>? tags,
     DateTime? createdAt,
     String? content,
-  ) get _currentValues {
+  )
+  get _currentValues {
     final fkState = _formKey.currentState!;
 
-    final correspondentParam =
-        fkState.getRawValue<IdQueryParameter?>(fkCorrespondent);
-    final documentTypeParam =
-        fkState.getRawValue<IdQueryParameter?>(fkDocumentType);
-    final storagePathParam =
-        fkState.getRawValue<IdQueryParameter?>(fkStoragePath);
+    final correspondentParam = fkState.getRawValue<IdQueryParameter?>(
+      fkCorrespondent,
+    );
+    final documentTypeParam = fkState.getRawValue<IdQueryParameter?>(
+      fkDocumentType,
+    );
+    final storagePathParam = fkState.getRawValue<IdQueryParameter?>(
+      fkStoragePath,
+    );
     final tagsParam = fkState.getRawValue<TagsQuery?>(fkTags);
     final title = fkState.getRawValue<String?>(fkTitle);
     final created = fkState.getRawValue<FormDateTime?>(fkCreatedDate);
@@ -362,7 +367,7 @@ class _DocumentEditPageState extends State<DocumentEditPage>
       storagePath,
       tags,
       created?.toDateTime(),
-      content
+      content,
     );
   }
 
@@ -375,7 +380,7 @@ class _DocumentEditPageState extends State<DocumentEditPage>
         storagePath,
         tags,
         createdAt,
-        content
+        content,
       ) = _currentValues;
       var mergedDocument = document.copyWith(
         title: title,
@@ -417,7 +422,9 @@ class _DocumentEditPageState extends State<DocumentEditPage>
   }
 
   Widget _buildCreatedAtFormField(
-      DateTime? initialCreatedAtDate, FieldSuggestions? filteredSuggestions) {
+    DateTime? initialCreatedAtDate,
+    FieldSuggestions? filteredSuggestions,
+  ) {
     return Column(
       children: [
         FormBuilderLocalizedDatePicker(
@@ -434,8 +441,10 @@ class _DocumentEditPageState extends State<DocumentEditPage>
             suggestions: filteredSuggestions!.dates,
             itemBuilder: (context, itemData) => ActionChip(
               label: Text(
-                  DateFormat.yMMMMd(Localizations.localeOf(context).toString())
-                      .format(itemData)),
+                DateFormat.yMMMMd(
+                  Localizations.localeOf(context).toString(),
+                ).format(itemData),
+              ),
               onPressed: () => _formKey.currentState?.fields[fkCreatedDate]
                   ?.didChange(FormDateTime.fromDateTime(itemData)),
             ),

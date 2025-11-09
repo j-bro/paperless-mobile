@@ -1,4 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:paperless_api/generated/lib/src/model/matching_algorithm.dart'
+    as generated;
 
 @JsonEnum(valueField: 'value')
 enum MatchingAlgorithm {
@@ -16,4 +18,20 @@ enum MatchingAlgorithm {
   const MatchingAlgorithm(this.value, this.name);
 
   static const MatchingAlgorithm defaultValue = auto;
+
+  generated.MatchingAlgorithm toGenerated() {
+    return generated.MatchingAlgorithm.values.firstWhere(
+      (e) => e.value.toString() == value.toString(),
+      orElse: () => generated.MatchingAlgorithm.number6,
+    );
+  }
+
+  factory MatchingAlgorithm.fromGenerated(
+    generated.MatchingAlgorithm generatedEnum,
+  ) {
+    return MatchingAlgorithm.values.firstWhere(
+      (e) => e.value.toString() == generatedEnum.value,
+      orElse: () => MatchingAlgorithm.defaultValue,
+    );
+  }
 }

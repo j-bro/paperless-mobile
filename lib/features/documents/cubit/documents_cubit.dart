@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_mobile/core/database/tables/local_user_app_state.dart';
+import 'package:paperless_mobile/core/store/slices/local_user_app_state.dart';
 import 'package:paperless_mobile/core/extensions/document_extensions.dart';
 import 'package:paperless_mobile/core/notifier/document_changed_notifier.dart';
 import 'package:paperless_mobile/core/service/connectivity_status_service.dart';
@@ -30,18 +30,20 @@ class DocumentsCubit extends Cubit<DocumentsState>
     this.notifier,
     this._userState,
     this.connectivityStatusService,
-  ) : super(DocumentsState(
+  ) : super(
+        DocumentsState(
           filter: _userState.currentDocumentFilter,
           viewType: _userState.documentsPageViewType,
-        )) {
+        ),
+      ) {
     notifier.addListener(
       this,
       onUpdated: (document) {
         replace(document);
         emit(
           state.copyWith(
-              selection:
-                  state.selection.withDocumentreplaced(document).toList()),
+            selection: state.selection.withDocumentreplaced(document).toList(),
+          ),
         );
       },
       onDeleted: (document) {
@@ -56,9 +58,7 @@ class DocumentsCubit extends Cubit<DocumentsState>
   }
 
   Future<void> bulkDelete(List<DocumentModel> documents) async {
-    await api.bulkAction(
-      BulkDeleteAction(documents.map((doc) => doc.id)),
-    );
+    await api.bulkAction(BulkDeleteAction(documents.map((doc) => doc.id)));
     for (final deletedDoc in documents) {
       notifier.notifyDeleted(deletedDoc);
     }

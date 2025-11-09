@@ -1,8 +1,6 @@
 export 'authentication_api/authentication_api.dart';
 export 'authentication_api/authentication_api_impl.dart';
 
-export 'labels_api/paperless_labels_api.dart';
-export 'labels_api/paperless_labels_api_impl.dart';
 export 'documents_api/paperless_documents_api.dart';
 export 'documents_api/paperless_documents_api_impl.dart';
 export 'saved_views_api/paperless_saved_views_api.dart';
@@ -13,3 +11,10 @@ export 'tasks_api/paperless_tasks_api.dart';
 export 'tasks_api/paperless_tasks_api_impl.dart';
 export 'user_api/paperless_user_api.dart';
 export 'user_api/paperless_user_api_impl.dart';
+export 'labels_api/label_apis.dart';
+export 'labels_api/correspondents_api_impl.dart';
+export 'labels_api/document_types_api_impl.dart';
+export 'labels_api/storage_paths_api_impl.dart';
+export 'labels_api/tags_api_impl.dart';
+
+export 'crud_api.dart';

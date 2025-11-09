@@ -1,6 +1,6 @@
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_mobile/core/database/tables/local_user_app_state.dart';
+import 'package:paperless_mobile/core/store/slices/local_user_app_state.dart';
 import 'package:paperless_mobile/core/notifier/document_changed_notifier.dart';
 import 'package:paperless_mobile/core/repository/label_repository.dart';
 import 'package:paperless_mobile/core/service/connectivity_status_service.dart';
@@ -33,19 +33,13 @@ class SavedViewDetailsCubit extends Cubit<SavedViewDetailsState>
     this.connectivityStatusService, {
     required this.savedView,
     int initialCount = 25,
-  }) : super(
-          SavedViewDetailsState(viewType: _userState.savedViewsViewType),
-        ) {
-    notifier.addListener(
-      this,
-      onDeleted: remove,
-      onUpdated: replace,
-    );
+  }) : super(SavedViewDetailsState(viewType: _userState.savedViewsViewType)) {
+    notifier.addListener(this, onDeleted: remove, onUpdated: replace);
     updateFilter(
       filter: savedView.toDocumentFilter().copyWith(
-            page: 1,
-            pageSize: initialCount,
-          ),
+        page: 1,
+        pageSize: initialCount,
+      ),
     );
   }
 

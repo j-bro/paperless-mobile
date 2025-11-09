@@ -11,7 +11,7 @@ import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/bloc/connectivity_cubit.dart';
 import 'package:paperless_mobile/core/database/hive/hive_config.dart';
 import 'package:paperless_mobile/core/database/hive/hive_extensions.dart';
-import 'package:paperless_mobile/core/database/tables/local_user_account.dart';
+import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
 import 'package:paperless_mobile/core/notifier/document_changed_notifier.dart';
 import 'package:paperless_mobile/core/service/connectivity_status_service.dart';
 import 'package:paperless_mobile/features/document_upload/view/document_upload_preparation_page.dart';
@@ -45,15 +45,17 @@ class _EventListenerShellState extends State<EventListenerShell>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     ReceiveSharingIntent.instance.getInitialMedia().then(_onReceiveSharedFiles);
-    _subscription = ReceiveSharingIntent.instance
-        .getMediaStream()
-        .listen(_onReceiveSharedFiles);
+    _subscription = ReceiveSharingIntent.instance.getMediaStream().listen(
+      _onReceiveSharedFiles,
+    );
     context.read<PendingTasksNotifier>().addListener(_onTasksChanged);
-    _documentDeletedSubscription =
-        context.read<DocumentChangedNotifier>().$deleted.listen((event) {
-      if (!mounted) return;
-      showSnackBar(context, S.of(context)!.documentSuccessfullyDeleted);
-    });
+    _documentDeletedSubscription = context
+        .read<DocumentChangedNotifier>()
+        .$deleted
+        .listen((event) {
+          if (!mounted) return;
+          showSnackBar(context, S.of(context)!.documentSuccessfullyDeleted);
+        });
     _listenToInboxChanges();
     // WidgetsBinding.instance.addPostFrameCallback((_) async {
     //   final notifier = context.read<ConsumptionChangeNotifier>();
@@ -129,9 +131,10 @@ class _EventListenerShellState extends State<EventListenerShell>
     final taskNotifier = context.read<PendingTasksNotifier>();
     final userId = context.read<LocalUserAccount>().id;
     for (var task in taskNotifier.value.values) {
-      context
-          .read<LocalNotificationService>()
-          .notifyTaskChanged(task, userId: userId);
+      context.read<LocalNotificationService>().notifyTaskChanged(
+        task,
+        userId: userId,
+      );
     }
   }
 
@@ -168,8 +171,9 @@ Future<void> consumeLocalFile(
   bool exitAppAfterConsumed = false,
 }) async {
   final filename = p.basename(file.path);
-  final hasInternetConnection =
-      await context.read<ConnectivityStatusService>().isConnectedToInternet();
+  final hasInternetConnection = await context
+      .read<ConnectivityStatusService>()
+      .isConnectedToInternet();
   if (!hasInternetConnection) {
     if (!context.mounted) return;
     showSnackBar(
@@ -184,24 +188,23 @@ Future<void> consumeLocalFile(
   final taskNotifier = context.read<PendingTasksNotifier>();
 
   final bytes = file.readAsBytes();
-  final shouldDirectlyUpload =
-      Hive.globalSettingsBox.getValue()!.skipDocumentPreprarationOnUpload;
+  final shouldDirectlyUpload = Hive.globalSettingsBox
+      .getValue()!
+      .skipDocumentPreprarationOnUpload;
   if (shouldDirectlyUpload) {
     try {
       final taskId = await context.read<PaperlessDocumentsApi>().create(
-            await bytes,
-            filename: filename,
-            title: p.basenameWithoutExtension(file.path),
-          );
+        await bytes,
+        filename: filename,
+        title: p.basenameWithoutExtension(file.path),
+      );
       consumptionNotifier.discardFile(file, userId: userId);
       if (taskId != null) {
         taskNotifier.listenToTaskChanges(taskId);
       }
     } catch (error) {
       if (!context.mounted) return;
-      await Fluttertoast.showToast(
-        msg: S.of(context)!.couldNotUploadDocument,
-      );
+      await Fluttertoast.showToast(msg: S.of(context)!.couldNotUploadDocument);
       return;
     } finally {
       if (exitAppAfterConsumed) {
@@ -209,7 +212,8 @@ Future<void> consumeLocalFile(
       }
     }
   } else {
-    final result = await DocumentUploadRoute(
+    final result =
+        await DocumentUploadRoute(
           $extra: bytes,
           filename: p.basenameWithoutExtension(file.path),
           title: p.basenameWithoutExtension(file.path),
@@ -233,15 +237,17 @@ Future<void> consumeLocalFile(
       }
     } else {
       if (!context.mounted) return;
-      final shouldDiscard = await showDialog<bool>(
+      final shouldDiscard =
+          await showDialog<bool>(
             context: context,
             builder: (context) => DiscardSharedFileDialog(bytes: bytes),
           ) ??
           false;
       if (shouldDiscard && context.mounted) {
-        await context
-            .read<ConsumptionChangeNotifier>()
-            .discardFile(file, userId: userId);
+        await context.read<ConsumptionChangeNotifier>().discardFile(
+          file,
+          userId: userId,
+        );
       }
     }
   }

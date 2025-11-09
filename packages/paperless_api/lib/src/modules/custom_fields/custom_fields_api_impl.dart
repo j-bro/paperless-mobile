@@ -23,16 +23,7 @@ class CustomFieldsApiImpl extends CustomFieldsApi
   String get path => "/api/custom_fields/";
   @override
   CustomField parse(Map<String, dynamic> json) => CustomField.fromJson(json);
-  @override
-  Map<String, dynamic> requestToJson(CustomFieldRequest request) =>
-      request.toJson();
-  @override
-  Map<String, dynamic> patchedRequestToJson(
-    PatchedCustomFieldRequest request,
-  ) => request.toJson();
-  @override
-  Map<String, dynamic>? filterOptionsToJson(GetFilterOptions? options) =>
-      options?.toJson();
+
   @override
   ErrorCode get createErrorCode => ErrorCode.customFieldCreateFailed;
   @override

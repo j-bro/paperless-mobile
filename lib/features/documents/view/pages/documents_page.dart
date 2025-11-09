@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/bloc/connectivity_cubit.dart';
-import 'package:paperless_mobile/core/database/tables/local_user_account.dart';
+import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
 import 'package:paperless_mobile/core/extensions/document_extensions.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/features/app_drawer/view/app_drawer.dart';
@@ -33,10 +33,7 @@ class DocumentFilterIntent {
   final DocumentFilter? filter;
   final bool shouldReset;
 
-  DocumentFilterIntent({
-    this.filter,
-    this.shouldReset = false,
-  });
+  DocumentFilterIntent({this.filter, this.shouldReset = false});
 }
 
 class DocumentsPage extends StatefulWidget {
@@ -63,8 +60,9 @@ class _DocumentsPageState extends State<DocumentsPage> {
     super.initState();
     // context.read<PendingTasksNotifier>().addListener(_onTasksChanged);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _nestedScrollViewKey.currentState!.innerController
-          .addListener(_scrollExtentChangedListener);
+      _nestedScrollViewKey.currentState!.innerController.addListener(
+        _scrollExtentChangedListener,
+      );
     });
   }
 
@@ -126,8 +124,9 @@ class _DocumentsPageState extends State<DocumentsPage> {
 
   @override
   void dispose() {
-    _nestedScrollViewKey.currentState?.innerController
-        .removeListener(_scrollExtentChangedListener);
+    _nestedScrollViewKey.currentState?.innerController.removeListener(
+      _scrollExtentChangedListener,
+    );
     // context.read<PendingTasksNotifier>().removeListener(_onTasksChanged);
     super.dispose();
   }
@@ -214,17 +213,17 @@ class _DocumentsPageState extends State<DocumentsPage> {
                                                   .textTheme
                                                   .labelLarge
                                                   ?.copyWith(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .onError,
+                                                    color: Theme.of(
+                                                      context,
+                                                    ).colorScheme.onError,
                                                   ),
                                             ).padded()
                                           else
                                             Icon(
                                               Icons.replay,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .onError,
+                                              color: Theme.of(
+                                                context,
+                                              ).colorScheme.onError,
                                             ).padded(4),
                                         ],
                                       ),
@@ -272,9 +271,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
                             titleText: S.of(context)!.documents,
                           );
                         } else {
-                          return DocumentSelectionSliverAppBar(
-                            state: state,
-                          );
+                          return DocumentSelectionSliverAppBar(state: state);
                         }
                       },
                     ),
@@ -282,17 +279,11 @@ class _DocumentsPageState extends State<DocumentsPage> {
                   SliverOverlapAbsorber(
                     handle: savedViewsHandle,
                     sliver: SliverPinnedHeader(
-                      child: Material(
-                        elevation: 2,
-                        child: _buildViewActions(),
-                      ),
+                      child: Material(elevation: 2, child: _buildViewActions()),
                     ),
                   ),
                 ],
-                body: _buildDocumentsTab(
-                  connectivityState,
-                  context,
-                ),
+                body: _buildDocumentsTab(connectivityState, context),
               ),
             ),
           ),
@@ -336,17 +327,11 @@ class _DocumentsPageState extends State<DocumentsPage> {
           context
               .read<DocumentsCubit>()
               .loadMore()
-              .onError<PaperlessApiException>(
-            (error, stackTrace) {
-              if (context.mounted) {
-                showErrorMessage(
-                  context,
-                  error,
-                  stackTrace,
-                );
-              }
-            },
-          );
+              .onError<PaperlessApiException>((error, stackTrace) {
+                if (context.mounted) {
+                  showErrorMessage(context, error, stackTrace);
+                }
+              });
           return true;
         }
         return false;
@@ -376,16 +361,16 @@ class _DocumentsPageState extends State<DocumentsPage> {
                       if (state.filter.selectedView == view.id) {
                         _onResetFilter();
                       } else {
-                        cubit.updateFilter(
-                          filter: view.toDocumentFilter(),
-                        );
+                        cubit.updateFilter(filter: view.toDocumentFilter());
                       }
                     },
                     onUpdateView: (view) async {
                       await context.read<SavedViewCubit>().update(view);
                       if (context.mounted) {
-                        showSnackBar(context,
-                            S.of(context)!.savedViewSuccessfullyUpdated);
+                        showSnackBar(
+                          context,
+                          S.of(context)!.savedViewSuccessfullyUpdated,
+                        );
                       }
                     },
                     onDeleteView: (view) async {
@@ -429,16 +414,20 @@ class _DocumentsPageState extends State<DocumentsPage> {
                       thumbnailUrl: document.buildThumbnailUrl(context),
                     ).push(context);
                   },
-                  onSelected:
-                      context.read<DocumentsCubit>().toggleDocumentSelection,
+                  onSelected: context
+                      .read<DocumentsCubit>()
+                      .toggleDocumentSelection,
                   hasInternetConnection: connectivityState.isConnected,
                   onTagSelected: allowToggleFilter ? _addTagToFilter : null,
-                  onCorrespondentSelected:
-                      allowToggleFilter ? _addCorrespondentToFilter : null,
-                  onDocumentTypeSelected:
-                      allowToggleFilter ? _addDocumentTypeToFilter : null,
-                  onStoragePathSelected:
-                      allowToggleFilter ? _addStoragePathToFilter : null,
+                  onCorrespondentSelected: allowToggleFilter
+                      ? _addCorrespondentToFilter
+                      : null,
+                  onDocumentTypeSelected: allowToggleFilter
+                      ? _addDocumentTypeToFilter
+                      : null,
+                  onStoragePathSelected: allowToggleFilter
+                      ? _addStoragePathToFilter
+                      : null,
                   documents: state.documents,
                   hasLoaded: state.hasLoaded,
                   isLabelClickable: true,
@@ -447,9 +436,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
                 );
               },
             ),
-            const SliverToBoxAdapter(
-              child: SizedBox(height: 96),
-            )
+            const SliverToBoxAdapter(child: SizedBox(height: 96)),
           ],
         ),
       ),
@@ -465,9 +452,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SortDocumentsButton(
-                enabled: state.selection.isEmpty,
-              ),
+              SortDocumentsButton(enabled: state.selection.isEmpty),
               ViewTypeSelectionWidget(
                 viewType: state.viewType,
                 onChanged: context.read<DocumentsCubit>().setViewType,
@@ -502,14 +487,14 @@ class _DocumentsPageState extends State<DocumentsPage> {
           maxChildSize: 1,
           builder: (context, controller) =>
               BlocBuilder<DocumentsCubit, DocumentsState>(
-            builder: (context, state) {
-              return DocumentFilterPanel(
-                initialFilter: context.read<DocumentsCubit>().state.filter,
-                scrollController: controller,
-                draggableSheetController: draggableSheetController,
-              );
-            },
-          ),
+                builder: (context, state) {
+                  return DocumentFilterPanel(
+                    initialFilter: context.read<DocumentsCubit>().state.filter,
+                    scrollController: controller,
+                    draggableSheetController: draggableSheetController,
+                  );
+                },
+              ),
         ),
       ),
     );
@@ -519,9 +504,9 @@ class _DocumentsPageState extends State<DocumentsPage> {
           await _onResetFilter();
         } else {
           if (mounted) {
-            await context
-                .read<DocumentsCubit>()
-                .updateFilter(filter: filterIntent.filter!);
+            await context.read<DocumentsCubit>().updateFilter(
+              filter: filterIntent.filter!,
+            );
           }
         }
       } on PaperlessApiException catch (error, stackTrace) {
@@ -589,14 +574,17 @@ class _DocumentsPageState extends State<DocumentsPage> {
           } else {
             cubit.updateCurrentFilter(
               (filter) => filter.copyWith(
-                  correspondent: SetIdQueryParameter(id: correspondentId)),
+                correspondent: SetIdQueryParameter(id: correspondentId),
+              ),
             );
           }
           break;
         default:
-          cubit.updateCurrentFilter((filter) => filter.copyWith(
-                correspondent: SetIdQueryParameter(id: correspondentId),
-              ));
+          cubit.updateCurrentFilter(
+            (filter) => filter.copyWith(
+              correspondent: SetIdQueryParameter(id: correspondentId),
+            ),
+          );
           break;
       }
     } on PaperlessApiException catch (error, stackTrace) {
@@ -619,14 +607,16 @@ class _DocumentsPageState extends State<DocumentsPage> {
           } else {
             cubit.updateCurrentFilter(
               (filter) => filter.copyWith(
-                  documentType: SetIdQueryParameter(id: documentTypeId)),
+                documentType: SetIdQueryParameter(id: documentTypeId),
+              ),
             );
           }
           break;
         default:
           cubit.updateCurrentFilter(
             (filter) => filter.copyWith(
-                documentType: SetIdQueryParameter(id: documentTypeId)),
+              documentType: SetIdQueryParameter(id: documentTypeId),
+            ),
           );
           break;
       }
@@ -691,10 +681,12 @@ class _DocumentsPageState extends State<DocumentsPage> {
         return null;
       },
     );
-    final viewHasChanged = activeView != null &&
+    final viewHasChanged =
+        activeView != null &&
         activeView.toDocumentFilter() != cubit.state.filter;
     if (viewHasChanged) {
-      final discardChanges = await showDialog<bool>(
+      final discardChanges =
+          await showDialog<bool>(
             context: context,
             builder: (context) => const SavedViewChangedDialog(),
           ) ??

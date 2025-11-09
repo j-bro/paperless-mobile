@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_ce_flutter/adapters.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/database/hive/hive_config.dart';
-import 'package:paperless_mobile/core/database/tables/local_user_account.dart';
+import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
 import 'package:paperless_mobile/features/document_search/view/document_search_bar.dart';
 import 'package:paperless_mobile/features/settings/view/manage_accounts_page.dart';
 import 'package:paperless_mobile/features/settings/view/widgets/global_settings_builder.dart';
@@ -37,9 +37,9 @@ class SliverSearchBar extends StatelessWidget {
               icon: GlobalSettingsBuilder(
                 builder: (context, settings) {
                   return ValueListenableBuilder(
-                    valueListenable:
-                        Hive.box<LocalUserAccount>(HiveBoxes.localUserAccount)
-                            .listenable(),
+                    valueListenable: Hive.box<LocalUserAccount>(
+                      HiveBoxes.localUserAccount,
+                    ).listenable(),
                     builder: (context, box, _) {
                       final account = box.get(settings.loggedInUserId!)!;
                       return UserAvatar(account: account);

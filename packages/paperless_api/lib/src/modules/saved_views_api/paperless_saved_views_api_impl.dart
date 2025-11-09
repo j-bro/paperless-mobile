@@ -22,15 +22,7 @@ class PaperlessSavedViewsApiImpl extends PaperlessSavedViewsApi
   String get path => "/api/saved_views/";
   @override
   SavedView parse(Map<String, dynamic> json) => SavedView.fromJson(json);
-  @override
-  Map<String, dynamic> requestToJson(SavedViewRequest request) =>
-      request.toJson();
-  @override
-  Map<String, dynamic> patchedRequestToJson(PatchedSavedViewRequest request) =>
-      request.toJson();
-  @override
-  Map<String, dynamic>? filterOptionsToJson(GetFilterOptions? options) =>
-      options?.toJson();
+
   @override
   ErrorCode get createErrorCode => ErrorCode.customFieldCreateFailed;
   @override

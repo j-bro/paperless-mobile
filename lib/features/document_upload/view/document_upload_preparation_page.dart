@@ -9,8 +9,8 @@ import 'package:hive_ce/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/database/hive/hive_config.dart';
-import 'package:paperless_mobile/core/database/tables/global_settings.dart';
-import 'package:paperless_mobile/core/database/tables/local_user_account.dart';
+import 'package:paperless_mobile/core/store/slices/global_settings.dart';
+import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/repository/label_repository.dart';
 import 'package:paperless_mobile/core/widgets/form_builder_fields/form_builder_localized_date_picker.dart';
@@ -90,7 +90,8 @@ class _DocumentUploadPreparationPageState
                       child: CircularProgressIndicator(
                         strokeWidth: 3,
                         value: state.uploadProgress,
-                      )).padded(4),
+                      ),
+                    ).padded(4),
             ),
           ),
           body: FormBuilder(
@@ -98,8 +99,9 @@ class _DocumentUploadPreparationPageState
             child: NestedScrollView(
               headerSliverBuilder: (context, innerBoxIsScrolled) => [
                 SliverOverlapAbsorber(
-                  handle:
-                      NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                  handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                    context,
+                  ),
                   sliver: SliverAppBar(
                     leading: const BackButton(),
                     pinned: true,
@@ -133,7 +135,8 @@ class _DocumentUploadPreparationPageState
                         SliverOverlapInjector(
                           handle:
                               NestedScrollView.sliverOverlapAbsorberHandleFor(
-                                  context),
+                                context,
+                              ),
                         ),
                         SliverList.list(
                           children: [
@@ -141,7 +144,8 @@ class _DocumentUploadPreparationPageState
                             FormBuilderTextField(
                               autovalidateMode: AutovalidateMode.always,
                               name: DocumentModel.titleKey,
-                              initialValue: widget.title ??
+                              initialValue:
+                                  widget.title ??
                                   "scan_${fileNameDateFormat.format(_now)}",
                               validator: (value) {
                                 if (value?.trim().isEmpty ?? true) {
@@ -154,7 +158,8 @@ class _DocumentUploadPreparationPageState
                                 suffixIcon: IconButton(
                                   icon: const Icon(Icons.close),
                                   onPressed: () {
-                                    _formKey.currentState
+                                    _formKey
+                                        .currentState
                                         ?.fields[DocumentModel.titleKey]
                                         ?.didChange("");
                                     if (_syncTitleAndFilename) {
@@ -166,8 +171,9 @@ class _DocumentUploadPreparationPageState
                                 errorText: _errors[DocumentModel.titleKey],
                               ),
                               onChanged: (value) {
-                                final String transformedValue =
-                                    _formatFilename(value ?? '');
+                                final String transformedValue = _formatFilename(
+                                  value ?? '',
+                                );
                                 if (_syncTitleAndFilename) {
                                   _formKey.currentState?.fields[fkFileName]
                                       ?.didChange(transformedValue);
@@ -186,26 +192,29 @@ class _DocumentUploadPreparationPageState
                                 suffixIcon: IconButton(
                                   icon: const Icon(Icons.clear),
                                   onPressed: () => _formKey
-                                      .currentState?.fields[fkFileName]
+                                      .currentState
+                                      ?.fields[fkFileName]
                                       ?.didChange(''),
                                 ),
                               ),
-                              initialValue: widget.filename ??
+                              initialValue:
+                                  widget.filename ??
                                   "scan_${fileNameDateFormat.format(_now)}",
                             ),
                             // Synchronize title and filename
                             SwitchListTile(
                               value: _syncTitleAndFilename,
                               onChanged: (value) {
-                                setState(
-                                  () => _syncTitleAndFilename = value,
-                                );
+                                setState(() => _syncTitleAndFilename = value);
                                 if (_syncTitleAndFilename) {
                                   final String transformedValue =
-                                      _formatFilename(_formKey
-                                          .currentState
-                                          ?.fields[DocumentModel.titleKey]
-                                          ?.value as String);
+                                      _formatFilename(
+                                        _formKey
+                                                .currentState
+                                                ?.fields[DocumentModel.titleKey]
+                                                ?.value
+                                            as String,
+                                      );
                                   if (_syncTitleAndFilename) {
                                     _formKey.currentState?.fields[fkFileName]
                                         ?.didChange(transformedValue);
@@ -264,8 +273,9 @@ class _DocumentUploadPreparationPageState
                                 labelText: "${S.of(context)!.documentType} *",
                                 name: DocumentModel.documentTypeKey,
                                 options: labelRepository.documentTypes,
-                                prefixIcon:
-                                    const Icon(Icons.description_outlined),
+                                prefixIcon: const Icon(
+                                  Icons.description_outlined,
+                                ),
                                 allowSelectUnassigned: true,
                                 canCreateNewLabel: context
                                     .watch<LocalUserAccount>()
@@ -336,9 +346,9 @@ class _DocumentUploadPreparationPageState
             _formKey.currentState?.value[fkFileName],
             widget.fileExtension,
           ),
-          userId: Hive.box<GlobalSettings>(HiveBoxes.globalSettings)
-              .getValue()!
-              .loggedInUserId!,
+          userId: Hive.box<GlobalSettings>(
+            HiveBoxes.globalSettings,
+          ).getValue()!.loggedInUserId!,
           title: title,
           documentType: docType,
           correspondent: correspondent,

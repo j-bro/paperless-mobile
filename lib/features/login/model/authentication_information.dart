@@ -1,21 +1,13 @@
-import 'package:hive_ce/hive.dart';
-import 'package:paperless_mobile/core/database/hive/hive_config.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:paperless_mobile/features/login/model/client_certificate.dart';
 
 part 'authentication_information.g.dart';
 
-@HiveType(typeId: HiveTypeIds.authentication)
+@JsonSerializable()
 class AuthenticationInformation {
-  @HiveField(0)
   String? token;
-
-  @HiveField(1)
   String serverUrl;
-
-  @HiveField(2)
   ClientCertificate? clientCertificate;
-
-  @HiveField(3)
   String username;
 
   AuthenticationInformation({

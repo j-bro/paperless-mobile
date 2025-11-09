@@ -3,6 +3,7 @@ import 'package:paperless_api/src/extensions/dio_exception_extension.dart';
 import 'package:paperless_api/src/models/models.dart';
 import 'package:paperless_api/src/modules/crud_api.dart';
 import 'package:paperless_api/src/request_utils.dart';
+import 'package:paperless_api/src/utils/unsafe_to_json.dart';
 
 ///
 /// Mixin providing a default implementation for most CRUD API endpoints.
@@ -13,9 +14,7 @@ mixin BaseCrudApiImplMixin<Model, Request, PatchedRequest, FilterOptions>
 
   String get path;
   Model parse(Map<String, dynamic> json);
-  Map<String, dynamic> requestToJson(Request request);
-  Map<String, dynamic> patchedRequestToJson(PatchedRequest request);
-  Map<String, dynamic>? filterOptionsToJson(FilterOptions? options);
+
   ErrorCode get createErrorCode;
   ErrorCode get deleteErrorCode;
   ErrorCode get getErrorCode;
@@ -28,7 +27,7 @@ mixin BaseCrudApiImplMixin<Model, Request, PatchedRequest, FilterOptions>
     try {
       final response = await client.post(
         path,
-        data: requestToJson(item),
+        data: unsafeToJson(item),
         options: Options(validateStatus: (status) => status == 201),
       );
       return parse(response.data);
@@ -68,7 +67,7 @@ mixin BaseCrudApiImplMixin<Model, Request, PatchedRequest, FilterOptions>
       parse,
       listErrorCode,
       client: client,
-      queryParams: removeNullValues(filterOptionsToJson(options)),
+      queryParams: removeNullValues(unsafeToJson(options)),
     );
   }
 
@@ -77,7 +76,7 @@ mixin BaseCrudApiImplMixin<Model, Request, PatchedRequest, FilterOptions>
     try {
       final response = await client.patch(
         "$path/$id/",
-        data: patchedRequestToJson(item),
+        data: unsafeToJson(item),
         options: Options(validateStatus: (status) => status == 200),
       );
       return parse(response.data);
@@ -91,7 +90,7 @@ mixin BaseCrudApiImplMixin<Model, Request, PatchedRequest, FilterOptions>
     try {
       final response = await client.put(
         "$path/$id/",
-        data: requestToJson(item),
+        data: unsafeToJson(item),
         options: Options(validateStatus: (status) => status == 200),
       );
       return parse(response.data);
