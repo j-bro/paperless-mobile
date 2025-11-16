@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:paperless_mobile/core/widgets/shimmer_placeholder.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/placeholder/tags_placeholder.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/placeholder/text_placeholder.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class DocumentsListLoadingWidget extends StatelessWidget {
   final bool _isSliver;
@@ -28,7 +28,7 @@ class DocumentsListLoadingWidget extends StatelessWidget {
 
   Widget _buildFakeListItem(BuildContext context) {
     const fontSize = 14.0;
-    return ShimmerPlaceholder(
+    return Skeletonizer(
       child: ListTile(
         contentPadding: const EdgeInsets.all(8),
         dense: true,
@@ -44,10 +44,7 @@ class DocumentsListLoadingWidget extends StatelessWidget {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const TextPlaceholder(
-              length: 120,
-              fontSize: fontSize,
-            ),
+            const TextPlaceholder(length: 120, fontSize: fontSize),
             const SizedBox(height: 2),
             TextPlaceholder(
               length: 220,

@@ -1,11 +1,11 @@
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_mobile/core/bloc/connectivity_cubit.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/extensions/document_extensions.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/translation/error_code_localization_mapper.dart';
-import 'package:paperless_mobile/core/widgets/offline_widget.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/adaptive_documents_view.dart';
 import 'package:paperless_mobile/features/paged_document_view/view/document_paging_view_mixin.dart';
 import 'package:paperless_mobile/features/similar_documents/cubit/similar_documents_cubit.dart';
@@ -14,8 +14,13 @@ import 'package:paperless_mobile/helpers/message_helpers.dart';
 import 'package:paperless_mobile/routing/routes/documents_route.dart';
 
 class SimilarDocumentsView extends StatefulWidget {
+  final int documentId;
   final ScrollController pagingScrollController;
-  const SimilarDocumentsView({super.key, required this.pagingScrollController});
+  const SimilarDocumentsView({
+    super.key,
+    required this.pagingScrollController,
+    required this.documentId,
+  });
 
   @override
   State<SimilarDocumentsView> createState() => _SimilarDocumentsViewState();
@@ -37,54 +42,45 @@ class _SimilarDocumentsViewState extends State<SimilarDocumentsView>
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ConnectivityCubit, ConnectivityState>(
-      listenWhen: (previous, current) =>
-          !previous.isConnected && current.isConnected,
-      listener: (context, state) =>
-          context.read<SimilarDocumentsCubit>().initialize(),
-      builder: (context, connectivity) {
-        return BlocBuilder<SimilarDocumentsCubit, SimilarDocumentsState>(
-          builder: (context, state) {
-            if (!connectivity.isConnected && !state.hasLoaded) {
-              return const SliverToBoxAdapter(
-                child: OfflineWidget(),
-              );
-            }
-            if (state.error != null) {
-              return SliverFillRemaining(
-                child: Center(
-                  child: Text(
-                    translateError(context, state.error!),
-                    textAlign: TextAlign.center,
-                  ),
-                ).padded(),
-              );
-            }
-            if (state.hasLoaded &&
-                !state.isLoading &&
-                state.documents.isEmpty) {
-              return SliverToBoxAdapter(
-                child: Center(
-                  child: Text(S.of(context)!.noItemsFound),
-                ),
-              );
-            }
-            return SliverAdaptiveDocumentsView(
-              documents: state.documents,
-              hasInternetConnection: connectivity.isConnected,
+    return QueryBuilder(
+      query: context.documentRepository.getAllQuery(
+        DocumentFilter(moreLike: widget.documentId),
+      ),
+      builder: (context, state) {
+        if (state.isError) {
+          return SliverFillRemaining(
+            child: Center(
+              child: Text(
+                translateError(context, state.error!),
+                textAlign: TextAlign.center,
+              ),
+            ).padded(),
+          );
+        }
+        if (state.isLoading) {
+          return SliverFillRemaining(
+            child: Center(child: CircularProgressIndicator()),
+          );
+        }
+        final data = state.data?.pages.expand((e) => e.results).toList() ?? [];
+        if (data.isEmpty) {
+          return SliverToBoxAdapter(
+            child: Center(child: Text(S.of(context)!.noItemsFound)),
+          );
+        }
+        return SliverAdaptiveDocumentsView(
+          documents: data,
+          isLabelClickable: false,
+          isLoading: state.isLoading,
+          hasLoaded: data.isNotEmpty,
+          enableHeroAnimation: false,
+          onTap: (document) {
+            DocumentDetailsRoute(
+              title: document.title,
+              id: document.id,
+              thumbnailUrl: document.buildThumbnailUrl(context),
               isLabelClickable: false,
-              isLoading: state.isLoading,
-              hasLoaded: state.hasLoaded,
-              enableHeroAnimation: false,
-              onTap: (document) {
-                DocumentDetailsRoute(
-                  title: document.title,
-                  id: document.id,
-                  thumbnailUrl: document.buildThumbnailUrl(context),
-                  isLabelClickable: false,
-                ).push(context);
-              },
-            );
+            ).push(context);
           },
         );
       },

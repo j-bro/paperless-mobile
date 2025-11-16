@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:paperless_api/generated/lib/src/model/user.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/features/app_drawer/view/app_drawer.dart';
 import 'package:paperless_mobile/features/inbox/cubit/inbox_cubit.dart';
@@ -9,7 +10,7 @@ import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/theme.dart';
 
 class ScaffoldWithNavigationBar extends StatefulWidget {
-  final UserModel authenticatedUser;
+  final User authenticatedUser;
   final StatefulNavigationShell navigationShell;
   const ScaffoldWithNavigationBar({
     super.key,
@@ -43,10 +44,7 @@ class ScaffoldWithNavigationBarState extends State<ScaffoldWithNavigationBar> {
           destinations: [
             NavigationDestination(
               icon: const Icon(Icons.home_outlined),
-              selectedIcon: Icon(
-                Icons.home,
-                color: theme.colorScheme.primary,
-              ),
+              selectedIcon: Icon(Icons.home, color: theme.colorScheme.primary),
               label: S.of(context)!.home,
             ),
             _toggleDestination(
@@ -100,7 +98,8 @@ class ScaffoldWithNavigationBarState extends State<ScaffoldWithNavigationBar> {
                 selectedIcon: BlocBuilder<InboxCubit, InboxState>(
                   builder: (context, state) {
                     return Badge.count(
-                      isLabelVisible: state.itemsInInboxCount > 0 &&
+                      isLabelVisible:
+                          state.itemsInInboxCount > 0 &&
                           widget.authenticatedUser.canViewInbox,
                       count: state.itemsInInboxCount,
                       child: Icon(
@@ -121,23 +120,17 @@ class ScaffoldWithNavigationBarState extends State<ScaffoldWithNavigationBar> {
     );
   }
 
-  Widget _toggleDestination(
-    Widget destination, {
-    required bool disableWhen,
-  }) {
+  Widget _toggleDestination(Widget destination, {required bool disableWhen}) {
     final disabledColor = Theme.of(context).disabledColor;
 
     final disabledTheme = Theme.of(context).navigationBarTheme.copyWith(
-          labelTextStyle: WidgetStatePropertyAll(
-            Theme.of(context)
-                .textTheme
-                .labelSmall
-                ?.copyWith(color: disabledColor),
-          ),
-          iconTheme: WidgetStatePropertyAll(
-            Theme.of(context).iconTheme.copyWith(color: disabledColor),
-          ),
-        );
+      labelTextStyle: WidgetStatePropertyAll(
+        Theme.of(context).textTheme.labelSmall?.copyWith(color: disabledColor),
+      ),
+      iconTheme: WidgetStatePropertyAll(
+        Theme.of(context).iconTheme.copyWith(color: disabledColor),
+      ),
+    );
     if (disableWhen) {
       return AbsorbPointer(
         child: Theme(

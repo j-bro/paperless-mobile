@@ -2,10 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:hive_ce/hive.dart';
-import 'package:paperless_mobile/core/database/hive/hive_config.dart';
-import 'package:paperless_mobile/core/database/hive/hive_extensions.dart';
 
 Page<T> accessiblePlatformPage<T>({
   required Widget child,
@@ -18,17 +14,6 @@ Page<T> accessiblePlatformPage<T>({
   bool maintainState = true,
   String? title,
 }) {
-  final shouldDisableAnimations = WidgetsBinding.instance.disableAnimations ||
-      Hive.globalSettingsBox.getValue()!.disableAnimations;
-  if (shouldDisableAnimations) {
-    return NoTransitionPage(
-      key: key,
-      name: name,
-      arguments: arguments,
-      restorationId: restorationId,
-      child: child,
-    );
-  }
   if (Platform.isAndroid) {
     return MaterialPage(
       child: child,

@@ -16,5 +16,9 @@ export 'labels_api/correspondents_api_impl.dart';
 export 'labels_api/document_types_api_impl.dart';
 export 'labels_api/storage_paths_api_impl.dart';
 export 'labels_api/tags_api_impl.dart';
+export 'custom_fields/custom_fields_api.dart';
+export 'custom_fields/custom_fields_api_impl.dart';
+export 'search_api/paperless_search_api.dart';
+export 'search_api/paperless_search_api_impl.dart';
 
 export 'crud_api.dart';

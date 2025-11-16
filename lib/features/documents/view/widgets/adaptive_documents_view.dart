@@ -1,24 +1,24 @@
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:paperless_api/paperless_api.dart';
+import 'package:paperless_api/generated/lib/src/model/document.dart';
+import 'package:paperless_api/generated/lib/src/model/paginated_document_list.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
-import 'package:paperless_mobile/features/documents/view/widgets/placeholder/document_grid_loading_widget.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/items/document_detailed_item.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/items/document_grid_item.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/items/document_list_item.dart';
+import 'package:paperless_mobile/features/documents/view/widgets/placeholder/document_grid_loading_widget.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/placeholder/documents_list_loading_widget.dart';
-import 'package:paperless_mobile/features/paged_document_view/cubit/paged_documents_state.dart';
 import 'package:paperless_mobile/features/settings/model/view_type.dart';
 
 abstract class AdaptiveDocumentsView extends StatelessWidget {
-  final List<DocumentModel> documents;
+  final List<Document> documents;
   final bool isLoading;
   final bool hasLoaded;
   final bool enableHeroAnimation;
   final List<int> selectedDocumentIds;
   final ViewType viewType;
-  final void Function(DocumentModel)? onTap;
-  final void Function(DocumentModel)? onSelected;
-  final bool hasInternetConnection;
+  final void Function(Document)? onTap;
+  final void Function(Document)? onSelected;
   final bool isLabelClickable;
   final void Function(int id)? onTagSelected;
   final void Function(int? id)? onCorrespondentSelected;
@@ -34,7 +34,6 @@ abstract class AdaptiveDocumentsView extends StatelessWidget {
     this.onTap,
     this.onSelected,
     this.viewType = ViewType.list,
-    required this.hasInternetConnection,
     required this.isLabelClickable,
     this.onTagSelected,
     this.onCorrespondentSelected,
@@ -46,7 +45,7 @@ abstract class AdaptiveDocumentsView extends StatelessWidget {
   });
 
   AdaptiveDocumentsView.fromPagedState(
-    DocumentPagingState state, {
+    InfiniteQueryStatus<PaginatedDocumentList, int> queryState, {
     super.key,
     this.onSelected,
     this.onTap,
@@ -56,19 +55,18 @@ abstract class AdaptiveDocumentsView extends StatelessWidget {
     this.onTagSelected,
     this.isLabelClickable = true,
     this.enableHeroAnimation = true,
-    required this.hasInternetConnection,
     this.viewType = ViewType.list,
     this.selectedDocumentIds = const [],
-  })  : documents = state.documents,
-        isLoading = state.isLoading,
-        hasLoaded = state.hasLoaded;
+  }) : documents =
+           queryState.data?.pages.expand((p) => p.results).toList() ?? [],
+       isLoading = queryState.isLoading,
+       hasLoaded = queryState.isSuccess;
 }
 
 class SliverAdaptiveDocumentsView extends AdaptiveDocumentsView {
   const SliverAdaptiveDocumentsView({
     super.key,
     required super.documents,
-    required super.hasInternetConnection,
     required super.isLabelClickable,
     super.onCorrespondentSelected,
     super.onDocumentTypeSelected,
@@ -100,25 +98,25 @@ class SliverAdaptiveDocumentsView extends AdaptiveDocumentsView {
       return const DocumentsListLoadingWidget.sliver();
     }
     return SliverList(
-      delegate: SliverChildBuilderDelegate(
-        childCount: documents.length,
-        (context, index) {
-          final document = documents.elementAt(index);
-          return DocumentListItem(
-            isLabelClickable: isLabelClickable,
-            document: document,
-            onTap: onTap,
-            isSelected: selectedDocumentIds.contains(document.id),
-            onSelected: onSelected,
-            isSelectionActive: selectedDocumentIds.isNotEmpty,
-            onTagSelected: onTagSelected,
-            onCorrespondentSelected: onCorrespondentSelected,
-            onDocumentTypeSelected: onDocumentTypeSelected,
-            onStoragePathSelected: onStoragePathSelected,
-            enableHeroAnimation: enableHeroAnimation,
-          );
-        },
-      ),
+      delegate: SliverChildBuilderDelegate(childCount: documents.length, (
+        context,
+        index,
+      ) {
+        final document = documents.elementAt(index);
+        return DocumentListItem(
+          isLabelClickable: isLabelClickable,
+          document: document,
+          onTap: onTap,
+          isSelected: selectedDocumentIds.contains(document.id),
+          onSelected: onSelected,
+          isSelectionActive: selectedDocumentIds.isNotEmpty,
+          onTagSelected: onTagSelected,
+          onCorrespondentSelected: onCorrespondentSelected,
+          onDocumentTypeSelected: onDocumentTypeSelected,
+          onStoragePathSelected: onStoragePathSelected,
+          enableHeroAnimation: enableHeroAnimation,
+        );
+      }),
     );
   }
 
@@ -128,26 +126,25 @@ class SliverAdaptiveDocumentsView extends AdaptiveDocumentsView {
       return const DocumentsListLoadingWidget.sliver();
     }
     return SliverList(
-      delegate: SliverChildBuilderDelegate(
-        childCount: documents.length,
-        (context, index) {
-          final document = documents.elementAt(index);
-          return DocumentDetailedItem(
-            isLabelClickable: isLabelClickable,
-            document: document,
-            onTap: onTap,
-            isSelected: selectedDocumentIds.contains(document.id),
-            onSelected: onSelected,
-            isSelectionActive: selectedDocumentIds.isNotEmpty,
-            onTagSelected: onTagSelected,
-            onCorrespondentSelected: onCorrespondentSelected,
-            onDocumentTypeSelected: onDocumentTypeSelected,
-            onStoragePathSelected: onStoragePathSelected,
-            enableHeroAnimation: enableHeroAnimation,
-            highlights: document.searchHit?.highlights,
-          );
-        },
-      ),
+      delegate: SliverChildBuilderDelegate(childCount: documents.length, (
+        context,
+        index,
+      ) {
+        final document = documents.elementAt(index);
+        return DocumentDetailedItem(
+          isLabelClickable: isLabelClickable,
+          document: document,
+          onTap: onTap,
+          isSelected: selectedDocumentIds.contains(document.id),
+          onSelected: onSelected,
+          isSelectionActive: selectedDocumentIds.isNotEmpty,
+          onTagSelected: onTagSelected,
+          onCorrespondentSelected: onCorrespondentSelected,
+          onDocumentTypeSelected: onDocumentTypeSelected,
+          onStoragePathSelected: onStoragePathSelected,
+          enableHeroAnimation: enableHeroAnimation,
+        );
+      }),
     );
   }
 
@@ -188,7 +185,6 @@ class DefaultAdaptiveDocumentsView extends AdaptiveDocumentsView {
   const DefaultAdaptiveDocumentsView({
     super.key,
     required super.documents,
-    required super.hasInternetConnection,
     required super.isLabelClickable,
     required super.isLoading,
     required super.hasLoaded,

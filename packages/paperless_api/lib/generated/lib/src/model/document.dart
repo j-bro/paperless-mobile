@@ -5,7 +5,7 @@
 // ignore_for_file: unused_element
 import 'package:paperless_api/generated/lib/src/model/correspondent_permissions.dart';
 import 'package:paperless_api/generated/lib/src/model/custom_field_instance.dart';
-import 'package:paperless_api/generated/lib/src/model/notes.dart';
+import 'package:paperless_api/generated/lib/src/model/note.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/src/equatable_utils.dart';
@@ -140,7 +140,7 @@ class Document {
   final bool isSharedByRequester;
 
   @JsonKey(name: r'notes', required: true, includeIfNull: false)
-  final List<Notes> notes;
+  final List<Note> notes;
 
   @JsonKey(name: r'custom_fields', required: false, includeIfNull: false)
   final List<CustomFieldInstance>? customFields;

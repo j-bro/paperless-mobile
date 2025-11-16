@@ -1,14 +1,16 @@
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/constants.dart';
+import 'package:paperless_mobile/core/repository/saved_view_repository.dart';
+import 'package:paperless_mobile/core/repository/server_statistics_repository.dart';
 import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/features/app_drawer/view/app_drawer.dart';
 import 'package:paperless_mobile/features/document_search/view/sliver_search_bar.dart';
 import 'package:paperless_mobile/features/landing/view/widgets/expansion_card.dart';
 import 'package:paperless_mobile/features/landing/view/widgets/mime_types_pie_chart.dart';
-import 'package:paperless_mobile/features/saved_view/cubit/saved_view_cubit.dart';
 import 'package:paperless_mobile/features/saved_view_details/view/saved_view_preview.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/routing/routes/documents_route.dart';
@@ -71,11 +73,7 @@ class _LandingPageState extends State<LandingPage> {
             slivers: [
               SliverToBoxAdapter(
                 child: Text(
-                  S
-                      .of(context)!
-                      .welcomeUser(
-                        currentUser.fullName ?? currentUser.username,
-                      ),
+                  S.of(context)!.welcomeUser(currentUser.displayName),
                   textAlign: TextAlign.center,
                   style: Theme.of(
                     context,
@@ -101,48 +99,48 @@ class _LandingPageState extends State<LandingPage> {
                     ),
                   ),
                 ),
-                BlocBuilder<SavedViewCubit, SavedViewState>(
+                QueryBuilder(
+                  query: context.read<SavedViewRepository>().getAllQuery(),
                   builder: (context, state) {
-                    return state.maybeWhen(
-                      loaded: (savedViews) {
-                        final dashboardViews = savedViews.values
-                            .where((element) => element.showOnDashboard)
-                            .toList();
-                        if (dashboardViews.isEmpty) {
-                          return SliverToBoxAdapter(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  S.of(context)!.youDidNotSaveAnyViewsYet,
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                ).padded(),
-                                TextButton.icon(
-                                  onPressed: () {
-                                    const CreateSavedViewRoute(
-                                      showOnDashboard: true,
-                                    ).push(context);
-                                  },
-                                  icon: const Icon(Icons.add),
-                                  label: Text(S.of(context)!.newView),
-                                ),
-                              ],
-                            ).paddedOnly(left: 16),
-                          );
-                        }
-                        return SliverList.builder(
-                          itemBuilder: (context, index) {
-                            return SavedViewPreview(
-                              savedView: dashboardViews.elementAt(index),
-                              expanded: index == 0,
-                            );
-                          },
-                          itemCount: dashboardViews.length,
+                    if (state.data == null) {
+                      return const SliverToBoxAdapter(
+                        child: Center(child: CircularProgressIndicator()),
+                      );
+                    }
+                    final savedViews = state.data!;
+                    final dashboardViews = savedViews
+                        .where((element) => element.showOnDashboard)
+                        .toList();
+                    if (dashboardViews.isEmpty) {
+                      return SliverToBoxAdapter(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              S.of(context)!.youDidNotSaveAnyViewsYet,
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ).padded(),
+                            TextButton.icon(
+                              onPressed: () {
+                                const CreateSavedViewRoute(
+                                  showOnDashboard: true,
+                                ).push(context);
+                              },
+                              icon: const Icon(Icons.add),
+                              label: Text(S.of(context)!.newView),
+                            ),
+                          ],
+                        ).paddedOnly(left: 16),
+                      );
+                    }
+                    return SliverList.builder(
+                      itemBuilder: (context, index) {
+                        return SavedViewPreview(
+                          savedView: dashboardViews.elementAt(index),
+                          expanded: index == 0,
                         );
                       },
-                      orElse: () => const SliverToBoxAdapter(
-                        child: Center(child: CircularProgressIndicator()),
-                      ),
+                      itemCount: dashboardViews.length,
                     );
                   },
                 ),
@@ -162,15 +160,23 @@ class _LandingPageState extends State<LandingPage> {
         S.of(context)!.statistics,
         style: Theme.of(context).textTheme.titleLarge,
       ),
-      content: FutureBuilder<PaperlessServerStatisticsModel>(
-        future: context.read<PaperlessServerStatsApi>().getServerStatistics(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
+      content: QueryBuilder(
+        query: context
+            .read<ServerStatisticsRepository>()
+            .getServerStatisticsQuery(),
+        builder: (context, state) {
+          if (!state.isLoading) {
             return const Center(
               child: CircularProgressIndicator(),
             ).paddedOnly(top: 8, bottom: 24);
           }
-          final stats = snapshot.data!;
+
+          if (state.isError) {
+            return Center(
+              child: Text(S.of(context)!.anUnknownErrorOccurred),
+            ).padded(16);
+          }
+          final stats = state.data!;
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -184,7 +190,7 @@ class _LandingPageState extends State<LandingPage> {
                       ? () => InboxRoute().go(context)
                       : null,
                   trailing: Text(
-                    stats.documentsInInbox.toString(),
+                    stats.documentsInbox.toString(),
                     style: Theme.of(context).textTheme.labelLarge,
                   ),
                 ),
@@ -213,12 +219,12 @@ class _LandingPageState extends State<LandingPage> {
                   titleTextStyle: Theme.of(context).textTheme.labelLarge,
                   title: Text(S.of(context)!.totalCharacters),
                   trailing: Text(
-                    (stats.totalChars ?? 0).toString(),
+                    (stats.characterCount ?? 0).toString(),
                     style: Theme.of(context).textTheme.labelLarge,
                   ),
                 ),
               ),
-              if (stats.fileTypeCounts.isNotEmpty)
+              if (stats.documentFileTypeCounts.isNotEmpty)
                 AspectRatio(
                   aspectRatio: 1.3,
                   child: SizedBox(

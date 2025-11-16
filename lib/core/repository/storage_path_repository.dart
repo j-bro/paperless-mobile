@@ -21,4 +21,10 @@ class StoragePathRepository
 
   @override
   String get queryKey => 'storage_paths';
+
+  @override
+  String? variableHash(GetFilterOptions? options) {
+    final normalized = options?.copyWith(page: null).toJson()?..remove('page');
+    return normalized.hashCode.toString();
+  }
 }

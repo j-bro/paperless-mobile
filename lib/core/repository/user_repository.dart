@@ -7,11 +7,18 @@ class UserRepository {
 
   UserRepository(this._userApi);
 
-  Future<void> initialize() async {
-    findAll().fetch();
+  Query<List<User>> getAllQuery([UserFilterOptions? options]) {
+    final normalizedOptions = options?.copyWith(page: 1).toJson();
+    final queryString = Uri(queryParameters: normalizedOptions).toString();
+    final queryKey = normalizedOptions == null ? 'users' : 'users/$queryString';
+    return Query<List<User>>(
+      key: queryKey,
+      queryFn: () => _userApi.getAll(options),
+    );
   }
 
-  Query<List<User>> findAll() {
-    return Query<List<User>>(key: 'users', queryFn: _userApi.getAll);
+  Query<User?> getByIdQuery(int id) {
+    final queryKey = 'user/$id';
+    return Query<User?>(key: queryKey, queryFn: () => _userApi.get(id));
   }
 }

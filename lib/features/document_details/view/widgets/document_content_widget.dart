@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:paperless_api/paperless_api.dart';
+import 'package:paperless_api/generated/lib/src/model/document.dart';
 import 'package:paperless_mobile/core/widgets/highlighted_text.dart';
 
 class DocumentContentWidget extends StatelessWidget {
-  final DocumentModel document;
+  final Document document;
   final String? queryString;
   const DocumentContentWidget({
     super.key,

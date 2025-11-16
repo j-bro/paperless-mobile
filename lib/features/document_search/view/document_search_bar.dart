@@ -1,10 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_ce_flutter/adapters.dart';
-import 'package:paperless_mobile/core/database/hive/hive_config.dart';
 import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
-import 'package:paperless_mobile/core/store/slices/local_user_app_state.dart';
-import 'package:paperless_mobile/features/document_search/cubit/document_search_cubit.dart';
 import 'package:paperless_mobile/features/document_search/view/document_search_page.dart';
 import 'package:paperless_mobile/features/settings/view/manage_accounts_page.dart';
 import 'package:paperless_mobile/features/settings/view/widgets/user_avatar.dart';
@@ -90,17 +86,7 @@ class _DocumentSearchBarState extends State<DocumentSearchBar> {
         );
       },
       openBuilder: (_, action) {
-        return Provider(
-          create: (_) => DocumentSearchCubit(
-            context.read(),
-            context.read(),
-            Hive.box<LocalUserAppState>(
-              HiveBoxes.localUserAppState,
-            ).get(context.read<LocalUserAccount>().id)!,
-            context.read(),
-          ),
-          child: const DocumentSearchPage(),
-        );
+        return const DocumentSearchPage();
       },
     );
   }

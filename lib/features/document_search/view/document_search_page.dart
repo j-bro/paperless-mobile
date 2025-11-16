@@ -1,16 +1,18 @@
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paperless_mobile/accessibility/accessibility_utils.dart';
-import 'package:paperless_mobile/core/extensions/document_extensions.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
+import 'package:paperless_mobile/core/repository/search_repository.dart';
 import 'package:paperless_mobile/features/document_search/cubit/document_search_cubit.dart';
 import 'package:paperless_mobile/features/document_search/view/remove_history_entry_dialog.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/adaptive_documents_view.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/selection/view_type_selection_widget.dart';
+import 'package:paperless_mobile/features/settings/view/widgets/global_settings_builder.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/routing/routes/documents_route.dart';
 
@@ -27,85 +29,95 @@ class _DocumentSearchPageState extends State<DocumentSearchPage> {
 
   Timer? _debounceTimer;
 
-  String get query => _queryController.text;
+  @override
+  void initState() {
+    super.initState();
+    _queryController.addListener(() {
+      _debounceTimer?.cancel();
+      _debounceTimer = Timer(const Duration(milliseconds: 500), () {
+        setState(() {});
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     const double progressIndicatorHeight = 4;
     final theme = Theme.of(context);
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: theme.colorScheme.surfaceContainerHighest,
-        toolbarHeight: 72 - progressIndicatorHeight,
-        leading: BackButton(
-          color: theme.colorScheme.onSurfaceVariant,
-        ),
-        title: Hero(
-          tag: "search_hero_tag",
-          child: TextField(
-            autofocus: true,
-            // style: theme.textTheme.bodyLarge?.apply(
-            //   color: theme.colorScheme.onSurface,
-            // ),
-            focusNode: _queryFocusNode,
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.zero,
-              hintText: S.of(context)!.searchDocuments,
-              border: InputBorder.none,
-            ),
-            controller: _queryController,
-            onChanged: (query) {
-              _debounceTimer?.cancel();
-              _debounceTimer = Timer(const Duration(milliseconds: 500), () {
-                context.read<DocumentSearchCubit>().suggest(query);
-              });
-            },
-            textInputAction: TextInputAction.search,
-            onSubmitted: (query) {
-              FocusScope.of(context).unfocus();
-              _debounceTimer?.cancel();
-              context.read<DocumentSearchCubit>().search(query);
-            },
-          ),
-        ).accessible(),
-        actions: [
-          IconButton(
-            color: theme.colorScheme.onSurfaceVariant,
-            icon: const Icon(Icons.clear),
-            onPressed: () {
-              context.read<DocumentSearchCubit>().reset();
-              _queryController.clear();
-            },
-          ).padded(),
-        ],
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(progressIndicatorHeight),
-          child: BlocBuilder<DocumentSearchCubit, DocumentSearchState>(
-            builder: (context, state) {
-              if (state.isLoading) {
-                return const LinearProgressIndicator();
-              }
-              return ColoredBox(color: Theme.of(context).colorScheme.surface);
-            },
-          ),
-        ),
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: BlocBuilder<DocumentSearchCubit, DocumentSearchState>(
-              builder: (context, state) {
-                switch (state.view) {
-                  case SearchView.suggestions:
-                    return _buildSuggestionsView(state);
-                  case SearchView.results:
-                    return _buildResultsView(state);
-                }
-              },
+    return GlobalSettingsBuilder(
+      builder: (context, globalSettings) {
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: theme.colorScheme.surfaceContainerHighest,
+            toolbarHeight: 72 - progressIndicatorHeight,
+            leading: BackButton(color: theme.colorScheme.onSurfaceVariant),
+            title: Hero(
+              tag: "search_hero_tag",
+              child: TextField(
+                autofocus: true,
+                // style: theme.textTheme.bodyLarge?.apply(
+                //   color: theme.colorScheme.onSurface,
+                // ),
+                focusNode: _queryFocusNode,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.zero,
+                  hintText: S.of(context)!.searchDocuments,
+                  border: InputBorder.none,
+                ),
+                controller: _queryController,
+                textInputAction: TextInputAction.search,
+                onSubmitted: (query) {
+                  FocusScope.of(context).unfocus();
+                  _debounceTimer?.cancel();
+                  context.read<DocumentSearchCubit>().search(query);
+                },
+              ),
+            ).accessible(),
+            actions: [
+              IconButton(
+                color: theme.colorScheme.onSurfaceVariant,
+                icon: const Icon(Icons.clear),
+                onPressed: () {
+                  context.read<DocumentSearchCubit>().reset();
+                  _queryController.clear();
+                },
+              ).padded(),
+            ],
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(progressIndicatorHeight),
+              child: QueryBuilder(
+                query: context.read<SearchRepository>().autocompleteQuery(
+                  _queryController.text,
+                ),
+                builder: (context, state) {
+                  if (state.isLoading) {
+                    return const LinearProgressIndicator();
+                  }
+                  return ColoredBox(
+                    color: Theme.of(context).colorScheme.surface,
+                  );
+                },
+              ),
             ),
           ),
-        ],
-      ),
+          body: Column(
+            children: [
+              Expanded(
+                child: BlocBuilder<DocumentSearchCubit, DocumentSearchState>(
+                  builder: (context, state) {
+                    switch (state.view) {
+                      case SearchView.suggestions:
+                        return _buildSuggestionsView(state);
+                      case SearchView.results:
+                        return _buildResultsView(state);
+                    }
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -114,9 +126,7 @@ class _DocumentSearchPageState extends State<DocumentSearchPage> {
         .whereNot((element) => state.searchHistory.contains(element))
         .toList();
     final historyMatches = state.searchHistory
-        .where(
-          (element) => element.startsWith(query),
-        )
+        .where((element) => element.startsWith(_queryController.text))
         .toList();
     return CustomScrollView(
       slivers: [
@@ -155,7 +165,8 @@ class _DocumentSearchPageState extends State<DocumentSearchPage> {
   }
 
   void _onDeleteHistoryEntry(String entry) async {
-    final shouldRemove = await showDialog<bool>(
+    final shouldRemove =
+        await showDialog<bool>(
           context: context,
           builder: (context) => RemoveHistoryEntryDialog(entry: entry),
         ) ??
@@ -198,7 +209,7 @@ class _DocumentSearchPageState extends State<DocumentSearchPage> {
                   context.read<DocumentSearchCubit>().updateViewType(type),
             );
           },
-        )
+        ),
       ],
     ).paddedLTRB(16, 8, 8, 8);
     return CustomScrollView(
@@ -227,14 +238,13 @@ class _DocumentSearchPageState extends State<DocumentSearchPage> {
                 thumbnailUrl: document.buildThumbnailUrl(context),
               ).push(context);
             },
-          )
+          ),
       ],
     );
   }
 
   void _selectSuggestion(String suggestion) {
     _queryController.text = suggestion;
-    context.read<DocumentSearchCubit>().search(suggestion);
     FocusScope.of(context).unfocus();
   }
 }

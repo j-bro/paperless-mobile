@@ -29,3 +29,8 @@ extension SavedViewRequestExtensions on DocumentFilter {
     );
   }
 }
+
+extension DocumentFilterOptionsConverter on DocumentFilter {
+  DocumentFilterOptions toDocumentFilterOptions() =>
+      DocumentFilterOptions.fromJson(toQueryParameters());
+}

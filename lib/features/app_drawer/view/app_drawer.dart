@@ -1,12 +1,12 @@
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/constants.dart';
+import 'package:paperless_mobile/core/repository/saved_view_repository.dart';
 import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
-import 'package:paperless_mobile/features/documents/cubit/documents_cubit.dart';
-import 'package:paperless_mobile/features/saved_view/cubit/saved_view_cubit.dart';
 import 'package:paperless_mobile/features/sharing/cubit/receive_share_cubit.dart';
 import 'package:paperless_mobile/generated/assets.gen.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
@@ -175,64 +175,62 @@ class AppDrawer extends StatelessWidget {
               textAlign: TextAlign.left,
               style: Theme.of(context).textTheme.labelLarge,
             ).padded(16),
-            _buildSavedViews(),
+            _buildSavedViews(context),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildSavedViews() {
-    return BlocBuilder<SavedViewCubit, SavedViewState>(
+  Widget _buildSavedViews(BuildContext context) {
+    return QueryBuilder(
+      query: context.read<SavedViewRepository>().getAllQuery(),
       builder: (context, state) {
-        return state.when(
-          initial: () => const SizedBox.shrink(),
-          loading: () => const Center(child: CircularProgressIndicator()),
-          loaded: (savedViews) {
-            final sidebarViews = savedViews.values
-                .where((element) => element.showInSidebar)
-                .toList();
-            if (sidebarViews.isEmpty) {
-              return Column(
-                children: [
-                  Text(
-                    S.of(context)!.youDidNotSaveAnyViewsYet,
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ).paddedOnly(left: 16, right: 16),
-                  TextButton.icon(
-                    onPressed: () {
-                      Scaffold.of(context).closeDrawer();
-                      const CreateSavedViewRoute(
-                        showInSidebar: true,
-                      ).push(context);
-                    },
-                    icon: const Icon(Icons.add),
-                    label: Text(S.of(context)!.newView),
-                  ),
-                ],
-              );
-            }
-            return Expanded(
-              child: ListView.builder(
-                itemBuilder: (context, index) {
-                  final view = sidebarViews[index];
-                  return ListTile(
-                    title: Text(view.name),
-                    trailing: const Icon(Icons.arrow_forward),
-                    onTap: () {
-                      Scaffold.of(context).closeDrawer();
-                      context.read<DocumentsCubit>().updateFilter(
-                        filter: view.toDocumentFilter(),
-                      );
-                      DocumentsRoute().go(context);
-                    },
-                  );
+        if (state.isInitial) {
+          return const SizedBox.shrink();
+        }
+        if (state.isLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (state.isError) {
+          return Text(S.of(context)!.couldNotLoadSavedViews);
+        }
+        final sidebarViews =
+            state.data?.where((element) => element.showInSidebar).toList() ??
+            [];
+        if (sidebarViews.isEmpty) {
+          return Column(
+            children: [
+              Text(
+                S.of(context)!.youDidNotSaveAnyViewsYet,
+                style: Theme.of(context).textTheme.bodySmall,
+              ).paddedOnly(left: 16, right: 16),
+              TextButton.icon(
+                onPressed: () {
+                  Scaffold.of(context).closeDrawer();
+                  const CreateSavedViewRoute(showInSidebar: true).push(context);
                 },
-                itemCount: sidebarViews.length,
+                icon: const Icon(Icons.add),
+                label: Text(S.of(context)!.newView),
               ),
-            );
-          },
-          error: () => Text(S.of(context)!.couldNotLoadSavedViews),
+            ],
+          );
+        }
+        return Expanded(
+          child: ListView.builder(
+            itemBuilder: (context, index) {
+              final view = sidebarViews[index];
+              return ListTile(
+                title: Text(view.name),
+                trailing: const Icon(Icons.arrow_forward),
+                onTap: () {
+                  Scaffold.of(context).closeDrawer();
+                  DocumentsRoute($extra: view.toDocumentFilter()).go(context);
+                },
+              );
+            },
+            itemCount: sidebarViews.length,
+          ),
         );
       },
     );

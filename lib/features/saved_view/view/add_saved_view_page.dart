@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
 import 'package:paperless_api/paperless_api.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/widgets/hint_card.dart';
-import 'package:paperless_mobile/features/saved_view/cubit/saved_view_cubit.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
 const _fkName = 'name';
@@ -31,9 +30,7 @@ class _AddSavedViewPageState extends State<AddSavedViewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(S.of(context)!.newView),
-      ),
+      appBar: AppBar(title: Text(S.of(context)!.newView)),
       floatingActionButton: FloatingActionButton.extended(
         heroTag: "fab_add_saved_view_page",
         icon: const Icon(Icons.add),
@@ -103,19 +100,17 @@ class _AddSavedViewPageState extends State<AddSavedViewPage> {
 
   void _onCreate(BuildContext context) async {
     if (_savedViewFormKey.currentState?.saveAndValidate() ?? false) {
-      final cubit = context.read<SavedViewCubit>();
-      var savedView = SavedView.fromDocumentFilter(
-        widget.initialFilter ?? const DocumentFilter(),
-        name: _savedViewFormKey.currentState?.value[_fkName] as String,
-        showOnDashboard:
-            _savedViewFormKey.currentState?.value[_fkShowOnDashboard] as bool,
-        showInSidebar:
-            _savedViewFormKey.currentState?.value[_fkShowInSidebar] as bool,
-      );
+      var savedView = (widget.initialFilter ?? const DocumentFilter())
+          .toSavedViewRequest(
+            name: _savedViewFormKey.currentState?.value[_fkName] as String,
+            showOnDashboard:
+                _savedViewFormKey.currentState?.value[_fkShowOnDashboard]
+                    as bool,
+            showInSidebar:
+                _savedViewFormKey.currentState?.value[_fkShowInSidebar] as bool,
+          );
       final router = GoRouter.of(context);
-      await cubit.add(
-        savedView,
-      );
+      await context.savedViewRepository.createMutation.mutate(savedView);
       router.pop();
     }
   }

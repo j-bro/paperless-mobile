@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
-import 'package:paperless_mobile/core/repository/label_repository.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/document_preview.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/items/document_item.dart';
 import 'package:paperless_mobile/features/labels/correspondent/view/widgets/correspondent_widget.dart';
@@ -29,7 +28,6 @@ class DocumentGridItem extends DocumentItem {
   @override
   Widget build(BuildContext context) {
     var currentUser = context.watch<LocalUserAccount>().paperlessUser;
-    final labelRepository = context.watch<LabelRepository>();
     return Stack(
       children: [
         Card(
@@ -75,9 +73,7 @@ class DocumentGridItem extends DocumentItem {
                                   ),
                                   if (currentUser.canViewTags)
                                     TagsWidget.sliver(
-                                      tags: document.tags
-                                          .map((e) => labelRepository.tags[e]!)
-                                          .toList(),
+                                      tagIds: document.tags,
                                       onTagSelected: onTagSelected,
                                     ),
                                   const SliverToBoxAdapter(
@@ -100,20 +96,18 @@ class DocumentGridItem extends DocumentItem {
                       children: [
                         if (currentUser.canViewCorrespondents)
                           CorrespondentWidget(
-                            correspondent: labelRepository
-                                .correspondents[document.correspondent],
+                            id: document.correspondent,
                             onSelected: onCorrespondentSelected,
                           ),
                         if (currentUser.canViewDocumentTypes)
                           DocumentTypeWidget(
-                            documentType: labelRepository
-                                .documentTypes[document.documentType],
+                            id: document.documentType,
                             onSelected: onDocumentTypeSelected,
                           ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 8.0),
                           child: Text(
-                            document.title.isEmpty ? '-' : document.title,
+                            document.title ?? '-',
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context).textTheme.titleMedium,
@@ -123,12 +117,13 @@ class DocumentGridItem extends DocumentItem {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              DateFormat.yMMMMd(
-                                Localizations.localeOf(context).toString(),
-                              ).format(document.created),
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
+                            if (document.created != null)
+                              Text(
+                                DateFormat.yMMMMd(
+                                  Localizations.localeOf(context).toString(),
+                                ).format(document.created!),
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
                             if (document.archiveSerialNumber != null)
                               Text(
                                 '#${document.archiveSerialNumber!}',

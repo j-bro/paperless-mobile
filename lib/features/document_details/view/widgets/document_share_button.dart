@@ -1,12 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:hive_ce_flutter/hive_flutter.dart';
+import 'package:paperless_api/generated/lib/src/model/document.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/constants.dart';
-import 'package:paperless_mobile/core/database/hive/hive_config.dart';
-import 'package:paperless_mobile/core/store/slices/global_settings.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
+import 'package:paperless_mobile/core/store/local_store.dart';
 import 'package:paperless_mobile/features/document_details/cubit/document_details_cubit.dart';
 import 'package:paperless_mobile/features/document_details/view/dialogs/select_file_type_dialog.dart';
 import 'package:paperless_mobile/features/settings/model/file_download_type.dart';
@@ -18,7 +17,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class DocumentShareButton extends StatefulWidget {
-  final DocumentModel? document;
+  final Document? document;
   final bool enabled;
   const DocumentShareButton({
     super.key,
@@ -54,11 +53,10 @@ class _DocumentShareButtonState extends State<DocumentShareButton> {
     );
   }
 
-  Future<void> _onShare(DocumentModel document) async {
+  Future<void> _onShare(Document document) async {
     try {
-      final globalSettings = Hive.box<GlobalSettings>(
-        HiveBoxes.globalSettings,
-      ).getValue()!;
+      final localStore = context.read<LocalStore>();
+      final globalSettings = localStore.state.globalSettings;
       bool original;
 
       switch (globalSettings.defaultShareType) {
@@ -73,8 +71,9 @@ class _DocumentShareButtonState extends State<DocumentShareButton> {
             context: context,
             builder: (context) => SelectFileTypeDialog(
               onRememberSelection: (downloadType) {
-                globalSettings.defaultShareType = downloadType;
-                globalSettings.save();
+                localStore.updateGlobalSettings(
+                  globalSettings.copyWith(defaultShareType: downloadType),
+                );
               },
             ),
           );

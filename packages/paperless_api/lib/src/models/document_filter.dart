@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:paperless_api/paperless_api.dart';
@@ -6,6 +7,7 @@ import 'package:paperless_api/src/models/query_parameters/date_range_queries/dat
 
 part 'document_filter.g.dart';
 
+@CopyWith()
 @JsonSerializable()
 class DocumentFilter extends Equatable {
   static const DocumentFilter initial = DocumentFilter();
@@ -89,55 +91,6 @@ class DocumentFilter extends Equatable {
       ),
     );
     return queryParams;
-  }
-
-  // @override
-  // String toString() => toQueryParameters().toString();
-
-  DocumentFilter copyWith({
-    int? pageSize,
-    int? page,
-    IdQueryParameter? documentType,
-    IdQueryParameter? correspondent,
-    IdQueryParameter? storagePath,
-    IdQueryParameter? archiveSerialNumber,
-    TagsQuery? tags,
-    SortField? sortField,
-    SortOrder? sortOrder,
-    DateRangeQuery? added,
-    DateRangeQuery? created,
-    DateRangeQuery? modified,
-    TextQuery? query,
-    int? Function()? moreLike,
-    int? Function()? selectedView,
-  }) {
-    final newFilter = DocumentFilter(
-      pageSize: pageSize ?? this.pageSize,
-      page: page ?? this.page,
-      documentType: documentType ?? this.documentType,
-      correspondent: correspondent ?? this.correspondent,
-      storagePath: storagePath ?? this.storagePath,
-      tags: tags ?? this.tags,
-      sortField: sortField ?? this.sortField,
-      sortOrder: sortOrder ?? this.sortOrder,
-      archiveSerialNumber: archiveSerialNumber ?? this.archiveSerialNumber,
-      query: query ?? this.query,
-      added: added ?? this.added,
-      created: created ?? this.created,
-      modified: modified ?? this.modified,
-      moreLike: moreLike != null ? moreLike.call() : this.moreLike,
-      selectedView: selectedView != null
-          ? selectedView.call()
-          : this.selectedView,
-    );
-    if (query?.queryType != QueryType.extended &&
-        newFilter.forceExtendedQuery) {
-      //Prevents infinite recursion
-      return newFilter.copyWith(
-        query: newFilter.query.copyWith(queryType: QueryType.extended),
-      );
-    }
-    return newFilter;
   }
 
   int get appliedFiltersCount => [

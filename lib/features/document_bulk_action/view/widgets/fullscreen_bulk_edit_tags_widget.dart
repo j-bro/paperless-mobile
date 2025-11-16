@@ -1,17 +1,26 @@
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:paperless_api/generated/lib/src/model/bulk_edit_request.dart';
+import 'package:paperless_api/generated/lib/src/model/document.dart';
+import 'package:paperless_api/generated/lib/src/model/method_enum.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_mobile/core/repository/label_repository.dart';
-import 'package:paperless_mobile/core/widgets/form_fields/fullscreen_selection_form.dart';
 import 'package:paperless_mobile/core/extensions/dart_extensions.dart';
+import 'package:paperless_mobile/core/extensions/document_extensions.dart';
+import 'package:paperless_mobile/core/extensions/label_list_extension.dart';
+import 'package:paperless_mobile/core/repository/document_repository.dart';
+import 'package:paperless_mobile/core/repository/tag_repository.dart';
+import 'package:paperless_mobile/core/widgets/form_fields/fullscreen_selection_form.dart';
 import 'package:paperless_mobile/features/document_bulk_action/cubit/document_bulk_action_cubit.dart';
 import 'package:paperless_mobile/features/document_bulk_action/view/widgets/confirm_bulk_modify_tags_dialog.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
 class FullscreenBulkEditTagsWidget extends StatefulWidget {
-  const FullscreenBulkEditTagsWidget({super.key});
+  final List<Document> selection;
+
+  const FullscreenBulkEditTagsWidget({super.key, required this.selection});
 
   @override
   State<FullscreenBulkEditTagsWidget> createState() =>
@@ -36,12 +45,11 @@ class _FullscreenBulkEditTagsWidgetState
   void initState() {
     super.initState();
     final state = context.read<DocumentBulkActionCubit>().state;
-    final labels = context.read<LabelRepository>();
+    final tags = context.read<TagRepository>().getAllQuery().state.data ?? [];
     _sharedTags = state.selection
-        .map((e) => e.tags)
-        .map((e) => e.toSet())
+        .map((e) => e.tags.toSet())
         .fold(
-          labels.tags.values.map((e) => e.id!).toSet(),
+          tags.map((e) => e.id).toSet(),
           (previousValue, element) => previousValue.intersection(element),
         )
         .toList();
@@ -51,13 +59,15 @@ class _FullscreenBulkEditTagsWidgetState
         .toSet()
         .difference(_sharedTags.toSet())
         .toList();
-    _filteredTags = labels.tags.keys.toList();
+    _filteredTags = tags.map((e) => e.id).toList();
     _controller.addListener(() {
       setState(() {
-        _filteredTags = labels.tags.values
-            .where((e) =>
-                e.name.normalized().contains(_controller.text.normalized()))
-            .map((e) => e.id!)
+        _filteredTags = tags
+            .where(
+              (e) =>
+                  e.name.normalized().contains(_controller.text.normalized()),
+            )
+            .map((e) => e.id)
             .toList();
       });
     });
@@ -67,28 +77,33 @@ class _FullscreenBulkEditTagsWidgetState
 
   @override
   Widget build(BuildContext context) {
-    final labelRepository = context.watch<LabelRepository>();
-    return BlocBuilder<DocumentBulkActionCubit, DocumentBulkActionState>(
-      builder: (context, state) {
-        return FullscreenSelectionForm(
-          controller: _controller,
-          floatingActionButton: _addTags.isNotEmpty || _removeTags.isNotEmpty
-              ? FloatingActionButton.extended(
-                  heroTag: "fab_fullscreen_bulk_edit_tags",
-                  label: Text(S.of(context)!.apply),
-                  icon: const Icon(Icons.done),
-                  onPressed: _submit,
-                )
-              : null,
-          hintText: S.of(context)!.startTyping,
-          leadingIcon: const Icon(Icons.label_outline),
-          selectionBuilder: (context, index) {
-            return _buildTagOption(
-              _filteredTags[index],
-              labelRepository.tags,
+    return QueryBuilder(
+      query: context.read<TagRepository>().getAllQuery(),
+      builder: (context, tagQueryState) {
+        return BlocBuilder<DocumentBulkActionCubit, DocumentBulkActionState>(
+          builder: (context, state) {
+            return FullscreenSelectionForm(
+              controller: _controller,
+              floatingActionButton:
+                  _addTags.isNotEmpty || _removeTags.isNotEmpty
+                  ? FloatingActionButton.extended(
+                      heroTag: "fab_fullscreen_bulk_edit_tags",
+                      label: Text(S.of(context)!.apply),
+                      icon: const Icon(Icons.done),
+                      onPressed: _submit,
+                    )
+                  : null,
+              hintText: S.of(context)!.startTyping,
+              leadingIcon: const Icon(Icons.label_outline),
+              selectionBuilder: (context, index) {
+                return _buildTagOption(
+                  _filteredTags[index],
+                  tagQueryState.data?.toIdMap() ?? {},
+                );
+              },
+              selectionCount: _filteredTags.length,
             );
           },
-          selectionCount: _filteredTags.length,
         );
       },
     );
@@ -153,27 +168,38 @@ class _FullscreenBulkEditTagsWidgetState
 
   void _submit() async {
     if (_addTags.isNotEmpty || _removeTags.isNotEmpty) {
-      final bloc = context.read<DocumentBulkActionCubit>();
-      final labelRepository = context.read<LabelRepository>();
+      final bulkEditMutation = context
+          .read<DocumentRepository>()
+          .bulkActionMutation();
+      final tags =
+          context.read<TagRepository>().getAllQuery().state.data?.toIdMap() ??
+          {};
       final addNames = _addTags
-          .map((value) => "\"${labelRepository.tags[value]!.name}\"")
+          .map((value) => "\"${tags[value]!.name}\"")
           .toList();
       final removeNames = _removeTags
-          .map((value) => "\"${labelRepository.tags[value]!.name}\"")
+          .map((value) => "\"${tags[value]!.name}\"")
           .toList();
-      final shouldPerformAction = await showDialog<bool>(
+      final shouldPerformAction =
+          await showDialog<bool>(
             context: context,
             builder: (context) => ConfirmBulkModifyTagsDialog(
-              selectionCount: bloc.state.selection.length,
+              selectionCount: widget.selection.length,
               addTags: addNames,
               removeTags: removeNames,
             ),
           ) ??
           false;
       if (shouldPerformAction) {
-        bloc.bulkModifyTags(
-          removeTagIds: _removeTags,
-          addTagIds: _addTags,
+        bulkEditMutation.mutate(
+          BulkEditRequest(
+            documents: widget.selection.ids,
+            method: MethodEnum.modifyTags,
+            parameters: {
+              'add_tags': _addTags.toList(),
+              'remove_tags': _removeTags.toList(),
+            },
+          ),
         );
         if (mounted) context.pop();
       }

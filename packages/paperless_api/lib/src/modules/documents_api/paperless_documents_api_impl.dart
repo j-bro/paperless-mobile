@@ -9,17 +9,15 @@ import 'package:paperless_api/generated/lib/src/model/bulk_edit_request.dart';
 import 'package:paperless_api/generated/lib/src/model/document.dart';
 import 'package:paperless_api/generated/lib/src/model/document_request.dart';
 import 'package:paperless_api/generated/lib/src/model/metadata.dart';
+import 'package:paperless_api/generated/lib/src/model/note.dart';
 import 'package:paperless_api/generated/lib/src/model/paginated_document_list.dart';
 import 'package:paperless_api/generated/lib/src/model/paginated_log_entry_list.dart';
-import 'package:paperless_api/generated/lib/src/model/paginated_notes_list.dart';
 import 'package:paperless_api/generated/lib/src/model/patched_document_request.dart';
 import 'package:paperless_api/generated/lib/src/model/selection_data.dart';
 import 'package:paperless_api/generated/lib/src/model/share_link.dart';
 import 'package:paperless_api/generated/lib/src/model/suggestions.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_api/src/constants.dart';
-import 'package:paperless_api/src/extensions/dio_exception_extension.dart';
-import 'package:paperless_api/src/models/request/document_filter_options.dart';
 
 class PaperlessDocumentsApiImpl implements PaperlessDocumentsApi {
   final Dio client;
@@ -267,13 +265,13 @@ class PaperlessDocumentsApiImpl implements PaperlessDocumentsApi {
   }
 
   @override
-  Future<PaginatedNotesList> deleteNote(int documentId, int noteId) async {
+  Future<List<Note>> deleteNote(int documentId, int noteId) async {
     try {
-      final response = await client.delete(
+      final response = await client.delete<List<Map<String, dynamic>>>(
         "/api/documents/$documentId/notes/",
         queryParameters: {'id': noteId},
       );
-      return PaginatedNotesList.fromJson(response.data);
+      return response.data?.map(Note.fromJson).toList() ?? [];
     } on DioException catch (exception) {
       throw exception.unravel(
         orElse: const PaperlessApiException(ErrorCode.deleteNoteFailed),
@@ -282,13 +280,13 @@ class PaperlessDocumentsApiImpl implements PaperlessDocumentsApi {
   }
 
   @override
-  Future<PaginatedNotesList> addNote(int documentId, String text) async {
+  Future<List<Note>> addNote(int documentId, String text) async {
     try {
-      final response = await client.post(
+      final response = await client.post<List<Map<String, dynamic>>>(
         "/api/documents/$documentId/notes/",
         data: {'note': text},
       );
-      return PaginatedNotesList.fromJson(response.data);
+      return response.data?.map(Note.fromJson).toList() ?? [];
     } on DioException catch (exception) {
       throw exception.unravel(
         orElse: const PaperlessApiException(ErrorCode.addNoteFailed),
@@ -358,17 +356,13 @@ class PaperlessDocumentsApiImpl implements PaperlessDocumentsApi {
   }
 
   @override
-  Future<PaginatedNotesList> getNotes(
-    int id, {
-    int? page,
-    int? pageSize,
-  }) async {
+  Future<List<Note>> getNotes(int id, {int? page, int? pageSize}) async {
     try {
-      final response = await client.get(
+      final response = await client.get<List<Map<String, dynamic>>>(
         "/api/documents/$id/notes/",
         queryParameters: {'page': page, 'page_size': pageSize},
       );
-      return PaginatedNotesList.fromJson(response.data);
+      return response.data?.map(Note.fromJson).toList() ?? [];
     } on DioException catch (exception) {
       throw exception.unravel(orElse: const PaperlessApiException.unknown());
     }

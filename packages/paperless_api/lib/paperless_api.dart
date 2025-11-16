@@ -1,3 +1,4 @@
 export 'src/models/models.dart';
+export 'src/extensions/extensions.dart';
 export 'src/modules/modules.dart';
 export 'src/interceptor/dio_http_error_interceptor.dart';

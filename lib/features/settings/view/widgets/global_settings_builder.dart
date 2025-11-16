@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hive_ce_flutter/adapters.dart';
-import 'package:paperless_mobile/core/database/hive/hive_config.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:paperless_mobile/core/store/local_store.dart';
 import 'package:paperless_mobile/core/store/slices/global_settings.dart';
 
 class GlobalSettingsBuilder extends StatelessWidget {
@@ -9,12 +9,9 @@ class GlobalSettingsBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: Hive.box<GlobalSettings>(
-        HiveBoxes.globalSettings,
-      ).listenable(),
-      builder: (context, value, _) {
-        final settings = value.getValue()!;
+    return BlocBuilder<LocalStore, LocalStoreState>(
+      builder: (context, value) {
+        final settings = value.globalSettings;
         return builder(context, settings);
       },
     );

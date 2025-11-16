@@ -5,10 +5,7 @@ import 'package:paperless_api/paperless_api.dart';
 class MimeTypesPieChart extends StatefulWidget {
   final PaperlessServerStatisticsModel statistics;
 
-  const MimeTypesPieChart({
-    super.key,
-    required this.statistics,
-  });
+  const MimeTypesPieChart({super.key, required this.statistics});
 
   @override
   State<MimeTypesPieChart> createState() => _MimeTypesPieChartState();
@@ -63,9 +60,7 @@ class _MimeTypesPieChartState extends State<MimeTypesPieChart> {
               //     });
               //   },
               // ),
-              borderData: FlBorderData(
-                show: false,
-              ),
+              borderData: FlBorderData(show: false),
               sectionsSpace: 0,
               centerSpaceRadius: 40,
               sections: _buildSections(colorShades).toList(),
@@ -77,7 +72,11 @@ class _MimeTypesPieChartState extends State<MimeTypesPieChart> {
           spacing: 8,
           runSpacing: 8,
           children: [
-            for (int i = 0; i < widget.statistics.fileTypeCounts.length; i++)
+            for (
+              int i = 0;
+              i < widget.statistics.documentFileTypeCounts.length;
+              i++
+            )
               GestureDetector(
                 onTapDown: (_) {
                   setState(() {
@@ -107,8 +106,10 @@ class _MimeTypesPieChartState extends State<MimeTypesPieChart> {
                       height: 20,
                     ),
                     Text(
-                      _mimeTypeNames[
-                          widget.statistics.fileTypeCounts[i].mimeType]!,
+                      _mimeTypeNames[widget
+                          .statistics
+                          .documentFileTypeCounts[i]
+                          .mimeType]!,
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ],
@@ -121,8 +122,8 @@ class _MimeTypesPieChartState extends State<MimeTypesPieChart> {
   }
 
   Iterable<PieChartSectionData> _buildSections(List<Color> colorShades) sync* {
-    for (int i = 0; i < widget.statistics.fileTypeCounts.length; i++) {
-      final type = widget.statistics.fileTypeCounts[i];
+    for (int i = 0; i < widget.statistics.documentFileTypeCounts.length; i++) {
+      final type = widget.statistics.documentFileTypeCounts[i];
       final isTouched = i == _touchedIndex;
       final fontSize = isTouched ? 18.0 : 16.0;
       final radius = isTouched ? 60.0 : 50.0;
@@ -144,14 +145,14 @@ class _MimeTypesPieChartState extends State<MimeTypesPieChart> {
 
 extension AllShades on MaterialColor {
   List<Color> get values => [
-        shade200,
-        shade600,
-        shade300,
-        shade100,
-        shade800,
-        shade400,
-        shade900,
-        shade500,
-        shade700,
-      ];
+    shade200,
+    shade600,
+    shade300,
+    shade100,
+    shade800,
+    shade400,
+    shade900,
+    shade500,
+    shade700,
+  ];
 }

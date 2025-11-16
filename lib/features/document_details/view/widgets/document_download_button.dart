@@ -1,25 +1,22 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:hive_ce/hive.dart';
+import 'package:paperless_api/generated/lib/src/model/document.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_mobile/core/database/hive/hive_config.dart';
-import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
+import 'package:paperless_mobile/constants.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
+import 'package:paperless_mobile/core/store/local_store.dart';
 import 'package:paperless_mobile/features/document_details/cubit/document_details_cubit.dart';
 import 'package:paperless_mobile/features/document_details/view/dialogs/select_file_type_dialog.dart';
-import 'package:paperless_mobile/core/store/slices/global_settings.dart';
 import 'package:paperless_mobile/features/settings/model/file_download_type.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
-
 import 'package:paperless_mobile/helpers/message_helpers.dart';
 import 'package:paperless_mobile/helpers/permission_helpers.dart';
-import 'package:paperless_mobile/constants.dart';
-import 'package:provider/provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 
 class DocumentDownloadButton extends StatefulWidget {
-  final DocumentModel? document;
+  final Document? document;
   final bool enabled;
   const DocumentDownloadButton({
     super.key,
@@ -51,14 +48,12 @@ class _DocumentDownloadButtonState extends State<DocumentDownloadButton> {
     ).paddedOnly(right: 4);
   }
 
-  Future<void> _onDownload(DocumentModel document) async {
+  Future<void> _onDownload(Document document) async {
     try {
-      final globalSettings = Hive.box<GlobalSettings>(
-        HiveBoxes.globalSettings,
-      ).getValue()!;
+      final localStore = context.read<LocalStore>();
       bool original;
 
-      switch (globalSettings.defaultDownloadType) {
+      switch (localStore.state.globalSettings.defaultDownloadType) {
         case FileDownloadType.original:
           original = true;
           break;
@@ -70,8 +65,11 @@ class _DocumentDownloadButtonState extends State<DocumentDownloadButton> {
             context: context,
             builder: (context) => SelectFileTypeDialog(
               onRememberSelection: (downloadType) {
-                globalSettings.defaultDownloadType = downloadType;
-                globalSettings.save();
+                localStore.updateGlobalSettings(
+                  localStore.state.globalSettings.copyWith(
+                    defaultDownloadType: downloadType,
+                  ),
+                );
               },
             ),
           );
@@ -93,11 +91,12 @@ class _DocumentDownloadButtonState extends State<DocumentDownloadButton> {
 
       setState(() => _isDownloadPending = true);
       if (mounted) {
-        final userId = context.read<LocalUserAccount>().id;
+        final localStore = context.read<LocalStore>();
+        final userId = localStore.state.loggedInUserId;
         await context.read<DocumentDetailsCubit>().downloadDocument(
           downloadOriginal: original,
-          locale: globalSettings.preferredLocaleSubtag,
-          userId: userId,
+          locale: localStore.state.globalSettings.preferredLocaleSubtag,
+          userId: userId!,
         );
         // showSnackBar(context, S.of(context)!.documentSuccessfullyDownloaded);
       }

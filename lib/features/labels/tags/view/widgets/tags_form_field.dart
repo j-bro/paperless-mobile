@@ -1,18 +1,20 @@
 import 'package:animations/animations.dart';
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:paperless_api/paperless_api.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
+import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
+import 'package:paperless_mobile/core/extensions/label_list_extension.dart';
 import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
 import 'package:paperless_mobile/core/workarounds/colored_chip.dart';
-import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/features/labels/tags/view/widgets/fullscreen_tags_form.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
 class TagsFormField extends StatelessWidget {
   final String name;
-  final Map<int, Tag> options;
   final TagsQuery? initialValue;
   final bool allowOnlySelection;
   final bool allowCreation;
@@ -21,7 +23,6 @@ class TagsFormField extends StatelessWidget {
 
   const TagsFormField({
     super.key,
-    required this.options,
     this.initialValue,
     required this.name,
     required this.allowOnlySelection,
@@ -32,124 +33,133 @@ class TagsFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final enabled = options.values.isNotEmpty || allowCreation;
+    return QueryBuilder(
+      query: context.tagRepository.getAllQuery(),
+      builder: (context, state) {
+        final options = state.data?.toIdMap() ?? {};
+        final enabled = options.values.isNotEmpty || allowCreation;
+        return FormBuilderField<TagsQuery?>(
+          initialValue: initialValue,
+          enabled: enabled,
+          builder: (field) {
+            final values = _generateOptions(
+              context,
+              field.value,
+              field,
+              options,
+            ).toList();
+            final isEmpty =
+                (field.value is IdsTagsQuery &&
+                    (field.value as IdsTagsQuery).include.isEmpty) ||
+                field.value == null;
+            bool anyAssigned = field.value is AnyAssignedTagsQuery;
 
-    return FormBuilderField<TagsQuery?>(
-      initialValue: initialValue,
-      enabled: enabled,
-      builder: (field) {
-        final values = _generateOptions(context, field.value, field).toList();
-        final isEmpty =
-            (field.value is IdsTagsQuery &&
-                (field.value as IdsTagsQuery).include.isEmpty) ||
-            field.value == null;
-        bool anyAssigned = field.value is AnyAssignedTagsQuery;
-
-        final displayedSuggestions = switch (field.value) {
-          IdsTagsQuery(include: var include) =>
-            suggestions.toSet().difference(include.toSet()).toList(),
-          _ => <int>[],
-        };
-        return Column(
-          children: [
-            OpenContainer<TagsQuery>(
-              middleColor: Theme.of(context).colorScheme.surface,
-              closedColor: Theme.of(context).colorScheme.surface,
-              openColor: Theme.of(context).colorScheme.surface,
-              closedShape: InputBorder.none,
-              openElevation: 0,
-              closedElevation: 0,
-              tappable: enabled,
-              closedBuilder: (context, openForm) => Container(
-                margin: const EdgeInsets.only(top: 6),
-                child: GestureDetector(
-                  onTap: openForm,
-                  child: InputDecorator(
-                    isEmpty: isEmpty,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.all(12),
-                      labelText:
-                          '${S.of(context)!.tags}${anyAssigned ? ' (${S.of(context)!.anyAssigned})' : ''}',
-                      prefixIcon: const Icon(Icons.label_outline),
-                      enabled: enabled,
-                    ),
-                    child: SizedBox(
-                      height: 32,
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        separatorBuilder: (context, index) =>
-                            const SizedBox(width: 4),
-                        itemBuilder: (context, index) => values[index],
-                        itemCount: values.length,
+            final displayedSuggestions = switch (field.value) {
+              IdsTagsQuery(include: var include) =>
+                suggestions.toSet().difference(include.toSet()).toList(),
+              _ => <int>[],
+            };
+            return Column(
+              children: [
+                OpenContainer<TagsQuery>(
+                  middleColor: Theme.of(context).colorScheme.surface,
+                  closedColor: Theme.of(context).colorScheme.surface,
+                  openColor: Theme.of(context).colorScheme.surface,
+                  closedShape: InputBorder.none,
+                  openElevation: 0,
+                  closedElevation: 0,
+                  tappable: enabled,
+                  closedBuilder: (context, openForm) => Container(
+                    margin: const EdgeInsets.only(top: 6),
+                    child: GestureDetector(
+                      onTap: openForm,
+                      child: InputDecorator(
+                        isEmpty: isEmpty,
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.all(12),
+                          labelText:
+                              '${S.of(context)!.tags}${anyAssigned ? ' (${S.of(context)!.anyAssigned})' : ''}',
+                          prefixIcon: const Icon(Icons.label_outline),
+                          enabled: enabled,
+                        ),
+                        child: SizedBox(
+                          height: 32,
+                          child: ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(width: 4),
+                            itemBuilder: (context, index) => values[index],
+                            itemCount: values.length,
+                          ),
+                        ),
                       ),
                     ),
                   ),
+                  openBuilder: (context, closeForm) => FullscreenTagsForm(
+                    options: options,
+                    onSubmit: closeForm,
+                    initialValue: field.value,
+                    allowOnlySelection: allowOnlySelection,
+                    allowCreation:
+                        allowCreation &&
+                        context
+                            .watch<LocalUserAccount>()
+                            .paperlessUser
+                            .canCreateTags,
+                    allowExclude: allowExclude,
+                  ),
+                  onClosed: (data) {
+                    if (data != null) {
+                      field.didChange(data);
+                    }
+                  },
                 ),
-              ),
-              openBuilder: (context, closeForm) => FullscreenTagsForm(
-                options: options,
-                onSubmit: closeForm,
-                initialValue: field.value,
-                allowOnlySelection: allowOnlySelection,
-                allowCreation:
-                    allowCreation &&
-                    context
-                        .watch<LocalUserAccount>()
-                        .paperlessUser
-                        .canCreateTags,
-                allowExclude: allowExclude,
-              ),
-              onClosed: (data) {
-                if (data != null) {
-                  field.didChange(data);
-                }
-              },
-            ),
-            if (displayedSuggestions.isNotEmpty)
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    S.of(context)!.suggestions,
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                  SizedBox(
-                    height: kMinInteractiveDimension,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: displayedSuggestions.length,
-                      itemBuilder: (context, index) {
-                        print(options);
-                        final suggestion =
-                            options[displayedSuggestions.elementAt(index)];
-                        if (suggestion == null) {
-                          return SizedBox.shrink();
-                        }
-                        return ColoredChipWrapper(
-                          child: ActionChip(
-                            label: Text(suggestion.name),
-                            onPressed: () {
-                              field.didChange(switch (field.value) {
-                                IdsTagsQuery(include: var include) =>
-                                  IdsTagsQuery(
-                                    include: [...include, suggestion.id!],
-                                  ),
-                                _ => IdsTagsQuery(include: [suggestion.id!]),
-                              });
-                            },
-                          ),
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) =>
-                          const SizedBox(width: 4.0),
-                    ),
-                  ),
-                ],
-              ).padded(),
-          ],
+                if (displayedSuggestions.isNotEmpty)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        S.of(context)!.suggestions,
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                      SizedBox(
+                        height: kMinInteractiveDimension,
+                        child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: displayedSuggestions.length,
+                          itemBuilder: (context, index) {
+                            final suggestion =
+                                options[displayedSuggestions.elementAt(index)];
+                            if (suggestion == null) {
+                              return SizedBox.shrink();
+                            }
+                            return ColoredChipWrapper(
+                              child: ActionChip(
+                                label: Text(suggestion.name),
+                                onPressed: () {
+                                  field.didChange(switch (field.value) {
+                                    IdsTagsQuery(include: var include) =>
+                                      IdsTagsQuery(
+                                        include: [...include, suggestion.id],
+                                      ),
+                                    _ => IdsTagsQuery(include: [suggestion.id]),
+                                  });
+                                },
+                              ),
+                            );
+                          },
+                          separatorBuilder: (BuildContext context, int index) =>
+                              const SizedBox(width: 4.0),
+                        ),
+                      ),
+                    ],
+                  ).padded(),
+              ],
+            );
+          },
+          name: name,
         );
       },
-      name: name,
     );
   }
 
@@ -157,18 +167,21 @@ class TagsFormField extends StatelessWidget {
     BuildContext context,
     TagsQuery? query,
     FormFieldState<TagsQuery?> field,
+    Map<int, Tag> options,
   ) sync* {
     if (query == null) {
       yield Container();
     } else {
       final widgets = switch (query) {
         IdsTagsQuery(include: var inc, exclude: var exc) => [
-          for (var i in inc) _buildTagIdQueryWidget(context, i, field, false),
-          for (var e in exc) _buildTagIdQueryWidget(context, e, field, true),
+          for (var i in inc)
+            _buildTagIdQueryWidget(context, i, field, false, options),
+          for (var e in exc)
+            _buildTagIdQueryWidget(context, e, field, true, options),
         ],
         AnyAssignedTagsQuery query => [
           for (var id in query.tagIds)
-            _buildAnyAssignedTagWidget(context, id, field, query),
+            _buildAnyAssignedTagWidget(context, id, field, query, options),
         ],
         NotAssignedTagsQuery() => [_buildNotAssignedTagWidget(context, field)],
       };
@@ -183,6 +196,7 @@ class TagsFormField extends StatelessWidget {
     int id,
     FormFieldState<TagsQuery?> field,
     bool exclude,
+    Map<int, Tag> options,
   ) {
     assert(field.value is IdsTagsQuery);
     final formValue = field.value as IdsTagsQuery;
@@ -245,6 +259,7 @@ class TagsFormField extends StatelessWidget {
     int e,
     FormFieldState<TagsQuery?> field,
     AnyAssignedTagsQuery query,
+    Map<int, Tag> options,
   ) {
     return QueryTagChip(
       onDeleted: () {

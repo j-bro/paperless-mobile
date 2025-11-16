@@ -3,10 +3,9 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:paperless_api/generated/lib/src/model/acknowledge_tasks.dart';
 import 'package:paperless_api/generated/lib/src/model/status_enum.dart';
+import 'package:paperless_api/generated/lib/src/model/task_name_enum.dart';
 import 'package:paperless_api/generated/lib/src/model/tasks_view.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_api/src/extensions/dio_exception_extension.dart';
-import 'package:paperless_api/src/models/request/task_filter_options.dart';
 import 'package:paperless_api/src/request_utils.dart';
 
 class PaperlessTasksApiImpl implements PaperlessTasksApi {
@@ -39,18 +38,20 @@ class PaperlessTasksApiImpl implements PaperlessTasksApi {
   Stream<TasksView> listenForTaskChanges(String taskId) async* {
     bool isCompleted = false;
     while (!isCompleted) {
-      final tasks = await findAll(TaskFilterOptions(taskId: taskId));
+      final tasks = await findAll(
+        TaskFilterOptions(taskName: TaskNameEnum.consumeFile),
+      );
       if (tasks.isEmpty) {
         throw Exception("Task with taskId $taskId does not exist.");
       }
-      final task = tasks.first;
+      final task = tasks.firstWhere((t) => t.taskId == taskId);
       log("Found new task: ${task.taskId}, ${task.id}, ${task.status}");
       yield task;
       if (task.status == StatusEnum.SUCCESS ||
           task.status == StatusEnum.FAILURE) {
         isCompleted = true;
       }
-      await Future.delayed(const Duration(seconds: 1));
+      await Future.delayed(const Duration(seconds: 2));
     }
   }
 

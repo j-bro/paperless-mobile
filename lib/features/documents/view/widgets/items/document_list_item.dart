@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:paperless_mobile/core/repository/label_repository.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/date_and_document_type_widget.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/document_preview.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/items/document_item.dart';
 import 'package:paperless_mobile/features/labels/correspondent/view/widgets/correspondent_widget.dart';
 import 'package:paperless_mobile/features/labels/tags/view/widgets/tags_widget.dart';
-import 'package:provider/provider.dart';
 
 class DocumentListItem extends DocumentItem {
   static const _a4AspectRatio = 1 / 1.4142;
@@ -29,8 +27,6 @@ class DocumentListItem extends DocumentItem {
 
   @override
   Widget build(BuildContext context) {
-    final labelRepository = context.watch<LabelRepository>();
-
     return ListTile(
       tileColor: backgroundColor,
       dense: true,
@@ -48,9 +44,8 @@ class DocumentListItem extends DocumentItem {
                 child: AbsorbPointer(
                   absorbing: isSelectionActive,
                   child: CorrespondentWidget(
+                    id: document.correspondent,
                     isClickable: isLabelClickable,
-                    correspondent:
-                        labelRepository.correspondents[document.correspondent],
                     onSelected: onCorrespondentSelected,
                   ),
                 ),
@@ -58,18 +53,15 @@ class DocumentListItem extends DocumentItem {
             ],
           ),
           Text(
-            document.title.isEmpty ? '-' : document.title,
+            document.title?.isNotEmpty ?? false ? document.title! : '-',
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
           ),
           AbsorbPointer(
             absorbing: isSelectionActive,
             child: TagsWidget(
+              tagIds: document.tags,
               isClickable: isLabelClickable,
-              tags: document.tags
-                  .where((e) => labelRepository.tags.containsKey(e))
-                  .map((e) => labelRepository.tags[e]!)
-                  .toList(),
               onTagSelected: (id) => onTagSelected?.call(id),
             ),
           ),

@@ -1,19 +1,20 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:paperless_api/generated/lib/src/model/document.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_mobile/core/widgets/form_fields/fullscreen_selection_form.dart';
 import 'package:paperless_mobile/core/extensions/dart_extensions.dart';
+import 'package:paperless_mobile/core/widgets/form_fields/fullscreen_selection_form.dart';
 import 'package:paperless_mobile/features/document_bulk_action/view/widgets/confirm_bulk_modify_label_dialog.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
 class FullscreenBulkEditLabelPage extends StatefulWidget {
   final String hintText;
   final Map<int, Label> options;
-  final List<DocumentModel> selection;
-  final int? Function(DocumentModel document) labelMapper;
+  final List<Document> selection;
+  final int? Function(Document document) labelMapper;
   final Widget leadingIcon;
-  final void Function(int? id) onSubmit;
+  final void Function(int id) onSubmit;
   final String Function(int count) removeMessageBuilder;
   final String Function(int count, String name) assignMessageBuilder;
 
@@ -57,17 +58,20 @@ class _FullscreenBulkEditLabelPageState<T extends Label>
   Iterable<int> _generateOrderedLabels() sync* {
     final availableValues = widget.options.values
         .where(
-            (e) => e.name.normalized().contains(_controller.text.normalized()))
-        .map((e) => e.id!)
+          (e) => e.name.normalized().contains(_controller.text.normalized()),
+        )
+        .map((e) => e.id)
         .toSet();
-    for (var label
-        in _initialValues.toSet().intersection(availableValues.toSet())) {
+    for (var label in _initialValues.toSet().intersection(
+      availableValues.toSet(),
+    )) {
       if (label != null) {
         yield label;
       }
     }
-    for (final id
-        in availableValues.whereNot((e) => _initialValues.contains(e))) {
+    for (final id in availableValues.whereNot(
+      (e) => _initialValues.contains(e),
+    )) {
       yield id;
     }
   }
@@ -75,7 +79,8 @@ class _FullscreenBulkEditLabelPageState<T extends Label>
   @override
   Widget build(BuildContext context) {
     final labels = _generateOrderedLabels();
-    final hideFab = _selection == null ||
+    final hideFab =
+        _selection == null ||
         (_initialValues.length == 1 &&
             _selection?.label == _initialValues.first);
     return FullscreenSelectionForm(
@@ -128,7 +133,8 @@ class _FullscreenBulkEditLabelPageState<T extends Label>
     } else {
       bool shouldPerformAction;
       if (_selection!.label == null) {
-        shouldPerformAction = await showDialog<bool>(
+        shouldPerformAction =
+            await showDialog<bool>(
               context: context,
               builder: (context) => ConfirmBulkModifyLabelDialog(
                 content: widget.removeMessageBuilder(widget.selection.length),
@@ -137,7 +143,8 @@ class _FullscreenBulkEditLabelPageState<T extends Label>
             false;
       } else {
         final labelName = widget.options[_selection!.label]!.name;
-        shouldPerformAction = await showDialog<bool>(
+        shouldPerformAction =
+            await showDialog<bool>(
               context: context,
               builder: (context) => ConfirmBulkModifyLabelDialog(
                 content: widget.assignMessageBuilder(
@@ -149,7 +156,7 @@ class _FullscreenBulkEditLabelPageState<T extends Label>
             false;
       }
       if (shouldPerformAction) {
-        widget.onSubmit(_selection!.label);
+        widget.onSubmit(_selection!.label!);
         if (mounted) context.pop();
       }
     }

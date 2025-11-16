@@ -16,4 +16,10 @@ class TagRepository
 
   @override
   String get queryKey => 'tags';
+
+  @override
+  String? variableHash(GetFilterOptions? options) {
+    final normalized = options?.copyWith(page: null).props;
+    return normalized.hashCode.toString();
+  }
 }

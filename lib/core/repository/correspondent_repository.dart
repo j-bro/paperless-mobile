@@ -21,4 +21,10 @@ class CorrespondentRepository
 
   @override
   String get queryKey => 'correspondents';
+
+  @override
+  String? variableHash(GetFilterOptions? options) {
+    final normalized = options?.toJson()?..remove('page');
+    return normalized.hashCode.toString();
+  }
 }

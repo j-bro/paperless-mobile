@@ -18,5 +18,4 @@ export 'query_parameters/tags_query/tags_query.dart';
 export 'query_parameters/text_query.dart';
 export 'exception/exceptions.dart';
 export 'note_model.dart' show NoteModel;
-export 'request/get_filter_options.dart';
-export 'request/set_permissions.dart';
+export 'request/request.dart';

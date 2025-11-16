@@ -1,10 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hive_ce/hive.dart';
-import 'package:paperless_mobile/core/database/hive/hive_config.dart';
-import 'package:paperless_mobile/core/store/slices/global_settings.dart';
-import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
+import 'package:paperless_mobile/core/store/local_store.dart';
 import 'package:paperless_mobile/features/home/view/scaffold_with_navigation_bar.dart';
+import 'package:provider/provider.dart';
 
 class ScaffoldShellRoute extends StatefulShellRouteData {
   const ScaffoldShellRoute();
@@ -23,14 +21,13 @@ class ScaffoldShellRoute extends StatefulShellRouteData {
     GoRouterState state,
     StatefulNavigationShell navigationShell,
   ) {
-    final currentUserId = Hive.box<GlobalSettings>(
-      HiveBoxes.globalSettings,
-    ).getValue()!.loggedInUserId!;
-    final authenticatedUser = Hive.box<LocalUserAccount>(
-      HiveBoxes.localUserAccount,
-    ).get(currentUserId)!;
+    final localStoreState = context.read<LocalStore>().state;
+    final currentUserId = localStoreState.loggedInUserId!;
+    final authenticatedUser =
+        localStoreState.localUserData[currentUserId]!.remoteUser.paperlessUser;
+
     return ScaffoldWithNavigationBar(
-      authenticatedUser: authenticatedUser.paperlessUser,
+      authenticatedUser: authenticatedUser,
       navigationShell: navigationShell,
     );
   }

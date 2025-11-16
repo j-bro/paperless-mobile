@@ -1,11 +1,14 @@
 // ignore_for_file: overridden_fields
 
+import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user_filter_options.g.dart';
 
+@CopyWith()
 @JsonSerializable(createFactory: false, includeIfNull: false)
-class UserFilterOptions {
+class UserFilterOptions with EquatableMixin {
   final int? id;
   @JsonKey(name: 'ids__in')
   final Iterable<int>? ids;
@@ -32,4 +35,17 @@ class UserFilterOptions {
     this.pageSize = 100000,
   });
   Map<String, dynamic> toJson() => _$UserFilterOptionsToJson(this);
+
+  @override
+  List<Object?> get props => [
+    id,
+    ids,
+    usernameContains,
+    usernameEndsWith,
+    usernameStartsWith,
+    usernameExact,
+    ordering,
+    page,
+    pageSize,
+  ];
 }

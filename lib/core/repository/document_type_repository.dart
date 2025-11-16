@@ -21,4 +21,10 @@ class DocumentTypeRepository
 
   @override
   String get queryKey => 'document_types';
+
+  @override
+  String? variableHash(GetFilterOptions? options) {
+    final normalized = options?.toJson()?..remove('page');
+    return normalized.hashCode.toString();
+  }
 }

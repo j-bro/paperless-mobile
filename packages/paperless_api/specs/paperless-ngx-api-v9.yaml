@@ -1611,7 +1611,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PaginatedNotesList"
+                type: array
+                items:
+                  $ref: "#/components/schemas/Note"
           description: ""
         "400":
           description: No response body
@@ -1669,7 +1671,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PaginatedNotesList"
+                type: array
+                items:
+                  $ref: "#/components/schemas/Note"
           description: ""
         "400":
           description: No response body
@@ -1715,7 +1719,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PaginatedNotesList"
+                type: array
+                items:
+                  $ref: "#/components/schemas/Note"
           description: ""
         "400":
           description: No response body
@@ -5663,7 +5669,7 @@ components:
         notes:
           type: array
           items:
-            $ref: "#/components/schemas/Notes"
+            $ref: "#/components/schemas/Note"
           readOnly: true
         custom_fields:
           type: array
@@ -6584,7 +6590,7 @@ components:
           minLength: 1
       required:
         - note
-    Notes:
+    Note:
       type: object
       properties:
         id:
@@ -6604,7 +6610,7 @@ components:
       required:
         - id
         - user
-    NotesRequest:
+    NoteRequest:
       type: object
       properties:
         note:
@@ -6860,33 +6866,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/MailRule"
-        all:
-          type: array
-          items:
-            type: integer
-    PaginatedNotesList:
-      type: object
-      required:
-        - count
-        - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?page=4
-        previous:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?page=2
-        results:
-          type: array
-          items:
-            $ref: "#/components/schemas/Notes"
         all:
           type: array
           items:

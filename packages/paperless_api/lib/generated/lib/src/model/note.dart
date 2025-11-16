@@ -3,11 +3,12 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:paperless_api/generated/lib/src/model/basic_user.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/src/equatable_utils.dart';
 
-part 'notes_request.g.dart';
+part 'note.g.dart';
 
 @CopyWith()
 @JsonSerializable(
@@ -16,9 +17,12 @@ part 'notes_request.g.dart';
   disallowUnrecognizedKeys: false,
   explicitToJson: true,
 )
-class NotesRequest {
-  /// Returns a new [NotesRequest] instance.
-  NotesRequest({this.note, this.created});
+class Note {
+  /// Returns a new [Note] instance.
+  Note({required this.id, this.note, this.created, required this.user});
+
+  @JsonKey(name: r'id', required: true, includeIfNull: false)
+  final int id;
 
   /// Note for the document
   @JsonKey(name: r'note', required: false, includeIfNull: false)
@@ -27,22 +31,27 @@ class NotesRequest {
   @JsonKey(name: r'created', required: false, includeIfNull: false)
   final DateTime? created;
 
+  @JsonKey(name: r'user', required: true, includeIfNull: false)
+  final BasicUser user;
+
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        other is NotesRequest &&
+        other is Note &&
             runtimeType == other.runtimeType &&
-            equals([note, created], [other.note, other.created]);
+            equals(
+              [id, note, created, user],
+              [other.id, other.note, other.created, other.user],
+            );
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ mapPropsToHashCode([note, created]);
+      runtimeType.hashCode ^ mapPropsToHashCode([id, note, created, user]);
 
-  factory NotesRequest.fromJson(Map<String, dynamic> json) =>
-      _$NotesRequestFromJson(json);
+  factory Note.fromJson(Map<String, dynamic> json) => _$NoteFromJson(json);
 
-  Map<String, dynamic> toJson() => _$NotesRequestToJson(this);
+  Map<String, dynamic> toJson() => _$NoteToJson(this);
 
   @override
   String toString() {

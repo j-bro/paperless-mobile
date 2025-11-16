@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive_ce_flutter/adapters.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_mobile/core/database/hive/hive_extensions.dart';
 import 'package:paperless_mobile/core/model/info_message_exception.dart';
+import 'package:paperless_mobile/core/store/local_store.dart';
 import 'package:paperless_mobile/features/login/cubit/authentication_cubit.dart';
 import 'package:paperless_mobile/features/login/model/client_certificate.dart';
 import 'package:paperless_mobile/features/login/model/login_form_credentials.dart';
@@ -28,6 +27,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localUsers = context.watch<LocalStore>().state.localUserData;
     return AddAccountPage(
       titleText: S.of(context)!.connectToPaperless,
       submitText: S.of(context)!.signIn,
@@ -37,7 +37,7 @@ class LoginPage extends StatelessWidget {
       initialUsername: initialUsername,
       initialPassword: initialPassword,
       initialClientCertificate: initialClientCertificate,
-      bottomLeftButton: Hive.localUserAccountBox.isNotEmpty
+      bottomLeftButton: localUsers.isNotEmpty
           ? TextButton(
               child: Text(S.of(context)!.logInToExistingAccount),
               onPressed: () {
@@ -57,13 +57,13 @@ class LoginPage extends StatelessWidget {
   ) async {
     try {
       await context.read<AuthenticationCubit>().login(
-            credentials: LoginFormCredentials(
-              username: username,
-              password: password,
-            ),
-            serverUrl: serverUrl,
-            clientCertificate: clientCertificate,
-          );
+        credentials: LoginFormCredentials(
+          username: username,
+          password: password,
+        ),
+        serverUrl: serverUrl,
+        clientCertificate: clientCertificate,
+      );
 
       // DocumentsRoute().go(context);
     } on PaperlessApiException catch (error, stackTrace) {

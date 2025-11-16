@@ -22,4 +22,9 @@ class SavedViewRepository
 
   @override
   String get queryKey => 'saved_views';
+
+  @override
+  String? variableHash(GetFilterOptions? options) {
+    return options?.copyWith(page: 1).hashCode.toString();
+  }
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
+import 'package:paperless_api/generated/lib/src/model/document.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/bloc/transient_error.dart';
 import 'package:paperless_mobile/core/notifier/document_changed_notifier.dart';
@@ -15,12 +16,8 @@ class DocumentBulkActionCubit extends Cubit<DocumentBulkActionState> {
   DocumentBulkActionCubit(
     this._documentsApi,
     this._notifier, {
-    required List<DocumentModel> selection,
-  }) : super(
-          DocumentBulkActionState(
-            selection: selection,
-          ),
-        ) {
+    required List<Document> selection,
+  }) : super(DocumentBulkActionState(selection: selection)) {
     _notifier.addListener(
       this,
       onDeleted: (document) {
@@ -40,8 +37,9 @@ class DocumentBulkActionCubit extends Cubit<DocumentBulkActionState> {
     final deletedDocumentIds = await _documentsApi.bulkAction(
       BulkDeleteAction(state.selection.map((e) => e.id).toList()),
     );
-    final deletedDocuments = state.selection
-        .where((element) => deletedDocumentIds.contains(element.id));
+    final deletedDocuments = state.selection.where(
+      (element) => deletedDocumentIds.contains(element.id),
+    );
     for (final doc in deletedDocuments) {
       _notifier.notifyDeleted(doc);
     }
@@ -62,12 +60,7 @@ class DocumentBulkActionCubit extends Cubit<DocumentBulkActionState> {
         _notifier.notifyUpdated(doc);
       }
     } on PaperlessApiException catch (e) {
-      addError(
-        TransientPaperlessApiError(
-          code: e.code,
-          details: e.details,
-        ),
-      );
+      addError(TransientPaperlessApiError(code: e.code, details: e.details));
     }
   }
 
@@ -86,12 +79,7 @@ class DocumentBulkActionCubit extends Cubit<DocumentBulkActionState> {
         _notifier.notifyUpdated(doc);
       }
     } on PaperlessApiException catch (e) {
-      addError(
-        TransientPaperlessApiError(
-          code: e.code,
-          details: e.details,
-        ),
-      );
+      addError(TransientPaperlessApiError(code: e.code, details: e.details));
     }
   }
 
@@ -110,12 +98,7 @@ class DocumentBulkActionCubit extends Cubit<DocumentBulkActionState> {
         _notifier.notifyUpdated(doc);
       }
     } on PaperlessApiException catch (e) {
-      addError(
-        TransientPaperlessApiError(
-          code: e.code,
-          details: e.details,
-        ),
-      );
+      addError(TransientPaperlessApiError(code: e.code, details: e.details));
     }
   }
 
@@ -133,20 +116,19 @@ class DocumentBulkActionCubit extends Cubit<DocumentBulkActionState> {
       );
       final updatedDocuments = state.selection
           .where((element) => modifiedDocumentIds.contains(element.id))
-          .map((doc) => doc.copyWith(tags: [
+          .map(
+            (doc) => doc.copyWith(
+              tags: [
                 ...doc.tags.toSet().difference(removeTagIds.toSet()),
-                ...addTagIds
-              ]));
+                ...addTagIds,
+              ],
+            ),
+          );
       for (final doc in updatedDocuments) {
         _notifier.notifyUpdated(doc);
       }
     } on PaperlessApiException catch (e) {
-      addError(
-        TransientPaperlessApiError(
-          code: e.code,
-          details: e.details,
-        ),
-      );
+      addError(TransientPaperlessApiError(code: e.code, details: e.details));
     }
   }
 

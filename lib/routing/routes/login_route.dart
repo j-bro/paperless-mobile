@@ -3,8 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hive_ce_flutter/adapters.dart';
-import 'package:paperless_mobile/core/database/hive/hive_extensions.dart';
+import 'package:paperless_mobile/core/store/local_store.dart';
 import 'package:paperless_mobile/features/login/cubit/authentication_cubit.dart';
 import 'package:paperless_mobile/features/login/model/client_certificate.dart';
 import 'package:paperless_mobile/features/login/view/login_page.dart';
@@ -15,6 +14,7 @@ import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/keys.dart';
 import 'package:paperless_mobile/routing/navigation_keys.dart';
 import 'package:paperless_mobile/routing/routes.dart';
+
 part 'login_route.g.dart';
 
 @TypedGoRoute<LoginRoute>(
@@ -50,12 +50,7 @@ class LoginRoute extends GoRouteData with $LoginRoute {
   final String? password;
   final ClientCertificate? $extra;
 
-  const LoginRoute({
-    this.serverUrl,
-    this.username,
-    this.password,
-    this.$extra,
-  });
+  const LoginRoute({this.serverUrl, this.username, this.password, this.$extra});
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -124,9 +119,7 @@ class VerifyIdentityRoute extends GoRouteData with $VerifyIdentityRoute {
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return NoTransitionPage(
-      child: VerifyIdentityPage(userId: userId),
-    );
+    return NoTransitionPage(child: VerifyIdentityPage(userId: userId));
   }
 }
 
@@ -138,7 +131,12 @@ class LoginToExistingAccountRoute extends GoRouteData
 
   @override
   FutureOr<String?> redirect(BuildContext context, GoRouterState state) {
-    if (Hive.localUserAccountBox.isEmpty) {
+    final shouldRedirect = context
+        .read<LocalStore>()
+        .state
+        .localUserData
+        .isEmpty;
+    if (shouldRedirect) {
       return "/login";
     }
     return null;
@@ -146,9 +144,7 @@ class LoginToExistingAccountRoute extends GoRouteData
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return const NoTransitionPage(
-      child: LoginToExistingAccountPage(),
-    );
+    return const NoTransitionPage(child: LoginToExistingAccountPage());
   }
 }
 
@@ -160,9 +156,7 @@ class RestoringSessionRoute extends GoRouteData with $RestoringSessionRoute {
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return NoTransitionPage(
-      child: LoginTransitionPage(
-        text: S.of(context)!.restoringSession,
-      ),
+      child: LoginTransitionPage(text: S.of(context)!.restoringSession),
     );
   }
 }

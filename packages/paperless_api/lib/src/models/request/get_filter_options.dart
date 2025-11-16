@@ -1,13 +1,14 @@
 // ignore_for_file: overridden_fields
 
 import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'get_filter_options.g.dart';
 
 @CopyWith()
 @JsonSerializable(createFactory: false, includeIfNull: false)
-class GetFilterOptions {
+class GetFilterOptions with EquatableMixin {
   final int? id;
   @JsonKey(name: 'ids__in')
   final Iterable<int>? ids;
@@ -38,4 +39,18 @@ class GetFilterOptions {
     this.fullPermissions,
   });
   Map<String, dynamic> toJson() => _$GetFilterOptionsToJson(this);
+
+  @override
+  List<Object?> get props => [
+    id,
+    ids,
+    nameContains,
+    nameEndsWith,
+    nameStartsWith,
+    nameExact,
+    ordering,
+    page,
+    pageSize,
+    fullPermissions,
+  ];
 }

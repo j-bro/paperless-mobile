@@ -5,7 +5,7 @@ import 'package:paperless_api/generated/lib/src/model/document.dart';
 import 'package:paperless_api/paperless_api.dart';
 
 extension DocumentModelIterableExtension on Iterable<Document> {
-  Iterable<int> get ids => map((e) => e.id);
+  List<int> get ids => map((e) => e.id).toList();
 
   bool containsDocument(Document document) {
     return ids.contains(document.id);

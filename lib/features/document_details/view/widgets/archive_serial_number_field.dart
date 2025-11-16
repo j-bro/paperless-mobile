@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:paperless_api/generated/lib/src/model/document.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/bloc/connectivity_cubit.dart';
 import 'package:paperless_mobile/core/bloc/loading_status.dart';
@@ -11,7 +12,7 @@ import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/helpers/message_helpers.dart';
 
 class ArchiveSerialNumberField extends StatefulWidget {
-  final DocumentModel document;
+  final Document document;
   const ArchiveSerialNumberField({super.key, required this.document});
 
   @override

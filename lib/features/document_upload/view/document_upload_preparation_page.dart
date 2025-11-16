@@ -7,14 +7,14 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:intl/intl.dart';
+import 'package:paperless_api/generated/lib/src/model/document.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_mobile/core/database/hive/hive_config.dart';
 import 'package:paperless_mobile/core/store/slices/global_settings.dart';
 import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
-import 'package:paperless_mobile/core/repository/label_repository.dart';
 import 'package:paperless_mobile/core/widgets/form_builder_fields/form_builder_localized_date_picker.dart';
 import 'package:paperless_mobile/core/widgets/future_or_builder.dart';
+import 'package:paperless_mobile/features/document_edit/view/document_edit_page.dart';
 import 'package:paperless_mobile/features/document_upload/cubit/document_upload_cubit.dart';
 import 'package:paperless_mobile/features/labels/tags/view/widgets/tags_form_field.dart';
 import 'package:paperless_mobile/features/labels/view/widgets/label_form_field.dart';
@@ -68,7 +68,6 @@ class _DocumentUploadPreparationPageState
 
   @override
   Widget build(BuildContext context) {
-    final labelRepository = context.watch<LabelRepository>();
     return BlocBuilder<DocumentUploadCubit, DocumentUploadState>(
       builder: (context, state) {
         return Scaffold(
@@ -143,7 +142,7 @@ class _DocumentUploadPreparationPageState
                             // Title
                             FormBuilderTextField(
                               autovalidateMode: AutovalidateMode.always,
-                              name: DocumentModel.titleKey,
+                              name: 'title',
                               initialValue:
                                   widget.title ??
                                   "scan_${fileNameDateFormat.format(_now)}",
@@ -158,9 +157,7 @@ class _DocumentUploadPreparationPageState
                                 suffixIcon: IconButton(
                                   icon: const Icon(Icons.close),
                                   onPressed: () {
-                                    _formKey
-                                        .currentState
-                                        ?.fields[DocumentModel.titleKey]
+                                    _formKey.currentState?.fields['title']
                                         ?.didChange("");
                                     if (_syncTitleAndFilename) {
                                       _formKey.currentState?.fields[fkFileName]
@@ -168,7 +165,7 @@ class _DocumentUploadPreparationPageState
                                     }
                                   },
                                 ),
-                                errorText: _errors[DocumentModel.titleKey],
+                                errorText: _errors['title'],
                               ),
                               onChanged: (value) {
                                 final String transformedValue = _formatFilename(
@@ -211,7 +208,7 @@ class _DocumentUploadPreparationPageState
                                       _formatFilename(
                                         _formKey
                                                 .currentState
-                                                ?.fields[DocumentModel.titleKey]
+                                                ?.fields['title']
                                                 ?.value
                                             as String,
                                       );
@@ -227,7 +224,7 @@ class _DocumentUploadPreparationPageState
                             ),
                             // Created at
                             FormBuilderLocalizedDatePicker(
-                              name: DocumentModel.createdKey,
+                              name: 'created',
                               firstDate: DateTime(1970, 1, 1),
                               lastDate: DateTime(2100, 1, 1),
                               locale: Localizations.localeOf(context),
@@ -248,8 +245,7 @@ class _DocumentUploadPreparationPageState
                                 ).push<Correspondent>(context),
                                 addLabelText: S.of(context)!.addCorrespondent,
                                 labelText: "${S.of(context)!.correspondent} *",
-                                name: DocumentModel.correspondentKey,
-                                options: labelRepository.correspondents,
+                                name: 'correspondent',
                                 prefixIcon: const Icon(Icons.person_outline),
                                 allowSelectUnassigned: true,
                                 canCreateNewLabel: context

@@ -444,3 +444,14 @@ extension ToFilterRuleExtension on DocumentFilter {
     return filterRules;
   }
 }
+
+extension FilterRuleToRequest on List<SavedViewFilterRule> {
+  List<SavedViewFilterRuleRequest> toRequest() {
+    return map(
+      (rule) => SavedViewFilterRuleRequest(
+        ruleType: rule.ruleType,
+        value: rule.value,
+      ),
+    ).toList();
+  }
+}

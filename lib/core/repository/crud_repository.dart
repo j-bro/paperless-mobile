@@ -1,28 +1,47 @@
 import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:paperless_api/paperless_api.dart';
 
-abstract class CrudRepository<T, TRequest, PatchedRequest, FindAllOptions> {
-  CrudApi<T, TRequest, PatchedRequest, FindAllOptions> get api;
+abstract class CrudRepository<T, TRequest, TPatchedRequest, FindAllOptions> {
+  CrudApi<T, TRequest, TPatchedRequest, FindAllOptions> get api;
 
   String get queryKey;
+  final Set<String> _cachedGetAllQueries = {};
 
   int extractId(T item);
+  String? variableHash(FindAllOptions? options);
 
-  Future<void> initialize() async {
-    getAllQuery.fetch();
+  Query<T?> getByIdQuery(int id) {
+    final queryKey = '${this.queryKey}/$id';
+    return Query<T?>(key: queryKey, queryFn: () => api.get(id));
   }
 
-  Query<List<T>> get getAllQuery =>
-      Query<List<T>>(key: queryKey, queryFn: () => api.getAll());
+  Query<List<T>> getAllQuery([FindAllOptions? options]) {
+    final variables = variableHash(options);
+    final queryKey = variables == null
+        ? this.queryKey
+        : '${this.queryKey}/$variables';
+    return Query<List<T>>(
+      key: queryKey,
+      queryFn: () => api.getAll(options),
+      onSuccess: (_) {
+        _cachedGetAllQueries.add(queryKey);
+      },
+    );
+  }
 
   Mutation<T, TRequest> get createMutation {
     return Mutation<T, TRequest>(
       mutationFn: api.create,
-      refetchQueries: [queryKey],
+      onSuccess: (res, arg) {
+        final query = CachedQuery.instance.getQuery<Query<List<T>>>(queryKey);
+        if (query == null) return;
+        query.update((old) => [res, ...?old]);
+      },
+      invalidateQueries: [..._cachedGetAllQueries],
     );
   }
 
-  Mutation<T, (int, TRequest)> get updateMutation {
+  Mutation<T, (int, TRequest)> get putMutation {
     return Mutation<T, (int, TRequest)>(
       mutationFn: (args) => api.put(args.$1, args.$2),
       onSuccess: (res, arg) async {
@@ -36,7 +55,25 @@ abstract class CrudRepository<T, TRequest, PatchedRequest, FindAllOptions> {
               [],
         );
       },
-      invalidateQueries: [queryKey],
+      invalidateQueries: [..._cachedGetAllQueries],
+    );
+  }
+
+  Mutation<T, (int, TPatchedRequest)> get patchMutation {
+    return Mutation<T, (int, TPatchedRequest)>(
+      mutationFn: (args) => api.patch(args.$1, args.$2),
+      onSuccess: (res, arg) async {
+        final query = CachedQuery.instance.getQuery<Query<List<T>>>(queryKey);
+        if (query == null) return;
+        query.update(
+          (old) =>
+              old
+                  ?.map((e) => extractId(e) == extractId(res) ? res : e)
+                  .toList() ??
+              [],
+        );
+      },
+      invalidateQueries: [..._cachedGetAllQueries],
     );
   }
 
@@ -50,7 +87,7 @@ abstract class CrudRepository<T, TRequest, PatchedRequest, FindAllOptions> {
           return old?.where((e) => extractId(e) != res).toList() ?? [];
         });
       },
-      invalidateQueries: [queryKey],
+      invalidateQueries: [..._cachedGetAllQueries],
     );
   }
 }

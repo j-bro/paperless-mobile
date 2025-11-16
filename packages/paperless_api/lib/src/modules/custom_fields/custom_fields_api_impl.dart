@@ -4,9 +4,8 @@ import 'package:paperless_api/generated/lib/src/model/custom_field_request.dart'
 import 'package:paperless_api/generated/lib/src/model/patched_custom_field_request.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_api/src/modules/base_crud_api_impl_mixin.dart';
-import 'package:paperless_api/src/modules/custom_fields/custom_fields_api.dart';
 
-class CustomFieldsApiImpl extends CustomFieldsApi
+class PaperlessCustomFieldsApiImpl extends PaperlessCustomFieldsApi
     with
         BaseCrudApiImplMixin<
           CustomField,
@@ -17,7 +16,7 @@ class CustomFieldsApiImpl extends CustomFieldsApi
   @override
   final Dio client;
 
-  CustomFieldsApiImpl(this.client);
+  PaperlessCustomFieldsApiImpl(this.client);
 
   @override
   String get path => "/api/custom_fields/";

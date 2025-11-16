@@ -1,19 +1,24 @@
 import 'dart:async';
 
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:paperless_api/generated/lib/src/model/document.dart';
+import 'package:paperless_api/generated/lib/src/model/patched_document_request.dart';
+import 'package:paperless_api/generated/lib/src/model/suggestions.dart';
+import 'package:paperless_api/generated/lib/src/model/user.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
-import 'package:paperless_mobile/core/repository/label_repository.dart';
+import 'package:paperless_mobile/core/repository/document_repository.dart';
+import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
 import 'package:paperless_mobile/core/widgets/dialog_utils/pop_with_unsaved_changes.dart';
 import 'package:paperless_mobile/core/widgets/form_builder_fields/form_builder_localized_date_picker.dart';
+import 'package:paperless_mobile/core/widgets/query_builder/label_query_builder.dart';
 import 'package:paperless_mobile/core/workarounds/colored_chip.dart';
-import 'package:paperless_mobile/features/document_edit/cubit/document_edit_cubit.dart';
 import 'package:paperless_mobile/features/documents/view/pages/document_view.dart';
 import 'package:paperless_mobile/features/labels/tags/view/widgets/tags_form_field.dart';
 import 'package:paperless_mobile/features/labels/view/widgets/label_form_field.dart';
@@ -24,7 +29,8 @@ import 'package:paperless_mobile/routing/routes/labels_route.dart';
 typedef ItemBuilder<T> = Widget Function(BuildContext context, T itemData);
 
 class DocumentEditPage extends StatefulWidget {
-  const DocumentEditPage({super.key});
+  final int documentId;
+  const DocumentEditPage({super.key, required this.documentId});
 
   @override
   State<DocumentEditPage> createState() => _DocumentEditPageState();
@@ -63,16 +69,27 @@ class _DocumentEditPageState extends State<DocumentEditPage>
   @override
   Widget build(BuildContext context) {
     final currentUser = context.watch<LocalUserAccount>().paperlessUser;
-    return BlocBuilder<DocumentEditCubit, DocumentEditState>(
+    return QueryBuilder(
+      query: context.read<DocumentRepository>().getDocumentQuery(
+        widget.documentId,
+      ),
       builder: (context, state) {
-        final filteredSuggestions = state.suggestions;
+        if (state.isError) {
+          //TODO: error handling
+          return SizedBox.shrink();
+        }
+        if (state.isLoading) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
         return PopWithUnsavedChanges(
           hasChangesPredicate: () {
             final fkState = _formKey.currentState;
             if (fkState == null) {
               return false;
             }
-            final doc = state.document;
+            final doc = state.data!;
             final (
               title,
               correspondent,
@@ -137,7 +154,7 @@ class _DocumentEditPageState extends State<DocumentEditPage>
                       floatingActionButton: !_isShowingPdf
                           ? FloatingActionButton.extended(
                               heroTag: "fab_document_edit",
-                              onPressed: () => _onSubmit(state.document),
+                              onPressed: () => _onSubmit(state.data!),
                               icon: const Icon(Icons.save),
                               label: Text(S.of(context)!.saveChanges),
                             )
@@ -149,28 +166,46 @@ class _DocumentEditPageState extends State<DocumentEditPage>
                         ],
                       ),
                       extendBody: true,
-                      body: _buildEditForm(
-                        context,
-                        state,
-                        filteredSuggestions,
-                        currentUser,
+                      body: QueryBuilder(
+                        query: context
+                            .read<DocumentRepository>()
+                            .getFieldSuggestionsQuery(state.data!.id),
+                        builder: (context, suggestionsState) {
+                          return _buildEditForm(
+                            context,
+                            state.data!,
+                            suggestionsState.data,
+                            currentUser,
+                          );
+                        },
                       ),
                     ),
                   ),
-                  AnimatedBuilder(
-                    animation: _animation,
-                    builder: (context, child) {
-                      return Transform.scale(
-                        alignment: Alignment.bottomLeft,
-                        scale: _animation.value,
-                        child: DocumentView(
-                          showAppBar: false,
-                          showControls: false,
-                          title: state.document.title,
-                          bytes: context
-                              .read<PaperlessDocumentsApi>()
-                              .downloadDocument(state.document.id),
+                  QueryBuilder(
+                    query: context
+                        .read<DocumentRepository>()
+                        .downloadDocumentQuery(
+                          widget.documentId,
+                          original: false,
                         ),
+                    builder: (context, downloadState) {
+                      if (downloadState.isLoading) {
+                        return SizedBox.shrink();
+                      }
+                      return AnimatedBuilder(
+                        animation: _animation,
+                        builder: (context, child) {
+                          return Transform.scale(
+                            alignment: Alignment.bottomLeft,
+                            scale: _animation.value,
+                            child: DocumentView(
+                              documentId: widget.documentId,
+                              title: state.data?.title,
+                              showAppBar: false,
+                              showControls: false,
+                            ),
+                          );
+                        },
                       );
                     },
                   ),
@@ -183,121 +218,129 @@ class _DocumentEditPageState extends State<DocumentEditPage>
     );
   }
 
-  Padding _buildEditForm(
+  Widget _buildEditForm(
     BuildContext context,
-    DocumentEditState state,
-    FieldSuggestions? filteredSuggestions,
-    UserModel currentUser,
+    Document document,
+    Suggestions? fieldSuggestions,
+    User currentUser,
   ) {
-    final labelRepository = context.watch<LabelRepository>();
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: TabBarView(
         physics: NeverScrollableScrollPhysics(),
         children: [
-          ListView(
-            children: [
-              SizedBox(height: 16),
-              _buildTitleFormField(state.document.title).padded(),
-              _buildCreatedAtFormField(
-                state.document.created,
-                filteredSuggestions,
-              ).padded(),
-              // Correspondent form field
-              if (currentUser.canViewCorrespondents)
-                Column(
-                  children: [
-                    LabelFormField<Correspondent>(
-                      showAnyAssignedOption: false,
-                      showNotAssignedOption: false,
-                      onAddLabel: (currentInput) => CreateLabelRoute(
-                        LabelType.correspondent,
-                        name: currentInput,
-                      ).push<Correspondent>(context),
-                      addLabelText: S.of(context)!.addCorrespondent,
-                      labelText: S.of(context)!.correspondent,
-                      options: labelRepository.correspondents,
-                      initialValue: state.document.correspondent != null
-                          ? SetIdQueryParameter(
-                              id: state.document.correspondent!,
-                            )
-                          : const UnsetIdQueryParameter(),
-                      name: fkCorrespondent,
-                      prefixIcon: const Icon(Icons.person_outlined),
-                      allowSelectUnassigned: true,
-                      canCreateNewLabel: currentUser.canCreateCorrespondents,
-                      suggestions: filteredSuggestions?.correspondents ?? [],
-                    ),
-                  ],
-                ).padded(),
-              // DocumentType form field
-              if (currentUser.canViewDocumentTypes)
-                Column(
-                  children: [
-                    LabelFormField<DocumentType>(
-                      showAnyAssignedOption: false,
-                      showNotAssignedOption: false,
-                      onAddLabel: (currentInput) => CreateLabelRoute(
-                        LabelType.documentType,
-                        name: currentInput,
-                      ).push<DocumentType>(context),
-                      canCreateNewLabel: currentUser.canCreateDocumentTypes,
-                      addLabelText: S.of(context)!.addDocumentType,
-                      labelText: S.of(context)!.documentType,
-                      initialValue: state.document.documentType != null
-                          ? SetIdQueryParameter(
-                              id: state.document.documentType!,
-                            )
-                          : const UnsetIdQueryParameter(),
-                      options: labelRepository.documentTypes,
-                      name: _DocumentEditPageState.fkDocumentType,
-                      prefixIcon: const Icon(Icons.description_outlined),
-                      allowSelectUnassigned: true,
-                      suggestions: filteredSuggestions?.documentTypes ?? [],
-                    ),
-                  ],
-                ).padded(),
-              // StoragePath form field
-              if (currentUser.canViewStoragePaths)
-                Column(
-                  children: [
-                    LabelFormField<StoragePath>(
-                      showAnyAssignedOption: false,
-                      showNotAssignedOption: false,
-                      onAddLabel: (currentInput) => CreateLabelRoute(
-                        LabelType.storagePath,
-                        name: currentInput,
-                      ).push<StoragePath>(context),
-                      canCreateNewLabel: currentUser.canCreateStoragePaths,
-                      addLabelText: S.of(context)!.addStoragePath,
-                      labelText: S.of(context)!.storagePath,
-                      options: labelRepository.storagePaths,
-                      initialValue: state.document.storagePath != null
-                          ? SetIdQueryParameter(id: state.document.storagePath!)
-                          : const UnsetIdQueryParameter(),
-                      name: fkStoragePath,
-                      prefixIcon: const Icon(Icons.folder_outlined),
-                      allowSelectUnassigned: true,
-                    ),
-                  ],
-                ).padded(),
-              // Tag form field
-              if (currentUser.canViewTags)
-                TagsFormField(
-                  options: labelRepository.tags,
-                  name: fkTags,
-                  allowOnlySelection: true,
-                  allowCreation: true,
-                  allowExclude: false,
-                  suggestions: filteredSuggestions?.tags ?? [],
-                  initialValue: IdsTagsQuery(
-                    include: state.document.tags.toList(),
-                  ),
-                ).padded(),
+          LabelQueryBuilder(
+            builder: (context, state) {
+              if (state.isError) {
+                //TODO: Better error handling
+                return SizedBox.shrink();
+              }
+              if (state.isLoading) {
+                return Center(child: CircularProgressIndicator());
+              }
+              return ListView(
+                children: [
+                  SizedBox(height: 16),
+                  _buildTitleFormField(document.title).padded(),
+                  _buildCreatedAtFormField(
+                    document.created,
+                    fieldSuggestions,
+                  ).padded(),
+                  // Correspondent form field
+                  if (currentUser.canViewCorrespondents)
+                    Column(
+                      children: [
+                        LabelFormField<Correspondent>(
+                          showAnyAssignedOption: false,
+                          showNotAssignedOption: false,
+                          onAddLabel: (currentInput) => CreateLabelRoute(
+                            LabelType.correspondent,
+                            name: currentInput,
+                          ).push<Correspondent>(context),
+                          addLabelText: S.of(context)!.addCorrespondent,
+                          labelText: S.of(context)!.correspondent,
+                          options: state.data!.correspondents,
+                          initialValue: document.correspondent != null
+                              ? SetIdQueryParameter(id: document.correspondent!)
+                              : const UnsetIdQueryParameter(),
+                          name: fkCorrespondent,
+                          prefixIcon: const Icon(Icons.person_outlined),
+                          allowSelectUnassigned: true,
+                          canCreateNewLabel:
+                              currentUser.canCreateCorrespondents,
+                          suggestions: fieldSuggestions?.correspondents ?? [],
+                        ),
+                      ],
+                    ).padded(),
+                  // DocumentType form field
+                  if (currentUser.canViewDocumentTypes)
+                    Column(
+                      children: [
+                        LabelFormField<DocumentType>(
+                          showAnyAssignedOption: false,
+                          showNotAssignedOption: false,
+                          onAddLabel: (currentInput) => CreateLabelRoute(
+                            LabelType.documentType,
+                            name: currentInput,
+                          ).push<DocumentType>(context),
+                          canCreateNewLabel: currentUser.canCreateDocumentTypes,
+                          addLabelText: S.of(context)!.addDocumentType,
+                          labelText: S.of(context)!.documentType,
+                          initialValue: document.documentType != null
+                              ? SetIdQueryParameter(id: document.documentType!)
+                              : const UnsetIdQueryParameter(),
+                          options: state.data!.documentTypes,
+                          name: _DocumentEditPageState.fkDocumentType,
+                          prefixIcon: const Icon(Icons.description_outlined),
+                          allowSelectUnassigned: true,
+                          suggestions: fieldSuggestions?.documentTypes ?? [],
+                        ),
+                      ],
+                    ).padded(),
+                  // StoragePath form field
+                  if (currentUser.canViewStoragePaths)
+                    Column(
+                      children: [
+                        LabelFormField<StoragePath>(
+                          showAnyAssignedOption: false,
+                          showNotAssignedOption: false,
+                          onAddLabel: (currentInput) => CreateLabelRoute(
+                            LabelType.storagePath,
+                            name: currentInput,
+                          ).push<StoragePath>(context),
+                          canCreateNewLabel: currentUser.canCreateStoragePaths,
+                          addLabelText: S.of(context)!.addStoragePath,
+                          labelText: S.of(context)!.storagePath,
+                          options: state.data!.storagePaths,
+                          initialValue: document.storagePath != null
+                              ? SetIdQueryParameter(id: document.storagePath!)
+                              : const UnsetIdQueryParameter(),
+                          name: fkStoragePath,
+                          prefixIcon: const Icon(Icons.folder_outlined),
+                          allowSelectUnassigned: true,
+                        ),
+                      ],
+                    ).padded(),
+                  // Tag form field
+                  if (currentUser.canViewTags)
+                    TagsFormField(
+                      options: state.data!.tags,
+                      name: fkTags,
+                      allowOnlySelection: true,
+                      allowCreation: true,
+                      allowExclude: false,
+                      suggestions:
+                          fieldSuggestions?.tags.whereNot(
+                            document.tags.contains,
+                          ) ??
+                          [],
+                      initialValue: IdsTagsQuery(include: document.tags),
+                    ).padded(),
 
-              const SizedBox(height: 140),
-            ],
+                  const SizedBox(height: 140),
+                ],
+              );
+            },
           ),
           SingleChildScrollView(
             child: Column(
@@ -306,7 +349,7 @@ class _DocumentEditPageState extends State<DocumentEditPage>
                   name: fkContent,
                   maxLines: null,
                   keyboardType: TextInputType.multiline,
-                  initialValue: state.document.content,
+                  initialValue: document.content,
                   decoration: const InputDecoration(border: InputBorder.none),
                 ),
                 const SizedBox(height: 84),
@@ -371,7 +414,7 @@ class _DocumentEditPageState extends State<DocumentEditPage>
     );
   }
 
-  Future<void> _onSubmit(DocumentModel document) async {
+  Future<void> _onSubmit(Document document) async {
     if (_formKey.currentState?.saveAndValidate() ?? false) {
       final (
         title,
@@ -382,18 +425,22 @@ class _DocumentEditPageState extends State<DocumentEditPage>
         createdAt,
         content,
       ) = _currentValues;
-      var mergedDocument = document.copyWith(
-        title: title,
-        created: createdAt,
-        correspondent: () => correspondent,
-        documentType: () => documentType,
-        storagePath: () => storagePath,
-        tags: tags,
-        content: content,
-      );
 
       try {
-        await context.read<DocumentEditCubit>().updateDocument(mergedDocument);
+        await context
+            .read<DocumentRepository>()
+            .patchDocumentMutation(document.id)
+            .mutate(
+              PatchedDocumentRequest(
+                correspondent: correspondent,
+                documentType: documentType,
+                storagePath: storagePath,
+                tags: tags,
+                content: content,
+                title: title,
+                created: createdAt,
+              ),
+            );
         if (mounted) {
           showSnackBar(context, S.of(context)!.documentSuccessfullyUpdated);
         }
@@ -423,7 +470,7 @@ class _DocumentEditPageState extends State<DocumentEditPage>
 
   Widget _buildCreatedAtFormField(
     DateTime? initialCreatedAtDate,
-    FieldSuggestions? filteredSuggestions,
+    Suggestions? filteredSuggestions,
   ) {
     return Column(
       children: [
@@ -438,7 +485,7 @@ class _DocumentEditPageState extends State<DocumentEditPage>
         ),
         if (filteredSuggestions?.hasSuggestedDates ?? false)
           _buildSuggestionsSkeleton<DateTime>(
-            suggestions: filteredSuggestions!.dates,
+            suggestions: filteredSuggestions!.dates.map(DateTime.parse),
             itemBuilder: (context, itemData) => ActionChip(
               label: Text(
                 DateFormat.yMMMMd(

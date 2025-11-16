@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:crypto/crypto.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -14,7 +15,6 @@ import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hive_ce_flutter/adapters.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl_standalone.dart';
@@ -28,35 +28,34 @@ import 'package:paperless_mobile/core/bloc/connectivity_cubit.dart';
 import 'package:paperless_mobile/core/bloc/my_bloc_observer.dart';
 import 'package:paperless_mobile/core/exception/server_message_exception.dart';
 import 'package:paperless_mobile/core/interceptor/language_header.interceptor.dart';
+import 'package:paperless_mobile/core/notifier/document_changed_notifier.dart';
+import 'package:paperless_mobile/core/security/session_manager.dart';
 import 'package:paperless_mobile/core/security/session_manager_impl.dart';
+import 'package:paperless_mobile/core/service/connectivity_status_service.dart';
+import 'package:paperless_mobile/core/service/file_service.dart';
 import 'package:paperless_mobile/core/store/encrypted_local_store.dart';
 import 'package:paperless_mobile/core/store/encrypted_local_store_secure_storage_impl.dart';
 import 'package:paperless_mobile/core/store/local_store.dart';
 import 'package:paperless_mobile/features/logging/data/formatted_printer.dart';
 import 'package:paperless_mobile/features/logging/data/logger.dart';
 import 'package:paperless_mobile/features/logging/data/mirrored_file_output.dart';
-import 'package:paperless_mobile/core/notifier/document_changed_notifier.dart';
-import 'package:paperless_mobile/core/security/session_manager.dart';
-import 'package:paperless_mobile/core/service/connectivity_status_service.dart';
-import 'package:paperless_mobile/core/service/file_service.dart';
 import 'package:paperless_mobile/features/login/cubit/authentication_cubit.dart';
 import 'package:paperless_mobile/features/login/services/authentication_service.dart';
 import 'package:paperless_mobile/features/notifications/services/local_notification_service.dart';
 import 'package:paperless_mobile/features/settings/view/widgets/global_settings_builder.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/routing/navigation_keys.dart';
-import 'package:paperless_mobile/routing/routes/landing_route.dart';
-import 'package:paperless_mobile/routing/routes/shells/authenticated_route.dart';
 import 'package:paperless_mobile/routing/routes/add_account_route.dart';
 import 'package:paperless_mobile/routing/routes/app_logs_route.dart';
 import 'package:paperless_mobile/routing/routes/changelog_route.dart';
+import 'package:paperless_mobile/routing/routes/landing_route.dart';
 import 'package:paperless_mobile/routing/routes/logging_out_route.dart';
 import 'package:paperless_mobile/routing/routes/login_route.dart';
+import 'package:paperless_mobile/routing/routes/shells/authenticated_route.dart';
 import 'package:paperless_mobile/theme.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 Locale get defaultPreferredLocale {
   final deviceLocale = _stringToLocale(Platform.localeName);
@@ -99,7 +98,12 @@ void main() async {
       final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
       final defaultLocale = defaultPreferredLocale.languageCode;
       await initializeDefaultParameters();
-
+      CachedQuery.instance.configFlutter(
+        config: GlobalQueryConfigFlutter(
+          refetchOnConnection: true,
+          refetchOnResume: true,
+        ),
+      );
       final connectivityStatusService = ConnectivityStatusServiceImpl(
         Connectivity(),
       );
@@ -152,11 +156,13 @@ void main() async {
           EncryptedLocalStoreSecureStorageImpl(secureStorage);
       await localNotificationService.initialize();
 
+      final userApi = PaperlessUserApiImpl(sessionManager.client);
       final authenticationCubit = AuthenticationCubit(
-        localAuthService,
         authenticationApi,
+        userApi,
         sessionManager,
         connectivityStatusService,
+        localAuthService,
         localNotificationService,
         localStore,
         encryptedLocalStore,
