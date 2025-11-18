@@ -5,7 +5,6 @@ import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/store/local_store.dart';
 import 'package:paperless_mobile/core/translation/sort_field_localization_mapper.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/search/sort_field_selection_bottom_sheet.dart';
-import 'package:paperless_mobile/features/labels/cubit/label_cubit.dart';
 import 'package:paperless_mobile/helpers/connectivity_aware_action_wrapper.dart';
 
 class SortDocumentsButton extends StatelessWidget {

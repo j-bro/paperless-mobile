@@ -7,12 +7,12 @@ class HintCard extends StatelessWidget {
   final String hintText;
   final double elevation;
   final IconData hintIcon;
-  final VoidCallback? onHintAcknowledged;
+  final VoidCallback? onAcknowledgeHint;
   final bool show;
   const HintCard({
     super.key,
     required this.hintText,
-    this.onHintAcknowledged,
+    this.onAcknowledgeHint,
     this.elevation = 1,
     this.show = true,
     this.hintIcon = Icons.tips_and_updates_outlined,
@@ -46,11 +46,11 @@ class HintCard extends StatelessWidget {
                 ),
               ),
             ),
-            if (onHintAcknowledged != null)
+            if (onAcknowledgeHint != null)
               Align(
                 alignment: Alignment.bottomRight,
                 child: TextButton(
-                  onPressed: onHintAcknowledged,
+                  onPressed: onAcknowledgeHint,
                   child: Text(S.of(context)!.gotIt),
                 ),
               )

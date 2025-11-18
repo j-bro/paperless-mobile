@@ -6,7 +6,6 @@ import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/extensions/document_extensions.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
-import 'package:paperless_mobile/features/documents/cubit/documents_cubit.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/items/document_list_item.dart';
 import 'package:paperless_mobile/features/landing/view/widgets/expansion_card.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
@@ -26,7 +25,7 @@ class SavedViewPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     return QueryBuilder(
       query: context.documentRepository.getAllQuery(
-        savedView.toDocumentFilter().copyWith(pageSize: 5, page: 1),
+        filter: savedView.toDocumentFilter().copyWith(pageSize: 5, page: 1),
       ),
       builder: (context, state) {
         return ExpansionCard(

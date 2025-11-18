@@ -22,7 +22,10 @@ class DocumentRepository {
 
   DocumentRepository(this._api);
 
-  String queryKeyForFilter(DocumentFilter? filter) {
+  String queryKeyForFilter(DocumentFilter? filter, [String? overrideKey]) {
+    if (overrideKey != null) {
+      return overrideKey;
+    }
     final key = filter?.copyWith(page: 1).hashCode.toString() ?? 'unset_filter';
     return 'documents/$key';
   }
@@ -30,11 +33,12 @@ class DocumentRepository {
   /// Gets an infinite query for documents with optional filtering.
   /// [key] is the unique key for the query, e.g. the screen where the query is executed.
   /// [filter] is an optional DocumentFilter to apply.
-  InfiniteQuery<PaginatedDocumentList, int> getAllQuery([
+  InfiniteQuery<PaginatedDocumentList, int> getAllQuery({
     DocumentFilter? filter,
-  ]) {
+    String? overrideKey,
+  }) {
     // Page is always set to 1 to ensure it does not alter the cache key.
-    final queryKey = queryKeyForFilter(filter);
+    final queryKey = queryKeyForFilter(filter, overrideKey);
     return InfiniteQuery<PaginatedDocumentList, int>(
       key: queryKey,
       queryFn: (page) async {

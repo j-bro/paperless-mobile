@@ -1,22 +1,29 @@
+import 'package:cached_query_flutter/cached_query_flutter.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+import 'package:paperless_api/generated/lib/src/model/document.dart';
+import 'package:paperless_api/generated/lib/src/model/patched_document_request.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
+import 'package:paperless_mobile/core/extensions/dart_extensions.dart';
 import 'package:paperless_mobile/core/extensions/document_extensions.dart';
-import 'package:paperless_mobile/core/repository/label_repository.dart';
-import 'package:paperless_mobile/core/util/lambda_utils.dart';
+import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
+import 'package:paperless_mobile/core/extensions/label_list_extension.dart';
+import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
+import 'package:paperless_mobile/core/widgets/query_builder/simple_query_builder.dart';
 import 'package:paperless_mobile/core/widgets/shimmer_placeholder.dart';
 import 'package:paperless_mobile/core/workarounds/colored_chip.dart';
-import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/delete_document_confirmation_dialog.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/document_preview.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/placeholder/tags_placeholder.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/placeholder/text_placeholder.dart';
-import 'package:paperless_mobile/features/inbox/cubit/inbox_cubit.dart';
 import 'package:paperless_mobile/features/labels/tags/view/widgets/tags_widget.dart';
 import 'package:paperless_mobile/features/labels/view/widgets/label_text.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/helpers/connectivity_aware_action_wrapper.dart';
+import 'package:paperless_mobile/helpers/message_helpers.dart';
 import 'package:paperless_mobile/routing/routes/documents_route.dart';
 
 class InboxItemPlaceholder extends StatelessWidget {
@@ -122,7 +129,7 @@ class InboxItemPlaceholder extends StatelessWidget {
 
 class InboxItem extends StatefulWidget {
   static const a4AspectRatio = 1 / 1.4142;
-  final DocumentModel document;
+  final Document document;
   const InboxItem({super.key, required this.document});
 
   @override
@@ -132,106 +139,112 @@ class InboxItem extends StatefulWidget {
 class _InboxItemState extends State<InboxItem> {
   // late final Future<FieldSuggestions> _fieldSuggestions;
 
-  bool _isAsnAssignLoading = false;
-
+  bool _showSuggestions = false;
   @override
   Widget build(BuildContext context) {
-    final labelRepository = context.read<LabelRepository>();
-    return BlocBuilder<InboxCubit, InboxState>(
-      builder: (context, state) {
-        return GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onTap: () {
-            DocumentDetailsRoute(
-              title: widget.document.title,
-              id: widget.document.id,
-              thumbnailUrl: widget.document.buildThumbnailUrl(context),
-              isLabelClickable: false,
-            ).push(context);
-          },
-          child: SizedBox(
-            height: 200,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Flexible(
-                  child: Row(
-                    children: [
-                      AspectRatio(
-                        aspectRatio: InboxItem.a4AspectRatio,
-                        child: DocumentPreview(
-                          documentId: widget.document.id,
-                          title: widget.document.title,
-                          fit: BoxFit.cover,
-                          alignment: Alignment.topCenter,
-                          enableHero: false,
-                        ),
-                      ).padded(),
-                      Flexible(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _buildTitle().paddedOnly(left: 8, right: 8, top: 8),
-                            const Spacer(),
-                            _buildTextWithLeadingIcon(
-                              Icon(
-                                Icons.person_outline,
-                                size: Theme.of(
-                                  context,
-                                ).textTheme.bodyMedium?.fontSize,
-                              ),
-                              LabelText<Correspondent>(
-                                label:
-                                    labelRepository.correspondents[widget
-                                        .document
-                                        .correspondent],
-                                style: Theme.of(context).textTheme.bodyMedium,
-                                placeholder: "-",
-                              ),
-                            ).paddedSymmetrically(horizontal: 8),
-                            _buildTextWithLeadingIcon(
-                              Icon(
-                                Icons.description_outlined,
-                                size: Theme.of(
-                                  context,
-                                ).textTheme.bodyMedium?.fontSize,
-                              ),
-                              LabelText<DocumentType>(
-                                label:
-                                    labelRepository.documentTypes[widget
-                                        .document
-                                        .documentType],
-                                style: Theme.of(context).textTheme.bodyMedium,
-                                placeholder: "-",
-                              ),
-                            ).paddedSymmetrically(horizontal: 8),
-                            const Spacer(),
-                            TagsWidget(
-                              tags: widget.document.tags
-                                  .map((e) => labelRepository.tags[e])
-                                  .where(isNotNull)
-                                  .toList()
-                                  .cast<Tag>(),
-                              isClickable: false,
-                              showShortNames: true,
-                            ).paddedOnly(left: 8, bottom: 8),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                LimitedBox(
-                  maxHeight: 56,
-                  child: ConnectivityAwareActionWrapper(
-                    child: _buildActions(context),
-                  ),
-                ),
-              ],
-            ).paddedOnly(left: 8, top: 8, bottom: 8),
-          ),
-        );
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () {
+        DocumentDetailsRoute(
+          title: widget.document.title,
+          id: widget.document.id,
+          thumbnailUrl: widget.document.buildThumbnailUrl(context),
+          isLabelClickable: false,
+        ).push(context);
       },
+      child: SizedBox(
+        height: 200,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Flexible(
+              child: Row(
+                children: [
+                  AspectRatio(
+                    aspectRatio: InboxItem.a4AspectRatio,
+                    child: DocumentPreview(
+                      documentId: widget.document.id,
+                      title: widget.document.title,
+                      fit: BoxFit.cover,
+                      alignment: Alignment.topCenter,
+                      enableHero: false,
+                    ),
+                  ).padded(),
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildTitle().paddedOnly(left: 8, right: 8, top: 8),
+                        const Spacer(),
+                        _buildTextWithLeadingIcon(
+                          Icon(
+                            Icons.person_outline,
+                            size: Theme.of(
+                              context,
+                            ).textTheme.bodyMedium?.fontSize,
+                          ),
+                          QueryBuilder(
+                            query: context.correspondentRepository
+                                .getAllQuery(),
+                            builder: (context, state) {
+                              return LabelText(
+                                label: state.data
+                                    ?.toIdMap()[widget.document.correspondent],
+                                style: Theme.of(context).textTheme.bodyMedium,
+                                placeholder: "-",
+                              );
+                            },
+                          ),
+                        ).paddedSymmetrically(horizontal: 8),
+                        _buildTextWithLeadingIcon(
+                          Icon(
+                            Icons.description_outlined,
+                            size: Theme.of(
+                              context,
+                            ).textTheme.bodyMedium?.fontSize,
+                          ),
+                          QueryBuilder(
+                            query: context.documentTypeRepository.getAllQuery(),
+                            builder: (context, state) {
+                              return LabelText<DocumentType>(
+                                label: state.data
+                                    ?.toIdMap()[widget.document.documentType],
+                                style: Theme.of(context).textTheme.bodyMedium,
+                                placeholder: "-",
+                              );
+                            },
+                          ),
+                        ).paddedSymmetrically(horizontal: 8),
+                        const Spacer(),
+                        TagsWidget(
+                          tagIds: widget.document.tags,
+                          isClickable: false,
+                          showShortNames: true,
+                        ).paddedOnly(left: 8, bottom: 8),
+                        const Spacer(),
+                        if (_showSuggestions)
+                          _buildSuggestionButton()
+                        else
+                          _buildSuggestionChips(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(32),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            LimitedBox(
+              maxHeight: 56,
+              child: ConnectivityAwareActionWrapper(
+                child: _buildActions(context),
+              ),
+            ),
+          ],
+        ).paddedOnly(left: 8, top: 8, bottom: 8),
+      ),
     );
   }
 
@@ -261,7 +274,9 @@ class _InboxItemState extends State<InboxItem> {
                   ) ??
                   false;
               if (shouldDelete && context.mounted) {
-                context.read<InboxCubit>().delete(widget.document);
+                await context.documentRepository
+                    .deleteDocumentMutation(widget.document.id)
+                    .mutate();
               }
             },
           ),
@@ -300,8 +315,6 @@ class _InboxItemState extends State<InboxItem> {
           ),
         ),
       ],
-      // );
-      // },
     );
   }
 
@@ -310,40 +323,45 @@ class _InboxItemState extends State<InboxItem> {
     BuildContext context,
   ) {
     final hasAsn = widget.document.archiveSerialNumber != null;
-    return ColoredChipWrapper(
-      child: ActionChip(
-        avatar: _isAsnAssignLoading
-            ? const CircularProgressIndicator()
-            : hasAsn
-            ? null
-            : const Icon(Icons.archive_outlined),
-        shape: chipShape,
-        label: hasAsn
-            ? Text(
-                '${S.of(context)!.asn} #${widget.document.archiveSerialNumber}',
-              )
-            : Text(S.of(context)!.assignAsn),
-        onPressed: !hasAsn
-            ? () {
-                setState(() {
-                  _isAsnAssignLoading = true;
-                });
-
-                context
-                    .read<InboxCubit>()
-                    .assignAsn(widget.document)
-                    .whenComplete(
-                      () => setState(() => _isAsnAssignLoading = false),
-                    );
-              }
-            : null,
+    return MutationBuilder(
+      mutation: context.documentRepository.autoAssignAsnMutation(
+        widget.document.id,
       ),
+      builder: (context, state, mutate) {
+        return ColoredChipWrapper(
+          child: ActionChip(
+            avatar: Builder(
+              builder: (context) {
+                if (state.isLoading) {
+                  return const CircularProgressIndicator();
+                }
+                if (hasAsn) {
+                  return const Icon(Icons.check_circle_outline);
+                }
+
+                return SizedBox.shrink();
+              },
+            ),
+            shape: chipShape,
+            label: hasAsn
+                ? Text(
+                    '${S.of(context)!.asn} #${widget.document.archiveSerialNumber}',
+                  )
+                : Text(S.of(context)!.assignAsn),
+            onPressed: !hasAsn
+                ? () {
+                    mutate(null);
+                  }
+                : null,
+          ),
+        );
+      },
     );
   }
 
   Text _buildTitle() {
     return Text(
-      widget.document.title.isEmpty ? '-' : widget.document.title,
+      widget.document.title ?? '-',
       overflow: TextOverflow.ellipsis,
       maxLines: 2,
       style: Theme.of(context).textTheme.titleSmall,
@@ -362,103 +380,155 @@ class _InboxItemState extends State<InboxItem> {
     );
   }
 
-  // List<Widget> _buildSuggestionChips(
-  //   OutlinedBorder chipShape,
-  //   FieldSuggestions suggestions,
-  //   InboxState state,
-  // ) {
-  //   return [
-  //     ...suggestions.correspondents
-  //         .whereNot((e) => widget.document.correspondent == e)
-  //         .map(
-  //           (e) => ActionChip(
-  //             avatar: const Icon(Icons.person_outline),
-  //             shape: chipShape,
-  //             label: Text(state.availableCorrespondents[e]?.name ?? ''),
-  //             onPressed: () {
-  //               context
-  //                   .read<InboxCubit>()
-  //                   .update(
-  //                     widget.document.copyWith(correspondent: () => e),
-  //                   )
-  //                   .then((value) => showSnackBar(
-  //                       context,
-  //                       S
-  //                           .of(context)
-  //                           .suggestionSuccessfullyApplied));
-  //             },
-  //           ),
-  //         )
-  //         .toList(),
-  //     ...suggestions.documentTypes
-  //         .whereNot((e) => widget.document.documentType == e)
-  //         .map(
-  //           (e) => ActionChip(
-  //             avatar: const Icon(Icons.description_outlined),
-  //             shape: chipShape,
-  //             label: Text(state.availableDocumentTypes[e]?.name ?? ''),
-  //             onPressed: () => context
-  //                 .read<InboxCubit>()
-  //                 .update(
-  //                   widget.document.copyWith(documentType: () => e),
-  //                   shouldReload: false,
-  //                 )
-  //                 .then((value) => showSnackBar(
-  //                     context,
-  //                     S
-  //                         .of(context)
-  //                         .suggestionSuccessfullyApplied)),
-  //           ),
-  //         )
-  //         .toList(),
-  //     ...suggestions.tags
-  //         .whereNot((e) => widget.document.tags.contains(e))
-  //         .map(
-  //           (e) => ActionChip(
-  //             avatar: const Icon(Icons.label_outline),
-  //             shape: chipShape,
-  //             label: Text(state.availableTags[e]?.name ?? ''),
-  //             onPressed: () {
-  //               context
-  //                   .read<InboxCubit>()
-  //                   .update(
-  //                     widget.document.copyWith(
-  //                       tags: {...widget.document.tags, e}.toList(),
-  //                     ),
-  //                     shouldReload: false,
-  //                   )
-  //                   .then((value) => showSnackBar(
-  //                       context,
-  //                       S
-  //                           .of(context)
-  //                           .suggestionSuccessfullyApplied));
-  //             },
-  //           ),
-  //         )
-  //         .toList(),
-  //     ...suggestions.dates
-  //         .whereNot((e) => widget.document.created.isEqualToIgnoringDate(e))
-  //         .map(
-  //           (e) => ActionChip(
-  //             avatar: const Icon(Icons.calendar_today_outlined),
-  //             shape: chipShape,
-  //             label: Text(
-  //               "${S.of(context)!.createdAt}: ${DateFormat.yMd().format(e)}",
-  //             ),
-  //             onPressed: () => context
-  //                 .read<InboxCubit>()
-  //                 .update(
-  //                   widget.document.copyWith(created: e),
-  //                   shouldReload: false,
-  //                 )
-  //                 .then((value) => showSnackBar(
-  //                     context,
-  //                     S
-  //                         .of(context)
-  //                         .suggestionSuccessfullyApplied)),
-  //           ),
-  //         )
-  //         .toList(),
-  //   ].expand((element) => [element, const SizedBox(width: 4)]).toList();
-  // }
+  Widget _buildSuggestionButton() {
+    return TextButton(
+      onPressed: () {
+        setState(() {
+          _showSuggestions = true;
+        });
+      },
+      child: Text('Load suggestions'),
+    );
+  }
+
+  Widget _buildSuggestionChips(OutlinedBorder chipShape) {
+    final correspondents =
+        context.correspondentRepository.getAllQuery().state.data?.toIdMap() ??
+        {};
+    final documentTypes =
+        context.documentTypeRepository.getAllQuery().state.data?.toIdMap() ??
+        {};
+    final storagePaths =
+        context.storagePathRepository.getAllQuery().state.data?.toIdMap() ?? {};
+    final tags =
+        context.tagRepository.getAllQuery().state.data?.toIdMap() ?? {};
+    return SimpleQueryBuilder(
+      query: context.documentRepository.getFieldSuggestionsQuery(
+        widget.document.id,
+      ),
+      errorBuilder: (context) {
+        return const SizedBox.shrink();
+      },
+      loadingBuilder: (context) {
+        return const CircularProgressIndicator();
+      },
+      builder: (context, suggestions) {
+        return ListView(
+          scrollDirection: Axis.horizontal,
+          children: [
+            ...suggestions.correspondents
+                .whereNot((e) => widget.document.correspondent == e)
+                .map(
+                  (e) => ActionChip(
+                    avatar: const Icon(Icons.person_outline),
+                    shape: chipShape,
+                    label: Text(correspondents[e]?.name ?? ''),
+                    onPressed: () async {
+                      await context.documentRepository
+                          .patchDocumentMutation(widget.document.id)
+                          .mutate(PatchedDocumentRequest(correspondent: e));
+                      if (context.mounted) {
+                        showSnackBar(
+                          context,
+                          S.of(context)!.suggestionSuccessfullyApplied,
+                        );
+                      }
+                    },
+                  ),
+                ),
+            ...suggestions.documentTypes
+                .whereNot((e) => widget.document.documentType == e)
+                .map(
+                  (e) => ActionChip(
+                    avatar: const Icon(Icons.description_outlined),
+                    shape: chipShape,
+                    label: Text(documentTypes[e]?.name ?? ''),
+                    onPressed: () async {
+                      await context.documentRepository
+                          .patchDocumentMutation(widget.document.id)
+                          .mutate(PatchedDocumentRequest(documentType: e));
+                      if (context.mounted) {
+                        showSnackBar(
+                          context,
+                          S.of(context)!.suggestionSuccessfullyApplied,
+                        );
+                      }
+                    },
+                  ),
+                ),
+            ...suggestions.tags
+                .whereNot((e) => widget.document.tags.contains(e))
+                .map(
+                  (e) => ActionChip(
+                    avatar: const Icon(Icons.label_outline),
+                    shape: chipShape,
+                    label: Text(tags[e]?.name ?? ''),
+                    onPressed: () async {
+                      await context.documentRepository
+                          .patchDocumentMutation(widget.document.id)
+                          .mutate(
+                            PatchedDocumentRequest(
+                              tags: {...widget.document.tags, e}.toList(),
+                            ),
+                          );
+                      if (mounted) {
+                        showSnackBar(
+                          context,
+                          S.of(context)!.suggestionSuccessfullyApplied,
+                        );
+                      }
+                    },
+                  ),
+                ),
+
+            ...suggestions.storagePaths
+                .whereNot((e) => widget.document.storagePath == e)
+                .map(
+                  (e) => ActionChip(
+                    avatar: const Icon(Icons.label_outline),
+                    shape: chipShape,
+                    label: Text(storagePaths[e]?.name ?? ''),
+                    onPressed: () async {
+                      await context.documentRepository
+                          .patchDocumentMutation(widget.document.id)
+                          .mutate(PatchedDocumentRequest(storagePath: e));
+                      if (context.mounted) {
+                        showSnackBar(
+                          context,
+                          S.of(context)!.suggestionSuccessfullyApplied,
+                        );
+                      }
+                    },
+                  ),
+                ),
+            ...suggestions.dates
+                .map(DateTime.parse)
+                .whereNot(
+                  (e) => widget.document.created?.isOnSameDayAs(e) ?? false,
+                )
+                .map(
+                  (e) => ActionChip(
+                    avatar: const Icon(Icons.calendar_today_outlined),
+                    shape: chipShape,
+                    label: Text(
+                      "${S.of(context)!.createdAt}: ${DateFormat.yMd().format(e)}",
+                    ),
+                    onPressed: () async {
+                      await context.documentRepository
+                          .patchDocumentMutation(widget.document.id)
+                          .mutate(PatchedDocumentRequest(created: e));
+                      if (context.mounted) {
+                        showSnackBar(
+                          context,
+                          S.of(context)!.suggestionSuccessfullyApplied,
+                        );
+                      }
+                    },
+                  ),
+                ),
+          ].expand((element) => [element, const SizedBox(width: 4)]).toList(),
+        );
+      },
+    );
+  }
 }

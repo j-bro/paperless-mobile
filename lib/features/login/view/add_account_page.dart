@@ -29,7 +29,8 @@ class AddAccountPage extends StatefulWidget {
     String password,
     String serverUrl,
     ClientCertificate? clientCertificate,
-  ) onSubmit;
+  )
+  onSubmit;
 
   final String? initialServerUrl;
   final String? initialUsername;
@@ -70,19 +71,14 @@ class _AddAccountPageState extends State<AddAccountPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: Text(widget.titleText),
-      ),
+      appBar: AppBar(title: Text(widget.titleText)),
       body: FormBuilder(
         key: _formKey,
         child: AutofillGroup(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Assets.logos.paperlessLogoGreenPng.image(
-                width: 150,
-                height: 150,
-              ),
+              Assets.logos.paperlessLogoGreenPng.image(width: 150, height: 150),
               Text(
                 'Paperless Mobile',
                 style: Theme.of(context).textTheme.displaySmall,
@@ -103,10 +99,7 @@ class _AddAccountPageState extends State<AddAccountPage> {
                               _reachabilityStatus = ReachabilityStatus.unknown;
                             });
                           },
-                        ).paddedSymmetrically(
-                          horizontal: 12,
-                          vertical: 12,
-                        ),
+                        ).paddedSymmetrically(horizontal: 12, vertical: 12),
                         ClientCertificateFormField(
                           initialBytes: widget.initialClientCertificate?.bytes,
                           initialPassphrase:
@@ -145,22 +138,19 @@ class _AddAccountPageState extends State<AddAccountPage> {
                                       height: 20,
                                       child: CircularProgressIndicator(
                                         strokeWidth: 2,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSecondary,
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onSecondary,
                                       ),
                                     )
                                   : _reachabilityStatus ==
-                                          ReachabilityStatus.reachable
-                                      ? Icon(Icons.done)
-                                      : Icon(Icons.arrow_forward),
+                                        ReachabilityStatus.reachable
+                                  ? Icon(Icons.done)
+                                  : Icon(Icons.arrow_forward),
                               label: Text(S.of(context)!.continueLabel),
                             ),
                           ],
-                        ).paddedSymmetrically(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
+                        ).paddedSymmetrically(horizontal: 16, vertical: 8),
                         _buildStatusIndicator().padded(),
                       ],
                     ),
@@ -195,11 +185,10 @@ class _AddAccountPageState extends State<AddAccountPage> {
                         Text(
                           S.of(context)!.loginRequiredPermissionsHint,
                           style: Theme.of(context).textTheme.bodySmall?.apply(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurface
-                                    .withAlpha(153),
-                              ),
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withAlpha(153),
+                          ),
                         ).padded(16),
                       ],
                     ),
@@ -214,7 +203,8 @@ class _AddAccountPageState extends State<AddAccountPage> {
                     WidgetSpan(child: SizedBox(width: 24)),
                     TextSpan(
                       style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary),
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                       text: S.of(context)!.appLogs(''),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
@@ -235,16 +225,17 @@ class _AddAccountPageState extends State<AddAccountPage> {
     setState(() {
       _isCheckingConnection = true;
     });
-    final selectedCertificate =
-        _formKey.currentState?.getRawValue<ClientCertificate>(
-      ClientCertificateFormField.fkClientCertificate,
-    );
+    final selectedCertificate = _formKey.currentState
+        ?.getRawValue<ClientCertificate>(
+          ClientCertificateFormField.fkClientCertificate,
+        );
     final status = await context
         .read<ConnectivityStatusService>()
         .isPaperlessServerReachable(
           address ??
-              _formKey.currentState!
-                  .getRawValue(ServerAddressFormField.fkServerAddress),
+              _formKey.currentState!.getRawValue(
+                ServerAddressFormField.fkServerAddress,
+              ),
           selectedCertificate,
         );
     setState(() {
@@ -255,20 +246,13 @@ class _AddAccountPageState extends State<AddAccountPage> {
   }
 
   Widget _buildStatusIndicator() {
-    Widget buildIconText(
-      IconData icon,
-      String text, [
-      Color? color,
-    ]) {
+    Widget buildIconText(IconData icon, String text, [Color? color]) {
       return ListTile(
         title: Text(
           text,
           style: Theme.of(context).textTheme.bodySmall?.copyWith(color: color),
         ),
-        leading: Icon(
-          icon,
-          color: color,
-        ),
+        leading: Icon(icon, color: color),
       );
     }
 

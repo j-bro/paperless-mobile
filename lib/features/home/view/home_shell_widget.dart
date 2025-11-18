@@ -5,6 +5,7 @@ import 'package:paperless_mobile/core/repository/correspondent_repository.dart';
 import 'package:paperless_mobile/core/repository/custom_field_repository.dart';
 import 'package:paperless_mobile/core/repository/document_repository.dart';
 import 'package:paperless_mobile/core/repository/document_type_repository.dart';
+import 'package:paperless_mobile/core/repository/inbox_repository.dart';
 import 'package:paperless_mobile/core/repository/saved_view_repository.dart';
 import 'package:paperless_mobile/core/repository/search_repository.dart';
 import 'package:paperless_mobile/core/repository/server_statistics_repository.dart';
@@ -135,6 +136,10 @@ class HomeShellWidget extends StatelessWidget {
             ),
             Provider(
               create: (context) => CustomFieldsRepository(context.read()),
+            ),
+            Provider(
+              create: (context) =>
+                  InboxRepository(context.read(), context.read()),
             ),
             Provider(
               create: (context) => InboxCubit(

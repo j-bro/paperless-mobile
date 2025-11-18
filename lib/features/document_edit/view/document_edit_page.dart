@@ -12,6 +12,7 @@ import 'package:paperless_api/generated/lib/src/model/patched_document_request.d
 import 'package:paperless_api/generated/lib/src/model/suggestions.dart';
 import 'package:paperless_api/generated/lib/src/model/user.dart';
 import 'package:paperless_api/paperless_api.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/repository/document_repository.dart';
 import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
@@ -259,7 +260,7 @@ class _DocumentEditPageState extends State<DocumentEditPage>
                           ).push<Correspondent>(context),
                           addLabelText: S.of(context)!.addCorrespondent,
                           labelText: S.of(context)!.correspondent,
-                          options: state.data!.correspondents,
+                          query: context.correspondentRepository.getAllQuery(),
                           initialValue: document.correspondent != null
                               ? SetIdQueryParameter(id: document.correspondent!)
                               : const UnsetIdQueryParameter(),
@@ -289,7 +290,7 @@ class _DocumentEditPageState extends State<DocumentEditPage>
                           initialValue: document.documentType != null
                               ? SetIdQueryParameter(id: document.documentType!)
                               : const UnsetIdQueryParameter(),
-                          options: state.data!.documentTypes,
+                          query: context.documentTypeRepository.getAllQuery(),
                           name: _DocumentEditPageState.fkDocumentType,
                           prefixIcon: const Icon(Icons.description_outlined),
                           allowSelectUnassigned: true,
@@ -311,7 +312,7 @@ class _DocumentEditPageState extends State<DocumentEditPage>
                           canCreateNewLabel: currentUser.canCreateStoragePaths,
                           addLabelText: S.of(context)!.addStoragePath,
                           labelText: S.of(context)!.storagePath,
-                          options: state.data!.storagePaths,
+                          query: context.storagePathRepository.getAllQuery(),
                           initialValue: document.storagePath != null
                               ? SetIdQueryParameter(id: document.storagePath!)
                               : const UnsetIdQueryParameter(),
@@ -324,7 +325,8 @@ class _DocumentEditPageState extends State<DocumentEditPage>
                   // Tag form field
                   if (currentUser.canViewTags)
                     TagsFormField(
-                      options: state.data!.tags,
+                      query: context.tagRepository.getAllQuery(),
+
                       name: fkTags,
                       allowOnlySelection: true,
                       allowCreation: true,

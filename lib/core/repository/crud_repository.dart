@@ -15,14 +15,14 @@ abstract class CrudRepository<T, TRequest, TPatchedRequest, FindAllOptions> {
     return Query<T?>(key: queryKey, queryFn: () => api.get(id));
   }
 
-  Query<List<T>> getAllQuery([FindAllOptions? options]) {
-    final variables = variableHash(options);
-    final queryKey = variables == null
-        ? this.queryKey
-        : '${this.queryKey}/$variables';
+  Query<List<T>> getAllQuery({FindAllOptions? filter, String? overrideKey}) {
+    final variables = variableHash(filter);
+    final queryKey =
+        overrideKey ??
+        (variables == null ? this.queryKey : '${this.queryKey}/$variables');
     return Query<List<T>>(
       key: queryKey,
-      queryFn: () => api.getAll(options),
+      queryFn: () => api.getAll(filter),
       onSuccess: (_) {
         _cachedGetAllQueries.add(queryKey);
       },

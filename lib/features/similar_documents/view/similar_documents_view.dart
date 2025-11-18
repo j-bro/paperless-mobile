@@ -44,7 +44,7 @@ class _SimilarDocumentsViewState extends State<SimilarDocumentsView>
   Widget build(BuildContext context) {
     return QueryBuilder(
       query: context.documentRepository.getAllQuery(
-        DocumentFilter(moreLike: widget.documentId),
+        filter: DocumentFilter(moreLike: widget.documentId),
       ),
       builder: (context, state) {
         if (state.isError) {

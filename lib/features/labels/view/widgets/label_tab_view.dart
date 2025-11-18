@@ -1,3 +1,4 @@
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paperless_api/paperless_api.dart';
@@ -6,9 +7,10 @@ import 'package:paperless_mobile/core/translation/matching_algorithm_localizatio
 import 'package:paperless_mobile/core/widgets/offline_widget.dart';
 import 'package:paperless_mobile/features/labels/view/widgets/label_item.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
+import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
 class LabelTabView<T extends Label> extends StatelessWidget {
-  final Map<int, T> labels;
+  final Query<List<T>> query;
   final DocumentFilter Function(Label) filterBuilder;
   final void Function(T) onEdit;
   final bool canEdit;
@@ -34,7 +36,7 @@ class LabelTabView<T extends Label> extends StatelessWidget {
     required this.emptyStateDescription,
     required this.onAddNew,
     required this.emptyStateActionButtonLabel,
-    required this.labels,
+    required this.query,
     required this.canEdit,
     required this.canAddNew,
   });
@@ -46,47 +48,65 @@ class LabelTabView<T extends Label> extends StatelessWidget {
         if (!connectivityState.isConnected) {
           return const SliverFillRemaining(child: OfflineWidget());
         }
-        final sortedLabels = labels.values.toList()..sort();
-        if (labels.isEmpty) {
-          return SliverFillRemaining(
-            child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    emptyStateDescription,
-                    textAlign: TextAlign.center,
-                  ),
-                  TextButton(
-                    onPressed: canAddNew ? onAddNew : null,
-                    child: Text(emptyStateActionButtonLabel),
-                  ),
-                ].padded(),
-              ),
-            ),
-          );
-        }
-        return SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) {
-              final l = sortedLabels.elementAt(index);
-              return LabelItem<T>(
-                name: l.name,
-                content: contentBuilder?.call(l) ??
-                    Text(
-                      translateMatchingAlgorithmName(
-                              context, l.matchingAlgorithm) +
-                          (l.match.isNotEmpty ? ": ${l.match}" : ""),
-                      maxLines: 2,
-                    ),
-                onOpenEditPage: canEdit ? onEdit : null,
-                filterBuilder: filterBuilder,
-                leading: leadingBuilder?.call(l),
-                label: l,
+        return QueryBuilder(
+          query: query,
+          builder: (context, state) {
+            if (state.isLoading) {
+              return const SliverFillRemaining(
+                child: Center(child: CircularProgressIndicator()),
               );
-            },
-            childCount: labels.length,
-          ),
+            }
+            if (state.isError) {
+              return SliverFillRemaining(
+                child: Center(
+                  child: Text(
+                    S.of(context)!.couldNotLoadCorrespondents,
+                    textAlign: TextAlign.center,
+                  ).padded(),
+                ),
+              );
+            }
+            final labels = state.data ?? [];
+            final sortedLabels = labels.toList()..sort();
+            if (labels.isEmpty) {
+              return SliverFillRemaining(
+                child: Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(emptyStateDescription, textAlign: TextAlign.center),
+                      TextButton(
+                        onPressed: canAddNew ? onAddNew : null,
+                        child: Text(emptyStateActionButtonLabel),
+                      ),
+                    ].padded(),
+                  ),
+                ),
+              );
+            }
+            return SliverList(
+              delegate: SliverChildBuilderDelegate((context, index) {
+                final l = sortedLabels.elementAt(index);
+                return LabelItem<T>(
+                  name: l.name,
+                  content:
+                      contentBuilder?.call(l) ??
+                      Text(
+                        translateMatchingAlgorithmName(
+                              context,
+                              l.matchingAlgorithm,
+                            ) +
+                            (l.match.isNotEmpty ? ": ${l.match}" : ""),
+                        maxLines: 2,
+                      ),
+                  onOpenEditPage: canEdit ? onEdit : null,
+                  filterBuilder: filterBuilder,
+                  leading: leadingBuilder?.call(l),
+                  label: l,
+                );
+              }, childCount: labels.length),
+            );
+          },
         );
       },
     );

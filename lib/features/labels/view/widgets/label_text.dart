@@ -15,7 +15,7 @@ class LabelText<T extends Label> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      label?.toString() ?? placeholder,
+      label?.name ?? placeholder,
       style: style,
       maxLines: 1,
       overflow: TextOverflow.ellipsis,

@@ -246,6 +246,7 @@ class _DocumentUploadPreparationPageState
                                 addLabelText: S.of(context)!.addCorrespondent,
                                 labelText: "${S.of(context)!.correspondent} *",
                                 name: 'correspondent',
+                                options: labelRepository.correspondents,
                                 prefixIcon: const Icon(Icons.person_outline),
                                 allowSelectUnassigned: true,
                                 canCreateNewLabel: context

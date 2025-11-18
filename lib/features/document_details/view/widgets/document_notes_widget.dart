@@ -64,7 +64,7 @@ class _DocumentNotesWidgetState extends State<DocumentNotesWidget> {
                     return HintCard(
                       hintText: S.of(context)!.notesMarkdownSyntaxSupportHint,
                       show: !acknowledged,
-                      onHintAcknowledged: acknowledge,
+                      onAcknowledgeHint: acknowledge,
                     );
                   },
                 ),

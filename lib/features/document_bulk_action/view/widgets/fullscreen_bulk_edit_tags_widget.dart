@@ -13,7 +13,6 @@ import 'package:paperless_mobile/core/extensions/label_list_extension.dart';
 import 'package:paperless_mobile/core/repository/document_repository.dart';
 import 'package:paperless_mobile/core/repository/tag_repository.dart';
 import 'package:paperless_mobile/core/widgets/form_fields/fullscreen_selection_form.dart';
-import 'package:paperless_mobile/features/document_bulk_action/cubit/document_bulk_action_cubit.dart';
 import 'package:paperless_mobile/features/document_bulk_action/view/widgets/confirm_bulk_modify_tags_dialog.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
@@ -44,16 +43,15 @@ class _FullscreenBulkEditTagsWidgetState
   @override
   void initState() {
     super.initState();
-    final state = context.read<DocumentBulkActionCubit>().state;
     final tags = context.read<TagRepository>().getAllQuery().state.data ?? [];
-    _sharedTags = state.selection
+    _sharedTags = widget.selection
         .map((e) => e.tags.toSet())
         .fold(
           tags.map((e) => e.id).toSet(),
           (previousValue, element) => previousValue.intersection(element),
         )
         .toList();
-    _nonSharedTags = state.selection
+    _nonSharedTags = widget.selection
         .map((e) => e.tags)
         .flattened
         .toSet()
@@ -80,30 +78,25 @@ class _FullscreenBulkEditTagsWidgetState
     return QueryBuilder(
       query: context.read<TagRepository>().getAllQuery(),
       builder: (context, tagQueryState) {
-        return BlocBuilder<DocumentBulkActionCubit, DocumentBulkActionState>(
-          builder: (context, state) {
-            return FullscreenSelectionForm(
-              controller: _controller,
-              floatingActionButton:
-                  _addTags.isNotEmpty || _removeTags.isNotEmpty
-                  ? FloatingActionButton.extended(
-                      heroTag: "fab_fullscreen_bulk_edit_tags",
-                      label: Text(S.of(context)!.apply),
-                      icon: const Icon(Icons.done),
-                      onPressed: _submit,
-                    )
-                  : null,
-              hintText: S.of(context)!.startTyping,
-              leadingIcon: const Icon(Icons.label_outline),
-              selectionBuilder: (context, index) {
-                return _buildTagOption(
-                  _filteredTags[index],
-                  tagQueryState.data?.toIdMap() ?? {},
-                );
-              },
-              selectionCount: _filteredTags.length,
+        return FullscreenSelectionForm(
+          controller: _controller,
+          floatingActionButton: _addTags.isNotEmpty || _removeTags.isNotEmpty
+              ? FloatingActionButton.extended(
+                  heroTag: "fab_fullscreen_bulk_edit_tags",
+                  label: Text(S.of(context)!.apply),
+                  icon: const Icon(Icons.done),
+                  onPressed: _submit,
+                )
+              : null,
+          hintText: S.of(context)!.startTyping,
+          leadingIcon: const Icon(Icons.label_outline),
+          selectionBuilder: (context, index) {
+            return _buildTagOption(
+              _filteredTags[index],
+              tagQueryState.data?.toIdMap() ?? {},
             );
           },
+          selectionCount: _filteredTags.length,
         );
       },
     );

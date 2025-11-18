@@ -1,4 +1,5 @@
 import 'package:paperless_api/generated/lib/src/model/saved_view_filter_rule.dart';
+import 'package:paperless_api/generated/lib/src/model/saved_view_filter_rule_request.dart';
 import 'package:paperless_api/src/constants.dart';
 import 'package:paperless_api/src/constants/filter_rules.dart';
 import 'package:paperless_api/src/converters/local_date_time_json_converter.dart';

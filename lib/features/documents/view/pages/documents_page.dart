@@ -145,7 +145,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
         drawer: const AppDrawer(),
         floatingActionButton: QueryBuilder(
           query: context.documentRepository.getAllQuery(
-            context.currentDocumentFilter$,
+            filter: context.currentDocumentFilter$,
           ),
           builder: (context, state) {
             final show = _selection.isEmpty;
@@ -320,7 +320,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
 
         final max = notification.metrics.maxScrollExtent;
         final query = context.documentRepository.getAllQuery(
-          context.currentDocumentFilter,
+          filter: context.currentDocumentFilter,
         );
         final isLastPageLoaded =
             query.state.data?.pages.fold(
@@ -413,7 +413,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
             ),
             QueryBuilder(
               query: context.documentRepository.getAllQuery(
-                context.currentDocumentFilter$,
+                filter: context.currentDocumentFilter$,
               ),
               builder: (context, state) {
                 if (state.isSuccess &&

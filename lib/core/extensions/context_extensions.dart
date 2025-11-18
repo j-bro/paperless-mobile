@@ -47,9 +47,10 @@ extension ContextExtensions on BuildContext {
       read<StoragePathRepository>();
   CustomFieldsRepository get customFieldRepository =>
       read<CustomFieldsRepository>();
+  InboxRepository get inboxRepository => read<InboxRepository>();
+
   DocumentFilter get currentDocumentFilter$ =>
       loggedInUserData$.appState!.currentDocumentFilter;
-
   DocumentFilter get currentDocumentFilter => localStore
       .state
       .localUserData[loggedInUserId$]!

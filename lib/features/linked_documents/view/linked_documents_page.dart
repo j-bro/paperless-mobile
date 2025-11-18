@@ -39,7 +39,9 @@ class _LinkedDocumentsPageState extends State<LinkedDocumentsPage> {
         ],
       ),
       body: QueryBuilder(
-        query: context.read<DocumentRepository>().getAllQuery(widget.filter),
+        query: context.read<DocumentRepository>().getAllQuery(
+          filter: widget.filter,
+        ),
         builder: (context, state) {
           return BlocBuilder<ConnectivityCubit, ConnectivityState>(
             builder: (context, connectivity) {
