@@ -1,16 +1,13 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_mobile/core/repository/label_repository.dart';
 import 'package:paperless_mobile/core/widgets/dialog_utils/dialog_cancel_button.dart';
 import 'package:paperless_mobile/core/widgets/dialog_utils/dialog_confirm_button.dart';
 import 'package:paperless_mobile/core/widgets/dialog_utils/pop_with_unsaved_changes.dart';
 import 'package:paperless_mobile/features/edit_label/view/label_form.dart';
-import 'package:paperless_mobile/features/labels/cubit/label_cubit.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/helpers/message_helpers.dart';
 
@@ -34,18 +31,13 @@ class EditLabelPage<T extends Label> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => LabelCubit(
-        context.read<LabelRepository>(),
-      ),
-      child: EditLabelForm(
-        label: label,
-        additionalFields: additionalFields,
-        fromJsonT: fromJsonT,
-        onSubmit: onSubmit,
-        onDelete: onDelete,
-        canDelete: canDelete,
-      ),
+    return EditLabelForm(
+      label: label,
+      additionalFields: additionalFields,
+      fromJsonT: fromJsonT,
+      onSubmit: onSubmit,
+      onDelete: onDelete,
+      canDelete: canDelete,
     );
   }
 }
@@ -103,13 +95,12 @@ class EditLabelForm<T extends Label> extends StatelessWidget {
 
   void _onDelete(BuildContext context) async {
     if ((label.documentCount ?? 0) > 0) {
-      final shouldDelete = await showDialog<bool>(
+      final shouldDelete =
+          await showDialog<bool>(
             context: context,
             builder: (context) => AlertDialog(
               title: Text(S.of(context)!.confirmDeletion),
-              content: Text(
-                S.of(context)!.deleteLabelWarningText,
-              ),
+              content: Text(S.of(context)!.deleteLabelWarningText),
               actions: [
                 const DialogCancelButton(),
                 DialogConfirmButton(

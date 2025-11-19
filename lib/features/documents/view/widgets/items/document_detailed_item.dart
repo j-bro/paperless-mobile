@@ -36,7 +36,7 @@ class DocumentDetailedItem extends DocumentItem {
 
     final currentUserId = store.state.loggedInUserId!;
     final paperlessUser =
-        store.state.localUserData[currentUserId]!.remoteUser.paperlessUser;
+        store.state.localUserData[currentUserId]!.localUser.paperlessUser;
 
     final size = MediaQuery.of(context).size;
     final insets = MediaQuery.of(context).viewInsets;

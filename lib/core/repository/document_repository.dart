@@ -152,6 +152,7 @@ class DocumentRepository {
     void Function(double progress)? onProgressChanged,
   }) {
     return Mutation<String?, void>(
+      key: 'create_document/$filename',
       mutationFn: (_) {
         return _api.create(
           documentBytes,

@@ -62,7 +62,7 @@ class _LabelsPageState extends State<LabelsPage>
     final storage = context.watch<LocalStore>();
     final currentUserId = storage.state.loggedInUserId!;
     final user =
-        storage.state.localUserData[currentUserId]!.remoteUser.paperlessUser;
+        storage.state.localUserData[currentUserId]!.localUser.paperlessUser;
 
     final fabLabel = [
       S.of(context)!.addCorrespondent,

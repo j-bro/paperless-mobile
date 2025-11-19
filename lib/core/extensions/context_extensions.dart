@@ -4,7 +4,9 @@ import 'package:paperless_mobile/core/repository/correspondent_repository.dart';
 import 'package:paperless_mobile/core/repository/custom_field_repository.dart';
 import 'package:paperless_mobile/core/repository/document_repository.dart';
 import 'package:paperless_mobile/core/repository/document_type_repository.dart';
+import 'package:paperless_mobile/core/repository/inbox_repository.dart';
 import 'package:paperless_mobile/core/repository/saved_view_repository.dart';
+import 'package:paperless_mobile/core/repository/search_repository.dart';
 import 'package:paperless_mobile/core/repository/storage_path_repository.dart';
 import 'package:paperless_mobile/core/repository/tag_repository.dart';
 import 'package:paperless_mobile/core/store/local_store.dart';
@@ -34,7 +36,7 @@ extension ContextExtensions on BuildContext {
 
   LocalUserData get loggedInUserData$ => localUserData$[loggedInUserId$]!;
   LocalUserAccount get loggedInUser$ =>
-      localUserData$[loggedInUserId$]!.remoteUser;
+      localUserData$[loggedInUserId$]!.localUser;
 
   DocumentRepository get documentRepository => read<DocumentRepository>();
   SavedViewRepository get savedViewRepository => read<SavedViewRepository>();
@@ -48,6 +50,7 @@ extension ContextExtensions on BuildContext {
   CustomFieldsRepository get customFieldRepository =>
       read<CustomFieldsRepository>();
   InboxRepository get inboxRepository => read<InboxRepository>();
+  SearchRepository get searchRepository => read<SearchRepository>();
 
   DocumentFilter get currentDocumentFilter$ =>
       loggedInUserData$.appState!.currentDocumentFilter;

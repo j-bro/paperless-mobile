@@ -37,7 +37,7 @@ class LoginToExistingAccountPage extends StatelessWidget {
           final account = localAccounts.values.elementAt(index);
           return Card(
             child: UserAccountListTile(
-              account: account.remoteUser,
+              account: account.localUser,
               onTap: () {
                 context.read<AuthenticationCubit>().switchAccount(userId);
               },

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
-import 'package:paperless_mobile/core/translation/matching_algorithm_localization_mapper.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
+import 'package:paperless_mobile/core/translation/matching_algorithm_localization_mapper.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/helpers/message_helpers.dart';
 
@@ -70,10 +68,6 @@ class _LabelFormState<T extends Label> extends State<LabelForm<T>> {
 
   @override
   Widget build(BuildContext context) {
-    List<MatchingAlgorithm> selectableMatchingAlgorithmValues =
-        getSelectableMatchingAlgorithmValues(
-          context.watch<LocalUserAccount>().hasMultiUserSupport,
-        );
     return Scaffold(
       resizeToAvoidBottomInset: false,
       floatingActionButton: FloatingActionButton.extended(
@@ -120,7 +114,7 @@ class _LabelFormState<T extends Label> extends State<LabelForm<T>> {
                       val != MatchingAlgorithm.none.value;
                 });
               },
-              items: selectableMatchingAlgorithmValues
+              items: MatchingAlgorithm.values
                   .map(
                     (algo) => DropdownMenuItem<int?>(
                       value: algo.value,
@@ -157,20 +151,6 @@ class _LabelFormState<T extends Label> extends State<LabelForm<T>> {
         ),
       ),
     );
-  }
-
-  List<MatchingAlgorithm> getSelectableMatchingAlgorithmValues(
-    bool hasMultiUserSupport,
-  ) {
-    var selectableMatchingAlgorithmValues = MatchingAlgorithm.values;
-    if (!hasMultiUserSupport) {
-      selectableMatchingAlgorithmValues = selectableMatchingAlgorithmValues
-          .where(
-            (matchingAlgorithm) => matchingAlgorithm != MatchingAlgorithm.none,
-          )
-          .toList();
-    }
-    return selectableMatchingAlgorithmValues;
   }
 
   void _onSubmit() async {

@@ -7,12 +7,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive_ce/hive.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/constants.dart';
 import 'package:paperless_mobile/core/bloc/loading_status.dart';
-import 'package:paperless_mobile/core/database/hive/hive_config.dart';
-import 'package:paperless_mobile/core/store/slices/global_settings.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/global/constants.dart';
 import 'package:paperless_mobile/core/model/info_message_exception.dart';
 import 'package:paperless_mobile/core/service/file_service.dart';
@@ -180,6 +178,7 @@ class _ScannerPageState extends State<ScannerPage>
   }
 
   void _onSaveToFile() async {
+    final globalSettings = context.localStore.state.globalSettings;
     final fileName = await showDialog<String>(
       context: context,
       builder: (context) => const ExportScansDialog(),
@@ -192,9 +191,6 @@ class _ScannerPageState extends State<ScannerPage>
         context.read<DocumentScannerCubit>().state.scans,
       );
       try {
-        final globalSettings = Hive.box<GlobalSettings>(
-          HiveBoxes.globalSettings,
-        ).getValue()!;
         if (Platform.isAndroid && androidInfo!.version.sdkInt <= 29) {
           final isGranted = await askForPermission(Permission.storage);
           if (!isGranted) {
@@ -255,9 +251,8 @@ class _ScannerPageState extends State<ScannerPage>
   void _onPrepareDocumentUpload(BuildContext context, List<File> scans) async {
     final file = await _assembleFileBytes(
       scans,
-      forcePdf: Hive.box<GlobalSettings>(
-        HiveBoxes.globalSettings,
-      ).getValue()!.enforceSinglePagePdfUpload,
+      forcePdf:
+          context.localStore.state.globalSettings.enforceSinglePagePdfUpload,
     );
     if (!context.mounted) return;
     final uploadResult = await DocumentUploadRoute(

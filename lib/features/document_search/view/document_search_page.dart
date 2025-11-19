@@ -5,16 +5,21 @@ import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/accessibility/accessibility_utils.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/repository/search_repository.dart';
-import 'package:paperless_mobile/features/document_search/cubit/document_search_cubit.dart';
+import 'package:paperless_mobile/core/widgets/query_builder/simple_query_builder.dart';
 import 'package:paperless_mobile/features/document_search/view/remove_history_entry_dialog.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/adaptive_documents_view.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/selection/view_type_selection_widget.dart';
+import 'package:paperless_mobile/features/settings/model/view_type.dart';
 import 'package:paperless_mobile/features/settings/view/widgets/global_settings_builder.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/routing/routes/documents_route.dart';
+
+enum SearchView { suggestions, results }
 
 class DocumentSearchPage extends StatefulWidget {
   const DocumentSearchPage({super.key});
@@ -28,22 +33,37 @@ class _DocumentSearchPageState extends State<DocumentSearchPage> {
   final _queryFocusNode = FocusNode();
 
   Timer? _debounceTimer;
+  String _searchTerm = '';
+  SearchView _searchView = SearchView.suggestions;
+  late ViewType _documentViewType;
 
   @override
   void initState() {
     super.initState();
     _queryController.addListener(() {
       _debounceTimer?.cancel();
+      if (_queryController.text.isEmpty) {
+        setState(() {
+          _searchTerm = '';
+          _searchView = SearchView.suggestions;
+        });
+        return;
+      }
       _debounceTimer = Timer(const Duration(milliseconds: 500), () {
-        setState(() {});
+        setState(() {
+          _searchTerm = _queryController.text;
+        });
       });
     });
+    _documentViewType =
+        context.loggedInUserData$.appState!.documentSearchViewType;
   }
 
   @override
   Widget build(BuildContext context) {
-    const double progressIndicatorHeight = 4;
+    const progressIndicatorHeight = 4.0;
     final theme = Theme.of(context);
+
     return GlobalSettingsBuilder(
       builder: (context, globalSettings) {
         return Scaffold(
@@ -69,7 +89,20 @@ class _DocumentSearchPageState extends State<DocumentSearchPage> {
                 onSubmitted: (query) {
                   FocusScope.of(context).unfocus();
                   _debounceTimer?.cancel();
-                  context.read<DocumentSearchCubit>().search(query);
+                  context.localStore.updateLoggedInUserAppState(
+                    (state) => state.copyWith(
+                      documentSearchHistory: [
+                        ...state.documentSearchHistory.whereNot(
+                          (e) => e == query,
+                        ),
+                        query,
+                      ],
+                    ),
+                  );
+                  setState(() {
+                    _searchTerm = query;
+                    _searchView = SearchView.results;
+                  });
                 },
               ),
             ).accessible(),
@@ -78,7 +111,6 @@ class _DocumentSearchPageState extends State<DocumentSearchPage> {
                 color: theme.colorScheme.onSurfaceVariant,
                 icon: const Icon(Icons.clear),
                 onPressed: () {
-                  context.read<DocumentSearchCubit>().reset();
                   _queryController.clear();
                 },
               ).padded(),
@@ -103,16 +135,10 @@ class _DocumentSearchPageState extends State<DocumentSearchPage> {
           body: Column(
             children: [
               Expanded(
-                child: BlocBuilder<DocumentSearchCubit, DocumentSearchState>(
-                  builder: (context, state) {
-                    switch (state.view) {
-                      case SearchView.suggestions:
-                        return _buildSuggestionsView(state);
-                      case SearchView.results:
-                        return _buildResultsView(state);
-                    }
-                  },
-                ),
+                child: switch (_searchView) {
+                  SearchView.suggestions => _buildSuggestionsView(),
+                  SearchView.results => _buildResultsView(),
+                },
               ),
             ],
           ),
@@ -121,13 +147,13 @@ class _DocumentSearchPageState extends State<DocumentSearchPage> {
     );
   }
 
-  Widget _buildSuggestionsView(DocumentSearchState state) {
-    final suggestions = state.suggestions
-        .whereNot((element) => state.searchHistory.contains(element))
+  Widget _buildSuggestionsView() {
+    final searchHistory =
+        context.loggedInUserData$.appState?.documentSearchHistory ?? [];
+    final historyMatches = searchHistory
+        .where((element) => element.startsWith(_searchTerm))
         .toList();
-    final historyMatches = state.searchHistory
-        .where((element) => element.startsWith(_queryController.text))
-        .toList();
+
     return CustomScrollView(
       slivers: [
         SliverList(
@@ -142,24 +168,36 @@ class _DocumentSearchPageState extends State<DocumentSearchPage> {
             childCount: historyMatches.length,
           ),
         ),
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) => ListTile(
-              title: Text(suggestions[index]),
-              leading: const Icon(Icons.search),
-              onTap: () => _selectSuggestion(suggestions[index]),
-              trailing: _buildInsertSuggestionButton(suggestions[index]),
-            ),
-            childCount: suggestions.length,
-          ),
+        SimpleQueryBuilder(
+          query: context.searchRepository.autocompleteQuery(_searchTerm),
+          builder: (context, suggestions) {
+            return SliverMainAxisGroup(
+              slivers: [
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) => ListTile(
+                      title: Text(suggestions.elementAt(index)),
+                      leading: const Icon(Icons.search),
+                      onTap: () =>
+                          _selectSuggestion(suggestions.elementAt(index)),
+                      trailing: _buildInsertSuggestionButton(
+                        suggestions.elementAt(index),
+                      ),
+                    ),
+                    childCount: suggestions.length,
+                  ),
+                ),
+                if (suggestions.isEmpty && historyMatches.isEmpty)
+                  SliverPadding(
+                    padding: const EdgeInsets.all(16),
+                    sliver: SliverToBoxAdapter(
+                      child: Center(child: Text(S.of(context)!.noMatchesFound)),
+                    ),
+                  ),
+              ],
+            );
+          },
         ),
-        if (suggestions.isEmpty && historyMatches.isEmpty && state.hasLoaded)
-          SliverPadding(
-            padding: const EdgeInsets.all(16),
-            sliver: SliverToBoxAdapter(
-              child: Center(child: Text(S.of(context)!.noMatchesFound)),
-            ),
-          ),
       ],
     );
   }
@@ -172,7 +210,13 @@ class _DocumentSearchPageState extends State<DocumentSearchPage> {
         ) ??
         false;
     if (shouldRemove && mounted) {
-      context.read<DocumentSearchCubit>().removeHistoryEntry(entry);
+      context.localStore.updateLoggedInUserAppState(
+        (state) => state.copyWith(
+          documentSearchHistory: state.documentSearchHistory
+              .whereNot((e) => e == entry)
+              .toList(),
+        ),
+      );
     }
   }
 
@@ -193,7 +237,12 @@ class _DocumentSearchPageState extends State<DocumentSearchPage> {
     );
   }
 
-  Widget _buildResultsView(DocumentSearchState state) {
+  Widget _buildResultsView() {
+    final normalizedQuery = _searchTerm.trim();
+    final resultListQuery = context.documentRepository.getAllQuery(
+      filter: DocumentFilter(query: TextQuery.extended(normalizedQuery)),
+    );
+
     final header = Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -201,45 +250,52 @@ class _DocumentSearchPageState extends State<DocumentSearchPage> {
           S.of(context)!.results,
           style: Theme.of(context).textTheme.labelMedium,
         ),
-        BlocBuilder<DocumentSearchCubit, DocumentSearchState>(
-          builder: (context, state) {
-            return ViewTypeSelectionWidget(
-              viewType: state.viewType,
-              onChanged: (type) =>
-                  context.read<DocumentSearchCubit>().updateViewType(type),
-            );
+        ViewTypeSelectionWidget(
+          viewType: _documentViewType,
+          onChanged: (type) {
+            setState(() {
+              _documentViewType = type;
+            });
           },
         ),
       ],
     ).paddedLTRB(16, 8, 8, 8);
-    return CustomScrollView(
-      slivers: [
-        SliverToBoxAdapter(child: header),
-        if (state.hasLoaded && !state.isLoading && state.documents.isEmpty)
-          SliverToBoxAdapter(
-            child: Center(
-              child: Text(S.of(context)!.noDocumentsFound),
-            ).paddedOnly(top: 8),
-          )
-        else
-          SliverAdaptiveDocumentsView(
-            viewType: state.viewType,
-            documents: state.documents,
-            hasInternetConnection: true,
-            isLabelClickable: false,
-            isLoading: state.isLoading,
-            hasLoaded: state.hasLoaded,
-            enableHeroAnimation: false,
-            onTap: (document) {
-              DocumentDetailsRoute(
-                title: document.title,
-                id: document.id,
+    return QueryBuilder(
+      query: resultListQuery,
+      builder: (context, state) {
+        final documents =
+            state.data?.pages.expand((e) => e.results).toList() ?? [];
+        return CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(child: header),
+            if (documents.isEmpty)
+              SliverToBoxAdapter(
+                child: Center(
+                  child: Text(S.of(context)!.noDocumentsFound),
+                ).paddedOnly(top: 8),
+              )
+            else
+              SliverAdaptiveDocumentsView(
+                viewType: _documentViewType,
+                documents: documents,
                 isLabelClickable: false,
-                thumbnailUrl: document.buildThumbnailUrl(context),
-              ).push(context);
-            },
-          ),
-      ],
+                isLoading: state.isLoading,
+                hasLoaded: state.isSuccess,
+                enableHeroAnimation: false,
+                onTap: (document) {
+                  DocumentDetailsRoute(
+                    title: document.title,
+                    id: document.id,
+                    isLabelClickable: false,
+                    thumbnailUrl: context.documentRepository.getThumbnailUrl(
+                      document.id,
+                    ),
+                  ).push(context);
+                },
+              ),
+          ],
+        );
+      },
     );
   }
 

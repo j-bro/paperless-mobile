@@ -9,7 +9,7 @@ part 'local_user_data.g.dart';
 abstract class LocalUserData with _$LocalUserData {
   const factory LocalUserData({
     required String userId,
-    required LocalUserAccount remoteUser,
+    required LocalUserAccount localUser,
     @Default(false) bool isBiometricAuthenticationEnabled,
     @Default(LocalUserAppState()) LocalUserAppState? appState,
   }) = _UserSettings;

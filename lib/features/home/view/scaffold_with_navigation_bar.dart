@@ -1,11 +1,11 @@
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:paperless_api/generated/lib/src/model/user.dart';
 import 'package:paperless_api/paperless_api.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/features/app_drawer/view/app_drawer.dart';
-import 'package:paperless_mobile/features/inbox/cubit/inbox_cubit.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/theme.dart';
 
@@ -84,24 +84,27 @@ class ScaffoldWithNavigationBarState extends State<ScaffoldWithNavigationBar> {
               NavigationDestination(
                 icon: Builder(
                   builder: (context) {
-                    return BlocBuilder<InboxCubit, InboxState>(
+                    return QueryBuilder(
+                      query: context.inboxRepository.inboxDocumentsQuery,
                       builder: (context, state) {
+                        final count = state.data?.pages.flattened.length ?? 0;
                         return Badge.count(
-                          isLabelVisible: state.itemsInInboxCount > 0,
-                          count: state.itemsInInboxCount,
+                          isLabelVisible: count > 0,
+                          count: count,
                           child: const Icon(Icons.inbox_outlined),
                         );
                       },
                     );
                   },
                 ),
-                selectedIcon: BlocBuilder<InboxCubit, InboxState>(
+                selectedIcon: QueryBuilder(
+                  query: context.inboxRepository.inboxDocumentsQuery,
                   builder: (context, state) {
+                    final count = state.data?.pages.flattened.length ?? 0;
                     return Badge.count(
                       isLabelVisible:
-                          state.itemsInInboxCount > 0 &&
-                          widget.authenticatedUser.canViewInbox,
-                      count: state.itemsInInboxCount,
+                          count > 0 && widget.authenticatedUser.canViewInbox,
+                      count: count,
                       child: Icon(
                         Icons.inbox,
                         color: theme.colorScheme.primary,

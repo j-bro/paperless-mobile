@@ -325,8 +325,6 @@ class _DocumentEditPageState extends State<DocumentEditPage>
                   // Tag form field
                   if (currentUser.canViewTags)
                     TagsFormField(
-                      query: context.tagRepository.getAllQuery(),
-
                       name: fkTags,
                       allowOnlySelection: true,
                       allowCreation: true,

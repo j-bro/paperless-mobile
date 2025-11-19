@@ -176,7 +176,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     _sessionManager.updateSettings(
       authToken: decryptedState.credentials.token,
       clientCertificate: decryptedState.credentials.clientCertificate,
-      baseUrl: localUserData.remoteUser.serverUrl,
+      baseUrl: localUserData.localUser.serverUrl,
     );
 
     _store.setLoggedInUserId(localUserId);
@@ -186,7 +186,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     await _updateRemoteUser(
       localUserId,
       _sessionManager,
-      localUserData.remoteUser,
+      localUserData.localUser,
       apiVersion,
     );
 
@@ -324,7 +324,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     _sessionManager.updateSettings(
       clientCertificate: decryptedState.credentials.clientCertificate,
       authToken: decryptedState.credentials.token,
-      baseUrl: localUserData.remoteUser.serverUrl,
+      baseUrl: localUserData.localUser.serverUrl,
     );
     logger.fd(
       "Security context successfully updated.",
@@ -333,7 +333,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     );
     final isPaperlessServerReachable =
         await _connectivityService.isPaperlessServerReachable(
-          localUserData.remoteUser.serverUrl,
+          localUserData.localUser.serverUrl,
           decryptedState.credentials.clientCertificate,
         ) ==
         ReachabilityStatus.reachable;
@@ -347,7 +347,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       await _updateRemoteUser(
         restoreSessionUserId,
         _sessionManager,
-        localUserData.remoteUser,
+        localUserData.localUser,
         apiVersion,
       );
       logger.fd(
@@ -539,7 +539,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       localUserId,
       (_) => LocalUserData(
         userId: localUserId,
-        remoteUser: LocalUserAccount(
+        localUser: LocalUserAccount(
           serverUrl: serverUrl,
           paperlessUser: serverUser!,
           apiVersion: apiVersion,
@@ -654,7 +654,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     _store.updateUserData(
       userId,
       (_) => _store.state.localUserData[userId]!.copyWith(
-        remoteUser: localUserAccount.copyWith(
+        localUser: localUserAccount.copyWith(
           paperlessUser: updatedPaperlessUser,
           apiVersion: apiVersion,
         ),

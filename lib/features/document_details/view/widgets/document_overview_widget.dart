@@ -117,7 +117,7 @@ class DocumentOverviewWidget extends StatelessWidget {
         if (document.tags.isNotEmpty && user.canViewTags)
           QueryBuilder(
             query: context.read<TagRepository>().getAllQuery(
-              GetFilterOptions(ids: document.tags),
+              filter: GetFilterOptions(ids: document.tags),
             ),
             builder: (context, state) {
               if (state.isLoading) {
@@ -130,7 +130,7 @@ class DocumentOverviewWidget extends StatelessWidget {
                 label: S.of(context)!.tags,
                 content: Padding(
                   padding: const EdgeInsets.only(top: 8.0),
-                  child: TagsWidget(isClickable: false, tags: state.data!),
+                  child: TagsWidget(isClickable: false, tagIds: document.tags),
                 ),
               );
             },

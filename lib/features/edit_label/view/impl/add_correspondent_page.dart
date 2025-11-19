@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:paperless_api/generated/lib/src/model/correspondent_request.dart';
 import 'package:paperless_api/paperless_api.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/features/edit_label/view/add_label_page.dart';
-import 'package:paperless_mobile/features/labels/cubit/label_cubit.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
 class AddCorrespondentPage extends StatelessWidget {
@@ -11,17 +11,15 @@ class AddCorrespondentPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => LabelCubit(
-        context.read(),
-      ),
-      child: AddLabelPage<Correspondent>(
-        pageTitle: Text(S.of(context)!.addCorrespondent),
-        fromJsonT: Correspondent.fromJson,
-        initialName: initialName,
-        onSubmit: (context, label) =>
-            context.read<LabelCubit>().addCorrespondent(label),
-      ),
+    return AddLabelPage<Correspondent>(
+      pageTitle: Text(S.of(context)!.addCorrespondent),
+      fromJsonT: Correspondent.fromJson,
+      initialName: initialName,
+      onSubmit: (context, label) async {
+        final response = await context.correspondentRepository.createMutation
+            .mutate(CorrespondentRequest.fromJson(label.toJson()));
+        return response.data!;
+      },
     );
   }
 }

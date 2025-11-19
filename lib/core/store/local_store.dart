@@ -46,7 +46,7 @@ class LocalStore extends HydratedCubit<LocalStoreState> {
   }
 
   void updateLoggedInUserAppState(
-    LocalUserAppState Function(LocalUserAppState) updater,
+    LocalUserAppState Function(LocalUserAppState state) updater,
   ) {
     if (state.loggedInUserId == null) {
       logger.fw(

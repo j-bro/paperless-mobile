@@ -16,7 +16,6 @@ import 'package:paperless_mobile/core/security/session_manager.dart';
 import 'package:paperless_mobile/core/service/dio_file_service.dart';
 import 'package:paperless_mobile/core/store/local_store.dart';
 import 'package:paperless_mobile/features/document_scan/cubit/document_scanner_cubit.dart';
-import 'package:paperless_mobile/features/inbox/cubit/inbox_cubit.dart';
 import 'package:paperless_mobile/features/tasks/model/pending_tasks_notifier.dart';
 import 'package:provider/provider.dart';
 
@@ -140,15 +139,6 @@ class HomeShellWidget extends StatelessWidget {
             Provider(
               create: (context) =>
                   InboxRepository(context.read(), context.read()),
-            ),
-            Provider(
-              create: (context) => InboxCubit(
-                context.read(),
-                context.read(),
-                context.read(),
-                context.read(),
-                context.read(),
-              )..initialize(),
             ),
             ChangeNotifierProvider(
               create: (context) => PendingTasksNotifier(context.read()),

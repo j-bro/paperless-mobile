@@ -130,7 +130,7 @@ class AuthenticatedRoute extends ShellRouteData {
           final localStoreState = context.watch<LocalStore>().state;
           final currentUserId = localStoreState.loggedInUserId;
           final authenticatedUser =
-              localStoreState.localUserData[currentUserId]?.remoteUser;
+              localStoreState.localUserData[currentUserId]?.localUser;
           if (currentUserId == null || authenticatedUser == null) {
             return const SizedBox.shrink();
           }

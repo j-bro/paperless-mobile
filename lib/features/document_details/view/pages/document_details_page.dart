@@ -1,4 +1,5 @@
 import 'package:cached_query/src/query_state.dart';
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -428,11 +429,19 @@ class _DocumentDetailsPageState extends State<DocumentDetailsPage> {
                         onPressed: null,
                       ).paddedSymmetrically(horizontal: 4);
                     },
-                    child: IconButton(
-                      tooltip: S.of(context)!.deleteDocumentTooltip,
-                      icon: const Icon(Icons.delete),
-                      onPressed: () => _onDelete(state.data!),
-                    ).paddedSymmetrically(horizontal: 4),
+                    child: MutationBuilder(
+                      mutation: context.documentRepository
+                          .deleteDocumentMutation(widget.id),
+                      builder: (context, mutationState, delete) {
+                        return IconButton(
+                          tooltip: S.of(context)!.deleteDocumentTooltip,
+                          icon: mutationState.isLoading
+                              ? CircularProgressIndicator()
+                              : Icon(Icons.delete),
+                          onPressed: () => _onDelete(state.data!, delete),
+                        ).paddedSymmetrically(horizontal: 4);
+                      },
+                    ),
                   ),
                   ConnectivityAwareActionWrapper(
                     offlineBuilder: (context, child) =>
@@ -496,10 +505,10 @@ class _DocumentDetailsPageState extends State<DocumentDetailsPage> {
     }
   }
 
-  void _onDelete(Document document) async {
-    final delete = context.documentRepository
-        .deleteDocumentMutation(document.id)
-        .mutate;
+  void _onDelete(
+    Document document,
+    Future<MutationState<void>> Function(void) delete,
+  ) async {
     final shouldDelete =
         await showDialog(
           context: context,
@@ -507,18 +516,19 @@ class _DocumentDetailsPageState extends State<DocumentDetailsPage> {
               DeleteDocumentConfirmationDialog(document: document),
         ) ??
         false;
-    if (shouldDelete) {
-      try {
-        delete();
-        // showSnackBar(context, S.of(context)!.documentSuccessfullyDeleted);
-      } on PaperlessApiException catch (error, stackTrace) {
-        if (mounted) {
-          showErrorMessage(context, error, stackTrace);
-        }
-      } finally {
-        if (mounted) {
-          context.pop();
-        }
+    if (!shouldDelete) {
+      return;
+    }
+    try {
+      await delete(null);
+      // showSnackBar(context, S.of(context)!.documentSuccessfullyDeleted);
+    } on PaperlessApiException catch (error, stackTrace) {
+      if (mounted) {
+        showErrorMessage(context, error, stackTrace);
+      }
+    } finally {
+      if (mounted) {
+        context.pop();
       }
     }
   }

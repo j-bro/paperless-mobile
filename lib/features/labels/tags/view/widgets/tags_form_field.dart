@@ -102,7 +102,7 @@ class TagsFormField extends StatelessWidget {
                         allowCreation &&
                         context
                             .loggedInUserData$
-                            .remoteUser
+                            .localUser
                             .paperlessUser
                             .canCreateTags,
                     allowExclude: allowExclude,

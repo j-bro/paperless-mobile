@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -8,17 +10,19 @@ import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:pdfx/pdfx.dart';
 
 class DocumentView extends StatefulWidget {
-  final int documentId;
+  final int? documentId;
+  final Future<Uint8List>? bytes;
   final String? title;
   final bool showAppBar;
   final bool showControls;
   const DocumentView({
     super.key,
-    required this.documentId,
+    this.documentId,
+    this.bytes,
     this.showAppBar = true,
     this.showControls = true,
     this.title,
-  });
+  }) : assert(documentId != null || bytes != null);
 
   @override
   State<DocumentView> createState() => _DocumentViewState();
@@ -43,46 +47,71 @@ class _DocumentViewState extends State<DocumentView> {
     final canGoToNextPage = _totalPages != null && _currentPage < _totalPages!;
     final canGoToPreviousPage =
         _controller.pagesCount != null && _currentPage > 1;
-    return QueryBuilder(
-      query: context.documentRepository.downloadDocumentQuery(
-        widget.documentId,
-        original: true,
-      ),
-      builder: (context, state) {
-        return Scaffold(
-          appBar: widget.showAppBar
-              ? AppBar(title: widget.title != null ? Text(widget.title!) : null)
-              : null,
-          bottomNavigationBar: _buildControls(
-            canGoToPreviousPage,
-            pageTransitionDuration,
-            canGoToNextPage,
-          ),
-          body: Builder(
-            builder: (context) {
-              if (state.isLoading) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              if (state.isError || state.data == null) {
-                return Center(
-                  child: Text(S.of(context)!.couldNotLoadDocumentPreview),
+    if (widget.documentId != null) {
+      return QueryBuilder(
+        query: context.documentRepository.downloadDocumentQuery(
+          widget.documentId!,
+          original: true,
+        ),
+        builder: (context, state) {
+          return Scaffold(
+            appBar: widget.showAppBar
+                ? AppBar(
+                    title: widget.title != null ? Text(widget.title!) : null,
+                  )
+                : null,
+            bottomNavigationBar: _buildControls(
+              canGoToPreviousPage,
+              pageTransitionDuration,
+              canGoToNextPage,
+            ),
+            body: Builder(
+              builder: (context) {
+                if (state.isLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (state.isError || state.data == null) {
+                  return Center(
+                    child: Text(S.of(context)!.couldNotLoadDocumentPreview),
+                  );
+                }
+                return LoadedPdfView(
+                  bytes: state.data!,
+                  onInitialized: (pagesCount) {
+                    setState(() {
+                      _totalPages = pagesCount;
+                    });
+                  },
+                  onPageChanged: (page) {
+                    setState(() {
+                      _currentPage = page;
+                    });
+                  },
                 );
-              }
-              return LoadedPdfView(
-                bytes: state.data!,
-                onInitialized: (pagesCount) {
-                  setState(() {
-                    _totalPages = pagesCount;
-                  });
-                },
-                onPageChanged: (page) {
-                  setState(() {
-                    _currentPage = page;
-                  });
-                },
-              );
-            },
-          ),
+              },
+            ),
+          );
+        },
+      );
+    }
+    return FutureBuilder(
+      future: widget.bytes,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        return LoadedPdfView(
+          bytes: snapshot.data!,
+          onInitialized: (pagesCount) {
+            setState(() {
+              _totalPages = pagesCount;
+            });
+          },
+          onPageChanged: (page) {
+            setState(() {
+              _currentPage = page;
+            });
+          },
         );
       },
     );
