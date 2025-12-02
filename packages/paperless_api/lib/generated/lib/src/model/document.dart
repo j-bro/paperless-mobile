@@ -3,8 +3,8 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:paperless_api/generated/lib/src/model/correspondent_permissions.dart';
 import 'package:paperless_api/generated/lib/src/model/custom_field_instance.dart';
+import 'package:paperless_api/generated/lib/src/model/document_permissions.dart';
 import 'package:paperless_api/generated/lib/src/model/note.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -54,11 +54,11 @@ class Document {
 
     this.owner,
 
-    required this.permissions,
+    this.permissions,
 
-    required this.userCanChange,
+    this.userCanChange,
 
-    required this.isSharedByRequester,
+    this.isSharedByRequester,
 
     required this.notes,
 
@@ -126,18 +126,18 @@ class Document {
   @JsonKey(name: r'owner', required: false, includeIfNull: false)
   final int? owner;
 
-  @JsonKey(name: r'permissions', required: true, includeIfNull: false)
-  final CorrespondentPermissions permissions;
+  @JsonKey(name: r'permissions', required: false, includeIfNull: false)
+  final DocumentPermissions? permissions;
 
-  @JsonKey(name: r'user_can_change', required: true, includeIfNull: false)
-  final bool userCanChange;
+  @JsonKey(name: r'user_can_change', required: false, includeIfNull: false)
+  final bool? userCanChange;
 
   @JsonKey(
     name: r'is_shared_by_requester',
-    required: true,
+    required: false,
     includeIfNull: false,
   )
-  final bool isSharedByRequester;
+  final bool? isSharedByRequester;
 
   @JsonKey(name: r'notes', required: true, includeIfNull: false)
   final List<Note> notes;

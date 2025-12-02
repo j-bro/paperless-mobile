@@ -71,7 +71,7 @@
   "@deleteView": {},
   "addedAt": "Afegit",
   "@addedAt": {},
-  "archiveSerialNumber": "ASN",
+  "archiveSerialNumber": "Número de sèrie de l'arxiu",
   "@archiveSerialNumber": {},
   "asn": "ASN",
   "@asn": {},
@@ -280,7 +280,7 @@
   "@couldNotDeleteSavedView": {},
   "youAreCurrentlyOffline": "Estàs fora de línia. Assegura't d'estar connectat a internet.",
   "@youAreCurrentlyOffline": {},
-  "couldNotAssignArchiveSerialNumber": "No es pot assignar ASN.",
+  "couldNotAssignArchiveSerialNumber": "No es pot assignar el número de sèrie de l'arxiu.",
   "@couldNotAssignArchiveSerialNumber": {},
   "couldNotDeleteDocument": "No es pot esborrar document, prova de nou.",
   "@couldNotDeleteDocument": {},
@@ -384,7 +384,7 @@
       "count": {}
     }
   },
-  "weeks": "{count, plural, one{setmana} other{weeks}}",
+  "weeks": "{count, plural, one{setmana} other{setmanes}}",
   "@weeks": {
     "placeholders": {
       "count": {}
@@ -686,7 +686,7 @@
   "@notificationDownloadingDocument": {
     "description": "Notification title shown when a document download is pending"
   },
-  "archiveSerialNumberUpdated": "ASN actualitzat.",
+  "archiveSerialNumberUpdated": "S'ha actualitzat el número de sèrie de l'arxiu.",
   "@archiveSerialNumberUpdated": {
     "description": "Message shown when the ASN has been updated."
   },
@@ -960,7 +960,7 @@
   },
   "statistics": "Estadí­stiques",
   "documentsInInbox": "Document safata",
-  "totalDocuments": "Total documents",
+  "totalDocuments": "Total de documents",
   "totalCharacters": "Caràcters Totals",
   "showAll": "Mostra tot",
   "@showAll": {
@@ -980,7 +980,7 @@
   "backToLogin": "Torna a inici de sessió",
   "skipEditingReceivedFiles": "Salta l'edició de fitxers rebuts",
   "uploadWithoutPromptingUploadForm": "Pengeu sempre sense demanar el formulari de càrrega quan compartiu fitxers amb l'aplicació.",
-  "authenticatingDots": "Autenticant…",
+  "authenticatingDots": "Autenticant...",
   "@authenticatingDots": {
     "description": "Message shown when the app is authenticating the user"
   },
@@ -1018,7 +1018,7 @@
   "@hidePdf": {
     "description": "Tooltip shown on the \"show pdf\" icon button on the document edit page"
   },
-  "misc": "Miscel·lanni",
+  "misc": "Divers",
   "loggingOut": "Sortint...",
   "testingConnection": "Provant connexió...",
   "@testingConnection": {
@@ -1027,8 +1027,8 @@
   "version": "Versió {versionCode}",
   "notes": "{count, plural, zero{Notes} one{Nota} other{Notes}}",
   "addNote": "Afegir Nota",
-  "newerVersionAvailable": "Newer version available:",
-  "dateOutOfRange": "Date must be between {firstDate} and {lastDate}.",
+  "newerVersionAvailable": "Nova versió disponible:",
+  "dateOutOfRange": "Data ha d'estar entre {firstDate} i {lastDate}.",
   "@dateOutOfRange": {
     "description": "Error message shown when the user tries to select a date outside of the allowed range.",
     "placeholders": {
@@ -1042,7 +1042,10 @@
       }
     }
   },
-  "permissions": "Permissions",
-  "newNote": "New note",
-  "notesMarkdownSyntaxSupportHint": "Paperless Mobile can render notes using basic markdown syntax. Try it out!"
+  "permissions": "Permisos",
+  "newNote": "Nova nota",
+  "notesMarkdownSyntaxSupportHint": "Paperless Mobile pot representar notes mitjançant la sintaxi bàsica de reducció. Prova-ho!",
+  "mfaCodeRequiredValidationMessage": "Please enter the MFA code.",
+  "mfaCodeInvalidLengthValidationMessage": "MFA code must be 6 digits.",
+  "mfaFormFieldHint": "Your account is protected by two-factor authentication. Please enter an authentication code:"
 }

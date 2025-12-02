@@ -7,6 +7,7 @@ part 'local_user_account.g.dart';
 @freezed
 abstract class LocalUserAccount with _$LocalUserAccount {
   const factory LocalUserAccount({
+    required String appUserId,
     required String serverUrl,
     required User paperlessUser,
     required int apiVersion,

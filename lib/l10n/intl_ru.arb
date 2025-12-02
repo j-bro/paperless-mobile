@@ -5,9 +5,9 @@
       "name": {}
     }
   },
-  "addAnotherAccount": "Добавить другой аккаунт",
+  "addAnotherAccount": "Добавить другую учетную запись",
   "@addAnotherAccount": {},
-  "account": "Аккаунт",
+  "account": "Учётная запись",
   "@account": {},
   "addCorrespondent": "Новый корреспондент",
   "@addCorrespondent": {
@@ -17,11 +17,11 @@
   "@addDocumentType": {
     "description": "Title when adding a new document type"
   },
-  "addStoragePath": "Новый путь хранения",
+  "addStoragePath": "Новый путь для хранения данных",
   "@addStoragePath": {
     "description": "Title when adding a new storage path"
   },
-  "addTag": "Новый запрос",
+  "addTag": "Новый тег",
   "@addTag": {
     "description": "Title when adding a new tag"
   },
@@ -366,7 +366,7 @@
       "count": {}
     }
   },
-  "lastNWeeks": "{count, plural, one{На прошлой неделе} few {Прошло {count} недели} many {Прошло {count} недели} other{Прошло  {count} недели}}",
+  "lastNWeeks": "{count, plural, one{На прошлой неделе} few {Прошло {count} недели} many {Прошло {count} недели} other{Прошло {count} недели}}",
   "@lastNWeeks": {
     "placeholders": {
       "count": {}
@@ -974,61 +974,61 @@
   "@youDidNotSaveAnyViewsYet": {
     "description": "Message shown when there are no saved views yet."
   },
-  "tryAgain": "Try again",
-  "discardFile": "Discard file?",
-  "discard": "Discard",
-  "backToLogin": "Back to login",
-  "skipEditingReceivedFiles": "Skip editing received files",
-  "uploadWithoutPromptingUploadForm": "Always upload without prompting the upload form when sharing files with the app.",
-  "authenticatingDots": "Authenticating...",
+  "tryAgain": "Попробуйте еще раз",
+  "discardFile": "Удалить файл?",
+  "discard": "Отменить",
+  "backToLogin": "Вернуться к входу",
+  "skipEditingReceivedFiles": "Пропустить редактирование полученных файлов",
+  "uploadWithoutPromptingUploadForm": "При нажатии \"Поделиться\" загружать файлы без открытия форму для загрузки файлов.",
+  "authenticatingDots": "Аутентификация...",
   "@authenticatingDots": {
     "description": "Message shown when the app is authenticating the user"
   },
-  "persistingUserInformation": "Persisting user information...",
-  "fetchingUserInformation": "Fetching user information...",
+  "persistingUserInformation": "Сохранение информации о пользователе...",
+  "fetchingUserInformation": "Получение информации о пользователе...",
   "@fetchingUserInformation": {
     "description": "Message shown when the app loads user data from the server"
   },
-  "restoringSession": "Restoring session...",
+  "restoringSession": "Восстановление сессии...",
   "@restoringSession": {
     "description": "Message shown when the user opens the app and the previous user is tried to be authenticated and logged in"
   },
-  "documentsAssigned": "{count, plural, zero{No documents} one{1 document} other{{count} documents}}",
+  "documentsAssigned": "{count, plural, zero{Нет документов} one{{count} документ} few{{count} документа} many {{count} документов} other{{count} документов}}",
   "@documentsAssigned": {
     "description": "Text shown with a correspondent, document type etc. to indicate the number of documents this filter will maximally yield."
   },
-  "discardChangesWarning": "You have unsaved changes. By continuing, all changes will be lost. Do you want to discard these changes?",
+  "discardChangesWarning": "У вас есть несохраненные изменения. Продолжая, все изменения будут потеряны. Вы хотите продолжить без сохранения?",
   "@discardChangesWarning": {
     "description": "Warning message shown when the user tries to close a route without saving the changes."
   },
-  "changelog": "Changelog",
-  "noLogsFoundOn": "No logs found on {date}.",
-  "logfileBottomReached": "You have reached the bottom of this logfile.",
-  "appLogs": "App logs {date}",
-  "saveLogsToFile": "Save logs to file",
-  "copyToClipboard": "Copy to clipboard",
-  "couldNotLoadLogfileFrom": "Could not load logfile from {date}.",
-  "loadingLogsFrom": "Loading logs from {date}...",
-  "clearLogs": "Clear logs from {date}",
-  "showPdf": "Show PDF",
+  "changelog": "Изменения",
+  "noLogsFoundOn": "Логи не найдены за {date}.",
+  "logfileBottomReached": "Вы достигли конца лога.",
+  "appLogs": "Логи приложения за {date}",
+  "saveLogsToFile": "Сохранить логи в файл",
+  "copyToClipboard": "Копировать в буфер обмена",
+  "couldNotLoadLogfileFrom": "Не удалось загрузить лог файл за {date}.",
+  "loadingLogsFrom": "Загрузка логов за {date}...",
+  "clearLogs": "Очистить логи за {date}",
+  "showPdf": "Показать PDF",
   "@showPdf": {
     "description": "Tooltip shown on the \"show pdf\" button on the document edit page"
   },
-  "hidePdf": "Hide PDF",
+  "hidePdf": "Скрыть PDF",
   "@hidePdf": {
     "description": "Tooltip shown on the \"show pdf\" icon button on the document edit page"
   },
-  "misc": "Miscellaneous",
-  "loggingOut": "Logging out...",
-  "testingConnection": "Testing connection...",
+  "misc": "Прочее",
+  "loggingOut": "Выполняется выход...",
+  "testingConnection": "Проверка подключения...",
   "@testingConnection": {
     "description": "Text shown while the app tries to establish a connection to the specified host."
   },
-  "version": "Version {versionCode}",
-  "notes": "{count, plural, zero{Notes} one{Note} other{Notes}}",
-  "addNote": "Add note",
-  "newerVersionAvailable": "Newer version available:",
-  "dateOutOfRange": "Date must be between {firstDate} and {lastDate}.",
+  "version": "Версия {versionCode}",
+  "notes": "{count, plural, zero{Нет заметок} one{{count} заметка} few{{count} заметки} many {{count} заметок} other{{count} заметок}}",
+  "addNote": "Добавить заметку",
+  "newerVersionAvailable": "Доступна новая версия:",
+  "dateOutOfRange": "Дата должна быть между {firstDate} и {lastDate}.",
   "@dateOutOfRange": {
     "description": "Error message shown when the user tries to select a date outside of the allowed range.",
     "placeholders": {
@@ -1042,7 +1042,10 @@
       }
     }
   },
-  "permissions": "Permissions",
-  "newNote": "New note",
-  "notesMarkdownSyntaxSupportHint": "Paperless Mobile can render notes using basic markdown syntax. Try it out!"
+  "permissions": "Права доступа",
+  "newNote": "Новая заметка",
+  "notesMarkdownSyntaxSupportHint": "Paperless Mobile поддерживает синтаксис Markdown для отображения и форматирования заметок. Попробуйте!",
+  "mfaCodeRequiredValidationMessage": "Please enter the MFA code.",
+  "mfaCodeInvalidLengthValidationMessage": "MFA code must be 6 digits.",
+  "mfaFormFieldHint": "Your account is protected by two-factor authentication. Please enter an authentication code:"
 }

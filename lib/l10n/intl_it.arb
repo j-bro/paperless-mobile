@@ -129,7 +129,7 @@
   },
   "documentType": "Tipo di documento",
   "@documentType": {},
-  "archivedPdf": "Archiviato (PDF)",
+  "archivedPdf": "Archiviato (pdf)",
   "@archivedPdf": {
     "description": "Option to chose when downloading a document"
   },
@@ -816,7 +816,7 @@
   "@export": {
     "description": "Label for button that exports scanned images to pdf (before upload)"
   },
-  "invalidFilenameCharacter": "Carattere(i) non valido(i) trovato(i) nel nome del file: {characters}",
+  "invalidFilenameCharacter": "Caratteri non validi trovati nel nome del file: {characters}",
   "@invalidFilenameCharacter": {
     "description": "For validating filename in export dialogue"
   },
@@ -1027,8 +1027,8 @@
   "version": "Versione {versionCode}",
   "notes": "{count, plural, zero{Nota} one{Nota} other{Note}}",
   "addNote": "Aggiungi nota",
-  "newerVersionAvailable": "Newer version available:",
-  "dateOutOfRange": "Date must be between {firstDate} and {lastDate}.",
+  "newerVersionAvailable": "Nuova versione disponibile:",
+  "dateOutOfRange": "La data deve essere compresa tra {firstDate} e {lastDate}.",
   "@dateOutOfRange": {
     "description": "Error message shown when the user tries to select a date outside of the allowed range.",
     "placeholders": {
@@ -1042,7 +1042,10 @@
       }
     }
   },
-  "permissions": "Permissions",
-  "newNote": "New note",
-  "notesMarkdownSyntaxSupportHint": "Paperless Mobile can render notes using basic markdown syntax. Try it out!"
+  "permissions": "Permessi",
+  "newNote": "Nuova nota",
+  "notesMarkdownSyntaxSupportHint": "Paperless Mobile supporta la sintassi Markdown per la visualizzazione e la formattazione delle note. Provalo!",
+  "mfaCodeRequiredValidationMessage": "Please enter the MFA code.",
+  "mfaCodeInvalidLengthValidationMessage": "MFA code must be 6 digits.",
+  "mfaFormFieldHint": "Your account is protected by two-factor authentication. Please enter an authentication code:"
 }

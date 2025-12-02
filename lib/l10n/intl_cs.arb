@@ -762,57 +762,57 @@
   "@switchToNewAccount": {
     "description": "Content of the dialog shown after adding an account, asking the user whether to switch to the newly added account or not."
   },
-  "sourceCode": "Source Code",
-  "findTheSourceCodeOn": "Find the source code on",
+  "sourceCode": "Zdrojový kód",
+  "findTheSourceCodeOn": "Najděte zdrojový kód na",
   "@findTheSourceCodeOn": {
     "description": "Text before link to Paperless Mobile GitHub"
   },
-  "rememberDecision": "Remember my decision",
-  "defaultDownloadFileType": "Default Download File Type",
+  "rememberDecision": "Pamatovat si mé rozhodnutí",
+  "defaultDownloadFileType": "Výchozí typ souboru ke stažení",
   "@defaultDownloadFileType": {
     "description": "Label indicating the default filetype to download (one of archived, original and always ask)"
   },
-  "defaultShareFileType": "Default Share File Type",
+  "defaultShareFileType": "Výchozí typ sdíleného souboru",
   "@defaultShareFileType": {
     "description": "Label indicating the default filetype to share (one of archived, original and always ask)"
   },
-  "alwaysAsk": "Always ask",
+  "alwaysAsk": "Vždy se zeptat",
   "@alwaysAsk": {
     "description": "Option to choose when the app should always ask the user which filetype to use"
   },
-  "disableMatching": "Do not tag documents automatically",
+  "disableMatching": "Neoznačovat dokumenty automaticky",
   "@disableMatching": {
     "description": "One of the options for automatic tagging of documents"
   },
-  "none": "None",
+  "none": "Žádný",
   "@none": {
     "description": "One of available enum values of matching algorithm for tags"
   },
-  "logInToExistingAccount": "Log in to existing account",
+  "logInToExistingAccount": "Přihlásit se k existujícímu účtu",
   "@logInToExistingAccount": {
     "description": "Title shown on login page if at least one user is already known to the app."
   },
-  "print": "Print",
+  "print": "Tisk",
   "@print": {
     "description": "Tooltip for print button"
   },
-  "managePermissions": "Manage permissions",
+  "managePermissions": "Spravovat oprávnění",
   "@managePermissions": {
     "description": "Button which leads user to manage permissions page"
   },
-  "errorRetrievingServerVersion": "An error occurred trying to resolve the server version.",
+  "errorRetrievingServerVersion": "Došlo k chybě při pokusu o zjištění verze serveru.",
   "@errorRetrievingServerVersion": {
     "description": "Message shown at the bottom of the settings page when the remote server version could not be resolved."
   },
-  "resolvingServerVersion": "Resolving server version...",
+  "resolvingServerVersion": "Zjišťování verze serveru...",
   "@resolvingServerVersion": {
     "description": "Message shown while the app is loading the remote server version."
   },
-  "goToLogin": "Go to login",
+  "goToLogin": "Přejít na přihlášení",
   "@goToLogin": {
     "description": "Label of the button shown on the login page to skip logging in to existing accounts and navigate user to login page"
   },
-  "export": "Export",
+  "export": "Exportovat",
   "@export": {
     "description": "Label for button that exports scanned images to pdf (before upload)"
   },
@@ -1044,5 +1044,8 @@
   },
   "permissions": "Permissions",
   "newNote": "New note",
-  "notesMarkdownSyntaxSupportHint": "Paperless Mobile can render notes using basic markdown syntax. Try it out!"
+  "notesMarkdownSyntaxSupportHint": "Paperless Mobile can render notes using basic markdown syntax. Try it out!",
+  "mfaCodeRequiredValidationMessage": "Please enter the MFA code.",
+  "mfaCodeInvalidLengthValidationMessage": "MFA code must be 6 digits.",
+  "mfaFormFieldHint": "Your account is protected by two-factor authentication. Please enter an authentication code:"
 }

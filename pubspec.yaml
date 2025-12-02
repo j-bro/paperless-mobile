@@ -87,7 +87,7 @@ dependencies:
   freezed_annotation: ^3.1.0
   animations: ^2.0.7
   hive_ce_flutter: ^2.3.2
-  flutter_secure_storage: ^4.2.1
+  flutter_secure_storage: ^9.2.4
   sliver_tools: ^0.2.10
   webview_flutter: ^4.2.1
   printing: ^5.11.1
@@ -113,6 +113,7 @@ dependencies:
   crypto: ^3.0.6
   cached_query_flutter: ^3.0.3
   skeletonizer: ^2.1.0+1
+  pinput: ^6.0.0
 
 dev_dependencies:
   integration_test:
@@ -135,7 +136,6 @@ dev_dependencies:
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter.
-
 flutter_gen:
   output: lib/generated/ # Optional (default: lib/gen/)
   line_length: 80 # Optional (default: 80)
@@ -173,3 +173,5 @@ flutter_native_splash:
   color: "#f9f9f9"
   image_dark: assets/logos/paperless_logo_white.png
   color_dark: "#181818"
+flutter_intl:
+  enabled: true

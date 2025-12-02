@@ -14,6 +14,7 @@ class UserCredentialsFormField extends StatefulWidget {
   final VoidCallback? onFieldsSubmitted;
   final String? initialUsername;
   final String? initialPassword;
+  final Map<String, String>? fieldErrors;
   final GlobalKey<FormBuilderState> formKey;
   const UserCredentialsFormField({
     super.key,
@@ -21,6 +22,7 @@ class UserCredentialsFormField extends StatefulWidget {
     this.initialUsername,
     this.initialPassword,
     required this.formKey,
+    this.fieldErrors,
   });
 
   @override
@@ -81,7 +83,10 @@ class _UserCredentialsFormFieldState extends State<UserCredentialsFormField>
               return null;
             },
             autofillHints: const [AutofillHints.username],
-            decoration: InputDecoration(label: Text(S.of(context)!.username)),
+            decoration: InputDecoration(
+              label: Text(S.of(context)!.username),
+              errorText: widget.fieldErrors?['username'],
+            ),
           ),
           ObscuredInputTextFormField(
             key: const ValueKey('login-password'),
@@ -91,6 +96,7 @@ class _UserCredentialsFormFieldState extends State<UserCredentialsFormField>
               field.value?.copyWith(password: password) ??
                   LoginFormCredentials(password: password),
             ),
+            errorText: widget.fieldErrors?['password'],
             onFieldSubmitted: (_) {
               widget.onFieldsSubmitted?.call();
             },

@@ -224,7 +224,7 @@ class _DocumentUploadPreparationPageState
                         ),
                         // Correspondent
                         if (context
-                            .watch<LocalUserAccount>()
+                            .loggedInUser$
                             .paperlessUser
                             .canViewCorrespondents)
                           LabelFormField<Correspondent>(
@@ -242,13 +242,13 @@ class _DocumentUploadPreparationPageState
                             prefixIcon: const Icon(Icons.person_outline),
                             allowSelectUnassigned: true,
                             canCreateNewLabel: context
-                                .watch<LocalUserAccount>()
+                                .loggedInUser$
                                 .paperlessUser
                                 .canCreateCorrespondents,
                           ),
                         // Document type
                         if (context
-                            .watch<LocalUserAccount>()
+                            .loggedInUser$
                             .paperlessUser
                             .canViewDocumentTypes)
                           LabelFormField<DocumentType>(
@@ -265,14 +265,11 @@ class _DocumentUploadPreparationPageState
                             prefixIcon: const Icon(Icons.description_outlined),
                             allowSelectUnassigned: true,
                             canCreateNewLabel: context
-                                .watch<LocalUserAccount>()
+                                .loggedInUser$
                                 .paperlessUser
                                 .canCreateDocumentTypes,
                           ),
-                        if (context
-                            .watch<LocalUserAccount>()
-                            .paperlessUser
-                            .canViewTags)
+                        if (context.loggedInUser$.paperlessUser.canViewTags)
                           TagsFormField(
                             name: 'tags',
                             allowCreation: true,

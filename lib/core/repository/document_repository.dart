@@ -15,6 +15,9 @@ import 'package:paperless_api/generated/lib/src/model/patched_document_request.d
 import 'package:paperless_api/generated/lib/src/model/share_link.dart';
 import 'package:paperless_api/generated/lib/src/model/suggestions.dart';
 import 'package:paperless_api/paperless_api.dart';
+import 'package:paperless_mobile/core/service/file_service.dart';
+import 'package:paperless_mobile/features/logging/data/logger.dart';
+import 'package:path/path.dart' as p;
 
 class DocumentRepository {
   final PaperlessDocumentsApi _api;
@@ -42,24 +45,29 @@ class DocumentRepository {
     return InfiniteQuery<PaginatedDocumentList, int>(
       key: queryKey,
       queryFn: (page) async {
-        final response = await _api.getAll(
-          (filter ?? DocumentFilter()).toDocumentFilterOptions().copyWith(
-            page: page,
-          ),
-        );
-        return response;
+        try {
+          final response = await _api.getAll(
+            (filter ?? DocumentFilter()).toDocumentFilterOptions().copyWith(
+              page: page,
+            ),
+          );
+          return response;
+        } catch (e) {
+          rethrow;
+        }
       },
       onSuccess: (data) {
         _cachedDocumentQueriesToInvalidate.add(queryKey);
       },
       getNextArg: (state) {
-        if (state == null) return 1;
-        final currentCount = state.args.length * (filter?.pageSize ?? 20);
-        final totalCount = state.lastPage?.count ?? 0;
-        if (currentCount >= totalCount) {
+        final lastPage = state?.lastPage;
+        if (lastPage == null) {
+          return 1;
+        }
+        if (lastPage.next == null) {
           return null;
         }
-        return state.args.last + 1;
+        return state!.args.last + 1;
       },
     );
   }
@@ -71,12 +79,33 @@ class DocumentRepository {
         return _api.addNote(documentId, arg);
       },
       onSuccess: (res, arg) {
-        final query = CachedQuery.instance.getQuery<Query<List<Note>>>(
-          'document_notes/$documentId',
-        );
-        query?.update((_) => res);
+        final documentQuery = getDocumentQuery(documentId);
+        if (documentQuery.state.data != null) {
+          documentQuery.update((old) => old!.copyWith(notes: res));
+        }
+        getAllNotesQuery(
+          documentId,
+        ).update((_) => InfiniteQueryData(pages: [res], args: [1]));
       },
-      refetchQueries: ['document/$documentId'],
+    );
+  }
+
+  Mutation<List<Note>, void> deleteNoteMutation(int documentId, int noteId) {
+    return Mutation<List<Note>, void>(
+      key: 'delete_note/$documentId/$noteId',
+      mutationFn: (_) {
+        return _api.deleteNote(documentId, noteId);
+      },
+      onSuccess: (res, arg) {
+        final documentQuery = getDocumentQuery(documentId);
+        if (documentQuery.state.data != null) {
+          documentQuery.update((old) => old!.copyWith(notes: res));
+        }
+        getAllNotesQuery(
+          documentId,
+        ).update((_) => InfiniteQueryData(pages: [res], args: [1]));
+      },
+      // refetchQueries: ['document_notes/$documentId'],
     );
   }
 
@@ -95,24 +124,28 @@ class DocumentRepository {
     throw UnimplementedError();
   }
 
-  Mutation<Document, void> autoAssignAsnMutation(int documentId) {
-    return Mutation<Document, void>(
+  Mutation<int, int?> assignAsnMutation(int documentId) {
+    return Mutation<int, int?>(
       key: 'assign_asn/$documentId',
-      mutationFn: (_) async {
-        final asnResponse = await getNextAsnQuery().fetch();
-        if (!asnResponse.isSuccess) {
-          throw PaperlessApiException(ErrorCode.documentAsnQueryFailed);
+      mutationFn: (asn) async {
+        var nextAsn = asn;
+        if (asn == null) {
+          final asnResponse = await getNextAsnQuery().fetch();
+          if (asnResponse.isError) {
+            throw PaperlessApiException(ErrorCode.documentAsnQueryFailed);
+          }
+          nextAsn = asnResponse.data!;
         }
-        final nextAsn = asnResponse.data!;
         final response = await patchDocumentMutation(
           documentId,
         ).mutate(PatchedDocumentRequest(archiveSerialNumber: nextAsn));
-        if (!response.isSuccess) {
+        if (response.isError) {
           throw PaperlessApiException(ErrorCode.documentUpdateFailed);
         }
-        return response.data!;
+        return response.data!.archiveSerialNumber!;
       },
       invalidateQueries: [
+        'next_asn',
         'document/$documentId',
         ..._cachedDocumentQueriesToInvalidate,
       ],
@@ -185,23 +218,6 @@ class DocumentRepository {
     );
   }
 
-  Mutation<List<Note>, int> deleteNoteMutation(int documentId) {
-    return Mutation<List<Note>, int>(
-      key: 'delete_note/$documentId',
-      mutationFn: (noteId) {
-        return _api.deleteNote(documentId, noteId);
-      },
-      onSuccess: (res, arg) {
-        // TODO: We could save one query by not refetching but updating the notes field of the document here aswell.
-        final query = CachedQuery.instance.getQuery<Query<List<Note>>>(
-          'document_notes/$documentId',
-        );
-        query?.update((_) => res);
-      },
-      refetchQueries: ['document/$documentId'],
-    );
-  }
-
   Query<Uint8List> downloadDocumentQuery(int id, {required bool original}) {
     return Query<Uint8List>(
       key: 'download_document/$id/$original',
@@ -211,15 +227,11 @@ class DocumentRepository {
     );
   }
 
-  Query<Document> getDocumentQuery(
-    int id, {
-    bool? fullPerms,
-    List<String>? fields,
-  }) {
+  Query<Document> getDocumentQuery(int id, {List<String>? fields}) {
     return Query<Document>(
       key: 'document/$id',
       queryFn: () {
-        return _api.get(id, fullPerms: fullPerms, fields: fields);
+        return _api.get(id, fields: fields);
       },
     );
   }
@@ -269,7 +281,7 @@ class DocumentRepository {
 
   InfiniteQuery<List<Note>, int> getAllNotesQuery(int id, {int pageSize = 20}) {
     return InfiniteQuery<List<Note>, int>(
-      key: 'document_notes_$id',
+      key: 'document_notes/$id',
       queryFn: (page) async {
         return _api.getNotes(id, page: page, pageSize: pageSize);
       },
@@ -358,5 +370,36 @@ class DocumentRepository {
         ..._cachedDocumentQueriesToInvalidate,
       ],
     );
+  }
+
+  Future<String> generateLocalFilePath(
+    int documentId, {
+    bool original = false,
+    PaperlessDirectoryType type = PaperlessDirectoryType.temporary,
+  }) async {
+    final metadataResult = await getMetaDataQuery(documentId).fetch();
+    final documentResult = await getDocumentQuery(documentId).fetch();
+    if (documentResult.isError || metadataResult.isError) {
+      throw metadataResult.error ?? documentResult.error;
+    }
+
+    final metadata = metadataResult.data!;
+    final document = documentResult.data!;
+
+    final effectiveFilePath =
+        document.archivedFileName ??
+        document.originalFileName ??
+        metadata.mediaFilename;
+    if (effectiveFilePath == null) {
+      logger.fe(
+        'No valid filename found for document $documentId',
+        className: runtimeType.toString(),
+        methodName: 'generateLocalFilePath',
+      );
+      throw Exception('No valid filename found for document $documentId');
+    }
+    final normalizedPath = effectiveFilePath.replaceAll("/", " ");
+    final extension = original ? p.extension(normalizedPath) : '.pdf';
+    return "${FileService.instance.getDirectory(type).path}/${p.basenameWithoutExtension(normalizedPath)}$extension";
   }
 }

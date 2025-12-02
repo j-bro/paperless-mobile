@@ -120,6 +120,7 @@ class DocumentFilterOptions with EquatableMixin {
   @JsonKey(name: 'document_type__name__istartswith')
   final String? documentTypeNameIstartswith;
   final List<String>? fields;
+  @JsonKey(defaultValue: true)
   final bool? fullPerms;
   final bool? hasCustomFields;
   final int? id;
@@ -273,7 +274,7 @@ class DocumentFilterOptions with EquatableMixin {
     this.documentTypeNameIexact,
     this.documentTypeNameIstartswith,
     this.fields,
-    this.fullPerms,
+    this.fullPerms = true,
     this.hasCustomFields,
     this.id,
     this.idIn,

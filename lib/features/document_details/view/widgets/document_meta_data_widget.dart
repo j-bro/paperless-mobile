@@ -1,12 +1,10 @@
 import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:paperless_api/generated/lib/src/model/document.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
-import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
 import 'package:paperless_mobile/features/document_details/view/widgets/archive_serial_number_field.dart';
 import 'package:paperless_mobile/features/document_details/view/widgets/details_item.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
@@ -15,6 +13,7 @@ import 'package:paperless_mobile/helpers/format_helpers.dart';
 class DocumentMetaDataWidget extends StatelessWidget {
   final Document document;
   final double itemSpacing;
+
   const DocumentMetaDataWidget({
     super.key,
     required this.document,
@@ -23,8 +22,7 @@ class DocumentMetaDataWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentUser = context.watch<LocalUserAccount>().paperlessUser;
-
+    final currentUser = context.loggedInUser$.paperlessUser;
     return QueryBuilder(
       query: context.documentRepository.getMetaDataQuery(document.id),
       builder: (context, state) {
@@ -38,7 +36,9 @@ class DocumentMetaDataWidget extends StatelessWidget {
           return SliverToBoxAdapter(
             child: Center(
               child: Text(
-                S.of(context)!.anUnknownErrorOccurred, //TODO: INTL
+                S
+                    .of(context)!
+                    .anUnknownErrorOccurred, //TODO: INTL better error message
                 textAlign: TextAlign.center,
               ),
             ).padded(),
@@ -50,7 +50,8 @@ class DocumentMetaDataWidget extends StatelessWidget {
           children: [
             if (currentUser.canEditDocuments)
               ArchiveSerialNumberField(
-                document: document,
+                documentId: document.id,
+                initialValue: document.archiveSerialNumber,
               ).paddedOnly(bottom: itemSpacing),
             DetailsItem.text(
               DateFormat.yMMMMd(
@@ -83,7 +84,9 @@ class DocumentMetaDataWidget extends StatelessWidget {
               label: S.of(context)!.originalMD5Checksum,
             ).paddedOnly(bottom: itemSpacing),
             DetailsItem.text(
-              formatBytes(metadata.originalSize, 2),
+              metadata.originalSize != null
+                  ? formatBytes(metadata.originalSize!, 2)
+                  : '-',
               context: context,
               label: S.of(context)!.originalFileSize,
             ).paddedOnly(bottom: itemSpacing),

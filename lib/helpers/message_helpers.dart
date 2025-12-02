@@ -61,6 +61,14 @@ void showGenericError(
   dynamic error, [
   StackTrace? stackTrace,
 ]) {
+  if (error is PaperlessApiException) {
+    showErrorMessage(context, error, stackTrace);
+    return;
+  }
+  if (error is InfoMessageException) {
+    showInfoMessage(context, error, stackTrace);
+    return;
+  }
   showSnackBar(
     context,
     error.toString(),

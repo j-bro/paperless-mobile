@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/store/local_store.dart';
 
 class HintStateBuilder extends StatelessWidget {
@@ -21,13 +22,14 @@ class HintStateBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LocalStore, LocalStoreState>(
       buildWhen: (previous, current) {
-        return previous.readHints.equals(current.readHints);
+        return !previous.readHints.equals(current.readHints);
       },
       builder: (context, state) {
         final acknowledged = state.readHints.contains(listenKey);
         void acknowledge() {
           if (!acknowledged) {
-            context.read<LocalStore>().acknowledgeHint(listenKey);
+            debugPrint("Acknowledging hint: $listenKey");
+            context.localStore.acknowledgeHint(listenKey);
           }
         }
 

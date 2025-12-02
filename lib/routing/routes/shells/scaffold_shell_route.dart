@@ -22,7 +22,7 @@ class ScaffoldShellRoute extends StatefulShellRouteData {
     StatefulNavigationShell navigationShell,
   ) {
     final localStoreState = context.read<LocalStore>().state;
-    final currentUserId = localStoreState.loggedInUserId!;
+    final currentUserId = localStoreState.loggedInAppUserId!;
     final authenticatedUser =
         localStoreState.localUserData[currentUserId]!.localUser.paperlessUser;
 

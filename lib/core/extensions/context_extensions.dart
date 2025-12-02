@@ -19,9 +19,9 @@ extension ContextExtensions on BuildContext {
   LocalStore get localStore => read<LocalStore>();
   LocalStore get localStore$ => watch<LocalStore>();
 
-  String? get loggedInUserId$ =>
-      select<LocalStore, String?>((state) => state.state.loggedInUserId);
-  String? get loggedInUserId => localStore.state.loggedInUserId;
+  String? get loggedInAppUserId$ =>
+      select<LocalStore, String?>((state) => state.state.loggedInAppUserId);
+  String? get loggedInAppUserId => localStore.state.loggedInAppUserId;
 
   GlobalSettings get globalSettings$ =>
       select<LocalStore, GlobalSettings>((state) => state.state.globalSettings);
@@ -30,13 +30,16 @@ extension ContextExtensions on BuildContext {
       select<LocalStore, Map<String, LocalUserData>>(
         (state) => state.state.localUserData,
       );
+  Map<String, LocalUserData> get localUserData =>
+      localStore.state.localUserData;
 
-  void updateGlobalSettings(GlobalSettings newSettings) =>
-      localStore.updateGlobalSettings(newSettings);
-
-  LocalUserData get loggedInUserData$ => localUserData$[loggedInUserId$]!;
+  LocalUserData get loggedInUserData$ => localUserData$[loggedInAppUserId$]!;
+  LocalUserData get loggedInUserData => localUserData[loggedInAppUserId]!;
   LocalUserAccount get loggedInUser$ =>
-      localUserData$[loggedInUserId$]!.localUser;
+      localUserData$[loggedInAppUserId$]!.localUser;
+
+  LocalUserAccount get loggedInUser =>
+      localUserData[loggedInAppUserId]!.localUser;
 
   DocumentRepository get documentRepository => read<DocumentRepository>();
   SavedViewRepository get savedViewRepository => read<SavedViewRepository>();
@@ -56,7 +59,7 @@ extension ContextExtensions on BuildContext {
       loggedInUserData$.appState!.currentDocumentFilter;
   DocumentFilter get currentDocumentFilter => localStore
       .state
-      .localUserData[loggedInUserId$]!
+      .localUserData[loggedInAppUserId]!
       .appState!
       .currentDocumentFilter;
 }

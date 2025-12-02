@@ -1,0 +1,1051 @@
+{
+  "developedBy": "Razvil {name}.",
+  "@developedBy": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "addAnotherAccount": "Dodaj nov račun",
+  "@addAnotherAccount": {},
+  "account": "Račun",
+  "@account": {},
+  "addCorrespondent": "Novi dopisnik",
+  "@addCorrespondent": {
+    "description": "Title when adding a new correspondent"
+  },
+  "addDocumentType": "Novi tip dokumenta",
+  "@addDocumentType": {
+    "description": "Title when adding a new document type"
+  },
+  "addStoragePath": "Novo mesto shranjevanja",
+  "@addStoragePath": {
+    "description": "Title when adding a new storage path"
+  },
+  "addTag": "Nova oznaka",
+  "@addTag": {
+    "description": "Title when adding a new tag"
+  },
+  "aboutThisApp": "O aplikaciji",
+  "@aboutThisApp": {
+    "description": "Label for about this app tile displayed in the drawer"
+  },
+  "loggedInAs": "Prijavljen/a kot {name}",
+  "@loggedInAs": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "disconnect": "Prekini povezavo",
+  "@disconnect": {
+    "description": "Logout button label"
+  },
+  "reportABug": "Sporoči napako",
+  "@reportABug": {},
+  "settings": "Nastavitve",
+  "@settings": {},
+  "authenticateOnAppStart": "Preverjanje pristnosti ob zagonu aplikacije",
+  "@authenticateOnAppStart": {
+    "description": "Description of the biometric authentication settings tile"
+  },
+  "biometricAuthentication": "Biometrična avtentikacija",
+  "@biometricAuthentication": {},
+  "authenticateToToggleBiometricAuthentication": "{mode, select, enable{Preverjanje pristnosti za omogočanje biometrične avtentikacije} disable{Preverjanje pristnosti za onemogočanje biometrične avtentikacije} other{}}",
+  "@authenticateToToggleBiometricAuthentication": {
+    "placeholders": {
+      "mode": {}
+    }
+  },
+  "documents": "Dokumenti",
+  "@documents": {},
+  "inbox": "Prejeto",
+  "@inbox": {},
+  "labels": "Oznake",
+  "@labels": {},
+  "scanner": "Bralnik",
+  "@scanner": {},
+  "startTyping": "Začni pisati...",
+  "@startTyping": {},
+  "doYouReallyWantToDeleteThisView": "Ali res želite izbrisati ta pogled?",
+  "@doYouReallyWantToDeleteThisView": {},
+  "deleteView": "Izbriši pogled {name}?",
+  "@deleteView": {},
+  "addedAt": "Dodano",
+  "@addedAt": {},
+  "archiveSerialNumber": "Arhivska Serijska Številka",
+  "@archiveSerialNumber": {},
+  "asn": "ASŠ",
+  "@asn": {},
+  "correspondent": "Dopisnik",
+  "@correspondent": {},
+  "createdAt": "Ustvarjeno",
+  "@createdAt": {},
+  "documentSuccessfullyDeleted": "Dokument uspešno izbrisan.",
+  "@documentSuccessfullyDeleted": {},
+  "assignAsn": "Dodeli ASŠ",
+  "@assignAsn": {},
+  "deleteDocumentTooltip": "Izbriši",
+  "@deleteDocumentTooltip": {
+    "description": "Tooltip shown for the delete button on details page"
+  },
+  "downloadDocumentTooltip": "Prenos",
+  "@downloadDocumentTooltip": {
+    "description": "Tooltip shown for the download button on details page"
+  },
+  "editDocumentTooltip": "Uredi",
+  "@editDocumentTooltip": {
+    "description": "Tooltip shown for the edit button on details page"
+  },
+  "loadFullContent": "Naloži celotno vsebin",
+  "@loadFullContent": {},
+  "noAppToDisplayPDFFilesFound": "Ni aplikacije za prikaz PDF datotek!",
+  "@noAppToDisplayPDFFilesFound": {},
+  "openInSystemViewer": "Odpri v sistemskem prikazovalniku",
+  "@openInSystemViewer": {},
+  "couldNotOpenFilePermissionDenied": "Ni možno odpreti datoteke: Pravica zavrnjena.",
+  "@couldNotOpenFilePermissionDenied": {},
+  "previewTooltip": "Predogled",
+  "@previewTooltip": {
+    "description": "Tooltip shown for the preview button on details page"
+  },
+  "shareTooltip": "Deli",
+  "@shareTooltip": {
+    "description": "Tooltip shown for the share button on details page"
+  },
+  "similarDocuments": "Podobni dokumenti",
+  "@similarDocuments": {
+    "description": "Label shown in the tabbar on details page"
+  },
+  "content": "Vsebina",
+  "@content": {
+    "description": "Label shown in the tabbar on details page"
+  },
+  "metaData": "Meta podatki",
+  "@metaData": {
+    "description": "Label shown in the tabbar on details page"
+  },
+  "overview": "Pregled",
+  "@overview": {
+    "description": "Label shown in the tabbar on details page"
+  },
+  "documentType": "Vrsta dokumenta",
+  "@documentType": {},
+  "archivedPdf": "Arhivirano (pdf)",
+  "@archivedPdf": {
+    "description": "Option to chose when downloading a document"
+  },
+  "chooseFiletype": "Izberi vrsto datoteke",
+  "@chooseFiletype": {},
+  "original": "Izvirnik",
+  "@original": {
+    "description": "Option to chose when downloading a document"
+  },
+  "documentSuccessfullyDownloaded": "Dokument uspešno prenešen.",
+  "@documentSuccessfullyDownloaded": {},
+  "suggestions": "Predlogi:",
+  "@suggestions": {},
+  "editDocument": "Uredi dokument",
+  "@editDocument": {},
+  "advanced": "Napredno",
+  "@advanced": {},
+  "apply": "Potrdi",
+  "@apply": {},
+  "extended": "Razširjeno",
+  "@extended": {},
+  "titleAndContent": "Naslov & vsebina",
+  "@titleAndContent": {},
+  "title": "Naslov",
+  "@title": {},
+  "reset": "Ponastavi",
+  "@reset": {},
+  "filterDocuments": "Filtriraj dokumente",
+  "@filterDocuments": {
+    "description": "Title of the document filter"
+  },
+  "originalMD5Checksum": "Izvirni MD5-Checksum",
+  "@originalMD5Checksum": {},
+  "mediaFilename": "Ime medijske datoteke",
+  "@mediaFilename": {},
+  "originalFileSize": "Izvirna velikost datoteke",
+  "@originalFileSize": {},
+  "originalMIMEType": "Izvirni MIME-Type",
+  "@originalMIMEType": {},
+  "modifiedAt": "Urejeno",
+  "@modifiedAt": {},
+  "preview": "Predogled",
+  "@preview": {
+    "description": "Title of the document preview page"
+  },
+  "scanADocument": "Skeniraj dokument",
+  "@scanADocument": {},
+  "noDocumentsScannedYet": "Ni skeniranih dokumentov.",
+  "@noDocumentsScannedYet": {},
+  "or": "ali",
+  "@or": {
+    "description": "Used on the scanner page between both main actions when no scans have been captured."
+  },
+  "deleteAllScans": "Izbriši vse skene",
+  "@deleteAllScans": {},
+  "uploadADocumentFromThisDevice": "Naloži dokument s te naprave",
+  "@uploadADocumentFromThisDevice": {
+    "description": "Button label on scanner page"
+  },
+  "noMatchesFound": "Ni zadetkov.",
+  "@noMatchesFound": {
+    "description": "Displayed when no documents were found in the document search."
+  },
+  "removeFromSearchHistory": "Izbriši iz zgodovine iskanja?",
+  "@removeFromSearchHistory": {},
+  "results": "Rezultati",
+  "@results": {
+    "description": "Label displayed above search results in document search."
+  },
+  "searchDocuments": "Preišči dokumente",
+  "@searchDocuments": {},
+  "resetFilter": "Ponastavi filter",
+  "@resetFilter": {},
+  "lastMonth": "Zadnji mesec",
+  "@lastMonth": {},
+  "last7Days": "Zadnjih 7 dni",
+  "@last7Days": {},
+  "last3Months": "Zadnje 3 mesece",
+  "@last3Months": {},
+  "lastYear": "Zadnje leto",
+  "@lastYear": {},
+  "search": "Iskanje",
+  "@search": {},
+  "documentsSuccessfullyDeleted": "Dokumenti uspešno izbrisani.",
+  "@documentsSuccessfullyDeleted": {},
+  "thereSeemsToBeNothingHere": "Tukaj ni ničesar...",
+  "@thereSeemsToBeNothingHere": {},
+  "oops": "Opa.",
+  "@oops": {},
+  "newDocumentAvailable": "Nov dokument je na voljo!",
+  "@newDocumentAvailable": {},
+  "orderBy": "Razvrsti po",
+  "@orderBy": {},
+  "thisActionIsIrreversibleDoYouWishToProceedAnyway": "Ta ukaz je nepovraten. Želiš kljub temu nadaljevati?",
+  "@thisActionIsIrreversibleDoYouWishToProceedAnyway": {},
+  "confirmDeletion": "Potrdi izbris",
+  "@confirmDeletion": {},
+  "areYouSureYouWantToDeleteTheFollowingDocuments": "{count, plural, one{Ali si prepričan, da želiš izbrisati izbrani dokument?} other{Ali si prepričan, da želiš izbrisati izbrane dokumente?}}",
+  "@areYouSureYouWantToDeleteTheFollowingDocuments": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "countSelected": "{count} izbrano",
+  "@countSelected": {
+    "description": "Displayed in the appbar when at least one document is selected.",
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "storagePath": "Mesto shranjevanja",
+  "@storagePath": {},
+  "prepareDocument": "Pripravi dokument",
+  "@prepareDocument": {},
+  "tags": "Oznake",
+  "@tags": {},
+  "documentSuccessfullyUpdated": "Dokument uspešno posodobljen.",
+  "@documentSuccessfullyUpdated": {},
+  "fileName": "Ime dokumenta",
+  "@fileName": {},
+  "synchronizeTitleAndFilename": "Sinhroniziraj naslov in ime dokumenta",
+  "@synchronizeTitleAndFilename": {},
+  "reload": "Ponovno naloži",
+  "@reload": {},
+  "documentSuccessfullyUploadedProcessing": "Dokument uspešno naložen, procesiranje...",
+  "@documentSuccessfullyUploadedProcessing": {},
+  "deleteLabelWarningText": "Ta oznaka vsebuje reference drugih dokumentov. Z izbrisom te oznake bodo odstranjene vse reference. Nadaljujem?",
+  "@deleteLabelWarningText": {},
+  "couldNotAcknowledgeTasks": "Ni možno potrditi naloge.",
+  "@couldNotAcknowledgeTasks": {},
+  "authenticationFailedPleaseTryAgain": "Preverjanje pristnosti ni uspelo, poskusi ponovno.",
+  "@authenticationFailedPleaseTryAgain": {},
+  "anErrorOccurredWhileTryingToAutocompleteYourQuery": "Pojavila se je napaka pri poskusu poizvedbe samodokončanja.",
+  "@anErrorOccurredWhileTryingToAutocompleteYourQuery": {},
+  "biometricAuthenticationFailed": "Biometrična avtentikacija ni uspela.",
+  "@biometricAuthenticationFailed": {},
+  "biometricAuthenticationNotSupported": "Biometrična avtentikacija ni podprta v tej napravi.",
+  "@biometricAuthenticationNotSupported": {},
+  "couldNotBulkEditDocuments": "Množično urejanje dokumentov ni mogoče.",
+  "@couldNotBulkEditDocuments": {},
+  "couldNotCreateCorrespondent": "Dopisnika ni bilo mogoče ustvariti, poskusi znova.",
+  "@couldNotCreateCorrespondent": {},
+  "couldNotLoadCorrespondents": "Dopisnikov ni bilo mogoče naložiti.",
+  "@couldNotLoadCorrespondents": {},
+  "couldNotCreateSavedView": "Shranjenega pogleda ni bilo mogoče ustvariti, poskusi znova.",
+  "@couldNotCreateSavedView": {},
+  "couldNotDeleteSavedView": "Ni možno izbrisati shranjenega pogleda, poskusi znova",
+  "@couldNotDeleteSavedView": {},
+  "youAreCurrentlyOffline": "Trenutno si brez povezave. Preveri ali si povezan v internet.",
+  "@youAreCurrentlyOffline": {},
+  "couldNotAssignArchiveSerialNumber": "Arhivi ni možno dodeliti serijske številku.",
+  "@couldNotAssignArchiveSerialNumber": {},
+  "couldNotDeleteDocument": "Ni možno izbrisati dokumenta, poskusi ponovono.",
+  "@couldNotDeleteDocument": {},
+  "couldNotLoadDocuments": "Ni možno naložiti dokumentov, poskusi ponovno.",
+  "@couldNotLoadDocuments": {},
+  "couldNotLoadDocumentPreview": "Ni možno naložiti predogleda dokumenta.",
+  "@couldNotLoadDocumentPreview": {},
+  "couldNotCreateDocument": "Ni možno ustvariti dokumenta, poskusi ponovno.",
+  "@couldNotCreateDocument": {},
+  "couldNotLoadDocumentTypes": "Ni možno naložiti tipov dokumentov, poskusi ponovno.",
+  "@couldNotLoadDocumentTypes": {},
+  "couldNotUpdateDocument": "Ni možno posodobiti dokumenta, poskusi ponovno.",
+  "@couldNotUpdateDocument": {},
+  "couldNotUploadDocument": "Ni možno naložiti dokumenta, poskusi ponovno.",
+  "@couldNotUploadDocument": {},
+  "invalidCertificateOrMissingPassphrase": "Neveljaven certifikat ali manjkajoče geslo, poskusi ponovno",
+  "@invalidCertificateOrMissingPassphrase": {},
+  "couldNotLoadSavedViews": "Ni možno naložiti shranjenih pogledov.",
+  "@couldNotLoadSavedViews": {},
+  "aClientCertificateWasExpectedButNotSent": "Certifikat klienta je bil pričakovan, vendar in bil poslan. Posreduj veljaven certifikat.",
+  "@aClientCertificateWasExpectedButNotSent": {},
+  "userIsNotAuthenticated": "Uporavnik ni overjen.",
+  "@userIsNotAuthenticated": {},
+  "requestTimedOut": "Zahteva do strežnika je potekla.",
+  "@requestTimedOut": {},
+  "anErrorOccurredRemovingTheScans": "Pri odstranjevanju skenov je prišlo do napake.",
+  "@anErrorOccurredRemovingTheScans": {},
+  "couldNotReachYourPaperlessServer": "Paperless strežnik ni dosegljiv, ali je zagnan in dostopen?",
+  "@couldNotReachYourPaperlessServer": {},
+  "couldNotLoadSimilarDocuments": "Ni možno naložiti podobnih dokumentov.",
+  "@couldNotLoadSimilarDocuments": {},
+  "couldNotCreateStoragePath": "Ni možno ustvariti shranjevalnega mesta, poskusi ponovno.",
+  "@couldNotCreateStoragePath": {},
+  "couldNotLoadStoragePaths": "Ni možno naložiti shranjevalnih mest.",
+  "@couldNotLoadStoragePaths": {},
+  "couldNotLoadSuggestions": "Ni možno naložiti predlogov.",
+  "@couldNotLoadSuggestions": {},
+  "couldNotCreateTag": "Ni možno ustvariti oznak, poskusi ponovno.",
+  "@couldNotCreateTag": {},
+  "couldNotLoadTags": "Ni možno naložiti oznak.",
+  "@couldNotLoadTags": {},
+  "anUnknownErrorOccurred": "Pojavila se je neznana napaka.",
+  "@anUnknownErrorOccurred": {},
+  "fileFormatNotSupported": "Ta vrsta datoteke ni podprta.",
+  "@fileFormatNotSupported": {},
+  "report": "POROČILO",
+  "@report": {},
+  "absolute": "Absolutno",
+  "@absolute": {},
+  "hintYouCanAlsoSpecifyRelativeValues": "Namig: Namesto točnega datuma lahko uporabiš časovni razpon relativen trenutnemu datumu.",
+  "@hintYouCanAlsoSpecifyRelativeValues": {
+    "description": "Displayed in the extended date range picker"
+  },
+  "amount": "Vrednost",
+  "@amount": {},
+  "relative": "Relativno",
+  "@relative": {},
+  "last": "Zadnji",
+  "@last": {},
+  "timeUnit": "Časovna enota",
+  "@timeUnit": {},
+  "selectDateRange": "Izberi časnovi razpon",
+  "@selectDateRange": {},
+  "after": "Za",
+  "@after": {},
+  "before": "Pred",
+  "@before": {},
+  "days": "{count, plural, zero{dni} one{dan} other{dni}}",
+  "@days": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "lastNDays": "{count, plural, zero{} one{včeraj} other{zadnjih {count} dni}}",
+  "@lastNDays": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "lastNMonths": "{count, plural, zero{} one{Zadnji mesec} other{Zadnjih {count} mesecev}}",
+  "@lastNMonths": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "lastNWeeks": "{count, plural, zero{} one{Zadnji teden} other{Zadnjih {count} tednov}}",
+  "@lastNWeeks": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "lastNYears": "{count, plural, zero{} one{Zadnje leto} other{Zadnjih {count} let}}",
+  "@lastNYears": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "months": "{count, plural, zero{} one{mesec} other{mesecev}}",
+  "@months": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "weeks": "{count, plural, zero{} one{teden} other{tednov}}",
+  "@weeks": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "years": "{count, plural, zero{} one{leto} other{let}}",
+  "@years": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "gotIt": "V redu!",
+  "@gotIt": {},
+  "cancel": "Prekliči",
+  "@cancel": {},
+  "close": "Zapri",
+  "@close": {},
+  "create": "Ustvari",
+  "@create": {},
+  "delete": "Izbriši",
+  "@delete": {},
+  "edit": "Uredi",
+  "@edit": {},
+  "ok": "OK",
+  "@ok": {},
+  "save": "Shrani",
+  "@save": {},
+  "select": "Izberi",
+  "@select": {},
+  "saveChanges": "Shrani spremembe",
+  "@saveChanges": {},
+  "upload": "Naloži",
+  "@upload": {},
+  "youreOffline": "Ni povezave.",
+  "@youreOffline": {},
+  "deleteDocument": "Izbriši dokument",
+  "@deleteDocument": {
+    "description": "Used as an action label on each inbox item"
+  },
+  "removeDocumentFromInbox": "Dokument je odstranjen iz predalnika.",
+  "@removeDocumentFromInbox": {},
+  "areYouSureYouWantToMarkAllDocumentsAsSeen": "Ali želiš označiti vse dokumente kot prebrane? To bo odstranilo vse oznake na dokumentih. Ta ukaz je nepovraten! Ali res želiš nadaljevati?",
+  "@areYouSureYouWantToMarkAllDocumentsAsSeen": {},
+  "markAllAsSeen": "Označi vse kot prebrano?",
+  "@markAllAsSeen": {},
+  "allSeen": "Vse prebrano",
+  "@allSeen": {},
+  "markAsSeen": "Označi kot prebrano",
+  "@markAsSeen": {},
+  "refresh": "Osveži",
+  "@refresh": {},
+  "youDoNotHaveUnseenDocuments": "Nimaš nepregledanih dokumentov.",
+  "@youDoNotHaveUnseenDocuments": {},
+  "quickAction": "Hiter ukrep",
+  "@quickAction": {},
+  "suggestionSuccessfullyApplied": "Predlog uspešno uveljavljen.",
+  "@suggestionSuccessfullyApplied": {},
+  "today": "Danes",
+  "@today": {},
+  "undo": "Razveljavi",
+  "@undo": {},
+  "nUnseen": "{count} neprebrano",
+  "@nUnseen": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "swipeLeftToMarkADocumentAsSeen": "Namig: Podrsaj levo, da označiš dokument kot prebran in odstrani vse oznake predalnika iz dokumenta.",
+  "@swipeLeftToMarkADocumentAsSeen": {},
+  "yesterday": "Včeraj",
+  "@yesterday": {},
+  "anyAssigned": "Kateri koli dodeljen",
+  "@anyAssigned": {},
+  "noItemsFound": "Ni elementov!",
+  "@noItemsFound": {},
+  "caseIrrelevant": "Velikost črk nepomembna",
+  "@caseIrrelevant": {},
+  "matchingAlgorithm": "Algoritem ujemanja",
+  "@matchingAlgorithm": {},
+  "match": "Ujemanje",
+  "@match": {},
+  "name": "Ime",
+  "@name": {},
+  "notAssigned": "Ni dodeljeno",
+  "@notAssigned": {},
+  "addNewCorrespondent": "Dodaj novega dopisnika",
+  "@addNewCorrespondent": {},
+  "noCorrespondentsSetUp": "Ni nastavljenih dopisnikov.",
+  "@noCorrespondentsSetUp": {},
+  "correspondents": "Dopisniki",
+  "@correspondents": {},
+  "addNewDocumentType": "Dodaj nov tip dokumenta",
+  "@addNewDocumentType": {},
+  "noDocumentTypesSetUp": "Ni nastavljenih tipov dokumentov.",
+  "@noDocumentTypesSetUp": {},
+  "documentTypes": "Tipi dokumentov",
+  "@documentTypes": {},
+  "addNewStoragePath": "Dodaj novo mesto shranjevanja",
+  "@addNewStoragePath": {},
+  "noStoragePathsSetUp": "Ni nastavljenih mest shranjevanja.",
+  "@noStoragePathsSetUp": {},
+  "storagePaths": "Mesto shranjevanja",
+  "@storagePaths": {},
+  "addNewTag": "Dodaj novo oznako",
+  "@addNewTag": {},
+  "noTagsSetUp": "Ni nastavljenih oznak.",
+  "@noTagsSetUp": {},
+  "linkedDocuments": "Povezani dokumenti",
+  "@linkedDocuments": {},
+  "advancedSettings": "Napredne nastavitve",
+  "@advancedSettings": {},
+  "passphrase": "Geslo",
+  "@passphrase": {},
+  "configureMutualTLSAuthentication": "Nastavi medsebojno preverjanje pristnosti TLS",
+  "@configureMutualTLSAuthentication": {},
+  "invalidCertificateFormat": "Neveljaven format certifikata, dovoljen je samo .pfx zapis",
+  "@invalidCertificateFormat": {},
+  "clientcertificate": "Certifikat klienta",
+  "@clientcertificate": {},
+  "selectFile": "Izberite datoteko...",
+  "@selectFile": {},
+  "continueLabel": "Nadaljuj",
+  "@continueLabel": {},
+  "incorrectOrMissingCertificatePassphrase": "Neveljavno ali manjkajoče geslo certifikata.",
+  "@incorrectOrMissingCertificatePassphrase": {},
+  "connect": "Poveži",
+  "@connect": {},
+  "password": "Geslo",
+  "@password": {},
+  "passwordMustNotBeEmpty": "Geslo ne sme biti prazno.",
+  "@passwordMustNotBeEmpty": {},
+  "connectionTimedOut": "Povezava je potekla",
+  "@connectionTimedOut": {},
+  "loginPageReachabilityMissingClientCertificateText": "Certifikat klienta je bil pričakovan, vendar in bil poslan. Posreduj veljaven certifikat.",
+  "@loginPageReachabilityMissingClientCertificateText": {},
+  "couldNotEstablishConnectionToTheServer": "Ni možno vzpostaviti povezave s strežnikom.",
+  "@couldNotEstablishConnectionToTheServer": {},
+  "connectionSuccessfulylEstablished": "Povezava uspešno vzpostavljena.",
+  "@connectionSuccessfulylEstablished": {},
+  "hostCouldNotBeResolved": "Gostitelj ni dosegljiv. Preveri naslov strežnika in internetno povezavo.",
+  "@hostCouldNotBeResolved": {},
+  "serverAddress": "Naslov strežnika",
+  "@serverAddress": {},
+  "invalidAddress": "Neveljaven naslov.",
+  "@invalidAddress": {},
+  "serverAddressMustIncludeAScheme": "Naslov strežnika mora vsebovati shemo.",
+  "@serverAddressMustIncludeAScheme": {},
+  "serverAddressMustNotBeEmpty": "Naslov strežnika ne sme biti prazen.",
+  "@serverAddressMustNotBeEmpty": {},
+  "signIn": "Prijava",
+  "@signIn": {},
+  "loginPageSignInTitle": "Prijava",
+  "@loginPageSignInTitle": {},
+  "signInToServer": "Prijavi se v {serverAddress}",
+  "@signInToServer": {
+    "placeholders": {
+      "serverAddress": {}
+    }
+  },
+  "connectToPaperless": "Poveži se s Paperless",
+  "@connectToPaperless": {},
+  "username": "Uporabniško ime",
+  "@username": {},
+  "usernameMustNotBeEmpty": "Uporabniško ime ne sme biti prazno.",
+  "@usernameMustNotBeEmpty": {},
+  "documentContainsAllOfTheseWords": "Dokument vsebuje vse te besede",
+  "@documentContainsAllOfTheseWords": {},
+  "all": "Vse",
+  "@all": {},
+  "documentContainsAnyOfTheseWords": "Dokument vsebuje katere koli od teh besed",
+  "@documentContainsAnyOfTheseWords": {},
+  "any": "Kateri/-a/-o koli",
+  "@any": {},
+  "learnMatchingAutomatically": "Nauči se samodejno ujemanje",
+  "@learnMatchingAutomatically": {},
+  "auto": "Samodejno",
+  "@auto": {},
+  "documentContainsThisString": "Dokument vsebuje ta niz",
+  "@documentContainsThisString": {},
+  "exact": "Točno",
+  "@exact": {},
+  "documentContainsAWordSimilarToThisWord": "Dokument vsebuje besedo podotno tej besedi",
+  "@documentContainsAWordSimilarToThisWord": {},
+  "fuzzy": "Mehko",
+  "@fuzzy": {},
+  "documentMatchesThisRegularExpression": "Dokument se ujema s tem običajnim izrazom",
+  "@documentMatchesThisRegularExpression": {},
+  "regularExpression": "Običajni izraz",
+  "@regularExpression": {},
+  "anInternetConnectionCouldNotBeEstablished": "Internetne povezave ni možno vzpostaviti.",
+  "@anInternetConnectionCouldNotBeEstablished": {},
+  "done": "Končano",
+  "@done": {},
+  "next": "Naprej",
+  "@next": {},
+  "couldNotAccessReceivedFile": "Ni možno dostopati do prejete datoteke. Pred delitvijo v skupno rabo odprite aplikacijo.",
+  "@couldNotAccessReceivedFile": {},
+  "newView": "Nov pogled",
+  "@newView": {},
+  "createsASavedViewBasedOnTheCurrentFilterCriteria": "Nov pogled ustvarjen na podlagi trenutnih kriterijev.",
+  "@createsASavedViewBasedOnTheCurrentFilterCriteria": {},
+  "createViewsToQuicklyFilterYourDocuments": "Ustvari poglede za hitrejše filtriranje dokumentov.",
+  "@createViewsToQuicklyFilterYourDocuments": {},
+  "nFiltersSet": "{count, plural, zero{{count} nastavljenih filtrov} one{{count} nastavljen filter} other{{count} nastavljenih filtrov}}",
+  "@nFiltersSet": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "showInSidebar": "Prikaži v stranski vrstici",
+  "@showInSidebar": {},
+  "showOnDashboard": "Prikaži v pregledni plošči",
+  "@showOnDashboard": {},
+  "views": "Pogledi",
+  "@views": {},
+  "clearAll": "Počisti vse",
+  "@clearAll": {},
+  "scan": "Skeniraj",
+  "@scan": {},
+  "previewScan": "Predogled",
+  "@previewScan": {},
+  "scrollToTop": "Pomik na vrh",
+  "@scrollToTop": {},
+  "paperlessServerVersion": "Verzija strežnika Paperless",
+  "@paperlessServerVersion": {},
+  "darkTheme": "Temna tema",
+  "@darkTheme": {},
+  "lightTheme": "Svetla tema",
+  "@lightTheme": {},
+  "systemTheme": "Uporabi sistemsko temo",
+  "@systemTheme": {},
+  "appearance": "Videz",
+  "@appearance": {},
+  "languageAndVisualAppearance": "Jezik in vizualni videz",
+  "@languageAndVisualAppearance": {},
+  "applicationSettings": "Aplikacija",
+  "@applicationSettings": {},
+  "colorSchemeHint": "Izberi med klasično Paperless zeleno barvno shemo ali uporabi dinamične barve, ki temeljijo na sistemski temi.",
+  "@colorSchemeHint": {},
+  "colorSchemeNotSupportedWarning": "Dinamične teme so podprte samo za naparave z Android 12 ali novejši. Z izbiro 'Dinamično' morda ne bo nobenega učinka, odvisno od sistema.",
+  "@colorSchemeNotSupportedWarning": {},
+  "colors": "Barve",
+  "@colors": {},
+  "language": "Jezik",
+  "@language": {},
+  "security": "Varnost",
+  "@security": {},
+  "mangeFilesAndStorageSpace": "Upravljaj datoteke in prostor za shranjevanje",
+  "@mangeFilesAndStorageSpace": {},
+  "storage": "Shramba",
+  "@storage": {},
+  "dark": "Temna",
+  "@dark": {},
+  "light": "Svetla",
+  "@light": {},
+  "system": "sistemska",
+  "@system": {},
+  "ascending": "Naraščajoče",
+  "@ascending": {},
+  "descending": "Padajoče",
+  "@descending": {},
+  "storagePathDay": "dan",
+  "@storagePathDay": {},
+  "storagePathMonth": "mesec",
+  "@storagePathMonth": {},
+  "storagePathYear": "leto",
+  "@storagePathYear": {},
+  "color": "Barva",
+  "@color": {},
+  "filterTags": "Filtriraj oznake...",
+  "@filterTags": {},
+  "inboxTag": "Oznaka predalnika",
+  "@inboxTag": {},
+  "uploadInferValuesHint": "Če podate vrednosti za ta polja, vaš brezpapirni primerek ne bo samodejno izpeljal vrednosti. Če želite, da vaš strežnik samodejno izpolni te vrednosti, pustite polja prazna.",
+  "@uploadInferValuesHint": {},
+  "useTheConfiguredBiometricFactorToAuthenticate": "Uporabi konfigurirani biometrični faktor za preverjanje pristnosti in odklepanje vaših dokumentov.",
+  "@useTheConfiguredBiometricFactorToAuthenticate": {},
+  "verifyYourIdentity": "Potrdi svojo identiteto",
+  "@verifyYourIdentity": {},
+  "verifyIdentity": "Potrdi identiteto",
+  "@verifyIdentity": {},
+  "detailed": "Podrobno",
+  "@detailed": {},
+  "grid": "Mreža",
+  "@grid": {},
+  "list": "Seznam",
+  "@list": {},
+  "remove": "Odstrani",
+  "removeQueryFromSearchHistory": "Izbriši iz zgodovine iskanja?",
+  "dynamicColorScheme": "Dinamično",
+  "@dynamicColorScheme": {},
+  "classicColorScheme": "Klasično",
+  "@classicColorScheme": {},
+  "notificationDownloadComplete": "Prenos končan",
+  "@notificationDownloadComplete": {
+    "description": "Notification title when a download has been completed."
+  },
+  "notificationDownloadingDocument": "Prenašam dokument",
+  "@notificationDownloadingDocument": {
+    "description": "Notification title shown when a document download is pending"
+  },
+  "archiveSerialNumberUpdated": "Arhivska Serijska Številka posodobljena.",
+  "@archiveSerialNumberUpdated": {
+    "description": "Message shown when the ASN has been updated."
+  },
+  "donateCoffee": "Kupi mi kavo",
+  "@donateCoffee": {
+    "description": "Label displayed in the app drawer"
+  },
+  "thisFieldIsRequired": "To polje je obvezno!",
+  "@thisFieldIsRequired": {
+    "description": "Message shown below the form field when a required field has not been filled out."
+  },
+  "confirm": "Potrdi",
+  "confirmAction": "Potrdi dejanje",
+  "@confirmAction": {
+    "description": "Typically used as a title to confirm a previously selected action"
+  },
+  "areYouSureYouWantToContinue": "Ali si prepričan, da želiš nadaljevati?",
+  "bulkEditTagsAddMessage": "{count, plural, one{Ta operacija bo dodala oznake {tags} izbranim dokumentom.} other{Ta operacija bo dodala oznake {tags} {count} izbranim dokumentom.}}",
+  "@bulkEditTagsAddMessage": {
+    "description": "Message of the confirmation dialog when bulk adding tags."
+  },
+  "bulkEditTagsRemoveMessage": "{count, plural, one{Ta operacija bo odstranila oznake {tags} izbranim dokumentom.} other{Ta operacija bo odstranila oznake {tags} iz {count} izbranim dokumentom.}}",
+  "@bulkEditTagsRemoveMessage": {
+    "description": "Message of the confirmation dialog when bulk removing tags."
+  },
+  "bulkEditTagsModifyMessage": "{count, plural, one{Ta operacija bo dodala oznake {addTags} in odstranila oznake {removeTags} izbranim dokumentom.} other{Ta operacija bo dodala oznake {addTags} in odstranila oznake {removeTags} iz {count} izbranim dokumentom.}}",
+  "@bulkEditTagsModifyMessage": {
+    "description": "Message of the confirmation dialog when both adding and removing tags."
+  },
+  "bulkEditCorrespondentAssignMessage": "{count, plural, one{Ta operacija bo dodelila dopisnika {correspondent} izbranim dokumentom.} other{Ta operacija bo dodelila dopisnika {correspondent} {count} izbranim dokumentom.}}",
+  "bulkEditDocumentTypeAssignMessage": "{count, plural, one{Ta operacija bo dodelila tip dokumenta {docType} izbranim dokumentom.} other{Ta operacija bo dodelila tip dokumenta {docType} {count} izbranim dokumentom.}}",
+  "bulkEditStoragePathAssignMessage": "{count, plural, one{Ta operacija bo dodelila mesto shranjevanja {path} izbranim dokumentom.} other{Ta operacija bo dodelila mesto shranjevanja {path} {count} izbranim dokumentom.}}",
+  "bulkEditCorrespondentRemoveMessage": "{count, plural, one{Ta operacija bo odstranila dopisnika iz izbranih dokumentov.} other{Ta operacija bo odstranila dopisnika iz {count} izbranih dokumentov.}}",
+  "bulkEditDocumentTypeRemoveMessage": "{count, plural, one{Ta operacija bo odstranila tip dokumenta iz izbranih dokumentov.} other{Ta operacija bo odstranila tip dokumenta iz {count} izbranih dokumentov.}}",
+  "bulkEditStoragePathRemoveMessage": "{count, plural, one{Ta operacija bo odstranila mesto shranjevanja iz izbranih dokumentov.} other{Ta operacija bo odstranila mesto shranjevanja iz {count} izbranih dokumentov.}}",
+  "anyTag": "Kateri/-a/-o koli",
+  "@anyTag": {
+    "description": "Label shown when any tag should be filtered"
+  },
+  "allTags": "Vse",
+  "@allTags": {
+    "description": "Label shown when a document has to be assigned to all selected tags"
+  },
+  "switchingAccountsPleaseWait": "Preklapljam med računi. Prosim počakaj...",
+  "@switchingAccountsPleaseWait": {
+    "description": "Message shown while switching accounts is in progress."
+  },
+  "testConnection": "Preskus povezave",
+  "@testConnection": {
+    "description": "Button label shown on login page. Allows user to test whether the server is reachable or not."
+  },
+  "accounts": "Računi",
+  "@accounts": {
+    "description": "Title of the account management dialog"
+  },
+  "addAccount": "Dodaj račun",
+  "@addAccount": {
+    "description": "Label of add account action"
+  },
+  "switchAccount": "Preklopi",
+  "@switchAccount": {
+    "description": "Label for switch account action"
+  },
+  "logout": "Odjava",
+  "@logout": {
+    "description": "Generic Logout label"
+  },
+  "switchAccountTitle": "Zamenjaj račun",
+  "@switchAccountTitle": {
+    "description": "Title of the dialog shown after adding an account, asking the user whether to switch to the newly added account or not."
+  },
+  "switchToNewAccount": "Želiš preklopiti na nov račun? Lahko se kadar koli preklopiš nazaj.",
+  "@switchToNewAccount": {
+    "description": "Content of the dialog shown after adding an account, asking the user whether to switch to the newly added account or not."
+  },
+  "sourceCode": "Izvorna koda",
+  "findTheSourceCodeOn": "Najdi izvorno kodo na",
+  "@findTheSourceCodeOn": {
+    "description": "Text before link to Paperless Mobile GitHub"
+  },
+  "rememberDecision": "Zapomni si to izbiro",
+  "defaultDownloadFileType": "Privzeti tip datoteke za prenos",
+  "@defaultDownloadFileType": {
+    "description": "Label indicating the default filetype to download (one of archived, original and always ask)"
+  },
+  "defaultShareFileType": "Privzeti tip datoteke za deljenje",
+  "@defaultShareFileType": {
+    "description": "Label indicating the default filetype to share (one of archived, original and always ask)"
+  },
+  "alwaysAsk": "Vedno vprašaj",
+  "@alwaysAsk": {
+    "description": "Option to choose when the app should always ask the user which filetype to use"
+  },
+  "disableMatching": "Ne označuj dokumentov samodejno",
+  "@disableMatching": {
+    "description": "One of the options for automatic tagging of documents"
+  },
+  "none": "Nič",
+  "@none": {
+    "description": "One of available enum values of matching algorithm for tags"
+  },
+  "logInToExistingAccount": "Prijava v obstoječi račun",
+  "@logInToExistingAccount": {
+    "description": "Title shown on login page if at least one user is already known to the app."
+  },
+  "print": "Natisni",
+  "@print": {
+    "description": "Tooltip for print button"
+  },
+  "managePermissions": "Upravljaj dovoljenja",
+  "@managePermissions": {
+    "description": "Button which leads user to manage permissions page"
+  },
+  "errorRetrievingServerVersion": "Pri poskusu razrešitve različice strežnika je prišlo do napake.",
+  "@errorRetrievingServerVersion": {
+    "description": "Message shown at the bottom of the settings page when the remote server version could not be resolved."
+  },
+  "resolvingServerVersion": "Razreševanje različice strežnika...",
+  "@resolvingServerVersion": {
+    "description": "Message shown while the app is loading the remote server version."
+  },
+  "goToLogin": "Pojdi na prijavo",
+  "@goToLogin": {
+    "description": "Label of the button shown on the login page to skip logging in to existing accounts and navigate user to login page"
+  },
+  "export": "Izvozi",
+  "@export": {
+    "description": "Label for button that exports scanned images to pdf (before upload)"
+  },
+  "invalidFilenameCharacter": "Neveljavni znak(i) v imenu datoteke: {characters}",
+  "@invalidFilenameCharacter": {
+    "description": "For validating filename in export dialogue"
+  },
+  "exportScansToPdf": "Izvozi skene v PDF",
+  "@exportScansToPdf": {
+    "description": "title of the alert dialog when exporting scans to pdf"
+  },
+  "allScansWillBeMerged": "Vsi skeni bodo združeni v eno PDF datoteko.",
+  "behavior": "Vedenje",
+  "@behavior": {
+    "description": "Title of the settings concerning app beahvior"
+  },
+  "theme": "Teme",
+  "@theme": {
+    "description": "Title of the theme mode setting"
+  },
+  "clearCache": "Počisti predpomnilnik",
+  "@clearCache": {
+    "description": "Title of the clear cache setting"
+  },
+  "freeBytes": "Prosto {byteString}",
+  "@freeBytes": {
+    "description": "Text shown for clear storage settings"
+  },
+  "calculatingDots": "Preračunavam...",
+  "@calculatingDots": {
+    "description": "Text shown when the byte size is still being calculated"
+  },
+  "freedDiskSpace": "Uspešno sproščenih {bytes} prostora na disku.",
+  "@freedDiskSpace": {
+    "description": "Message shown after clearing storage"
+  },
+  "uploadScansAsPdf": "Naloži skene kot PDF",
+  "@uploadScansAsPdf": {
+    "description": "Title of the setting which toggles whether scans are always uploaded as pdf"
+  },
+  "convertSinglePageScanToPdf": "Pred nalaganjem vedno pretvori enojni sken v PDF",
+  "@convertSinglePageScanToPdf": {
+    "description": "description of the upload scans as pdf setting"
+  },
+  "loginRequiredPermissionsHint": "Uporaba Paperless Mobile zahteva minimalna uporabniška dovoljenja od različice paperless-ngx 1.14.0 in novejše. Zato se prepričajte, da ima uporabnik, ki bo prijavljen, dovoljenje za ogled drugih uporabnikov (Uporabnik → Pogled) in nastavitev (UI Nastavitve → Pogled). Če teh dovoljenj nimate, se obrnite na skrbnika svojega strežnika paperless-ngx.",
+  "@loginRequiredPermissionsHint": {
+    "description": "Hint shown on the login page informing the user of the required permissions to use the app."
+  },
+  "missingPermissions": "Nimate potrebnih dovoljenj za izvedbo tega dejanja.",
+  "@missingPermissions": {
+    "description": "Message shown in a snackbar when a user without the reequired permissions performs an action."
+  },
+  "editView": "Uredi pogled",
+  "@editView": {
+    "description": "Title of the edit saved view page"
+  },
+  "donate": "Donacija",
+  "@donate": {
+    "description": "Label of the in-app donate button"
+  },
+  "donationDialogContent": "Hvala, ker razmišljate o podpori te aplikacije! Zaradi Googlovih in Applovih plačilnih politik v aplikaciji morda ne bodo prikazane nobene povezave do donacij. Zdi se, da v tem kontekstu ni dovoljeno niti povezovanje s stranjo repozitorija projekta. Zato si morda oglejte razdelek 'Donacije' v README projekta. Vaša podpora je zelo cenjena in ohranja razvoj te aplikacije pri življenju. Hvala!",
+  "@donationDialogContent": {
+    "description": "Text displayed in the donation dialog"
+  },
+  "noDocumentsFound": "Ni najdenih dokumentov.",
+  "@noDocumentsFound": {
+    "description": "Message shown when no documents were found."
+  },
+  "couldNotDeleteCorrespondent": "Dopisnika ni bilo možno izbrisati, poskusi ponovno.",
+  "@couldNotDeleteCorrespondent": {
+    "description": "Message shown in snackbar when a correspondent could not be deleted."
+  },
+  "couldNotDeleteDocumentType": "Tipa dokumenta ni bilo možno izbrisati, poskusi ponovno.",
+  "@couldNotDeleteDocumentType": {
+    "description": "Message shown when a document type could not be deleted"
+  },
+  "couldNotDeleteTag": "Oznake ni bilo možno izbrisati, poskusi ponovno.",
+  "@couldNotDeleteTag": {
+    "description": "Message shown when a tag could not be deleted"
+  },
+  "couldNotDeleteStoragePath": "Mesta shranjevanja ni bilo možno izbrisati, poskusi ponovno.",
+  "@couldNotDeleteStoragePath": {
+    "description": "Message shown when a storage path could not be deleted"
+  },
+  "couldNotUpdateCorrespondent": "Dopisnika ni bilo možno posodobiti, poskusi ponovno.",
+  "@couldNotUpdateCorrespondent": {
+    "description": "Message shown when a correspondent could not be updated"
+  },
+  "couldNotUpdateDocumentType": "Tipa dokumenta ni bilo možno posodobiti, poskusi ponovno.",
+  "@couldNotUpdateDocumentType": {
+    "description": "Message shown when a document type could not be updated"
+  },
+  "couldNotUpdateTag": "Oznake ni bilo možno posodobiti, poskusi ponovno.",
+  "@couldNotUpdateTag": {
+    "description": "Message shown when a tag could not be updated"
+  },
+  "couldNotLoadServerInformation": "Informacije strežnika ni bilo možno naložiti.",
+  "@couldNotLoadServerInformation": {
+    "description": "Message shown when the server information could not be loaded"
+  },
+  "couldNotLoadStatistics": "Statistike strežnika ni bilo možno naložiti.",
+  "@couldNotLoadStatistics": {
+    "description": "Message shown when the server statistics could not be loaded"
+  },
+  "couldNotLoadUISettings": "UI nastavitev ni bilo možno naložiti.",
+  "@couldNotLoadUISettings": {
+    "description": "Message shown when the UI settings could not be loaded"
+  },
+  "couldNotLoadTasks": "Ni možno naložiti oznak.",
+  "@couldNotLoadTasks": {
+    "description": "Message shown when the tasks (e.g. document consumed) could not be loaded"
+  },
+  "userNotFound": "Uporabnika ni bilo možno najti.",
+  "@userNotFound": {
+    "description": "Message shown when the specified user (e.g. by id) could not be found"
+  },
+  "couldNotUpdateSavedView": "Shranjenega pogleda ni bilo možno posodobiti, poskusi ponovno.",
+  "@couldNotUpdateSavedView": {
+    "description": "Message shown when a saved view could not be updated"
+  },
+  "couldNotUpdateStoragePath": "Mesta shranjevanja ni bilo možno posodobiti, poskusi ponovno.",
+  "savedViewSuccessfullyUpdated": "Shranjen pogled uspešno posodobljen.",
+  "@savedViewSuccessfullyUpdated": {
+    "description": "Message shown when a saved view was successfully updated."
+  },
+  "discardChanges": "Zavrzi spremembe?",
+  "@discardChanges": {
+    "description": "Title of the alert dialog shown when a user tries to close a view with unsaved changes."
+  },
+  "savedViewChangedDialogContent": "Pogoji filtra aktivnega pogleda so se spremenili. S ponastavitvijo filtra bodo te spremembe izgubljene. Ali še vedno želite nadaljevati?",
+  "@savedViewChangedDialogContent": {
+    "description": "Content of the alert dialog shown when all of the following applies:\r\n* User has saved view selected\r\n* User has performed changes to the current document filter\r\n* User now tries to reset this filter without having saved the changes to the view."
+  },
+  "createFromCurrentFilter": "Ustvari iz obstoječega filtra",
+  "@createFromCurrentFilter": {
+    "description": "Tooltip of the \"New saved view\" button"
+  },
+  "home": "Domov",
+  "@home": {
+    "description": "Label of the \"Home\" route"
+  },
+  "welcomeUser": "Živjo, {name}!",
+  "@welcomeUser": {
+    "description": "Top message shown on the home page"
+  },
+  "statistics": "Statistika",
+  "documentsInInbox": "Dokumenti v predalniku",
+  "totalDocuments": "Vsi dokumenti",
+  "totalCharacters": "Vsi znaki",
+  "showAll": "Prikaži vse",
+  "@showAll": {
+    "description": "Button label shown on a saved view preview to open this view in the documents page"
+  },
+  "userAlreadyExists": "Ta uprabnik že obstaja.",
+  "@userAlreadyExists": {
+    "description": "Error message shown when the user tries to add an already existing account."
+  },
+  "youDidNotSaveAnyViewsYet": "Nimaš še shranjenih pogledov, ustvari si enega, ki bo prikazan tukaj.",
+  "@youDidNotSaveAnyViewsYet": {
+    "description": "Message shown when there are no saved views yet."
+  },
+  "tryAgain": "Poskusi ponovno",
+  "discardFile": "Zavrzi datoteko?",
+  "discard": "Zavrzi",
+  "backToLogin": "Nazaj na prijavo",
+  "skipEditingReceivedFiles": "Preskoči urejanje prejetih datotek",
+  "uploadWithoutPromptingUploadForm": "Ko delite datoteke z aplikacijo, vedno naložite brez poziva k obrazcu za nalaganje.",
+  "authenticatingDots": "Preverjanje pristnosti...",
+  "@authenticatingDots": {
+    "description": "Message shown when the app is authenticating the user"
+  },
+  "persistingUserInformation": "Trajanje uporabniških podatkov...",
+  "fetchingUserInformation": "Pridobivanje uporabniških podatkov...",
+  "@fetchingUserInformation": {
+    "description": "Message shown when the app loads user data from the server"
+  },
+  "restoringSession": "Obnova seje...",
+  "@restoringSession": {
+    "description": "Message shown when the user opens the app and the previous user is tried to be authenticated and logged in"
+  },
+  "documentsAssigned": "{count, plural, zero{Ni dokumentov} one{1 dokument} other{{count} dokumentov}}",
+  "@documentsAssigned": {
+    "description": "Text shown with a correspondent, document type etc. to indicate the number of documents this filter will maximally yield."
+  },
+  "discardChangesWarning": "Imaš neshranjene spremembe. Z nadaljevanjem bodo vse spremembe izgubljene. Ali želiš opustiti te spremembe?",
+  "@discardChangesWarning": {
+    "description": "Warning message shown when the user tries to close a route without saving the changes."
+  },
+  "changelog": "Dnevnik sprememb",
+  "noLogsFoundOn": "Ne najdem dnevnika z dne {date}.",
+  "logfileBottomReached": "Prišel si do konca te dnevniške datoteke.",
+  "appLogs": "Dnevniki aplikacije {date}",
+  "saveLogsToFile": "Shrani dnevnik v datoteko",
+  "copyToClipboard": "Kopiraj v odložišče",
+  "couldNotLoadLogfileFrom": "Ne morem naložiti dnevnika iz {date}.",
+  "loadingLogsFrom": "Nalagam dnevnik iz {date}...",
+  "clearLogs": "Izbriši dnevnik iz {date}",
+  "showPdf": "Prikaži PDF",
+  "@showPdf": {
+    "description": "Tooltip shown on the \"show pdf\" button on the document edit page"
+  },
+  "hidePdf": "Skrij PDF",
+  "@hidePdf": {
+    "description": "Tooltip shown on the \"show pdf\" icon button on the document edit page"
+  },
+  "misc": "Razno",
+  "loggingOut": "Odjava...",
+  "testingConnection": "Preskus povezave...",
+  "@testingConnection": {
+    "description": "Text shown while the app tries to establish a connection to the specified host."
+  },
+  "version": "Različica {versionCode}",
+  "notes": "{count, plural, zero{opomb} one{opomba} other{opomb}}",
+  "addNote": "Dodaj opombo",
+  "newerVersionAvailable": "Na voljo je novejša različica:",
+  "dateOutOfRange": "Datum mora bit med {firstDate} in {lastDate}.",
+  "@dateOutOfRange": {
+    "description": "Error message shown when the user tries to select a date outside of the allowed range.",
+    "placeholders": {
+      "firstDate": {
+        "type": "DateTime",
+        "format": "yMd"
+      },
+      "lastDate": {
+        "type": "DateTime",
+        "format": "yMd"
+      }
+    }
+  },
+  "permissions": "Dovoljenja",
+  "newNote": "Nova opomba",
+  "notesMarkdownSyntaxSupportHint": "Paperless Mobile lahko upodablja zapiske z uporabo osnovne sintakse markdown. Poskusi!",
+  "mfaCodeRequiredValidationMessage": "Please enter the MFA code.",
+  "mfaCodeInvalidLengthValidationMessage": "MFA code must be 6 digits.",
+  "mfaFormFieldHint": "Your account is protected by two-factor authentication. Please enter an authentication code:"
+}

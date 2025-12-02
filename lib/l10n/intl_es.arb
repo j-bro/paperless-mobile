@@ -1024,11 +1024,11 @@
   "@testingConnection": {
     "description": "Text shown while the app tries to establish a connection to the specified host."
   },
-  "version": "Version {versionCode}",
+  "version": "Versión {versionCode}",
   "notes": "{count, plural, zero{Notas} one{Nota} other{Notas}}",
   "addNote": "Añadir nota",
-  "newerVersionAvailable": "Newer version available:",
-  "dateOutOfRange": "Date must be between {firstDate} and {lastDate}.",
+  "newerVersionAvailable": "Versión más reciente disponible:",
+  "dateOutOfRange": "La fecha debe estar entre {firstDate} y {lastDate}.",
   "@dateOutOfRange": {
     "description": "Error message shown when the user tries to select a date outside of the allowed range.",
     "placeholders": {
@@ -1042,7 +1042,10 @@
       }
     }
   },
-  "permissions": "Permissions",
-  "newNote": "New note",
-  "notesMarkdownSyntaxSupportHint": "Paperless Mobile can render notes using basic markdown syntax. Try it out!"
+  "permissions": "Permisos",
+  "newNote": "Nueva nota",
+  "notesMarkdownSyntaxSupportHint": "Paperless Mobile puede procesar notas usando sintaxis de markdown básica. ¡Pruébalo!",
+  "mfaCodeRequiredValidationMessage": "Please enter the MFA code.",
+  "mfaCodeInvalidLengthValidationMessage": "MFA code must be 6 digits.",
+  "mfaFormFieldHint": "Your account is protected by two-factor authentication. Please enter an authentication code:"
 }

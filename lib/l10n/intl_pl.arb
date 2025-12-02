@@ -816,56 +816,56 @@
   "@export": {
     "description": "Label for button that exports scanned images to pdf (before upload)"
   },
-  "invalidFilenameCharacter": "Znaleziono niedozwolony znak w nazwie pliku",
+  "invalidFilenameCharacter": "Znaleziono nieprawidłowe/y znaki w nazwie pliku: {characters}",
   "@invalidFilenameCharacter": {
     "description": "For validating filename in export dialogue"
   },
-  "exportScansToPdf": "Export scans to PDF",
+  "exportScansToPdf": "Eksportuj skany do PDF",
   "@exportScansToPdf": {
     "description": "title of the alert dialog when exporting scans to pdf"
   },
-  "allScansWillBeMerged": "All scans will be merged into a single PDF file.",
-  "behavior": "Behavior",
+  "allScansWillBeMerged": "Wszystkie skany zostaną scalone do pojedynczego pliku PDF.",
+  "behavior": "Zachowanie",
   "@behavior": {
     "description": "Title of the settings concerning app beahvior"
   },
-  "theme": "Theme",
+  "theme": "Motyw",
   "@theme": {
     "description": "Title of the theme mode setting"
   },
-  "clearCache": "Clear cache",
+  "clearCache": "Wyczyść pamięć podręczną",
   "@clearCache": {
     "description": "Title of the clear cache setting"
   },
-  "freeBytes": "Free {byteString}",
+  "freeBytes": "Zwolnij {byteString}",
   "@freeBytes": {
     "description": "Text shown for clear storage settings"
   },
-  "calculatingDots": "Calculating...",
+  "calculatingDots": "Obliczanie...",
   "@calculatingDots": {
     "description": "Text shown when the byte size is still being calculated"
   },
-  "freedDiskSpace": "Successfully freed {bytes} of disk space.",
+  "freedDiskSpace": "Pomyślnie zwolniono {bytes} przestrzeni na dysku.",
   "@freedDiskSpace": {
     "description": "Message shown after clearing storage"
   },
-  "uploadScansAsPdf": "Upload scans as PDF",
+  "uploadScansAsPdf": "Prześlij skany jako PDF",
   "@uploadScansAsPdf": {
     "description": "Title of the setting which toggles whether scans are always uploaded as pdf"
   },
-  "convertSinglePageScanToPdf": "Always convert single page scans to PDF before uploading",
+  "convertSinglePageScanToPdf": "Zawsze konwertuj skany pojedynczej strony na PDF przed przesłaniem",
   "@convertSinglePageScanToPdf": {
     "description": "description of the upload scans as pdf setting"
   },
-  "loginRequiredPermissionsHint": "Using Paperless Mobile requires a minimum set of user permissions since paperless-ngx 1.14.0 and higher. Therefore, please make sure that the user to be logged in has the permission to view other users (User → View) and the settings (UISettings → View). If you do not have these permissions, please contact an administrator of your paperless-ngx server.",
+  "loginRequiredPermissionsHint": "Korzystanie z Paperless Mobile wymaga minimalnego zestawu uprawnień użytkownika od wersji paperless-ngx 1.14.0 i nowszej. Dlatego też upewnij się, że użytkownik ma uprawnienia do przeglądania innych użytkowników (Użytkownik → Widok) i ustawień (Ustawienia UI → Widok). Jeśli nie masz tych uprawnień, skontaktuj się z administratorem swojego serwera paperless-ngx.",
   "@loginRequiredPermissionsHint": {
     "description": "Hint shown on the login page informing the user of the required permissions to use the app."
   },
-  "missingPermissions": "You do not have the necessary permissions to perform this action.",
+  "missingPermissions": "Nie masz uprawnień niezbędnych do wykonania tej czynności.",
   "@missingPermissions": {
     "description": "Message shown in a snackbar when a user without the reequired permissions performs an action."
   },
-  "editView": "Edit View",
+  "editView": "Widok edycji",
   "@editView": {
     "description": "Title of the edit saved view page"
   },
@@ -873,123 +873,123 @@
   "@donate": {
     "description": "Label of the in-app donate button"
   },
-  "donationDialogContent": "Thank you for considering to support this app! Due to both Google's and Apple's Payment Policies, no links leading to donations may be displayed in-app. Not even linking to the project's repository page appears to be allowed in this context. Therefore, maybe have a look at the 'Donations' section in the project's README. Your support is much appreciated and keeps the development of this app alive. Thanks!",
+  "donationDialogContent": "Dziękujemy za rozważenie wsparcia tej aplikacji! Ze względu na politykę płatności Google i Apple'a żadne linki prowadzące do darowizn nie mogą być wyświetlane w aplikacji. Wydaje się, że w tym kontekście nie jest dozwolone nawet powiązanie ze stroną repozytorium projektu. W związku z tym w README projektu przyjrzyj się sekcji \"Darowizny”. Twoje wsparcie jest bardzo doceniane i podtrzymuje rozwój tej aplikacji. Dzięki!",
   "@donationDialogContent": {
     "description": "Text displayed in the donation dialog"
   },
-  "noDocumentsFound": "No documents found.",
+  "noDocumentsFound": "Nie znaleziono dokumentów.",
   "@noDocumentsFound": {
     "description": "Message shown when no documents were found."
   },
-  "couldNotDeleteCorrespondent": "Could not delete correspondent, please try again.",
+  "couldNotDeleteCorrespondent": "Nie udało się usunąć korespondenta, spróbuj ponownie.",
   "@couldNotDeleteCorrespondent": {
     "description": "Message shown in snackbar when a correspondent could not be deleted."
   },
-  "couldNotDeleteDocumentType": "Could not delete document type, please try again.",
+  "couldNotDeleteDocumentType": "Nie udało się usunąć typu dokumentu, spróbuj ponownie.",
   "@couldNotDeleteDocumentType": {
     "description": "Message shown when a document type could not be deleted"
   },
-  "couldNotDeleteTag": "Could not delete tag, please try again.",
+  "couldNotDeleteTag": "Nie udało się usunąć tagu, spróbuj ponownie.",
   "@couldNotDeleteTag": {
     "description": "Message shown when a tag could not be deleted"
   },
-  "couldNotDeleteStoragePath": "Could not delete storage path, please try again.",
+  "couldNotDeleteStoragePath": "Nie udało się usunąć ścieżki zapisu, spróbuj ponownie.",
   "@couldNotDeleteStoragePath": {
     "description": "Message shown when a storage path could not be deleted"
   },
-  "couldNotUpdateCorrespondent": "Could not update correspondent, please try again.",
+  "couldNotUpdateCorrespondent": "Nie udało się zaktualizować korespondenta, spróbuj ponownie.",
   "@couldNotUpdateCorrespondent": {
     "description": "Message shown when a correspondent could not be updated"
   },
-  "couldNotUpdateDocumentType": "Could not update document type, please try again.",
+  "couldNotUpdateDocumentType": "Nie udało się zaktualizować typu dokumentu, spróbuj ponownie.",
   "@couldNotUpdateDocumentType": {
     "description": "Message shown when a document type could not be updated"
   },
-  "couldNotUpdateTag": "Could not update tag, please try again.",
+  "couldNotUpdateTag": "Nie udało się zaktualizować tagu, spróbuj ponownie.",
   "@couldNotUpdateTag": {
     "description": "Message shown when a tag could not be updated"
   },
-  "couldNotLoadServerInformation": "Could not load server information.",
+  "couldNotLoadServerInformation": "Nie można załadować informacji o serwerze.",
   "@couldNotLoadServerInformation": {
     "description": "Message shown when the server information could not be loaded"
   },
-  "couldNotLoadStatistics": "Could not load server statistics.",
+  "couldNotLoadStatistics": "Nie można załadować statystyk serwera.",
   "@couldNotLoadStatistics": {
     "description": "Message shown when the server statistics could not be loaded"
   },
-  "couldNotLoadUISettings": "Could not load UI settings.",
+  "couldNotLoadUISettings": "Nie można załadować ustawień interfejsu użytkownika.",
   "@couldNotLoadUISettings": {
     "description": "Message shown when the UI settings could not be loaded"
   },
-  "couldNotLoadTasks": "Could not load tasks.",
+  "couldNotLoadTasks": "Nie można załadować zadań.",
   "@couldNotLoadTasks": {
     "description": "Message shown when the tasks (e.g. document consumed) could not be loaded"
   },
-  "userNotFound": "User could not be found.",
+  "userNotFound": "Nie znaleziono użytkownika.",
   "@userNotFound": {
     "description": "Message shown when the specified user (e.g. by id) could not be found"
   },
-  "couldNotUpdateSavedView": "Could not update saved view, please try again.",
+  "couldNotUpdateSavedView": "Nie udało się zaktualizować zapisanego widoku, spróbuj ponownie.",
   "@couldNotUpdateSavedView": {
     "description": "Message shown when a saved view could not be updated"
   },
-  "couldNotUpdateStoragePath": "Could not update storage path, please try again.",
-  "savedViewSuccessfullyUpdated": "Saved view successfully updated.",
+  "couldNotUpdateStoragePath": "Nie udało się zaktualizować ścieżki zapisu, spróbuj ponownie.",
+  "savedViewSuccessfullyUpdated": "Zapisany widok zaktualizowano pomyślnie.",
   "@savedViewSuccessfullyUpdated": {
     "description": "Message shown when a saved view was successfully updated."
   },
-  "discardChanges": "Discard changes?",
+  "discardChanges": "Czy odrzucić zmiany?",
   "@discardChanges": {
     "description": "Title of the alert dialog shown when a user tries to close a view with unsaved changes."
   },
-  "savedViewChangedDialogContent": "The filter conditions of the active view have changed. By resetting the filter, these changes will be lost. Do you still wish to continue?",
+  "savedViewChangedDialogContent": "Warunki filtrowania aktywnego widoku uległy zmianie. Po zresetowaniu filtru te zmiany zostaną utracone. Czy nadal chcesz kontynuować?",
   "@savedViewChangedDialogContent": {
     "description": "Content of the alert dialog shown when all of the following applies:\r\n* User has saved view selected\r\n* User has performed changes to the current document filter\r\n* User now tries to reset this filter without having saved the changes to the view."
   },
-  "createFromCurrentFilter": "Create from current filter",
+  "createFromCurrentFilter": "Utwórz z bieżącego filtru",
   "@createFromCurrentFilter": {
     "description": "Tooltip of the \"New saved view\" button"
   },
-  "home": "Home",
+  "home": "Strona główna",
   "@home": {
     "description": "Label of the \"Home\" route"
   },
-  "welcomeUser": "Welcome, {name}!",
+  "welcomeUser": "Witaj, {name}!",
   "@welcomeUser": {
     "description": "Top message shown on the home page"
   },
-  "statistics": "Statistics",
-  "documentsInInbox": "Documents in inbox",
-  "totalDocuments": "Total documents",
-  "totalCharacters": "Total characters",
-  "showAll": "Show all",
+  "statistics": "Statystyki",
+  "documentsInInbox": "Dokumenty w skrzynce odbiorczej",
+  "totalDocuments": "Łączna liczba dokumentów",
+  "totalCharacters": "Liczba znaków",
+  "showAll": "Pokaż wszystko",
   "@showAll": {
     "description": "Button label shown on a saved view preview to open this view in the documents page"
   },
-  "userAlreadyExists": "This user already exists.",
+  "userAlreadyExists": "Ten użytkownik już istnieje.",
   "@userAlreadyExists": {
     "description": "Error message shown when the user tries to add an already existing account."
   },
-  "youDidNotSaveAnyViewsYet": "You did not save any views yet, create one and it will be shown here.",
+  "youDidNotSaveAnyViewsYet": "Nie zapisałeś jeszcze żadnego widoku, utwórz go i pojawi się tutaj.",
   "@youDidNotSaveAnyViewsYet": {
     "description": "Message shown when there are no saved views yet."
   },
-  "tryAgain": "Try again",
-  "discardFile": "Discard file?",
-  "discard": "Discard",
-  "backToLogin": "Back to login",
-  "skipEditingReceivedFiles": "Skip editing received files",
-  "uploadWithoutPromptingUploadForm": "Always upload without prompting the upload form when sharing files with the app.",
-  "authenticatingDots": "Authenticating...",
+  "tryAgain": "Spróbuj ponownie",
+  "discardFile": "Odrzucić plik?",
+  "discard": "Odrzuć",
+  "backToLogin": "Wróć do logowania",
+  "skipEditingReceivedFiles": "Pomiń edycję odebranych plików",
+  "uploadWithoutPromptingUploadForm": "Zawsze wysyłaj bez prośby o przesłanie formularza podczas udostępniania plików aplikacją.",
+  "authenticatingDots": "Uwierzytelnianie...",
   "@authenticatingDots": {
     "description": "Message shown when the app is authenticating the user"
   },
-  "persistingUserInformation": "Persisting user information...",
-  "fetchingUserInformation": "Fetching user information...",
+  "persistingUserInformation": "Utrwalanie informacji o użytkowniku...",
+  "fetchingUserInformation": "Pobieranie informacji o użytkowniku...",
   "@fetchingUserInformation": {
     "description": "Message shown when the app loads user data from the server"
   },
-  "restoringSession": "Restoring session...",
+  "restoringSession": "Przywracanie sesji...",
   "@restoringSession": {
     "description": "Message shown when the user opens the app and the previous user is tried to be authenticated and logged in"
   },
@@ -997,38 +997,38 @@
   "@documentsAssigned": {
     "description": "Text shown with a correspondent, document type etc. to indicate the number of documents this filter will maximally yield."
   },
-  "discardChangesWarning": "You have unsaved changes. By continuing, all changes will be lost. Do you want to discard these changes?",
+  "discardChangesWarning": "Masz niezapisane zmiany. Kontynuując, wszystkie zmiany zostaną utracone. Czy chcesz odrzucić te zmiany?",
   "@discardChangesWarning": {
     "description": "Warning message shown when the user tries to close a route without saving the changes."
   },
-  "changelog": "Changelog",
-  "noLogsFoundOn": "No logs found on {date}.",
-  "logfileBottomReached": "You have reached the bottom of this logfile.",
-  "appLogs": "App logs {date}",
-  "saveLogsToFile": "Save logs to file",
-  "copyToClipboard": "Copy to clipboard",
-  "couldNotLoadLogfileFrom": "Could not load logfile from {date}.",
-  "loadingLogsFrom": "Loading logs from {date}...",
-  "clearLogs": "Clear logs from {date}",
-  "showPdf": "Show PDF",
+  "changelog": "Lista zmian",
+  "noLogsFoundOn": "Nie znaleziono logów z {date}.",
+  "logfileBottomReached": "Osiągnąłeś dół tego pliku dziennika.",
+  "appLogs": "Logi aplikacji {date}",
+  "saveLogsToFile": "Zapisz logi do pliku",
+  "copyToClipboard": "Skopiuj do schowka",
+  "couldNotLoadLogfileFrom": "Nie można załadować pliku dziennika z {date}.",
+  "loadingLogsFrom": "Ładowanie logów z {date}...",
+  "clearLogs": "Wyczyść logi z {date}",
+  "showPdf": "Pokaż PDF",
   "@showPdf": {
     "description": "Tooltip shown on the \"show pdf\" button on the document edit page"
   },
-  "hidePdf": "Hide PDF",
+  "hidePdf": "Ukryj PDF",
   "@hidePdf": {
     "description": "Tooltip shown on the \"show pdf\" icon button on the document edit page"
   },
-  "misc": "Miscellaneous",
-  "loggingOut": "Logging out...",
-  "testingConnection": "Testing connection...",
+  "misc": "Różne",
+  "loggingOut": "Wylogowywanie...",
+  "testingConnection": "Testowanie połączenia...",
   "@testingConnection": {
     "description": "Text shown while the app tries to establish a connection to the specified host."
   },
-  "version": "Version {versionCode}",
+  "version": "Wersja {versionCode}",
   "notes": "{count, plural, zero{Notes} one{Note} other{Notes}}",
-  "addNote": "Add note",
-  "newerVersionAvailable": "Newer version available:",
-  "dateOutOfRange": "Date must be between {firstDate} and {lastDate}.",
+  "addNote": "Dodaj notatkę",
+  "newerVersionAvailable": "Dostępna nowa wersja:",
+  "dateOutOfRange": "Data musi być pomiędzy {firstDate} i {lastDate}.",
   "@dateOutOfRange": {
     "description": "Error message shown when the user tries to select a date outside of the allowed range.",
     "placeholders": {
@@ -1042,7 +1042,10 @@
       }
     }
   },
-  "permissions": "Permissions",
-  "newNote": "New note",
-  "notesMarkdownSyntaxSupportHint": "Paperless Mobile can render notes using basic markdown syntax. Try it out!"
+  "permissions": "Uprawnienia",
+  "newNote": "Nowa notatka",
+  "notesMarkdownSyntaxSupportHint": "Paperless Mobile może renderować notatki za pomocą podstawowej składni Markdown. Wypróbuj to!",
+  "mfaCodeRequiredValidationMessage": "Please enter the MFA code.",
+  "mfaCodeInvalidLengthValidationMessage": "MFA code must be 6 digits.",
+  "mfaFormFieldHint": "Your account is protected by two-factor authentication. Please enter an authentication code:"
 }

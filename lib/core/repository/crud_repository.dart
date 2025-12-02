@@ -22,7 +22,14 @@ abstract class CrudRepository<T, TRequest, TPatchedRequest, FindAllOptions> {
         (variables == null ? this.queryKey : '${this.queryKey}/$variables');
     return Query<List<T>>(
       key: queryKey,
-      queryFn: () => api.getAll(filter),
+      queryFn: () async {
+        try {
+          final data = await api.getAll(filter);
+          return data;
+        } catch (e) {
+          rethrow;
+        }
+      },
       onSuccess: (_) {
         _cachedGetAllQueries.add(queryKey);
       },

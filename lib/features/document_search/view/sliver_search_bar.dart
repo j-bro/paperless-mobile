@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
-import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
 import 'package:paperless_mobile/features/document_search/view/document_search_bar.dart';
 import 'package:paperless_mobile/features/settings/view/manage_accounts_page.dart';
-import 'package:paperless_mobile/features/settings/view/widgets/global_settings_builder.dart';
 import 'package:paperless_mobile/features/settings/view/widgets/user_avatar.dart';
 import 'package:provider/provider.dart';
 
@@ -19,7 +17,7 @@ class SliverSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (context.watch<LocalUserAccount>().paperlessUser.canViewDocuments) {
+    if (context.loggedInUser$.paperlessUser.canViewDocuments) {
       return const SliverAppBar(
         titleSpacing: 8,
         automaticallyImplyLeading: false,
@@ -33,16 +31,12 @@ class SliverSearchBar extends StatelessWidget {
             padding: const EdgeInsets.only(right: 12.0),
             child: IconButton(
               padding: const EdgeInsets.all(6),
-              icon: GlobalSettingsBuilder(
-                builder: (context, settings) {
-                  return UserAvatar(account: context.loggedInUser$);
-                },
-              ),
+              icon: UserAvatar(account: context.loggedInUser$),
               onPressed: () {
                 showDialog(
                   context: context,
                   builder: (_) => Provider.value(
-                    value: context.read<LocalUserAccount>(),
+                    value: context.loggedInUser,
                     child: const ManageAccountsPage(),
                   ),
                 );

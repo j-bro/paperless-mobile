@@ -83,7 +83,7 @@
   "@documentSuccessfullyDeleted": {},
   "assignAsn": "Assign ASN",
   "@assignAsn": {},
-  "deleteDocumentTooltip": "Delete",
+  "deleteDocumentTooltip": "Silmek",
   "@deleteDocumentTooltip": {
     "description": "Tooltip shown for the delete button on details page"
   },
@@ -673,55 +673,55 @@
   "list": "List",
   "@list": {},
   "remove": "Remove",
-  "removeQueryFromSearchHistory": "Remove query from search history?",
+  "removeQueryFromSearchHistory": "Arama geçmişinden sorgu silinsin mi?",
   "dynamicColorScheme": "Dynamic",
   "@dynamicColorScheme": {},
   "classicColorScheme": "Classic",
   "@classicColorScheme": {},
-  "notificationDownloadComplete": "Download complete",
+  "notificationDownloadComplete": "İndirme tamamlandı",
   "@notificationDownloadComplete": {
     "description": "Notification title when a download has been completed."
   },
-  "notificationDownloadingDocument": "Downloading document",
+  "notificationDownloadingDocument": "Belge indiriliyor",
   "@notificationDownloadingDocument": {
     "description": "Notification title shown when a document download is pending"
   },
-  "archiveSerialNumberUpdated": "Archive Serial Number updated.",
+  "archiveSerialNumberUpdated": "Arşiv Seri Numarası güncellendi.",
   "@archiveSerialNumberUpdated": {
     "description": "Message shown when the ASN has been updated."
   },
-  "donateCoffee": "Buy me a coffee",
+  "donateCoffee": "Bana kahve ısmarla",
   "@donateCoffee": {
     "description": "Label displayed in the app drawer"
   },
-  "thisFieldIsRequired": "This field is required!",
+  "thisFieldIsRequired": "Bu alan zorunlu!",
   "@thisFieldIsRequired": {
     "description": "Message shown below the form field when a required field has not been filled out."
   },
-  "confirm": "Confirm",
-  "confirmAction": "Confirm action",
+  "confirm": "Onayla",
+  "confirmAction": "İşlemi onayla",
   "@confirmAction": {
     "description": "Typically used as a title to confirm a previously selected action"
   },
-  "areYouSureYouWantToContinue": "Are you sure you want to continue?",
-  "bulkEditTagsAddMessage": "{count, plural, one{This operation will add the tags {tags} to the selected document.} other{This operation will add the tags {tags} to {count} selected documents.}}",
+  "areYouSureYouWantToContinue": "Devam etmek istediğinizden emin misiniz?",
+  "bulkEditTagsAddMessage": "{count, plural, one{Bu işlem, seçilen belgeden {tags} etiketlerini kaldıracaktır.} other{Bu işlem, seçilen {count} belgeden {tags} etiketlerini kaldıracaktır.}}",
   "@bulkEditTagsAddMessage": {
     "description": "Message of the confirmation dialog when bulk adding tags."
   },
-  "bulkEditTagsRemoveMessage": "{count, plural, one{This operation will remove the tags {tags} from the selected document.} other{This operation will remove the tags {tags} from {count} selected documents.}}",
+  "bulkEditTagsRemoveMessage": "{count, plural, one{Bu işlem seçilen belgeye {tags} etiketlerini ekleyecek.} other{Bu işlem seçilen {count} belgeye {tags} etiketlerini ekleyecek.}}",
   "@bulkEditTagsRemoveMessage": {
     "description": "Message of the confirmation dialog when bulk removing tags."
   },
-  "bulkEditTagsModifyMessage": "{count, plural, one{This operation will add the tags {addTags} and remove the tags {removeTags} from the selected document.} other{This operation will add the tags {addTags} and remove the tags {removeTags} from {count} selected documents.}}",
+  "bulkEditTagsModifyMessage": "{count, plural, one{Bu işlem, seçilen belgeye {addTags} etiketlerini ekleyip {removeTags} etiketlerini kaldıracaktır.} other{Bu işlem, seçilen {count} belgeye {addTags} etiketlerini ekleyip {removeTags} etiketlerini kaldıracaktır.}}",
   "@bulkEditTagsModifyMessage": {
     "description": "Message of the confirmation dialog when both adding and removing tags."
   },
-  "bulkEditCorrespondentAssignMessage": "{count, plural, one{This operation will assign the correspondent {correspondent} to the selected document.} other{This operation will assign the correspondent {correspondent} to {count} selected documents.}}",
-  "bulkEditDocumentTypeAssignMessage": "{count, plural, one{This operation will assign the document type {docType} to the selected document.} other{This operation will assign the documentType {docType} to {count} selected documents.}}",
-  "bulkEditStoragePathAssignMessage": "{count, plural, one{This operation will assign the storage path {path} to the selected document.} other{This operation will assign the storage path {path} to {count} selected documents.}}",
-  "bulkEditCorrespondentRemoveMessage": "{count, plural, one{This operation will remove the correspondent from the selected document.} other{This operation will remove the correspondent from {count} selected documents.}}",
-  "bulkEditDocumentTypeRemoveMessage": "{count, plural, one{This operation will remove the document type from the selected document.} other{This operation will remove the document type from {count} selected documents.}}",
-  "bulkEditStoragePathRemoveMessage": "{count, plural, one{This operation will remove the storage path from the selected document.} other{This operation will remove the storage path from {count} selected documents.}}",
+  "bulkEditCorrespondentAssignMessage": "{count, plural, one{Bu işlem, seçilen belgeye {correspondent} muhatabını atayacaktır.} other{Bu işlem, seçilen {count} belgeye {correspondent} muhatabını atayacaktır.}}",
+  "bulkEditDocumentTypeAssignMessage": "{count, plural, one{Bu işlem, seçilen belgeye {docType} belge türünü atayacaktır.} other{Bu işlem, seçilen {count} belgeye {docType} belge türünü atayacaktır.}}",
+  "bulkEditStoragePathAssignMessage": "{count, plural, one{Bu işlem, seçilen belgeye {path} depolama yolunu atayacaktır.} other{Bu işlem, seçilen {count} belgeye {path} depolama yolunu atayacaktır.}}",
+  "bulkEditCorrespondentRemoveMessage": "{count, plural, one{Bu işlem, seçilen belgeden muhatabı kaldıracaktır.} other{Bu işlem, seçilen {count} belgeden muhatabı kaldıracaktır.}}",
+  "bulkEditDocumentTypeRemoveMessage": "{count, plural, one{Bu işlem, seçilen belgeden belge türünü kaldıracaktır.} other{Bu işlem, seçilen {count} belgeden belge türünü kaldıracaktır.}}",
+  "bulkEditStoragePathRemoveMessage": "{count, plural, one{Bu işlem, seçilen belgeden depolama yolunu kaldıracaktır.} other{Bu işlem, seçilen {count} belgeden depolama yolunu kaldıracaktır.}}",
   "anyTag": "Any",
   "@anyTag": {
     "description": "Label shown when any tag should be filtered"
@@ -734,31 +734,31 @@
   "@switchingAccountsPleaseWait": {
     "description": "Message shown while switching accounts is in progress."
   },
-  "testConnection": "Test connection",
+  "testConnection": "Bağlantıyı test et",
   "@testConnection": {
     "description": "Button label shown on login page. Allows user to test whether the server is reachable or not."
   },
-  "accounts": "Accounts",
+  "accounts": "Hesaplar",
   "@accounts": {
     "description": "Title of the account management dialog"
   },
-  "addAccount": "Add account",
+  "addAccount": "Hesap ekle",
   "@addAccount": {
     "description": "Label of add account action"
   },
-  "switchAccount": "Switch",
+  "switchAccount": "Değiştir",
   "@switchAccount": {
     "description": "Label for switch account action"
   },
-  "logout": "Logout",
+  "logout": "Çıkış yap",
   "@logout": {
     "description": "Generic Logout label"
   },
-  "switchAccountTitle": "Switch account",
+  "switchAccountTitle": "Hesap değiştir",
   "@switchAccountTitle": {
     "description": "Title of the dialog shown after adding an account, asking the user whether to switch to the newly added account or not."
   },
-  "switchToNewAccount": "Do you want to switch to the new account? You can switch back at any time.",
+  "switchToNewAccount": "Yeni hesaba geçmek istiyor musunuz? Her zaman geri dönebilirsiniz.",
   "@switchToNewAccount": {
     "description": "Content of the dialog shown after adding an account, asking the user whether to switch to the newly added account or not."
   },
@@ -772,31 +772,31 @@
   "@defaultDownloadFileType": {
     "description": "Label indicating the default filetype to download (one of archived, original and always ask)"
   },
-  "defaultShareFileType": "Default Share File Type",
+  "defaultShareFileType": "Varsayılan Paylaşım Dosya Türü",
   "@defaultShareFileType": {
     "description": "Label indicating the default filetype to share (one of archived, original and always ask)"
   },
-  "alwaysAsk": "Always ask",
+  "alwaysAsk": "Her zaman sor",
   "@alwaysAsk": {
     "description": "Option to choose when the app should always ask the user which filetype to use"
   },
-  "disableMatching": "Do not tag documents automatically",
+  "disableMatching": "Belgeleri otomatik etiketleme",
   "@disableMatching": {
     "description": "One of the options for automatic tagging of documents"
   },
-  "none": "None",
+  "none": "Hiçbiri",
   "@none": {
     "description": "One of available enum values of matching algorithm for tags"
   },
-  "logInToExistingAccount": "Log in to existing account",
+  "logInToExistingAccount": "Mevcut hesaba giriş yap",
   "@logInToExistingAccount": {
     "description": "Title shown on login page if at least one user is already known to the app."
   },
-  "print": "Print",
+  "print": "Yazdır",
   "@print": {
     "description": "Tooltip for print button"
   },
-  "managePermissions": "Manage permissions",
+  "managePermissions": "İzinleri yönet",
   "@managePermissions": {
     "description": "Button which leads user to manage permissions page"
   },
@@ -804,11 +804,11 @@
   "@errorRetrievingServerVersion": {
     "description": "Message shown at the bottom of the settings page when the remote server version could not be resolved."
   },
-  "resolvingServerVersion": "Resolving server version...",
+  "resolvingServerVersion": "Sunucu sürümü çözülüyor...",
   "@resolvingServerVersion": {
     "description": "Message shown while the app is loading the remote server version."
   },
-  "goToLogin": "Go to login",
+  "goToLogin": "Giriş yap",
   "@goToLogin": {
     "description": "Label of the button shown on the login page to skip logging in to existing accounts and navigate user to login page"
   },
@@ -816,15 +816,15 @@
   "@export": {
     "description": "Label for button that exports scanned images to pdf (before upload)"
   },
-  "invalidFilenameCharacter": "Invalid character(s) found in filename: {characters}",
+  "invalidFilenameCharacter": "Dosya adında geçersiz karakterler bulundu: {characters}",
   "@invalidFilenameCharacter": {
     "description": "For validating filename in export dialogue"
   },
-  "exportScansToPdf": "Export scans to PDF",
+  "exportScansToPdf": "Taramaları PDF olarak dışa aktar",
   "@exportScansToPdf": {
     "description": "title of the alert dialog when exporting scans to pdf"
   },
-  "allScansWillBeMerged": "All scans will be merged into a single PDF file.",
+  "allScansWillBeMerged": "Tüm taramalar tek bir PDF dosyasında birleştirilecektir.",
   "behavior": "Behavior",
   "@behavior": {
     "description": "Title of the settings concerning app beahvior"
@@ -1044,5 +1044,8 @@
   },
   "permissions": "Permissions",
   "newNote": "New note",
-  "notesMarkdownSyntaxSupportHint": "Paperless Mobile can render notes using basic markdown syntax. Try it out!"
+  "notesMarkdownSyntaxSupportHint": "Paperless Mobile can render notes using basic markdown syntax. Try it out!",
+  "mfaCodeRequiredValidationMessage": "Please enter the MFA code.",
+  "mfaCodeInvalidLengthValidationMessage": "MFA code must be 6 digits.",
+  "mfaFormFieldHint": "Your account is protected by two-factor authentication. Please enter an authentication code:"
 }

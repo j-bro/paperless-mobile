@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class TagPlaceholder extends StatelessWidget {
   static const _lengths = <double>[90, 70, 130];
@@ -8,14 +9,16 @@ class TagPlaceholder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      width: _lengths[lengthIndex % _lengths.length],
-      height: 32,
-    ).paddedOnly(right: 4);
+    return Skeleton.shade(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: Colors.white,
+        ),
+        width: _lengths[lengthIndex % _lengths.length],
+        height: 32,
+      ).paddedOnly(right: 4),
+    );
   }
 }
 
@@ -26,7 +29,7 @@ class TagsPlaceholder extends StatelessWidget {
   const TagsPlaceholder({
     super.key,
     required this.count,
-    required this.dense,
+    this.dense = true,
     this.wrap = false,
   });
 

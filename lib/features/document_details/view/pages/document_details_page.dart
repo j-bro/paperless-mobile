@@ -1,10 +1,7 @@
-import 'package:cached_query/src/query_state.dart';
 import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:open_filex/open_filex.dart';
 import 'package:paperless_api/generated/lib/src/model/document.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/accessibility/accessibility_utils.dart';
@@ -12,17 +9,15 @@ import 'package:paperless_mobile/core/bloc/connectivity_cubit.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
-import 'package:paperless_mobile/core/translation/error_code_localization_mapper.dart';
 import 'package:paperless_mobile/core/widgets/material/colored_tab_bar.dart';
-import 'package:paperless_mobile/features/document_details/cubit/document_details_cubit.dart';
-import 'package:paperless_mobile/features/document_details/query/document_details_query_builder.dart';
+import 'package:paperless_mobile/features/document_details/document_download/view/document_download_button.dart';
+import 'package:paperless_mobile/features/document_details/document_open_in_system/view/document_open_in_system_viewer_button.dart';
+import 'package:paperless_mobile/features/document_details/document_share/view/document_share_button.dart';
 import 'package:paperless_mobile/features/document_details/view/widgets/document_content_widget.dart';
-import 'package:paperless_mobile/features/document_details/view/widgets/document_download_button.dart';
 import 'package:paperless_mobile/features/document_details/view/widgets/document_meta_data_widget.dart';
 import 'package:paperless_mobile/features/document_details/view/widgets/document_notes_widget.dart';
 import 'package:paperless_mobile/features/document_details/view/widgets/document_overview_widget.dart';
 import 'package:paperless_mobile/features/document_details/view/widgets/document_permissions_widget.dart';
-import 'package:paperless_mobile/features/document_details/view/widgets/document_share_button.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/delete_document_confirmation_dialog.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/document_preview.dart';
 import 'package:paperless_mobile/features/similar_documents/view/similar_documents_view.dart';
@@ -66,24 +61,24 @@ class _DocumentDetailsPageState extends State<DocumentDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final disableAnimations = MediaQuery.disableAnimationsOf(context);
-    debugPrint(disableAnimations.toString());
+    final currentUser = context.loggedInUser$;
     return AnnotatedRegion(
       value: buildOverlayStyle(
         Theme.of(context),
         systemNavigationBarColor: Theme.of(context).bottomAppBarTheme.color,
       ),
-      child: DocumentDetailsQueryBuilder(
-        id: widget.id,
+      child: QueryBuilder(
+        query: context.documentRepository.getDocumentQuery(widget.id),
         builder: (context, state) {
+          debugPrint(state.data?.notes.length.toString() ?? "No notes loaded");
           return DefaultTabController(
             length: 6,
             child: Scaffold(
               extendBodyBehindAppBar: false,
               floatingActionButtonLocation:
                   FloatingActionButtonLocation.endDocked,
-              floatingActionButton: state.isLoading
-                  ? _buildEditButton(state.data!)
+              floatingActionButton: state.isSuccess
+                  ? _buildEditButton(state.data!, currentUser)
                   : null,
               bottomNavigationBar: _buildBottomAppBar(),
               body: NestedScrollView(
@@ -92,146 +87,16 @@ class _DocumentDetailsPageState extends State<DocumentDetailsPage> {
                     handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
                       context,
                     ),
-                    sliver: Builder(
-                      builder: (context) {
-                        final title = state.data?.title ?? widget.title ?? '';
-                        return _buildSliverAppBar(
-                          title,
-                          innerBoxIsScrolled,
-                          state,
-                        );
-                      },
+                    sliver: _buildSliverAppBar(
+                      state.data?.title ?? widget.title ?? '',
+                      innerBoxIsScrolled,
+                      state,
                     ),
                   ),
                 ],
                 body: Builder(
                   builder: (context) {
-                    if (state.isLoading) {
-                      return _buildLoadingState();
-                    }
-                    if (state.isError) {
-                      return _buildErrorState();
-                    }
-
-                    final document = state.data!;
-                    return TabBarView(
-                      children:
-                          [
-                                CustomScrollView(
-                                  slivers: [
-                                    SliverOverlapInjector(
-                                      handle:
-                                          NestedScrollView.sliverOverlapAbsorberHandleFor(
-                                            context,
-                                          ),
-                                    ),
-                                    DocumentOverviewWidget(
-                                      document: document,
-                                      itemSpacing: _itemSpacing,
-                                      queryString:
-                                          widget.titleAndContentQueryString,
-                                    ).paddedSymmetrically(
-                                      vertical: 16,
-                                      sliver: true,
-                                    ),
-                                  ],
-                                ),
-                                CustomScrollView(
-                                  slivers: [
-                                    SliverOverlapInjector(
-                                      handle:
-                                          NestedScrollView.sliverOverlapAbsorberHandleFor(
-                                            context,
-                                          ),
-                                    ),
-                                    DocumentContentWidget(
-                                      document: document,
-                                      queryString:
-                                          widget.titleAndContentQueryString,
-                                    ).paddedSymmetrically(
-                                      vertical: 16,
-                                      sliver: true,
-                                    ),
-                                  ],
-                                ),
-                                CustomScrollView(
-                                  slivers: [
-                                    SliverOverlapInjector(
-                                      handle:
-                                          NestedScrollView.sliverOverlapAbsorberHandleFor(
-                                            context,
-                                          ),
-                                    ),
-                                    DocumentMetaDataWidget(
-                                      document: document,
-                                      itemSpacing: _itemSpacing,
-                                    ).paddedSymmetrically(
-                                      vertical: 16,
-                                      sliver: true,
-                                    ),
-                                  ],
-                                ),
-                                CustomScrollView(
-                                  controller: _pagingScrollController,
-                                  slivers: [
-                                    SliverOverlapInjector(
-                                      handle:
-                                          NestedScrollView.sliverOverlapAbsorberHandleFor(
-                                            context,
-                                          ),
-                                    ),
-                                    SimilarDocumentsView(
-                                      documentId: widget.id,
-                                      pagingScrollController:
-                                          _pagingScrollController,
-                                    ).paddedSymmetrically(
-                                      vertical: 16,
-                                      sliver: true,
-                                    ),
-                                  ],
-                                ),
-                                CustomScrollView(
-                                  slivers: [
-                                    SliverOverlapInjector(
-                                      handle:
-                                          NestedScrollView.sliverOverlapAbsorberHandleFor(
-                                            context,
-                                          ),
-                                    ),
-                                    DocumentNotesWidget(
-                                      documentId: widget.id,
-                                    ).paddedSymmetrically(
-                                      vertical: 16,
-                                      sliver: true,
-                                    ),
-                                  ],
-                                ),
-                                CustomScrollView(
-                                  controller: _pagingScrollController,
-                                  slivers: [
-                                    SliverOverlapInjector(
-                                      handle:
-                                          NestedScrollView.sliverOverlapAbsorberHandleFor(
-                                            context,
-                                          ),
-                                    ),
-                                    DocumentPermissionsWidget(
-                                      document: document,
-                                    ).paddedSymmetrically(
-                                      vertical: 16,
-                                      sliver: true,
-                                    ),
-                                  ],
-                                ),
-                              ]
-                              .map(
-                                (child) => Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 16),
-                                  child: child,
-                                ),
-                              )
-                              .toList(),
-                    );
+                    return _buildBody(context, state);
                   },
                 ),
               ),
@@ -239,6 +104,108 @@ class _DocumentDetailsPageState extends State<DocumentDetailsPage> {
           );
         },
       ),
+    );
+  }
+
+  Widget _buildBody(BuildContext context, QueryStatus<Document> state) {
+    if (state.isLoading) {
+      return _buildLoadingState();
+    }
+    if (state.isError) {
+      return _buildErrorState();
+    }
+
+    final document = state.data!;
+    return TabBarView(
+      children:
+          [
+                CustomScrollView(
+                  slivers: [
+                    SliverOverlapInjector(
+                      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                        context,
+                      ),
+                    ),
+                    DocumentOverviewWidget(
+                      document: document,
+                      itemSpacing: _itemSpacing,
+                      queryString: widget.titleAndContentQueryString,
+                    ).paddedSymmetrically(vertical: 16, sliver: true),
+                  ],
+                ),
+                CustomScrollView(
+                  slivers: [
+                    SliverOverlapInjector(
+                      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                        context,
+                      ),
+                    ),
+                    DocumentContentWidget(
+                      document: document,
+                      queryString: widget.titleAndContentQueryString,
+                    ).paddedSymmetrically(vertical: 16, sliver: true),
+                  ],
+                ),
+                CustomScrollView(
+                  slivers: [
+                    SliverOverlapInjector(
+                      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                        context,
+                      ),
+                    ),
+                    DocumentMetaDataWidget(
+                      document: document,
+                      itemSpacing: _itemSpacing,
+                    ).paddedSymmetrically(vertical: 16, sliver: true),
+                  ],
+                ),
+                CustomScrollView(
+                  controller: _pagingScrollController,
+                  slivers: [
+                    SliverOverlapInjector(
+                      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                        context,
+                      ),
+                    ),
+                    SimilarDocumentsView(
+                      documentId: widget.id,
+                      pagingScrollController: _pagingScrollController,
+                    ).paddedSymmetrically(vertical: 16, sliver: true),
+                  ],
+                ),
+                CustomScrollView(
+                  slivers: [
+                    SliverOverlapInjector(
+                      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                        context,
+                      ),
+                    ),
+                    DocumentNotesWidget(
+                      documentId: widget.id,
+                    ).paddedSymmetrically(vertical: 16, sliver: true),
+                  ],
+                ),
+                CustomScrollView(
+                  controller: _pagingScrollController,
+                  slivers: [
+                    SliverOverlapInjector(
+                      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                        context,
+                      ),
+                    ),
+                    DocumentPermissionsWidget(
+                      document: document,
+                    ).paddedSymmetrically(vertical: 16, sliver: true),
+                  ],
+                ),
+              ]
+              .map(
+                (child) => Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: child,
+                ),
+              )
+              .toList(),
     );
   }
 
@@ -260,12 +227,14 @@ class _DocumentDetailsPageState extends State<DocumentDetailsPage> {
             return Hero(
               tag: widget.heroTag ?? "thumb_${widget.id}",
               child: GestureDetector(
-                onTap: () {
-                  DocumentPreviewRoute(
-                    documentId: widget.id,
-                    title: title,
-                  ).push(context);
-                },
+                onTap: state.data?.mimeType == 'application/pdf'
+                    ? () {
+                        DocumentPreviewRoute(
+                          documentId: widget.id,
+                          title: title,
+                        ).push(context);
+                      }
+                    : null,
                 child: Stack(
                   alignment: Alignment.topCenter,
                   children: [
@@ -374,11 +343,9 @@ class _DocumentDetailsPageState extends State<DocumentDetailsPage> {
     );
   }
 
-  Widget _buildEditButton(Document document) {
-    final currentUser = context.watch<LocalUserAccount>();
-
+  Widget _buildEditButton(Document document, LocalUserAccount currentUser) {
     bool canEdit =
-        context.watchInternetConnection &&
+        context.internetConnection$ &&
         currentUser.paperlessUser.canEditDocuments;
     if (!canEdit) {
       return const SizedBox.shrink();
@@ -396,22 +363,18 @@ class _DocumentDetailsPageState extends State<DocumentDetailsPage> {
   }
 
   Widget _buildErrorState() {
-    return SliverToBoxAdapter(
-      child: Center(child: Text("Could not load document.")), //TODO: INTL
-    );
+    return Center(child: Text("Could not load document."));
   }
 
   Widget _buildLoadingState() {
-    return SliverFillRemaining(
-      child: Center(child: CircularProgressIndicator()),
-    );
+    return Center(child: CircularProgressIndicator());
   }
 
   Widget _buildBottomAppBar() {
-    return DocumentDetailsQueryBuilder(
-      id: widget.id,
+    return QueryBuilder(
+      query: context.documentRepository.getDocumentQuery(widget.id),
       builder: (context, state) {
-        final currentUser = context.watch<LocalUserAccount>();
+        final currentUser = context.loggedInUser$;
         return BottomAppBar(
           child: Builder(
             builder: (context) {
@@ -456,19 +419,12 @@ class _DocumentDetailsPageState extends State<DocumentDetailsPage> {
                       icon: Icon(Icons.open_in_new),
                       onPressed: null,
                     ),
-                    child: IconButton(
-                      tooltip: S.of(context)!.openInSystemViewer,
-                      icon: const Icon(Icons.open_in_new),
-                      onPressed: _onOpenFileInSystemViewer,
-                    ).paddedOnly(right: 4.0),
+                    child: DocumentOpenInSystemViewerButton().paddedOnly(
+                      right: 4.0,
+                    ),
                   ),
-                  DocumentShareButton(document: state.data),
-                  IconButton(
-                    tooltip: S.of(context)!.print,
-                    onPressed: () =>
-                        context.read<DocumentDetailsCubit>().printDocument(),
-                    icon: const Icon(Icons.print),
-                  ),
+                  DocumentShareButton(),
+                  DocumentOpenInSystemViewerButton(),
                 ],
               );
             },
@@ -476,33 +432,6 @@ class _DocumentDetailsPageState extends State<DocumentDetailsPage> {
         );
       },
     );
-  }
-
-  void _onOpenFileInSystemViewer() async {
-    final status = await context
-        .read<DocumentDetailsCubit>()
-        .openDocumentInSystemViewer();
-    switch (status) {
-      case ResultType.done:
-        return;
-      case ResultType.noAppToOpen:
-        if (mounted) {
-          showGenericError(context, S.of(context)!.noAppToDisplayPDFFilesFound);
-        }
-      case ResultType.fileNotFound:
-        if (mounted) {
-          showGenericError(context, translateError(context, ErrorCode.unknown));
-        }
-      case ResultType.permissionDenied:
-        if (mounted) {
-          showGenericError(
-            context,
-            S.of(context)!.couldNotOpenFilePermissionDenied,
-          );
-        }
-      case ResultType.error:
-      //TODO: Show and log error
-    }
   }
 
   void _onDelete(

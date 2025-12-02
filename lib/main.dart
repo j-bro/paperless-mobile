@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:crypto/crypto.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/foundation.dart';
@@ -28,7 +26,6 @@ import 'package:paperless_mobile/core/bloc/connectivity_cubit.dart';
 import 'package:paperless_mobile/core/bloc/my_bloc_observer.dart';
 import 'package:paperless_mobile/core/exception/server_message_exception.dart';
 import 'package:paperless_mobile/core/interceptor/language_header.interceptor.dart';
-import 'package:paperless_mobile/core/notifier/document_changed_notifier.dart';
 import 'package:paperless_mobile/core/security/session_manager.dart';
 import 'package:paperless_mobile/core/security/session_manager_impl.dart';
 import 'package:paperless_mobile/core/service/connectivity_status_service.dart';
@@ -42,15 +39,15 @@ import 'package:paperless_mobile/features/logging/data/mirrored_file_output.dart
 import 'package:paperless_mobile/features/login/cubit/authentication_cubit.dart';
 import 'package:paperless_mobile/features/login/services/authentication_service.dart';
 import 'package:paperless_mobile/features/notifications/services/local_notification_service.dart';
-import 'package:paperless_mobile/features/settings/view/widgets/global_settings_builder.dart';
+import 'package:paperless_mobile/features/settings/model/color_scheme_option.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/routing/navigation_keys.dart';
 import 'package:paperless_mobile/routing/routes/add_account_route.dart';
 import 'package:paperless_mobile/routing/routes/app_logs_route.dart';
+import 'package:paperless_mobile/routing/routes/auth_route.dart';
 import 'package:paperless_mobile/routing/routes/changelog_route.dart';
 import 'package:paperless_mobile/routing/routes/landing_route.dart';
 import 'package:paperless_mobile/routing/routes/logging_out_route.dart';
-import 'package:paperless_mobile/routing/routes/login_route.dart';
 import 'package:paperless_mobile/routing/routes/shells/authenticated_route.dart';
 import 'package:paperless_mobile/theme.dart';
 import 'package:path_provider/path_provider.dart';
@@ -100,8 +97,8 @@ void main() async {
       await initializeDefaultParameters();
       CachedQuery.instance.configFlutter(
         config: GlobalQueryConfigFlutter(
-          refetchOnConnection: true,
-          refetchOnResume: true,
+          // refetchOnConnection: true,
+          // refetchOnResume: true,
         ),
       );
       final connectivityStatusService = ConnectivityStatusServiceImpl(
@@ -111,20 +108,19 @@ void main() async {
         LocalAuthentication(),
       );
 
-      final encryptionPassword = String.fromEnvironment(
-        'HIVE_ENCRYPTION_CIPHER',
-        defaultValue: 'debug_encryption_password',
-      );
+      // final encryptionPassword = String.fromEnvironment(
+      //   'HIVE_ENCRYPTION_CIPHER',
+      //   defaultValue: 'debug_encryption_password',
+      // );
 
-      final encodedEncryptionPassword = sha256
-          .convert(utf8.encode(encryptionPassword))
-          .bytes;
+      // final encodedEncryptionPassword = sha256
+      //     .convert(utf8.encode(encryptionPassword))
+      //     .bytes;
 
       HydratedBloc.storage = await HydratedStorage.build(
         storageDirectory: HydratedStorageDirectory(
           (await getApplicationDocumentsDirectory()).path,
         ),
-        encryptionCipher: HydratedAesCipher(encodedEncryptionPassword),
       );
       final FlutterSecureStorage secureStorage = FlutterSecureStorage();
       FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
@@ -149,16 +145,12 @@ void main() async {
       ]);
 
       final localNotificationService = LocalNotificationService();
-      final authenticationApi = PaperlessAuthenticationApiImpl(
-        sessionManager.client,
-      );
       final EncryptedLocalStore encryptedLocalStore =
           EncryptedLocalStoreSecureStorageImpl(secureStorage);
       await localNotificationService.initialize();
 
       final userApi = PaperlessUserApiImpl(sessionManager.client);
       final authenticationCubit = AuthenticationCubit(
-        authenticationApi,
         userApi,
         sessionManager,
         connectivityStatusService,
@@ -225,9 +217,12 @@ class AppEntrypoint extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        Provider<PaperlessAuthenticationApi>(
+          create: (context) =>
+              PaperlessAuthenticationApiImpl(sessionManager.client),
+        ),
         Provider.value(value: localStore),
         Provider.value(value: encryptedLocalStore),
-        Provider.value(value: DocumentChangedNotifier()),
         Provider.value(value: authenticationCubit),
         Provider.value(
           value: ConnectivityCubit(connectivityStatusService)..initialize(),
@@ -284,7 +279,7 @@ class _GoRouterShellState extends State<GoRouterShell> {
 
   late final _router = GoRouter(
     debugLogDiagnostics: kDebugMode,
-    initialLocation: "/login",
+    initialLocation: "/auth",
     routes: [
       ShellRoute(
         pageBuilder: (context, state, child) {
@@ -292,37 +287,36 @@ class _GoRouterShellState extends State<GoRouterShell> {
             child: BlocListener<AuthenticationCubit, AuthenticationState>(
               listener: (context, state) {
                 switch (state) {
-                  case UnauthenticatedState(
+                  case Unauthenticated(
                     redirectToAccountSelection: var shouldRedirect,
                   ):
                     if (shouldRedirect) {
                       const LoginToExistingAccountRoute().go(context);
                     } else {
-                      const LoginRoute().go(context);
+                      const AuthRoute().go(context);
                     }
                     break;
-                  case RestoringSessionState():
+                  case RestoringSession():
                     const RestoringSessionRoute().go(context);
                     break;
-                  case VerifyIdentityState(userId: var userId):
+                  case VerifyingIdentity(:final userId):
                     VerifyIdentityRoute(userId: userId).go(context);
                     break;
-                  case SwitchingAccountsState():
+                  case SwitchingAccounts():
                     const SwitchingAccountsRoute().push(context);
                     break;
-                  case AuthenticatedState():
+                  case Authenticated():
                     const LandingRoute().go(context);
-                    break;
-                  case AuthenticatingState state:
-                    AuthenticatingRoute(state.currentStage.name).push(context);
                     break;
                   case LoggingOutState():
                     const LoggingOutRoute().go(context);
                     break;
-                  case AuthenticationErrorState():
+                  case AuthenticationError():
                     if (context.canPop()) {
                       context.pop();
                     }
+                    break;
+                  default:
                     break;
                 }
               },
@@ -332,8 +326,9 @@ class _GoRouterShellState extends State<GoRouterShell> {
         },
         navigatorKey: rootNavigatorKey,
         routes: [
-          $loginRoute,
+          $authRoute,
           $loggingOutRoute,
+          $setActiveUserRoute,
           $addAccountRoute,
           $changelogRoute,
           $appLogsRoute,
@@ -345,79 +340,81 @@ class _GoRouterShellState extends State<GoRouterShell> {
 
   @override
   Widget build(BuildContext context) {
-    return GlobalSettingsBuilder(
-      builder: (context, settings) {
-        final locale = _stringToLocale(settings.preferredLocaleSubtag);
-        return DynamicColorBuilder(
-          builder: (lightDynamic, darkDynamic) {
-            return MaterialApp.router(
-              builder: (context, child) {
-                return AnnotatedRegion<SystemUiOverlayStyle>(
-                  value: buildOverlayStyle(
-                    Theme.of(context),
-                    systemNavigationBarColor: Theme.of(
-                      context,
-                    ).colorScheme.surface,
-                  ),
-                  child: child!,
-                );
-              },
-              routerConfig: _router,
-              debugShowCheckedModeBanner: false,
-              title: "Paperless Mobile",
-              theme: buildTheme(
-                brightness: Brightness.light,
-                dynamicScheme: lightDynamic,
-                preferredColorScheme: settings.preferredColorSchemeOption,
+    final preferredLocaleSubtag = context.select<LocalStore, String>(
+      (store) => store.state.globalSettings.preferredLocaleSubtag,
+    );
+    final colorScheme = context.select<LocalStore, ColorSchemeOption>(
+      (store) => store.state.globalSettings.preferredColorSchemeOption,
+    );
+    final themeMode = context.select<LocalStore, ThemeMode>(
+      (store) => store.state.globalSettings.preferredThemeMode,
+    );
+    final locale = _stringToLocale(preferredLocaleSubtag);
+    return DynamicColorBuilder(
+      builder: (lightDynamic, darkDynamic) {
+        return MaterialApp.router(
+          builder: (context, child) {
+            return AnnotatedRegion<SystemUiOverlayStyle>(
+              value: buildOverlayStyle(
+                Theme.of(context),
+                systemNavigationBarColor: Theme.of(context).colorScheme.surface,
               ),
-              darkTheme: buildTheme(
-                brightness: Brightness.dark,
-                dynamicScheme: darkDynamic,
-                preferredColorScheme: settings.preferredColorSchemeOption,
-              ),
-              themeMode: settings.preferredThemeMode,
-              supportedLocales: const [
-                Locale('en'),
-                Locale('de'),
-                Locale('en', 'GB'),
-                Locale('ca'),
-                Locale('cs'),
-                Locale('es'),
-                Locale('fr'),
-                Locale('pl'),
-                Locale('ru'),
-                Locale('tr'),
-                Locale('it'),
-              ],
-              localeResolutionCallback: (locale, supportedLocales) {
-                if (locale == null) {
-                  return supportedLocales.first;
-                }
-
-                final exactMatch = supportedLocales
-                    .where(
-                      (element) =>
-                          element.languageCode == locale.languageCode &&
-                          element.countryCode == locale.countryCode,
-                    )
-                    .toList();
-                if (exactMatch.isNotEmpty) {
-                  return exactMatch.first;
-                }
-                final superLanguageMatch = supportedLocales
-                    .where(
-                      (element) => element.languageCode == locale.languageCode,
-                    )
-                    .toList();
-                if (superLanguageMatch.isNotEmpty) {
-                  return superLanguageMatch.first;
-                }
-                return supportedLocales.first;
-              },
-              locale: locale,
-              localizationsDelegates: S.localizationsDelegates,
+              child: child!,
             );
           },
+          routerConfig: _router,
+          debugShowCheckedModeBanner: false,
+          title: "Paperless Mobile",
+          theme: buildTheme(
+            brightness: Brightness.light,
+            dynamicScheme: lightDynamic,
+            preferredColorScheme: colorScheme,
+          ),
+          darkTheme: buildTheme(
+            brightness: Brightness.dark,
+            dynamicScheme: darkDynamic,
+            preferredColorScheme: colorScheme,
+          ),
+          themeMode: themeMode,
+          supportedLocales: const [
+            Locale('en'),
+            Locale('de'),
+            Locale('en', 'GB'),
+            Locale('ca'),
+            Locale('cs'),
+            Locale('es'),
+            Locale('fr'),
+            Locale('pl'),
+            Locale('ru'),
+            Locale('tr'),
+            Locale('it'),
+            Locale('sl'),
+          ],
+          localeResolutionCallback: (locale, supportedLocales) {
+            if (locale == null) {
+              return supportedLocales.first;
+            }
+
+            final exactMatch = supportedLocales
+                .where(
+                  (element) =>
+                      element.languageCode == locale.languageCode &&
+                      element.countryCode == locale.countryCode,
+                )
+                .toList();
+            if (exactMatch.isNotEmpty) {
+              return exactMatch.first;
+            }
+            final superLanguageMatch = supportedLocales
+                .where((element) => element.languageCode == locale.languageCode)
+                .toList();
+            if (superLanguageMatch.isNotEmpty) {
+              return superLanguageMatch.first;
+            }
+            return supportedLocales.first;
+          },
+          locale: locale,
+          localizationsDelegates: S.localizationsDelegates,
         );
       },
     );

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/constants.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/repository/saved_view_repository.dart';
 import 'package:paperless_mobile/core/repository/server_statistics_repository.dart';
 import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
@@ -58,7 +59,7 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   Widget build(BuildContext context) {
-    final currentUser = context.watch<LocalUserAccount>().paperlessUser;
+    final currentUser = context.loggedInUser$.paperlessUser;
     return SafeArea(
       child: Scaffold(
         drawer: const AppDrawer(),
@@ -102,12 +103,19 @@ class _LandingPageState extends State<LandingPage> {
                 QueryBuilder(
                   query: context.read<SavedViewRepository>().getAllQuery(),
                   builder: (context, state) {
-                    if (state.data == null) {
+                    if (state.isLoading) {
                       return const SliverToBoxAdapter(
                         child: Center(child: CircularProgressIndicator()),
                       );
                     }
-                    final savedViews = state.data!;
+                    if (state.isError) {
+                      return SliverToBoxAdapter(
+                        child: Text(
+                          S.of(context)!.couldNotLoadSavedViews,
+                        ).padded(16),
+                      );
+                    }
+                    final savedViews = state.data ?? [];
                     final dashboardViews = savedViews
                         .where((element) => element.showOnDashboard)
                         .toList();
@@ -153,7 +161,7 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   Widget _buildStatisticsCard(BuildContext context) {
-    final currentUser = context.read<LocalUserAccount>().paperlessUser;
+    final currentUser = context.loggedInUser$.paperlessUser;
     return ExpansionCard(
       initiallyExpanded: false,
       title: Text(
@@ -165,12 +173,11 @@ class _LandingPageState extends State<LandingPage> {
             .read<ServerStatisticsRepository>()
             .getServerStatisticsQuery(),
         builder: (context, state) {
-          if (!state.isLoading) {
+          if (state.isLoading) {
             return const Center(
               child: CircularProgressIndicator(),
             ).paddedOnly(top: 8, bottom: 24);
           }
-
           if (state.isError) {
             return Center(
               child: Text(S.of(context)!.anUnknownErrorOccurred),

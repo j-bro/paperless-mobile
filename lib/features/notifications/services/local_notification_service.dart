@@ -4,7 +4,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:open_filex/open_filex.dart';
-import 'package:paperless_api/generated/lib/src/model/document.dart';
 import 'package:paperless_api/generated/lib/src/model/status_enum.dart';
 import 'package:paperless_api/generated/lib/src/model/tasks_view.dart';
 import 'package:paperless_mobile/features/notifications/converters/notification_tap_response_payload.dart';
@@ -73,7 +72,7 @@ class LocalNotificationService {
   }
 
   Future<void> notifyDocumentDownload({
-    required Document document,
+    required int documentId,
     required String filename,
     required String filePath,
     required bool finished,
@@ -83,16 +82,15 @@ class LocalNotificationService {
   }) async {
     final tr = await S.delegate.load(Locale(locale));
 
-    int id = document.id;
     await _plugin.show(
-      id,
+      documentId,
       filename,
       finished
           ? tr.notificationDownloadComplete
           : tr.notificationDownloadingDocument,
       NotificationDetails(
         android: AndroidNotificationDetails(
-          "${NotificationChannel.documentDownload.id}_${document.id}",
+          "${NotificationChannel.documentDownload.id}_$documentId",
           NotificationChannel.documentDownload.name,
           progress: ((progress ?? 0) * 100).toInt(),
           maxProgress: 100,
@@ -113,7 +111,7 @@ class LocalNotificationService {
         OpenDirectoryNotificationResponsePayload(filePath: filePath).toJson(),
       ),
     ); //TODO: INTL
-    _addNotification(userId, id);
+    _addNotification(userId, documentId);
   }
 
   void _addNotification(String userId, int notificationId) {

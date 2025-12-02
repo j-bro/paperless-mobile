@@ -1,3 +1,4 @@
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,7 +15,6 @@ import 'package:paperless_mobile/core/widgets/dialog_utils/dialog_cancel_button.
 import 'package:paperless_mobile/core/widgets/dialog_utils/dialog_confirm_button.dart';
 import 'package:paperless_mobile/core/widgets/hint_card.dart';
 import 'package:paperless_mobile/core/widgets/hint_state_builder.dart';
-import 'package:paperless_mobile/core/widgets/query_builder/simple_query_builder.dart';
 import 'package:paperless_mobile/features/app_drawer/view/app_drawer.dart';
 import 'package:paperless_mobile/features/document_search/view/sliver_search_bar.dart';
 import 'package:paperless_mobile/features/inbox/view/widgets/inbox_empty_widget.dart';
@@ -78,40 +78,41 @@ class _InboxPageState extends State<InboxPage> {
       drawer: const AppDrawer(),
       floatingActionButton: ConnectivityAwareActionWrapper(
         offlineBuilder: (context, child) => const SizedBox.shrink(),
-        child: SimpleQueryBuilder(
+        child: QueryBuilder(
           query: context.inboxRepository.inboxDocumentsQuery,
-          loadingBuilder: (context) => SizedBox.shrink(),
-          errorBuilder: (context) => SizedBox.shrink(),
-          builder: (context, data) {
-            final documents = data.pages.expand((p) => p.results);
-            return FloatingActionButton.extended(
-              extendedPadding: _showExtendedFab
-                  ? null
-                  : const EdgeInsets.symmetric(horizontal: 16),
-              heroTag: "inbox_page_fab",
-              label: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 200),
-                transitionBuilder: (child, animation) {
-                  return FadeTransition(
-                    opacity: animation,
-                    child: SizeTransition(
-                      sizeFactor: animation,
-                      axis: Axis.horizontal,
-                      child: child,
-                    ),
-                  );
-                },
-                child: _showExtendedFab
-                    ? Row(
-                        children: [
-                          const Icon(Icons.done_all),
-                          Text(S.of(context)!.allSeen),
-                        ],
-                      )
-                    : const Icon(Icons.done_all),
-              ),
-              onPressed: documents.isNotEmpty ? _onMarkAllAsSeen : null,
-            );
+          builder: (context, state) {
+            return switch (state) {
+              QuerySuccess(data: final documents) =>
+                FloatingActionButton.extended(
+                  extendedPadding: _showExtendedFab
+                      ? null
+                      : const EdgeInsets.symmetric(horizontal: 16),
+                  heroTag: "inbox_page_fab",
+                  label: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 200),
+                    transitionBuilder: (child, animation) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: SizeTransition(
+                          sizeFactor: animation,
+                          axis: Axis.horizontal,
+                          child: child,
+                        ),
+                      );
+                    },
+                    child: _showExtendedFab
+                        ? Row(
+                            children: [
+                              const Icon(Icons.done_all),
+                              Text(S.of(context)!.allSeen),
+                            ],
+                          )
+                        : const Icon(Icons.done_all),
+                  ),
+                  onPressed: documents.isNotEmpty ? _onMarkAllAsSeen : null,
+                ),
+              _ => const SizedBox.shrink(),
+            };
           },
         ),
       ),
@@ -122,107 +123,101 @@ class _InboxPageState extends State<InboxPage> {
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             SliverSearchBar(titleText: S.of(context)!.inbox),
           ],
-          body: SimpleQueryBuilder(
+          body: QueryBuilder(
             query: context.inboxRepository.inboxDocumentsQuery,
-            errorBuilder: (context) {
-              return Column(
-                children: [
-                  Center(
-                    child: Text(
-                      'Could not load inbox',
-                      textAlign: TextAlign.center,
-                    ).padded(),
-                  ),
-                  TextButton(
-                    onPressed: context.inboxRepository.reload,
-                    child: Text('Retry'), //TODO: INTL
-                  ),
-                ],
-              );
-            },
-            loadingBuilder: (_) => ListView.builder(
-              padding: const EdgeInsets.only(top: 16, left: 16),
-              physics: NeverScrollableScrollPhysics(),
-              controller: _scrollController,
-              itemBuilder: (context, index) => const InboxItemPlaceholder(),
-            ),
-            builder: (context, data) {
-              final documents = data.pages.expand((p) => p.results);
-              if (documents.isEmpty) {
-                return Center(
-                  child: InboxEmptyWidget(
-                    emptyStateRefreshIndicatorKey:
-                        _emptyStateRefreshIndicatorKey,
-                  ),
-                );
-              }
-              return RefreshIndicator(
-                onRefresh: context.inboxRepository.reload,
-                child: CustomScrollView(
-                  key: _nestedScrollViewKey,
-                  slivers: [
-                    SliverToBoxAdapter(
-                      child: HintStateBuilder(
-                        listenKey: 'inboxSwipeLeftHint',
-                        builder: (context, isHintAcknowledged, acknowledge) =>
-                            HintCard(
-                              show: !isHintAcknowledged,
-                              hintText: S
-                                  .of(context)!
-                                  .swipeLeftToMarkADocumentAsSeen,
-                              onAcknowledgeHint: acknowledge,
-                            ),
-                      ),
+            builder: (context, state) {
+              return switch (state) {
+                QueryError() => Column(
+                  children: [
+                    Center(
+                      child: Text(
+                        'Could not load inbox',
+                        textAlign: TextAlign.center,
+                      ).padded(),
                     ),
-                    // Build a list of slivers alternating between SliverToBoxAdapter
-                    // (group header) and a SliverList (inbox items).
-                    ..._groupByDate(documents).entries
-                        .map(
-                          (entry) => [
-                            SliverToBoxAdapter(
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(32.0),
-                                  child: Text(
-                                    entry.key,
-                                    style: Theme.of(
-                                      context,
-                                    ).textTheme.bodySmall,
-                                    textAlign: TextAlign.center,
-                                  ).padded(),
-                                ),
-                              ).paddedOnly(top: 8.0),
-                            ),
-                            SliverList(
-                              delegate: SliverChildBuilderDelegate(
-                                childCount: entry.value.length,
-                                (context, index) {
-                                  if (index < entry.value.length - 1) {
-                                    return Column(
-                                      children: [
-                                        _buildListItem(entry.value[index]),
-                                        const Divider(
-                                          indent: 16,
-                                          endIndent: 16,
-                                        ),
-                                      ],
-                                    );
-                                  }
-                                  return _buildListItem(entry.value[index]);
-                                },
-                              ),
-                            ),
-                          ],
-                        )
-                        .flattened,
-                    const SliverToBoxAdapter(child: SizedBox(height: 78)),
+                    TextButton(
+                      onPressed: context.inboxRepository.reload,
+                      child: Text('Retry'), //TODO: INTL
+                    ),
                   ],
                 ),
-              );
+                QuerySuccess(data: final documents) => _buildLoaded(documents),
+                _ => ListView.builder(
+                  padding: const EdgeInsets.only(top: 16, left: 16),
+                  physics: NeverScrollableScrollPhysics(),
+                  controller: _scrollController,
+                  itemBuilder: (context, index) => const InboxItemPlaceholder(),
+                ),
+              };
             },
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildLoaded(List<Document> documents) {
+    if (documents.isEmpty) {
+      return Center(
+        child: InboxEmptyWidget(
+          emptyStateRefreshIndicatorKey: _emptyStateRefreshIndicatorKey,
+        ),
+      );
+    }
+    return RefreshIndicator(
+      onRefresh: context.inboxRepository.reload,
+      child: CustomScrollView(
+        key: _nestedScrollViewKey,
+        slivers: [
+          SliverToBoxAdapter(
+            child: HintStateBuilder(
+              listenKey: 'inboxSwipeLeftHint',
+              builder: (context, isHintAcknowledged, acknowledge) => HintCard(
+                show: !isHintAcknowledged,
+                hintText: S.of(context)!.swipeLeftToMarkADocumentAsSeen,
+                onAcknowledgeHint: acknowledge,
+              ),
+            ),
+          ),
+          // Build a list of slivers alternating between SliverToBoxAdapter
+          // (group header) and a SliverList (inbox items).
+          ..._groupByDate(documents).entries
+              .map(
+                (entry) => [
+                  SliverToBoxAdapter(
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(32.0),
+                        child: Text(
+                          entry.key,
+                          style: Theme.of(context).textTheme.bodySmall,
+                          textAlign: TextAlign.center,
+                        ).padded(),
+                      ),
+                    ).paddedOnly(top: 8.0),
+                  ),
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      childCount: entry.value.length,
+                      (context, index) {
+                        if (index < entry.value.length - 1) {
+                          return Column(
+                            children: [
+                              _buildListItem(entry.value[index]),
+                              const Divider(indent: 16, endIndent: 16),
+                            ],
+                          );
+                        }
+                        return _buildListItem(entry.value[index]);
+                      },
+                    ),
+                  ),
+                ],
+              )
+              .flattened,
+          const SliverToBoxAdapter(child: SizedBox(height: 78)),
+        ],
       ),
     );
   }
@@ -274,7 +269,7 @@ class _InboxPageState extends State<InboxPage> {
   }
 
   Future<bool> _onItemDismissed(Document doc) async {
-    if (!context.read<LocalUserAccount>().paperlessUser.canEditDocuments) {
+    if (!context.loggedInUser.paperlessUser.canEditDocuments) {
       showSnackBar(context, S.of(context)!.missingPermissions);
       return false;
     }

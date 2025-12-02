@@ -36,7 +36,7 @@ class GetFilterOptions with EquatableMixin {
     this.ordering,
     this.page = 1,
     this.pageSize = 100000,
-    this.fullPermissions,
+    this.fullPermissions = true,
   });
   Map<String, dynamic> toJson() => _$GetFilterOptionsToJson(this);
 

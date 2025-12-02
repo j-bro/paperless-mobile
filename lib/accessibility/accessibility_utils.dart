@@ -1,12 +1,13 @@
 import 'dart:ui';
 
 import 'package:flutter/widgets.dart';
-import 'package:paperless_mobile/features/settings/view/widgets/global_settings_builder.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 
 extension AccessibleHero on Hero {
   Widget accessible() {
-    return GlobalSettingsBuilder(
-      builder: (context, settings) {
+    return Builder(
+      builder: (context) {
+        final settings = context.globalSettings$;
         return HeroMode(
           enabled:
               WidgetsBinding.instance.disableAnimations ||

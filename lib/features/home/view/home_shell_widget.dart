@@ -38,7 +38,7 @@ class HomeShellWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localStoreState = context.watch<LocalStore>().state;
-    final currentUserId = localStoreState.loggedInUserId;
+    final currentUserId = localStoreState.loggedInAppUserId;
     if (currentUserId == null) {
       //This only happens during logout...
       //FIXME: Find way so this does not occur anymore

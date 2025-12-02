@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/features/login/cubit/authentication_cubit.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
-import 'package:paperless_mobile/routing/routes/login_route.dart';
+import 'package:paperless_mobile/routing/routes/auth_route.dart';
 import 'package:provider/provider.dart';
 
 class VerifyIdentityPage extends StatelessWidget {
@@ -43,10 +43,7 @@ class VerifyIdentityPage extends StatelessWidget {
               S.of(context)!.useTheConfiguredBiometricFactorToAuthenticate,
               textAlign: TextAlign.center,
             ).paddedSymmetrically(horizontal: 16),
-            const Icon(
-              Icons.fingerprint,
-              size: 96,
-            ),
+            const Icon(Icons.fingerprint, size: 96),
             // Wrap(
             //   alignment: WrapAlignment.spaceBetween,
             //   runAlignment: WrapAlignment.spaceBetween,

@@ -41,17 +41,22 @@ class PaperlessUserApiImpl extends PaperlessUserApi
 
   @override
   Future<User?> getCurrentUser() async {
-    final response = await client.get<Map<String, dynamic>>(
-      '/api/ui_settings/',
-    );
-    final uiSettings = UiSettingsView.fromJson(response.data!);
-    if (uiSettings.user?.id == null) {
-      throw PaperlessApiException(
-        ErrorCode.userGetError,
-        details: "Could not retrieve current user from UI settings.",
+    try {
+      final response = await client.get('/api/ui_settings/');
+
+      final uiSettings = UiSettingsView.fromJson(response.data!);
+      if (uiSettings.user?.id == null) {
+        throw PaperlessApiException(
+          ErrorCode.userGetError,
+          details: "Could not retrieve current user from UI settings.",
+        );
+      }
+      return get(uiSettings.user!.id!);
+    } on DioException catch (exception) {
+      throw exception.unravel(
+        orElse: const PaperlessApiException(ErrorCode.userGetError),
       );
     }
-    return get(uiSettings.user!.id!);
   }
 
   @override

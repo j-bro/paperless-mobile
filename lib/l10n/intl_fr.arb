@@ -703,25 +703,25 @@
   "@confirmAction": {
     "description": "Typically used as a title to confirm a previously selected action"
   },
-  "areYouSureYouWantToContinue": "Êtes-vous sûr(e) de vouloir continuer ?",
-  "bulkEditTagsAddMessage": "{count, plural, one{Cette opération va ajouter les balises {tags} au document sélectionné} other{Cette opération va ajouter les balises {tags} à {count} documents sélectionnés!}}",
+  "areYouSureYouWantToContinue": "Es-tu sûr de vouloir continuer ?",
+  "bulkEditTagsAddMessage": "{count, plural, one{Cette opération va ajouter les balises {tags} au document sélectionné.} other{Cette opération va ajouter les balises {tags} à {count} documents sélectionnés.}}",
   "@bulkEditTagsAddMessage": {
     "description": "Message of the confirmation dialog when bulk adding tags."
   },
-  "bulkEditTagsRemoveMessage": "{count, plural, one{Cette opération supprimera les balises {tags} du document sélectionné.} other{Cette opération supprimera les balises {tags} de {count} documents sélectionnés!}}",
+  "bulkEditTagsRemoveMessage": "{count, plural, one{Cette opération supprimera les balises {tags} du document sélectionné.} other{Cette opération supprimera les balises {tags} de {count} documents sélectionnés.}}",
   "@bulkEditTagsRemoveMessage": {
     "description": "Message of the confirmation dialog when bulk removing tags."
   },
-  "bulkEditTagsModifyMessage": "{count, plural, one{Cette opération va ajouter les balises {addTags} et supprimer les balises {removeTags} du document sélectionné} other{Cette opération va ajouter les balises {addTags} et supprimer les balises {removeTags} de {count} documents sélectionnés.}}",
+  "bulkEditTagsModifyMessage": "{count, plural, one{Cette opération va ajouter les balises {addTags} et supprimer les balises {removeTags} du document sélectionné.} other{Cette opération va ajouter les balises {addTags} et supprimer les balises {removeTags} de {count} documents sélectionnés.}}",
   "@bulkEditTagsModifyMessage": {
     "description": "Message of the confirmation dialog when both adding and removing tags."
   },
-  "bulkEditCorrespondentAssignMessage": "{count, plural, one{Cette opération assignera le correspondant {correspondent} au document sélectionné} other{Cette opération va assigner le correspondant {correspondent} à {count} documents sélectionnés!}}",
-  "bulkEditDocumentTypeAssignMessage": "{count, plural, one{Cette opération assignera le type de document {docType} au document sélectionné.} other{Cette opération va assigner le type de document {docType} à {count} documents sélectionnés.}}",
-  "bulkEditStoragePathAssignMessage": "{count, plural, one{Cette opération assignera le chemin de stockage {path} au document sélectionné.} other{Cette opération va assigner le chemin de stockage {path} à {count} documents sélectionnés.}}",
-  "bulkEditCorrespondentRemoveMessage": "{count, plural, one{Cette opération va supprimer le correspondant du document sélectionné.} other{Cette opération va supprimer le correspondant de {count} documents sélectionnés.}}",
-  "bulkEditDocumentTypeRemoveMessage": "{count, plural, one{Cette opération va supprimer le type de document du document sélectionné.} other{Cette opération va supprimer le type de document de {count} documents sélectionnés.}}",
-  "bulkEditStoragePathRemoveMessage": "{count, plural, one{Cette opération supprimera le chemin de stockage du document sélectionné.} other{Cette opération supprimera le chemin de stockage de {count} documents sélectionnés.}}",
+  "bulkEditCorrespondentAssignMessage": "{count, plural, one{Cette opération assignera le correspondant {correspondent} au document sélectionné.} other{Cette opération va assigner le correspondant {correspondent} à {count} documents sélectionnés.}}",
+  "bulkEditDocumentTypeAssignMessage": "{count, plural, one{Cette opération assignera le type {docType} au document sélectionné.} other{Cette opération va assigner le type {docType} aux {count} documents sélectionnés.}}",
+  "bulkEditStoragePathAssignMessage": "{count, plural, one{Cette opération assignera le chemin de stockage {path} au document sélectionné.} other{Cette opération va assigner le chemin de stockage {path} aux {count} documents sélectionnés.}}",
+  "bulkEditCorrespondentRemoveMessage": "{count, plural, one{Cette opération va supprimer le correspondant du document sélectionné.} other{Cette opération va supprimer le correspondant des {count} documents sélectionnés.}}",
+  "bulkEditDocumentTypeRemoveMessage": "{count, plural, one{Cette opération va supprimer le type de document du document sélectionné.} other{Cette opération va supprimer le type de document des {count} documents sélectionnés.}}",
+  "bulkEditStoragePathRemoveMessage": "{count, plural, one{Cette opération supprimera le chemin de stockage du document sélectionné.} other{Cette opération supprimera le chemin de stockage des {count} documents sélectionnés.}}",
   "anyTag": "Tous",
   "@anyTag": {
     "description": "Label shown when any tag should be filtered"
@@ -841,11 +841,11 @@
   "@freeBytes": {
     "description": "Text shown for clear storage settings"
   },
-  "calculatingDots": "Calcul en cours...",
+  "calculatingDots": "Estimation de la taille...",
   "@calculatingDots": {
     "description": "Text shown when the byte size is still being calculated"
   },
-  "freedDiskSpace": "{bytes} d'espace disque libérés avec succès.",
+  "freedDiskSpace": "{bytes} libérés avec succès.",
   "@freedDiskSpace": {
     "description": "Message shown after clearing storage"
   },
@@ -865,7 +865,7 @@
   "@missingPermissions": {
     "description": "Message shown in a snackbar when a user without the reequired permissions performs an action."
   },
-  "editView": "",
+  "editView": "Modifier vue",
   "@editView": {
     "description": "Title of the edit saved view page"
   },
@@ -929,12 +929,12 @@
   "@userNotFound": {
     "description": "Message shown when the specified user (e.g. by id) could not be found"
   },
-  "couldNotUpdateSavedView": "Impossible de mettre à jour la vue, veuillez réessayer.",
+  "couldNotUpdateSavedView": "Impossible de mettre à jour l'affichage, veuillez réessayer.",
   "@couldNotUpdateSavedView": {
     "description": "Message shown when a saved view could not be updated"
   },
   "couldNotUpdateStoragePath": "Impossible de mettre à jour le chemin de stockage, veuillez réessayer.",
-  "savedViewSuccessfullyUpdated": "Vue enregistrée mise à jour avec succès.",
+  "savedViewSuccessfullyUpdated": "Affichage mis à jour avec succès.",
   "@savedViewSuccessfullyUpdated": {
     "description": "Message shown when a saved view was successfully updated."
   },
@@ -942,7 +942,7 @@
   "@discardChanges": {
     "description": "Title of the alert dialog shown when a user tries to close a view with unsaved changes."
   },
-  "savedViewChangedDialogContent": "Les conditions de filtre de la vue active ont changé. En réinitialisant le filtre, ces modifications seront perdues. Voulez-vous continuer ?",
+  "savedViewChangedDialogContent": "Les filtres de l'affichage ont changé. En réinitialisant le filtre, ces modifications seront perdues. Voulez-vous continuer ?",
   "@savedViewChangedDialogContent": {
     "description": "Content of the alert dialog shown when all of the following applies:\r\n* User has saved view selected\r\n* User has performed changes to the current document filter\r\n* User now tries to reset this filter without having saved the changes to the view."
   },
@@ -970,7 +970,7 @@
   "@userAlreadyExists": {
     "description": "Error message shown when the user tries to add an already existing account."
   },
-  "youDidNotSaveAnyViewsYet": "Vous n'avez pas encore enregistré de vues, créez en une et elle sera affichée ici.",
+  "youDidNotSaveAnyViewsYet": "Vous n'avez pas encore enregistré d'affichages, créez en un et il sera affichée ici.",
   "@youDidNotSaveAnyViewsYet": {
     "description": "Message shown when there are no saved views yet."
   },
@@ -978,7 +978,7 @@
   "discardFile": "Abandonner le fichier ?",
   "discard": "Abandonner",
   "backToLogin": "Retour à la page de connexion",
-  "skipEditingReceivedFiles": "Passer l'édition des fichiers reçus",
+  "skipEditingReceivedFiles": "Ignorer l'édition des fichiers reçus",
   "uploadWithoutPromptingUploadForm": "Toujours mettre en ligne sans montrer le formulaire de mise en ligne lors du partage de fichiers avec l'application.",
   "authenticatingDots": "Authentification en cours...",
   "@authenticatingDots": {
@@ -1002,8 +1002,8 @@
     "description": "Warning message shown when the user tries to close a route without saving the changes."
   },
   "changelog": "Notes de version",
-  "noLogsFoundOn": "Aucun journal trouvé sur {date}.",
-  "logfileBottomReached": "Vous avez atteint le bas de ce fichier journal.",
+  "noLogsFoundOn": "Aucun journal trouvé le {date}.",
+  "logfileBottomReached": "Vous avez atteint la fin de ce fichier journal.",
   "appLogs": "Journaux d'application {date}",
   "saveLogsToFile": "Enregistrer le fichier journal",
   "copyToClipboard": "Copier dans le presse-papier",
@@ -1018,7 +1018,7 @@
   "@hidePdf": {
     "description": "Tooltip shown on the \"show pdf\" icon button on the document edit page"
   },
-  "misc": "Sonstige",
+  "misc": "Divers",
   "loggingOut": "Déconnexion...",
   "testingConnection": "Vérifier la connexion...",
   "@testingConnection": {
@@ -1027,8 +1027,8 @@
   "version": "Version {versionCode}",
   "notes": "{count, plural, zero{Notes} one{Note} other{Notes}}",
   "addNote": "Ajouter une note",
-  "newerVersionAvailable": "Newer version available:",
-  "dateOutOfRange": "Date must be between {firstDate} and {lastDate}.",
+  "newerVersionAvailable": "Une version plus récente est disponible :",
+  "dateOutOfRange": "La date doit être comprise entre {firstDate} et {lastDate}.",
   "@dateOutOfRange": {
     "description": "Error message shown when the user tries to select a date outside of the allowed range.",
     "placeholders": {
@@ -1042,7 +1042,10 @@
       }
     }
   },
-  "permissions": "Permissions",
-  "newNote": "New note",
-  "notesMarkdownSyntaxSupportHint": "Paperless Mobile can render notes using basic markdown syntax. Try it out!"
+  "permissions": "Autorisations",
+  "newNote": "Nouvelle note",
+  "notesMarkdownSyntaxSupportHint": "Paperless Mobile peut afficher les notes en utilisant la syntaxe markdown basique. Essayez-le !",
+  "mfaCodeRequiredValidationMessage": "Please enter the MFA code.",
+  "mfaCodeInvalidLengthValidationMessage": "MFA code must be 6 digits.",
+  "mfaFormFieldHint": "Your account is protected by two-factor authentication. Please enter an authentication code:"
 }

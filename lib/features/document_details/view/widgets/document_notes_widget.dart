@@ -5,11 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:intl/intl.dart';
 import 'package:markdown/markdown.dart' show markdownToHtml;
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/repository/document_repository.dart';
 import 'package:paperless_mobile/core/widgets/hint_card.dart';
 import 'package:paperless_mobile/core/widgets/hint_state_builder.dart';
-import 'package:paperless_mobile/features/document_details/cubit/document_details_cubit.dart';
+import 'package:paperless_mobile/core/widgets/icon_loading_widget.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/helpers/message_helpers.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -25,7 +26,6 @@ class DocumentNotesWidget extends StatefulWidget {
 class _DocumentNotesWidgetState extends State<DocumentNotesWidget> {
   final _noteContentController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  bool _isNoteSubmitting = false;
   @override
   Widget build(BuildContext context) {
     const hintKey = "hideMarkdownSyntaxHint";
@@ -43,9 +43,7 @@ class _DocumentNotesWidgetState extends State<DocumentNotesWidget> {
           return SliverToBoxAdapter(
             child: Center(
               child: Text(
-                S
-                    .of(context)!
-                    .anUnknownErrorOccurred, //TODO: INTL better error message
+                state.error.toString(), //TODO: INTL better error message
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Theme.of(context).colorScheme.error.withAlpha(200),
                 ),
@@ -61,6 +59,7 @@ class _DocumentNotesWidgetState extends State<DocumentNotesWidget> {
                 child: HintStateBuilder(
                   listenKey: hintKey,
                   builder: (context, acknowledged, acknowledge) {
+                    debugPrint("Acknowledged: $acknowledged");
                     return HintCard(
                       hintText: S.of(context)!.notesMarkdownSyntaxSupportHint,
                       show: !acknowledged,
@@ -97,41 +96,42 @@ class _DocumentNotesWidgetState extends State<DocumentNotesWidget> {
                     ).paddedOnly(bottom: 8),
                     Align(
                       alignment: Alignment.centerRight,
-                      child: ElevatedButton.icon(
-                        icon: _isNoteSubmitting
-                            ? const SizedBox.square(
+                      child: MutationBuilder(
+                        mutation: context.documentRepository.addNoteMutation(
+                          widget.documentId,
+                        ),
+                        builder: (context, state, addNote) {
+                          return ElevatedButton.icon(
+                            icon: switch (state) {
+                              MutationLoading() => SizedBox.square(
                                 dimension: 20,
                                 child: Center(
                                   child: CircularProgressIndicator(
                                     strokeWidth: 3,
                                   ),
                                 ),
-                              )
-                            : const Icon(Icons.note_add_outlined),
-                        label: Text(S.of(context)!.addNote),
-                        onPressed: () async {
-                          _formKey.currentState?.save();
-                          FocusScope.of(context).unfocus();
+                              ),
+                              _ => const Icon(Icons.note_add_outlined),
+                            },
+                            label: Text(S.of(context)!.addNote),
+                            onPressed: () async {
+                              _formKey.currentState?.save();
+                              FocusScope.of(context).unfocus();
 
-                          if (_formKey.currentState?.validate() ?? false) {
-                            setState(() {
-                              _isNoteSubmitting = true;
-                            });
-                            try {
-                              await context
-                                  .read<DocumentDetailsCubit>()
-                                  .addNote(_noteContentController.text.trim());
-                              _noteContentController.clear();
-                            } catch (error) {
-                              if (context.mounted) {
-                                showGenericError(context, error);
+                              if (_formKey.currentState?.validate() ?? false) {
+                                final value = _noteContentController.text
+                                    .trim();
+                                try {
+                                  await addNote(value);
+                                  _noteContentController.clear();
+                                } catch (error) {
+                                  if (context.mounted) {
+                                    showGenericError(context, error);
+                                  }
+                                }
                               }
-                            } finally {
-                              setState(() {
-                                _isNoteSubmitting = false;
-                              });
-                            }
-                          }
+                            },
+                          );
                         },
                       ),
                     ),
@@ -177,14 +177,22 @@ class _DocumentNotesWidgetState extends State<DocumentNotesWidget> {
                                     ).colorScheme.onSurface.withAlpha(128),
                                   ),
                             ),
-                          IconButton(
-                            tooltip: S.of(context)!.delete,
-                            icon: const Icon(Icons.delete),
-                            onPressed: () {
-                              context
-                                  .read<DocumentRepository>()
-                                  .deleteNoteMutation(widget.documentId)
-                                  .mutate(note.id);
+                          MutationBuilder(
+                            key: ValueKey(
+                              '${widget.documentId}-${note.id.toString()}',
+                            ),
+                            mutation: context.documentRepository
+                                .deleteNoteMutation(widget.documentId, note.id),
+                            builder: (context, mutationState, deleteNote) {
+                              return IconButton(
+                                tooltip: S.of(context)!.delete,
+                                icon: mutationState.isLoading
+                                    ? IconLoadingWidget()
+                                    : const Icon(Icons.delete),
+                                onPressed: () {
+                                  deleteNote(null);
+                                },
+                              );
                             },
                           ),
                         ],

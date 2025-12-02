@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:paperless_mobile/features/settings/view/widgets/global_settings_builder.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/features/settings/view/widgets/radio_settings_dialog.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
@@ -8,13 +8,14 @@ class ThemeModeSetting extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GlobalSettingsBuilder(
-      builder: (context, settings) {
-        return ListTile(
-          title: Text(S.of(context)!.theme),
-          subtitle: Text(_mapThemeModeToLocalizedString(
-              settings.preferredThemeMode, context)),
-          onTap: () => showDialog<ThemeMode>(
+    final settings = context.globalSettings$;
+    return ListTile(
+      title: Text(S.of(context)!.theme),
+      subtitle: Text(
+        _mapThemeModeToLocalizedString(settings.preferredThemeMode, context),
+      ),
+      onTap: () =>
+          showDialog<ThemeMode>(
             context: context,
             builder: (_) => RadioSettingsDialog<ThemeMode>(
               titleText: S.of(context)!.appearance,
@@ -31,17 +32,16 @@ class ThemeModeSetting extends StatelessWidget {
                 RadioOption(
                   value: ThemeMode.dark,
                   label: S.of(context)!.darkTheme,
-                )
+                ),
               ],
             ),
           ).then((value) async {
             if (value != null) {
-              settings.preferredThemeMode = value;
-              await settings.save();
+              context.localStore.updateGlobalSettings(
+                (state) => state.copyWith(preferredThemeMode: value),
+              );
             }
           }),
-        );
-      },
     );
   }
 

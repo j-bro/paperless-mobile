@@ -3,14 +3,11 @@ import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:paperless_api/generated/lib/src/model/paperless_auth_token_request.dart';
 import 'package:paperless_api/generated/lib/src/model/user.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/constants.dart';
-import 'package:paperless_mobile/core/interceptor/language_header.interceptor.dart';
 import 'package:paperless_mobile/core/model/info_message_exception.dart';
 import 'package:paperless_mobile/core/security/session_manager.dart';
-import 'package:paperless_mobile/core/security/session_manager_impl.dart';
 import 'package:paperless_mobile/core/service/connectivity_status_service.dart';
 import 'package:paperless_mobile/core/service/file_service.dart';
 import 'package:paperless_mobile/core/store/encrypted_local_store.dart';
@@ -21,7 +18,6 @@ import 'package:paperless_mobile/core/store/slices/user_credentials.dart';
 import 'package:paperless_mobile/features/logging/data/logger.dart';
 import 'package:paperless_mobile/features/logging/utils/redaction_utils.dart';
 import 'package:paperless_mobile/features/login/model/client_certificate.dart';
-import 'package:paperless_mobile/features/login/model/login_form_credentials.dart';
 import 'package:paperless_mobile/features/login/model/reachability_status.dart';
 import 'package:paperless_mobile/features/login/services/authentication_service.dart';
 import 'package:paperless_mobile/features/notifications/services/local_notification_service.dart';
@@ -29,11 +25,8 @@ import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
 part 'authentication_state.dart';
 
-typedef _FutureVoidCallback = Future<void> Function();
-
 class AuthenticationCubit extends Cubit<AuthenticationState> {
   final LocalAuthenticationService _localAuthService;
-  final PaperlessAuthenticationApi _authenticationApi;
   final PaperlessUserApi _usersApi;
   final LocalStore _store;
   final EncryptedLocalStore _encryptedLocalStore;
@@ -42,7 +35,6 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   final LocalNotificationService _notificationService;
 
   AuthenticationCubit(
-    this._authenticationApi,
     this._usersApi,
     this._sessionManager,
     this._connectivityService,
@@ -50,20 +42,16 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     this._notificationService,
     this._store,
     this._encryptedLocalStore,
-  ) : super(const UnauthenticatedState());
+  ) : super(const Unauthenticated());
 
-  Future<void> login({
-    required LoginFormCredentials credentials,
+  Future<void> setActiveUser({
     required String serverUrl,
+    required String username,
+    required String token,
     ClientCertificate? clientCertificate,
   }) async {
-    assert(credentials.username != null && credentials.password != null);
-    if (state is AuthenticatingState) {
-      // Cancel duplicate login requests
-      return;
-    }
-    emit(const AuthenticatingState(AuthenticatingStage.authenticating));
-    final localUserId = "${credentials.username}@$serverUrl";
+    emit(const Authenticating());
+    final localUserId = "$username@$serverUrl";
     final redactedId = redactUserId(localUserId);
 
     logger.fd(
@@ -75,42 +63,26 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       await _addUser(
         localUserId,
         serverUrl,
-        credentials,
+        username,
+        token,
         clientCertificate,
         _sessionManager,
-        onFetchUserInformation: () async {
-          emit(
-            const AuthenticatingState(
-              AuthenticatingStage.fetchingUserInformation,
-            ),
-          );
-        },
-        onBeforeLogin: () async {
-          emit(const AuthenticatingState(AuthenticatingStage.authenticating));
-        },
-        onBeforePersistLocalUserData: () async {
-          emit(
-            const AuthenticatingState(
-              AuthenticatingStage.persistingLocalUserData,
-            ),
-          );
-        },
       );
-    } on PaperlessApiException catch (_) {
+    } on PaperlessApiException catch (error) {
       emit(
-        AuthenticationErrorState(
+        AuthenticationError(
           serverUrl: serverUrl,
-          username: credentials.username!,
-          password: credentials.password!,
+          username: username,
+          errorCode: error.code,
           clientCertificate: clientCertificate,
         ),
       );
       rethrow;
     }
     // Mark logged in user as currently active user.
-    _store.setLoggedInUserId(localUserId);
+    _store.setLoggedInAppUserId(localUserId);
 
-    emit(AuthenticatedState(localUserId: localUserId));
+    emit(Authenticated(localUserId: localUserId));
     logger.fd(
       'User $redactedId successfully logged in.',
       className: runtimeType.toString(),
@@ -120,7 +92,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
 
   /// Switches to another account if it exists.
   Future<void> switchAccount(String localUserId) async {
-    emit(const SwitchingAccountsState());
+    emit(const SwitchingAccounts());
     await FileService.instance.initialize();
 
     final redactedId = redactUserId(localUserId);
@@ -151,11 +123,11 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
           className: runtimeType.toString(),
           methodName: 'switchAccount',
         );
-        emit(VerifyIdentityState(userId: localUserId));
+        emit(VerifyingIdentity(userId: localUserId));
         return;
       }
     }
-    final currentlyLoggedInUser = _store.state.loggedInUserId;
+    final currentlyLoggedInUser = _store.state.loggedInAppUserId;
     if (currentlyLoggedInUser != localUserId) {
       await _notificationService.cancelUserNotifications(localUserId);
     }
@@ -177,9 +149,10 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       authToken: decryptedState.credentials.token,
       clientCertificate: decryptedState.credentials.clientCertificate,
       baseUrl: localUserData.localUser.serverUrl,
+      broadcast: false,
     );
 
-    _store.setLoggedInUserId(localUserId);
+    _store.setLoggedInAppUserId(localUserId);
 
     final apiVersion = await _getApiVersion(_sessionManager.client);
 
@@ -190,37 +163,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       apiVersion,
     );
 
-    emit(AuthenticatedState(localUserId: localUserId));
-  }
-
-  Future<String> addAccount({
-    required LoginFormCredentials credentials,
-    required String serverUrl,
-    ClientCertificate? clientCertificate,
-    required bool enableBiometricAuthentication,
-    required String locale,
-  }) async {
-    assert(credentials.password != null && credentials.username != null);
-    final localUserId = "${credentials.username}@$serverUrl";
-    final redactedId = redactUserId(localUserId);
-    logger.fd(
-      "Adding account $redactedId...",
-      className: runtimeType.toString(),
-      methodName: 'switchAccount',
-    );
-
-    final SessionManager sessionManager = SessionManagerImpl([
-      LanguageHeaderInterceptor(() => locale),
-    ]);
-    await _addUser(
-      localUserId,
-      serverUrl,
-      credentials,
-      clientCertificate,
-      sessionManager,
-    );
-
-    return localUserId;
+    emit(Authenticated(localUserId: localUserId));
   }
 
   Future<void> removeAccount(String userId) async {
@@ -239,14 +182,14 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   /// Restores the previous session if exists.
   ///
   Future<void> restoreSession([String? userId]) async {
-    emit(const RestoringSessionState());
+    emit(const RestoringSession());
     logger.fd(
       "Trying to restore previous session...",
       className: runtimeType.toString(),
       methodName: 'restoreSession',
     );
     final globalSettings = _store.state.globalSettings;
-    final restoreSessionUserId = userId ?? _store.state.loggedInUserId;
+    final restoreSessionUserId = userId ?? _store.state.loggedInAppUserId;
     // final localUserId = globalSettings.loggedInUserId;
     if (restoreSessionUserId == null ||
         !_store.state.localUserData.containsKey(restoreSessionUserId)) {
@@ -257,9 +200,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       );
       final otherAccountsExist = _store.state.localUserData.isNotEmpty;
       // If there is nothing to restore, we can quit here.
-      emit(
-        UnauthenticatedState(redirectToAccountSelection: otherAccountsExist),
-      );
+      emit(Unauthenticated(redirectToAccountSelection: otherAccountsExist));
       return;
     }
     final localUserData = _store.state.localUserData[restoreSessionUserId]!;
@@ -281,7 +222,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
           className: runtimeType.toString(),
           methodName: 'restoreSession',
         );
-        emit(VerifyIdentityState(userId: restoreSessionUserId));
+        emit(VerifyingIdentity(userId: restoreSessionUserId));
         return;
       }
       logger.fd(
@@ -325,6 +266,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       clientCertificate: decryptedState.credentials.clientCertificate,
       authToken: decryptedState.credentials.token,
       baseUrl: localUserData.localUser.serverUrl,
+      broadcast: false,
     );
     logger.fd(
       "Security context successfully updated.",
@@ -363,8 +305,8 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         methodName: 'restoreSession',
       );
     }
-    _store.setLoggedInUserId(restoreSessionUserId);
-    emit(AuthenticatedState(localUserId: restoreSessionUserId));
+    _store.setLoggedInAppUserId(restoreSessionUserId);
+    emit(Authenticated(localUserId: restoreSessionUserId));
 
     logger.fd(
       "Previous session successfully restored.",
@@ -375,7 +317,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
 
   Future<void> logout([bool shouldRemoveAccount = false]) async {
     emit(const LoggingOutState());
-    final userId = _store.state.loggedInUserId!;
+    final userId = _store.state.loggedInAppUserId!;
     final redactedId = redactUserId(userId);
 
     logger.fd(
@@ -390,13 +332,13 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
 
     final otherAccountsExist = _store.state.localUserData.keys.length > 1;
 
-    emit(UnauthenticatedState(redirectToAccountSelection: otherAccountsExist));
+    emit(Unauthenticated(redirectToAccountSelection: otherAccountsExist));
 
     if (shouldRemoveAccount) {
       await removeAccount(userId);
     }
 
-    _store.setLoggedInUserId(null);
+    _store.setLoggedInAppUserId(null);
 
     logger.fd(
       "User successfully logged out.",
@@ -430,17 +372,17 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     );
   }
 
-  Future<int> _addUser(
+  ///
+  /// Adds the user to the local store and persists necessary data.
+  ///
+  Future<void> _addUser(
     String localUserId,
     String serverUrl,
-    LoginFormCredentials credentials,
+    String username,
+    String token,
     ClientCertificate? clientCert,
-    SessionManager sessionManager, {
-    _FutureVoidCallback? onBeforeLogin,
-    _FutureVoidCallback? onBeforePersistLocalUserData,
-    _FutureVoidCallback? onFetchUserInformation,
-  }) async {
-    assert(credentials.username != null && credentials.password != null);
+    SessionManager sessionManager,
+  ) async {
     final redactedId = redactUserId(localUserId);
 
     logger.fd(
@@ -452,33 +394,8 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     sessionManager.updateSettings(
       baseUrl: serverUrl,
       clientCertificate: clientCert,
-    );
-
-    await onBeforeLogin?.call();
-
-    logger.fd(
-      "Fetching bearer token from the server...",
-      className: runtimeType.toString(),
-      methodName: '_addUser',
-    );
-
-    final token = await _authenticationApi.token(
-      PaperlessAuthTokenRequest(
-        username: credentials.username!,
-        password: credentials.password!,
-      ),
-    );
-
-    logger.fd(
-      "Bearer token successfully retrieved.",
-      className: runtimeType.toString(),
-      methodName: '_addUser',
-    );
-
-    sessionManager.updateSettings(
-      baseUrl: serverUrl,
-      clientCertificate: clientCert,
       authToken: token,
+      broadcast: false,
     );
 
     if (_store.state.localUserData.containsKey(localUserId)) {
@@ -489,7 +406,6 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       );
       throw InfoMessageException(code: ErrorCode.userAlreadyExists);
     }
-    await onFetchUserInformation?.call();
 
     final apiVersion = await _getApiVersion(sessionManager.client);
     logger.fd(
@@ -512,6 +428,9 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       );
 
       rethrow;
+    } catch (error) {
+      print(error);
+      return;
     }
     if (serverUser == null) {
       logger.fe(
@@ -533,15 +452,14 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       methodName: '_addUser',
     );
 
-    await onBeforePersistLocalUserData?.call();
-
-    _store.updateUserData(
+    _store.setUserData(
       localUserId,
-      (_) => LocalUserData(
+      LocalUserData(
         userId: localUserId,
         localUser: LocalUserAccount(
+          appUserId: localUserId,
           serverUrl: serverUrl,
-          paperlessUser: serverUser!,
+          paperlessUser: serverUser,
           apiVersion: apiVersion,
         ),
       ),
@@ -575,21 +493,19 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     );
 
     _store.updateGlobalSettings(
-      _store.state.globalSettings.copyWith(
+      (state) => state.copyWith(
         knownHosts: {
           ..._store.state.globalSettings.knownHosts,
           serverUrl,
         }.toList(),
       ),
     );
-
-    return serverUser.id;
   }
 
   Future<int> _getApiVersion(
     Dio dio, {
     Duration? timeout,
-    int defaultValue = 2,
+    int defaultValue = 9,
   }) async {
     logger.fd(
       "Trying to fetch API version...",
@@ -602,7 +518,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         options: Options(sendTimeout: timeout),
       );
       int apiVersion = int.parse(
-        response.headers.value('x-api-version') ?? "3",
+        response.headers.value('x-api-version') ?? "9",
       );
       if (apiVersion > latestSupportedApiVersion) {
         logger.fw(
@@ -653,7 +569,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     }
     _store.updateUserData(
       userId,
-      (_) => _store.state.localUserData[userId]!.copyWith(
+      (state) => state.copyWith(
         localUser: localUserAccount.copyWith(
           paperlessUser: updatedPaperlessUser,
           apiVersion: apiVersion,

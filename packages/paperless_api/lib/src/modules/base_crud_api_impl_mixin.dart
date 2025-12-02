@@ -50,13 +50,13 @@ mixin BaseCrudApiImplMixin<Model, Request, PatchedRequest, FilterOptions>
   }
 
   @override
-  Future<Model?> get(int id, {bool? fullPerms}) {
+  Future<Model?> get(int id) {
     return getSingleResult(
       '$path/$id/',
       parse,
       getErrorCode,
       client: client,
-      queryParams: removeNullValues({'full_perms': fullPerms}),
+      queryParams: removeNullValues({'full_perms': true}),
     );
   }
 

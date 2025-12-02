@@ -15,7 +15,6 @@ import 'package:paperless_mobile/features/document_search/view/remove_history_en
 import 'package:paperless_mobile/features/documents/view/widgets/adaptive_documents_view.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/selection/view_type_selection_widget.dart';
 import 'package:paperless_mobile/features/settings/model/view_type.dart';
-import 'package:paperless_mobile/features/settings/view/widgets/global_settings_builder.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/routing/routes/documents_route.dart';
 
@@ -63,87 +62,78 @@ class _DocumentSearchPageState extends State<DocumentSearchPage> {
   Widget build(BuildContext context) {
     const progressIndicatorHeight = 4.0;
     final theme = Theme.of(context);
-
-    return GlobalSettingsBuilder(
-      builder: (context, globalSettings) {
-        return Scaffold(
-          appBar: AppBar(
-            backgroundColor: theme.colorScheme.surfaceContainerHighest,
-            toolbarHeight: 72 - progressIndicatorHeight,
-            leading: BackButton(color: theme.colorScheme.onSurfaceVariant),
-            title: Hero(
-              tag: "search_hero_tag",
-              child: TextField(
-                autofocus: true,
-                // style: theme.textTheme.bodyLarge?.apply(
-                //   color: theme.colorScheme.onSurface,
-                // ),
-                focusNode: _queryFocusNode,
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.zero,
-                  hintText: S.of(context)!.searchDocuments,
-                  border: InputBorder.none,
-                ),
-                controller: _queryController,
-                textInputAction: TextInputAction.search,
-                onSubmitted: (query) {
-                  FocusScope.of(context).unfocus();
-                  _debounceTimer?.cancel();
-                  context.localStore.updateLoggedInUserAppState(
-                    (state) => state.copyWith(
-                      documentSearchHistory: [
-                        ...state.documentSearchHistory.whereNot(
-                          (e) => e == query,
-                        ),
-                        query,
-                      ],
-                    ),
-                  );
-                  setState(() {
-                    _searchTerm = query;
-                    _searchView = SearchView.results;
-                  });
-                },
-              ),
-            ).accessible(),
-            actions: [
-              IconButton(
-                color: theme.colorScheme.onSurfaceVariant,
-                icon: const Icon(Icons.clear),
-                onPressed: () {
-                  _queryController.clear();
-                },
-              ).padded(),
-            ],
-            bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(progressIndicatorHeight),
-              child: QueryBuilder(
-                query: context.read<SearchRepository>().autocompleteQuery(
-                  _queryController.text,
-                ),
-                builder: (context, state) {
-                  if (state.isLoading) {
-                    return const LinearProgressIndicator();
-                  }
-                  return ColoredBox(
-                    color: Theme.of(context).colorScheme.surface,
-                  );
-                },
-              ),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: theme.colorScheme.surfaceContainerHighest,
+        toolbarHeight: 72 - progressIndicatorHeight,
+        leading: BackButton(color: theme.colorScheme.onSurfaceVariant),
+        title: Hero(
+          tag: "search_hero_tag",
+          child: TextField(
+            autofocus: true,
+            // style: theme.textTheme.bodyLarge?.apply(
+            //   color: theme.colorScheme.onSurface,
+            // ),
+            focusNode: _queryFocusNode,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.zero,
+              hintText: S.of(context)!.searchDocuments,
+              border: InputBorder.none,
             ),
+            controller: _queryController,
+            textInputAction: TextInputAction.search,
+            onSubmitted: (query) {
+              FocusScope.of(context).unfocus();
+              _debounceTimer?.cancel();
+              context.localStore.updateLoggedInUserAppState(
+                (state) => state.copyWith(
+                  documentSearchHistory: [
+                    ...state.documentSearchHistory.whereNot((e) => e == query),
+                    query,
+                  ],
+                ),
+              );
+              setState(() {
+                _searchTerm = query;
+                _searchView = SearchView.results;
+              });
+            },
           ),
-          body: Column(
-            children: [
-              Expanded(
-                child: switch (_searchView) {
-                  SearchView.suggestions => _buildSuggestionsView(),
-                  SearchView.results => _buildResultsView(),
-                },
-              ),
-            ],
+        ).accessible(),
+        actions: [
+          IconButton(
+            color: theme.colorScheme.onSurfaceVariant,
+            icon: const Icon(Icons.clear),
+            onPressed: () {
+              _queryController.clear();
+            },
+          ).padded(),
+        ],
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(progressIndicatorHeight),
+          child: QueryBuilder(
+            query: context.read<SearchRepository>().autocompleteQuery(
+              _queryController.text,
+            ),
+            builder: (context, state) {
+              if (state.isLoading) {
+                return const LinearProgressIndicator();
+              }
+              return ColoredBox(color: Theme.of(context).colorScheme.surface);
+            },
           ),
-        );
-      },
+        ),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: switch (_searchView) {
+              SearchView.suggestions => _buildSuggestionsView(),
+              SearchView.results => _buildResultsView(),
+            },
+          ),
+        ],
+      ),
     );
   }
 

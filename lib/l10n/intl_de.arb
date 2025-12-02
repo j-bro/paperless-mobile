@@ -111,7 +111,7 @@
   "@shareTooltip": {
     "description": "Tooltip shown for the share button on details page"
   },
-  "similarDocuments": "Similar Documents",
+  "similarDocuments": "Ähnliche Dokumente",
   "@similarDocuments": {
     "description": "Label shown in the tabbar on details page"
   },
@@ -470,25 +470,25 @@
   "@name": {},
   "notAssigned": "Nicht zugewiesen",
   "@notAssigned": {},
-  "addNewCorrespondent": "Erstelle neuen Korrespondenten",
+  "addNewCorrespondent": "Neuen Korrespondenten erstellen",
   "@addNewCorrespondent": {},
   "noCorrespondentsSetUp": "Es wurden noch keine Korrespondenten angelegt.",
   "@noCorrespondentsSetUp": {},
   "correspondents": "Korrespondenten",
   "@correspondents": {},
-  "addNewDocumentType": "Erstelle neuen Dokumenttypen",
+  "addNewDocumentType": "Neuen Dokumenten-Typ erstellen",
   "@addNewDocumentType": {},
   "noDocumentTypesSetUp": "Es wurden noch keine Dokumenttypen angelegt.",
   "@noDocumentTypesSetUp": {},
   "documentTypes": "Dokumenttypen",
   "@documentTypes": {},
-  "addNewStoragePath": "Erstelle neuen Speicherpfad",
+  "addNewStoragePath": "Neuen Speicherpfad erstellen",
   "@addNewStoragePath": {},
   "noStoragePathsSetUp": "Es wurden noch keine Speicherpfade angelegt.",
   "@noStoragePathsSetUp": {},
   "storagePaths": "Speicherpfade",
   "@storagePaths": {},
-  "addNewTag": "Erstelle neuen Tag",
+  "addNewTag": "Neuen Tag erstellen",
   "@addNewTag": {},
   "noTagsSetUp": "Es wurden noch keine Tags angelegt.",
   "@noTagsSetUp": {},
@@ -1044,5 +1044,8 @@
   },
   "permissions": "Berechtigungen",
   "newNote": "Neue Notiz",
-  "notesMarkdownSyntaxSupportHint": "Paperless Mobile unterstützt Markdown-Syntax zur Darstellung und Formatierung von Notizen. Probiere es aus!"
+  "notesMarkdownSyntaxSupportHint": "Paperless Mobile unterstützt Markdown-Syntax zur Darstellung und Formatierung von Notizen. Probiere es aus!",
+  "mfaCodeRequiredValidationMessage": "Please enter the MFA code.",
+  "mfaCodeInvalidLengthValidationMessage": "MFA code must be 6 digits.",
+  "mfaFormFieldHint": "Your account is protected by two-factor authentication. Please enter an authentication code:"
 }

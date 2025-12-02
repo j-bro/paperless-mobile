@@ -1,0 +1,226 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:paperless_mobile/core/store/local_store.dart';
+import 'package:paperless_mobile/features/login/authenticate_user/cubit/authenticate_user_cubit.dart';
+import 'package:paperless_mobile/features/login/authenticate_user/view/authenticate_user_page.dart';
+import 'package:paperless_mobile/features/login/authenticate_user/view/otp_input_page.dart';
+import 'package:paperless_mobile/features/login/cubit/authentication_cubit.dart';
+import 'package:paperless_mobile/features/login/model/client_certificate.dart';
+import 'package:paperless_mobile/features/login/server_connection/cubit/server_connection_cubit.dart';
+import 'package:paperless_mobile/features/login/server_connection/view/server_connection_page.dart';
+import 'package:paperless_mobile/features/login/set_active_user/set_active_user_page.dart';
+import 'package:paperless_mobile/features/login/view/login_to_existing_account_page.dart';
+import 'package:paperless_mobile/features/login/view/verify_identity_page.dart';
+import 'package:paperless_mobile/features/login/view/widgets/login_transition_page.dart';
+import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
+import 'package:paperless_mobile/routing/navigation_keys.dart';
+import 'package:paperless_mobile/routing/routes.dart';
+
+part 'auth_route.g.dart';
+
+@TypedGoRoute<AuthRoute>(
+  path: '/auth',
+  name: R.loginConnectToServer,
+  routes: [
+    TypedGoRoute<AuthenticateRoute>(
+      path: 'login',
+      name: R.loginAuthenticate,
+      routes: [TypedGoRoute<OtpRoute>(path: 'otp', name: R.loginOtp)],
+    ),
+    TypedGoRoute<SwitchingAccountsRoute>(
+      path: "switching-account",
+      name: R.switchingAccount,
+    ),
+    TypedGoRoute<VerifyIdentityRoute>(
+      path: 'verify-identity',
+      name: R.verifyIdentity,
+    ),
+    TypedGoRoute<RestoringSessionRoute>(
+      path: 'restoring-session',
+      name: R.restoringSession,
+    ),
+  ],
+)
+class AuthRoute extends GoRouteData with $AuthRoute {
+  static final $parentNavigatorKey = rootNavigatorKey;
+
+  final String? initialHost;
+
+  /// The redirect chain determines the flow for authentication.
+  final ClientCertificate? $extra;
+
+  const AuthRoute({this.initialHost, this.$extra});
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return MaterialPage(
+      child: BlocProvider(
+        create: (context) => ServerConnectionCubit(context.read()),
+        child: ServerConnectionPage(
+          initialHost: initialHost,
+          initialClientCertificate: $extra,
+        ),
+      ),
+    );
+  }
+}
+
+class AuthenticateRoute extends GoRouteData with $AuthenticateRoute {
+  static final $parentNavigatorKey = rootNavigatorKey;
+
+  final String serverUrl;
+  final String? initialUsername;
+  final String? initialPassword;
+  final ClientCertificate? $extra;
+
+  const AuthenticateRoute({
+    required this.serverUrl,
+    this.initialUsername,
+    this.initialPassword,
+    this.$extra,
+  });
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return MaterialPage(
+      child: BlocProvider(
+        create: (context) => AuthenticateUserCubit(),
+        child: AuthenticateUserPage(
+          serverUrl: serverUrl,
+          initialUsername: initialUsername,
+          initialPassword: initialPassword,
+          clientCertificate: $extra,
+        ),
+      ),
+    );
+  }
+}
+
+class OtpRoute extends GoRouteData with $OtpRoute {
+  static final $parentNavigatorKey = rootNavigatorKey;
+
+  final String serverUrl;
+  final String username;
+  final String password;
+  final ClientCertificate? $extra;
+
+  const OtpRoute({
+    required this.serverUrl,
+    required this.username,
+    required this.password,
+    this.$extra,
+  });
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return BlocProvider(
+      create: (context) => AuthenticateUserCubit(),
+      child: OtpInputPage(
+        serverUrl: serverUrl,
+        username: username,
+        password: password,
+        clientCertificate: $extra,
+      ),
+    );
+  }
+}
+
+class SwitchingAccountsRoute extends GoRouteData with $SwitchingAccountsRoute {
+  static final $parentNavigatorKey = rootNavigatorKey;
+
+  const SwitchingAccountsRoute();
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return NoTransitionPage(
+      child: LoginTransitionPage(
+        text: S.of(context)!.switchingAccountsPleaseWait,
+      ),
+    );
+  }
+}
+
+@TypedGoRoute<SetActiveUserRoute>(
+  path: '/set-active-user',
+  name: R.setActiveUser,
+)
+class SetActiveUserRoute extends GoRouteData with $SetActiveUserRoute {
+  final String username;
+  final String serverUrl;
+  final String token;
+  final ClientCertificate? $extra;
+
+  SetActiveUserRoute({
+    required this.username,
+    required this.serverUrl,
+    required this.token,
+    required this.$extra,
+  });
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return SetActiveUserPage(
+      serverUrl: serverUrl,
+      username: username,
+      token: token,
+      clientCertificate: $extra,
+    );
+  }
+}
+
+class VerifyIdentityRoute extends GoRouteData with $VerifyIdentityRoute {
+  static final $parentNavigatorKey = rootNavigatorKey;
+
+  final String userId;
+  const VerifyIdentityRoute({required this.userId});
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return NoTransitionPage(child: VerifyIdentityPage(userId: userId));
+  }
+}
+
+@TypedGoRoute<LoginToExistingAccountRoute>(
+  path: '/existing',
+  name: R.loginToExistingAccount,
+)
+class LoginToExistingAccountRoute extends GoRouteData
+    with $LoginToExistingAccountRoute {
+  static final $parentNavigatorKey = rootNavigatorKey;
+
+  const LoginToExistingAccountRoute();
+
+  @override
+  FutureOr<String?> redirect(BuildContext context, GoRouterState state) {
+    final shouldRedirect = context
+        .read<LocalStore>()
+        .state
+        .localUserData
+        .isEmpty;
+    if (shouldRedirect) {
+      return "/auth";
+    }
+    return null;
+  }
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return const NoTransitionPage(child: LoginToExistingAccountPage());
+  }
+}
+
+class RestoringSessionRoute extends GoRouteData with $RestoringSessionRoute {
+  static final $parentNavigatorKey = rootNavigatorKey;
+
+  const RestoringSessionRoute();
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return NoTransitionPage(
+      child: LoginTransitionPage(text: S.of(context)!.restoringSession),
+    );
+  }
+}

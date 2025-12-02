@@ -69,7 +69,7 @@ class _DocumentEditPageState extends State<DocumentEditPage>
 
   @override
   Widget build(BuildContext context) {
-    final currentUser = context.watch<LocalUserAccount>().paperlessUser;
+    final currentUser = context.loggedInUser$.paperlessUser;
     return QueryBuilder(
       query: context.read<DocumentRepository>().getDocumentQuery(
         widget.documentId,

@@ -17,7 +17,7 @@ import 'package:paperless_api/generated/lib/src/model/suggestions.dart';
 import 'package:paperless_api/src/models/request/document_filter_options.dart';
 
 abstract class PaperlessDocumentsApi {
-  Future<String?> create(
+  Future<String> create(
     Uint8List documentBytes, {
     required String filename,
     String? title,
@@ -31,7 +31,7 @@ abstract class PaperlessDocumentsApi {
     void Function(double progress)? onProgressChanged,
   });
   Future<PaginatedDocumentList> getAll([DocumentFilterOptions? options]);
-  Future<Document> get(int id, {bool? fullPerms, List<String>? fields});
+  Future<Document> get(int id, {List<String>? fields});
   Future<Document> put(int id, DocumentRequest document);
   Future<Document> patch(int id, PatchedDocumentRequest document);
   Future<void> delete(int id);

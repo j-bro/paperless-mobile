@@ -19,70 +19,70 @@ part 'metadata.g.dart';
 class Metadata {
   /// Returns a new [Metadata] instance.
   Metadata({
-    required this.originalChecksum,
+    this.originalChecksum,
 
-    required this.originalSize,
+    this.originalSize,
 
-    required this.originalMimeType,
+    this.originalMimeType,
 
-    required this.mediaFilename,
+    this.mediaFilename,
 
-    required this.hasArchiveVersion,
+    this.hasArchiveVersion,
 
-    required this.originalMetadata,
+    this.originalMetadata,
 
-    required this.archiveChecksum,
+    this.archiveChecksum,
 
-    required this.archiveMediaFilename,
+    this.archiveMediaFilename,
 
-    required this.originalFilename,
+    this.originalFilename,
 
-    required this.archiveSize,
+    this.archiveSize,
 
-    required this.archiveMetadata,
+    this.archiveMetadata,
 
-    required this.lang,
+    this.lang,
   });
 
-  @JsonKey(name: r'original_checksum', required: true, includeIfNull: false)
-  final String originalChecksum;
+  @JsonKey(name: r'original_checksum', required: false, includeIfNull: false)
+  final String? originalChecksum;
 
-  @JsonKey(name: r'original_size', required: true, includeIfNull: false)
-  final int originalSize;
+  @JsonKey(name: r'original_size', required: false, includeIfNull: false)
+  final int? originalSize;
 
-  @JsonKey(name: r'original_mime_type', required: true, includeIfNull: false)
-  final String originalMimeType;
+  @JsonKey(name: r'original_mime_type', required: false, includeIfNull: false)
+  final String? originalMimeType;
 
-  @JsonKey(name: r'media_filename', required: true, includeIfNull: false)
-  final String mediaFilename;
+  @JsonKey(name: r'media_filename', required: false, includeIfNull: false)
+  final String? mediaFilename;
 
-  @JsonKey(name: r'has_archive_version', required: true, includeIfNull: false)
-  final bool hasArchiveVersion;
+  @JsonKey(name: r'has_archive_version', required: false, includeIfNull: false)
+  final bool? hasArchiveVersion;
 
-  @JsonKey(name: r'original_metadata', required: true, includeIfNull: false)
-  final Map<String, Object> originalMetadata;
+  @JsonKey(name: r'original_metadata', required: false, includeIfNull: false)
+  final List<Object>? originalMetadata;
 
-  @JsonKey(name: r'archive_checksum', required: true, includeIfNull: false)
-  final String archiveChecksum;
+  @JsonKey(name: r'archive_checksum', required: false, includeIfNull: false)
+  final String? archiveChecksum;
 
   @JsonKey(
     name: r'archive_media_filename',
-    required: true,
+    required: false,
     includeIfNull: false,
   )
-  final String archiveMediaFilename;
+  final String? archiveMediaFilename;
 
-  @JsonKey(name: r'original_filename', required: true, includeIfNull: false)
-  final String originalFilename;
+  @JsonKey(name: r'original_filename', required: false, includeIfNull: false)
+  final String? originalFilename;
 
-  @JsonKey(name: r'archive_size', required: true, includeIfNull: false)
-  final int archiveSize;
+  @JsonKey(name: r'archive_size', required: false, includeIfNull: false)
+  final int? archiveSize;
 
-  @JsonKey(name: r'archive_metadata', required: true, includeIfNull: false)
-  final Map<String, Object> archiveMetadata;
+  @JsonKey(name: r'archive_metadata', required: false, includeIfNull: false)
+  final List<Object>? archiveMetadata;
 
-  @JsonKey(name: r'lang', required: true, includeIfNull: false)
-  final String lang;
+  @JsonKey(name: r'lang', required: false, includeIfNull: false)
+  final String? lang;
 
   @override
   bool operator ==(Object other) {

@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:paperless_api/generated/lib/src/model/saved_view.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/accessibility/accessible_page.dart';
 import 'package:paperless_mobile/core/store/local_store.dart';
@@ -53,7 +54,7 @@ part 'authenticated_route.g.dart';
               path: "/documents",
               routes: [
                 TypedGoRoute<DocumentDetailsRoute>(
-                  path: "details/:id",
+                  path: ":id",
                   name: R.documentDetails,
                   routes: [],
                 ),
@@ -128,7 +129,7 @@ class AuthenticatedRoute extends ShellRouteData {
       child: Builder(
         builder: (context) {
           final localStoreState = context.watch<LocalStore>().state;
-          final currentUserId = localStoreState.loggedInUserId;
+          final currentUserId = localStoreState.loggedInAppUserId;
           final authenticatedUser =
               localStoreState.localUserData[currentUserId]?.localUser;
           if (currentUserId == null || authenticatedUser == null) {

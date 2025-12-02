@@ -29,7 +29,7 @@ class EditTagPage extends StatelessWidget {
       onDelete: (context, label) async {
         await context.tagRepository.deleteMutation.mutate(label.id);
       },
-      canDelete: context.watch<LocalUserAccount>().paperlessUser.canDeleteTags,
+      canDelete: context.loggedInUser$.paperlessUser.canDeleteTags,
       additionalFields: [
         FormBuilderColorPickerField(
           initialValue: tag.color,

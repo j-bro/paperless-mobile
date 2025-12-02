@@ -23,10 +23,7 @@ class EditDocumentTypePage extends StatelessWidget {
       onDelete: (context, label) async {
         await context.documentTypeRepository.deleteMutation.mutate(label.id);
       },
-      canDelete: context
-          .watch<LocalUserAccount>()
-          .paperlessUser
-          .canDeleteDocumentTypes,
+      canDelete: context.loggedInUser$.paperlessUser.canDeleteDocumentTypes,
     );
   }
 }

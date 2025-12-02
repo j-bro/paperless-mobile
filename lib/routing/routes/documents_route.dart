@@ -14,9 +14,12 @@ import 'package:paperless_mobile/core/repository/document_type_repository.dart';
 import 'package:paperless_mobile/core/repository/storage_path_repository.dart';
 import 'package:paperless_mobile/features/document_bulk_action/view/widgets/fullscreen_bulk_edit_label_page.dart';
 import 'package:paperless_mobile/features/document_bulk_action/view/widgets/fullscreen_bulk_edit_tags_widget.dart';
-import 'package:paperless_mobile/features/document_details/cubit/document_details_cubit.dart';
 import 'package:paperless_mobile/features/document_details/view/pages/document_details_page.dart';
+import 'package:paperless_mobile/features/document_details/document_download/cubit/document_download_cubit.dart';
 import 'package:paperless_mobile/features/document_edit/view/document_edit_page.dart';
+import 'package:paperless_mobile/features/document_details/document_open_in_system/cubit/document_open_in_system_cubit.dart';
+import 'package:paperless_mobile/features/document_details/document_print/cubit/document_print_cubit.dart';
+import 'package:paperless_mobile/features/document_details/document_share/cubit/document_share_cubit.dart';
 import 'package:paperless_mobile/features/documents/view/pages/document_view.dart';
 import 'package:paperless_mobile/features/documents/view/pages/documents_page.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
@@ -61,14 +64,38 @@ class DocumentDetailsRoute extends GoRouteData with $DocumentDetailsRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return BlocProvider(
-      create: (_) => DocumentDetailsCubit(
-        context.read(),
-        context.read(),
-        context.read(),
-        id: id,
-      )..initialize(),
-      lazy: false,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => DocumentDownloadCubit(
+            context.read(),
+            context.read(),
+            context.read(),
+            documentId: id,
+          ),
+        ),
+        BlocProvider(
+          create: (context) => DocumentShareCubit(
+            context.read(),
+            context.read(),
+            documentId: id,
+          ),
+        ),
+        BlocProvider(
+          create: (context) => DocumentOpenInSystemCubit(
+            context.read(),
+            context.read(),
+            documentId: id,
+          ),
+        ),
+        BlocProvider(
+          create: (context) => DocumentPrintCubit(
+            context.read(),
+            context.read(),
+            documentId: id,
+          ),
+        ),
+      ],
       child: DocumentDetailsPage(
         id: id,
         isLabelClickable: isLabelClickable,

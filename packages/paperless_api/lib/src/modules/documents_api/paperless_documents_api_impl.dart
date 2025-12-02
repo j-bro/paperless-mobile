@@ -25,7 +25,7 @@ class PaperlessDocumentsApiImpl implements PaperlessDocumentsApi {
   PaperlessDocumentsApiImpl(this.client);
 
   @override
-  Future<String?> create(
+  Future<String> create(
     Uint8List documentBytes, {
     required String filename,
     String? title,
@@ -73,7 +73,7 @@ class PaperlessDocumentsApiImpl implements PaperlessDocumentsApi {
           onProgressChanged?.call(count.toDouble() / total.toDouble());
         },
       );
-      return response.data;
+      return response.data!;
     } on DioException catch (exception) {
       throw exception.unravel(
         orElse: const PaperlessApiException(ErrorCode.documentUploadFailed),
@@ -249,10 +249,14 @@ class PaperlessDocumentsApiImpl implements PaperlessDocumentsApi {
   }
 
   @override
-  Future<Document> get(int id, {List<String>? fields, bool? fullPerms}) async {
+  Future<Document> get(int id, {List<String>? fields}) async {
     try {
       final response = await client.get(
         "/api/documents/$id/",
+        queryParameters: {
+          if (fields != null) 'fields': fields.join(','),
+          'full_perms': 'true',
+        },
         options: Options(
           sendTimeout: Duration(seconds: 10),
           receiveTimeout: Duration(seconds: 10),
@@ -267,11 +271,11 @@ class PaperlessDocumentsApiImpl implements PaperlessDocumentsApi {
   @override
   Future<List<Note>> deleteNote(int documentId, int noteId) async {
     try {
-      final response = await client.delete<List<Map<String, dynamic>>>(
+      final response = await client.delete<List<dynamic>>(
         "/api/documents/$documentId/notes/",
         queryParameters: {'id': noteId},
       );
-      return response.data?.map(Note.fromJson).toList() ?? [];
+      return response.data?.map((e) => Note.fromJson(e)).toList() ?? [];
     } on DioException catch (exception) {
       throw exception.unravel(
         orElse: const PaperlessApiException(ErrorCode.deleteNoteFailed),
@@ -282,11 +286,11 @@ class PaperlessDocumentsApiImpl implements PaperlessDocumentsApi {
   @override
   Future<List<Note>> addNote(int documentId, String text) async {
     try {
-      final response = await client.post<List<Map<String, dynamic>>>(
+      final response = await client.post<List<dynamic>>(
         "/api/documents/$documentId/notes/",
         data: {'note': text},
       );
-      return response.data?.map(Note.fromJson).toList() ?? [];
+      return response.data?.map((e) => Note.fromJson(e)).toList() ?? [];
     } on DioException catch (exception) {
       throw exception.unravel(
         orElse: const PaperlessApiException(ErrorCode.addNoteFailed),
@@ -358,11 +362,11 @@ class PaperlessDocumentsApiImpl implements PaperlessDocumentsApi {
   @override
   Future<List<Note>> getNotes(int id, {int? page, int? pageSize}) async {
     try {
-      final response = await client.get<List<Map<String, dynamic>>>(
+      final response = await client.get<List<dynamic>>(
         "/api/documents/$id/notes/",
         queryParameters: {'page': page, 'page_size': pageSize},
       );
-      return response.data?.map(Note.fromJson).toList() ?? [];
+      return response.data?.map((e) => Note.fromJson(e)).toList() ?? [];
     } on DioException catch (exception) {
       throw exception.unravel(orElse: const PaperlessApiException.unknown());
     }

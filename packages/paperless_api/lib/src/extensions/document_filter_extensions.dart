@@ -31,6 +31,7 @@ extension SavedViewRequestExtensions on DocumentFilter {
 }
 
 extension DocumentFilterOptionsConverter on DocumentFilter {
-  DocumentFilterOptions toDocumentFilterOptions() =>
-      DocumentFilterOptions.fromJson(toQueryParameters());
+  DocumentFilterOptions toDocumentFilterOptions() {
+    return DocumentFilterOptions.fromJson(toQueryParameters());
+  }
 }

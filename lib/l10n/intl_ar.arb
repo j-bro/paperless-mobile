@@ -1,0 +1,1051 @@
+{
+  "developedBy": "تم تطويره من قِبَل {name}.",
+  "@developedBy": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "addAnotherAccount": "أضف حسابا آخر",
+  "@addAnotherAccount": {},
+  "account": "الحساب",
+  "@account": {},
+  "addCorrespondent": "مراسل جديد",
+  "@addCorrespondent": {
+    "description": "Title when adding a new correspondent"
+  },
+  "addDocumentType": "نوع مستند جديد",
+  "@addDocumentType": {
+    "description": "Title when adding a new document type"
+  },
+  "addStoragePath": "مسار تخزين جديد",
+  "@addStoragePath": {
+    "description": "Title when adding a new storage path"
+  },
+  "addTag": "وسم جديد",
+  "@addTag": {
+    "description": "Title when adding a new tag"
+  },
+  "aboutThisApp": "حول هذا التطبيق",
+  "@aboutThisApp": {
+    "description": "Label for about this app tile displayed in the drawer"
+  },
+  "loggedInAs": "تم تسجيل الدخول باسم {name}",
+  "@loggedInAs": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "disconnect": "قطع الاتصال",
+  "@disconnect": {
+    "description": "Logout button label"
+  },
+  "reportABug": "الإبلاغ عن خلل",
+  "@reportABug": {},
+  "settings": "الإعدادات",
+  "@settings": {},
+  "authenticateOnAppStart": "المصادقة عند بدء التطبيق",
+  "@authenticateOnAppStart": {
+    "description": "Description of the biometric authentication settings tile"
+  },
+  "biometricAuthentication": "المصادقة البيومترية",
+  "@biometricAuthentication": {},
+  "authenticateToToggleBiometricAuthentication": "{mode, select, enable{مصادقة لتمكين المصادقة البيومترية} disable{مصادقة لتعطيل المصادقة البيومترية} other{}}",
+  "@authenticateToToggleBiometricAuthentication": {
+    "placeholders": {
+      "mode": {}
+    }
+  },
+  "documents": "المستندات",
+  "@documents": {},
+  "inbox": "صندوق الوارد",
+  "@inbox": {},
+  "labels": "التسميات",
+  "@labels": {},
+  "scanner": "الماسحة الضوئية",
+  "@scanner": {},
+  "startTyping": "إبدإ الكتابة...",
+  "@startTyping": {},
+  "doYouReallyWantToDeleteThisView": "هل تريد حذف هذا العرض حقاً؟",
+  "@doYouReallyWantToDeleteThisView": {},
+  "deleteView": "حذف العرض {name}؟",
+  "@deleteView": {},
+  "addedAt": "تاريخ الاضافة",
+  "@addedAt": {},
+  "archiveSerialNumber": "الإشاري",
+  "@archiveSerialNumber": {},
+  "asn": "إشاري",
+  "@asn": {},
+  "correspondent": "المراسل",
+  "@correspondent": {},
+  "createdAt": "أنشِئَ في",
+  "@createdAt": {},
+  "documentSuccessfullyDeleted": "تم حذف المستند بنجاح.",
+  "@documentSuccessfullyDeleted": {},
+  "assignAsn": "تعيين الإشاري",
+  "@assignAsn": {},
+  "deleteDocumentTooltip": "حذف",
+  "@deleteDocumentTooltip": {
+    "description": "Tooltip shown for the delete button on details page"
+  },
+  "downloadDocumentTooltip": "تنزيل",
+  "@downloadDocumentTooltip": {
+    "description": "Tooltip shown for the download button on details page"
+  },
+  "editDocumentTooltip": "تحرير",
+  "@editDocumentTooltip": {
+    "description": "Tooltip shown for the edit button on details page"
+  },
+  "loadFullContent": "تحميل كامل المحتوى",
+  "@loadFullContent": {},
+  "noAppToDisplayPDFFilesFound": "تعذّر العثور على تطبيق لعرض ملفات PD!",
+  "@noAppToDisplayPDFFilesFound": {},
+  "openInSystemViewer": "فتح في عارض النظام",
+  "@openInSystemViewer": {},
+  "couldNotOpenFilePermissionDenied": "تعذر فتح الملف: تم رفض الإذن.",
+  "@couldNotOpenFilePermissionDenied": {},
+  "previewTooltip": "معاينة",
+  "@previewTooltip": {
+    "description": "Tooltip shown for the preview button on details page"
+  },
+  "shareTooltip": "مشاركة",
+  "@shareTooltip": {
+    "description": "Tooltip shown for the share button on details page"
+  },
+  "similarDocuments": "مستندات مشابهة",
+  "@similarDocuments": {
+    "description": "Label shown in the tabbar on details page"
+  },
+  "content": "المحتوى",
+  "@content": {
+    "description": "Label shown in the tabbar on details page"
+  },
+  "metaData": "البيانات الوصفية",
+  "@metaData": {
+    "description": "Label shown in the tabbar on details page"
+  },
+  "overview": "لمحة عامة",
+  "@overview": {
+    "description": "Label shown in the tabbar on details page"
+  },
+  "documentType": "نوع المستند",
+  "@documentType": {},
+  "archivedPdf": "مؤرشف (pdf)",
+  "@archivedPdf": {
+    "description": "Option to chose when downloading a document"
+  },
+  "chooseFiletype": "إختَر نوع الملف",
+  "@chooseFiletype": {},
+  "original": "أصلي",
+  "@original": {
+    "description": "Option to chose when downloading a document"
+  },
+  "documentSuccessfullyDownloaded": "تم تنزيل المستند بنجاح.",
+  "@documentSuccessfullyDownloaded": {},
+  "suggestions": "اقتراحات: ",
+  "@suggestions": {},
+  "editDocument": "تحرير المستند",
+  "@editDocument": {},
+  "advanced": "متقدم",
+  "@advanced": {},
+  "apply": "تطبيق التغييرات",
+  "@apply": {},
+  "extended": "موسعة",
+  "@extended": {},
+  "titleAndContent": "العنوان و المحتوى",
+  "@titleAndContent": {},
+  "title": "العنوان",
+  "@title": {},
+  "reset": "إعادة الضبط",
+  "@reset": {},
+  "filterDocuments": "فلترة المستندات",
+  "@filterDocuments": {
+    "description": "Title of the document filter"
+  },
+  "originalMD5Checksum": "فحص كتلة MD5 الأصلية",
+  "@originalMD5Checksum": {},
+  "mediaFilename": "اسم ملف الوسائط",
+  "@mediaFilename": {},
+  "originalFileSize": "حجم الملف الأصلي",
+  "@originalFileSize": {},
+  "originalMIMEType": "نوع ملف MIME الأصلي",
+  "@originalMIMEType": {},
+  "modifiedAt": "تاريخ التعديل",
+  "@modifiedAt": {},
+  "preview": "معاينة",
+  "@preview": {
+    "description": "Title of the document preview page"
+  },
+  "scanADocument": "مسح مستند ضوئيّاً",
+  "@scanADocument": {},
+  "noDocumentsScannedYet": "لم يتم مسح أي مستندات حتى الآن.",
+  "@noDocumentsScannedYet": {},
+  "or": "أو",
+  "@or": {
+    "description": "Used on the scanner page between both main actions when no scans have been captured."
+  },
+  "deleteAllScans": "حذف كل الممسوحات ضوئياً",
+  "@deleteAllScans": {},
+  "uploadADocumentFromThisDevice": "رفع مستند من هذا الجهاز",
+  "@uploadADocumentFromThisDevice": {
+    "description": "Button label on scanner page"
+  },
+  "noMatchesFound": "لم يتم العثور على أي تطابقات.",
+  "@noMatchesFound": {
+    "description": "Displayed when no documents were found in the document search."
+  },
+  "removeFromSearchHistory": "إزالة من سجل البحث؟",
+  "@removeFromSearchHistory": {},
+  "results": "النتائج",
+  "@results": {
+    "description": "Label displayed above search results in document search."
+  },
+  "searchDocuments": "البحث في المستندات",
+  "@searchDocuments": {},
+  "resetFilter": "إعادة تعيين فلاتر الفرز",
+  "@resetFilter": {},
+  "lastMonth": "الشهر الماضي",
+  "@lastMonth": {},
+  "last7Days": "آخر 7 أيام",
+  "@last7Days": {},
+  "last3Months": "آخر 3 أشهر",
+  "@last3Months": {},
+  "lastYear": "السنة الماضية",
+  "@lastYear": {},
+  "search": "بحث",
+  "@search": {},
+  "documentsSuccessfullyDeleted": "تم حذف المستندات بنجاحٍ.",
+  "@documentsSuccessfullyDeleted": {},
+  "thereSeemsToBeNothingHere": "يبدو أنه لا يوجد شيء هنا...",
+  "@thereSeemsToBeNothingHere": {},
+  "oops": "المعذرة.",
+  "@oops": {},
+  "newDocumentAvailable": "مستند جديد متاح!",
+  "@newDocumentAvailable": {},
+  "orderBy": "الترتيب بحسب",
+  "@orderBy": {},
+  "thisActionIsIrreversibleDoYouWishToProceedAnyway": "هذا الإجراء لا رجعة فيه. هل ترغب في المضي قدما على أي حال؟",
+  "@thisActionIsIrreversibleDoYouWishToProceedAnyway": {},
+  "confirmDeletion": "تأكيد الحذف",
+  "@confirmDeletion": {},
+  "areYouSureYouWantToDeleteTheFollowingDocuments": "{count, plural, zero {}one{هل أنت متأكد من أنك تريد حذف المستند التالي؟} two {هل أنت متأكد من أنك تريد حذف المستندات التالية؟} few {هل أنت متأكد من أنك تريد حذف المستندات التالية؟} many {هل أنت متأكد من أنك تريد حذف المستندات التالية؟} other{هل أنت متأكد من أنك تريد حذف المستندات التالية؟}}",
+  "@areYouSureYouWantToDeleteTheFollowingDocuments": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "countSelected": "تم تحديد {count}",
+  "@countSelected": {
+    "description": "Displayed in the appbar when at least one document is selected.",
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "storagePath": "مسار التخزين",
+  "@storagePath": {},
+  "prepareDocument": "تحضير المستند",
+  "@prepareDocument": {},
+  "tags": "وسوم",
+  "@tags": {},
+  "documentSuccessfullyUpdated": "تم تحديث المستند بنجاح.",
+  "@documentSuccessfullyUpdated": {},
+  "fileName": "اسم الملف",
+  "@fileName": {},
+  "synchronizeTitleAndFilename": "مزامنة العنوان و اسم الملف",
+  "@synchronizeTitleAndFilename": {},
+  "reload": "إعادة التحميل",
+  "@reload": {},
+  "documentSuccessfullyUploadedProcessing": "تم رفع المستند بنجاح. المعالجة جارية...",
+  "@documentSuccessfullyUploadedProcessing": {},
+  "deleteLabelWarningText": "تحتوي هذه التسمية على إشارات إلى مستندات أخرى. بحذف هذه التسمية ، سيتم إزالة جميع المراجع. هل تريد المتابعة؟",
+  "@deleteLabelWarningText": {},
+  "couldNotAcknowledgeTasks": "تعذّر قبول الإقرار بالمهام.",
+  "@couldNotAcknowledgeTasks": {},
+  "authenticationFailedPleaseTryAgain": "فشلت المصادقة، الرجاء المحاولة مرة أخرى.",
+  "@authenticationFailedPleaseTryAgain": {},
+  "anErrorOccurredWhileTryingToAutocompleteYourQuery": "حدث خطأ أثناء محاولة إكمال استعلامك تلقائياً.",
+  "@anErrorOccurredWhileTryingToAutocompleteYourQuery": {},
+  "biometricAuthenticationFailed": "فشل المصادقة البيومترية.",
+  "@biometricAuthenticationFailed": {},
+  "biometricAuthenticationNotSupported": "المصادقة البيومترية غير مدعومة على هذا الجهاز.",
+  "@biometricAuthenticationNotSupported": {},
+  "couldNotBulkEditDocuments": "لا يمكن تحرير المستندات بالجملة.",
+  "@couldNotBulkEditDocuments": {},
+  "couldNotCreateCorrespondent": "تعذر إنشاء مراسل، الرجاء المحاولة مرة أخرى.",
+  "@couldNotCreateCorrespondent": {},
+  "couldNotLoadCorrespondents": "تعذر تحميل المراسلين.",
+  "@couldNotLoadCorrespondents": {},
+  "couldNotCreateSavedView": "تعذر إنشاء طريقة عرض محفوظة، يرجى المحاولة مرة أخرى.",
+  "@couldNotCreateSavedView": {},
+  "couldNotDeleteSavedView": "لا يمكن حذف العرض المحفوظ، الرجاء المحاولة مرة أخرى",
+  "@couldNotDeleteSavedView": {},
+  "youAreCurrentlyOffline": "أنت حاليا غير متصل. الرجاء التأكد من اتصالك بالإنترنت.",
+  "@youAreCurrentlyOffline": {},
+  "couldNotAssignArchiveSerialNumber": "تعذر تعيين الرقم الإشاري.",
+  "@couldNotAssignArchiveSerialNumber": {},
+  "couldNotDeleteDocument": "تعذر حذف المستند، الرجاء المحاولة مرة أخرى.",
+  "@couldNotDeleteDocument": {},
+  "couldNotLoadDocuments": "تعذر تحميل المستندات، الرجاء المحاولة مرة أخرى.",
+  "@couldNotLoadDocuments": {},
+  "couldNotLoadDocumentPreview": "تعذر تحميل معاينة المستند.",
+  "@couldNotLoadDocumentPreview": {},
+  "couldNotCreateDocument": "تعذر إنشاء المستند، الرجاء المحاولة مرة أخرى.",
+  "@couldNotCreateDocument": {},
+  "couldNotLoadDocumentTypes": "تعذر تحميل أنواع المستندات، الرجاء المحاولة مرة أخرى.",
+  "@couldNotLoadDocumentTypes": {},
+  "couldNotUpdateDocument": "تعذر تحديث المستند، الرجاء المحاولة مرة أخرى.",
+  "@couldNotUpdateDocument": {},
+  "couldNotUploadDocument": "تعذر رفع المستند، الرجاء المحاولة مرة أخرى.",
+  "@couldNotUploadDocument": {},
+  "invalidCertificateOrMissingPassphrase": "شهادة مصادقة غير صالحة أو عبارة مرور مفقودة، الرجاء المحاولة مرة أخرى",
+  "@invalidCertificateOrMissingPassphrase": {},
+  "couldNotLoadSavedViews": "تعذر تحميل العروض المحفوظة.",
+  "@couldNotLoadSavedViews": {},
+  "aClientCertificateWasExpectedButNotSent": "كان من المتوقع الحصول على شهادة مصادقة للعميل ولكن لم يتم إرسالها. الرجاء تقديم شهادة عميل صالحة.",
+  "@aClientCertificateWasExpectedButNotSent": {},
+  "userIsNotAuthenticated": "لم تتم المصادقة على المستخدم.",
+  "@userIsNotAuthenticated": {},
+  "requestTimedOut": "انتهت مهلة طلب الخادوم.",
+  "@requestTimedOut": {},
+  "anErrorOccurredRemovingTheScans": "حدث خطأ أثناء إزالة المستندات الممسوحة.",
+  "@anErrorOccurredRemovingTheScans": {},
+  "couldNotReachYourPaperlessServer": "لا يمكن الوصول إلى خادوم paperless عندك. هل أنت متأكد من أنه قيد التشغيل؟",
+  "@couldNotReachYourPaperlessServer": {},
+  "couldNotLoadSimilarDocuments": "تعذر تحميل المستندات المشابهة.",
+  "@couldNotLoadSimilarDocuments": {},
+  "couldNotCreateStoragePath": "تعذر إنشاء مسار تخزين، الرجاء المحاولة مرة أخرى.",
+  "@couldNotCreateStoragePath": {},
+  "couldNotLoadStoragePaths": "تعذر تحميل مسارات التخزين.",
+  "@couldNotLoadStoragePaths": {},
+  "couldNotLoadSuggestions": "تعذر تحميل الاقتراحات.",
+  "@couldNotLoadSuggestions": {},
+  "couldNotCreateTag": "تعذر إنشاء الوَسم tag. يرجى المحاولة مرة أخرى.",
+  "@couldNotCreateTag": {},
+  "couldNotLoadTags": "تعذّر تحميل الوُسُوم tags.",
+  "@couldNotLoadTags": {},
+  "anUnknownErrorOccurred": "حدث خطأ غير معروف.",
+  "@anUnknownErrorOccurred": {},
+  "fileFormatNotSupported": "تنسيق هذا الملف غير مدعوم.",
+  "@fileFormatNotSupported": {},
+  "report": "تقرير",
+  "@report": {},
+  "absolute": "مُطلق",
+  "@absolute": {},
+  "hintYouCanAlsoSpecifyRelativeValues": "تلميح: بغض النظر عن التواريخ الثابتة، يمكنك أيضًا تحديد نطاق زمني نسبي إلى التاريخ الحالي.",
+  "@hintYouCanAlsoSpecifyRelativeValues": {
+    "description": "Displayed in the extended date range picker"
+  },
+  "amount": "الكمية",
+  "@amount": {},
+  "relative": "نسبي",
+  "@relative": {},
+  "last": "آخِر",
+  "@last": {},
+  "timeUnit": "وحدة الوقت",
+  "@timeUnit": {},
+  "selectDateRange": "حدِّد نطاق التاريخ",
+  "@selectDateRange": {},
+  "after": "بعد",
+  "@after": {},
+  "before": "قبل",
+  "@before": {},
+  "days": "{count, plural, zero{أيام} one{يوم} two {أيام} few {أيام} many {أيام} other{أيام}}",
+  "@days": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "lastNDays": "{count, plural, zero{} one{أمس} two {آخِر {count} أيام} few {آخِر {count} أيام} many {آخِر {count} أيام} other {آخِر {count} أيام}}",
+  "@lastNDays": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "lastNMonths": "{count, plural, zero{} one{آخر شهر} two {آخر {count} أشهر} few {آخر {count} أشهر} many {آخر {count} أشهر} other{آخر {count} أشهر}}",
+  "@lastNMonths": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "lastNWeeks": "{count, plural, zero{} one{آخر أسبوع} two {آخر {count} أسابيع} few {آخر {count} أسابيع} many {آخر {count} أسابيع} other{آخر {count} أسابيع}}",
+  "@lastNWeeks": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "lastNYears": "{count, plural, zero{} one{آخر سنة} two {آخر {count} سنوات} few {آخر {count} سنوات} many {آخر {count} سنوات} other{آخر {count} سنوات}}",
+  "@lastNYears": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "months": "{count, plural, zero{} one{شهر} two {شهر} few {months} many {شهور} other{شهور}}",
+  "@months": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "weeks": "{count, plural, zero{} one{أسبوع} two {أسابيع} few {أسابيع} many {أسابيع} other{أسابيع}}",
+  "@weeks": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "years": "{count, plural, zero{} one{سنة} two {سنوات} few {سنوات} many {سنوات} other{سنوات}}",
+  "@years": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "gotIt": "حسنا!",
+  "@gotIt": {},
+  "cancel": "إلغاء",
+  "@cancel": {},
+  "close": "أغلِق",
+  "@close": {},
+  "create": "إنشاء",
+  "@create": {},
+  "delete": "حذف",
+  "@delete": {},
+  "edit": "تحرير",
+  "@edit": {},
+  "ok": "موافق",
+  "@ok": {},
+  "save": "حفظ",
+  "@save": {},
+  "select": "تحديد",
+  "@select": {},
+  "saveChanges": "حفظ التغييرات",
+  "@saveChanges": {},
+  "upload": "رفع",
+  "@upload": {},
+  "youreOffline": "أنت غير متصل بالإنترنت.",
+  "@youreOffline": {},
+  "deleteDocument": "حذف المستند",
+  "@deleteDocument": {
+    "description": "Used as an action label on each inbox item"
+  },
+  "removeDocumentFromInbox": "تمت إزالة المستند من صندوق الوارد.",
+  "@removeDocumentFromInbox": {},
+  "areYouSureYouWantToMarkAllDocumentsAsSeen": "هل أنت متأكد من أنك تريد تمييز جميع المستندات كـ\"مقروء\"؟ سيؤدي هذا لإجراء بالجملة على جميع المستندات لإزالة وسم \"صندوق الوارد\" منها جميعاً. هذا الإجراء غير قابل للرجوع عنه! هل ترغب بالمتابعة؟",
+  "@areYouSureYouWantToMarkAllDocumentsAsSeen": {},
+  "markAllAsSeen": "تمييز الكل كـ\"مقروء\"؟",
+  "@markAllAsSeen": {},
+  "allSeen": "تمّت مشاهدة الكل",
+  "@allSeen": {},
+  "markAsSeen": "ميّزها كـ\"مقروء\"",
+  "@markAsSeen": {},
+  "refresh": "إعادة التحميل",
+  "@refresh": {},
+  "youDoNotHaveUnseenDocuments": "ليس لديك مستندات غير مقروءة.",
+  "@youDoNotHaveUnseenDocuments": {},
+  "quickAction": "إجراء سريع",
+  "@quickAction": {},
+  "suggestionSuccessfullyApplied": "تم تطبيق الاقتراح بنجاح.",
+  "@suggestionSuccessfullyApplied": {},
+  "today": "اليوم",
+  "@today": {},
+  "undo": "تراجع",
+  "@undo": {},
+  "nUnseen": "{count} غير مقروء",
+  "@nUnseen": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "swipeLeftToMarkADocumentAsSeen": "تلميح: اسحب لليسار لوضع وسم \"تمّت قراءته\" على المستند، و إزالة جميع وسم \"صندوق الوارد\" من المستند.",
+  "@swipeLeftToMarkADocumentAsSeen": {},
+  "yesterday": "أمس",
+  "@yesterday": {},
+  "anyAssigned": "أي تعيين",
+  "@anyAssigned": {},
+  "noItemsFound": "لم يتم العثور على أي عناصر!",
+  "@noItemsFound": {},
+  "caseIrrelevant": "حالة غير ذات صلة",
+  "@caseIrrelevant": {},
+  "matchingAlgorithm": "خوارزمية المطابقة",
+  "@matchingAlgorithm": {},
+  "match": "مطابقة",
+  "@match": {},
+  "name": "الإسم",
+  "@name": {},
+  "notAssigned": "غير معين",
+  "@notAssigned": {},
+  "addNewCorrespondent": "إضافة مراسل جديد",
+  "@addNewCorrespondent": {},
+  "noCorrespondentsSetUp": "يبدو أنه لم تتم تهيئة أي مراسلين لديك.",
+  "@noCorrespondentsSetUp": {},
+  "correspondents": "المراسلون",
+  "@correspondents": {},
+  "addNewDocumentType": "إضافة نوع مستند جديد",
+  "@addNewDocumentType": {},
+  "noDocumentTypesSetUp": "يبدو أنه لم تتم تهيئة أي نوع من المستندات لديك.",
+  "@noDocumentTypesSetUp": {},
+  "documentTypes": "أنواع المستندات",
+  "@documentTypes": {},
+  "addNewStoragePath": "إضافة مسار تخزين جديد",
+  "@addNewStoragePath": {},
+  "noStoragePathsSetUp": "يبدو أنه لم تتم تهيئة أي مسار تخزين لديك.",
+  "@noStoragePathsSetUp": {},
+  "storagePaths": "مسارات التخزين",
+  "@storagePaths": {},
+  "addNewTag": "إضافة وسم جديد",
+  "@addNewTag": {},
+  "noTagsSetUp": "يبدو أنه لم تتم تهيئة أي وسوم لديك.",
+  "@noTagsSetUp": {},
+  "linkedDocuments": "مستندات ذات صلة",
+  "@linkedDocuments": {},
+  "advancedSettings": "إعدادات متقدمة",
+  "@advancedSettings": {},
+  "passphrase": "كلمة المرور",
+  "@passphrase": {},
+  "configureMutualTLSAuthentication": "تهيئة مصادقة TLS المتبادلة",
+  "@configureMutualTLSAuthentication": {},
+  "invalidCertificateFormat": "تنسيق الشهادة غير صالح. تنسيق .pfx فقط مسموح به",
+  "@invalidCertificateFormat": {},
+  "clientcertificate": "شهادة العميل",
+  "@clientcertificate": {},
+  "selectFile": "حدّد الملف...",
+  "@selectFile": {},
+  "continueLabel": "إستمِر",
+  "@continueLabel": {},
+  "incorrectOrMissingCertificatePassphrase": "كلمة مرور شهادة المصادقة غير صحيحة أو مفقودة.",
+  "@incorrectOrMissingCertificatePassphrase": {},
+  "connect": "إتّصِل",
+  "@connect": {},
+  "password": "كلمة المرور",
+  "@password": {},
+  "passwordMustNotBeEmpty": "كلمة المرور يجب أن لا تكون فارغة.",
+  "@passwordMustNotBeEmpty": {},
+  "connectionTimedOut": "‏إنتهت مهلة الاتّصال.",
+  "@connectionTimedOut": {},
+  "loginPageReachabilityMissingClientCertificateText": "كان من المتوقع الحصول على شهادة مصادقة للعميل ولكن لم يتم إرسالها. الرجاء تقديم شهادة عميل صالحة.",
+  "@loginPageReachabilityMissingClientCertificateText": {},
+  "couldNotEstablishConnectionToTheServer": "تعذر إنشاء اتصال بالخادوم.",
+  "@couldNotEstablishConnectionToTheServer": {},
+  "connectionSuccessfulylEstablished": "تم إنشاء الاتصال بنجاح.",
+  "@connectionSuccessfulylEstablished": {},
+  "hostCouldNotBeResolved": "تعذر تحليل عنوان المضيف. الرجاء التحقق من عنوان الخادوم و من اتصالك بالإنترنت. ",
+  "@hostCouldNotBeResolved": {},
+  "serverAddress": "عنوان الخادوم",
+  "@serverAddress": {},
+  "invalidAddress": "عنوان غير صالح.",
+  "@invalidAddress": {},
+  "serverAddressMustIncludeAScheme": "يجب أن يتضمن عنوان الخادوم خطة scheme.",
+  "@serverAddressMustIncludeAScheme": {},
+  "serverAddressMustNotBeEmpty": "يجب ألا يكون عنوان الخادوم فارغاً.",
+  "@serverAddressMustNotBeEmpty": {},
+  "signIn": "تسجيل الدخول",
+  "@signIn": {},
+  "loginPageSignInTitle": "تسجيل الدخول",
+  "@loginPageSignInTitle": {},
+  "signInToServer": "تسجيل الدخول إلى {serverAddress}",
+  "@signInToServer": {
+    "placeholders": {
+      "serverAddress": {}
+    }
+  },
+  "connectToPaperless": "الاتصال بتطبيق Paperless",
+  "@connectToPaperless": {},
+  "username": "اسم المستخدم",
+  "@username": {},
+  "usernameMustNotBeEmpty": "اسم المستخدم يجب أن لا يكون فارغاً.",
+  "@usernameMustNotBeEmpty": {},
+  "documentContainsAllOfTheseWords": "المستند يحتوي على جميع هذه الكلمات",
+  "@documentContainsAllOfTheseWords": {},
+  "all": "الكل",
+  "@all": {},
+  "documentContainsAnyOfTheseWords": "المستند يحتوي على أيٍّ من هذه الكلمات",
+  "@documentContainsAnyOfTheseWords": {},
+  "any": "أي",
+  "@any": {},
+  "learnMatchingAutomatically": "تعلم المطابقة تلقائياً",
+  "@learnMatchingAutomatically": {},
+  "auto": "تلقائي",
+  "@auto": {},
+  "documentContainsThisString": "المستند يحتوي على هذه الكلمة",
+  "@documentContainsThisString": {},
+  "exact": "بالضبط",
+  "@exact": {},
+  "documentContainsAWordSimilarToThisWord": "المستند يحتوي على كلمة مشابهة لهذه الكلمة",
+  "@documentContainsAWordSimilarToThisWord": {},
+  "fuzzy": "مُبهَم",
+  "@fuzzy": {},
+  "documentMatchesThisRegularExpression": "المستند يتطابق مع هذا التعبير النمطي Regular Expression",
+  "@documentMatchesThisRegularExpression": {},
+  "regularExpression": "تعبير نمطي Regular Expression",
+  "@regularExpression": {},
+  "anInternetConnectionCouldNotBeEstablished": "تعذّر تأسيس اتصال بالإنترنت.",
+  "@anInternetConnectionCouldNotBeEstablished": {},
+  "done": "تم",
+  "@done": {},
+  "next": "التالي",
+  "@next": {},
+  "couldNotAccessReceivedFile": "تعذر الوصول إلى الملف المستلم. الرجاء محاولة فتح التطبيق قبل المشاركة.",
+  "@couldNotAccessReceivedFile": {},
+  "newView": "عرض جديد",
+  "@newView": {},
+  "createsASavedViewBasedOnTheCurrentFilterCriteria": "ينشئ طريقة عرض جديدة استنادًا إلى معايير الفلتر الحالية.",
+  "@createsASavedViewBasedOnTheCurrentFilterCriteria": {},
+  "createViewsToQuicklyFilterYourDocuments": "إنشاء مشاهدات لفلترة مستنداتك بسرعة.",
+  "@createViewsToQuicklyFilterYourDocuments": {},
+  "nFiltersSet": "{count, plural, zero{{count} مجموعة فلاتر} one{{count} مجموعة فلاتر} two {{count} مجموعة فلاتر} few {{count} مجموعة فلاتر} many {{count} مجموعة فلاتر} other{{count} مجموعة فلاتر}}",
+  "@nFiltersSet": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "showInSidebar": "إظهار في الشريط الجانبي",
+  "@showInSidebar": {},
+  "showOnDashboard": "إظهار في لوحة التحكم",
+  "@showOnDashboard": {},
+  "views": "طرق العرض",
+  "@views": {},
+  "clearAll": "محو الكل",
+  "@clearAll": {},
+  "scan": "مسح",
+  "@scan": {},
+  "previewScan": "معاينة",
+  "@previewScan": {},
+  "scrollToTop": "مرر لأعلى",
+  "@scrollToTop": {},
+  "paperlessServerVersion": "رقم إصدار خادوم Paperless",
+  "@paperlessServerVersion": {},
+  "darkTheme": "المظهر الداكن",
+  "@darkTheme": {},
+  "lightTheme": "المظهر الفاتح",
+  "@lightTheme": {},
+  "systemTheme": "إستعمل مظهر النظام",
+  "@systemTheme": {},
+  "appearance": "المظهر",
+  "@appearance": {},
+  "languageAndVisualAppearance": "اللغة والمظهر البصري",
+  "@languageAndVisualAppearance": {},
+  "applicationSettings": "التطبيق",
+  "@applicationSettings": {},
+  "colorSchemeHint": "إختَر بين مخطط ألوان كلاسيكي مستوحىً من الأخضر المعتاد ليـ paperless أو استخدم مخطط ألوان ديناميكي استنادًا إلى سمة النظام عندك.",
+  "@colorSchemeHint": {},
+  "colorSchemeNotSupportedWarning": "التيمة الديناميكية مدعومة فقط للأجهزة التي تشغل Android 12 أو أعلى. اختيار الخيار \"الديناميكي\" قد لا يكون له أي تأثير تبعاً لتطبيق نظام التشغيل عندك.",
+  "@colorSchemeNotSupportedWarning": {},
+  "colors": "الألوان",
+  "@colors": {},
+  "language": "اللغة",
+  "@language": {},
+  "security": "الأمن",
+  "@security": {},
+  "mangeFilesAndStorageSpace": "إدارة الملفات ومساحة التخزين",
+  "@mangeFilesAndStorageSpace": {},
+  "storage": "التخزين",
+  "@storage": {},
+  "dark": "داكن",
+  "@dark": {},
+  "light": "فاتح",
+  "@light": {},
+  "system": "النظام",
+  "@system": {},
+  "ascending": "تصاعدي",
+  "@ascending": {},
+  "descending": "تنازلي",
+  "@descending": {},
+  "storagePathDay": "يوم",
+  "@storagePathDay": {},
+  "storagePathMonth": "شهر",
+  "@storagePathMonth": {},
+  "storagePathYear": "سنة",
+  "@storagePathYear": {},
+  "color": "اللون",
+  "@color": {},
+  "filterTags": "فلترة الوسوم...",
+  "@filterTags": {},
+  "inboxTag": "وسم \"صندوق الوارد\"",
+  "@inboxTag": {},
+  "uploadInferValuesHint": "إذا قمت بتحديد قيم لهذه الحقول، فإن خادوم Paperless لديك لن يقوم باشتقاق القيم تلقائياً. إذا كنت تريد أن يتم ملء هذه القيم تلقائيًا بواسطة خادومك، أترُك الحقول فارغة.",
+  "@uploadInferValuesHint": {},
+  "useTheConfiguredBiometricFactorToAuthenticate": "استعمل عامل القياسات البيومترية المهيأ عندك للمصادقة على مستنداتك وفتحها.",
+  "@useTheConfiguredBiometricFactorToAuthenticate": {},
+  "verifyYourIdentity": "التحقق من هويتك",
+  "@verifyYourIdentity": {},
+  "verifyIdentity": "التحقق من الهوية",
+  "@verifyIdentity": {},
+  "detailed": "مفصل",
+  "@detailed": {},
+  "grid": "شبكة",
+  "@grid": {},
+  "list": "قائمة",
+  "@list": {},
+  "remove": "ازالة",
+  "removeQueryFromSearchHistory": "إزالة الاستعلام من سجل البحث؟",
+  "dynamicColorScheme": "ديناميكي",
+  "@dynamicColorScheme": {},
+  "classicColorScheme": "كلاسيكي",
+  "@classicColorScheme": {},
+  "notificationDownloadComplete": "اكتمَلَ التحميل",
+  "@notificationDownloadComplete": {
+    "description": "Notification title when a download has been completed."
+  },
+  "notificationDownloadingDocument": "تنزيل المستند",
+  "@notificationDownloadingDocument": {
+    "description": "Notification title shown when a document download is pending"
+  },
+  "archiveSerialNumberUpdated": "تمّ تحديث الإشاري.",
+  "@archiveSerialNumberUpdated": {
+    "description": "Message shown when the ASN has been updated."
+  },
+  "donateCoffee": "اشتر لي كوبا من القهوة",
+  "@donateCoffee": {
+    "description": "Label displayed in the app drawer"
+  },
+  "thisFieldIsRequired": "هذا الحقل مطلوب!",
+  "@thisFieldIsRequired": {
+    "description": "Message shown below the form field when a required field has not been filled out."
+  },
+  "confirm": "تأكيد",
+  "confirmAction": "تأكيد الإجراء",
+  "@confirmAction": {
+    "description": "Typically used as a title to confirm a previously selected action"
+  },
+  "areYouSureYouWantToContinue": "هل أنت متأكد من أنك تريد المتابعة؟",
+  "bulkEditTagsAddMessage": "{count, plural, zero {}one{هذه العملية سوف تضيف الوسوم {tags} إلى المستند المحدد.} two {هذه العملية سوف تضيف الوسوم {tags} إلى {count} المستندات المحددة.} few {هذه العملية سوف تضيف الوسوم {tags} إلى {count} المستندات المحددة.} many {هذه العملية سوف تضيف الوسوم {tags} إلى {count} المستندات المحددة.} other{هذه العملية سوف تضيف الوسوم {tags} إلى {count} المستندات المحددة.}}",
+  "@bulkEditTagsAddMessage": {
+    "description": "Message of the confirmation dialog when bulk adding tags."
+  },
+  "bulkEditTagsRemoveMessage": "{count, plural, zero {}one{هذه العملية سوف تحذف الوسوم {tags} من المستند المحدد.} two {هذه العملية سوف تحذف الوسوم {tags} من {count} المستندات المحددة.} few {هذه العملية سوف تحذف الوسوم {tags} من {count} المستندات المحددة.} many {هذه العملية سوف تحذف الوسوم {tags} من {count} المستندات المحددة.} other{هذه العملية سوف تحذف الوسوم {tags} من {count} المستندات المحددة.}}",
+  "@bulkEditTagsRemoveMessage": {
+    "description": "Message of the confirmation dialog when bulk removing tags."
+  },
+  "bulkEditTagsModifyMessage": "{count, plural, zero {}one{هذه العملية ستضيف الوسم {addTags} وستزيل الوسوم {removeTags} من المستند المحدد.} two {هذه العملية ستضيف الوسوم {addTags} وستزيل الوسوم {removeTags} من {count} المستندات المحددة.} few {هذه العملية ستضيف الوسوم {addTags} وستزيل الوسوم {removeTags} من {count} المستندات المحددة.} many {هذه العملية ستضيف الوسوم {addTags} وستزيل الوسوم {removeTags} من {count} المستندات المحددة.} other{هذه العملية ستضيف الوسوم {addTags} وستزيل الوسوم {removeTags} من {count} المستندات المحددة.}}",
+  "@bulkEditTagsModifyMessage": {
+    "description": "Message of the confirmation dialog when both adding and removing tags."
+  },
+  "bulkEditCorrespondentAssignMessage": "{count, plural, zero {}one{ستعين هذه العملية المراسل {correspondent} للمستند المحدد.} two {ستعين هذه العملية المراسل {correspondent} إلى {count} المستندات المحددة.} few {ستعين هذه العملية المراسل {correspondent} إلى {count} المستندات المحددة.} many {ستعين هذه العملية المراسل {correspondent} إلى {count} المستندات المحددة.} other{ستعين هذه العملية المراسل {correspondent} إلى {count} المستندات المحددة.}}",
+  "bulkEditDocumentTypeAssignMessage": "{count, plural, zero {}one{ستقوم هذه العملية بتعيين نوع المستند {docType} للمستند المحدد.} two {هذه العملية ستعين نوع المستند {docType} إلى {count} المستندات المحددة.} few {هذه العملية ستعين نوع المستند {docType} إلى {count} المستندات المحددة.} many {هذه العملية ستعين نوع المستند {docType} إلى {count} المستندات المحددة.} other{هذه العملية ستعين نوع المستند {docType} إلى {count} المستندات المحددة.}}",
+  "bulkEditStoragePathAssignMessage": "{count, plural, zero {}one{ستقوم هذه العملية بتعيين مسار التخزين {path} للمستند المحدد.} two {هذه العملية ستعين مسار التخزين {path} إلى {count} المستندات المحددة.} few {هذه العملية ستعين مسار التخزين {docType} إلى {count} المستندات المحددة.} many {هذه العملية ستعين مسار التخزين {docType} إلى {count} المستندات المحددة.} other{هذه العملية ستعين مسار التخزين {docType} إلى {count} المستندات المحددة.}}",
+  "bulkEditCorrespondentRemoveMessage": "{count, plural, zero {}one{هذه العملية ستزيل المراسل من المستند المحدد.} two {هذه العملية ستزيل المراسل من {count} المستندات المحددة.} few {هذه العملية ستزيل المراسل من {count} المستندات المحددة.} many {هذه العملية ستزيل المراسل من {count} المستندات المحددة.} other{هذه العملية ستزيل المراسل من {count} المستندات المحددة.}}",
+  "bulkEditDocumentTypeRemoveMessage": "{count, plural, zero {}one{هذه العملية ستزيل نوع المستند من المستند المحدد.} two {هذه العملية ستزيل نوع المستند من {count} المستندات المحددة.} few {هذه العملية ستزيل نوع المستند من {count} المستندات المحددة.} many {هذه العملية ستزيل نوع المستند من {count} المستندات المحددة.} other{هذه العملية ستزيل نوع المستند من {count} المستندات المحددة.}}",
+  "bulkEditStoragePathRemoveMessage": "{count, plural, zero {}one{هذه العملية ستزيل مسار التخزين من المستند المحدد.} two {هذه العملية ستزيل مسار التخزين من {count} المستندات المحددة.} few {هذه العملية ستزيل مسار التخزين من {count} المستندات المحددة.} many {هذه العملية ستزيل مسار التخزين من {count} المستندات المحددة.} other{هذه العملية ستزيل مسار التخزين من {count} المستندات المحددة.}}",
+  "anyTag": "أيّ",
+  "@anyTag": {
+    "description": "Label shown when any tag should be filtered"
+  },
+  "allTags": "الكل",
+  "@allTags": {
+    "description": "Label shown when a document has to be assigned to all selected tags"
+  },
+  "switchingAccountsPleaseWait": "تبديل الحسابات. يرجى الانتظار...",
+  "@switchingAccountsPleaseWait": {
+    "description": "Message shown while switching accounts is in progress."
+  },
+  "testConnection": "اختبار الاتصال",
+  "@testConnection": {
+    "description": "Button label shown on login page. Allows user to test whether the server is reachable or not."
+  },
+  "accounts": "الحسابات",
+  "@accounts": {
+    "description": "Title of the account management dialog"
+  },
+  "addAccount": "إضافة حساب",
+  "@addAccount": {
+    "description": "Label of add account action"
+  },
+  "switchAccount": "تبديل",
+  "@switchAccount": {
+    "description": "Label for switch account action"
+  },
+  "logout": "تسجيل الخروج",
+  "@logout": {
+    "description": "Generic Logout label"
+  },
+  "switchAccountTitle": "تبديل الحساب",
+  "@switchAccountTitle": {
+    "description": "Title of the dialog shown after adding an account, asking the user whether to switch to the newly added account or not."
+  },
+  "switchToNewAccount": "هل تريد التبديل إلى الحساب الجديد؟ يمكنك العودة عن التبديل في أي وقت.",
+  "@switchToNewAccount": {
+    "description": "Content of the dialog shown after adding an account, asking the user whether to switch to the newly added account or not."
+  },
+  "sourceCode": "الكود المصدري",
+  "findTheSourceCodeOn": "يمكنك العثور على البرنامج المصدري في",
+  "@findTheSourceCodeOn": {
+    "description": "Text before link to Paperless Mobile GitHub"
+  },
+  "rememberDecision": "تذكرّ اختياري",
+  "defaultDownloadFileType": "نوع الملف الافتراضي للتنزيل",
+  "@defaultDownloadFileType": {
+    "description": "Label indicating the default filetype to download (one of archived, original and always ask)"
+  },
+  "defaultShareFileType": "نوع الملف الافتراضي للمشاركة",
+  "@defaultShareFileType": {
+    "description": "Label indicating the default filetype to share (one of archived, original and always ask)"
+  },
+  "alwaysAsk": "إسأل دائماً",
+  "@alwaysAsk": {
+    "description": "Option to choose when the app should always ask the user which filetype to use"
+  },
+  "disableMatching": "عدم وسم المستندات تلقائيًا",
+  "@disableMatching": {
+    "description": "One of the options for automatic tagging of documents"
+  },
+  "none": "لا شيء",
+  "@none": {
+    "description": "One of available enum values of matching algorithm for tags"
+  },
+  "logInToExistingAccount": "تسجيل الدخول إلى الحساب الموجود",
+  "@logInToExistingAccount": {
+    "description": "Title shown on login page if at least one user is already known to the app."
+  },
+  "print": "طباعة",
+  "@print": {
+    "description": "Tooltip for print button"
+  },
+  "managePermissions": "إدارة الصلاحيات",
+  "@managePermissions": {
+    "description": "Button which leads user to manage permissions page"
+  },
+  "errorRetrievingServerVersion": "حدث خطأ أثناء محاولة تحليل رقم إصدار الخادوم.",
+  "@errorRetrievingServerVersion": {
+    "description": "Message shown at the bottom of the settings page when the remote server version could not be resolved."
+  },
+  "resolvingServerVersion": "جارٍ تحليل رقم إصدار الخادوم...",
+  "@resolvingServerVersion": {
+    "description": "Message shown while the app is loading the remote server version."
+  },
+  "goToLogin": "انتقل إلى تسجيل الدخول",
+  "@goToLogin": {
+    "description": "Label of the button shown on the login page to skip logging in to existing accounts and navigate user to login page"
+  },
+  "export": "تصدير",
+  "@export": {
+    "description": "Label for button that exports scanned images to pdf (before upload)"
+  },
+  "invalidFilenameCharacter": "أحرُف غير صالحة موجودة في اسم الملف: {characters}",
+  "@invalidFilenameCharacter": {
+    "description": "For validating filename in export dialogue"
+  },
+  "exportScansToPdf": "تصدير الممسوحات إلى PDF",
+  "@exportScansToPdf": {
+    "description": "title of the alert dialog when exporting scans to pdf"
+  },
+  "allScansWillBeMerged": "سيتم دمج جميع الممسوحات في ملف PDF واحد.",
+  "behavior": "السلوك",
+  "@behavior": {
+    "description": "Title of the settings concerning app beahvior"
+  },
+  "theme": "الثيمة",
+  "@theme": {
+    "description": "Title of the theme mode setting"
+  },
+  "clearCache": "محو ذاكرة التخزين المؤقت",
+  "@clearCache": {
+    "description": "Title of the clear cache setting"
+  },
+  "freeBytes": "{byteString} مُتاحة",
+  "@freeBytes": {
+    "description": "Text shown for clear storage settings"
+  },
+  "calculatingDots": "جارٍ الاحتساب...",
+  "@calculatingDots": {
+    "description": "Text shown when the byte size is still being calculated"
+  },
+  "freedDiskSpace": "تم بنحاحٍ تحرير {bytes} من مساحة القرص.",
+  "@freedDiskSpace": {
+    "description": "Message shown after clearing storage"
+  },
+  "uploadScansAsPdf": "رفع الممسوحات كـ PDF",
+  "@uploadScansAsPdf": {
+    "description": "Title of the setting which toggles whether scans are always uploaded as pdf"
+  },
+  "convertSinglePageScanToPdf": "دائمًا قم بتحويل ممسوحات الصفحة الواحدة إلى PDF قبل الرفع",
+  "@convertSinglePageScanToPdf": {
+    "description": "description of the upload scans as pdf setting"
+  },
+  "loginRequiredPermissionsHint": "يتطلب استخدام تطبيق paperless على الهاتف النقال مجموعة دنيا من أذونات المستخدم منذ الإصدار 1.14.0 papaerless-ngx فما فوق. لذلك، يرجى التأكد من أن المستخدم المراد تسجيل دخوله لديه الإذن لعرض المستخدمين الآخرين (User مستخدمون → View عرض) والإعدادات (UISettings إعدادات الواجهة → View عرض). إذا لم تكن لديك هذه الأذونات، يرجى الاتصال بمشرف خادوم paperless-ngx.",
+  "@loginRequiredPermissionsHint": {
+    "description": "Hint shown on the login page informing the user of the required permissions to use the app."
+  },
+  "missingPermissions": "ليس لديك الصلاحيات اللازمة للقيام بهذا الإجراء.",
+  "@missingPermissions": {
+    "description": "Message shown in a snackbar when a user without the reequired permissions performs an action."
+  },
+  "editView": "تعديل طريقة العرض",
+  "@editView": {
+    "description": "Title of the edit saved view page"
+  },
+  "donate": "تبرَّع",
+  "@donate": {
+    "description": "Label of the in-app donate button"
+  },
+  "donationDialogContent": "شكرا لك على النظر في دعم هذا التطبيق! بسبب سياسات الدفع في كلٍّ من جوجل و آبل لا يمكن عرض أي روابط تؤدي إلى تبرعات في التطبيق. ولا يسمح حتى بالربط بصفحة مستودع المشروع في هذا السياق. لذلك، ربما نتمنى أن تلقي نظرة على قسم \"التبرعات\" في ملف \"README إقرأني\" للمشروع. دعمك سيكون موضع تقدير كبير و سيمكننا من مواصلة تطوير هذا التطبيق. وشكراً!",
+  "@donationDialogContent": {
+    "description": "Text displayed in the donation dialog"
+  },
+  "noDocumentsFound": "لم يتم العثور على أيّ مستندات.",
+  "@noDocumentsFound": {
+    "description": "Message shown when no documents were found."
+  },
+  "couldNotDeleteCorrespondent": "تعذّر حذف المراسل؛ يُرجى المحاولة مرةً أخرى.",
+  "@couldNotDeleteCorrespondent": {
+    "description": "Message shown in snackbar when a correspondent could not be deleted."
+  },
+  "couldNotDeleteDocumentType": "تعذّر حذف نوع المستند؛ يًرجى المحاولة مرة أخرى.",
+  "@couldNotDeleteDocumentType": {
+    "description": "Message shown when a document type could not be deleted"
+  },
+  "couldNotDeleteTag": "تعذّر حذف الوَسم tag؛ يُرجى المحاولة مرة أخرى.",
+  "@couldNotDeleteTag": {
+    "description": "Message shown when a tag could not be deleted"
+  },
+  "couldNotDeleteStoragePath": "تعذّر حذف مسار التخزين؛ يُرجى المحاولة مرة أخرى.",
+  "@couldNotDeleteStoragePath": {
+    "description": "Message shown when a storage path could not be deleted"
+  },
+  "couldNotUpdateCorrespondent": "تعذّر إنشاء المراسل؛ يُرجى المحاولة مرة أخرى.",
+  "@couldNotUpdateCorrespondent": {
+    "description": "Message shown when a correspondent could not be updated"
+  },
+  "couldNotUpdateDocumentType": "تعذّر تحديث نوع المستند؛ يُرجى المحاولة مرة أخرى.",
+  "@couldNotUpdateDocumentType": {
+    "description": "Message shown when a document type could not be updated"
+  },
+  "couldNotUpdateTag": "تعذّر تحديث الوَسم tag؛ يُرجى المحاولة مرة أخرى.",
+  "@couldNotUpdateTag": {
+    "description": "Message shown when a tag could not be updated"
+  },
+  "couldNotLoadServerInformation": "تعذر تحميل معلومات الخادوم.",
+  "@couldNotLoadServerInformation": {
+    "description": "Message shown when the server information could not be loaded"
+  },
+  "couldNotLoadStatistics": "تعذر تحميل إحصائيات الخادوم.",
+  "@couldNotLoadStatistics": {
+    "description": "Message shown when the server statistics could not be loaded"
+  },
+  "couldNotLoadUISettings": "تعذر تحميل إعدادات واجهة المستخدم.",
+  "@couldNotLoadUISettings": {
+    "description": "Message shown when the UI settings could not be loaded"
+  },
+  "couldNotLoadTasks": "تعذر تحميل المهام.",
+  "@couldNotLoadTasks": {
+    "description": "Message shown when the tasks (e.g. document consumed) could not be loaded"
+  },
+  "userNotFound": "تعذر العثور على المستخدم.",
+  "@userNotFound": {
+    "description": "Message shown when the specified user (e.g. by id) could not be found"
+  },
+  "couldNotUpdateSavedView": "تعذر تحديث العرض المحفوظ؛ يرجى المحاولة مرة أخرى.",
+  "@couldNotUpdateSavedView": {
+    "description": "Message shown when a saved view could not be updated"
+  },
+  "couldNotUpdateStoragePath": "تعذّر تحديث مسار التخزين؛ يُرجى المحاولة مرة أخرى.",
+  "savedViewSuccessfullyUpdated": "تم تحديث العرض المحفوظ بنجاح.",
+  "@savedViewSuccessfullyUpdated": {
+    "description": "Message shown when a saved view was successfully updated."
+  },
+  "discardChanges": "تجاهل التغييرات؟",
+  "@discardChanges": {
+    "description": "Title of the alert dialog shown when a user tries to close a view with unsaved changes."
+  },
+  "savedViewChangedDialogContent": "لقد تغيرت شروط الفلترة في العرض الحالي. بإعادة تعيين الفلاتر ، ستفقد هذه التغييرات. هل مازلت ترغب في المتابعة؟",
+  "@savedViewChangedDialogContent": {
+    "description": "Content of the alert dialog shown when all of the following applies:\r\n* User has saved view selected\r\n* User has performed changes to the current document filter\r\n* User now tries to reset this filter without having saved the changes to the view."
+  },
+  "createFromCurrentFilter": "إنشاء من الفلتر الحالي",
+  "@createFromCurrentFilter": {
+    "description": "Tooltip of the \"New saved view\" button"
+  },
+  "home": "الصفحة الرئيسية",
+  "@home": {
+    "description": "Label of the \"Home\" route"
+  },
+  "welcomeUser": "مرحبًا يا {name}!",
+  "@welcomeUser": {
+    "description": "Top message shown on the home page"
+  },
+  "statistics": "الإحصائيات",
+  "documentsInInbox": "المستندات في صندوق الوارد",
+  "totalDocuments": "مجموع المستندات",
+  "totalCharacters": "مجموع الأحرف",
+  "showAll": "عرض الكل",
+  "@showAll": {
+    "description": "Button label shown on a saved view preview to open this view in the documents page"
+  },
+  "userAlreadyExists": "هذا المستخدم موجود مسبقاً.",
+  "@userAlreadyExists": {
+    "description": "Error message shown when the user tries to add an already existing account."
+  },
+  "youDidNotSaveAnyViewsYet": "أنت لم تقم بحفظ أي طرق عرض حتى الآن. قم بإنشاء طريقة عرض، و سيتم عرضها هنا.",
+  "@youDidNotSaveAnyViewsYet": {
+    "description": "Message shown when there are no saved views yet."
+  },
+  "tryAgain": "حاول مرة أخرى",
+  "discardFile": "تجاهل الملف؟",
+  "discard": "تجاهل",
+  "backToLogin": "العودة إلى تسجيل الدخول",
+  "skipEditingReceivedFiles": "تخطي تحرير الملفات المستلمة",
+  "uploadWithoutPromptingUploadForm": "الرفع دائمًا دون طلب نموذج الرفع عند مشاركة الملفات مع التطبيق.",
+  "authenticatingDots": "جارٍ المصادقة...",
+  "@authenticatingDots": {
+    "description": "Message shown when the app is authenticating the user"
+  },
+  "persistingUserInformation": "حفظ معلومات المستخدم...",
+  "fetchingUserInformation": "جلب معلومات المستخدم...",
+  "@fetchingUserInformation": {
+    "description": "Message shown when the app loads user data from the server"
+  },
+  "restoringSession": "استعادة الجلسة...",
+  "@restoringSession": {
+    "description": "Message shown when the user opens the app and the previous user is tried to be authenticated and logged in"
+  },
+  "documentsAssigned": "{count, plural, zero{لا مستندات} one{مستند واحد} two {{count} مستندات} few {{count}مستندات} many {{count} مستندات} other{{count} مستندات}}",
+  "@documentsAssigned": {
+    "description": "Text shown with a correspondent, document type etc. to indicate the number of documents this filter will maximally yield."
+  },
+  "discardChangesWarning": "لديك تغييرات غير محفوظة. إذا تابعت، سيتم فقدان جميع التغييرات. هل تريد تجاهل هذه التغييرات؟",
+  "@discardChangesWarning": {
+    "description": "Warning message shown when the user tries to close a route without saving the changes."
+  },
+  "changelog": "سِجل التغييرات",
+  "noLogsFoundOn": "لم يتم العثور على سجلات للحركة في {date}.",
+  "logfileBottomReached": "لقد وصلت إلى نهاية سجل الحركات هذا.",
+  "appLogs": "سجل حركات التطبيق {date}",
+  "saveLogsToFile": "حفظ سجل الحركات في ملف",
+  "copyToClipboard": "إنسَخ الى الحافظة",
+  "couldNotLoadLogfileFrom": "تعذر تحميل ملف سجل الحركات من {date}.",
+  "loadingLogsFrom": "جارٍ تحميل سجل الحركات من {date}...",
+  "clearLogs": "محو سجل الحركات من {date}",
+  "showPdf": "عرض PDF",
+  "@showPdf": {
+    "description": "Tooltip shown on the \"show pdf\" button on the document edit page"
+  },
+  "hidePdf": "إخفاء PDF",
+  "@hidePdf": {
+    "description": "Tooltip shown on the \"show pdf\" icon button on the document edit page"
+  },
+  "misc": "متفرقات",
+  "loggingOut": "جارٍ تسجيل الخروج...",
+  "testingConnection": "اختبار الاتصال...",
+  "@testingConnection": {
+    "description": "Text shown while the app tries to establish a connection to the specified host."
+  },
+  "version": "الإصدار {versionCode}",
+  "notes": "{count, plural, zero{ملاحظات} one{ملاحظة} two {ملاحظات} few {ملاحظات} many {ملاحظات} other{ملاحظات}}",
+  "addNote": "إضافة ملاحظة",
+  "newerVersionAvailable": "الإصدار الأحدث المتوفر:",
+  "dateOutOfRange": "يجب أن يكون التاريخ بين {firstDate} و {lastDate}.",
+  "@dateOutOfRange": {
+    "description": "Error message shown when the user tries to select a date outside of the allowed range.",
+    "placeholders": {
+      "firstDate": {
+        "type": "DateTime",
+        "format": "yMd"
+      },
+      "lastDate": {
+        "type": "DateTime",
+        "format": "yMd"
+      }
+    }
+  },
+  "permissions": "الأذونات",
+  "newNote": "ملاجظة جديدة",
+  "notesMarkdownSyntaxSupportHint": "يمكن لتطبيق paperless على الهاتف النقال تسجيل و عرض الملاحظات باستعمال تنسيق ماركداون. جرِّب ذلك!",
+  "mfaCodeRequiredValidationMessage": "Please enter the MFA code.",
+  "mfaCodeInvalidLengthValidationMessage": "MFA code must be 6 digits.",
+  "mfaFormFieldHint": "Your account is protected by two-factor authentication. Please enter an authentication code:"
+}

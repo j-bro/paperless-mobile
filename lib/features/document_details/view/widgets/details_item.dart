@@ -38,7 +38,8 @@ class DetailsItem extends StatelessWidget {
 
 class DetailsItemSkeleton extends StatelessWidget {
   final String label;
-  const DetailsItemSkeleton({super.key, required this.label});
+  final Widget? child;
+  const DetailsItemSkeleton({super.key, required this.label, this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -50,11 +51,12 @@ class DetailsItemSkeleton extends StatelessWidget {
             child: Text(label, style: Theme.of(context).textTheme.bodySmall),
           ),
           const SizedBox(height: 8),
-          Container(
-            width: double.infinity,
-            height: 16,
-            color: Colors.grey.shade300,
-          ),
+          child ??
+              Container(
+                width: double.infinity,
+                height: 16,
+                color: Colors.grey.shade300,
+              ),
         ],
       ),
     );

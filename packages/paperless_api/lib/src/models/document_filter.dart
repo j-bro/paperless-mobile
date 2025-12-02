@@ -34,6 +34,7 @@ class DocumentFilter extends Equatable {
   final TextQuery query;
   final int? moreLike;
   final int? selectedView;
+  final List<String>? fields;
 
   const DocumentFilter({
     this.documentType = const UnsetIdQueryParameter(),
@@ -51,6 +52,7 @@ class DocumentFilter extends Equatable {
     this.modified = const UnsetDateRangeQuery(),
     this.moreLike,
     this.selectedView,
+    this.fields,
   });
 
   bool get forceExtendedQuery {
@@ -61,8 +63,8 @@ class DocumentFilter extends Equatable {
 
   Map<String, dynamic> toQueryParameters() {
     List<MapEntry<String, dynamic>> params = [
-      MapEntry('page', '$page'),
-      MapEntry('page_size', '$pageSize'),
+      MapEntry('page', page),
+      MapEntry('page_size', pageSize),
       ...documentType.toQueryParameter('document_type').entries,
       ...correspondent.toQueryParameter('correspondent').entries,
       ...storagePath.toQueryParameter('storage_path').entries,
@@ -77,7 +79,8 @@ class DocumentFilter extends Equatable {
           'ordering',
           '${sortOrder.queryString}${sortField!.queryString}',
         ),
-      if (moreLike != null) MapEntry('more_like_id', moreLike.toString()),
+      if (moreLike != null) MapEntry('more_like_id', moreLike),
+      if (fields != null) MapEntry('fields', fields),
     ];
 
     // Reverse ordering can also be encoded using &reverse=1

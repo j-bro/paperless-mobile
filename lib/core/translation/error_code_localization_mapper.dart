@@ -84,8 +84,9 @@ String translateError(BuildContext context, ErrorCode code) {
       'Could not delete custom field, please try again.', //TODO: INTL
     ErrorCode.deleteNoteFailed => 'Could not delete note, please try again.',
     ErrorCode.addNoteFailed => 'Could not create note, please try again.',
+    _ => code.name,
     // TODO: Handle this case.
-    ErrorCode.mfaCodeRequired => throw UnimplementedError(),
+    ErrorCode.mfaCodeRequired => 'MFA Code required',
     // TODO: Handle this case.
     ErrorCode.customFieldUpdateFailed => throw UnimplementedError(),
     // TODO: Handle this case.

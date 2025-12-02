@@ -5590,6 +5590,7 @@ components:
           maxLength: 128
         content:
           type: string
+          nullable: true
           description:
             The raw, text-only data of the document. This field is primarily
             used for searching.
@@ -5636,6 +5637,7 @@ components:
           nullable: true
         permissions:
           type: object
+          nullable: true
           properties:
             view:
               type: object
@@ -5688,16 +5690,13 @@ components:
         - correspondent
         - document_type
         - id
-        - is_shared_by_requester
         - mime_type
         - modified
         - notes
         - original_file_name
         - page_count
-        - permissions
         - storage_path
         - tags
-        - user_can_change
     DocumentListRequest:
       type: object
       properties:
@@ -6498,8 +6497,8 @@ components:
         has_archive_version:
           type: boolean
         original_metadata:
-          type: object
-          additionalProperties: {}
+          type: array
+          items: {}
         archive_checksum:
           type: string
         archive_media_filename:
@@ -6509,23 +6508,10 @@ components:
         archive_size:
           type: integer
         archive_metadata:
-          type: object
-          additionalProperties: {}
+          type: array
+          items: {}
         lang:
           type: string
-      required:
-        - archive_checksum
-        - archive_media_filename
-        - archive_metadata
-        - archive_size
-        - has_archive_version
-        - lang
-        - media_filename
-        - original_checksum
-        - original_filename
-        - original_metadata
-        - original_mime_type
-        - original_size
     MethodEnum:
       enum:
         - set_correspondent

@@ -1,15 +1,14 @@
 import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:paperless_mobile/core/extensions/label_list_extension.dart';
+import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/repository/tag_repository.dart';
-import 'package:paperless_mobile/features/documents/view/widgets/placeholder/tags_placeholder.dart';
 import 'package:paperless_mobile/features/labels/tags/view/widgets/tag_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class TagsWidget extends StatelessWidget {
   final void Function(int tagId)? onTagSelected;
-  final List<int> tagIds;
+  final List<int>? tagIds;
   final bool isClickable;
   final bool showShortNames;
   final bool dense;
@@ -29,7 +28,7 @@ class TagsWidget extends StatelessWidget {
     required bool isClickable,
     required bool showShortNames,
     required bool dense,
-    required List<int> tagIds,
+    required List<int>? tagIds,
   }) = _MultiLineTagsWidget;
 
   const factory TagsWidget.sliver({
@@ -46,27 +45,39 @@ class TagsWidget extends StatelessWidget {
     return QueryBuilder(
       query: context.read<TagRepository>().getAllQuery(),
       builder: (context, state) {
-        if (state.isLoading) {
-          return Skeletonizer(
-            child: TagsPlaceholder(count: tagIds.length, dense: dense),
-          );
+        if (state.isError) {
+          return Text(
+            'Could not load tags. ${state.error}',
+          ); // TODO: INTL/error handling
         }
-
-        final tags = state.data?.toIdMap() ?? {};
-        return SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              for (final tag in tagIds)
-                if (tags.containsKey(tag))
-                  TagWidget(
-                    tag: tags[tag]!,
-                    isClickable: isClickable,
-                    onSelected: () => onTagSelected?.call(tag),
-                    showShortName: showShortNames,
-                    dense: dense,
+        final mockTags = _generateMockTags(tagIds ?? [1, 2, 3]);
+        final tags = state.data ?? mockTags;
+        final mappedTags = (tagIds ?? [1, 2, 3])
+            .map((id) => tags.firstWhere((tag) => tag.id == id))
+            .toList();
+        return Skeletonizer(
+          enabled: state.isLoading || tagIds == null,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                for (final tag in mappedTags)
+                  Skeleton.shade(
+                    child: TagWidget(
+                      tag: tag,
+                      isClickable: isClickable,
+                      onSelected: () {
+                        if (state.isSuccess) {
+                          // We can be sure that we operate on actual data here.
+                          onTagSelected?.call(tag.id);
+                        }
+                      },
+                      showShortName: showShortNames,
+                      dense: dense,
+                    ),
                   ),
-            ],
+              ],
+            ),
           ),
         );
       },
@@ -89,28 +100,32 @@ class _MultiLineTagsWidget extends TagsWidget {
     return QueryBuilder(
       query: context.read<TagRepository>().getAllQuery(),
       builder: (context, state) {
-        if (state.isLoading) {
-          return TagsPlaceholder(
-            count: tagIds.length,
-            dense: dense,
-            wrap: true,
-          );
+        if (state.isError) {
+          return Text('Could not load tags.'); // TODO: INTL/error handling
         }
-        final tags = state.data?.toIdMap() ?? {};
+        final mockTags = _generateMockTags(tagIds ?? [1, 2, 3]);
+        final tags = state.data ?? mockTags;
+        final mappedTags = (tagIds ?? [1, 2, 3])
+            .map((id) => tags.firstWhere((tag) => tag.id == id))
+            .toList();
         return Wrap(
           runAlignment: WrapAlignment.start,
           runSpacing: 4,
           spacing: 4,
           children: [
-            for (final tag in tagIds)
-              if (tags.containsKey(tag))
-                TagWidget(
-                  tag: tags[tag]!,
-                  isClickable: isClickable,
-                  onSelected: () => onTagSelected?.call(tag),
-                  showShortName: showShortNames,
-                  dense: dense,
-                ),
+            for (final tag in mappedTags)
+              TagWidget(
+                tag: tag,
+                isClickable: isClickable,
+                onSelected: () {
+                  if (state.isSuccess) {
+                    // We can be sure that we operate on actual data here.
+                    onTagSelected?.call(tag.id);
+                  }
+                },
+                showShortName: showShortNames,
+                dense: dense,
+              ),
           ],
         );
       },
@@ -133,29 +148,44 @@ class _SliverTagsWidget extends TagsWidget {
     return QueryBuilder(
       query: context.read<TagRepository>().getAllQuery(),
       builder: (context, state) {
-        if (state.isLoading) {
-          return SliverList.list(
-            children: List.generate(
-              tagIds.length,
-              (index) => TagPlaceholder(lengthIndex: index),
-            ),
-          );
-        }
-        final tags = state.data?.toIdMap() ?? {};
-        return SliverList.list(
-          children: [
-            for (final tag in tagIds)
-              if (tags.containsKey(tag))
+        final mockTags = _generateMockTags(tagIds ?? [1, 2, 3]);
+        final tags = state.data ?? mockTags;
+        final mappedTags = (tagIds ?? [1, 2, 3])
+            .map((id) => tags.firstWhere((tag) => tag.id == id))
+            .toList();
+        return Skeletonizer.sliver(
+          child: SliverList.list(
+            children: [
+              for (final tag in mappedTags)
                 TagWidget(
-                  tag: tags[tag]!,
+                  tag: tag,
                   isClickable: isClickable,
-                  onSelected: () => onTagSelected?.call(tag),
+                  onSelected: () {
+                    if (state.isSuccess) {
+                      // We can be sure that we operate on actual data here.
+                      onTagSelected?.call(tag.id);
+                    }
+                  },
                   showShortName: showShortNames,
                   dense: dense,
                 ),
-          ],
+            ],
+          ),
         );
       },
     );
   }
+}
+
+List<Tag> _generateMockTags(List<int> ids) {
+  return List<Tag>.generate(
+    ids.length,
+    (index) => Tag(
+      id: ids[index],
+      name: BoneMock.words(1),
+      documentCount: 0,
+      slug: BoneMock.words(1),
+      userCanChange: false,
+    ),
+  );
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/features/sharing/cubit/receive_share_cubit.dart';
-import 'package:paperless_mobile/features/sharing/view/widgets/file_thumbnail.dart';
 import 'package:paperless_mobile/features/sharing/view/widgets/event_listener_shell.dart';
+import 'package:paperless_mobile/features/sharing/view/widgets/file_thumbnail.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:path/path.dart' as p;
 import 'package:provider/provider.dart';
@@ -12,7 +12,7 @@ class ConsumptionQueueView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentUser = context.watch<LocalUserAccount>();
+    final currentUser = context.loggedInUser$;
     return Scaffold(
       appBar: AppBar(
         title: Text("Pending Files"), //TODO: INTL
@@ -43,7 +43,7 @@ class ConsumptionQueueView extends StatelessWidget {
                         consumeLocalFile(
                           context,
                           file: file,
-                          userId: currentUser.id,
+                          userId: currentUser.appUserId,
                         );
                       },
                     ),
@@ -54,7 +54,7 @@ class ConsumptionQueueView extends StatelessWidget {
                       onPressed: () {
                         context.read<ConsumptionChangeNotifier>().discardFile(
                           file,
-                          userId: currentUser.id,
+                          userId: currentUser.appUserId,
                         );
                       },
                     ),

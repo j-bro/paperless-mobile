@@ -10,6 +10,8 @@ part 'local_store.freezed.dart';
 part 'local_store.g.dart';
 part 'local_store_state.dart';
 
+typedef Updater<T> = T Function(T);
+
 class LocalStore extends HydratedCubit<LocalStoreState> {
   LocalStore(String defaultPreferredLocaleSubtag)
     : super(
@@ -27,9 +29,7 @@ class LocalStore extends HydratedCubit<LocalStoreState> {
     }
   }
 
-  void updateCurrentDocumentFilter(
-    DocumentFilter Function(DocumentFilter) updater,
-  ) {
+  void updateCurrentDocumentFilter(Updater<DocumentFilter> updater) {
     updateLoggedInUserAppState(
       (appState) => appState.copyWith(
         currentDocumentFilter: updater(appState.currentDocumentFilter),
@@ -37,36 +37,57 @@ class LocalStore extends HydratedCubit<LocalStoreState> {
     );
   }
 
-  void setLoggedInUserId(String? userId) {
-    emit(state.copyWith(loggedInUserId: userId));
+  void setLoggedInAppUserId(String? userId) {
+    emit(state.copyWith(loggedInAppUserId: userId));
   }
 
-  void updateGlobalSettings(GlobalSettings newSettings) {
-    emit(state.copyWith(globalSettings: newSettings));
+  void updateGlobalSettings(Updater<GlobalSettings> updater) {
+    emit(state.copyWith(globalSettings: updater(state.globalSettings)));
   }
 
-  void updateLoggedInUserAppState(
-    LocalUserAppState Function(LocalUserAppState state) updater,
-  ) {
-    if (state.loggedInUserId == null) {
+  void updateLoggedInUserAppState(Updater<LocalUserAppState> updater) {
+    if (state.loggedInAppUserId == null) {
       logger.fw(
         'could not update app state of logged in user because no user is logged in',
         className: runtimeType.toString(),
         methodName: 'updateLoggedInUserAppState',
       );
     }
-    state.loggedInUserId;
+    state.loggedInAppUserId;
   }
 
-  void updateUserData(
-    String userId,
-    LocalUserData Function(LocalUserData?) updater,
-  ) {
+  void updateLoggedInUserData(Updater<LocalUserData> updater) {
+    if (state.loggedInAppUserId == null) {
+      logger.fw(
+        'could not update data of logged in user because no user is logged in',
+        className: runtimeType.toString(),
+        methodName: 'updateLoggedInUserData',
+      );
+      return;
+    }
+    updateUserData(state.loggedInAppUserId!, updater);
+  }
+
+  void setUserData(String userId, LocalUserData userData) {
+    emit(
+      state.copyWith(localUserData: {...state.localUserData, userId: userData}),
+    );
+  }
+
+  void updateUserData(String userId, Updater<LocalUserData> updater) {
+    if (!state.localUserData.containsKey(userId)) {
+      logger.fw(
+        'could not update user data for userId=$userId because no such user data exists',
+        className: runtimeType.toString(),
+        methodName: 'updateUserData',
+      );
+      return;
+    }
     emit(
       state.copyWith(
         localUserData: {
           ...state.localUserData,
-          userId: updater(state.localUserData[userId]),
+          userId: updater(state.localUserData[userId]!),
         },
       ),
     );

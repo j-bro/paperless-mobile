@@ -34,7 +34,7 @@ class DocumentDetailedItem extends DocumentItem {
   Widget build(BuildContext context) {
     final store = context.watch<LocalStore>();
 
-    final currentUserId = store.state.loggedInUserId!;
+    final currentUserId = store.state.loggedInAppUserId!;
     final paperlessUser =
         store.state.localUserData[currentUserId]!.localUser.paperlessUser;
 

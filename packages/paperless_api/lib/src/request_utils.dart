@@ -19,7 +19,7 @@ Future<T?> getSingleResult<T>(
         validateStatus: (status) => status == 200,
       ),
     );
-    return compute(fromJson, response.data as Map<String, dynamic>);
+    return fromJson(response.data as Map<String, dynamic>);
   } on DioException catch (exception) {
     throw exception.unravel(orElse: PaperlessApiException(errorCode));
   }
@@ -42,17 +42,23 @@ Future<List<T>> getCollection<T>(
       ),
       queryParameters: queryParams,
     );
-    final Map<String, dynamic> body = response.data;
-    if (body['count'] == 0) {
+    final Map<String, dynamic>? body = response.data;
+    if (body == null || body['count'] == 0) {
       return <T>[];
     } else {
-      return compute(
-        _collectionFromJson,
+      return _collectionFromJson(
         _CollectionFromJsonSerializationParams(
           fromJson,
-          (body['results'] as List).cast<Map<String, dynamic>>(),
+          body['results'] as List<dynamic>,
         ),
       );
+      // return compute(
+      //   _collectionFromJson,
+      //   _CollectionFromJsonSerializationParams(
+      //     fromJson,
+      //     (body['results'] ?? []).cast<Map<String, dynamic>>(),
+      //   ),
+      // );
     }
   } on DioException catch (exception) {
     throw exception.unravel(orElse: PaperlessApiException(errorCode));
@@ -80,7 +86,7 @@ List<T> _collectionFromJson<T>(
 
 class _CollectionFromJsonSerializationParams<T> {
   final T Function(Map<String, dynamic>) fromJson;
-  final List<Map<String, dynamic>> list;
+  final List<dynamic> list;
 
   _CollectionFromJsonSerializationParams(this.fromJson, this.list);
 }

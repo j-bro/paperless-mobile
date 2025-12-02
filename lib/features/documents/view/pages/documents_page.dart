@@ -23,6 +23,7 @@ import 'package:paperless_mobile/features/documents/view/widgets/selection/docum
 import 'package:paperless_mobile/features/documents/view/widgets/selection/view_type_selection_widget.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/sort_documents_button.dart';
 import 'package:paperless_mobile/features/logging/data/logger.dart';
+import 'package:paperless_mobile/features/settings/model/view_type.dart';
 import 'package:paperless_mobile/features/tasks/model/pending_tasks_notifier.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/helpers/message_helpers.dart';
@@ -60,6 +61,9 @@ class _DocumentsPageState extends State<DocumentsPage> {
   void initState() {
     super.initState();
     context.read<PendingTasksNotifier>().addListener(_onTasksChanged);
+    context.documentRepository
+        .getAllQuery(filter: context.currentDocumentFilter)
+        .fetch();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _nestedScrollViewKey.currentState!.innerController.addListener(
         _scrollExtentChangedListener,
@@ -99,7 +103,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
 
   Future<void> _reloadData() async {
     final currentFilter =
-        context.loggedInUserData$.appState?.currentDocumentFilter;
+        context.loggedInUserData.appState?.currentDocumentFilter;
     CachedQuery.instance.refetchQueries(
       keys: [
         context.savedViewRepository.queryKey,
@@ -139,110 +143,16 @@ class _DocumentsPageState extends State<DocumentsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final viewType = context.loggedInUserData$.appState!.documentsPageViewType;
+    final canResetFilter =
+        context.currentDocumentFilter$.appliedFiltersCount > 0;
     return SafeArea(
       top: true,
       child: Scaffold(
         drawer: const AppDrawer(),
-        floatingActionButton: QueryBuilder(
-          query: context.documentRepository.getAllQuery(
-            filter: context.currentDocumentFilter$,
-          ),
-          builder: (context, state) {
-            final show = _selection.isEmpty;
-            final canReset =
-                context.currentDocumentFilter$.appliedFiltersCount > 0;
-            if (show) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  DeferredPointerHandler(
-                    child: Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        FloatingActionButton.extended(
-                          extendedPadding: _showExtendedFab
-                              ? null
-                              : const EdgeInsets.symmetric(horizontal: 16),
-                          heroTag: "fab_documents_page_filter",
-                          label: AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 150),
-                            transitionBuilder: (child, animation) {
-                              return FadeTransition(
-                                opacity: animation,
-                                child: SizeTransition(
-                                  sizeFactor: animation,
-                                  axis: Axis.horizontal,
-                                  child: child,
-                                ),
-                              );
-                            },
-                            child: _showExtendedFab
-                                ? Row(
-                                    children: [
-                                      const Icon(Icons.filter_alt_outlined),
-                                      const SizedBox(width: 8),
-                                      Text(S.of(context)!.filterDocuments),
-                                    ],
-                                  )
-                                : const Icon(Icons.filter_alt_outlined),
-                          ),
-                          onPressed: _openDocumentFilter,
-                        ),
-                        if (canReset)
-                          Positioned(
-                            top: -20,
-                            right: -8,
-                            child: DeferPointer(
-                              paintOnTop: true,
-                              child: Material(
-                                color: Theme.of(context).colorScheme.error,
-                                borderRadius: BorderRadius.circular(8),
-                                child: InkWell(
-                                  borderRadius: BorderRadius.circular(8),
-                                  onTap: () {
-                                    HapticFeedback.mediumImpact();
-                                    _onResetFilter();
-                                  },
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      if (_showExtendedFab)
-                                        Text(
-                                          "Reset (${context.currentDocumentFilter$.appliedFiltersCount})",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .labelLarge
-                                              ?.copyWith(
-                                                color: Theme.of(
-                                                  context,
-                                                ).colorScheme.onError,
-                                              ),
-                                        ).padded()
-                                      else
-                                        Icon(
-                                          Icons.replay,
-                                          color: Theme.of(
-                                            context,
-                                          ).colorScheme.onError,
-                                        ).padded(4),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                ],
-              );
-            } else {
-              return const SizedBox.shrink();
-            }
-          },
-        ),
+        floatingActionButton: _selection.isNotEmpty
+            ? _buildFilterButton(context, canResetFilter)
+            : null,
         resizeToAvoidBottomInset: true,
         body: PopScope(
           onPopInvokedWithResult: (didPop, result) async {
@@ -285,7 +195,10 @@ class _DocumentsPageState extends State<DocumentsPage> {
               SliverOverlapAbsorber(
                 handle: savedViewsHandle,
                 sliver: SliverPinnedHeader(
-                  child: Material(elevation: 2, child: _buildViewActions()),
+                  child: Material(
+                    elevation: 2,
+                    child: _buildViewActions(viewType),
+                  ),
                 ),
               ),
             ],
@@ -293,6 +206,90 @@ class _DocumentsPageState extends State<DocumentsPage> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildFilterButton(BuildContext context, bool canResetFilter) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        DeferredPointerHandler(
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              FloatingActionButton.extended(
+                extendedPadding: _showExtendedFab
+                    ? null
+                    : const EdgeInsets.symmetric(horizontal: 16),
+                heroTag: "fab_documents_page_filter",
+                label: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 150),
+                  transitionBuilder: (child, animation) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: SizeTransition(
+                        sizeFactor: animation,
+                        axis: Axis.horizontal,
+                        child: child,
+                      ),
+                    );
+                  },
+                  child: _showExtendedFab
+                      ? Row(
+                          children: [
+                            const Icon(Icons.filter_alt_outlined),
+                            const SizedBox(width: 8),
+                            Text(S.of(context)!.filterDocuments),
+                          ],
+                        )
+                      : const Icon(Icons.filter_alt_outlined),
+                ),
+                onPressed: _openDocumentFilter,
+              ),
+              if (canResetFilter)
+                Positioned(
+                  top: -20,
+                  right: -8,
+                  child: DeferPointer(
+                    paintOnTop: true,
+                    child: Material(
+                      color: Theme.of(context).colorScheme.error,
+                      borderRadius: BorderRadius.circular(8),
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(8),
+                        onTap: () {
+                          HapticFeedback.mediumImpact();
+                          _onResetFilter();
+                        },
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            if (_showExtendedFab)
+                              Text(
+                                "Reset (${context.currentDocumentFilter$.appliedFiltersCount})",
+                                style: Theme.of(context).textTheme.labelLarge
+                                    ?.copyWith(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onError,
+                                    ),
+                              ).padded()
+                            else
+                              Icon(
+                                Icons.replay,
+                                color: Theme.of(context).colorScheme.onError,
+                              ).padded(4),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -468,7 +465,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
     );
   }
 
-  Widget _buildViewActions() {
+  Widget _buildViewActions(ViewType viewType) {
     return Container(
       padding: const EdgeInsets.all(4),
       color: Theme.of(context).colorScheme.surface,
@@ -477,7 +474,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
         children: [
           SortDocumentsButton(enabled: _selection.isEmpty),
           ViewTypeSelectionWidget(
-            viewType: context.loggedInUserData$.appState!.documentsPageViewType,
+            viewType: viewType,
             onChanged: (viewType) {
               context.localStore.updateLoggedInUserAppState(
                 (appState) => appState.copyWith(savedViewsViewType: viewType),

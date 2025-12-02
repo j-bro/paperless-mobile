@@ -25,10 +25,7 @@ class EditStoragePathPage extends StatelessWidget {
       onDelete: (context, label) async {
         await context.storagePathRepository.deleteMutation.mutate(label.id);
       },
-      canDelete: context
-          .watch<LocalUserAccount>()
-          .paperlessUser
-          .canDeleteStoragePaths,
+      canDelete: context.loggedInUser$.paperlessUser.canDeleteStoragePaths,
       additionalFields: [
         StoragePathAutofillFormBuilderField(
           name: StoragePath.pathKey,

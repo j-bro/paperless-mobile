@@ -31,19 +31,19 @@ sealed class DateRangeQuery {
   }
 }
 
-@JsonSerializable(createFactory: false)
+@JsonSerializable(createFactory: false, explicitToJson: true)
 class UnsetDateRangeQuery extends DateRangeQuery {
   const UnsetDateRangeQuery();
 
   @override
-  @JsonKey(includeToJson: true, includeFromJson: false)
+  @JsonKey(includeToJson: true, includeFromJson: false, required: true)
   final type = 'UnsetDateRangeQuery';
 
   @override
   Map<String, String> toQueryParameter(DateRangeQueryField field) => const {};
 
   @override
-  Map<String, dynamic> toJson() => _$UnsetDateRangeQueryToJson(this);
+  Map<String, dynamic> toJson() => {'type': type};
 }
 
 @CopyWith()
@@ -51,7 +51,7 @@ class UnsetDateRangeQuery extends DateRangeQuery {
 class RelativeDateRangeQuery extends DateRangeQuery with EquatableMixin {
   @JsonKey(includeToJson: true, includeFromJson: false)
   @override
-  final type = 'UnsetDateRangeQuery';
+  final type = 'RelativeDateRangeQuery';
 
   final int offset;
   final DateRangeUnit unit;
@@ -92,7 +92,7 @@ class RelativeDateRangeQuery extends DateRangeQuery with EquatableMixin {
 @CopyWith()
 @JsonSerializable()
 class AbsoluteDateRangeQuery extends DateRangeQuery with EquatableMixin {
-  @JsonKey(includeToJson: true, includeFromJson: false)
+  @JsonKey(includeToJson: true, includeFromJson: true)
   @override
   final type = 'AbsoluteDateRangeQuery';
 

@@ -25,6 +25,9 @@ class _ServerAddressFormFieldState extends State<ServerAddressFormField>
   @override
   void initState() {
     super.initState();
+    if (widget.initialValue != null) {
+      _textEditingController.text = widget.initialValue!;
+    }
     _textEditingController.addListener(() {
       setState(() {
         _canClear = _textEditingController.text.isNotEmpty;
@@ -86,7 +89,7 @@ class _ServerAddressFormFieldState extends State<ServerAddressFormField>
                           )
                         : null,
                   ),
-                  autofocus: false,
+                  autofocus: true,
                   onFieldSubmitted: (_) {
                     _formatInput(field);
                     onFieldSubmitted();

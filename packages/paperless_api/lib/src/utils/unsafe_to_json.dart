@@ -1,4 +1,7 @@
-Map<String, dynamic> unsafeToJson(dynamic item) {
+Map<String, dynamic>? unsafeToJson(dynamic item) {
+  if (item == null) {
+    return null;
+  }
   final toJson = (item as dynamic).toJson;
   try {
     return toJson();

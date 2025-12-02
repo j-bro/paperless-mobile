@@ -2,22 +2,22 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
-import 'package:copy_with_extension/copy_with_extension.dart';
-import 'package:equatable/src/equatable_utils.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:paperless_api/generated/lib/src/model/correspondent.dart';
-import 'package:paperless_api/generated/lib/src/model/custom_field.dart';
-import 'package:paperless_api/generated/lib/src/model/document.dart';
-import 'package:paperless_api/generated/lib/src/model/document_type.dart';
 // ignore_for_file: unused_element
 import 'package:paperless_api/generated/lib/src/model/group.dart';
-import 'package:paperless_api/generated/lib/src/model/mail_account.dart';
-import 'package:paperless_api/generated/lib/src/model/mail_rule.dart';
+import 'package:paperless_api/generated/lib/src/model/document_type.dart';
+import 'package:paperless_api/generated/lib/src/model/user.dart';
+import 'package:paperless_api/generated/lib/src/model/custom_field.dart';
 import 'package:paperless_api/generated/lib/src/model/saved_view.dart';
+import 'package:paperless_api/generated/lib/src/model/correspondent.dart';
+import 'package:paperless_api/generated/lib/src/model/mail_account.dart';
 import 'package:paperless_api/generated/lib/src/model/storage_path.dart';
 import 'package:paperless_api/generated/lib/src/model/tag.dart';
-import 'package:paperless_api/generated/lib/src/model/user.dart';
+import 'package:paperless_api/generated/lib/src/model/document.dart';
+import 'package:paperless_api/generated/lib/src/model/mail_rule.dart';
 import 'package:paperless_api/generated/lib/src/model/workflow.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:equatable/src/equatable_utils.dart';
 
 part 'search_result.g.dart';
 

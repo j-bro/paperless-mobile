@@ -1,17 +1,13 @@
 import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:paperless_api/generated/lib/src/model/document.dart';
 import 'package:paperless_api/paperless_api.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
-import 'package:paperless_mobile/core/repository/correspondent_repository.dart';
-import 'package:paperless_mobile/core/repository/document_type_repository.dart';
-import 'package:paperless_mobile/core/repository/storage_path_repository.dart';
-import 'package:paperless_mobile/core/repository/tag_repository.dart';
-import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
 import 'package:paperless_mobile/core/widgets/highlighted_text.dart';
 import 'package:paperless_mobile/features/document_details/view/widgets/details_item.dart';
+import 'package:paperless_mobile/features/documents/view/widgets/placeholder/tags_placeholder.dart';
 import 'package:paperless_mobile/features/labels/tags/view/widgets/tags_widget.dart';
 import 'package:paperless_mobile/features/labels/view/widgets/label_text.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
@@ -30,7 +26,7 @@ class DocumentOverviewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = context.watch<LocalUserAccount>().paperlessUser;
+    final user = context.loggedInUser$.paperlessUser;
     return SliverList.list(
       children: [
         if (document.title?.isNotEmpty ?? false)
@@ -53,7 +49,7 @@ class DocumentOverviewWidget extends StatelessWidget {
         ).paddedOnly(bottom: itemSpacing),
         if (document.documentType != null && user.canViewDocumentTypes)
           QueryBuilder(
-            query: context.read<DocumentTypeRepository>().getByIdQuery(
+            query: context.documentTypeRepository.getByIdQuery(
               document.documentType!,
             ),
             builder: (context, state) {
@@ -65,16 +61,24 @@ class DocumentOverviewWidget extends StatelessWidget {
               }
               return DetailsItem(
                 label: S.of(context)!.documentType,
-                content: LabelText<DocumentType>(
+                content: LabelText(
                   style: Theme.of(context).textTheme.bodyLarge,
                   label: state.data,
                 ),
               );
             },
-          ).paddedOnly(bottom: itemSpacing),
+          ).paddedOnly(bottom: itemSpacing)
+        else
+          DetailsItem(
+            label: S.of(context)!.documentType,
+            content: LabelText(
+              style: Theme.of(context).textTheme.bodyLarge,
+              label: null,
+            ),
+          ),
         if (document.correspondent != null && user.canViewCorrespondents)
           QueryBuilder(
-            query: context.read<CorrespondentRepository>().getByIdQuery(
+            query: context.correspondentRepository.getByIdQuery(
               document.correspondent!,
             ),
             builder: (context, state) {
@@ -86,16 +90,24 @@ class DocumentOverviewWidget extends StatelessWidget {
               }
               return DetailsItem(
                 label: S.of(context)!.correspondent,
-                content: LabelText<Correspondent>(
+                content: LabelText(
                   style: Theme.of(context).textTheme.bodyLarge,
                   label: state.data,
                 ),
               );
             },
-          ).paddedOnly(bottom: itemSpacing),
+          ).paddedOnly(bottom: itemSpacing)
+        else
+          DetailsItem(
+            label: S.of(context)!.correspondent,
+            content: LabelText(
+              style: Theme.of(context).textTheme.bodyLarge,
+              label: null,
+            ),
+          ),
         if (document.storagePath != null && user.canViewStoragePaths)
           QueryBuilder(
-            query: context.read<StoragePathRepository>().getByIdQuery(
+            query: context.storagePathRepository.getByIdQuery(
               document.storagePath!,
             ),
             builder: (context, state) {
@@ -107,34 +119,52 @@ class DocumentOverviewWidget extends StatelessWidget {
               }
               return DetailsItem(
                 label: S.of(context)!.storagePath,
-                content: LabelText<StoragePath>(
+                content: LabelText(
                   style: Theme.of(context).textTheme.bodyLarge,
                   label: state.data,
                 ),
               );
             },
-          ).paddedOnly(bottom: itemSpacing),
+          ).paddedOnly(bottom: itemSpacing)
+        else
+          DetailsItem(
+            label: S.of(context)!.storagePath,
+            content: LabelText(
+              style: Theme.of(context).textTheme.bodyLarge,
+              label: null,
+            ),
+          ),
         if (document.tags.isNotEmpty && user.canViewTags)
           QueryBuilder(
-            query: context.read<TagRepository>().getAllQuery(
+            query: context.tagRepository.getAllQuery(
               filter: GetFilterOptions(ids: document.tags),
             ),
             builder: (context, state) {
               if (state.isLoading) {
-                return DetailsItemSkeleton(label: S.of(context)!.documentType);
-              }
-              if (state.isError) {
-                return SizedBox.shrink();
+                return DetailsItemSkeleton(
+                  label: S.of(context)!.tags,
+                  child: TagsPlaceholder(
+                    count: document.tags.length,
+                  ).paddedOnly(top: 8),
+                );
               }
               return DetailsItem(
                 label: S.of(context)!.tags,
-                content: Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: TagsWidget(isClickable: false, tagIds: document.tags),
-                ),
+                content: TagsWidget(
+                  isClickable: false,
+                  tagIds: document.tags,
+                ).paddedOnly(top: 8),
               );
             },
-          ).paddedOnly(bottom: itemSpacing),
+          ).paddedOnly(bottom: itemSpacing)
+        else
+          DetailsItem(
+            label: S.of(context)!.tags,
+            content: LabelText(
+              style: Theme.of(context).textTheme.bodyLarge,
+              label: null,
+            ),
+          ),
       ],
     );
   }

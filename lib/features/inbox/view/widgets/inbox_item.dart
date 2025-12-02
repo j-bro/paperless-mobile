@@ -249,7 +249,7 @@ class _InboxItemState extends State<InboxItem> {
   }
 
   Widget _buildActions(BuildContext context) {
-    final currentUser = context.watch<LocalUserAccount>().paperlessUser;
+    final currentUser = context.loggedInUser$.paperlessUser;
     final canEdit = currentUser.canEditDocuments;
     final canDelete = currentUser.canDeleteDocuments;
     final chipShape = RoundedRectangleBorder(
@@ -324,7 +324,7 @@ class _InboxItemState extends State<InboxItem> {
   ) {
     final hasAsn = widget.document.archiveSerialNumber != null;
     return MutationBuilder(
-      mutation: context.documentRepository.autoAssignAsnMutation(
+      mutation: context.documentRepository.assignAsnMutation(
         widget.document.id,
       ),
       builder: (context, state, mutate) {
@@ -348,11 +348,7 @@ class _InboxItemState extends State<InboxItem> {
                     '${S.of(context)!.asn} #${widget.document.archiveSerialNumber}',
                   )
                 : Text(S.of(context)!.assignAsn),
-            onPressed: !hasAsn
-                ? () {
-                    mutate(null);
-                  }
-                : null,
+            onPressed: !hasAsn ? () => mutate(null) : null,
           ),
         );
       },

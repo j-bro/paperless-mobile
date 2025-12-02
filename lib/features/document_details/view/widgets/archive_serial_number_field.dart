@@ -1,19 +1,23 @@
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:paperless_api/generated/lib/src/model/document.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/bloc/connectivity_cubit.dart';
-import 'package:paperless_mobile/core/bloc/loading_status.dart';
-import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
-import 'package:paperless_mobile/features/document_details/cubit/document_details_cubit.dart';
+import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/helpers/message_helpers.dart';
 
 class ArchiveSerialNumberField extends StatefulWidget {
-  final Document document;
-  const ArchiveSerialNumberField({super.key, required this.document});
+  final int documentId;
+  final int? initialValue;
+  const ArchiveSerialNumberField({
+    super.key,
+    required this.documentId,
+    this.initialValue,
+  });
 
   @override
   State<ArchiveSerialNumberField> createState() =>
@@ -30,118 +34,100 @@ class _ArchiveSerialNumberFieldState extends State<ArchiveSerialNumberField> {
   void initState() {
     super.initState();
     _asnEditingController = TextEditingController(
-      text: widget.document.archiveSerialNumber?.toString(),
+      text: widget.initialValue?.toString(),
     )..addListener(_clearButtonListener);
-    _showClearButton = widget.document.archiveSerialNumber != null;
+    _showClearButton = widget.initialValue != null;
   }
 
   void _clearButtonListener() {
     setState(() {
       _showClearButton = _asnEditingController.text.isNotEmpty;
-      _canUpdate =
-          int.tryParse(_asnEditingController.text) !=
-          widget.document.archiveSerialNumber;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final userCanEditDocument = context
-        .watch<LocalUserAccount>()
-        .paperlessUser
-        .canEditDocuments;
-    return BlocListener<DocumentDetailsCubit, DocumentDetailsState>(
-      listenWhen: (previous, current) =>
-          previous.status == LoadingStatus.loaded &&
-          current.status == LoadingStatus.loaded &&
-          previous.document!.archiveSerialNumber !=
-              current.document!.archiveSerialNumber,
-      listener: (context, state) {
-        _asnEditingController.text =
-            state.document!.archiveSerialNumber?.toString() ?? '';
-        setState(() {
-          _canUpdate = false;
-        });
+    final userCanEditDocument =
+        context.loggedInUser$.paperlessUser.canEditDocuments;
+    return MutationConsumer(
+      listener: (state) {
+        switch (state) {
+          case MutationSuccess():
+            showSnackBar(context, S.of(context)!.archiveSerialNumberUpdated);
+            break;
+          case MutationError(:final error):
+            if (error is PaperlessFormValidationException) {
+              setState(() => _errors = error.validationMessages);
+            } else if (mounted) {
+              showGenericError(context, error, null);
+            }
+          default:
+            break;
+        }
       },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TextFormField(
-            enabled: userCanEditDocument,
-            controller: _asnEditingController,
-            keyboardType: TextInputType.number,
-            onChanged: (value) {
-              setState(() => _errors = {});
-            },
-            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            onFieldSubmitted: (_) => _onSubmitted(),
-            decoration: InputDecoration(
-              suffixIcon: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (_showClearButton)
+      mutation: context.documentRepository.assignAsnMutation(widget.documentId),
+      builder: (context, state, assignAsn) {
+        return Column(
+          children: [
+            TextFormField(
+              enabled: userCanEditDocument,
+              controller: _asnEditingController,
+              keyboardType: TextInputType.number,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              onFieldSubmitted: (_) => _onSubmitted(assignAsn),
+              decoration: InputDecoration(
+                suffixIcon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (_showClearButton)
+                      IconButton(
+                        icon: const Icon(Icons.clear),
+                        color: Theme.of(context).colorScheme.primary,
+                        onPressed: userCanEditDocument
+                            ? _asnEditingController.clear
+                            : null,
+                      ),
                     IconButton(
-                      icon: const Icon(Icons.clear),
+                      icon: const Icon(Icons.plus_one_rounded),
                       color: Theme.of(context).colorScheme.primary,
-                      onPressed: userCanEditDocument
-                          ? _asnEditingController.clear
+                      onPressed:
+                          context.internetConnection$ && !_showClearButton
+                          ? () => _onSubmitted(assignAsn, auto: true)
                           : null,
-                    ),
-                  IconButton(
-                    icon: const Icon(Icons.plus_one_rounded),
-                    color: Theme.of(context).colorScheme.primary,
-                    onPressed:
-                        context.watchInternetConnection && !_showClearButton
-                        ? _onAutoAssign
-                        : null,
-                  ).paddedOnly(right: 8),
-                ],
+                    ).paddedOnly(right: 8),
+                  ],
+                ),
+                errorText: _errors['archive_serial_number'],
+                errorMaxLines: 2,
+                labelText: S.of(context)!.archiveSerialNumber,
               ),
-              errorText: _errors['archive_serial_number'],
-              errorMaxLines: 2,
-              labelText: S.of(context)!.archiveSerialNumber,
             ),
-          ),
-          TextButton.icon(
-            icon: const Icon(Icons.done),
-            onPressed: context.watchInternetConnection && _canUpdate
-                ? _onSubmitted
-                : null,
-            label: Text(S.of(context)!.save),
-          ).padded(),
-        ],
-      ),
+            TextButton.icon(
+              icon: const Icon(Icons.done),
+              onPressed:
+                  context.internetConnection$ && _canUpdate && !state.isLoading
+                  ? () => _onSubmitted(assignAsn)
+                  : null,
+              label: Text(S.of(context)!.save),
+            ).padded(),
+          ],
+        );
+      },
     );
   }
 
-  Future<void> _onSubmitted() async {
-    final value = _asnEditingController.text;
-    final asn = int.tryParse(value);
-
-    await context
-        .read<DocumentDetailsCubit>()
-        .assignAsn(widget.document, asn: asn)
-        .then((value) => _onAsnUpdated())
-        .onError<PaperlessApiException>((error, stackTrace) {
-          if (mounted) showErrorMessage(context, error, stackTrace);
-        })
-        .onError<PaperlessFormValidationException>((error, stackTrace) {
-          setState(() => _errors = error.validationMessages);
-        });
-    if (mounted) FocusScope.of(context).unfocus();
-  }
-
-  Future<void> _onAutoAssign() async {
-    await context
-        .read<DocumentDetailsCubit>()
-        .assignAsn(widget.document, autoAssign: true)
-        .then((value) => _onAsnUpdated())
-        .onError<PaperlessApiException>((error, stackTrace) {
-          if (mounted) showErrorMessage(context, error, stackTrace);
-        })
-        .catchError((error) {
-          if (mounted) showGenericError(context, error);
-        });
+  Future<void> _onSubmitted(
+    Future<MutationState<int?>> Function(int? asn) assignAsn, {
+    bool auto = false,
+  }) async {
+    FocusScope.of(context).unfocus();
+    int? asn;
+    if (!auto) {
+      final value = _asnEditingController.text;
+      asn = int.tryParse(value);
+    }
+    await assignAsn(asn);
+    _onAsnUpdated();
   }
 
   void _onAsnUpdated() {

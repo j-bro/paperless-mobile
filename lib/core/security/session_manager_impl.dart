@@ -18,7 +18,7 @@ class SessionManagerImpl extends ValueNotifier<Dio> implements SessionManager {
   Dio get client => value;
 
   SessionManagerImpl([List<Interceptor> interceptors = const []])
-      : super(_initDio(interceptors));
+    : super(_initDio(interceptors));
 
   static Dio _initDio(List<Interceptor> interceptors) {
     //en- and decoded by utf8 by default
@@ -33,14 +33,14 @@ class SessionManagerImpl extends ValueNotifier<Dio> implements SessionManager {
       ..receiveTimeout = const Duration(seconds: 30)
       ..sendTimeout = const Duration(seconds: 60)
       ..responseType = ResponseType.json;
-    (dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient =
-        () => HttpClient()..badCertificateCallback = (cert, host, port) => true;
+    (dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () =>
+        HttpClient()..badCertificateCallback = (cert, host, port) => true;
     dio.interceptors.addAll([
       ...interceptors,
       DioUnauthorizedInterceptor(),
       DioHttpErrorInterceptor(),
       DioOfflineInterceptor(),
-      RetryOnConnectionChangeInterceptor(dio: dio)
+      RetryOnConnectionChangeInterceptor(dio: dio),
     ]);
     return dio;
   }
@@ -50,6 +50,7 @@ class SessionManagerImpl extends ValueNotifier<Dio> implements SessionManager {
     String? baseUrl,
     String? authToken,
     ClientCertificate? clientCertificate,
+    bool broadcast = true,
   }) {
     if (clientCertificate != null) {
       final context = SecurityContext()
@@ -82,12 +83,13 @@ class SessionManagerImpl extends ValueNotifier<Dio> implements SessionManager {
         HttpHeaders.authorizationHeader: 'Token $authToken',
       });
     }
-
-    notifyListeners();
+    if (broadcast) {
+      notifyListeners();
+    }
   }
 
   @override
-  void resetSettings() {
+  void resetSettings({bool broadcast = true}) {
     client.httpClientAdapter = IOHttpClientAdapter();
     client.options.baseUrl = '';
     client.options.headers.remove(HttpHeaders.authorizationHeader);

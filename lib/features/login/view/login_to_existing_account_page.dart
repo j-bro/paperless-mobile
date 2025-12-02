@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive_ce_flutter/adapters.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/features/login/cubit/authentication_cubit.dart';
 import 'package:paperless_mobile/features/users/view/widgets/user_account_list_tile.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
-import 'package:paperless_mobile/routing/routes/login_route.dart';
+import 'package:paperless_mobile/routing/routes/auth_route.dart';
 
 class LoginToExistingAccountPage extends StatelessWidget {
   const LoginToExistingAccountPage({super.key});
@@ -25,7 +24,7 @@ class LoginToExistingAccountPage extends StatelessWidget {
             TextButton(
               child: Text(S.of(context)!.addAnotherAccount),
               onPressed: () {
-                const LoginRoute().go(context);
+                const AuthRoute().push(context);
               },
             ),
           ],

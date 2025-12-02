@@ -76,6 +76,31 @@ class InboxRepository {
     );
   }
 
+  Query<int> get inboxDocumentCountQuery {
+    return Query(
+      config: QueryConfig(staleDuration: Duration(seconds: 30)),
+      key: 'inbox_count',
+      queryFn: () async {
+        final tagsResult = await inboxTagsQuery.fetch();
+        if (tagsResult.isError) {
+          throw tagsResult.error!;
+        }
+        final inboxTags = tagsResult.data!.map((e) => e.id);
+        final filter = DocumentFilter(
+          fields: ['id', 'tags'],
+          tags: IdsTagsQuery(include: inboxTags.toList()),
+        );
+        final documentsResult = await _documentsRepo
+            .getAllQuery(filter: filter, overrideKey: 'inbox_documents_count')
+            .fetch();
+        if (documentsResult.isError) {
+          throw documentsResult.error!;
+        }
+        return documentsResult.data!.pages.first.count;
+      },
+    );
+  }
+
   ///
   /// Marks all documents in the inbox as seen.
   ///

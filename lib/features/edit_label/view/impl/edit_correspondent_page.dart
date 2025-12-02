@@ -30,10 +30,8 @@ class EditCorrespondentPage extends StatelessWidget {
               label.id,
             );
           },
-          canDelete: context
-              .watch<LocalUserAccount>()
-              .paperlessUser
-              .canDeleteCorrespondents,
+          canDelete:
+              context.loggedInUser$.paperlessUser.canDeleteCorrespondents,
         );
       },
     );

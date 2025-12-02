@@ -5,22 +5,25 @@ import 'package:paperless_mobile/core/translation/error_code_localization_mapper
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
 class SimpleQueryBuilder<T> extends StatelessWidget {
-  final Cacheable<QueryState<T>>? query;
+  final Cacheable<QueryStatus<T>> query;
   final Widget Function(BuildContext context, T data) builder;
   final WidgetBuilder loadingBuilder;
-
+  final void Function(BuildContext context, dynamic error)? onError;
+  final void Function(BuildContext context, T data)? onSuccess;
   final WidgetBuilder errorBuilder;
   final ErrorCode? _errorCode;
   final String? _errorMessage;
 
   const SimpleQueryBuilder({
     super.key,
-    this.query,
+    required this.query,
     required this.builder,
     this.loadingBuilder = _defaultLoadingBuilder,
     this.errorBuilder = _defaultErrorBuilder,
     ErrorCode? errorCode,
     String? errorMessage,
+    this.onError,
+    this.onSuccess,
   }) : _errorCode = errorCode,
        _errorMessage = errorMessage,
        assert(
@@ -38,7 +41,16 @@ class SimpleQueryBuilder<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return QueryBuilder(
+    return QueryConsumer(
+      listenWhen: (oldState, newState) => oldState != newState,
+      listener: (state) {
+        if (state.isError) {
+          onError?.call(context, state.error);
+        }
+        if (state.isSuccess) {
+          onSuccess?.call(context, state.data as T);
+        }
+      },
       query: query,
       builder: (context, state) {
         if (state.isLoading) {

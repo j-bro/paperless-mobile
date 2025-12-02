@@ -44,7 +44,7 @@ class _LabelsPageState extends State<LabelsPage>
   @override
   void initState() {
     super.initState();
-    final user = context.read<LocalUserAccount>().paperlessUser;
+    final user = context.loggedInUser.paperlessUser;
     _tabController = TabController(
       length: _calculateTabCount(user),
       vsync: this,
@@ -60,7 +60,7 @@ class _LabelsPageState extends State<LabelsPage>
   @override
   Widget build(BuildContext context) {
     final storage = context.watch<LocalStore>();
-    final currentUserId = storage.state.loggedInUserId!;
+    final currentUserId = storage.state.loggedInAppUserId!;
     final user =
         storage.state.localUserData[currentUserId]!.localUser.paperlessUser;
 
