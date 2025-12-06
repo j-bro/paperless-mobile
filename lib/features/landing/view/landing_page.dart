@@ -102,7 +102,7 @@ class _LandingPageState extends State<LandingPage> {
                 QueryBuilder(
                   query: context.read<SavedViewRepository>().getAllQuery(),
                   builder: (context, state) {
-                    if (state.isLoading) {
+                    if (state.isLoading && state.data == null) {
                       return const SliverToBoxAdapter(
                         child: Center(child: CircularProgressIndicator()),
                       );
@@ -124,7 +124,7 @@ class _LandingPageState extends State<LandingPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              S.of(context)!.youDidNotSaveAnyViewsYet,
+                              S.of(context)!.youHaveNoViewsOnYourDashboardYet,
                               style: Theme.of(context).textTheme.bodySmall,
                             ).padded(),
                             TextButton.icon(

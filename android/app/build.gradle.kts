@@ -60,7 +60,7 @@ android {
 
     buildTypes {
         getByName("release") {
-            signingConfig = signingConfigs.getByName("release")
+            signingConfig = signingConfigs.getByName("debug") // Change to "release" to sign with release config
         }
         getByName("debug") {
             applicationIdSuffix = ".debug"
@@ -74,4 +74,17 @@ dependencies {
 
 flutter {
     source = "../.."
+}
+val abiCodes = listOf("x86_64", "armeabi-v7a", "arm64-v8a")
+
+androidComponents {
+    onVariants { variant ->
+        variant.outputs.forEach { output ->
+            val abiName = output.filters.find { it.filterType == com.android.build.api.variant.FilterConfiguration.FilterType.ABI }?.identifier
+            val abiVersionCodeIndex = abiCodes.indexOf(abiName)
+            if (abiVersionCodeIndex != -1) {
+                output.versionCode.set((variant.outputs.first().versionCode.get() ?: 0) * 10 + abiVersionCodeIndex)
+            }
+        }
+    }
 }

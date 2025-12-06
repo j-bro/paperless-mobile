@@ -116,6 +116,7 @@ class _SavedViewsWidgetState extends State<SavedViewsWidget>
                 ),
               ],
             ),
+            childrenPadding: EdgeInsets.only(top: 8),
             leading: Icon(
               Icons.saved_search,
               color: Theme.of(context).colorScheme.primary,

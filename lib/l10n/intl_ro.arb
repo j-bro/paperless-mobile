@@ -1047,5 +1047,6 @@
   "notesMarkdownSyntaxSupportHint": "Paperless Mobile can render notes using basic markdown syntax. Try it out!",
   "mfaCodeRequiredValidationMessage": "Please enter the MFA code.",
   "mfaCodeInvalidLengthValidationMessage": "MFA code must be 6 digits.",
-  "mfaFormFieldHint": "Your account is protected by two-factor authentication. Please enter an authentication code:"
+  "mfaFormFieldHint": "Your account is protected by two-factor authentication. Please enter an authentication code:",
+  "youHaveNoViewsOnYourDashboardYet": "You have not added any views to your dashboard yet."
 }

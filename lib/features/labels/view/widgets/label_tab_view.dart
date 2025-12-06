@@ -73,6 +73,7 @@ class LabelTabView<T extends Label> extends StatelessWidget {
                 child: Center(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(emptyStateDescription, textAlign: TextAlign.center),
                       TextButton(

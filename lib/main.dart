@@ -133,14 +133,13 @@ void main() async {
       // Manages security context, required for self signed client certificates
       final SessionManager sessionManager = SessionManagerImpl([
         PrettyDioLogger(
-          enabled: kDebugMode,
+          enabled: true,
           compact: true,
-          responseBody: false,
+          responseBody: true,
           responseHeader: true,
           request: true,
-          requestBody: false,
-          requestHeader: false,
-          logPrint: (object) => debugPrint(object.toString()),
+          requestBody: true,
+          requestHeader: true,
         ),
         languageHeaderInterceptor,
       ]);
