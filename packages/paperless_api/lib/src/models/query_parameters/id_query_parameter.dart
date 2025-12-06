@@ -33,11 +33,7 @@ sealed class IdQueryParameter {
   Map<String, dynamic> toJson();
 }
 
-@JsonSerializable(ignoreUnannotated: true)
 class UnsetIdQueryParameter extends IdQueryParameter with EquatableMixin {
-  @JsonKey(includeToJson: true, includeFromJson: false)
-  final __type = 'UnsetIdQueryParameter';
-
   const UnsetIdQueryParameter();
   @override
   Map<String, String> toQueryParameter(String field) => {};
@@ -46,17 +42,13 @@ class UnsetIdQueryParameter extends IdQueryParameter with EquatableMixin {
   bool matches(int? id) => true;
 
   @override
-  Map<String, dynamic> toJson() => _$UnsetIdQueryParameterToJson(this);
+  Map<String, dynamic> toJson() => {"__type": 'UnsetIdQueryParameter'};
 
   @override
   List<Object?> get props => [];
 }
 
-@JsonSerializable(ignoreUnannotated: true)
 class NotAssignedIdQueryParameter extends IdQueryParameter with EquatableMixin {
-  @JsonKey(includeToJson: true, includeFromJson: false)
-  final __type = 'NotAssignedIdQueryParameter';
-
   const NotAssignedIdQueryParameter();
 
   @override
@@ -71,14 +63,10 @@ class NotAssignedIdQueryParameter extends IdQueryParameter with EquatableMixin {
   bool matches(int? id) => id == null;
 
   @override
-  Map<String, dynamic> toJson() => _$NotAssignedIdQueryParameterToJson(this);
+  Map<String, dynamic> toJson() => {"__type": 'NotAssignedIdQueryParameter'};
 }
 
-@JsonSerializable(ignoreUnannotated: true)
 class AnyAssignedIdQueryParameter extends IdQueryParameter with EquatableMixin {
-  @JsonKey(includeToJson: true, includeFromJson: false)
-  final __type = 'AnyAssignedIdQueryParameter';
-
   const AnyAssignedIdQueryParameter();
   @override
   Map<String, String> toQueryParameter(String field) {
@@ -92,7 +80,7 @@ class AnyAssignedIdQueryParameter extends IdQueryParameter with EquatableMixin {
   bool matches(int? id) => id != null;
 
   @override
-  Map<String, dynamic> toJson() => _$AnyAssignedIdQueryParameterToJson(this);
+  Map<String, dynamic> toJson() => {"__type": 'AnyAssignedIdQueryParameter'};
 }
 
 @JsonSerializable(ignoreUnannotated: true)

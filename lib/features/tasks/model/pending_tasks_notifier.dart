@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:paperless_api/generated/lib/src/model/tasks_view.dart';
 import 'package:paperless_api/paperless_api.dart';
 
 class PendingTasksNotifier extends ValueNotifier<Map<String, TasksView>> {

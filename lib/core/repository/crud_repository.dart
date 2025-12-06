@@ -4,6 +4,10 @@ import 'package:paperless_api/paperless_api.dart';
 abstract class CrudRepository<T, TRequest, TPatchedRequest, FindAllOptions> {
   CrudApi<T, TRequest, TPatchedRequest, FindAllOptions> get api;
 
+  CrudRepository() {
+    getAllQuery().fetch();
+  }
+
   String get queryKey;
   final Set<String> _cachedGetAllQueries = {};
 
@@ -40,61 +44,76 @@ abstract class CrudRepository<T, TRequest, TPatchedRequest, FindAllOptions> {
     return Mutation<T, TRequest>(
       mutationFn: api.create,
       onSuccess: (res, arg) {
-        final query = CachedQuery.instance.getQuery<Query<List<T>>>(queryKey);
-        if (query == null) return;
-        query.update((old) => [res, ...?old]);
+        for (final getAllQuery in _cachedGetAllQueries) {
+          final query = CachedQuery.instance.getQuery<Query<List<T>>>(
+            getAllQuery,
+          );
+          if (query == null) continue;
+          query.update((old) => [...old ?? [], res]);
+        }
       },
-      invalidateQueries: [..._cachedGetAllQueries],
     );
   }
 
-  Mutation<T, (int, TRequest)> get putMutation {
-    return Mutation<T, (int, TRequest)>(
-      mutationFn: (args) => api.put(args.$1, args.$2),
+  Mutation<T, TRequest> putMutation(int id) {
+    return Mutation<T, TRequest>(
+      key: 'put_$queryKey/$id',
+      mutationFn: (request) => api.put(id, request),
       onSuccess: (res, arg) async {
-        final query = CachedQuery.instance.getQuery<Query<List<T>>>(queryKey);
-        if (query == null) return;
-        query.update(
-          (old) =>
-              old
-                  ?.map((e) => extractId(e) == extractId(res) ? res : e)
-                  .toList() ??
-              [],
-        );
+        for (final getAllQuery in _cachedGetAllQueries) {
+          final query = CachedQuery.instance.getQuery<Query<List<T>>>(
+            getAllQuery,
+          );
+          if (query == null) continue;
+          query.update(
+            (old) =>
+                old
+                    ?.map((e) => extractId(e) == extractId(res) ? res : e)
+                    .toList() ??
+                [],
+          );
+        }
       },
-      invalidateQueries: [..._cachedGetAllQueries],
     );
   }
 
-  Mutation<T, (int, TPatchedRequest)> get patchMutation {
-    return Mutation<T, (int, TPatchedRequest)>(
-      mutationFn: (args) => api.patch(args.$1, args.$2),
+  Mutation<T, TPatchedRequest> patchMutation(int id) {
+    return Mutation<T, TPatchedRequest>(
+      key: 'patch_$queryKey/$id',
+      mutationFn: (request) => api.patch(id, request),
       onSuccess: (res, arg) async {
-        final query = CachedQuery.instance.getQuery<Query<List<T>>>(queryKey);
-        if (query == null) return;
-        query.update(
-          (old) =>
-              old
-                  ?.map((e) => extractId(e) == extractId(res) ? res : e)
-                  .toList() ??
-              [],
-        );
+        for (final getAllQuery in _cachedGetAllQueries) {
+          final query = CachedQuery.instance.getQuery<Query<List<T>>>(
+            getAllQuery,
+          );
+          if (query == null) continue;
+          query.update(
+            (old) =>
+                old
+                    ?.map((e) => extractId(e) == extractId(res) ? res : e)
+                    .toList() ??
+                [],
+          );
+        }
       },
-      invalidateQueries: [..._cachedGetAllQueries],
     );
   }
 
-  Mutation<int, int> get deleteMutation {
-    return Mutation<int, int>(
-      mutationFn: api.delete,
+  Mutation<int, void> deleteMutation(int id) {
+    return Mutation<int, void>(
+      key: 'delete_$queryKey/$id',
+      mutationFn: (_) => api.delete(id),
       onSuccess: (res, arg) {
-        final query = CachedQuery.instance.getQuery<Query<List<T>>>(queryKey);
-        if (query == null) return;
-        query.update((old) {
-          return old?.where((e) => extractId(e) != res).toList() ?? [];
-        });
+        for (final getAllQuery in _cachedGetAllQueries) {
+          final query = CachedQuery.instance.getQuery<Query<List<T>>>(
+            getAllQuery,
+          );
+          if (query == null) continue;
+          query.update(
+            (old) => old?.where((e) => extractId(e) != res).toList() ?? [],
+          );
+        }
       },
-      invalidateQueries: [..._cachedGetAllQueries],
     );
   }
 }

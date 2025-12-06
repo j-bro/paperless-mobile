@@ -5,17 +5,13 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:fpdart/fpdart.dart' show Option;
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:paperless_api/generated/lib/src/model/document.dart';
-import 'package:paperless_api/generated/lib/src/model/patched_document_request.dart';
-import 'package:paperless_api/generated/lib/src/model/suggestions.dart';
-import 'package:paperless_api/generated/lib/src/model/user.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/repository/document_repository.dart';
-import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
 import 'package:paperless_mobile/core/widgets/dialog_utils/pop_with_unsaved_changes.dart';
 import 'package:paperless_mobile/core/widgets/form_builder_fields/form_builder_localized_date_picker.dart';
 import 'package:paperless_mobile/core/widgets/query_builder/label_query_builder.dart';
@@ -79,7 +75,7 @@ class _DocumentEditPageState extends State<DocumentEditPage>
           //TODO: error handling
           return SizedBox.shrink();
         }
-        if (state.isLoading) {
+        if (state.data == null) {
           return const Scaffold(
             body: Center(child: CircularProgressIndicator()),
           );
@@ -432,13 +428,13 @@ class _DocumentEditPageState extends State<DocumentEditPage>
             .patchDocumentMutation(document.id)
             .mutate(
               PatchedDocumentRequest(
-                correspondent: correspondent,
-                documentType: documentType,
-                storagePath: storagePath,
-                tags: tags,
-                content: content,
-                title: title,
-                created: createdAt,
+                correspondent: Option.of(correspondent),
+                documentType: Option.of(documentType),
+                storagePath: Option.of(storagePath),
+                tags: Option.of(tags),
+                content: Option.of(content),
+                title: Option.of(title),
+                created: Option.of(createdAt),
               ),
             );
         if (mounted) {

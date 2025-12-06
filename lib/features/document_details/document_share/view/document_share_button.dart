@@ -6,6 +6,7 @@ import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/constants.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/store/local_store.dart';
+import 'package:paperless_mobile/core/widgets/icon_loading_widget.dart';
 import 'package:paperless_mobile/features/document_details/view/dialogs/select_file_type_dialog.dart';
 import 'package:paperless_mobile/features/document_details/document_share/cubit/document_share_cubit.dart';
 import 'package:paperless_mobile/features/settings/model/file_download_type.dart';
@@ -29,16 +30,17 @@ class _DocumentShareButtonState extends State<DocumentShareButton> {
     return ConnectivityAwareActionWrapper(
       offlineBuilder: (context, child) =>
           const IconButton(icon: Icon(Icons.share), onPressed: null),
-      child: BlocBuilder<DocumentShareCubit, DocumentShareState>(
+      child: BlocConsumer<DocumentShareCubit, DocumentShareState>(
+        listener: (context, state) {
+          if (state is DocumentShareError) {
+            showGenericError(context, state.error);
+          }
+        },
         builder: (context, state) {
           return IconButton(
             tooltip: S.of(context)!.shareTooltip,
             icon: switch (state) {
-              DocumentShareInProgress(:final progress) => SizedBox(
-                height: 16,
-                width: 16,
-                child: CircularProgressIndicator(value: progress),
-              ),
+              DocumentShareInProgress() => IconLoadingWidget(),
               _ => const Icon(Icons.share),
             },
             onPressed: widget.enabled ? _onShare : null,

@@ -1,24 +1,11 @@
-export 'authentication_api/authentication_api.dart';
-export 'authentication_api/authentication_api_impl.dart';
-
-export 'documents_api/paperless_documents_api.dart';
-export 'documents_api/paperless_documents_api_impl.dart';
-export 'saved_views_api/paperless_saved_views_api.dart';
-export 'saved_views_api/paperless_saved_views_api_impl.dart';
-export 'server_stats_api/paperless_server_stats_api.dart';
-export 'server_stats_api/paperless_server_stats_api_impl.dart';
-export 'tasks_api/paperless_tasks_api.dart';
-export 'tasks_api/paperless_tasks_api_impl.dart';
-export 'user_api/paperless_user_api.dart';
-export 'user_api/paperless_user_api_impl.dart';
-export 'labels_api/label_apis.dart';
-export 'labels_api/correspondents_api_impl.dart';
-export 'labels_api/document_types_api_impl.dart';
-export 'labels_api/storage_paths_api_impl.dart';
-export 'labels_api/tags_api_impl.dart';
-export 'custom_fields/custom_fields_api.dart';
-export 'custom_fields/custom_fields_api_impl.dart';
-export 'search_api/paperless_search_api.dart';
-export 'search_api/paperless_search_api_impl.dart';
-
+export 'authentication_api.dart';
+export 'base_crud_api_impl_mixin.dart';
 export 'crud_api.dart';
+export 'custom_fields_api.dart';
+export 'label_apis.dart';
+export 'paperless_documents_api.dart';
+export 'paperless_saved_views_api.dart';
+export 'paperless_search_api.dart';
+export 'paperless_server_stats_api.dart';
+export 'paperless_tasks_api.dart';
+export 'paperless_user_api.dart';

@@ -1,134 +1,134 @@
-//
-// AUTO-GENERATED FILE, DO NOT MODIFY!
-//
+// //
+// // AUTO-GENERATED FILE, DO NOT MODIFY!
+// //
 
-// ignore_for_file: unused_element
-import 'package:paperless_api/generated/lib/src/model/matching_algorithm.dart';
-import 'package:copy_with_extension/copy_with_extension.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:equatable/src/equatable_utils.dart';
+// // ignore_for_file: unused_element
+// import 'package:paperless_api/generated/lib/src/model/matching_algorithm.dart';
+// import 'package:copy_with_extension/copy_with_extension.dart';
+// import 'package:json_annotation/json_annotation.dart';
+// import 'package:equatable/src/equatable_utils.dart';
 
-part 'storage_path.g.dart';
+// part 'storage_path.g.dart';
 
-@CopyWith()
-@JsonSerializable(
-  checked: true,
-  createToJson: true,
-  disallowUnrecognizedKeys: false,
-  explicitToJson: true,
-)
-class StoragePath {
-  /// Returns a new [StoragePath] instance.
-  StoragePath({
-    required this.id,
+// @CopyWith()
+// @JsonSerializable(
+//   checked: true,
+//   createToJson: true,
+//   disallowUnrecognizedKeys: false,
+//   explicitToJson: true,
+// )
+// class StoragePath {
+//   /// Returns a new [StoragePath] instance.
+//   StoragePath({
+//     required this.id,
 
-    required this.slug,
+//     required this.slug,
 
-    required this.name,
+//     required this.name,
 
-    required this.path,
+//     required this.path,
 
-    this.match,
+//     this.match,
 
-    this.matchingAlgorithm,
+//     this.matchingAlgorithm,
 
-    this.isInsensitive,
+//     this.isInsensitive,
 
-    required this.documentCount,
+//     required this.documentCount,
 
-    this.owner,
+//     this.owner,
 
-    required this.userCanChange,
-  });
+//     required this.userCanChange,
+//   });
 
-  @JsonKey(name: r'id', required: true, includeIfNull: false)
-  final int id;
+//   @JsonKey(name: r'id', required: true, includeIfNull: false)
+//   final int id;
 
-  @JsonKey(name: r'slug', required: true, includeIfNull: false)
-  final String slug;
+//   @JsonKey(name: r'slug', required: true, includeIfNull: false)
+//   final String slug;
 
-  @JsonKey(name: r'name', required: true, includeIfNull: false)
-  final String name;
+//   @JsonKey(name: r'name', required: true, includeIfNull: false)
+//   final String name;
 
-  @JsonKey(name: r'path', required: true, includeIfNull: false)
-  final String path;
+//   @JsonKey(name: r'path', required: true, includeIfNull: false)
+//   final String path;
 
-  @JsonKey(name: r'match', required: false, includeIfNull: false)
-  final String? match;
+//   @JsonKey(name: r'match', required: false, includeIfNull: false)
+//   final String? match;
 
-  // minimum: 0.0
-  // maximum: 2.147483647E9
-  @JsonKey(name: r'matching_algorithm', required: false, includeIfNull: false)
-  final MatchingAlgorithm? matchingAlgorithm;
+//   // minimum: 0.0
+//   // maximum: 2.147483647E9
+//   @JsonKey(name: r'matching_algorithm', required: false, includeIfNull: false)
+//   final MatchingAlgorithm? matchingAlgorithm;
 
-  @JsonKey(name: r'is_insensitive', required: false, includeIfNull: false)
-  final bool? isInsensitive;
+//   @JsonKey(name: r'is_insensitive', required: false, includeIfNull: false)
+//   final bool? isInsensitive;
 
-  @JsonKey(name: r'document_count', required: true, includeIfNull: false)
-  final int documentCount;
+//   @JsonKey(name: r'document_count', required: true, includeIfNull: false)
+//   final int documentCount;
 
-  @JsonKey(name: r'owner', required: false, includeIfNull: false)
-  final int? owner;
+//   @JsonKey(name: r'owner', required: false, includeIfNull: false)
+//   final int? owner;
 
-  @JsonKey(name: r'user_can_change', required: true, includeIfNull: false)
-  final bool userCanChange;
+//   @JsonKey(name: r'user_can_change', required: true, includeIfNull: false)
+//   final bool userCanChange;
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        other is StoragePath &&
-            runtimeType == other.runtimeType &&
-            equals(
-              [
-                id,
-                slug,
-                name,
-                path,
-                match,
-                matchingAlgorithm,
-                isInsensitive,
-                documentCount,
-                owner,
-                userCanChange,
-              ],
-              [
-                other.id,
-                other.slug,
-                other.name,
-                other.path,
-                other.match,
-                other.matchingAlgorithm,
-                other.isInsensitive,
-                other.documentCount,
-                other.owner,
-                other.userCanChange,
-              ],
-            );
-  }
+//   @override
+//   bool operator ==(Object other) {
+//     return identical(this, other) ||
+//         other is StoragePath &&
+//             runtimeType == other.runtimeType &&
+//             equals(
+//               [
+//                 id,
+//                 slug,
+//                 name,
+//                 path,
+//                 match,
+//                 matchingAlgorithm,
+//                 isInsensitive,
+//                 documentCount,
+//                 owner,
+//                 userCanChange,
+//               ],
+//               [
+//                 other.id,
+//                 other.slug,
+//                 other.name,
+//                 other.path,
+//                 other.match,
+//                 other.matchingAlgorithm,
+//                 other.isInsensitive,
+//                 other.documentCount,
+//                 other.owner,
+//                 other.userCanChange,
+//               ],
+//             );
+//   }
 
-  @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      mapPropsToHashCode([
-        id,
-        slug,
-        name,
-        path,
-        match,
-        matchingAlgorithm,
-        isInsensitive,
-        documentCount,
-        owner,
-        userCanChange,
-      ]);
+//   @override
+//   int get hashCode =>
+//       runtimeType.hashCode ^
+//       mapPropsToHashCode([
+//         id,
+//         slug,
+//         name,
+//         path,
+//         match,
+//         matchingAlgorithm,
+//         isInsensitive,
+//         documentCount,
+//         owner,
+//         userCanChange,
+//       ]);
 
-  factory StoragePath.fromJson(Map<String, dynamic> json) =>
-      _$StoragePathFromJson(json);
+//   factory StoragePath.fromJson(Map<String, dynamic> json) =>
+//       _$StoragePathFromJson(json);
 
-  Map<String, dynamic> toJson() => _$StoragePathToJson(this);
+//   Map<String, dynamic> toJson() => _$StoragePathToJson(this);
 
-  @override
-  String toString() {
-    return toJson().toString();
-  }
-}
+//   @override
+//   String toString() {
+//     return toJson().toString();
+//   }
+// }

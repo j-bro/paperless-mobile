@@ -3,7 +3,6 @@ import 'dart:typed_data';
 
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
-import 'package:paperless_api/generated/lib/src/model/saved_view.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/accessibility/accessible_page.dart';
 import 'package:paperless_mobile/core/store/local_store.dart';

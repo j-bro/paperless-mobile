@@ -1,13 +1,11 @@
 import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:paperless_api/generated/lib/src/model/document.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/widgets/highlighted_text.dart';
 import 'package:paperless_mobile/features/document_details/view/widgets/details_item.dart';
-import 'package:paperless_mobile/features/documents/view/widgets/placeholder/tags_placeholder.dart';
 import 'package:paperless_mobile/features/labels/tags/view/widgets/tags_widget.dart';
 import 'package:paperless_mobile/features/labels/view/widgets/label_text.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
@@ -135,27 +133,12 @@ class DocumentOverviewWidget extends StatelessWidget {
             ),
           ),
         if (document.tags.isNotEmpty && user.canViewTags)
-          QueryBuilder(
-            query: context.tagRepository.getAllQuery(
-              filter: GetFilterOptions(ids: document.tags),
-            ),
-            builder: (context, state) {
-              if (state.isLoading) {
-                return DetailsItemSkeleton(
-                  label: S.of(context)!.tags,
-                  child: TagsPlaceholder(
-                    count: document.tags.length,
-                  ).paddedOnly(top: 8),
-                );
-              }
-              return DetailsItem(
-                label: S.of(context)!.tags,
-                content: TagsWidget(
-                  isClickable: false,
-                  tagIds: document.tags,
-                ).paddedOnly(top: 8),
-              );
-            },
+          DetailsItem(
+            label: S.of(context)!.tags,
+            content: TagsWidget(
+              isClickable: false,
+              tagIds: document.tags,
+            ).paddedOnly(top: 8),
           ).paddedOnly(bottom: itemSpacing)
         else
           DetailsItem(

@@ -1,7 +1,6 @@
 import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:paperless_api/generated/lib/src/model/document.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
@@ -26,8 +25,8 @@ class DocumentMetaDataWidget extends StatelessWidget {
     return QueryBuilder(
       query: context.documentRepository.getMetaDataQuery(document.id),
       builder: (context, state) {
-        if (state.isLoading) {
-          return SliverToBoxAdapter(
+        if (state.isLoading && state.data == null) {
+          return SliverFillRemaining(
             child: Center(child: CircularProgressIndicator()),
           );
         }
@@ -50,6 +49,9 @@ class DocumentMetaDataWidget extends StatelessWidget {
           children: [
             if (currentUser.canEditDocuments)
               ArchiveSerialNumberField(
+                key: ValueKey(
+                  'asn_field_${document.id}_${document.archiveSerialNumber}',
+                ),
                 documentId: document.id,
                 initialValue: document.archiveSerialNumber,
               ).paddedOnly(bottom: itemSpacing),

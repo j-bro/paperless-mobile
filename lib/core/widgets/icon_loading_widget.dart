@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 
 class IconLoadingWidget extends StatelessWidget {
-  const IconLoadingWidget({super.key});
+  final double? progress;
+  const IconLoadingWidget({super.key, this.progress});
 
   @override
   Widget build(BuildContext context) {
-    final iconSize = Theme.of(context).iconTheme.size ?? 24;
+    final iconSize = (Theme.of(context).iconTheme.size ?? 24) * 0.8;
     return SizedBox(
       width: iconSize,
       height: iconSize,
-      child: const CircularProgressIndicator(strokeWidth: 2),
+      child: CircularProgressIndicator(strokeWidth: 2, value: progress),
     );
   }
 }

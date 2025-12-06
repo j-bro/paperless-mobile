@@ -1,12 +1,11 @@
 import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/bloc/connectivity_cubit.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
-import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
+import 'package:paperless_mobile/core/repository/document_repository.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/helpers/message_helpers.dart';
 
@@ -27,7 +26,7 @@ class ArchiveSerialNumberField extends StatefulWidget {
 class _ArchiveSerialNumberFieldState extends State<ArchiveSerialNumberField> {
   late final TextEditingController _asnEditingController;
   late bool _showClearButton;
-  bool _canUpdate = false;
+  final bool _canUpdate = false;
   Map<String, dynamic> _errors = {};
 
   @override
@@ -50,6 +49,7 @@ class _ArchiveSerialNumberFieldState extends State<ArchiveSerialNumberField> {
     final userCanEditDocument =
         context.loggedInUser$.paperlessUser.canEditDocuments;
     return MutationConsumer(
+      mutation: context.documentRepository.assignAsnMutation(widget.documentId),
       listener: (state) {
         switch (state) {
           case MutationSuccess():
@@ -65,7 +65,6 @@ class _ArchiveSerialNumberFieldState extends State<ArchiveSerialNumberField> {
             break;
         }
       },
-      mutation: context.documentRepository.assignAsnMutation(widget.documentId),
       builder: (context, state, assignAsn) {
         return Column(
           children: [
@@ -104,8 +103,7 @@ class _ArchiveSerialNumberFieldState extends State<ArchiveSerialNumberField> {
             ),
             TextButton.icon(
               icon: const Icon(Icons.done),
-              onPressed:
-                  context.internetConnection$ && _canUpdate && !state.isLoading
+              onPressed: _canUpdate && !state.isLoading
                   ? () => _onSubmitted(assignAsn)
                   : null,
               label: Text(S.of(context)!.save),
@@ -117,7 +115,7 @@ class _ArchiveSerialNumberFieldState extends State<ArchiveSerialNumberField> {
   }
 
   Future<void> _onSubmitted(
-    Future<MutationState<int?>> Function(int? asn) assignAsn, {
+    Future<MutationState<int?>> Function(AssignAsnRequest request) assignAsn, {
     bool auto = false,
   }) async {
     FocusScope.of(context).unfocus();
@@ -126,7 +124,7 @@ class _ArchiveSerialNumberFieldState extends State<ArchiveSerialNumberField> {
       final value = _asnEditingController.text;
       asn = int.tryParse(value);
     }
-    await assignAsn(asn);
+    await assignAsn(AssignAsnRequest(auto: auto, asn: asn));
     _onAsnUpdated();
   }
 

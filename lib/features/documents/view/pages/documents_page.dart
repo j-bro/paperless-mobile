@@ -4,13 +4,12 @@ import 'package:defer_pointer/defer_pointer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:paperless_api/generated/lib/src/model/document.dart';
-import 'package:paperless_api/generated/lib/src/model/patched_saved_view_request.dart';
-import 'package:paperless_api/generated/lib/src/model/status_enum.dart';
+import 'package:fpdart/fpdart.dart' show Option;
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/extensions/document_extensions.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
+import 'package:paperless_mobile/core/store/bloc/current_user_app_state_builder.dart';
 import 'package:paperless_mobile/features/app_drawer/view/app_drawer.dart';
 import 'package:paperless_mobile/features/document_search/view/sliver_search_bar.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/adaptive_documents_view.dart';
@@ -23,7 +22,6 @@ import 'package:paperless_mobile/features/documents/view/widgets/selection/docum
 import 'package:paperless_mobile/features/documents/view/widgets/selection/view_type_selection_widget.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/sort_documents_button.dart';
 import 'package:paperless_mobile/features/logging/data/logger.dart';
-import 'package:paperless_mobile/features/settings/model/view_type.dart';
 import 'package:paperless_mobile/features/tasks/model/pending_tasks_notifier.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/helpers/message_helpers.dart';
@@ -55,7 +53,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
 
   final _savedViewsExpansionController = ExpansibleController();
   bool _showExtendedFab = true;
-  List<Document> _selection = [];
+  final List<Document> _selection = [];
 
   @override
   void initState() {
@@ -143,15 +141,19 @@ class _DocumentsPageState extends State<DocumentsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final viewType = context.loggedInUserData$.appState!.documentsPageViewType;
-    final canResetFilter =
-        context.currentDocumentFilter$.appliedFiltersCount > 0;
     return SafeArea(
       top: true,
       child: Scaffold(
         drawer: const AppDrawer(),
         floatingActionButton: _selection.isNotEmpty
-            ? _buildFilterButton(context, canResetFilter)
+            ? CurrentUserAppStateBuilder(
+                builder: (context, appState) {
+                  return _buildFilterButton(
+                    context,
+                    appState.currentDocumentFilter.appliedFiltersCount > 0,
+                  );
+                },
+              )
             : null,
         resizeToAvoidBottomInset: true,
         body: PopScope(
@@ -195,10 +197,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
               SliverOverlapAbsorber(
                 handle: savedViewsHandle,
                 sliver: SliverPinnedHeader(
-                  child: Material(
-                    elevation: 2,
-                    child: _buildViewActions(viewType),
-                  ),
+                  child: Material(elevation: 2, child: _buildViewActions()),
                 ),
               ),
             ],
@@ -267,7 +266,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
                           children: [
                             if (_showExtendedFab)
                               Text(
-                                "Reset (${context.currentDocumentFilter$.appliedFiltersCount})",
+                                "Reset (${context.currentDocumentFilter$.appliedFiltersCount})", //TODO: INTL
                                 style: Theme.of(context).textTheme.labelLarge
                                     ?.copyWith(
                                       color: Theme.of(
@@ -351,8 +350,8 @@ class _DocumentsPageState extends State<DocumentsPage> {
             SliverOverlapInjector(handle: searchBarHandle),
             SliverOverlapInjector(handle: savedViewsHandle),
             SliverToBoxAdapter(
-              child: Builder(
-                builder: (context) {
+              child: CurrentUserAppStateBuilder(
+                builder: (context, appState) {
                   if (!context.loggedInUser$.paperlessUser.canViewSavedViews) {
                     return const SizedBox.shrink();
                   }
@@ -371,14 +370,15 @@ class _DocumentsPageState extends State<DocumentsPage> {
                       }
                     },
                     onUpdateView: (view) async {
-                      await context.savedViewRepository.patchMutation.mutate((
-                        view.id,
-                        PatchedSavedViewRequest(
-                          filterRules: currentFilter
-                              ?.toFilterRules()
-                              .toRequest(),
-                        ),
-                      ));
+                      await context.savedViewRepository
+                          .patchMutation(view.id)
+                          .mutate(
+                            PatchedSavedViewRequest(
+                              filterRules: Option.of(
+                                currentFilter?.toFilterRules().toRequest(),
+                              ),
+                            ),
+                          );
                       if (context.mounted) {
                         showSnackBar(
                           context,
@@ -394,67 +394,86 @@ class _DocumentsPageState extends State<DocumentsPage> {
                             ConfirmDeleteSavedViewDialog(view: view),
                       );
                       if (shouldRemove && context.mounted) {
-                        await context.savedViewRepository.deleteMutation.mutate(
-                          view.id,
-                        );
+                        await context.savedViewRepository
+                            .deleteMutation(view.id)
+                            .mutate(null);
                         if (currentFilter?.selectedView != null &&
                             currentFilter!.selectedView == view.id) {
                           _onResetFilter();
                         }
                       }
                     },
-                    filter: context.currentDocumentFilter$,
+                    filter: appState.currentDocumentFilter,
                   );
                 },
               ),
             ),
-            QueryBuilder(
-              query: context.documentRepository.getAllQuery(
-                filter: context.currentDocumentFilter$,
-              ),
-              builder: (context, state) {
-                if (state.isSuccess &&
-                    (state.data?.firstPage?.count ?? 0) == 0) {
-                  return SliverToBoxAdapter(
-                    child: DocumentsEmptyState(
-                      filter: context.currentDocumentFilter$,
-                      onReset: _onResetFilter,
-                    ),
-                  );
-                }
-                final documents =
-                    state.data?.pages.expand((p) => p.results).toList() ?? [];
-                final allowToggleFilter = _selection.isEmpty;
-                return SliverAdaptiveDocumentsView(
-                  viewType:
-                      context.loggedInUserData$.appState!.documentsPageViewType,
-                  onTap: (document) {
-                    DocumentDetailsRoute(
-                      id: document.id,
-                      title: document.title,
-                      thumbnailUrl: document.buildThumbnailUrl(context),
-                    ).push(context);
+            CurrentUserAppStateBuilder(
+              builder: (context, appState) {
+                return QueryBuilder(
+                  query: context.documentRepository.getAllQuery(
+                    filter: appState.currentDocumentFilter,
+                  ),
+                  builder: (context, state) {
+                    if (state.data != null &&
+                        (state.data?.firstPage?.count ?? 0) == 0) {
+                      return SliverToBoxAdapter(
+                        child: DocumentsEmptyState(
+                          filter: context.currentDocumentFilter$,
+                          onReset: _onResetFilter,
+                        ),
+                      );
+                    }
+                    final documents =
+                        state.data?.pages.expand((p) => p.results).toList() ??
+                        [];
+                    final allowToggleFilter = _selection.isEmpty;
+                    return CurrentUserAppStateBuilder(
+                      builder: (context, appState) {
+                        final viewType = appState.documentsPageViewType;
+                        return SliverAdaptiveDocumentsView(
+                          viewType: viewType,
+                          onTap: (document) {
+                            DocumentDetailsRoute(
+                              id: document.id,
+                              title: document.title,
+                              thumbnailUrl: document.buildThumbnailUrl(context),
+                            ).push(context);
+                          },
+                          onSelected: (document) {
+                            setState(() {
+                              _selection.add(document);
+                            });
+                          },
+                          onTagSelected: allowToggleFilter
+                              ? _toggleTagInFilter
+                              : null,
+                          onCorrespondentSelected: allowToggleFilter
+                              ? _addCorrespondentToFilter
+                              : null,
+                          onDocumentTypeSelected: allowToggleFilter
+                              ? _addDocumentTypeToFilter
+                              : null,
+                          onStoragePathSelected: allowToggleFilter
+                              ? _addStoragePathToFilter
+                              : null,
+                          documents: documents,
+                          hasLoaded: state.isSuccess,
+                          isLabelClickable: true,
+                          isLoading: switch (state) {
+                            InfiniteQueryInitial() => true,
+                            InfiniteQueryLoading(
+                              :final isRefetching,
+                              :final isLoading,
+                            ) =>
+                              isLoading && !isRefetching,
+                            _ => false,
+                          },
+                          selectedDocumentIds: _selection.ids,
+                        );
+                      },
+                    );
                   },
-                  onSelected: (document) {
-                    setState(() {
-                      _selection.add(document);
-                    });
-                  },
-                  onTagSelected: allowToggleFilter ? _toggleTagInFilter : null,
-                  onCorrespondentSelected: allowToggleFilter
-                      ? _addCorrespondentToFilter
-                      : null,
-                  onDocumentTypeSelected: allowToggleFilter
-                      ? _addDocumentTypeToFilter
-                      : null,
-                  onStoragePathSelected: allowToggleFilter
-                      ? _addStoragePathToFilter
-                      : null,
-                  documents: documents,
-                  hasLoaded: state.isSuccess,
-                  isLabelClickable: true,
-                  isLoading: state.isLoading,
-                  selectedDocumentIds: _selection.ids,
                 );
               },
             ),
@@ -465,7 +484,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
     );
   }
 
-  Widget _buildViewActions(ViewType viewType) {
+  Widget _buildViewActions() {
     return Container(
       padding: const EdgeInsets.all(4),
       color: Theme.of(context).colorScheme.surface,
@@ -473,11 +492,17 @@ class _DocumentsPageState extends State<DocumentsPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SortDocumentsButton(enabled: _selection.isEmpty),
-          ViewTypeSelectionWidget(
-            viewType: viewType,
-            onChanged: (viewType) {
-              context.localStore.updateLoggedInUserAppState(
-                (appState) => appState.copyWith(savedViewsViewType: viewType),
+          CurrentUserAppStateBuilder(
+            builder: (context, appState) {
+              final viewType = appState.documentsPageViewType;
+              return ViewTypeSelectionWidget(
+                viewType: viewType,
+                onChanged: (viewType) {
+                  context.localStore.updateLoggedInUserAppState(
+                    (appState) =>
+                        appState.copyWith(documentsPageViewType: viewType),
+                  );
+                },
               );
             },
           ),

@@ -3,7 +3,6 @@ import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_api/src/models/query_parameters/date_range_queries/date_range_query_field.dart';
 
 part 'document_filter.g.dart';
 

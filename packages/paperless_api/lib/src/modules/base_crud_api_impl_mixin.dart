@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:paperless_api/src/extensions/dio_exception_extension.dart';
 import 'package:paperless_api/src/models/models.dart';
 import 'package:paperless_api/src/modules/crud_api.dart';
-import 'package:paperless_api/src/request_utils.dart';
+import 'package:paperless_api/src/utils/request_utils.dart';
 import 'package:paperless_api/src/utils/unsafe_to_json.dart';
 
 ///

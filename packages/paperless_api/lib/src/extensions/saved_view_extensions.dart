@@ -1,6 +1,4 @@
-import 'package:paperless_api/generated/lib/src/model/saved_view.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_api/src/extensions/filter_rule_extension.dart';
 
 extension SavedViewExtension on SavedView {
   DocumentFilter toDocumentFilter() {

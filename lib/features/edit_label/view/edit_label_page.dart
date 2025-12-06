@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
@@ -7,57 +8,60 @@ import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/widgets/dialog_utils/dialog_cancel_button.dart';
 import 'package:paperless_mobile/core/widgets/dialog_utils/dialog_confirm_button.dart';
 import 'package:paperless_mobile/core/widgets/dialog_utils/pop_with_unsaved_changes.dart';
+import 'package:paperless_mobile/core/widgets/icon_loading_widget.dart';
 import 'package:paperless_mobile/features/edit_label/view/label_form.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/helpers/message_helpers.dart';
 
-class EditLabelPage<T extends Label> extends StatelessWidget {
-  final T label;
-  final T Function(Map<String, dynamic> json) fromJsonT;
+class EditLabelPage<T extends Label, TRequest extends LabelRequest>
+    extends StatelessWidget {
+  final T initialValue;
+  final TRequest Function(Map<String, dynamic> json) fromJsonTRequest;
   final List<Widget> additionalFields;
-  final Future<T> Function(BuildContext context, T label) onSubmit;
-  final Future<void> Function(BuildContext context, T label) onDelete;
+  final Mutation<T, TRequest> editMutation;
+  final Mutation<int, void> deleteMutation;
   final bool canDelete;
 
   const EditLabelPage({
     super.key,
-    required this.label,
-    required this.fromJsonT,
+    required this.initialValue,
+    required this.fromJsonTRequest,
     this.additionalFields = const [],
-    required this.onSubmit,
-    required this.onDelete,
+    required this.editMutation,
+    required this.deleteMutation,
     required this.canDelete,
   });
 
   @override
   Widget build(BuildContext context) {
     return EditLabelForm(
-      label: label,
+      initialValue: initialValue,
       additionalFields: additionalFields,
-      fromJsonT: fromJsonT,
-      onSubmit: onSubmit,
-      onDelete: onDelete,
+      fromJsonT: fromJsonTRequest,
+      editMutation: editMutation,
+      deleteMutation: deleteMutation,
       canDelete: canDelete,
     );
   }
 }
 
-class EditLabelForm<T extends Label> extends StatelessWidget {
-  final T label;
-  final T Function(Map<String, dynamic> json) fromJsonT;
+class EditLabelForm<T extends Label, TRequest extends LabelRequest>
+    extends StatelessWidget {
+  final T initialValue;
+  final TRequest Function(Map<String, dynamic> json) fromJsonT;
   final List<Widget> additionalFields;
-  final Future<T> Function(BuildContext context, T label) onSubmit;
-  final Future<void> Function(BuildContext context, T label) onDelete;
+  final Mutation<T, TRequest> editMutation;
+  final Mutation<int, void> deleteMutation;
   final bool canDelete;
   final _formKey = GlobalKey<FormBuilderState>();
 
   EditLabelForm({
     super.key,
-    required this.label,
+    required this.initialValue,
     required this.fromJsonT,
     required this.additionalFields,
-    required this.onSubmit,
-    required this.onDelete,
+    required this.editMutation,
+    required this.deleteMutation,
     required this.canDelete,
   });
 
@@ -71,21 +75,30 @@ class EditLabelForm<T extends Label> extends StatelessWidget {
         appBar: AppBar(
           title: Text(S.of(context)!.edit),
           actions: [
-            IconButton(
-              onPressed: canDelete ? () => _onDelete(context) : null,
-              icon: const Icon(Icons.delete),
+            MutationBuilder(
+              mutation: deleteMutation,
+              builder: (context, state, _) {
+                return IconButton(
+                  onPressed: canDelete && !state.isLoading
+                      ? () => _onDelete(context)
+                      : null,
+                  icon: state.isLoading
+                      ? const IconLoadingWidget()
+                      : Icon(Icons.delete),
+                );
+              },
             ),
           ],
         ),
-        body: LabelForm<T>(
+        body: LabelForm(
           formKey: _formKey,
           autofocusNameField: false,
-          initialValue: label,
+          initialValue: initialValue.toRequest(),
           fromJsonT: fromJsonT,
-          submitButtonConfig: SubmitButtonConfig<T>(
+          submitButtonConfig: SubmitButtonConfig<T, TRequest>(
             icon: const Icon(Icons.save),
             label: Text(S.of(context)!.saveChanges),
-            onSubmit: (label) => onSubmit(context, label),
+            mutation: editMutation,
           ),
           additionalFields: additionalFields,
         ),
@@ -94,7 +107,7 @@ class EditLabelForm<T extends Label> extends StatelessWidget {
   }
 
   void _onDelete(BuildContext context) async {
-    if ((label.documentCount ?? 0) > 0) {
+    if ((initialValue.documentCount ?? 0) > 0) {
       final shouldDelete =
           await showDialog<bool>(
             context: context,
@@ -113,7 +126,13 @@ class EditLabelForm<T extends Label> extends StatelessWidget {
           false;
       if (shouldDelete) {
         try {
-          if (context.mounted) onDelete(context, label);
+          final mutationResult = await deleteMutation.mutate();
+          if (mutationResult is MutationError) {
+            throw (mutationResult as MutationError).error;
+          }
+          if (context.mounted) {
+            context.pop();
+          }
         } on PaperlessApiException catch (error) {
           if (context.mounted) {
             showErrorMessage(context, error);
@@ -121,12 +140,9 @@ class EditLabelForm<T extends Label> extends StatelessWidget {
         } catch (error, stackTrace) {
           log("An error occurred!", error: error, stackTrace: stackTrace);
         }
-        if (context.mounted) {
-          context.pop();
-        }
       }
     } else {
-      onDelete(context, label);
+      deleteMutation.mutate();
       context.pop();
     }
   }

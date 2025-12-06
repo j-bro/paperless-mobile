@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
-import 'package:paperless_api/generated/lib/src/model/saved_view.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
@@ -93,10 +92,9 @@ class _EditSavedViewPageState extends State<EditSavedViewPage> {
             _savedViewFormKey.currentState!.value[_fkShowOnDashboard],
       );
       final router = GoRouter.of(context);
-      await context.savedViewRepository.putMutation.mutate((
-        widget.savedView.id,
-        savedView,
-      ));
+      await context.savedViewRepository
+          .putMutation(widget.savedView.id)
+          .mutate(savedView);
       router.pop();
     }
   }

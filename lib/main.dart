@@ -96,9 +96,9 @@ void main() async {
       final defaultLocale = defaultPreferredLocale.languageCode;
       await initializeDefaultParameters();
       CachedQuery.instance.configFlutter(
-        config: GlobalQueryConfigFlutter(
-          // refetchOnConnection: true,
-          // refetchOnResume: true,
+        config: GlobalQueryConfig(
+          refetchOnConnection: true,
+          refetchOnResume: true,
         ),
       );
       final connectivityStatusService = ConnectivityStatusServiceImpl(
@@ -133,13 +133,14 @@ void main() async {
       // Manages security context, required for self signed client certificates
       final SessionManager sessionManager = SessionManagerImpl([
         PrettyDioLogger(
+          enabled: kDebugMode,
           compact: true,
           responseBody: false,
-          responseHeader: false,
-          request: false,
+          responseHeader: true,
+          request: true,
           requestBody: false,
           requestHeader: false,
-          logPrint: (object) => logger.t,
+          logPrint: (object) => debugPrint(object.toString()),
         ),
         languageHeaderInterceptor,
       ]);

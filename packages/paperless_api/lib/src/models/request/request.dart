@@ -1,4 +1,3 @@
-//Export all
 export 'document_filter_options.dart';
 export 'get_filter_options.dart';
 export 'set_permissions.dart';

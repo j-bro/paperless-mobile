@@ -1,5 +1,4 @@
 import 'package:cached_query_flutter/cached_query_flutter.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -26,6 +25,7 @@ class DocumentNotesWidget extends StatefulWidget {
 class _DocumentNotesWidgetState extends State<DocumentNotesWidget> {
   final _noteContentController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     const hintKey = "hideMarkdownSyntaxHint";
@@ -143,7 +143,7 @@ class _DocumentNotesWidgetState extends State<DocumentNotesWidget> {
             SliverList.separated(
               separatorBuilder: (context, index) => const SizedBox(height: 16),
               itemBuilder: (context, index) {
-                final note = state.data!.pages.flattened.elementAt(index);
+                final note = state.data![index];
                 return Card(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -201,7 +201,7 @@ class _DocumentNotesWidgetState extends State<DocumentNotesWidget> {
                   ).padded(16),
                 );
               },
-              itemCount: state.data!.pages.flattened.length,
+              itemCount: state.data!.length,
             ),
           ],
         );

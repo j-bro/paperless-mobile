@@ -2,16 +2,17 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
+import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:dio/dio.dart';
+import 'package:equatable/src/equatable_utils.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:paperless_api/generated/lib/src/model/color_conversion_strategy_enum.dart';
+import 'package:paperless_api/generated/lib/src/model/mode_enum.dart';
+import 'package:paperless_api/generated/lib/src/model/output_type_enum.dart';
 // ignore_for_file: unused_element
 import 'package:paperless_api/generated/lib/src/model/skip_archive_file_enum.dart';
 import 'package:paperless_api/generated/lib/src/model/unpaper_clean_enum.dart';
-import 'package:paperless_api/generated/lib/src/model/mode_enum.dart';
-import 'package:paperless_api/generated/lib/src/model/output_type_enum.dart';
-import 'package:paperless_api/generated/lib/src/model/color_conversion_strategy_enum.dart';
-import 'package:dio/dio.dart';
-import 'package:copy_with_extension/copy_with_extension.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:equatable/src/equatable_utils.dart';
 
 part 'patched_application_configuration_request.g.dart';
 
@@ -79,41 +80,41 @@ class PatchedApplicationConfigurationRequest {
   });
 
   @JsonKey(name: r'user_args', required: false, includeIfNull: false)
-  final Object? userArgs;
+  final Option<Object?>? userArgs;
 
   @JsonKey(name: r'barcode_tag_mapping', required: false, includeIfNull: false)
-  final Object? barcodeTagMapping;
+  final Option<Object?>? barcodeTagMapping;
 
   @JsonKey(name: r'output_type', required: false, includeIfNull: false)
-  final OutputTypeEnum? outputType;
+  final Option<OutputTypeEnum?>? outputType;
 
   // minimum: 1
   // maximum: 2147483647
   @JsonKey(name: r'pages', required: false, includeIfNull: false)
-  final int? pages;
+  final Option<int?>? pages;
 
   @JsonKey(name: r'language', required: false, includeIfNull: false)
-  final String? language;
+  final Option<String?>? language;
 
   @JsonKey(name: r'mode', required: false, includeIfNull: false)
-  final ModeEnum? mode;
+  final Option<ModeEnum?>? mode;
 
   @JsonKey(name: r'skip_archive_file', required: false, includeIfNull: false)
-  final SkipArchiveFileEnum? skipArchiveFile;
+  final Option<SkipArchiveFileEnum?>? skipArchiveFile;
 
   // minimum: 1
   // maximum: 2147483647
   @JsonKey(name: r'image_dpi', required: false, includeIfNull: false)
-  final int? imageDpi;
+  final Option<int?>? imageDpi;
 
   @JsonKey(name: r'unpaper_clean', required: false, includeIfNull: false)
-  final UnpaperCleanEnum? unpaperClean;
+  final Option<UnpaperCleanEnum?>? unpaperClean;
 
   @JsonKey(name: r'deskew', required: false, includeIfNull: false)
-  final bool? deskew;
+  final Option<bool?>? deskew;
 
   @JsonKey(name: r'rotate_pages', required: false, includeIfNull: false)
-  final bool? rotatePages;
+  final Option<bool?>? rotatePages;
 
   // minimum: 0.0
   @JsonKey(
@@ -121,67 +122,66 @@ class PatchedApplicationConfigurationRequest {
     required: false,
     includeIfNull: false,
   )
-  final double? rotatePagesThreshold;
+  final Option<double?>? rotatePagesThreshold;
 
   // minimum: 0.0
   @JsonKey(name: r'max_image_pixels', required: false, includeIfNull: false)
-  final double? maxImagePixels;
-
+  final Option<double?>? maxImagePixels;
   @JsonKey(
     name: r'color_conversion_strategy',
     required: false,
     includeIfNull: false,
   )
-  final ColorConversionStrategyEnum? colorConversionStrategy;
+  final Option<ColorConversionStrategyEnum?>? colorConversionStrategy;
 
   @JsonKey(name: r'app_title', required: false, includeIfNull: false)
-  final String? appTitle;
+  final Option<String?>? appTitle;
 
-  @JsonKey(ignore: true)
-  final MultipartFile? appLogo;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final Option<MultipartFile?>? appLogo;
 
   @JsonKey(name: r'barcodes_enabled', required: false, includeIfNull: false)
-  final bool? barcodesEnabled;
+  final Option<bool?>? barcodesEnabled;
 
   @JsonKey(
     name: r'barcode_enable_tiff_support',
     required: false,
     includeIfNull: false,
   )
-  final bool? barcodeEnableTiffSupport;
+  final Option<bool?>? barcodeEnableTiffSupport;
 
   @JsonKey(name: r'barcode_string', required: false, includeIfNull: false)
-  final String? barcodeString;
+  final Option<String?>? barcodeString;
 
   @JsonKey(
     name: r'barcode_retain_split_pages',
     required: false,
     includeIfNull: false,
   )
-  final bool? barcodeRetainSplitPages;
+  final Option<bool?>? barcodeRetainSplitPages;
 
   @JsonKey(name: r'barcode_enable_asn', required: false, includeIfNull: false)
-  final bool? barcodeEnableAsn;
+  final Option<bool?>? barcodeEnableAsn;
 
   @JsonKey(name: r'barcode_asn_prefix', required: false, includeIfNull: false)
-  final String? barcodeAsnPrefix;
+  final Option<String?>? barcodeAsnPrefix;
 
   // minimum: 1.0
   @JsonKey(name: r'barcode_upscale', required: false, includeIfNull: false)
-  final double? barcodeUpscale;
+  final Option<double?>? barcodeUpscale;
 
   // minimum: 1
   // maximum: 2147483647
   @JsonKey(name: r'barcode_dpi', required: false, includeIfNull: false)
-  final int? barcodeDpi;
+  final Option<int?>? barcodeDpi;
 
   // minimum: 1
   // maximum: 2147483647
   @JsonKey(name: r'barcode_max_pages', required: false, includeIfNull: false)
-  final int? barcodeMaxPages;
+  final Option<int?>? barcodeMaxPages;
 
   @JsonKey(name: r'barcode_enable_tag', required: false, includeIfNull: false)
-  final bool? barcodeEnableTag;
+  final Option<bool?>? barcodeEnableTag;
 
   @override
   bool operator ==(Object other) {

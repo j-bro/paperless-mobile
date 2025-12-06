@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:paperless_api/generated/lib/src/model/bulk_edit_request.dart';
-import 'package:paperless_api/generated/lib/src/model/document.dart';
-import 'package:paperless_api/generated/lib/src/model/method_enum.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/extensions/document_extensions.dart';

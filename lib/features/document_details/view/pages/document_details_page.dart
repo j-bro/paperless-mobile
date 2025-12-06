@@ -2,7 +2,6 @@ import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:paperless_api/generated/lib/src/model/document.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/accessibility/accessibility_utils.dart';
 import 'package:paperless_mobile/core/bloc/connectivity_cubit.dart';
@@ -53,6 +52,13 @@ class _DocumentDetailsPageState extends State<DocumentDetailsPage> {
   static const double _itemSpacing = 24;
 
   final _pagingScrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    context.documentRepository.getMetaDataQuery(widget.id).fetch();
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -70,17 +76,16 @@ class _DocumentDetailsPageState extends State<DocumentDetailsPage> {
       child: QueryBuilder(
         query: context.documentRepository.getDocumentQuery(widget.id),
         builder: (context, state) {
-          debugPrint(state.data?.notes.length.toString() ?? "No notes loaded");
           return DefaultTabController(
             length: 6,
             child: Scaffold(
               extendBodyBehindAppBar: false,
               floatingActionButtonLocation:
                   FloatingActionButtonLocation.endDocked,
-              floatingActionButton: state.isSuccess
+              floatingActionButton: state.data != null
                   ? _buildEditButton(state.data!, currentUser)
                   : null,
-              bottomNavigationBar: _buildBottomAppBar(),
+              bottomNavigationBar: _buildBottomAppBar(state, currentUser),
               body: NestedScrollView(
                 headerSliverBuilder: (context, innerBoxIsScrolled) => [
                   SliverOverlapAbsorber(
@@ -108,9 +113,10 @@ class _DocumentDetailsPageState extends State<DocumentDetailsPage> {
   }
 
   Widget _buildBody(BuildContext context, QueryStatus<Document> state) {
-    if (state.isLoading) {
+    if (state.isLoading && state.data == null) {
       return _buildLoadingState();
     }
+
     if (state.isError) {
       return _buildErrorState();
     }
@@ -370,67 +376,66 @@ class _DocumentDetailsPageState extends State<DocumentDetailsPage> {
     return Center(child: CircularProgressIndicator());
   }
 
-  Widget _buildBottomAppBar() {
-    return QueryBuilder(
-      query: context.documentRepository.getDocumentQuery(widget.id),
-      builder: (context, state) {
-        final currentUser = context.loggedInUser$;
-        return BottomAppBar(
-          child: Builder(
-            builder: (context) {
-              if (!state.isSuccess) {
-                return SizedBox.shrink();
-              }
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  ConnectivityAwareActionWrapper(
-                    disabled: !currentUser.paperlessUser.canDeleteDocuments,
-                    offlineBuilder: (context, child) {
-                      return const IconButton(
-                        icon: Icon(Icons.delete),
-                        onPressed: null,
-                      ).paddedSymmetrically(horizontal: 4);
-                    },
-                    child: MutationBuilder(
-                      mutation: context.documentRepository
-                          .deleteDocumentMutation(widget.id),
-                      builder: (context, mutationState, delete) {
-                        return IconButton(
-                          tooltip: S.of(context)!.deleteDocumentTooltip,
-                          icon: mutationState.isLoading
-                              ? CircularProgressIndicator()
-                              : Icon(Icons.delete),
-                          onPressed: () => _onDelete(state.data!, delete),
-                        ).paddedSymmetrically(horizontal: 4);
-                      },
-                    ),
+  Widget _buildBottomAppBar(
+    QueryState<Document> state,
+    LocalUserAccount currentUser,
+  ) {
+    return BottomAppBar(
+      child: Builder(
+        builder: (context) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              ConnectivityAwareActionWrapper(
+                disabled: !currentUser.paperlessUser.canDeleteDocuments,
+                offlineBuilder: (context, child) {
+                  return const IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: null,
+                  ).paddedSymmetrically(horizontal: 4);
+                },
+                child: MutationConsumer(
+                  listener: (state) {
+                    if (state is MutationError) {
+                      showGenericError(context, state.error);
+                    }
+                  },
+                  mutation: context.documentRepository.deleteDocumentMutation(
+                    widget.id,
                   ),
-                  ConnectivityAwareActionWrapper(
-                    offlineBuilder: (context, child) =>
-                        const DocumentDownloadButton(
-                          document: null,
-                          enabled: false,
-                        ),
-                    child: DocumentDownloadButton(document: state.data),
-                  ),
-                  ConnectivityAwareActionWrapper(
-                    offlineBuilder: (context, child) => const IconButton(
-                      icon: Icon(Icons.open_in_new),
-                      onPressed: null,
+                  builder: (context, mutationState, delete) {
+                    return IconButton(
+                      tooltip: S.of(context)!.deleteDocumentTooltip,
+                      icon: mutationState.isLoading
+                          ? CircularProgressIndicator()
+                          : Icon(Icons.delete),
+                      onPressed: () => _onDelete(state.data!, delete),
+                    ).paddedSymmetrically(horizontal: 4);
+                  },
+                ),
+              ),
+              ConnectivityAwareActionWrapper(
+                offlineBuilder: (context, child) =>
+                    const DocumentDownloadButton(
+                      document: null,
+                      enabled: false,
                     ),
-                    child: DocumentOpenInSystemViewerButton().paddedOnly(
-                      right: 4.0,
-                    ),
-                  ),
-                  DocumentShareButton(),
-                  DocumentOpenInSystemViewerButton(),
-                ],
-              );
-            },
-          ),
-        );
-      },
+                child: DocumentDownloadButton(document: state.data),
+              ),
+              ConnectivityAwareActionWrapper(
+                offlineBuilder: (context, child) => const IconButton(
+                  icon: Icon(Icons.open_in_new),
+                  onPressed: null,
+                ),
+                child: DocumentOpenInSystemViewerButton().paddedOnly(
+                  right: 4.0,
+                ),
+              ),
+              DocumentShareButton(),
+            ],
+          );
+        },
+      ),
     );
   }
 

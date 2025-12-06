@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
-import 'package:paperless_api/generated/lib/src/model/saved_view.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/features/saved_view/view/add_saved_view_page.dart';
 import 'package:paperless_mobile/features/saved_view/view/edit_saved_view_page.dart';

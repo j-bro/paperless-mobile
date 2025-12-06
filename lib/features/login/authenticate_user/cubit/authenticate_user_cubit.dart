@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:paperless_api/generated/lib/src/model/paperless_auth_token_request.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/security/session_manager_impl.dart';
 import 'package:paperless_mobile/features/login/model/client_certificate.dart';

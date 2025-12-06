@@ -51,7 +51,7 @@ class LabelTabView<T extends Label> extends StatelessWidget {
         return QueryBuilder(
           query: query,
           builder: (context, state) {
-            if (state.isLoading) {
+            if (state is QueryLoading && state.data == null) {
               return const SliverFillRemaining(
                 child: Center(child: CircularProgressIndicator()),
               );

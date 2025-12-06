@@ -1,5 +1,5 @@
-import 'package:paperless_api/generated/lib/src/model/patched_tag_request.dart';
-import 'package:paperless_api/generated/lib/src/model/tag_request.dart';
+import 'dart:convert';
+
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/repository/crud_repository.dart';
 
@@ -20,6 +20,6 @@ class TagRepository
   @override
   String? variableHash(GetFilterOptions? options) {
     final normalized = options?.copyWith(page: null).props;
-    return normalized.hashCode.toString();
+    return jsonEncode(normalized);
   }
 }

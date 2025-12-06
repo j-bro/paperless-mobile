@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:paperless_api/generated/lib/src/model/document_type_request.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/features/edit_label/view/add_label_page.dart';
@@ -11,15 +10,11 @@ class AddDocumentTypePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AddLabelPage<DocumentType>(
+    return AddLabelPage(
       pageTitle: Text(S.of(context)!.addDocumentType),
-      fromJsonT: DocumentType.fromJson,
+      fromJsonT: DocumentTypeRequest.fromJson,
       initialName: initialName,
-      onSubmit: (context, label) async {
-        final response = await context.documentTypeRepository.createMutation
-            .mutate(DocumentTypeRequest.fromJson(label.toJson()));
-        return response.data!;
-      },
+      mutation: context.documentTypeRepository.createMutation,
     );
   }
 }

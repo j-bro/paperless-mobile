@@ -1,5 +1,4 @@
 import 'package:cached_query_flutter/cached_query_flutter.dart';
-import 'package:paperless_api/generated/lib/src/model/search_result.dart';
 import 'package:paperless_api/paperless_api.dart';
 
 class SearchRepository {

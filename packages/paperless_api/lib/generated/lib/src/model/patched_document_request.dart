@@ -2,12 +2,13 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
-// ignore_for_file: unused_element
-import 'package:paperless_api/generated/lib/src/model/custom_field_instance_request.dart';
-import 'package:paperless_api/generated/lib/src/model/correspondent_request_set_permissions.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/src/equatable_utils.dart';
+// ignore_for_file: unused_element
+import 'package:fpdart/fpdart.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:paperless_api/generated/lib/src/model/correspondent_request_set_permissions.dart';
+import 'package:paperless_api/generated/lib/src/model/custom_field_instance_request.dart';
 
 part 'patched_document_request.g.dart';
 
@@ -22,62 +23,49 @@ class PatchedDocumentRequest {
   /// Returns a new [PatchedDocumentRequest] instance.
   PatchedDocumentRequest({
     this.correspondent,
-
     this.documentType,
-
     this.storagePath,
-
     this.title,
-
     this.content,
-
     this.tags,
-
     this.created,
-
     this.createdDate,
-
     this.deletedAt,
-
     this.archiveSerialNumber,
-
     this.owner,
-
     this.setPermissions,
-
     this.customFields,
-
     this.removeInboxTags = false,
   });
 
   @JsonKey(name: r'correspondent', required: false, includeIfNull: false)
-  final int? correspondent;
+  final Option<int?>? correspondent;
 
   @JsonKey(name: r'document_type', required: false, includeIfNull: false)
-  final int? documentType;
+  final Option<int?>? documentType;
 
   @JsonKey(name: r'storage_path', required: false, includeIfNull: false)
-  final int? storagePath;
+  final Option<int?>? storagePath;
 
   @JsonKey(name: r'title', required: false, includeIfNull: false)
-  final String? title;
+  final Option<String?>? title;
 
   /// The raw, text-only data of the document. This field is primarily used for searching.
   @JsonKey(name: r'content', required: false, includeIfNull: false)
-  final String? content;
+  final Option<String?>? content;
 
   @JsonKey(name: r'tags', required: false, includeIfNull: false)
-  final List<int>? tags;
+  final Option<List<int>?>? tags;
 
   @JsonKey(name: r'created', required: false, includeIfNull: false)
-  final DateTime? created;
+  final Option<DateTime?>? created;
 
   @Deprecated('createdDate has been deprecated')
   @JsonKey(name: r'created_date', required: false, includeIfNull: false)
-  final DateTime? createdDate;
+  final Option<DateTime?>? createdDate;
 
   @JsonKey(name: r'deleted_at', required: false, includeIfNull: false)
-  final DateTime? deletedAt;
+  final Option<DateTime?>? deletedAt;
 
   /// The position of this document in your physical document archive.
   // minimum: 0
@@ -87,10 +75,10 @@ class PatchedDocumentRequest {
     required: false,
     includeIfNull: false,
   )
-  final int? archiveSerialNumber;
+  final Option<int?>? archiveSerialNumber;
 
   @JsonKey(name: r'owner', required: false, includeIfNull: false)
-  final int? owner;
+  final Option<int?>? owner;
 
   @JsonKey(name: r'set_permissions', required: false, includeIfNull: false)
   final CorrespondentRequestSetPermissions? setPermissions;

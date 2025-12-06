@@ -1,17 +1,14 @@
 import 'package:paperless_api/generated/lib/src/model/saved_view_filter_rule.dart';
 import 'package:paperless_api/generated/lib/src/model/saved_view_filter_rule_request.dart';
-import 'package:paperless_api/src/constants.dart';
+import 'package:paperless_api/src/constants/api_date_format.dart';
 import 'package:paperless_api/src/constants/filter_rules.dart';
 import 'package:paperless_api/src/converters/local_date_time_json_converter.dart';
 import 'package:paperless_api/src/models/document_filter.dart';
-import 'package:paperless_api/src/models/query_parameters/date_range_queries/date_range_query.dart';
-import 'package:paperless_api/src/models/query_parameters/date_range_queries/date_range_query_field.dart';
+import 'package:paperless_api/src/models/query_parameters/date_range_query.dart';
 import 'package:paperless_api/src/models/query_parameters/id_query_parameter.dart';
 import 'package:paperless_api/src/models/query_parameters/query_type.dart';
-import 'package:paperless_api/src/models/query_parameters/tags_query/tags_query.dart';
+import 'package:paperless_api/src/models/query_parameters/tags_query.dart';
 import 'package:paperless_api/src/models/query_parameters/text_query.dart';
-
-import '../models/query_parameters/date_range_queries/date_range_unit.dart';
 
 extension FilterRuleToDocumentFilterExtension on SavedViewFilterRule {
   static const _dateTimeConverter = LocalDateTimeJsonConverter();

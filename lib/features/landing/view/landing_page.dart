@@ -6,7 +6,6 @@ import 'package:paperless_mobile/constants.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/repository/saved_view_repository.dart';
 import 'package:paperless_mobile/core/repository/server_statistics_repository.dart';
-import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/features/app_drawer/view/app_drawer.dart';
 import 'package:paperless_mobile/features/document_search/view/sliver_search_bar.dart';

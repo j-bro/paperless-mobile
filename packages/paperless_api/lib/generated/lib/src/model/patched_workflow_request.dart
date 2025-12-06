@@ -3,6 +3,7 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:fpdart/fpdart.dart';
 import 'package:paperless_api/generated/lib/src/model/workflow_action_request.dart';
 import 'package:paperless_api/generated/lib/src/model/workflow_trigger_request.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
@@ -33,19 +34,19 @@ class PatchedWorkflowRequest {
   });
 
   @JsonKey(name: r'name', required: false, includeIfNull: false)
-  final String? name;
+  final Option<String?>? name;
 
   @JsonKey(name: r'order', required: false, includeIfNull: false)
-  final int? order;
+  final Option<int?>? order;
 
   @JsonKey(name: r'enabled', required: false, includeIfNull: false)
-  final bool? enabled;
+  final Option<bool?>? enabled;
 
   @JsonKey(name: r'triggers', required: false, includeIfNull: false)
-  final List<WorkflowTriggerRequest>? triggers;
+  final Option<List<WorkflowTriggerRequest>?>? triggers;
 
   @JsonKey(name: r'actions', required: false, includeIfNull: false)
-  final List<WorkflowActionRequest>? actions;
+  final Option<List<WorkflowActionRequest>?>? actions;
 
   @override
   bool operator ==(Object other) {

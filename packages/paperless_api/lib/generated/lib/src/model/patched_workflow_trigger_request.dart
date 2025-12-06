@@ -3,6 +3,7 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:fpdart/fpdart.dart';
 import 'package:paperless_api/generated/lib/src/model/workflow_trigger_matching_algorithm_enum.dart';
 import 'package:paperless_api/generated/lib/src/model/schedule_date_field_enum.dart';
 import 'package:paperless_api/generated/lib/src/model/workflow_trigger_type_enum.dart';
@@ -59,58 +60,57 @@ class PatchedWorkflowTriggerRequest {
   });
 
   @JsonKey(name: r'id', required: false, includeIfNull: false)
-  final int? id;
+  final Option<int?>? id;
 
   @JsonKey(name: r'sources', required: false, includeIfNull: false)
-  final List<SourcesEnum>? sources;
+  final Option<List<SourcesEnum>?>? sources;
 
   @JsonKey(name: r'type', required: false, includeIfNull: false)
-  final WorkflowTriggerTypeEnum? type;
+  final Option<WorkflowTriggerTypeEnum?>? type;
 
   /// Only consume documents with a path that matches this if specified. Wildcards specified as * are allowed. Case insensitive.
   @JsonKey(name: r'filter_path', required: false, includeIfNull: false)
-  final String? filterPath;
+  final Option<String?>? filterPath;
 
   /// Only consume documents which entirely match this filename if specified. Wildcards such as *.pdf or *invoice* are allowed. Case insensitive.
   @JsonKey(name: r'filter_filename', required: false, includeIfNull: false)
-  final String? filterFilename;
-
+  final Option<String?>? filterFilename;
   @JsonKey(name: r'filter_mailrule', required: false, includeIfNull: false)
-  final int? filterMailrule;
+  final Option<int?>? filterMailrule;
 
   // minimum: 0.0
   // maximum: 2.147483647E9
   @JsonKey(name: r'matching_algorithm', required: false, includeIfNull: false)
-  final WorkflowTriggerMatchingAlgorithmEnum? matchingAlgorithm;
+  final Option<WorkflowTriggerMatchingAlgorithmEnum?>? matchingAlgorithm;
 
   @JsonKey(name: r'match', required: false, includeIfNull: false)
-  final String? match;
+  final Option<String?>? match;
 
   @JsonKey(name: r'is_insensitive', required: false, includeIfNull: false)
-  final bool? isInsensitive;
+  final Option<bool?>? isInsensitive;
 
   @JsonKey(name: r'filter_has_tags', required: false, includeIfNull: false)
-  final List<int>? filterHasTags;
+  final Option<List<int>?>? filterHasTags;
 
   @JsonKey(
     name: r'filter_has_correspondent',
     required: false,
     includeIfNull: false,
   )
-  final int? filterHasCorrespondent;
+  final Option<int?>? filterHasCorrespondent;
 
   @JsonKey(
     name: r'filter_has_document_type',
     required: false,
     includeIfNull: false,
   )
-  final int? filterHasDocumentType;
+  final Option<int?>? filterHasDocumentType;
 
   /// The number of days to offset the schedule trigger by.
   // minimum: -2147483648
   // maximum: 2147483647
   @JsonKey(name: r'schedule_offset_days', required: false, includeIfNull: false)
-  final int? scheduleOffsetDays;
+  final Option<int?>? scheduleOffsetDays;
 
   /// If the schedule should be recurring.
   @JsonKey(
@@ -118,7 +118,7 @@ class PatchedWorkflowTriggerRequest {
     required: false,
     includeIfNull: false,
   )
-  final bool? scheduleIsRecurring;
+  final Option<bool?>? scheduleIsRecurring;
 
   /// The number of days between recurring schedule triggers.
   // minimum: 1
@@ -128,18 +128,18 @@ class PatchedWorkflowTriggerRequest {
     required: false,
     includeIfNull: false,
   )
-  final int? scheduleRecurringIntervalDays;
+  final Option<int?>? scheduleRecurringIntervalDays;
 
   /// The field to check for a schedule trigger.  * `added` - Added * `created` - Created * `modified` - Modified * `custom_field` - Custom Field
   @JsonKey(name: r'schedule_date_field', required: false, includeIfNull: false)
-  final ScheduleDateFieldEnum? scheduleDateField;
+  final Option<ScheduleDateFieldEnum?>? scheduleDateField;
 
   @JsonKey(
     name: r'schedule_date_custom_field',
     required: false,
     includeIfNull: false,
   )
-  final int? scheduleDateCustomField;
+  final Option<int?>? scheduleDateCustomField;
 
   @override
   bool operator ==(Object other) {

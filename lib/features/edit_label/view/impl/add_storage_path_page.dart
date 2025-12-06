@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:paperless_api/generated/lib/src/model/storage_path_request.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/features/edit_label/view/add_label_page.dart';
@@ -12,15 +11,11 @@ class AddStoragePathPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AddLabelPage<StoragePath>(
+    return AddLabelPage(
       pageTitle: Text(S.of(context)!.addStoragePath),
-      fromJsonT: StoragePath.fromJson,
+      fromJsonT: StoragePathRequest.fromJson,
       initialName: initialName,
-      onSubmit: (context, label) async {
-        final response = await context.storagePathRepository.createMutation
-            .mutate(StoragePathRequest.fromJson(label.toJson()));
-        return response.data!;
-      },
+      mutation: context.storagePathRepository.createMutation,
       additionalFields: const [
         StoragePathAutofillFormBuilderField(name: StoragePath.pathKey),
         SizedBox(height: 120.0),

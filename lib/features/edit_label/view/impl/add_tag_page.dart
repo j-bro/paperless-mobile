@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:paperless_api/generated/lib/src/model/tag_request.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/widgets/form_builder_fields/form_builder_color_picker.dart';
@@ -15,16 +14,11 @@ class AddTagPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AddLabelPage<Tag>(
+    return AddLabelPage(
       pageTitle: Text(S.of(context)!.addTag),
-      fromJsonT: Tag.fromJson,
+      fromJsonT: TagRequest.fromJson,
       initialName: initialName,
-      onSubmit: (context, label) async {
-        final response = await context.tagRepository.createMutation.mutate(
-          TagRequest.fromJson(label.toJson()),
-        );
-        return response.data!;
-      },
+      mutation: context.tagRepository.createMutation,
       additionalFields: [
         FormBuilderColorPickerField(
           name: Tag.colorKey,

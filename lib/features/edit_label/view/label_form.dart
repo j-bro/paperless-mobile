@@ -1,31 +1,34 @@
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/translation/matching_algorithm_localization_mapper.dart';
+import 'package:paperless_mobile/core/widgets/icon_loading_widget.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/helpers/message_helpers.dart';
 
-class SubmitButtonConfig<T extends Label> {
+class SubmitButtonConfig<T extends Label, TRequest extends LabelRequest> {
   final Widget icon;
   final Widget label;
-  final Future<T> Function(T) onSubmit;
+  final Mutation<T, TRequest> mutation;
 
   SubmitButtonConfig({
     required this.icon,
     required this.label,
-    required this.onSubmit,
+    required this.mutation,
   });
 }
 
-class LabelForm<T extends Label> extends StatefulWidget {
-  final T? initialValue;
+class LabelForm<T extends Label, TRequest extends LabelRequest>
+    extends StatefulWidget {
+  final TRequest? initialValue;
 
-  final SubmitButtonConfig<T> submitButtonConfig;
+  final SubmitButtonConfig<T, TRequest> submitButtonConfig;
 
   /// FromJson method to parse the form field values into a label instance.
-  final T Function(Map<String, dynamic> json) fromJsonT;
+  final TRequest Function(Map<String, dynamic> json) fromJsonT;
 
   /// List of additionally rendered form fields.
   final List<Widget> additionalFields;
@@ -44,10 +47,11 @@ class LabelForm<T extends Label> extends StatefulWidget {
   });
 
   @override
-  State<LabelForm> createState() => _LabelFormState<T>();
+  State<LabelForm<T, TRequest>> createState() => _LabelFormState<T, TRequest>();
 }
 
-class _LabelFormState<T extends Label> extends State<LabelForm<T>> {
+class _LabelFormState<T extends Label, TRequest extends LabelRequest>
+    extends State<LabelForm<T, TRequest>> {
   late final GlobalKey<FormBuilderState> _formKey;
 
   late bool _enableMatchFormField;
@@ -70,11 +74,18 @@ class _LabelFormState<T extends Label> extends State<LabelForm<T>> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      floatingActionButton: FloatingActionButton.extended(
-        heroTag: "fab_label_form",
-        icon: widget.submitButtonConfig.icon,
-        label: widget.submitButtonConfig.label,
-        onPressed: _onSubmit,
+      floatingActionButton: MutationBuilder(
+        mutation: widget.submitButtonConfig.mutation,
+        builder: (context, state, mutate) {
+          return FloatingActionButton.extended(
+            heroTag: "fab_label_form",
+            icon: state.isLoading
+                ? IconLoadingWidget()
+                : widget.submitButtonConfig.icon,
+            label: widget.submitButtonConfig.label,
+            onPressed: state.isLoading ? null : () => _onSubmit(),
+          );
+        },
       ),
       body: FormBuilder(
         key: _formKey,
@@ -161,12 +172,21 @@ class _LabelFormState<T extends Label> extends State<LabelForm<T>> {
           ..._formKey.currentState!.value,
         };
         final parsed = widget.fromJsonT(mergedJson);
-        final createdLabel = await widget.submitButtonConfig.onSubmit(parsed);
-        if (mounted) context.pop(createdLabel);
+        final mutationResult = await widget.submitButtonConfig.mutation.mutate(
+          parsed,
+        );
+        if (mutationResult is MutationError) {
+          throw (mutationResult as MutationError).error;
+        }
+        if (mounted) context.pop(mutationResult.data);
       } on PaperlessApiException catch (error, stackTrace) {
         if (mounted) showErrorMessage(context, error, stackTrace);
       } on PaperlessFormValidationException catch (exception) {
         setState(() => _errors = exception.validationMessages);
+      } catch (error, stackTrace) {
+        if (mounted) {
+          showGenericError(context, error, stackTrace);
+        }
       }
     }
   }

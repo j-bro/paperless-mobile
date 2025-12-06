@@ -1,17 +1,15 @@
 import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fpdart/fpdart.dart' show Option;
 import 'package:intl/intl.dart';
-import 'package:paperless_api/generated/lib/src/model/document.dart';
-import 'package:paperless_api/generated/lib/src/model/patched_document_request.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/extensions/dart_extensions.dart';
 import 'package:paperless_mobile/core/extensions/document_extensions.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/extensions/label_list_extension.dart';
-import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
+import 'package:paperless_mobile/core/repository/document_repository.dart';
 import 'package:paperless_mobile/core/widgets/query_builder/simple_query_builder.dart';
 import 'package:paperless_mobile/core/widgets/shimmer_placeholder.dart';
 import 'package:paperless_mobile/core/workarounds/colored_chip.dart';
@@ -348,7 +346,9 @@ class _InboxItemState extends State<InboxItem> {
                     '${S.of(context)!.asn} #${widget.document.archiveSerialNumber}',
                   )
                 : Text(S.of(context)!.assignAsn),
-            onPressed: !hasAsn ? () => mutate(null) : null,
+            onPressed: !hasAsn
+                ? () => mutate(AssignAsnRequest(auto: true))
+                : null,
           ),
         );
       },
@@ -422,7 +422,9 @@ class _InboxItemState extends State<InboxItem> {
                     onPressed: () async {
                       await context.documentRepository
                           .patchDocumentMutation(widget.document.id)
-                          .mutate(PatchedDocumentRequest(correspondent: e));
+                          .mutate(
+                            PatchedDocumentRequest(correspondent: Option.of(e)),
+                          );
                       if (context.mounted) {
                         showSnackBar(
                           context,
@@ -442,7 +444,9 @@ class _InboxItemState extends State<InboxItem> {
                     onPressed: () async {
                       await context.documentRepository
                           .patchDocumentMutation(widget.document.id)
-                          .mutate(PatchedDocumentRequest(documentType: e));
+                          .mutate(
+                            PatchedDocumentRequest(documentType: Option.of(e)),
+                          );
                       if (context.mounted) {
                         showSnackBar(
                           context,
@@ -464,10 +468,12 @@ class _InboxItemState extends State<InboxItem> {
                           .patchDocumentMutation(widget.document.id)
                           .mutate(
                             PatchedDocumentRequest(
-                              tags: {...widget.document.tags, e}.toList(),
+                              tags: Option.of(
+                                {...widget.document.tags, e}.toList(),
+                              ),
                             ),
                           );
-                      if (mounted) {
+                      if (context.mounted) {
                         showSnackBar(
                           context,
                           S.of(context)!.suggestionSuccessfullyApplied,
@@ -487,7 +493,9 @@ class _InboxItemState extends State<InboxItem> {
                     onPressed: () async {
                       await context.documentRepository
                           .patchDocumentMutation(widget.document.id)
-                          .mutate(PatchedDocumentRequest(storagePath: e));
+                          .mutate(
+                            PatchedDocumentRequest(storagePath: Option.of(e)),
+                          );
                       if (context.mounted) {
                         showSnackBar(
                           context,
@@ -512,7 +520,9 @@ class _InboxItemState extends State<InboxItem> {
                     onPressed: () async {
                       await context.documentRepository
                           .patchDocumentMutation(widget.document.id)
-                          .mutate(PatchedDocumentRequest(created: e));
+                          .mutate(
+                            PatchedDocumentRequest(created: Option.of(e)),
+                          );
                       if (context.mounted) {
                         showSnackBar(
                           context,

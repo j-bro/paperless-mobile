@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
-import 'package:paperless_api/generated/lib/src/model/paperless_auth_token_request.dart';
 import 'package:paperless_api/paperless_api.dart';
 
 void main() {

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:paperless_api/generated/lib/src/model/user.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/bloc/connectivity_cubit.dart';
 import 'package:paperless_mobile/core/delegate/customizable_sliver_persistent_header_delegate.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/store/local_store.dart';
-import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
 import 'package:paperless_mobile/core/widgets/material/colored_tab_bar.dart';
 import 'package:paperless_mobile/features/app_drawer/view/app_drawer.dart';
 import 'package:paperless_mobile/features/document_search/view/sliver_search_bar.dart';
@@ -45,6 +43,12 @@ class _LabelsPageState extends State<LabelsPage>
   void initState() {
     super.initState();
     final user = context.loggedInUser.paperlessUser;
+
+    context.correspondentRepository.getAllQuery().refetch();
+    context.documentTypeRepository.getAllQuery().refetch();
+    context.tagRepository.getAllQuery().refetch();
+    context.storagePathRepository.getAllQuery().refetch();
+
     _tabController = TabController(
       length: _calculateTabCount(user),
       vsync: this,

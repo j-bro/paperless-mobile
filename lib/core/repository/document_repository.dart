@@ -1,23 +1,18 @@
 import 'dart:typed_data';
 
 import 'package:cached_query_flutter/cached_query_flutter.dart';
-import 'package:paperless_api/generated/lib/src/model/bulk_download.dart';
-import 'package:paperless_api/generated/lib/src/model/bulk_download_request.dart';
-import 'package:paperless_api/generated/lib/src/model/bulk_edit_documents_result.dart';
-import 'package:paperless_api/generated/lib/src/model/bulk_edit_request.dart';
-import 'package:paperless_api/generated/lib/src/model/document.dart';
-import 'package:paperless_api/generated/lib/src/model/document_request.dart';
-import 'package:paperless_api/generated/lib/src/model/metadata.dart';
-import 'package:paperless_api/generated/lib/src/model/note.dart';
-import 'package:paperless_api/generated/lib/src/model/paginated_document_list.dart';
-import 'package:paperless_api/generated/lib/src/model/paginated_log_entry_list.dart';
-import 'package:paperless_api/generated/lib/src/model/patched_document_request.dart';
-import 'package:paperless_api/generated/lib/src/model/share_link.dart';
-import 'package:paperless_api/generated/lib/src/model/suggestions.dart';
+import 'package:fpdart/fpdart.dart' show Option;
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/service/file_service.dart';
 import 'package:paperless_mobile/features/logging/data/logger.dart';
 import 'package:path/path.dart' as p;
+
+class AssignAsnRequest {
+  final int? asn;
+  final bool auto;
+
+  AssignAsnRequest({this.asn, required this.auto});
+}
 
 class DocumentRepository {
   final PaperlessDocumentsApi _api;
@@ -83,9 +78,7 @@ class DocumentRepository {
         if (documentQuery.state.data != null) {
           documentQuery.update((old) => old!.copyWith(notes: res));
         }
-        getAllNotesQuery(
-          documentId,
-        ).update((_) => InfiniteQueryData(pages: [res], args: [1]));
+        getAllNotesQuery(documentId).update((_) => res);
       },
     );
   }
@@ -101,9 +94,7 @@ class DocumentRepository {
         if (documentQuery.state.data != null) {
           documentQuery.update((old) => old!.copyWith(notes: res));
         }
-        getAllNotesQuery(
-          documentId,
-        ).update((_) => InfiniteQueryData(pages: [res], args: [1]));
+        getAllNotesQuery(documentId).update((_) => res);
       },
       // refetchQueries: ['document_notes/$documentId'],
     );
@@ -124,25 +115,36 @@ class DocumentRepository {
     throw UnimplementedError();
   }
 
-  Mutation<int, int?> assignAsnMutation(int documentId) {
-    return Mutation<int, int?>(
+  Mutation<int, AssignAsnRequest> assignAsnMutation(int documentId) {
+    return Mutation<int, AssignAsnRequest>(
       key: 'assign_asn/$documentId',
-      mutationFn: (asn) async {
-        var nextAsn = asn;
-        if (asn == null) {
+      mutationFn: (request) async {
+        var nextAsn = request.asn;
+        if (request.auto) {
           final asnResponse = await getNextAsnQuery().fetch();
           if (asnResponse.isError) {
             throw PaperlessApiException(ErrorCode.documentAsnQueryFailed);
           }
           nextAsn = asnResponse.data!;
         }
-        final response = await patchDocumentMutation(
-          documentId,
-        ).mutate(PatchedDocumentRequest(archiveSerialNumber: nextAsn));
-        if (response.isError) {
+        final response = await patchDocumentMutation(documentId).mutate(
+          PatchedDocumentRequest(archiveSerialNumber: Option.of(nextAsn)),
+        );
+        if (response.isError && response.data == null) {
           throw PaperlessApiException(ErrorCode.documentUpdateFailed);
         }
         return response.data!.archiveSerialNumber!;
+      },
+      onSuccess: (res, arg) {
+        final query = CachedQuery.instance.getQuery<Query<Document>>(
+          getDocumentQuery(documentId).key,
+        );
+        if (query == null) {
+          return;
+        }
+        query.update(
+          (currentData) => currentData!.copyWith(archiveSerialNumber: res),
+        );
       },
       invalidateQueries: [
         'next_asn',
@@ -279,18 +281,11 @@ class DocumentRepository {
     return Query(key: 'next_asn', queryFn: _api.getNextAsn);
   }
 
-  InfiniteQuery<List<Note>, int> getAllNotesQuery(int id, {int pageSize = 20}) {
-    return InfiniteQuery<List<Note>, int>(
+  Query<List<Note>> getAllNotesQuery(int id) {
+    return Query<List<Note>>(
       key: 'document_notes/$id',
-      queryFn: (page) async {
-        return _api.getNotes(id, page: page, pageSize: pageSize);
-      },
-      getNextArg: (state) {
-        if (state == null) return 1;
-        if (state.lastPage == null || state.lastPage!.length < pageSize) {
-          return null;
-        }
-        return state.args.last + 1;
+      queryFn: () async {
+        return _api.getNotes(id);
       },
     );
   }
@@ -322,7 +317,10 @@ class DocumentRepository {
     return _api.getThumbnailUrl(documentId);
   }
 
-  Mutation<Document, PatchedDocumentRequest> patchDocumentMutation(int id) {
+  Mutation<Document, PatchedDocumentRequest> patchDocumentMutation(
+    int id, {
+    invalidateGetAllQueries = true,
+  }) {
     return Mutation<Document, PatchedDocumentRequest>(
       key: 'patch_document/$id',
       mutationFn: (document) {

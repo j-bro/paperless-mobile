@@ -3,6 +3,7 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:fpdart/fpdart.dart';
 import 'package:paperless_api/generated/lib/src/model/pdf_layout_enum.dart';
 import 'package:paperless_api/generated/lib/src/model/assign_title_from_enum.dart';
 import 'package:paperless_api/generated/lib/src/model/consumption_scope_enum.dart';
@@ -22,6 +23,7 @@ part 'patched_mail_rule_request.g.dart';
   createToJson: true,
   disallowUnrecognizedKeys: false,
   explicitToJson: true,
+  includeIfNull: false,
 )
 class PatchedMailRuleRequest {
   /// Returns a new [PatchedMailRuleRequest] instance.
@@ -50,7 +52,7 @@ class PatchedMailRuleRequest {
 
     this.action,
 
-    this.actionParameter = '',
+    this.actionParameter,
 
     this.assignTitleFrom,
 
@@ -77,73 +79,60 @@ class PatchedMailRuleRequest {
     this.setPermissions,
   });
 
-  @JsonKey(name: r'name', required: false, includeIfNull: false)
-  final String? name;
+  @JsonKey(name: r'name', required: false)
+  final Option<String?>? name;
 
-  @JsonKey(name: r'account', required: false, includeIfNull: false)
-  final int? account;
+  @JsonKey(name: r'account', required: false)
+  final Option<int?>? account;
 
-  @JsonKey(name: r'enabled', required: false, includeIfNull: false)
-  final bool? enabled;
+  @JsonKey(name: r'enabled', required: false)
+  final Option<bool?>? enabled;
 
   /// Subfolders must be separated by a delimiter, often a dot ('.') or slash ('/'), but it varies by mail server.
-  @JsonKey(name: r'folder', required: false, includeIfNull: false)
-  final String? folder;
+  @JsonKey(name: r'folder', required: false)
+  final Option<String?>? folder;
 
-  @JsonKey(name: r'filter_from', required: false, includeIfNull: false)
-  final String? filterFrom;
+  @JsonKey(name: r'filter_from', required: false)
+  final Option<String?>? filterFrom;
 
-  @JsonKey(name: r'filter_to', required: false, includeIfNull: false)
-  final String? filterTo;
+  @JsonKey(name: r'filter_to', required: false)
+  final Option<String?>? filterTo;
 
-  @JsonKey(name: r'filter_subject', required: false, includeIfNull: false)
-  final String? filterSubject;
+  @JsonKey(name: r'filter_subject', required: false)
+  final Option<String?>? filterSubject;
 
-  @JsonKey(name: r'filter_body', required: false, includeIfNull: false)
-  final String? filterBody;
+  @JsonKey(name: r'filter_body', required: false)
+  final Option<String?>? filterBody;
 
   /// Only consume documents which entirely match this filename if specified. Wildcards such as *.pdf or *invoice* are allowed. Case insensitive.
-  @JsonKey(
-    name: r'filter_attachment_filename_include',
-    required: false,
-    includeIfNull: false,
-  )
-  final String? filterAttachmentFilenameInclude;
+  @JsonKey(name: r'filter_attachment_filename_include', required: false)
+  final Option<String?>? filterAttachmentFilenameInclude;
 
   /// Do not consume documents which entirely match this filename if specified. Wildcards such as *.pdf or *invoice* are allowed. Case insensitive.
-  @JsonKey(
-    name: r'filter_attachment_filename_exclude',
-    required: false,
-    includeIfNull: false,
-  )
-  final String? filterAttachmentFilenameExclude;
+  @JsonKey(name: r'filter_attachment_filename_exclude', required: false)
+  final Option<String?>? filterAttachmentFilenameExclude;
 
   /// Specified in days.
   // minimum: 0
   // maximum: 2147483647
-  @JsonKey(name: r'maximum_age', required: false, includeIfNull: false)
-  final int? maximumAge;
+  @JsonKey(name: r'maximum_age', required: false)
+  final Option<int?>? maximumAge;
 
   // minimum: 0.0
   // maximum: 2.147483647E9
-  @JsonKey(name: r'action', required: false, includeIfNull: false)
-  final MailRuleActionEnum? action;
+  @JsonKey(name: r'action', required: false)
+  final Option<MailRuleActionEnum?>? action;
 
-  @JsonKey(
-    defaultValue: '',
-    name: r'action_parameter',
-    required: false,
-    includeIfNull: false,
-  )
-  final String? actionParameter;
+  @JsonKey(name: r'action_parameter', required: false)
+  final Option<String?>? actionParameter;
 
   // minimum: 0.0
   // maximum: 2.147483647E9
-  @JsonKey(name: r'assign_title_from', required: false, includeIfNull: false)
-  final AssignTitleFromEnum? assignTitleFrom;
+  @JsonKey(name: r'assign_title_from', required: false)
+  final Option<AssignTitleFromEnum?>? assignTitleFrom;
 
-  @JsonKey(name: r'assign_tags', required: false, includeIfNull: false)
-  final List<int>? assignTags;
+  @JsonKey(name: r'assign_tags', required: false)
+  final Option<List<int>?>? assignTags;
 
   // minimum: 0.0
   // maximum: 2.147483647E9
@@ -152,45 +141,45 @@ class PatchedMailRuleRequest {
     required: false,
     includeIfNull: false,
   )
-  final AssignCorrespondentFromEnum? assignCorrespondentFrom;
+  final Option<AssignCorrespondentFromEnum?>? assignCorrespondentFrom;
 
-  @JsonKey(name: r'assign_correspondent', required: false, includeIfNull: false)
-  final int? assignCorrespondent;
+  @JsonKey(name: r'assign_correspondent', required: false)
+  final Option<int?>? assignCorrespondent;
 
-  @JsonKey(name: r'assign_document_type', required: false, includeIfNull: false)
-  final int? assignDocumentType;
+  @JsonKey(name: r'assign_document_type', required: false)
+  final Option<int?>? assignDocumentType;
 
   @JsonKey(
     name: r'assign_owner_from_rule',
     required: false,
     includeIfNull: false,
   )
-  final bool? assignOwnerFromRule;
+  final Option<bool?>? assignOwnerFromRule;
 
-  @JsonKey(name: r'order', required: false, includeIfNull: false)
-  final int? order;
+  @JsonKey(name: r'order', required: false)
+  final Option<int?>? order;
 
   /// Inline attachments include embedded images, so it's best to combine this option with a filename filter.  * `1` - Only process attachments. * `2` - Process all files, including 'inline' attachments.
   // minimum: 0.0
   // maximum: 2.147483647E9
-  @JsonKey(name: r'attachment_type', required: false, includeIfNull: false)
-  final AttachmentTypeEnum? attachmentType;
+  @JsonKey(name: r'attachment_type', required: false)
+  final Option<AttachmentTypeEnum?>? attachmentType;
 
   // minimum: 0.0
   // maximum: 2.147483647E9
-  @JsonKey(name: r'consumption_scope', required: false, includeIfNull: false)
-  final ConsumptionScopeEnum? consumptionScope;
+  @JsonKey(name: r'consumption_scope', required: false)
+  final Option<ConsumptionScopeEnum?>? consumptionScope;
 
   // minimum: 0.0
   // maximum: 2.147483647E9
-  @JsonKey(name: r'pdf_layout', required: false, includeIfNull: false)
-  final PdfLayoutEnum? pdfLayout;
+  @JsonKey(name: r'pdf_layout', required: false)
+  final Option<PdfLayoutEnum?>? pdfLayout;
 
-  @JsonKey(name: r'owner', required: false, includeIfNull: false)
-  final int? owner;
+  @JsonKey(name: r'owner', required: false)
+  final Option<int?>? owner;
 
-  @JsonKey(name: r'set_permissions', required: false, includeIfNull: false)
-  final CorrespondentRequestSetPermissions? setPermissions;
+  @JsonKey(name: r'set_permissions', required: false)
+  final Option<CorrespondentRequestSetPermissions?>? setPermissions;
 
   @override
   bool operator ==(Object other) {

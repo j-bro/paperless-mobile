@@ -1,4 +1,3 @@
-import 'package:paperless_api/generated/lib/src/model/user.dart';
 import 'package:paperless_api/paperless_api.dart';
 
 extension UserPermissionExtension on User {

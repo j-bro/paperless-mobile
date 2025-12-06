@@ -1,4 +1,4 @@
-import 'package:paperless_api/src/request_utils.dart';
+import 'package:paperless_api/src/utils/request_utils.dart';
 
 class PaperlessServerInformationModel {
   static const String versionHeader = 'x-version';

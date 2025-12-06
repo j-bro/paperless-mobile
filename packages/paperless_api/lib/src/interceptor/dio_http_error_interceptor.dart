@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:paperless_api/paperless_api.dart';
+import 'package:paperless_api/src/models/exception/exception.dart';
 
 const _mfaCodeRequiredMessage = "MFA code is required";
 const _missingClientCertificateMessage = "No required SSL certificate was sent";

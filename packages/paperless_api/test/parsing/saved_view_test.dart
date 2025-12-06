@@ -1,12 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:paperless_api/generated/lib/src/model/saved_view.dart';
-import 'package:paperless_api/generated/lib/src/model/saved_view_filter_rule.dart';
-import 'package:paperless_api/generated/lib/src/model/saved_view_filter_rule_request.dart';
-import 'package:paperless_api/generated/lib/src/model/saved_view_request.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_api/src/constants/filter_rules.dart';
-import 'package:paperless_api/src/extensions/document_filter_extensions.dart';
-import 'package:paperless_api/src/extensions/saved_view_extensions.dart';
 
 void main() {
   group('Parsing [SavedView] to [DocumentFilter]:', () {

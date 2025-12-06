@@ -7361,6 +7361,8 @@ components:
           writeOnly: true
           nullable: true
           default: false
+      required:
+        - archive_serial_number
     PatchedDocumentTypeRequest:
       type: object
       properties:

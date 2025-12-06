@@ -6,7 +6,6 @@ import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/constants.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/repository/saved_view_repository.dart';
-import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/features/sharing/cubit/receive_share_cubit.dart';
 import 'package:paperless_mobile/generated/assets.gen.dart';
@@ -31,8 +30,7 @@ class AppDrawer extends StatelessWidget {
     );
     return SafeArea(
       child: Drawer(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
           children: [
             Row(
               children: [
@@ -190,7 +188,7 @@ class AppDrawer extends StatelessWidget {
         if (state.isInitial) {
           return const SizedBox.shrink();
         }
-        if (state.isLoading) {
+        if (state.isLoading && state.data == null) {
           return const Center(child: CircularProgressIndicator());
         }
         if (state.isError) {

@@ -3,6 +3,7 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:fpdart/fpdart.dart';
 import 'package:paperless_api/generated/lib/src/model/file_version_enum.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -22,13 +23,13 @@ class PatchedShareLinkRequest {
   PatchedShareLinkRequest({this.expiration, this.document, this.fileVersion});
 
   @JsonKey(name: r'expiration', required: false, includeIfNull: false)
-  final DateTime? expiration;
+  final Option<DateTime?>? expiration;
 
   @JsonKey(name: r'document', required: false, includeIfNull: false)
-  final int? document;
+  final Option<int?>? document;
 
   @JsonKey(name: r'file_version', required: false, includeIfNull: false)
-  final FileVersionEnum? fileVersion;
+  final Option<FileVersionEnum?>? fileVersion;
 
   @override
   bool operator ==(Object other) {

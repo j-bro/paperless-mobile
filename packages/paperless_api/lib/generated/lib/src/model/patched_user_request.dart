@@ -4,6 +4,7 @@
 
 // ignore_for_file: unused_element
 import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/src/equatable_utils.dart';
 
@@ -44,42 +45,41 @@ class PatchedUserRequest {
 
   /// Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.
   @JsonKey(name: r'username', required: false, includeIfNull: false)
-  final String? username;
+  final Option<String?>? username;
 
   @JsonKey(name: r'email', required: false, includeIfNull: false)
-  final String? email;
+  final Option<String?>? email;
 
   @JsonKey(name: r'password', required: false, includeIfNull: false)
-  final String? password;
+  final Option<String?>? password;
 
   @JsonKey(name: r'first_name', required: false, includeIfNull: false)
-  final String? firstName;
+  final Option<String?>? firstName;
 
   @JsonKey(name: r'last_name', required: false, includeIfNull: false)
-  final String? lastName;
+  final Option<String?>? lastName;
 
   @JsonKey(name: r'date_joined', required: false, includeIfNull: false)
-  final DateTime? dateJoined;
+  final Option<DateTime?>? dateJoined;
 
   /// Designates whether the user can log into this admin site.
   @JsonKey(name: r'is_staff', required: false, includeIfNull: false)
-  final bool? isStaff;
+  final Option<bool?>? isStaff;
 
   /// Designates whether this user should be treated as active. Unselect this instead of deleting accounts.
   @JsonKey(name: r'is_active', required: false, includeIfNull: false)
-  final bool? isActive;
+  final Option<bool?>? isActive;
 
   /// Designates that this user has all permissions without explicitly assigning them.
   @JsonKey(name: r'is_superuser', required: false, includeIfNull: false)
-  final bool? isSuperuser;
+  final Option<bool?>? isSuperuser;
 
   /// The groups this user belongs to. A user will get all permissions granted to each of their groups.
   @JsonKey(name: r'groups', required: false, includeIfNull: false)
-  final List<int>? groups;
+  final Option<List<int>?>? groups;
 
   @JsonKey(name: r'user_permissions', required: false, includeIfNull: false)
-  final List<String>? userPermissions;
-
+  final Option<List<String>?>? userPermissions;
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||

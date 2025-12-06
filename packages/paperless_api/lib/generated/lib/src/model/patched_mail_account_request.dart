@@ -3,6 +3,7 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:fpdart/fpdart.dart';
 import 'package:paperless_api/generated/lib/src/model/account_type_enum.dart';
 import 'package:paperless_api/generated/lib/src/model/imap_security_enum.dart';
 import 'package:paperless_api/generated/lib/src/model/correspondent_request_set_permissions.dart';
@@ -48,49 +49,49 @@ class PatchedMailAccountRequest {
   });
 
   @JsonKey(name: r'name', required: false, includeIfNull: false)
-  final String? name;
+  final Option<String?>? name;
 
   @JsonKey(name: r'imap_server', required: false, includeIfNull: false)
-  final String? imapServer;
+  final Option<String?>? imapServer;
 
   /// This is usually 143 for unencrypted and STARTTLS connections, and 993 for SSL connections.
   // minimum: -2147483648
   // maximum: 2147483647
   @JsonKey(name: r'imap_port', required: false, includeIfNull: false)
-  final int? imapPort;
+  final Option<int?>? imapPort;
 
   // minimum: 0.0
   // maximum: 2.147483647E9
   @JsonKey(name: r'imap_security', required: false, includeIfNull: false)
-  final ImapSecurityEnum? imapSecurity;
+  final Option<ImapSecurityEnum?>? imapSecurity;
 
   @JsonKey(name: r'username', required: false, includeIfNull: false)
-  final String? username;
+  final Option<String?>? username;
 
   @JsonKey(name: r'password', required: false, includeIfNull: false)
-  final String? password;
+  final Option<String?>? password;
 
   /// The character set to use when communicating with the mail server, such as 'UTF-8' or 'US-ASCII'.
   @JsonKey(name: r'character_set', required: false, includeIfNull: false)
-  final String? characterSet;
+  final Option<String?>? characterSet;
 
   @JsonKey(name: r'is_token', required: false, includeIfNull: false)
-  final bool? isToken;
+  final Option<bool?>? isToken;
 
   @JsonKey(name: r'owner', required: false, includeIfNull: false)
-  final int? owner;
+  final Option<int?>? owner;
 
   @JsonKey(name: r'set_permissions', required: false, includeIfNull: false)
-  final CorrespondentRequestSetPermissions? setPermissions;
+  final Option<CorrespondentRequestSetPermissions?>? setPermissions;
 
   // minimum: 0.0
   // maximum: 2.147483647E9
   @JsonKey(name: r'account_type', required: false, includeIfNull: false)
-  final AccountTypeEnum? accountType;
+  final Option<AccountTypeEnum?>? accountType;
 
   /// The expiration date of the refresh token.
   @JsonKey(name: r'expiration', required: false, includeIfNull: false)
-  final DateTime? expiration;
+  final Option<DateTime?>? expiration;
 
   @override
   bool operator ==(Object other) {

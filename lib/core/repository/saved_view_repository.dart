@@ -1,6 +1,5 @@
-import 'package:paperless_api/generated/lib/src/model/patched_saved_view_request.dart';
-import 'package:paperless_api/generated/lib/src/model/saved_view.dart';
-import 'package:paperless_api/generated/lib/src/model/saved_view_request.dart';
+import 'dart:convert';
+
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/repository/crud_repository.dart';
 
@@ -25,6 +24,6 @@ class SavedViewRepository
 
   @override
   String? variableHash(GetFilterOptions? options) {
-    return options?.copyWith(page: 1).hashCode.toString();
+    return jsonEncode(options?.copyWith(page: 1));
   }
 }

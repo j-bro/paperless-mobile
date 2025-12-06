@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paperless_api/paperless_api.dart';
@@ -27,7 +28,7 @@ class DocumentDownloadCubit extends Cubit<DocumentDownloadState> {
     required String locale,
     required String userId,
   }) async {
-    emit(DocumentDownloadInProgress(0.0));
+    emit(DocumentDownloadInProgress(0.1));
     try {
       final targetPath = await _documentRepository.generateLocalFilePath(
         documentId,
@@ -58,7 +59,7 @@ class DocumentDownloadCubit extends Cubit<DocumentDownloadState> {
         targetPath,
         original: downloadOriginal,
         onProgressChanged: (progress) {
-          emit(DocumentDownloadInProgress(progress));
+          emit(DocumentDownloadInProgress(clampDouble(progress, 0.1, 1)));
           _notificationService.notifyDocumentDownload(
             documentId: documentId,
             filename: p.basename(targetPath),
@@ -78,6 +79,7 @@ class DocumentDownloadCubit extends Cubit<DocumentDownloadState> {
         locale: locale,
         userId: userId,
       );
+      emit(DocumentDownloadSuccess(targetPath));
       logger.fi("Document '$documentId' saved to $targetPath.");
     } catch (error) {
       emit(DocumentDownloadError(error));

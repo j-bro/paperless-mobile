@@ -1,6 +1,7 @@
 import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:paperless_api/paperless_api.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/repository/tag_repository.dart';
 import 'package:paperless_mobile/features/labels/tags/view/widgets/tag_widget.dart';
 import 'package:provider/provider.dart';
@@ -43,7 +44,7 @@ class TagsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return QueryBuilder(
-      query: context.read<TagRepository>().getAllQuery(),
+      query: context.tagRepository.getAllQuery(),
       builder: (context, state) {
         if (state.isError) {
           return Text(
@@ -55,8 +56,12 @@ class TagsWidget extends StatelessWidget {
         final mappedTags = (tagIds ?? [1, 2, 3])
             .map((id) => tags.firstWhere((tag) => tag.id == id))
             .toList();
+        final isLoading =
+            state.isLoading && state.data == null || tagIds == null;
+
+        debugPrint('TagsWidget build: isLoading=$isLoading');
         return Skeletonizer(
-          enabled: state.isLoading || tagIds == null,
+          enabled: isLoading,
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
@@ -108,25 +113,27 @@ class _MultiLineTagsWidget extends TagsWidget {
         final mappedTags = (tagIds ?? [1, 2, 3])
             .map((id) => tags.firstWhere((tag) => tag.id == id))
             .toList();
-        return Wrap(
-          runAlignment: WrapAlignment.start,
-          runSpacing: 4,
-          spacing: 4,
-          children: [
-            for (final tag in mappedTags)
-              TagWidget(
-                tag: tag,
-                isClickable: isClickable,
-                onSelected: () {
-                  if (state.isSuccess) {
-                    // We can be sure that we operate on actual data here.
-                    onTagSelected?.call(tag.id);
-                  }
-                },
-                showShortName: showShortNames,
-                dense: dense,
-              ),
-          ],
+        return Skeletonizer(
+          child: Wrap(
+            runAlignment: WrapAlignment.start,
+            runSpacing: 4,
+            spacing: 4,
+            children: [
+              for (final tag in mappedTags)
+                TagWidget(
+                  tag: tag,
+                  isClickable: isClickable,
+                  onSelected: () {
+                    if (state.isSuccess) {
+                      // We can be sure that we operate on actual data here.
+                      onTagSelected?.call(tag.id);
+                    }
+                  },
+                  showShortName: showShortNames,
+                  dense: dense,
+                ),
+            ],
+          ),
         );
       },
     );

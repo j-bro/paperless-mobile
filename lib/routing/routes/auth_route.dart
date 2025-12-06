@@ -7,7 +7,6 @@ import 'package:paperless_mobile/core/store/local_store.dart';
 import 'package:paperless_mobile/features/login/authenticate_user/cubit/authenticate_user_cubit.dart';
 import 'package:paperless_mobile/features/login/authenticate_user/view/authenticate_user_page.dart';
 import 'package:paperless_mobile/features/login/authenticate_user/view/otp_input_page.dart';
-import 'package:paperless_mobile/features/login/cubit/authentication_cubit.dart';
 import 'package:paperless_mobile/features/login/model/client_certificate.dart';
 import 'package:paperless_mobile/features/login/server_connection/cubit/server_connection_cubit.dart';
 import 'package:paperless_mobile/features/login/server_connection/view/server_connection_page.dart';

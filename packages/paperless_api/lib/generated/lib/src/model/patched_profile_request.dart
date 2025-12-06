@@ -4,6 +4,7 @@
 
 // ignore_for_file: unused_element
 import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/src/equatable_utils.dart';
 
@@ -29,16 +30,16 @@ class PatchedProfileRequest {
   });
 
   @JsonKey(name: r'email', required: false, includeIfNull: false)
-  final String? email;
+  final Option<String?>? email;
 
   @JsonKey(name: r'password', required: false, includeIfNull: false)
-  final String? password;
+  final Option<String?>? password;
 
   @JsonKey(name: r'first_name', required: false, includeIfNull: false)
-  final String? firstName;
+  final Option<String?>? firstName;
 
   @JsonKey(name: r'last_name', required: false, includeIfNull: false)
-  final String? lastName;
+  final Option<String?>? lastName;
 
   @override
   bool operator ==(Object other) {

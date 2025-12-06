@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:paperless_api/generated/lib/src/model/document.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/constants.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/store/local_store.dart';
+import 'package:paperless_mobile/core/widgets/icon_loading_widget.dart';
 import 'package:paperless_mobile/features/document_details/view/dialogs/select_file_type_dialog.dart';
 import 'package:paperless_mobile/features/document_details/document_download/cubit/document_download_cubit.dart';
 import 'package:paperless_mobile/features/settings/model/file_download_type.dart';
@@ -36,11 +36,7 @@ class _DocumentDownloadButtonState extends State<DocumentDownloadButton> {
         return IconButton(
           tooltip: S.of(context)!.downloadDocumentTooltip,
           icon: switch (state) {
-            DocumentDownloadInProgress(:final progress) => SizedBox(
-              height: 16,
-              width: 16,
-              child: CircularProgressIndicator(value: progress),
-            ),
+            DocumentDownloadInProgress() => IconLoadingWidget(),
             _ => const Icon(Icons.download),
           },
           onPressed:

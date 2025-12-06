@@ -3,6 +3,7 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:fpdart/fpdart.dart';
 import 'package:paperless_api/generated/lib/src/model/data_type_enum.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -22,14 +23,14 @@ class PatchedCustomFieldRequest {
   PatchedCustomFieldRequest({this.name, this.dataType, this.extraData});
 
   @JsonKey(name: r'name', required: false, includeIfNull: false)
-  final String? name;
+  final Option<String?>? name;
 
   @JsonKey(name: r'data_type', required: false, includeIfNull: false)
-  final DataTypeEnum? dataType;
+  final Option<DataTypeEnum?>? dataType;
 
   /// Extra data for the custom field, such as select options
   @JsonKey(name: r'extra_data', required: false, includeIfNull: false)
-  final Object? extraData;
+  final Option<Object?>? extraData;
 
   @override
   bool operator ==(Object other) {

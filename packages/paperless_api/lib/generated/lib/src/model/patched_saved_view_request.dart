@@ -3,6 +3,7 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:fpdart/fpdart.dart';
 import 'package:paperless_api/generated/lib/src/model/display_mode_enum.dart';
 import 'package:paperless_api/generated/lib/src/model/saved_view_filter_rule_request.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
@@ -43,36 +44,36 @@ class PatchedSavedViewRequest {
   });
 
   @JsonKey(name: r'name', required: false, includeIfNull: false)
-  final String? name;
+  final Option<String?>? name;
 
   @JsonKey(name: r'show_on_dashboard', required: false, includeIfNull: false)
-  final bool? showOnDashboard;
+  final Option<bool?>? showOnDashboard;
 
   @JsonKey(name: r'show_in_sidebar', required: false, includeIfNull: false)
-  final bool? showInSidebar;
+  final Option<bool?>? showInSidebar;
 
   @JsonKey(name: r'sort_field', required: false, includeIfNull: false)
-  final String? sortField;
+  final Option<String?>? sortField;
 
   @JsonKey(name: r'sort_reverse', required: false, includeIfNull: false)
-  final bool? sortReverse;
+  final Option<bool?>? sortReverse;
 
   @JsonKey(name: r'filter_rules', required: false, includeIfNull: false)
-  final List<SavedViewFilterRuleRequest>? filterRules;
+  final Option<List<SavedViewFilterRuleRequest>?>? filterRules;
 
   // minimum: 1
   // maximum: 2147483647
   @JsonKey(name: r'page_size', required: false, includeIfNull: false)
-  final int? pageSize;
+  final Option<int?>? pageSize;
 
   @JsonKey(name: r'display_mode', required: false, includeIfNull: false)
-  final DisplayModeEnum? displayMode;
+  final Option<DisplayModeEnum?>? displayMode;
 
   @JsonKey(name: r'display_fields', required: false, includeIfNull: false)
-  final Object? displayFields;
+  final Option<Object?>? displayFields;
 
   @JsonKey(name: r'owner', required: false, includeIfNull: false)
-  final int? owner;
+  final Option<int?>? owner;
 
   @override
   bool operator ==(Object other) {
