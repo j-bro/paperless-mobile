@@ -192,9 +192,9 @@ class DocumentFilterOptions with EquatableMixin {
   @JsonKey(name: 'tags__id')
   final int? tagsId;
   @JsonKey(name: 'tags__id__all')
-  final int? tagsIdAll;
+  final List<int>? tagsIdAll;
   @JsonKey(name: 'tags__id__in')
-  final int? tagsIdIn;
+  final List<int>? tagsIdIn;
   @JsonKey(name: 'tags__id__none')
   final int? tagsIdNone;
   @JsonKey(name: 'tags__name__icontains')
@@ -214,7 +214,7 @@ class DocumentFilterOptions with EquatableMixin {
   @JsonKey(name: 'title__istartswith')
   final String? titleIstartswith;
   final String? titleContent;
-
+  final String? query;
   DocumentFilterOptions({
     this.addedDateGt,
     this.addedDateGte,
@@ -326,6 +326,7 @@ class DocumentFilterOptions with EquatableMixin {
     this.titleIexact,
     this.titleIstartswith,
     this.titleContent,
+    this.query,
   });
 
   Map<String, dynamic> toJson() => _$DocumentFilterOptionsToJson(this);

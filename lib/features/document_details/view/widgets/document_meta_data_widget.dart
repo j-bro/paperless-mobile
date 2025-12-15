@@ -78,7 +78,7 @@ class DocumentMetaDataWidget extends StatelessWidget {
               DetailsItem.text(
                 document.originalFileName!,
                 context: context,
-                label: S.of(context)!.originalMD5Checksum,
+                label: S.of(context)!.originalFilename,
               ).paddedOnly(bottom: itemSpacing),
             DetailsItem.text(
               metadata.originalChecksum,

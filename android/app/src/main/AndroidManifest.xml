@@ -26,6 +26,17 @@
             </intent-filter>
 
             <!-- START Snippet from https://github.com/qcasey/paperless_share -->
+            <!-- images -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="image/*" android:scheme="content" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="image/*" android:scheme="file" />
+            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -39,6 +50,16 @@
 
             <!-- .pdf -->
             <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/pdf" android:scheme="content" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/pdf" android:scheme="file" />
+            </intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="application/pdf" />
@@ -51,6 +72,16 @@
 
             <!-- .doc -->
             <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/msword" android:scheme="content" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/msword" android:scheme="file" />
+            </intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="application/msword" />
@@ -62,6 +93,20 @@
             </intent-filter>
 
             <!-- .docx -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:mimeType="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                    android:scheme="content" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:mimeType="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                    android:scheme="file" />
+            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -77,6 +122,18 @@
 
             <!-- .odp -->
             <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/vnd.oasis.opendocument.presentation"
+                    android:scheme="content" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/vnd.oasis.opendocument.presentation"
+                    android:scheme="file" />
+            </intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="application/vnd.oasis.opendocument.presentation" />
@@ -88,6 +145,18 @@
             </intent-filter>
 
             <!-- .odt -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/vnd.oasis.opendocument.text"
+                    android:scheme="content" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/vnd.oasis.opendocument.text"
+                    android:scheme="file" />
+            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -101,6 +170,18 @@
 
             <!-- .ods -->
             <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/vnd.oasis.opendocument.spreadsheet"
+                    android:scheme="content" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/vnd.oasis.opendocument.spreadsheet"
+                    android:scheme="file" />
+            </intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="application/vnd.oasis.opendocument.spreadsheet" />
@@ -112,6 +193,16 @@
             </intent-filter>
 
             <!-- .ppt -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/vnd.ms-powerpoint" android:scheme="content" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/vnd.ms-powerpoint" android:scheme="file" />
+            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -125,6 +216,20 @@
 
             <!-- .pptx -->
             <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:mimeType="application/vnd.openxmlformats-officedocument.presentationml.presentation"
+                    android:scheme="content" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:mimeType="application/vnd.openxmlformats-officedocument.presentationml.presentation"
+                    android:scheme="file" />
+            </intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data
@@ -137,8 +242,17 @@
                     android:mimeType="application/vnd.openxmlformats-officedocument.presentationml.presentation" />
             </intent-filter>
 
-
             <!-- .xls -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/vnd.ms-excel" android:scheme="content" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/vnd.ms-excel" android:scheme="file" />
+            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -152,6 +266,20 @@
 
             <!-- .xlsx -->
             <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:mimeType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                    android:scheme="content" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:mimeType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                    android:scheme="file" />
+            </intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data
@@ -163,6 +291,7 @@
                 <data
                     android:mimeType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
             </intent-filter>
+
             <!-- END Snippet from https://github.com/qcasey/paperless_share -->
 
 

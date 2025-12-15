@@ -35,10 +35,6 @@ class _SetActiveUserPageState extends State<SetActiveUserPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthenticationCubit, AuthenticationState>(
-      builder: (context, state) {
-        return Scaffold(body: Center(child: CircularProgressIndicator()));
-      },
-    );
+    return Scaffold(body: Center(child: CircularProgressIndicator()));
   }
 }

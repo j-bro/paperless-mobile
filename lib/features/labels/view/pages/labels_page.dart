@@ -44,10 +44,7 @@ class _LabelsPageState extends State<LabelsPage>
     super.initState();
     final user = context.loggedInUser.paperlessUser;
 
-    context.correspondentRepository.getAllQuery().refetch();
-    context.documentTypeRepository.getAllQuery().refetch();
-    context.tagRepository.getAllQuery().refetch();
-    context.storagePathRepository.getAllQuery().refetch();
+    context.refetchLabels();
 
     _tabController = TabController(
       length: _calculateTabCount(user),

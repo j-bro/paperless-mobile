@@ -59,7 +59,7 @@ class _LinkedDocumentsPageState extends State<LinkedDocumentsPage> {
                     onTap: (document) {
                       DocumentDetailsRoute(
                         title: document.title,
-                        id: document.id,
+                        documentId: document.id,
                         isLabelClickable: false,
                         thumbnailUrl: document.buildThumbnailUrl(context),
                       ).push(context);

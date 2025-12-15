@@ -29,7 +29,7 @@ class PaperlessCustomFieldsApiImpl extends PaperlessCustomFieldsApi
   PaperlessCustomFieldsApiImpl(this.client);
 
   @override
-  String get path => "/api/custom_fields/";
+  String get path => "/api/custom_fields";
   @override
   CustomField parse(Map<String, dynamic> json) => CustomField.fromJson(json);
 

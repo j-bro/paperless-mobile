@@ -45,24 +45,26 @@ class SwitchingAccounts extends AuthenticationState {
   const SwitchingAccounts();
 }
 
+class ConnectionFailure extends AuthenticationState {
+  final String serverUrl;
+  final String username;
+
+  ConnectionFailure({required this.serverUrl, required this.username});
+}
+
 class AuthenticationError extends AuthenticationState with EquatableMixin {
-  final ErrorCode? errorCode;
+  final dynamic error;
   final String serverUrl;
   final ClientCertificate? clientCertificate;
   final String username;
 
   const AuthenticationError({
-    this.errorCode,
+    this.error,
     required this.serverUrl,
     this.clientCertificate,
     required this.username,
   });
 
   @override
-  List<Object?> get props => [
-    errorCode,
-    serverUrl,
-    clientCertificate,
-    username,
-  ];
+  List<Object?> get props => [error, serverUrl, clientCertificate, username];
 }

@@ -1,14 +1,24 @@
 {
-  "developedBy": "Разработано {name}.",
-  "@developedBy": {
-    "placeholders": {
-      "name": {}
-    }
+  "aboutThisApp": "О приложении",
+  "@aboutThisApp": {
+    "description": "Label for about this app tile displayed in the drawer"
+  },
+  "absolute": "Абсолютный",
+  "@absolute": {},
+  "account": "Учётная запись",
+  "@account": {},
+  "accounts": "Аккаунты",
+  "@accounts": {
+    "description": "Title of the account management dialog"
+  },
+  "aClientCertificateWasExpectedButNotSent": "Ожидался сертификат клиента, но он не отправлен. Пожалуйста, предоставьте действительный клиентский сертификат.",
+  "@aClientCertificateWasExpectedButNotSent": {},
+  "addAccount": "Добавить аккаунт",
+  "@addAccount": {
+    "description": "Label of add account action"
   },
   "addAnotherAccount": "Добавить другую учетную запись",
   "@addAnotherAccount": {},
-  "account": "Учётная запись",
-  "@account": {},
   "addCorrespondent": "Новый корреспондент",
   "@addCorrespondent": {
     "description": "Title when adding a new correspondent"
@@ -17,6 +27,17 @@
   "@addDocumentType": {
     "description": "Title when adding a new document type"
   },
+  "addedAt": "Добавлено в",
+  "@addedAt": {},
+  "addNewCorrespondent": "Добавить нового корреспондента",
+  "@addNewCorrespondent": {},
+  "addNewDocumentType": "Добавить новый тип документа",
+  "@addNewDocumentType": {},
+  "addNewStoragePath": "Добавить новый путь к хранилищу",
+  "@addNewStoragePath": {},
+  "addNewTag": "Добавить новый тег",
+  "@addNewTag": {},
+  "addNote": "Добавить заметку",
   "addStoragePath": "Новый путь для хранения данных",
   "@addStoragePath": {
     "description": "Title when adding a new storage path"
@@ -25,214 +46,288 @@
   "@addTag": {
     "description": "Title when adding a new tag"
   },
-  "aboutThisApp": "О приложении",
-  "@aboutThisApp": {
-    "description": "Label for about this app tile displayed in the drawer"
+  "advanced": "Дополнительно",
+  "@advanced": {},
+  "advancedSettings": "Дополнительные настройки",
+  "@advancedSettings": {},
+  "after": "После",
+  "@after": {},
+  "all": "Все",
+  "@all": {},
+  "allScansWillBeMerged": "Все сканированные файлы будут объединены в один PDF-файл.",
+  "allSeen": "Все просмотренные",
+  "@allSeen": {},
+  "allTags": "Все",
+  "@allTags": {
+    "description": "Label shown when a document has to be assigned to all selected tags"
   },
-  "loggedInAs": "Вход выполнен как {name}",
-  "@loggedInAs": {
-    "placeholders": {
-      "name": {}
-    }
+  "alwaysAsk": "Всегда спрашивать",
+  "@alwaysAsk": {
+    "description": "Option to choose when the app should always ask the user which filetype to use"
   },
-  "disconnect": "Отключиться",
-  "@disconnect": {
-    "description": "Logout button label"
+  "amount": "Количество",
+  "@amount": {},
+  "anErrorOccurredRemovingTheScans": "Произошла ошибка при удалении сканирования.",
+  "@anErrorOccurredRemovingTheScans": {},
+  "anErrorOccurredWhileTryingToAutocompleteYourQuery": "Произошла ошибка при попытке автоматического заполнения запроса.",
+  "@anErrorOccurredWhileTryingToAutocompleteYourQuery": {},
+  "anInternetConnectionCouldNotBeEstablished": "Не удалось установить соединение с интернетом.",
+  "@anInternetConnectionCouldNotBeEstablished": {},
+  "anUnknownErrorOccurred": "Произошла неизвестная ошибка.",
+  "@anUnknownErrorOccurred": {},
+  "any": "Любые",
+  "@any": {},
+  "anyAssigned": "Любые назначенные",
+  "@anyAssigned": {},
+  "anyTag": "Любые",
+  "@anyTag": {
+    "description": "Label shown when any tag should be filtered"
   },
-  "reportABug": "Сообщить об ошибке",
-  "@reportABug": {},
-  "settings": "Настройки",
-  "@settings": {},
-  "authenticateOnAppStart": "Аутентифицироваться при запуске приложения",
-  "@authenticateOnAppStart": {
-    "description": "Description of the biometric authentication settings tile"
-  },
-  "biometricAuthentication": "Биометрическая аутентификация",
-  "@biometricAuthentication": {},
-  "authenticateToToggleBiometricAuthentication": "{mode, select, enable{Авторизуйтесь для включения биометрической аутентификации} disable{Авторизуйтесь для отключения биометрической аутентификации} other{}}",
-  "@authenticateToToggleBiometricAuthentication": {
-    "placeholders": {
-      "mode": {}
-    }
-  },
-  "documents": "Документы",
-  "@documents": {},
-  "inbox": "Входящие",
-  "@inbox": {},
-  "labels": "Метки",
-  "@labels": {},
-  "scanner": "Сканер",
-  "@scanner": {},
-  "startTyping": "Начните вводить текст...",
-  "@startTyping": {},
-  "doYouReallyWantToDeleteThisView": "Вы действительно хотите удалить этот вид?",
-  "@doYouReallyWantToDeleteThisView": {},
-  "deleteView": "",
-  "@deleteView": {},
-  "addedAt": "Добавлено в",
-  "@addedAt": {},
-  "archiveSerialNumber": "Серийный номер архива",
-  "@archiveSerialNumber": {},
-  "asn": "ASN",
-  "@asn": {},
-  "correspondent": "Корреспондент",
-  "@correspondent": {},
-  "createdAt": "Создано в",
-  "@createdAt": {},
-  "documentSuccessfullyDeleted": "Документ успешно удален.",
-  "@documentSuccessfullyDeleted": {},
-  "assignAsn": "Назначить ASN",
-  "@assignAsn": {},
-  "deleteDocumentTooltip": "Удалить",
-  "@deleteDocumentTooltip": {
-    "description": "Tooltip shown for the delete button on details page"
-  },
-  "downloadDocumentTooltip": "Скачать",
-  "@downloadDocumentTooltip": {
-    "description": "Tooltip shown for the download button on details page"
-  },
-  "editDocumentTooltip": "Редактировать",
-  "@editDocumentTooltip": {
-    "description": "Tooltip shown for the edit button on details page"
-  },
-  "loadFullContent": "Загрузить полный контент",
-  "@loadFullContent": {},
-  "noAppToDisplayPDFFilesFound": "Не найдено приложений для отображения PDF-файлов!",
-  "@noAppToDisplayPDFFilesFound": {},
-  "openInSystemViewer": "Открыть в системном просмотрщике",
-  "@openInSystemViewer": {},
-  "couldNotOpenFilePermissionDenied": "Не удалось открыть файл: Отказано в разрешении.",
-  "@couldNotOpenFilePermissionDenied": {},
-  "previewTooltip": "Предпросмотр",
-  "@previewTooltip": {
-    "description": "Tooltip shown for the preview button on details page"
-  },
-  "shareTooltip": "Поделиться",
-  "@shareTooltip": {
-    "description": "Tooltip shown for the share button on details page"
-  },
-  "similarDocuments": "Похожие документы",
-  "@similarDocuments": {
-    "description": "Label shown in the tabbar on details page"
-  },
-  "content": "Контент",
-  "@content": {
-    "description": "Label shown in the tabbar on details page"
-  },
-  "metaData": "Метаданные",
-  "@metaData": {
-    "description": "Label shown in the tabbar on details page"
-  },
-  "overview": "Обзор",
-  "@overview": {
-    "description": "Label shown in the tabbar on details page"
-  },
-  "documentType": "Тип документа",
-  "@documentType": {},
+  "appearance": "Оформление",
+  "@appearance": {},
+  "applicationSettings": "Применение",
+  "@applicationSettings": {},
+  "appLogs": "Логи приложения за {date}",
+  "apply": "Применить",
+  "@apply": {},
   "archivedPdf": "Архивировано (pdf)",
   "@archivedPdf": {
     "description": "Option to chose when downloading a document"
   },
-  "chooseFiletype": "Выберите тип файла",
-  "@chooseFiletype": {},
-  "original": "Оригинал",
-  "@original": {
-    "description": "Option to chose when downloading a document"
+  "archiveSerialNumber": "Серийный номер архива",
+  "@archiveSerialNumber": {},
+  "archiveSerialNumberUpdated": "Архивный серийный номер обновлен.",
+  "@archiveSerialNumberUpdated": {
+    "description": "Message shown when the ASN has been updated."
   },
-  "documentSuccessfullyDownloaded": "Документ успешно загружен.",
-  "@documentSuccessfullyDownloaded": {},
-  "suggestions": "Предложения: ",
-  "@suggestions": {},
-  "editDocument": "Редактировать документ",
-  "@editDocument": {},
-  "advanced": "Дополнительно",
-  "@advanced": {},
-  "apply": "Применить",
-  "@apply": {},
-  "extended": "Расширенный",
-  "@extended": {},
-  "titleAndContent": "Название и Контент",
-  "@titleAndContent": {},
-  "title": "Название",
-  "@title": {},
-  "reset": "Сброс",
-  "@reset": {},
-  "filterDocuments": "Фильтр документов",
-  "@filterDocuments": {
-    "description": "Title of the document filter"
-  },
-  "originalMD5Checksum": "Оригинальная MD5-контрольная сумма",
-  "@originalMD5Checksum": {},
-  "mediaFilename": "Название медиафайла",
-  "@mediaFilename": {},
-  "originalFileSize": "Оригинальный размер файла",
-  "@originalFileSize": {},
-  "originalMIMEType": "Оригинальный MIME-тип",
-  "@originalMIMEType": {},
-  "modifiedAt": "Изменено в",
-  "@modifiedAt": {},
-  "preview": "Предпросмотр",
-  "@preview": {
-    "description": "Title of the document preview page"
-  },
-  "scanADocument": "Сканировать документ",
-  "@scanADocument": {},
-  "noDocumentsScannedYet": "Документы еще не сканированы.",
-  "@noDocumentsScannedYet": {},
-  "or": "или",
-  "@or": {
-    "description": "Used on the scanner page between both main actions when no scans have been captured."
-  },
-  "deleteAllScans": "Удалить все сканирования",
-  "@deleteAllScans": {},
-  "uploadADocumentFromThisDevice": "Загрузить документ с этого устройства",
-  "@uploadADocumentFromThisDevice": {
-    "description": "Button label on scanner page"
-  },
-  "noMatchesFound": "Ничего не найдено.",
-  "@noMatchesFound": {
-    "description": "Displayed when no documents were found in the document search."
-  },
-  "removeFromSearchHistory": "Удалить из истории поиска?",
-  "@removeFromSearchHistory": {},
-  "results": "Результаты",
-  "@results": {
-    "description": "Label displayed above search results in document search."
-  },
-  "searchDocuments": "Поиск документов",
-  "@searchDocuments": {},
-  "resetFilter": "Сбросить фильтр",
-  "@resetFilter": {},
-  "lastMonth": "Прошлый месяц",
-  "@lastMonth": {},
-  "last7Days": "Последние 7 дней",
-  "@last7Days": {},
-  "last3Months": "Последние 3 месяца",
-  "@last3Months": {},
-  "lastYear": "Прошлый год",
-  "@lastYear": {},
-  "search": "Поиск",
-  "@search": {},
-  "documentsSuccessfullyDeleted": "Документ успешно удален.",
-  "@documentsSuccessfullyDeleted": {},
-  "thereSeemsToBeNothingHere": "Похоже, здесь ничего нет...",
-  "@thereSeemsToBeNothingHere": {},
-  "oops": "Упс.",
-  "@oops": {},
-  "newDocumentAvailable": "Доступен новый документ!",
-  "@newDocumentAvailable": {},
-  "orderBy": "Упорядочить по",
-  "@orderBy": {},
-  "thisActionIsIrreversibleDoYouWishToProceedAnyway": "Это действие необратимо. Все равно хотите продолжить?",
-  "@thisActionIsIrreversibleDoYouWishToProceedAnyway": {},
-  "confirmDeletion": "Подтвердить удаление",
-  "@confirmDeletion": {},
+  "areYouSureYouWantToContinue": "Вы уверены, что хотите продолжить?",
   "areYouSureYouWantToDeleteTheFollowingDocuments": "{count, plural, one{Вы уверены, что хотите удалить следующий документ?} few {Вы уверены, что хотите удалить следующие документы?} many {Вы уверены, что хотите удалить следующие документы?} other{Вы уверены, что хотите удалить следующие документы?}}",
   "@areYouSureYouWantToDeleteTheFollowingDocuments": {
     "placeholders": {
       "count": {}
     }
   },
+  "areYouSureYouWantToMarkAllDocumentsAsSeen": "Вы уверены, что хотите отметить все документы как просмотренные? Это выполнит операцию массового редактирования, удалив все входящие теги из документов. Это действие необратимо! Вы уверены, что хотите продолжить?",
+  "@areYouSureYouWantToMarkAllDocumentsAsSeen": {},
+  "ascending": "Возрастание",
+  "@ascending": {},
+  "asn": "ASN",
+  "@asn": {},
+  "assignAsn": "Назначить ASN",
+  "@assignAsn": {},
+  "authenticateOnAppStart": "Аутентифицироваться при запуске приложения",
+  "@authenticateOnAppStart": {
+    "description": "Description of the biometric authentication settings tile"
+  },
+  "authenticateToToggleBiometricAuthentication": "{mode, select, enable{Авторизуйтесь для включения биометрической аутентификации} disable{Авторизуйтесь для отключения биометрической аутентификации} other{}}",
+  "@authenticateToToggleBiometricAuthentication": {
+    "placeholders": {
+      "mode": {}
+    }
+  },
+  "authenticatingDots": "Аутентификация...",
+  "@authenticatingDots": {
+    "description": "Message shown when the app is authenticating the user"
+  },
+  "authenticationFailedPleaseTryAgain": "Аутентификация не удалась, попробуйте еще раз.",
+  "@authenticationFailedPleaseTryAgain": {},
+  "auto": "Авто",
+  "@auto": {},
+  "backToLogin": "Вернуться к входу",
+  "before": "Ранее",
+  "@before": {},
+  "behavior": "Поведение",
+  "@behavior": {
+    "description": "Title of the settings concerning app beahvior"
+  },
+  "biometricAuthentication": "Биометрическая аутентификация",
+  "@biometricAuthentication": {},
+  "biometricAuthenticationFailed": "Биометрическая аутентификация провалена.",
+  "@biometricAuthenticationFailed": {},
+  "biometricAuthenticationNotSupported": "Биометрическая аутентификация не поддерживается на этом устройстве.",
+  "@biometricAuthenticationNotSupported": {},
+  "bulkEditCorrespondentAssignMessage": "{count, plural, one{Эта операция присвоит корреспондента {correspondent} выбранному документу.} other{Эта операция присвоит корреспондента {correspondent} {count} выбранных документов.}}",
+  "bulkEditCorrespondentRemoveMessage": "{count, plural, one{Эта операция удалит корреспондента из выбранного документа.} other{Эта операция удалит корреспондента из {count} выбранных документов.}}",
+  "bulkEditDocumentTypeAssignMessage": "{count, plural, one{Эта операция присвоит тип документа {docType} выбранному документу.} other{Эта операция присвоит тип документа {docType} {count} выбранным документам.}}",
+  "bulkEditDocumentTypeRemoveMessage": "{count, plural, one{Данная операция удалит тип документа из выбранного документа.} other{Данная операция удалит тип документа из {count} выбранных документов.}}",
+  "bulkEditStoragePathAssignMessage": "{count, plural, one{Эта операция назначит путь хранения {path} выбранному документу.} other{Эта операция назначит путь хранения {path} {count} выбранным документам.}}",
+  "bulkEditStoragePathRemoveMessage": "{count, plural, one{Эта операция удалит путь хранения из выбранного документа.} other{Эта операция удалит путь хранения из {count} выбранных документов.}}",
+  "bulkEditTagsAddMessage": "{count, plural, one{Эта операция добавит теги {tags} в выбранный документ.} other{Эта операция добавит теги {tags} в {count} выбранных документов.}}",
+  "@bulkEditTagsAddMessage": {
+    "description": "Message of the confirmation dialog when bulk adding tags."
+  },
+  "bulkEditTagsModifyMessage": "{count, plural, one{Данная операция добавит теги {addTags} и удалит теги {removeTags} из выбранного документа.} other{Данная операция добавит теги {addTags} и удалит теги {removeTags} из {count} выбранных документов.}}",
+  "@bulkEditTagsModifyMessage": {
+    "description": "Message of the confirmation dialog when both adding and removing tags."
+  },
+  "bulkEditTagsRemoveMessage": "{count, plural, one{Эта операция удалит теги {tags} из выбранного документа.} other{Эта операция удалит теги {tags} из {count} выбранных документов.}}",
+  "@bulkEditTagsRemoveMessage": {
+    "description": "Message of the confirmation dialog when bulk removing tags."
+  },
+  "calculatingDots": "Расчет...",
+  "@calculatingDots": {
+    "description": "Text shown when the byte size is still being calculated"
+  },
+  "cancel": "Отменить",
+  "@cancel": {},
+  "caseIrrelevant": "Дело не имеет отношение",
+  "@caseIrrelevant": {},
+  "changelog": "Изменения",
+  "chooseFiletype": "Выберите тип файла",
+  "@chooseFiletype": {},
+  "classicColorScheme": "Классическое",
+  "@classicColorScheme": {},
+  "clearAll": "Очистить все",
+  "@clearAll": {},
+  "clearCache": "Очистить кэш",
+  "@clearCache": {
+    "description": "Title of the clear cache setting"
+  },
+  "clearLogs": "Очистить логи за {date}",
+  "clientcertificate": "Сертификат клиента",
+  "@clientcertificate": {},
+  "close": "Закрыть",
+  "@close": {},
+  "color": "Цвет",
+  "@color": {},
+  "colors": "Цвета",
+  "@colors": {},
+  "colorSchemeHint": "Выберите между классической цветовой схемой, вдохновленной традиционным зеленым Paperless или используйте динамическую цветовую схему на основе вашей системной темы.",
+  "@colorSchemeHint": {},
+  "colorSchemeNotSupportedWarning": "Динамическая тема поддерживается только для устройств с Android 12 и выше. Выбор параметра \"Динамическая\" может не повлиять на реализацию вашей ОС.",
+  "@colorSchemeNotSupportedWarning": {},
+  "configureMutualTLSAuthentication": "Настроить взаимную TLS аутентификацию",
+  "@configureMutualTLSAuthentication": {},
+  "confirm": "Подтвердить",
+  "confirmAction": "Подтвердить действие",
+  "@confirmAction": {
+    "description": "Typically used as a title to confirm a previously selected action"
+  },
+  "confirmDeletion": "Подтвердить удаление",
+  "@confirmDeletion": {},
+  "connect": "Подключиться",
+  "@connect": {},
+  "connectionSuccessfulylEstablished": "Соединение успешно установлено.",
+  "@connectionSuccessfulylEstablished": {},
+  "connectionTimedOut": "Время ожидания истекло.",
+  "@connectionTimedOut": {},
+  "connectToPaperless": "Подключение к Paperless",
+  "@connectToPaperless": {},
+  "content": "Контент",
+  "@content": {
+    "description": "Label shown in the tabbar on details page"
+  },
+  "continueLabel": "Продолжить",
+  "@continueLabel": {},
+  "convertSinglePageScanToPdf": "Всегда конвертировать одну страницу в PDF перед загрузкой",
+  "@convertSinglePageScanToPdf": {
+    "description": "description of the upload scans as pdf setting"
+  },
+  "copyToClipboard": "Копировать в буфер обмена",
+  "correspondent": "Корреспондент",
+  "@correspondent": {},
+  "correspondents": "Корреспонденты",
+  "@correspondents": {},
+  "couldNotAccessReceivedFile": "Не удалось получить доступ к полученному файлу. Пожалуйста, попробуйте открыть приложение перед тем, как поделиться.",
+  "@couldNotAccessReceivedFile": {},
+  "couldNotAcknowledgeTasks": "Не удалось подтвердить задания.",
+  "@couldNotAcknowledgeTasks": {},
+  "couldNotAssignArchiveSerialNumber": "Не удалось присвоить архивный серийный номер.",
+  "@couldNotAssignArchiveSerialNumber": {},
+  "couldNotBulkEditDocuments": "Не удалось редактировать документы.",
+  "@couldNotBulkEditDocuments": {},
+  "couldNotCreateCorrespondent": "Не удалось создать корреспондента, попробуйте еще раз.",
+  "@couldNotCreateCorrespondent": {},
+  "couldNotCreateDocument": "Не удалось создать документ, попробуйте еще раз.",
+  "@couldNotCreateDocument": {},
+  "couldNotCreateSavedView": "Не удалось обновить сохраненный вид, попробуйте еще раз.",
+  "@couldNotCreateSavedView": {},
+  "couldNotCreateStoragePath": "Не удалось создать путь к хранилищу, пожалуйста, попробуйте еще раз.",
+  "@couldNotCreateStoragePath": {},
+  "couldNotCreateTag": "Не удалось создать тег, попробуйте еще раз.",
+  "@couldNotCreateTag": {},
+  "couldNotDeleteCorrespondent": "Не удалось удалить корреспондента, попробуйте еще раз.",
+  "@couldNotDeleteCorrespondent": {
+    "description": "Message shown in snackbar when a correspondent could not be deleted."
+  },
+  "couldNotDeleteDocument": "Не удалось удалить документ, попробуйте еще раз.",
+  "@couldNotDeleteDocument": {},
+  "couldNotDeleteDocumentType": "Не удалось удалить тип документа, попробуйте еще раз.",
+  "@couldNotDeleteDocumentType": {
+    "description": "Message shown when a document type could not be deleted"
+  },
+  "couldNotDeleteSavedView": "Не удалось обновить сохраненный вид, попробуйте еще раз",
+  "@couldNotDeleteSavedView": {},
+  "couldNotDeleteStoragePath": "Не удалось удалить путь к хранилищу, попробуйте еще раз.",
+  "@couldNotDeleteStoragePath": {
+    "description": "Message shown when a storage path could not be deleted"
+  },
+  "couldNotDeleteTag": "Не удалось удалить тег, попробуйте еще раз.",
+  "@couldNotDeleteTag": {
+    "description": "Message shown when a tag could not be deleted"
+  },
+  "couldNotEstablishConnectionToTheServer": "Не удалось установить соединение с сервером.",
+  "@couldNotEstablishConnectionToTheServer": {},
+  "couldNotLoadCorrespondents": "Не удалось загрузить корреспондентов.",
+  "@couldNotLoadCorrespondents": {},
+  "couldNotLoadDocumentPreview": "Не удалось загрузить предпросмотр документа.",
+  "@couldNotLoadDocumentPreview": {},
+  "couldNotLoadDocuments": "Не удалось загрузить документы, попробуйте еще раз.",
+  "@couldNotLoadDocuments": {},
+  "couldNotLoadDocumentTypes": "Не удалось загрузить типы документов, попробуйте еще раз.",
+  "@couldNotLoadDocumentTypes": {},
+  "couldNotLoadLogfileFrom": "Не удалось загрузить лог файл за {date}.",
+  "couldNotLoadSavedViews": "Не удалось загрузить сохраненные виды.",
+  "@couldNotLoadSavedViews": {},
+  "couldNotLoadServerInformation": "Не удалось загрузить информацию о сервере.",
+  "@couldNotLoadServerInformation": {
+    "description": "Message shown when the server information could not be loaded"
+  },
+  "couldNotLoadSimilarDocuments": "Не удалось загрузить похожие документы.",
+  "@couldNotLoadSimilarDocuments": {},
+  "couldNotLoadStatistics": "Не удалось загрузить статистику сервера.",
+  "@couldNotLoadStatistics": {
+    "description": "Message shown when the server statistics could not be loaded"
+  },
+  "couldNotLoadStoragePaths": "Не удалось загрузить пути хранилища.",
+  "@couldNotLoadStoragePaths": {},
+  "couldNotLoadSuggestions": "Не удалось загрузить предложения.",
+  "@couldNotLoadSuggestions": {},
+  "couldNotLoadTags": "Не удалось загрузить теги.",
+  "@couldNotLoadTags": {},
+  "couldNotLoadTasks": "Не удалось загрузить задания.",
+  "@couldNotLoadTasks": {
+    "description": "Message shown when the tasks (e.g. document consumed) could not be loaded"
+  },
+  "couldNotLoadUISettings": "Не удалось загрузить настройки пользовательского интерфейса.",
+  "@couldNotLoadUISettings": {
+    "description": "Message shown when the UI settings could not be loaded"
+  },
+  "couldNotOpenFilePermissionDenied": "Не удалось открыть файл: Отказано в разрешении.",
+  "@couldNotOpenFilePermissionDenied": {},
+  "couldNotReachYourPaperlessServer": "Не удалось получить доступ к вашему серверу Paperless, он работает?",
+  "@couldNotReachYourPaperlessServer": {},
+  "couldNotUpdateCorrespondent": "Не удалось обновить корреспондента, попробуйте еще раз.",
+  "@couldNotUpdateCorrespondent": {
+    "description": "Message shown when a correspondent could not be updated"
+  },
+  "couldNotUpdateDocument": "Не удалось обновить документ, попробуйте еще раз.",
+  "@couldNotUpdateDocument": {},
+  "couldNotUpdateDocumentType": "Не удалось обновить тип документа, попробуйте еще раз.",
+  "@couldNotUpdateDocumentType": {
+    "description": "Message shown when a document type could not be updated"
+  },
+  "couldNotUpdateSavedView": "Не удалось обновить сохраненный вид, попробуйте еще раз.",
+  "@couldNotUpdateSavedView": {
+    "description": "Message shown when a saved view could not be updated"
+  },
+  "couldNotUpdateStoragePath": "Не удалось обновить путь к хранилищу, попробуйте еще раз.",
+  "couldNotUpdateTag": "Не удалось обновить тег, попробуйте еще раз.",
+  "@couldNotUpdateTag": {
+    "description": "Message shown when a tag could not be updated"
+  },
+  "couldNotUploadDocument": "Не удалось загрузить документ, попробуйте еще раз.",
+  "@couldNotUploadDocument": {},
   "countSelected": "{count} выбрано",
   "@countSelected": {
     "description": "Displayed in the appbar when at least one document is selected.",
@@ -240,120 +335,255 @@
       "count": {}
     }
   },
-  "storagePath": "Путь хранения",
-  "@storagePath": {},
-  "prepareDocument": "Подготовить документ",
-  "@prepareDocument": {},
-  "tags": "Теги",
-  "@tags": {},
-  "documentSuccessfullyUpdated": "Документ успешно обновлен.",
-  "@documentSuccessfullyUpdated": {},
-  "fileName": "Имя файла",
-  "@fileName": {},
-  "synchronizeTitleAndFilename": "Синхронизировать название и имя файла",
-  "@synchronizeTitleAndFilename": {},
-  "reload": "Перезагрузить",
-  "@reload": {},
-  "documentSuccessfullyUploadedProcessing": "Документ успешно загружен, обработка...",
-  "@documentSuccessfullyUploadedProcessing": {},
-  "deleteLabelWarningText": "Эта метка содержит ссылки на другие документы. Удаляя эту метку, все ссылки будут удалены. Продолжить?",
-  "@deleteLabelWarningText": {},
-  "couldNotAcknowledgeTasks": "Не удалось подтвердить задания.",
-  "@couldNotAcknowledgeTasks": {},
-  "authenticationFailedPleaseTryAgain": "Аутентификация не удалась, попробуйте еще раз.",
-  "@authenticationFailedPleaseTryAgain": {},
-  "anErrorOccurredWhileTryingToAutocompleteYourQuery": "Произошла ошибка при попытке автоматического заполнения запроса.",
-  "@anErrorOccurredWhileTryingToAutocompleteYourQuery": {},
-  "biometricAuthenticationFailed": "Биометрическая аутентификация провалена.",
-  "@biometricAuthenticationFailed": {},
-  "biometricAuthenticationNotSupported": "Биометрическая аутентификация не поддерживается на этом устройстве.",
-  "@biometricAuthenticationNotSupported": {},
-  "couldNotBulkEditDocuments": "Не удалось редактировать документы.",
-  "@couldNotBulkEditDocuments": {},
-  "couldNotCreateCorrespondent": "Не удалось создать корреспондента, попробуйте еще раз.",
-  "@couldNotCreateCorrespondent": {},
-  "couldNotLoadCorrespondents": "Не удалось загрузить корреспондентов.",
-  "@couldNotLoadCorrespondents": {},
-  "couldNotCreateSavedView": "Не удалось обновить сохраненный вид, попробуйте еще раз.",
-  "@couldNotCreateSavedView": {},
-  "couldNotDeleteSavedView": "Не удалось обновить сохраненный вид, попробуйте еще раз",
-  "@couldNotDeleteSavedView": {},
-  "youAreCurrentlyOffline": "В настоящее время вы не в сети. Убедитесь, что вы подключены к Интернету.",
-  "@youAreCurrentlyOffline": {},
-  "couldNotAssignArchiveSerialNumber": "Не удалось присвоить архивный серийный номер.",
-  "@couldNotAssignArchiveSerialNumber": {},
-  "couldNotDeleteDocument": "Не удалось удалить документ, попробуйте еще раз.",
-  "@couldNotDeleteDocument": {},
-  "couldNotLoadDocuments": "Не удалось загрузить документы, попробуйте еще раз.",
-  "@couldNotLoadDocuments": {},
-  "couldNotLoadDocumentPreview": "Не удалось загрузить предпросмотр документа.",
-  "@couldNotLoadDocumentPreview": {},
-  "couldNotCreateDocument": "Не удалось создать документ, попробуйте еще раз.",
-  "@couldNotCreateDocument": {},
-  "couldNotLoadDocumentTypes": "Не удалось загрузить типы документов, попробуйте еще раз.",
-  "@couldNotLoadDocumentTypes": {},
-  "couldNotUpdateDocument": "Не удалось обновить документ, попробуйте еще раз.",
-  "@couldNotUpdateDocument": {},
-  "couldNotUploadDocument": "Не удалось загрузить документ, попробуйте еще раз.",
-  "@couldNotUploadDocument": {},
-  "invalidCertificateOrMissingPassphrase": "Неверный сертификат или отсутствующая ключевая фраза, пожалуйста попробуйте еще раз",
-  "@invalidCertificateOrMissingPassphrase": {},
-  "couldNotLoadSavedViews": "Не удалось загрузить сохраненные виды.",
-  "@couldNotLoadSavedViews": {},
-  "aClientCertificateWasExpectedButNotSent": "Ожидался сертификат клиента, но он не отправлен. Пожалуйста, предоставьте действительный клиентский сертификат.",
-  "@aClientCertificateWasExpectedButNotSent": {},
-  "userIsNotAuthenticated": "Пользователь не аутентифицирован.",
-  "@userIsNotAuthenticated": {},
-  "requestTimedOut": "Время ожидания запроса на сервер истекло.",
-  "@requestTimedOut": {},
-  "anErrorOccurredRemovingTheScans": "Произошла ошибка при удалении сканирования.",
-  "@anErrorOccurredRemovingTheScans": {},
-  "couldNotReachYourPaperlessServer": "Не удалось получить доступ к вашему серверу Paperless, он работает?",
-  "@couldNotReachYourPaperlessServer": {},
-  "couldNotLoadSimilarDocuments": "Не удалось загрузить похожие документы.",
-  "@couldNotLoadSimilarDocuments": {},
-  "couldNotCreateStoragePath": "Не удалось создать путь к хранилищу, пожалуйста, попробуйте еще раз.",
-  "@couldNotCreateStoragePath": {},
-  "couldNotLoadStoragePaths": "Не удалось загрузить пути хранилища.",
-  "@couldNotLoadStoragePaths": {},
-  "couldNotLoadSuggestions": "Не удалось загрузить предложения.",
-  "@couldNotLoadSuggestions": {},
-  "couldNotCreateTag": "Не удалось создать тег, попробуйте еще раз.",
-  "@couldNotCreateTag": {},
-  "couldNotLoadTags": "Не удалось загрузить теги.",
-  "@couldNotLoadTags": {},
-  "anUnknownErrorOccurred": "Произошла неизвестная ошибка.",
-  "@anUnknownErrorOccurred": {},
-  "fileFormatNotSupported": "Этот формат файла не поддерживается.",
-  "@fileFormatNotSupported": {},
-  "report": "СООБЩИТЬ",
-  "@report": {},
-  "absolute": "Абсолютный",
-  "@absolute": {},
-  "hintYouCanAlsoSpecifyRelativeValues": "Подсказка: Помимо конкретных дат, вы можете также указать диапазон времени относительно текущей даты.",
-  "@hintYouCanAlsoSpecifyRelativeValues": {
-    "description": "Displayed in the extended date range picker"
+  "create": "Создать",
+  "@create": {},
+  "createdAt": "Создано в",
+  "@createdAt": {},
+  "createFromCurrentFilter": "Создать из текущего фильтра",
+  "@createFromCurrentFilter": {
+    "description": "Tooltip of the \"New saved view\" button"
   },
-  "amount": "Количество",
-  "@amount": {},
-  "relative": "Относительно",
-  "@relative": {},
-  "last": "Последний",
-  "@last": {},
-  "timeUnit": "Единица времени",
-  "@timeUnit": {},
-  "selectDateRange": "Выберите диапазон дат",
-  "@selectDateRange": {},
-  "after": "После",
-  "@after": {},
-  "before": "Ранее",
-  "@before": {},
+  "createsASavedViewBasedOnTheCurrentFilterCriteria": "Создает новый вид на основе текущих критериев фильтра.",
+  "@createsASavedViewBasedOnTheCurrentFilterCriteria": {},
+  "createViewsToQuicklyFilterYourDocuments": "Создавайте виды для быстрой фильтрации документов.",
+  "@createViewsToQuicklyFilterYourDocuments": {},
+  "dark": "Темная",
+  "@dark": {},
+  "darkTheme": "Темная тема",
+  "@darkTheme": {},
+  "dateOutOfRange": "Дата должна быть между {firstDate} и {lastDate}.",
+  "@dateOutOfRange": {
+    "description": "Error message shown when the user tries to select a date outside of the allowed range.",
+    "placeholders": {
+      "firstDate": {
+        "type": "DateTime",
+        "format": "yMd"
+      },
+      "lastDate": {
+        "type": "DateTime",
+        "format": "yMd"
+      }
+    }
+  },
   "days": "{count, plural, one{день} few {дней} many {дней} other{дней}}",
   "@days": {
     "placeholders": {
       "count": {}
     }
   },
+  "defaultDownloadFileType": "Тип загружаемого файла по умолчанию",
+  "@defaultDownloadFileType": {
+    "description": "Label indicating the default filetype to download (one of archived, original and always ask)"
+  },
+  "defaultShareFileType": "Тип файла обмена по умолчанию",
+  "@defaultShareFileType": {
+    "description": "Label indicating the default filetype to share (one of archived, original and always ask)"
+  },
+  "delete": "Удалить",
+  "@delete": {},
+  "deleteAllScans": "Удалить все сканирования",
+  "@deleteAllScans": {},
+  "deleteDocument": "Удалить документ",
+  "@deleteDocument": {
+    "description": "Used as an action label on each inbox item"
+  },
+  "deleteDocumentTooltip": "Удалить",
+  "@deleteDocumentTooltip": {
+    "description": "Tooltip shown for the delete button on details page"
+  },
+  "deleteLabelWarningText": "Эта метка содержит ссылки на другие документы. Удаляя эту метку, все ссылки будут удалены. Продолжить?",
+  "@deleteLabelWarningText": {},
+  "deleteView": "",
+  "@deleteView": {},
+  "descending": "Убыванию",
+  "@descending": {},
+  "detailed": "Подробный",
+  "@detailed": {},
+  "developedBy": "Разработано {name}.",
+  "@developedBy": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "disableMatching": "Не отмечать документы автоматически",
+  "@disableMatching": {
+    "description": "One of the options for automatic tagging of documents"
+  },
+  "discard": "Отменить",
+  "discardChanges": "Не сохранять изменения?",
+  "@discardChanges": {
+    "description": "Title of the alert dialog shown when a user tries to close a view with unsaved changes."
+  },
+  "discardChangesWarning": "У вас есть несохраненные изменения. Продолжая, все изменения будут потеряны. Вы хотите продолжить без сохранения?",
+  "@discardChangesWarning": {
+    "description": "Warning message shown when the user tries to close a route without saving the changes."
+  },
+  "discardFile": "Удалить файл?",
+  "disconnect": "Отключиться",
+  "@disconnect": {
+    "description": "Logout button label"
+  },
+  "documentContainsAllOfTheseWords": "Документ содержит все эти слова",
+  "@documentContainsAllOfTheseWords": {},
+  "documentContainsAnyOfTheseWords": "Документ содержит любое из этих слов",
+  "@documentContainsAnyOfTheseWords": {},
+  "documentContainsAWordSimilarToThisWord": "Документ содержит слово, похожее на это слово",
+  "@documentContainsAWordSimilarToThisWord": {},
+  "documentContainsThisString": "Документ содержит эту строку",
+  "@documentContainsThisString": {},
+  "documentMatchesThisRegularExpression": "Документ соответствует этому регулярному выражению",
+  "@documentMatchesThisRegularExpression": {},
+  "documents": "Документы",
+  "@documents": {},
+  "documentsAssigned": "{count, plural, zero{Нет документов} one{{count} документ} few{{count} документа} many {{count} документов} other{{count} документов}}",
+  "@documentsAssigned": {
+    "description": "Text shown with a correspondent, document type etc. to indicate the number of documents this filter will maximally yield."
+  },
+  "documentsInInbox": "Документы во входящих",
+  "documentsSuccessfullyDeleted": "Документ успешно удален.",
+  "@documentsSuccessfullyDeleted": {},
+  "documentSuccessfullyDeleted": "Документ успешно удален.",
+  "@documentSuccessfullyDeleted": {},
+  "documentSuccessfullyDownloaded": "Документ успешно загружен.",
+  "@documentSuccessfullyDownloaded": {},
+  "documentSuccessfullyUpdated": "Документ успешно обновлен.",
+  "@documentSuccessfullyUpdated": {},
+  "documentSuccessfullyUploadedProcessing": "Документ успешно загружен, обработка...",
+  "@documentSuccessfullyUploadedProcessing": {},
+  "documentType": "Тип документа",
+  "@documentType": {},
+  "documentTypes": "Типы документов",
+  "@documentTypes": {},
+  "donate": "Пожертвовать",
+  "@donate": {
+    "description": "Label of the in-app donate button"
+  },
+  "donateCoffee": "Купите мне кофе",
+  "@donateCoffee": {
+    "description": "Label displayed in the app drawer"
+  },
+  "donationDialogContent": "Спасибо, что решили поддержать это приложение! В соответствии с политикой платежей Google и Apple, ссылки, ведущие на пожертвования, не могут отображаться в приложении. Даже ссылки на страницу репозитория проекта, по-видимому, не разрешены в данном контексте. Поэтому, возможно, стоит обратить внимание на раздел \"Пожертвования\" в README проекта. Мы очень ценим вашу поддержку и поддерживаем развитие этого приложения. Спасибо!",
+  "@donationDialogContent": {
+    "description": "Text displayed in the donation dialog"
+  },
+  "done": "Готово",
+  "@done": {},
+  "downloadDocumentTooltip": "Скачать",
+  "@downloadDocumentTooltip": {
+    "description": "Tooltip shown for the download button on details page"
+  },
+  "doYouReallyWantToDeleteThisView": "Вы действительно хотите удалить этот вид?",
+  "@doYouReallyWantToDeleteThisView": {},
+  "dynamicColorScheme": "Динамическое",
+  "@dynamicColorScheme": {},
+  "edit": "Редактировать",
+  "@edit": {},
+  "editDocument": "Редактировать документ",
+  "@editDocument": {},
+  "editDocumentTooltip": "Редактировать",
+  "@editDocumentTooltip": {
+    "description": "Tooltip shown for the edit button on details page"
+  },
+  "editView": "Редактировать вид",
+  "@editView": {
+    "description": "Title of the edit saved view page"
+  },
+  "errorRetrievingServerVersion": "Произошла ошибка при попытке определить версию сервера.",
+  "@errorRetrievingServerVersion": {
+    "description": "Message shown at the bottom of the settings page when the remote server version could not be resolved."
+  },
+  "exact": "Точно",
+  "@exact": {},
+  "export": "Экспорт",
+  "@export": {
+    "description": "Label for button that exports scanned images to pdf (before upload)"
+  },
+  "exportScansToPdf": "Экспортировать сканирования в PDF",
+  "@exportScansToPdf": {
+    "description": "title of the alert dialog when exporting scans to pdf"
+  },
+  "extended": "Расширенный",
+  "@extended": {},
+  "fetchingUserInformation": "Получение информации о пользователе...",
+  "@fetchingUserInformation": {
+    "description": "Message shown when the app loads user data from the server"
+  },
+  "fileFormatNotSupported": "Этот формат файла не поддерживается.",
+  "@fileFormatNotSupported": {},
+  "fileName": "Имя файла",
+  "@fileName": {},
+  "filterDocuments": "Фильтр документов",
+  "@filterDocuments": {
+    "description": "Title of the document filter"
+  },
+  "filterTags": "Фильтр тегов...",
+  "@filterTags": {},
+  "findTheSourceCodeOn": "Найти исходный код на",
+  "@findTheSourceCodeOn": {
+    "description": "Text before link to Paperless Mobile GitHub"
+  },
+  "freeBytes": "Свободно {byteString}",
+  "@freeBytes": {
+    "description": "Text shown for clear storage settings"
+  },
+  "freedDiskSpace": "{bytes} успешно освобождено на диске.",
+  "@freedDiskSpace": {
+    "description": "Message shown after clearing storage"
+  },
+  "fuzzy": "Неточно",
+  "@fuzzy": {},
+  "gotIt": "Понял!",
+  "@gotIt": {},
+  "goToLogin": "Перейти ко входу",
+  "@goToLogin": {
+    "description": "Label of the button shown on the login page to skip logging in to existing accounts and navigate user to login page"
+  },
+  "grid": "Сетка",
+  "@grid": {},
+  "hidePdf": "Скрыть PDF",
+  "@hidePdf": {
+    "description": "Tooltip shown on the \"show pdf\" icon button on the document edit page"
+  },
+  "hintYouCanAlsoSpecifyRelativeValues": "Подсказка: Помимо конкретных дат, вы можете также указать диапазон времени относительно текущей даты.",
+  "@hintYouCanAlsoSpecifyRelativeValues": {
+    "description": "Displayed in the extended date range picker"
+  },
+  "home": "Домашняя страница",
+  "@home": {
+    "description": "Label of the \"Home\" route"
+  },
+  "hostCouldNotBeResolved": "Хост не может быть решен. Пожалуйста, проверьте адрес сервера и подключение к Интернету. ",
+  "@hostCouldNotBeResolved": {},
+  "inbox": "Входящие",
+  "@inbox": {},
+  "inboxTag": "Тег \"Входящие\"",
+  "@inboxTag": {},
+  "incorrectOrMissingCertificatePassphrase": "Неверный или отсутствует пароль сертификата.",
+  "@incorrectOrMissingCertificatePassphrase": {},
+  "invalidAddress": "Неверный адрес.",
+  "@invalidAddress": {},
+  "invalidCertificateFormat": "Неверный формат сертификата, разрешено только .pfx",
+  "@invalidCertificateFormat": {},
+  "invalidCertificateOrMissingPassphrase": "Неверный сертификат или отсутствующая ключевая фраза, пожалуйста попробуйте еще раз",
+  "@invalidCertificateOrMissingPassphrase": {},
+  "invalidFilenameCharacter": "В имени файла обнаружены недопустимые символы: {characters}",
+  "@invalidFilenameCharacter": {
+    "description": "For validating filename in export dialogue"
+  },
+  "labels": "Метки",
+  "@labels": {},
+  "language": "Язык",
+  "@language": {},
+  "languageAndVisualAppearance": "Язык и визуальный вид",
+  "@languageAndVisualAppearance": {},
+  "last": "Последний",
+  "@last": {},
+  "last3Months": "Последние 3 месяца",
+  "@last3Months": {},
+  "last7Days": "Последние 7 дней",
+  "@last7Days": {},
+  "lastMonth": "Прошлый месяц",
+  "@lastMonth": {},
   "lastNDays": "{count, plural, one{Вчера} few {Прошло {count} дней} many {Прошло {count} дней} other{Прошло {count} дней}}",
   "@lastNDays": {
     "placeholders": {
@@ -378,306 +608,129 @@
       "count": {}
     }
   },
+  "lastYear": "Прошлый год",
+  "@lastYear": {},
+  "learnMatchingAutomatically": "Научиться подбирать автоматически",
+  "@learnMatchingAutomatically": {},
+  "light": "Светлая",
+  "@light": {},
+  "lightTheme": "Светлая тема",
+  "@lightTheme": {},
+  "linkedDocuments": "Связанные документы",
+  "@linkedDocuments": {},
+  "list": "Список",
+  "@list": {},
+  "loadFullContent": "Загрузить полный контент",
+  "@loadFullContent": {},
+  "loadInboxItemSuggestions": "Load suggestions",
+  "loadingLogsFrom": "Загрузка логов за {date}...",
+  "logfileBottomReached": "Вы достигли конца лога.",
+  "loggedInAs": "Вход выполнен как {name}",
+  "@loggedInAs": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "loggingOut": "Выполняется выход...",
+  "loginPageReachabilityMissingClientCertificateText": "Ожидался сертификат клиента, но он не отправлен. Пожалуйста, предоставьте сертификат.",
+  "@loginPageReachabilityMissingClientCertificateText": {},
+  "loginPageSignInTitle": "Войти",
+  "@loginPageSignInTitle": {},
+  "loginRequiredPermissionsHint": "Использование Paperless Mobile требует минимального набора разрешений пользователя, начиная с версии paperless-ngx 1.14.0 и выше. Поэтому убедитесь, что у пользователя, который будет входить в систему, есть права на просмотр других пользователей (Пользователь → Вид) и настроек (Настройки пользовательского интерфейса → Вид). Если эти права отсутствуют, обратитесь к администратору сервера paperless-ngx.",
+  "@loginRequiredPermissionsHint": {
+    "description": "Hint shown on the login page informing the user of the required permissions to use the app."
+  },
+  "logInToExistingAccount": "Войти в существующий аккаунт",
+  "@logInToExistingAccount": {
+    "description": "Title shown on login page if at least one user is already known to the app."
+  },
+  "logout": "Выйти",
+  "@logout": {
+    "description": "Generic Logout label"
+  },
+  "managePermissions": "Управление разрешениями",
+  "@managePermissions": {
+    "description": "Button which leads user to manage permissions page"
+  },
+  "mangeFilesAndStorageSpace": "Управлять файлами и пространством памяти",
+  "@mangeFilesAndStorageSpace": {},
+  "markAllAsSeen": "Отметить все как просмотренные?",
+  "@markAllAsSeen": {},
+  "markAsSeen": "Отметить все как просмотренные",
+  "@markAsSeen": {},
+  "match": "Соответствует",
+  "@match": {},
+  "matchingAlgorithm": "Алгоритм подбора",
+  "@matchingAlgorithm": {},
+  "mediaFilename": "Название медиафайла",
+  "@mediaFilename": {},
+  "metaData": "Метаданные",
+  "@metaData": {
+    "description": "Label shown in the tabbar on details page"
+  },
+  "mfaCodeInvalidLengthValidationMessage": "MFA code must be 6 digits.",
+  "mfaCodeRequiredValidationMessage": "Please enter the MFA code.",
+  "mfaFormFieldHint": "Your account is protected by two-factor authentication. Please enter an authentication code:",
+  "misc": "Прочее",
+  "missingPermissions": "У вас нет необходимых разрешений для выполнения этого действия.",
+  "@missingPermissions": {
+    "description": "Message shown in a snackbar when a user without the reequired permissions performs an action."
+  },
+  "modifiedAt": "Изменено в",
+  "@modifiedAt": {},
   "months": "{count, plural, one{месяц} few {месяцы} many {месяцы} other{месяцы}}",
   "@months": {
     "placeholders": {
       "count": {}
     }
   },
-  "weeks": "{count, plural, one{неделя} few {недели} many {недели} other{недели}}",
-  "@weeks": {
-    "placeholders": {
-      "count": {}
-    }
-  },
-  "years": "{count, plural, one{год} few {года} many {года} other{года}}",
-  "@years": {
-    "placeholders": {
-      "count": {}
-    }
-  },
-  "gotIt": "Понял!",
-  "@gotIt": {},
-  "cancel": "Отменить",
-  "@cancel": {},
-  "close": "Закрыть",
-  "@close": {},
-  "create": "Создать",
-  "@create": {},
-  "delete": "Удалить",
-  "@delete": {},
-  "edit": "Редактировать",
-  "@edit": {},
-  "ok": "Ок",
-  "@ok": {},
-  "save": "Сохранить",
-  "@save": {},
-  "select": "Выбрать",
-  "@select": {},
-  "saveChanges": "Сохранить изменения",
-  "@saveChanges": {},
-  "upload": "Загрузить",
-  "@upload": {},
-  "youreOffline": "Вы не в сети.",
-  "@youreOffline": {},
-  "deleteDocument": "Удалить документ",
-  "@deleteDocument": {
-    "description": "Used as an action label on each inbox item"
-  },
-  "removeDocumentFromInbox": "Документ удален из \"Входящие\".",
-  "@removeDocumentFromInbox": {},
-  "areYouSureYouWantToMarkAllDocumentsAsSeen": "Вы уверены, что хотите отметить все документы как просмотренные? Это выполнит операцию массового редактирования, удалив все входящие теги из документов. Это действие необратимо! Вы уверены, что хотите продолжить?",
-  "@areYouSureYouWantToMarkAllDocumentsAsSeen": {},
-  "markAllAsSeen": "Отметить все как просмотренные?",
-  "@markAllAsSeen": {},
-  "allSeen": "Все просмотренные",
-  "@allSeen": {},
-  "markAsSeen": "Отметить все как просмотренные",
-  "@markAsSeen": {},
-  "refresh": "Обновить",
-  "@refresh": {},
-  "youDoNotHaveUnseenDocuments": "У вас нет непросмотренных документов.",
-  "@youDoNotHaveUnseenDocuments": {},
-  "quickAction": "Быстрое действие",
-  "@quickAction": {},
-  "suggestionSuccessfullyApplied": "Предложение успешно применено.",
-  "@suggestionSuccessfullyApplied": {},
-  "today": "Сегодня",
-  "@today": {},
-  "undo": "Отменить",
-  "@undo": {},
-  "nUnseen": "{count} непросмотренных",
-  "@nUnseen": {
-    "placeholders": {
-      "count": {}
-    }
-  },
-  "swipeLeftToMarkADocumentAsSeen": "Подсказка: Проведите пальцем влево, чтобы отметить документ как просмотренный и удалить все входящие теги из документа.",
-  "@swipeLeftToMarkADocumentAsSeen": {},
-  "yesterday": "Вчера",
-  "@yesterday": {},
-  "anyAssigned": "Любые назначенные",
-  "@anyAssigned": {},
-  "noItemsFound": "Элементы не найдены!",
-  "@noItemsFound": {},
-  "caseIrrelevant": "Дело не имеет отношение",
-  "@caseIrrelevant": {},
-  "matchingAlgorithm": "Алгоритм подбора",
-  "@matchingAlgorithm": {},
-  "match": "Соответствует",
-  "@match": {},
   "name": "Имя",
   "@name": {},
-  "notAssigned": "Не назначенные",
-  "@notAssigned": {},
-  "addNewCorrespondent": "Добавить нового корреспондента",
-  "@addNewCorrespondent": {},
-  "noCorrespondentsSetUp": "Похоже, у вас нет настроенных корреспондентов.",
-  "@noCorrespondentsSetUp": {},
-  "correspondents": "Корреспонденты",
-  "@correspondents": {},
-  "addNewDocumentType": "Добавить новый тип документа",
-  "@addNewDocumentType": {},
-  "noDocumentTypesSetUp": "Похоже, у вас нет каких-либо типов документов.",
-  "@noDocumentTypesSetUp": {},
-  "documentTypes": "Типы документов",
-  "@documentTypes": {},
-  "addNewStoragePath": "Добавить новый путь к хранилищу",
-  "@addNewStoragePath": {},
-  "noStoragePathsSetUp": "Похоже, у вас нет никаких путей хранения.",
-  "@noStoragePathsSetUp": {},
-  "storagePaths": "Пути хранения",
-  "@storagePaths": {},
-  "addNewTag": "Добавить новый тег",
-  "@addNewTag": {},
-  "noTagsSetUp": "Похоже, у вас нет настроенных тегов.",
-  "@noTagsSetUp": {},
-  "linkedDocuments": "Связанные документы",
-  "@linkedDocuments": {},
-  "advancedSettings": "Дополнительные настройки",
-  "@advancedSettings": {},
-  "passphrase": "Ключевая фраза",
-  "@passphrase": {},
-  "configureMutualTLSAuthentication": "Настроить взаимную TLS аутентификацию",
-  "@configureMutualTLSAuthentication": {},
-  "invalidCertificateFormat": "Неверный формат сертификата, разрешено только .pfx",
-  "@invalidCertificateFormat": {},
-  "clientcertificate": "Сертификат клиента",
-  "@clientcertificate": {},
-  "selectFile": "Выберите файл...",
-  "@selectFile": {},
-  "continueLabel": "Продолжить",
-  "@continueLabel": {},
-  "incorrectOrMissingCertificatePassphrase": "Неверный или отсутствует пароль сертификата.",
-  "@incorrectOrMissingCertificatePassphrase": {},
-  "connect": "Подключиться",
-  "@connect": {},
-  "password": "Пароль",
-  "@password": {},
-  "passwordMustNotBeEmpty": "Пароль не может быть пустым.",
-  "@passwordMustNotBeEmpty": {},
-  "connectionTimedOut": "Время ожидания истекло.",
-  "@connectionTimedOut": {},
-  "loginPageReachabilityMissingClientCertificateText": "Ожидался сертификат клиента, но он не отправлен. Пожалуйста, предоставьте сертификат.",
-  "@loginPageReachabilityMissingClientCertificateText": {},
-  "couldNotEstablishConnectionToTheServer": "Не удалось установить соединение с сервером.",
-  "@couldNotEstablishConnectionToTheServer": {},
-  "connectionSuccessfulylEstablished": "Соединение успешно установлено.",
-  "@connectionSuccessfulylEstablished": {},
-  "hostCouldNotBeResolved": "Хост не может быть решен. Пожалуйста, проверьте адрес сервера и подключение к Интернету. ",
-  "@hostCouldNotBeResolved": {},
-  "serverAddress": "Адрес сервера",
-  "@serverAddress": {},
-  "invalidAddress": "Неверный адрес.",
-  "@invalidAddress": {},
-  "serverAddressMustIncludeAScheme": "Адрес сервера должен включать схему.",
-  "@serverAddressMustIncludeAScheme": {},
-  "serverAddressMustNotBeEmpty": "Адрес сервера не должен быть пустым.",
-  "@serverAddressMustNotBeEmpty": {},
-  "signIn": "Войти",
-  "@signIn": {},
-  "loginPageSignInTitle": "Войти",
-  "@loginPageSignInTitle": {},
-  "signInToServer": "Войти в {serverAddress}",
-  "@signInToServer": {
-    "placeholders": {
-      "serverAddress": {}
-    }
-  },
-  "connectToPaperless": "Подключение к Paperless",
-  "@connectToPaperless": {},
-  "username": "Имя пользователя",
-  "@username": {},
-  "usernameMustNotBeEmpty": "Имя пользователя не должно быть пустым.",
-  "@usernameMustNotBeEmpty": {},
-  "documentContainsAllOfTheseWords": "Документ содержит все эти слова",
-  "@documentContainsAllOfTheseWords": {},
-  "all": "Все",
-  "@all": {},
-  "documentContainsAnyOfTheseWords": "Документ содержит любое из этих слов",
-  "@documentContainsAnyOfTheseWords": {},
-  "any": "Любые",
-  "@any": {},
-  "learnMatchingAutomatically": "Научиться подбирать автоматически",
-  "@learnMatchingAutomatically": {},
-  "auto": "Авто",
-  "@auto": {},
-  "documentContainsThisString": "Документ содержит эту строку",
-  "@documentContainsThisString": {},
-  "exact": "Точно",
-  "@exact": {},
-  "documentContainsAWordSimilarToThisWord": "Документ содержит слово, похожее на это слово",
-  "@documentContainsAWordSimilarToThisWord": {},
-  "fuzzy": "Неточно",
-  "@fuzzy": {},
-  "documentMatchesThisRegularExpression": "Документ соответствует этому регулярному выражению",
-  "@documentMatchesThisRegularExpression": {},
-  "regularExpression": "Регулярное выражение",
-  "@regularExpression": {},
-  "anInternetConnectionCouldNotBeEstablished": "Не удалось установить соединение с интернетом.",
-  "@anInternetConnectionCouldNotBeEstablished": {},
-  "done": "Готово",
-  "@done": {},
-  "next": "Следующее",
-  "@next": {},
-  "couldNotAccessReceivedFile": "Не удалось получить доступ к полученному файлу. Пожалуйста, попробуйте открыть приложение перед тем, как поделиться.",
-  "@couldNotAccessReceivedFile": {},
+  "newDocumentAvailable": "Доступен новый документ!",
+  "@newDocumentAvailable": {},
+  "newerVersionAvailable": "Доступна новая версия:",
+  "newNote": "Новая заметка",
   "newView": "Новый вид",
   "@newView": {},
-  "createsASavedViewBasedOnTheCurrentFilterCriteria": "Создает новый вид на основе текущих критериев фильтра.",
-  "@createsASavedViewBasedOnTheCurrentFilterCriteria": {},
-  "createViewsToQuicklyFilterYourDocuments": "Создавайте виды для быстрой фильтрации документов.",
-  "@createViewsToQuicklyFilterYourDocuments": {},
+  "next": "Следующее",
+  "@next": {},
   "nFiltersSet": "{count, plural, one{{count} фильтр установлен} few {{count} фильтров установлено} many {{count} фильтров установлено} other{{count} фильтров установлено}}",
   "@nFiltersSet": {
     "placeholders": {
       "count": {}
     }
   },
-  "showInSidebar": "Показать в боковой панели",
-  "@showInSidebar": {},
-  "showOnDashboard": "Показать в панели управления",
-  "@showOnDashboard": {},
-  "views": "Виды",
-  "@views": {},
-  "clearAll": "Очистить все",
-  "@clearAll": {},
-  "scan": "Сканировать",
-  "@scan": {},
-  "previewScan": "Предпросмотр",
-  "@previewScan": {},
-  "scrollToTop": "Прокрутить к началу",
-  "@scrollToTop": {},
-  "paperlessServerVersion": "Версия сервера Paperless",
-  "@paperlessServerVersion": {},
-  "darkTheme": "Темная тема",
-  "@darkTheme": {},
-  "lightTheme": "Светлая тема",
-  "@lightTheme": {},
-  "systemTheme": "Использовать системную тему",
-  "@systemTheme": {},
-  "appearance": "Оформление",
-  "@appearance": {},
-  "languageAndVisualAppearance": "Язык и визуальный вид",
-  "@languageAndVisualAppearance": {},
-  "applicationSettings": "Применение",
-  "@applicationSettings": {},
-  "colorSchemeHint": "Выберите между классической цветовой схемой, вдохновленной традиционным зеленым Paperless или используйте динамическую цветовую схему на основе вашей системной темы.",
-  "@colorSchemeHint": {},
-  "colorSchemeNotSupportedWarning": "Динамическая тема поддерживается только для устройств с Android 12 и выше. Выбор параметра \"Динамическая\" может не повлиять на реализацию вашей ОС.",
-  "@colorSchemeNotSupportedWarning": {},
-  "colors": "Цвета",
-  "@colors": {},
-  "language": "Язык",
-  "@language": {},
-  "security": "Безопасность",
-  "@security": {},
-  "mangeFilesAndStorageSpace": "Управлять файлами и пространством памяти",
-  "@mangeFilesAndStorageSpace": {},
-  "storage": "Хранилище",
-  "@storage": {},
-  "dark": "Темная",
-  "@dark": {},
-  "light": "Светлая",
-  "@light": {},
-  "system": "Системная",
-  "@system": {},
-  "ascending": "Возрастание",
-  "@ascending": {},
-  "descending": "Убыванию",
-  "@descending": {},
-  "storagePathDay": "день",
-  "@storagePathDay": {},
-  "storagePathMonth": "месяц",
-  "@storagePathMonth": {},
-  "storagePathYear": "год",
-  "@storagePathYear": {},
-  "color": "Цвет",
-  "@color": {},
-  "filterTags": "Фильтр тегов...",
-  "@filterTags": {},
-  "inboxTag": "Тег \"Входящие\"",
-  "@inboxTag": {},
-  "uploadInferValuesHint": "Если вы укажете значения для этих полей, ваш paperless экземпляр не будет автоматически получать значение. Если вы хотите, чтобы эти значения были автоматически заполнены сервером, оставьте поля пустыми.",
-  "@uploadInferValuesHint": {},
-  "useTheConfiguredBiometricFactorToAuthenticate": "Используйте настроенный биометрический фактор для аутентификации и разблокировки документов.",
-  "@useTheConfiguredBiometricFactorToAuthenticate": {},
-  "verifyYourIdentity": "Подтвердите вашу личность",
-  "@verifyYourIdentity": {},
-  "verifyIdentity": "Подтвердить личность",
-  "@verifyIdentity": {},
-  "detailed": "Подробный",
-  "@detailed": {},
-  "grid": "Сетка",
-  "@grid": {},
-  "list": "Список",
-  "@list": {},
-  "remove": "Удалить",
-  "removeQueryFromSearchHistory": "Удалить запрос из истории поиска?",
-  "dynamicColorScheme": "Динамическое",
-  "@dynamicColorScheme": {},
-  "classicColorScheme": "Классическое",
-  "@classicColorScheme": {},
+  "noAppToDisplayPDFFilesFound": "Не найдено приложений для отображения PDF-файлов!",
+  "@noAppToDisplayPDFFilesFound": {},
+  "noCorrespondentsSetUp": "Похоже, у вас нет настроенных корреспондентов.",
+  "@noCorrespondentsSetUp": {},
+  "noDocumentsFound": "Документы не найдены.",
+  "@noDocumentsFound": {
+    "description": "Message shown when no documents were found."
+  },
+  "noDocumentsScannedYet": "Документы еще не сканированы.",
+  "@noDocumentsScannedYet": {},
+  "noDocumentTypesSetUp": "Похоже, у вас нет каких-либо типов документов.",
+  "@noDocumentTypesSetUp": {},
+  "noItemsFound": "Элементы не найдены!",
+  "@noItemsFound": {},
+  "noLogsFoundOn": "Логи не найдены за {date}.",
+  "noMatchesFound": "Ничего не найдено.",
+  "@noMatchesFound": {
+    "description": "Displayed when no documents were found in the document search."
+  },
+  "none": "Ничего",
+  "@none": {
+    "description": "One of available enum values of matching algorithm for tags"
+  },
+  "noStoragePathsSetUp": "Похоже, у вас нет никаких путей хранения.",
+  "@noStoragePathsSetUp": {},
+  "noTagsSetUp": "Похоже, у вас нет настроенных тегов.",
+  "@noTagsSetUp": {},
+  "notAssigned": "Не назначенные",
+  "@notAssigned": {},
+  "notes": "{count, plural, zero{Нет заметок} one{{count} заметка} few{{count} заметки} many {{count} заметок} other{{count} заметок}}",
+  "notesMarkdownSyntaxSupportHint": "Paperless Mobile поддерживает синтаксис Markdown для отображения и форматирования заметок. Попробуйте!",
   "notificationDownloadComplete": "Загрузка завершена",
   "@notificationDownloadComplete": {
     "description": "Notification title when a download has been completed."
@@ -686,367 +739,319 @@
   "@notificationDownloadingDocument": {
     "description": "Notification title shown when a document download is pending"
   },
-  "archiveSerialNumberUpdated": "Архивный серийный номер обновлен.",
-  "@archiveSerialNumberUpdated": {
-    "description": "Message shown when the ASN has been updated."
+  "nUnseen": "{count} непросмотренных",
+  "@nUnseen": {
+    "placeholders": {
+      "count": {}
+    }
   },
-  "donateCoffee": "Купите мне кофе",
-  "@donateCoffee": {
-    "description": "Label displayed in the app drawer"
+  "ok": "Ок",
+  "@ok": {},
+  "oops": "Упс.",
+  "@oops": {},
+  "openInSystemViewer": "Открыть в системном просмотрщике",
+  "@openInSystemViewer": {},
+  "or": "или",
+  "@or": {
+    "description": "Used on the scanner page between both main actions when no scans have been captured."
   },
-  "thisFieldIsRequired": "Требуется заполнить это поле!",
-  "@thisFieldIsRequired": {
-    "description": "Message shown below the form field when a required field has not been filled out."
+  "orderBy": "Упорядочить по",
+  "@orderBy": {},
+  "original": "Оригинал",
+  "@original": {
+    "description": "Option to chose when downloading a document"
   },
-  "confirm": "Подтвердить",
-  "confirmAction": "Подтвердить действие",
-  "@confirmAction": {
-    "description": "Typically used as a title to confirm a previously selected action"
+  "originalFilename": "Original Filename",
+  "originalFileSize": "Оригинальный размер файла",
+  "@originalFileSize": {},
+  "originalMD5Checksum": "Оригинальная MD5-контрольная сумма",
+  "@originalMD5Checksum": {},
+  "originalMIMEType": "Оригинальный MIME-тип",
+  "@originalMIMEType": {},
+  "overview": "Обзор",
+  "@overview": {
+    "description": "Label shown in the tabbar on details page"
   },
-  "areYouSureYouWantToContinue": "Вы уверены, что хотите продолжить?",
-  "bulkEditTagsAddMessage": "{count, plural, one{Эта операция добавит теги {tags} в выбранный документ.} other{Эта операция добавит теги {tags} в {count} выбранных документов.}}",
-  "@bulkEditTagsAddMessage": {
-    "description": "Message of the confirmation dialog when bulk adding tags."
+  "paperlessServerVersion": "Версия сервера Paperless",
+  "@paperlessServerVersion": {},
+  "passphrase": "Ключевая фраза",
+  "@passphrase": {},
+  "password": "Пароль",
+  "@password": {},
+  "passwordMustNotBeEmpty": "Пароль не может быть пустым.",
+  "@passwordMustNotBeEmpty": {},
+  "permissions": "Права доступа",
+  "persistingUserInformation": "Сохранение информации о пользователе...",
+  "prepareDocument": "Подготовить документ",
+  "@prepareDocument": {},
+  "preview": "Предпросмотр",
+  "@preview": {
+    "description": "Title of the document preview page"
   },
-  "bulkEditTagsRemoveMessage": "{count, plural, one{Эта операция удалит теги {tags} из выбранного документа.} other{Эта операция удалит теги {tags} из {count} выбранных документов.}}",
-  "@bulkEditTagsRemoveMessage": {
-    "description": "Message of the confirmation dialog when bulk removing tags."
-  },
-  "bulkEditTagsModifyMessage": "{count, plural, one{Данная операция добавит теги {addTags} и удалит теги {removeTags} из выбранного документа.} other{Данная операция добавит теги {addTags} и удалит теги {removeTags} из {count} выбранных документов.}}",
-  "@bulkEditTagsModifyMessage": {
-    "description": "Message of the confirmation dialog when both adding and removing tags."
-  },
-  "bulkEditCorrespondentAssignMessage": "{count, plural, one{Эта операция присвоит корреспондента {correspondent} выбранному документу.} other{Эта операция присвоит корреспондента {correspondent} {count} выбранных документов.}}",
-  "bulkEditDocumentTypeAssignMessage": "{count, plural, one{Эта операция присвоит тип документа {docType} выбранному документу.} other{Эта операция присвоит тип документа {docType} {count} выбранным документам.}}",
-  "bulkEditStoragePathAssignMessage": "{count, plural, one{Эта операция назначит путь хранения {path} выбранному документу.} other{Эта операция назначит путь хранения {path} {count} выбранным документам.}}",
-  "bulkEditCorrespondentRemoveMessage": "{count, plural, one{Эта операция удалит корреспондента из выбранного документа.} other{Эта операция удалит корреспондента из {count} выбранных документов.}}",
-  "bulkEditDocumentTypeRemoveMessage": "{count, plural, one{Данная операция удалит тип документа из выбранного документа.} other{Данная операция удалит тип документа из {count} выбранных документов.}}",
-  "bulkEditStoragePathRemoveMessage": "{count, plural, one{Эта операция удалит путь хранения из выбранного документа.} other{Эта операция удалит путь хранения из {count} выбранных документов.}}",
-  "anyTag": "Любые",
-  "@anyTag": {
-    "description": "Label shown when any tag should be filtered"
-  },
-  "allTags": "Все",
-  "@allTags": {
-    "description": "Label shown when a document has to be assigned to all selected tags"
-  },
-  "switchingAccountsPleaseWait": "Смена аккаунтов. Подождите...",
-  "@switchingAccountsPleaseWait": {
-    "description": "Message shown while switching accounts is in progress."
-  },
-  "testConnection": "Проверить подключение",
-  "@testConnection": {
-    "description": "Button label shown on login page. Allows user to test whether the server is reachable or not."
-  },
-  "accounts": "Аккаунты",
-  "@accounts": {
-    "description": "Title of the account management dialog"
-  },
-  "addAccount": "Добавить аккаунт",
-  "@addAccount": {
-    "description": "Label of add account action"
-  },
-  "switchAccount": "Сменить",
-  "@switchAccount": {
-    "description": "Label for switch account action"
-  },
-  "logout": "Выйти",
-  "@logout": {
-    "description": "Generic Logout label"
-  },
-  "switchAccountTitle": "Сменить аккаунт",
-  "@switchAccountTitle": {
-    "description": "Title of the dialog shown after adding an account, asking the user whether to switch to the newly added account or not."
-  },
-  "switchToNewAccount": "Вы хотите переключиться на новый аккаунт? Вы можете переключиться обратно в любое время.",
-  "@switchToNewAccount": {
-    "description": "Content of the dialog shown after adding an account, asking the user whether to switch to the newly added account or not."
-  },
-  "sourceCode": "Исходный код",
-  "findTheSourceCodeOn": "Найти исходный код на",
-  "@findTheSourceCodeOn": {
-    "description": "Text before link to Paperless Mobile GitHub"
-  },
-  "rememberDecision": "Запомните мой выбор",
-  "defaultDownloadFileType": "Тип загружаемого файла по умолчанию",
-  "@defaultDownloadFileType": {
-    "description": "Label indicating the default filetype to download (one of archived, original and always ask)"
-  },
-  "defaultShareFileType": "Тип файла обмена по умолчанию",
-  "@defaultShareFileType": {
-    "description": "Label indicating the default filetype to share (one of archived, original and always ask)"
-  },
-  "alwaysAsk": "Всегда спрашивать",
-  "@alwaysAsk": {
-    "description": "Option to choose when the app should always ask the user which filetype to use"
-  },
-  "disableMatching": "Не отмечать документы автоматически",
-  "@disableMatching": {
-    "description": "One of the options for automatic tagging of documents"
-  },
-  "none": "Ничего",
-  "@none": {
-    "description": "One of available enum values of matching algorithm for tags"
-  },
-  "logInToExistingAccount": "Войти в существующий аккаунт",
-  "@logInToExistingAccount": {
-    "description": "Title shown on login page if at least one user is already known to the app."
+  "previewScan": "Предпросмотр",
+  "@previewScan": {},
+  "previewTooltip": "Предпросмотр",
+  "@previewTooltip": {
+    "description": "Tooltip shown for the preview button on details page"
   },
   "print": "Распечатать",
   "@print": {
     "description": "Tooltip for print button"
   },
-  "managePermissions": "Управление разрешениями",
-  "@managePermissions": {
-    "description": "Button which leads user to manage permissions page"
-  },
-  "errorRetrievingServerVersion": "Произошла ошибка при попытке определить версию сервера.",
-  "@errorRetrievingServerVersion": {
-    "description": "Message shown at the bottom of the settings page when the remote server version could not be resolved."
-  },
+  "quickAction": "Быстрое действие",
+  "@quickAction": {},
+  "refresh": "Обновить",
+  "@refresh": {},
+  "regularExpression": "Регулярное выражение",
+  "@regularExpression": {},
+  "relative": "Относительно",
+  "@relative": {},
+  "reload": "Перезагрузить",
+  "@reload": {},
+  "rememberDecision": "Запомните мой выбор",
+  "remove": "Удалить",
+  "removeDocumentFromInbox": "Документ удален из \"Входящие\".",
+  "@removeDocumentFromInbox": {},
+  "removeFromSearchHistory": "Удалить из истории поиска?",
+  "@removeFromSearchHistory": {},
+  "removeQueryFromSearchHistory": "Удалить запрос из истории поиска?",
+  "report": "СООБЩИТЬ",
+  "@report": {},
+  "reportABug": "Сообщить об ошибке",
+  "@reportABug": {},
+  "requestTimedOut": "Время ожидания запроса на сервер истекло.",
+  "@requestTimedOut": {},
+  "reset": "Сброс",
+  "@reset": {},
+  "resetFilter": "Сбросить фильтр",
+  "@resetFilter": {},
   "resolvingServerVersion": "Определение версии сервера...",
   "@resolvingServerVersion": {
     "description": "Message shown while the app is loading the remote server version."
-  },
-  "goToLogin": "Перейти ко входу",
-  "@goToLogin": {
-    "description": "Label of the button shown on the login page to skip logging in to existing accounts and navigate user to login page"
-  },
-  "export": "Экспорт",
-  "@export": {
-    "description": "Label for button that exports scanned images to pdf (before upload)"
-  },
-  "invalidFilenameCharacter": "В имени файла обнаружены недопустимые символы: {characters}",
-  "@invalidFilenameCharacter": {
-    "description": "For validating filename in export dialogue"
-  },
-  "exportScansToPdf": "Экспортировать сканирования в PDF",
-  "@exportScansToPdf": {
-    "description": "title of the alert dialog when exporting scans to pdf"
-  },
-  "allScansWillBeMerged": "Все сканированные файлы будут объединены в один PDF-файл.",
-  "behavior": "Поведение",
-  "@behavior": {
-    "description": "Title of the settings concerning app beahvior"
-  },
-  "theme": "Тема",
-  "@theme": {
-    "description": "Title of the theme mode setting"
-  },
-  "clearCache": "Очистить кэш",
-  "@clearCache": {
-    "description": "Title of the clear cache setting"
-  },
-  "freeBytes": "Свободно {byteString}",
-  "@freeBytes": {
-    "description": "Text shown for clear storage settings"
-  },
-  "calculatingDots": "Расчет...",
-  "@calculatingDots": {
-    "description": "Text shown when the byte size is still being calculated"
-  },
-  "freedDiskSpace": "{bytes} успешно освобождено на диске.",
-  "@freedDiskSpace": {
-    "description": "Message shown after clearing storage"
-  },
-  "uploadScansAsPdf": "Загрузить сканирование в PDF",
-  "@uploadScansAsPdf": {
-    "description": "Title of the setting which toggles whether scans are always uploaded as pdf"
-  },
-  "convertSinglePageScanToPdf": "Всегда конвертировать одну страницу в PDF перед загрузкой",
-  "@convertSinglePageScanToPdf": {
-    "description": "description of the upload scans as pdf setting"
-  },
-  "loginRequiredPermissionsHint": "Использование Paperless Mobile требует минимального набора разрешений пользователя, начиная с версии paperless-ngx 1.14.0 и выше. Поэтому убедитесь, что у пользователя, который будет входить в систему, есть права на просмотр других пользователей (Пользователь → Вид) и настроек (Настройки пользовательского интерфейса → Вид). Если эти права отсутствуют, обратитесь к администратору сервера paperless-ngx.",
-  "@loginRequiredPermissionsHint": {
-    "description": "Hint shown on the login page informing the user of the required permissions to use the app."
-  },
-  "missingPermissions": "У вас нет необходимых разрешений для выполнения этого действия.",
-  "@missingPermissions": {
-    "description": "Message shown in a snackbar when a user without the reequired permissions performs an action."
-  },
-  "editView": "Редактировать вид",
-  "@editView": {
-    "description": "Title of the edit saved view page"
-  },
-  "donate": "Пожертвовать",
-  "@donate": {
-    "description": "Label of the in-app donate button"
-  },
-  "donationDialogContent": "Спасибо, что решили поддержать это приложение! В соответствии с политикой платежей Google и Apple, ссылки, ведущие на пожертвования, не могут отображаться в приложении. Даже ссылки на страницу репозитория проекта, по-видимому, не разрешены в данном контексте. Поэтому, возможно, стоит обратить внимание на раздел \"Пожертвования\" в README проекта. Мы очень ценим вашу поддержку и поддерживаем развитие этого приложения. Спасибо!",
-  "@donationDialogContent": {
-    "description": "Text displayed in the donation dialog"
-  },
-  "noDocumentsFound": "Документы не найдены.",
-  "@noDocumentsFound": {
-    "description": "Message shown when no documents were found."
-  },
-  "couldNotDeleteCorrespondent": "Не удалось удалить корреспондента, попробуйте еще раз.",
-  "@couldNotDeleteCorrespondent": {
-    "description": "Message shown in snackbar when a correspondent could not be deleted."
-  },
-  "couldNotDeleteDocumentType": "Не удалось удалить тип документа, попробуйте еще раз.",
-  "@couldNotDeleteDocumentType": {
-    "description": "Message shown when a document type could not be deleted"
-  },
-  "couldNotDeleteTag": "Не удалось удалить тег, попробуйте еще раз.",
-  "@couldNotDeleteTag": {
-    "description": "Message shown when a tag could not be deleted"
-  },
-  "couldNotDeleteStoragePath": "Не удалось удалить путь к хранилищу, попробуйте еще раз.",
-  "@couldNotDeleteStoragePath": {
-    "description": "Message shown when a storage path could not be deleted"
-  },
-  "couldNotUpdateCorrespondent": "Не удалось обновить корреспондента, попробуйте еще раз.",
-  "@couldNotUpdateCorrespondent": {
-    "description": "Message shown when a correspondent could not be updated"
-  },
-  "couldNotUpdateDocumentType": "Не удалось обновить тип документа, попробуйте еще раз.",
-  "@couldNotUpdateDocumentType": {
-    "description": "Message shown when a document type could not be updated"
-  },
-  "couldNotUpdateTag": "Не удалось обновить тег, попробуйте еще раз.",
-  "@couldNotUpdateTag": {
-    "description": "Message shown when a tag could not be updated"
-  },
-  "couldNotLoadServerInformation": "Не удалось загрузить информацию о сервере.",
-  "@couldNotLoadServerInformation": {
-    "description": "Message shown when the server information could not be loaded"
-  },
-  "couldNotLoadStatistics": "Не удалось загрузить статистику сервера.",
-  "@couldNotLoadStatistics": {
-    "description": "Message shown when the server statistics could not be loaded"
-  },
-  "couldNotLoadUISettings": "Не удалось загрузить настройки пользовательского интерфейса.",
-  "@couldNotLoadUISettings": {
-    "description": "Message shown when the UI settings could not be loaded"
-  },
-  "couldNotLoadTasks": "Не удалось загрузить задания.",
-  "@couldNotLoadTasks": {
-    "description": "Message shown when the tasks (e.g. document consumed) could not be loaded"
-  },
-  "userNotFound": "Не удалось найти пользователя.",
-  "@userNotFound": {
-    "description": "Message shown when the specified user (e.g. by id) could not be found"
-  },
-  "couldNotUpdateSavedView": "Не удалось обновить сохраненный вид, попробуйте еще раз.",
-  "@couldNotUpdateSavedView": {
-    "description": "Message shown when a saved view could not be updated"
-  },
-  "couldNotUpdateStoragePath": "Не удалось обновить путь к хранилищу, попробуйте еще раз.",
-  "savedViewSuccessfullyUpdated": "Сохраненный вид успешно обновлен.",
-  "@savedViewSuccessfullyUpdated": {
-    "description": "Message shown when a saved view was successfully updated."
-  },
-  "discardChanges": "Не сохранять изменения?",
-  "@discardChanges": {
-    "description": "Title of the alert dialog shown when a user tries to close a view with unsaved changes."
-  },
-  "savedViewChangedDialogContent": "Условия фильтра активного вида изменились. Сброс фильтра будет утерян. Вы все равно хотите продолжить?",
-  "@savedViewChangedDialogContent": {
-    "description": "Content of the alert dialog shown when all of the following applies:\r\n* User has saved view selected\r\n* User has performed changes to the current document filter\r\n* User now tries to reset this filter without having saved the changes to the view."
-  },
-  "createFromCurrentFilter": "Создать из текущего фильтра",
-  "@createFromCurrentFilter": {
-    "description": "Tooltip of the \"New saved view\" button"
-  },
-  "home": "Домашняя страница",
-  "@home": {
-    "description": "Label of the \"Home\" route"
-  },
-  "welcomeUser": "Добро пожаловать, {name}!",
-  "@welcomeUser": {
-    "description": "Top message shown on the home page"
-  },
-  "statistics": "Статистика",
-  "documentsInInbox": "Документы во входящих",
-  "totalDocuments": "Всего документов",
-  "totalCharacters": "Всего символов",
-  "showAll": "Показать все",
-  "@showAll": {
-    "description": "Button label shown on a saved view preview to open this view in the documents page"
-  },
-  "userAlreadyExists": "Этот пользователь уже существует.",
-  "@userAlreadyExists": {
-    "description": "Error message shown when the user tries to add an already existing account."
-  },
-  "youDidNotSaveAnyViewsYet": "Вы еще не сохранили ни одного вида, создайте его и он будет показан здесь.",
-  "@youDidNotSaveAnyViewsYet": {
-    "description": "Message shown when there are no saved views yet."
-  },
-  "tryAgain": "Попробуйте еще раз",
-  "discardFile": "Удалить файл?",
-  "discard": "Отменить",
-  "backToLogin": "Вернуться к входу",
-  "skipEditingReceivedFiles": "Пропустить редактирование полученных файлов",
-  "uploadWithoutPromptingUploadForm": "При нажатии \"Поделиться\" загружать файлы без открытия форму для загрузки файлов.",
-  "authenticatingDots": "Аутентификация...",
-  "@authenticatingDots": {
-    "description": "Message shown when the app is authenticating the user"
-  },
-  "persistingUserInformation": "Сохранение информации о пользователе...",
-  "fetchingUserInformation": "Получение информации о пользователе...",
-  "@fetchingUserInformation": {
-    "description": "Message shown when the app loads user data from the server"
   },
   "restoringSession": "Восстановление сессии...",
   "@restoringSession": {
     "description": "Message shown when the user opens the app and the previous user is tried to be authenticated and logged in"
   },
-  "documentsAssigned": "{count, plural, zero{Нет документов} one{{count} документ} few{{count} документа} many {{count} документов} other{{count} документов}}",
-  "@documentsAssigned": {
-    "description": "Text shown with a correspondent, document type etc. to indicate the number of documents this filter will maximally yield."
+  "results": "Результаты",
+  "@results": {
+    "description": "Label displayed above search results in document search."
   },
-  "discardChangesWarning": "У вас есть несохраненные изменения. Продолжая, все изменения будут потеряны. Вы хотите продолжить без сохранения?",
-  "@discardChangesWarning": {
-    "description": "Warning message shown when the user tries to close a route without saving the changes."
+  "save": "Сохранить",
+  "@save": {},
+  "saveChanges": "Сохранить изменения",
+  "@saveChanges": {},
+  "savedViewChangedDialogContent": "Условия фильтра активного вида изменились. Сброс фильтра будет утерян. Вы все равно хотите продолжить?",
+  "@savedViewChangedDialogContent": {
+    "description": "Content of the alert dialog shown when all of the following applies:\r\n* User has saved view selected\r\n* User has performed changes to the current document filter\r\n* User now tries to reset this filter without having saved the changes to the view."
   },
-  "changelog": "Изменения",
-  "noLogsFoundOn": "Логи не найдены за {date}.",
-  "logfileBottomReached": "Вы достигли конца лога.",
-  "appLogs": "Логи приложения за {date}",
+  "savedViewSuccessfullyUpdated": "Сохраненный вид успешно обновлен.",
+  "@savedViewSuccessfullyUpdated": {
+    "description": "Message shown when a saved view was successfully updated."
+  },
   "saveLogsToFile": "Сохранить логи в файл",
-  "copyToClipboard": "Копировать в буфер обмена",
-  "couldNotLoadLogfileFrom": "Не удалось загрузить лог файл за {date}.",
-  "loadingLogsFrom": "Загрузка логов за {date}...",
-  "clearLogs": "Очистить логи за {date}",
+  "scan": "Сканировать",
+  "@scan": {},
+  "scanADocument": "Сканировать документ",
+  "@scanADocument": {},
+  "scanner": "Сканер",
+  "@scanner": {},
+  "scrollToTop": "Прокрутить к началу",
+  "@scrollToTop": {},
+  "search": "Поиск",
+  "@search": {},
+  "searchDocuments": "Поиск документов",
+  "@searchDocuments": {},
+  "security": "Безопасность",
+  "@security": {},
+  "select": "Выбрать",
+  "@select": {},
+  "selectDateRange": "Выберите диапазон дат",
+  "@selectDateRange": {},
+  "selectFile": "Выберите файл...",
+  "@selectFile": {},
+  "serverAddress": "Адрес сервера",
+  "@serverAddress": {},
+  "serverAddressMustIncludeAScheme": "Адрес сервера должен включать схему.",
+  "@serverAddressMustIncludeAScheme": {},
+  "serverAddressMustNotBeEmpty": "Адрес сервера не должен быть пустым.",
+  "@serverAddressMustNotBeEmpty": {},
+  "settings": "Настройки",
+  "@settings": {},
+  "shareTooltip": "Поделиться",
+  "@shareTooltip": {
+    "description": "Tooltip shown for the share button on details page"
+  },
+  "showAll": "Показать все",
+  "@showAll": {
+    "description": "Button label shown on a saved view preview to open this view in the documents page"
+  },
+  "showInSidebar": "Показать в боковой панели",
+  "@showInSidebar": {},
+  "showOnDashboard": "Показать в панели управления",
+  "@showOnDashboard": {},
   "showPdf": "Показать PDF",
   "@showPdf": {
     "description": "Tooltip shown on the \"show pdf\" button on the document edit page"
   },
-  "hidePdf": "Скрыть PDF",
-  "@hidePdf": {
-    "description": "Tooltip shown on the \"show pdf\" icon button on the document edit page"
+  "signIn": "Войти",
+  "@signIn": {},
+  "signInToServer": "Войти в {serverAddress}",
+  "@signInToServer": {
+    "placeholders": {
+      "serverAddress": {}
+    }
   },
-  "misc": "Прочее",
-  "loggingOut": "Выполняется выход...",
+  "similarDocuments": "Похожие документы",
+  "@similarDocuments": {
+    "description": "Label shown in the tabbar on details page"
+  },
+  "skipEditingReceivedFiles": "Пропустить редактирование полученных файлов",
+  "sourceCode": "Исходный код",
+  "startTyping": "Начните вводить текст...",
+  "@startTyping": {},
+  "statistics": "Статистика",
+  "storage": "Хранилище",
+  "@storage": {},
+  "storagePath": "Путь хранения",
+  "@storagePath": {},
+  "storagePathDay": "день",
+  "@storagePathDay": {},
+  "storagePathMonth": "месяц",
+  "@storagePathMonth": {},
+  "storagePaths": "Пути хранения",
+  "@storagePaths": {},
+  "storagePathYear": "год",
+  "@storagePathYear": {},
+  "suggestions": "Предложения: ",
+  "@suggestions": {},
+  "suggestionSuccessfullyApplied": "Предложение успешно применено.",
+  "@suggestionSuccessfullyApplied": {},
+  "swipeLeftToMarkADocumentAsSeen": "Подсказка: Проведите пальцем влево, чтобы отметить документ как просмотренный и удалить все входящие теги из документа.",
+  "@swipeLeftToMarkADocumentAsSeen": {},
+  "switchAccount": "Сменить",
+  "@switchAccount": {
+    "description": "Label for switch account action"
+  },
+  "switchAccountTitle": "Сменить аккаунт",
+  "@switchAccountTitle": {
+    "description": "Title of the dialog shown after adding an account, asking the user whether to switch to the newly added account or not."
+  },
+  "switchingAccountsPleaseWait": "Смена аккаунтов. Подождите...",
+  "@switchingAccountsPleaseWait": {
+    "description": "Message shown while switching accounts is in progress."
+  },
+  "switchToNewAccount": "Вы хотите переключиться на новый аккаунт? Вы можете переключиться обратно в любое время.",
+  "@switchToNewAccount": {
+    "description": "Content of the dialog shown after adding an account, asking the user whether to switch to the newly added account or not."
+  },
+  "synchronizeTitleAndFilename": "Синхронизировать название и имя файла",
+  "@synchronizeTitleAndFilename": {},
+  "system": "Системная",
+  "@system": {},
+  "systemTheme": "Использовать системную тему",
+  "@systemTheme": {},
+  "tags": "Теги",
+  "@tags": {},
+  "testConnection": "Проверить подключение",
+  "@testConnection": {
+    "description": "Button label shown on login page. Allows user to test whether the server is reachable or not."
+  },
   "testingConnection": "Проверка подключения...",
   "@testingConnection": {
     "description": "Text shown while the app tries to establish a connection to the specified host."
   },
+  "theme": "Тема",
+  "@theme": {
+    "description": "Title of the theme mode setting"
+  },
+  "thereSeemsToBeNothingHere": "Похоже, здесь ничего нет...",
+  "@thereSeemsToBeNothingHere": {},
+  "thisActionIsIrreversibleDoYouWishToProceedAnyway": "Это действие необратимо. Все равно хотите продолжить?",
+  "@thisActionIsIrreversibleDoYouWishToProceedAnyway": {},
+  "thisFieldIsRequired": "Требуется заполнить это поле!",
+  "@thisFieldIsRequired": {
+    "description": "Message shown below the form field when a required field has not been filled out."
+  },
+  "timeUnit": "Единица времени",
+  "@timeUnit": {},
+  "title": "Название",
+  "@title": {},
+  "titleAndContent": "Название и Контент",
+  "@titleAndContent": {},
+  "today": "Сегодня",
+  "@today": {},
+  "totalCharacters": "Всего символов",
+  "totalDocuments": "Всего документов",
+  "tryAgain": "Попробуйте еще раз",
+  "undo": "Отменить",
+  "@undo": {},
+  "upload": "Загрузить",
+  "@upload": {},
+  "uploadADocumentFromThisDevice": "Загрузить документ с этого устройства",
+  "@uploadADocumentFromThisDevice": {
+    "description": "Button label on scanner page"
+  },
+  "uploadInferValuesHint": "Если вы укажете значения для этих полей, ваш paperless экземпляр не будет автоматически получать значение. Если вы хотите, чтобы эти значения были автоматически заполнены сервером, оставьте поля пустыми.",
+  "@uploadInferValuesHint": {},
+  "uploadScansAsPdf": "Загрузить сканирование в PDF",
+  "@uploadScansAsPdf": {
+    "description": "Title of the setting which toggles whether scans are always uploaded as pdf"
+  },
+  "uploadWithoutPromptingUploadForm": "При нажатии \"Поделиться\" загружать файлы без открытия форму для загрузки файлов.",
+  "userAlreadyExists": "Этот пользователь уже существует.",
+  "@userAlreadyExists": {
+    "description": "Error message shown when the user tries to add an already existing account."
+  },
+  "userIsNotAuthenticated": "Пользователь не аутентифицирован.",
+  "@userIsNotAuthenticated": {},
+  "username": "Имя пользователя",
+  "@username": {},
+  "usernameMustNotBeEmpty": "Имя пользователя не должно быть пустым.",
+  "@usernameMustNotBeEmpty": {},
+  "userNotFound": "Не удалось найти пользователя.",
+  "@userNotFound": {
+    "description": "Message shown when the specified user (e.g. by id) could not be found"
+  },
+  "useTheConfiguredBiometricFactorToAuthenticate": "Используйте настроенный биометрический фактор для аутентификации и разблокировки документов.",
+  "@useTheConfiguredBiometricFactorToAuthenticate": {},
+  "verifyIdentity": "Подтвердить личность",
+  "@verifyIdentity": {},
+  "verifyYourIdentity": "Подтвердите вашу личность",
+  "@verifyYourIdentity": {},
   "version": "Версия {versionCode}",
-  "notes": "{count, plural, zero{Нет заметок} one{{count} заметка} few{{count} заметки} many {{count} заметок} other{{count} заметок}}",
-  "addNote": "Добавить заметку",
-  "newerVersionAvailable": "Доступна новая версия:",
-  "dateOutOfRange": "Дата должна быть между {firstDate} и {lastDate}.",
-  "@dateOutOfRange": {
-    "description": "Error message shown when the user tries to select a date outside of the allowed range.",
+  "views": "Виды",
+  "@views": {},
+  "weeks": "{count, plural, one{неделя} few {недели} many {недели} other{недели}}",
+  "@weeks": {
     "placeholders": {
-      "firstDate": {
-        "type": "DateTime",
-        "format": "yMd"
-      },
-      "lastDate": {
-        "type": "DateTime",
-        "format": "yMd"
-      }
+      "count": {}
     }
   },
-  "permissions": "Права доступа",
-  "newNote": "Новая заметка",
-  "notesMarkdownSyntaxSupportHint": "Paperless Mobile поддерживает синтаксис Markdown для отображения и форматирования заметок. Попробуйте!",
-  "mfaCodeRequiredValidationMessage": "Please enter the MFA code.",
-  "mfaCodeInvalidLengthValidationMessage": "MFA code must be 6 digits.",
-  "mfaFormFieldHint": "Your account is protected by two-factor authentication. Please enter an authentication code:",
-  "youHaveNoViewsOnYourDashboardYet": "You have not added any views to your dashboard yet."
+  "welcomeUser": "Добро пожаловать, {name}!",
+  "@welcomeUser": {
+    "description": "Top message shown on the home page"
+  },
+  "years": "{count, plural, one{год} few {года} many {года} other{года}}",
+  "@years": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "yesterday": "Вчера",
+  "@yesterday": {},
+  "youAreCurrentlyOffline": "В настоящее время вы не в сети. Убедитесь, что вы подключены к Интернету.",
+  "@youAreCurrentlyOffline": {},
+  "youDidNotSaveAnyViewsYet": "Вы еще не сохранили ни одного вида, создайте его и он будет показан здесь.",
+  "@youDidNotSaveAnyViewsYet": {
+    "description": "Message shown when there are no saved views yet."
+  },
+  "youDoNotHaveUnseenDocuments": "У вас нет непросмотренных документов.",
+  "@youDoNotHaveUnseenDocuments": {},
+  "youHaveNoViewsOnYourDashboardYet": "You have not added any views to your dashboard yet.",
+  "youreOffline": "Вы не в сети.",
+  "@youreOffline": {},
+  "pendingFiles": "Pending Files",
+  "noSuggestionsForThisDocument": "No suggestions available.",
+  "unauthorizedErrorMessage": "You are not authorized to perform this action. Please contact your admin or make sure you have the necessary permissions."
 }

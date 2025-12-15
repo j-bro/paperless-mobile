@@ -1,13 +1,15 @@
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:paperless_api/paperless_api.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
+import 'package:paperless_mobile/core/extensions/label_list_extension.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/routing/routes/labels_route.dart';
 
 class FullscreenTagsForm extends StatefulWidget {
   final TagsQuery? initialValue;
-  final Map<int, Tag> options;
   final void Function({TagsQuery? returnValue}) onSubmit;
   final bool allowOnlySelection;
   final bool allowCreation;
@@ -16,7 +18,6 @@ class FullscreenTagsForm extends StatefulWidget {
   const FullscreenTagsForm({
     super.key,
     this.initialValue,
-    required this.options,
     required this.onSubmit,
     required this.allowOnlySelection,
     required this.allowCreation,
@@ -32,7 +33,6 @@ class _FullscreenTagsFormState extends State<FullscreenTagsForm> {
   late bool _showClearIcon = false;
   final _textEditingController = TextEditingController();
   final _focusNode = FocusNode();
-  late List<Tag> _options;
 
   List<int> _include = [];
   List<int> _exclude = [];
@@ -43,7 +43,6 @@ class _FullscreenTagsFormState extends State<FullscreenTagsForm> {
   @override
   void initState() {
     super.initState();
-    _options = widget.options.values.toList();
     final value = widget.initialValue;
     if (value is IdsTagsQuery) {
       _include = value.include.toList();
@@ -112,34 +111,45 @@ class _FullscreenTagsFormState extends State<FullscreenTagsForm> {
                 _textEditingController.clear();
               },
             ),
-          IconButton(
-            tooltip: S.of(context)!.done,
-            icon: const Icon(Icons.done),
-            onPressed: () {
-              if (widget.allowOnlySelection) {
-                widget.onSubmit(
-                  returnValue: IdsTagsQuery(
-                    include: _include.sortedBy(
-                      (id) => widget.options[id]!.name,
-                    ),
-                  ),
-                );
-                return;
-              }
-              late final TagsQuery query;
-              if (_notAssigned) {
-                query = const NotAssignedTagsQuery();
-              } else if (_anyAssigned) {
-                query = AnyAssignedTagsQuery(
-                  tagIds: _include.sortedBy((id) => widget.options[id]!.name),
-                );
-              } else {
-                query = IdsTagsQuery(
-                  include: _include.sortedBy((id) => widget.options[id]!.name),
-                  exclude: _exclude.sortedBy((id) => widget.options[id]!.name),
-                );
-              }
-              widget.onSubmit(returnValue: query);
+          QueryBuilder(
+            query: context.tagRepository.getAllQuery(),
+            builder: (context, state) {
+              final tags = state.data?.toIdMap() ?? {};
+              final canSubmit =
+                  _exclude.any((id) => !tags.containsKey(id)) ||
+                  _include.any((id) => !tags.containsKey(id));
+              return IconButton(
+                tooltip: S.of(context)!.done,
+                icon: const Icon(Icons.done),
+                onPressed: canSubmit || true
+                    ? () {
+                        if (widget.allowOnlySelection) {
+                          widget.onSubmit(
+                            returnValue: IdsTagsQuery(
+                              include: _include.sortedBy(
+                                (id) => tags[id]!.name,
+                              ),
+                            ),
+                          );
+                          return;
+                        }
+                        late final TagsQuery query;
+                        if (_notAssigned) {
+                          query = const NotAssignedTagsQuery();
+                        } else if (_anyAssigned) {
+                          query = AnyAssignedTagsQuery(
+                            tagIds: _include.sortedBy((id) => tags[id]!.name),
+                          );
+                        } else {
+                          query = IdsTagsQuery(
+                            include: _include.sortedBy((id) => tags[id]!.name),
+                            exclude: _exclude.sortedBy((id) => tags[id]!.name),
+                          );
+                        }
+                        widget.onSubmit(returnValue: query);
+                      }
+                    : null,
+              );
             },
           ),
         ],
@@ -180,9 +190,13 @@ class _FullscreenTagsFormState extends State<FullscreenTagsForm> {
           ),
         ),
       ),
-      body: Builder(
-        builder: (context) {
-          final options = _buildOptions(_textEditingController.text);
+      body: QueryBuilder(
+        query: context.tagRepository.getAllQuery(),
+        builder: (context, state) {
+          final options = _buildOptions(
+            _textEditingController.text,
+            state.data ?? [],
+          );
           return Column(
             children: [
               Expanded(
@@ -210,7 +224,6 @@ class _FullscreenTagsFormState extends State<FullscreenTagsForm> {
     _textEditingController.clear();
     if (createdTag != null) {
       setState(() {
-        _options.add(createdTag);
         _toggleSelection(createdTag.id);
       });
     }
@@ -238,7 +251,7 @@ class _FullscreenTagsFormState extends State<FullscreenTagsForm> {
   /// Filters the options passed to this widget by the current [query] and
   /// adds not-/any assigned options
   ///
-  Iterable<Widget> _buildOptions(String query) sync* {
+  Iterable<Widget> _buildOptions(String query, List<Tag> tags) sync* {
     final normalizedQuery = query.trim().toLowerCase();
 
     if (!widget.allowOnlySelection &&
@@ -246,7 +259,7 @@ class _FullscreenTagsFormState extends State<FullscreenTagsForm> {
       yield _buildNotAssignedOption();
     }
 
-    var matches = _options.where(
+    var matches = tags.where(
       (e) => e.name.trim().toLowerCase().contains(normalizedQuery),
     );
     if (matches.isEmpty && widget.allowCreation) {

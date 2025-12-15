@@ -10,7 +10,6 @@ import 'package:paperless_mobile/accessibility/accessibility_utils.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/repository/search_repository.dart';
-import 'package:paperless_mobile/core/widgets/query_builder/simple_query_builder.dart';
 import 'package:paperless_mobile/features/document_search/view/remove_history_entry_dialog.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/adaptive_documents_view.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/selection/view_type_selection_widget.dart';
@@ -55,7 +54,7 @@ class _DocumentSearchPageState extends State<DocumentSearchPage> {
       });
     });
     _documentViewType =
-        context.loggedInUserData$.appState!.documentSearchViewType;
+        context.loggedInUserData.appState!.documentSearchViewType;
   }
 
   @override
@@ -158,9 +157,22 @@ class _DocumentSearchPageState extends State<DocumentSearchPage> {
             childCount: historyMatches.length,
           ),
         ),
-        SimpleQueryBuilder(
+        QueryBuilder(
           query: context.searchRepository.autocompleteQuery(_searchTerm),
-          builder: (context, suggestions) {
+          builder: (context, state) {
+            if (state.isError) {
+              return SliverFillRemaining(
+                child: Center(
+                  child: Text(S.of(context)!.couldNotLoadSuggestions),
+                ),
+              );
+            }
+            if (state.isLoading && state.data == null) {
+              return SliverFillRemaining(
+                child: Center(child: CircularProgressIndicator()),
+              );
+            }
+            final suggestions = state.data ?? [];
             return SliverMainAxisGroup(
               slivers: [
                 SliverList(
@@ -230,7 +242,7 @@ class _DocumentSearchPageState extends State<DocumentSearchPage> {
   Widget _buildResultsView() {
     final normalizedQuery = _searchTerm.trim();
     final resultListQuery = context.documentRepository.getAllQuery(
-      filter: DocumentFilter(query: TextQuery.extended(normalizedQuery)),
+      filter: DocumentFilter(query: TextQuery.titleAndContent(normalizedQuery)),
     );
 
     final header = Row(
@@ -275,7 +287,7 @@ class _DocumentSearchPageState extends State<DocumentSearchPage> {
                 onTap: (document) {
                   DocumentDetailsRoute(
                     title: document.title,
-                    id: document.id,
+                    documentId: document.id,
                     isLabelClickable: false,
                     thumbnailUrl: context.documentRepository.getThumbnailUrl(
                       document.id,

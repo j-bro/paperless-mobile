@@ -41,7 +41,7 @@ class _InboxPageState extends State<InboxPage> {
     super.initState();
     context.inboxRepository.reload();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _nestedScrollViewKey.currentState!.innerController.addListener(
+      _nestedScrollViewKey.currentState?.innerController.addListener(
         _scrollExtentChangedListener,
       );
     });
@@ -79,38 +79,38 @@ class _InboxPageState extends State<InboxPage> {
         child: QueryBuilder(
           query: context.inboxRepository.inboxDocumentsQuery,
           builder: (context, state) {
-            return switch (state) {
-              QuerySuccess(data: final documents) =>
-                FloatingActionButton.extended(
-                  extendedPadding: _showExtendedFab
-                      ? null
-                      : const EdgeInsets.symmetric(horizontal: 16),
-                  heroTag: "inbox_page_fab",
-                  label: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 200),
-                    transitionBuilder: (child, animation) {
-                      return FadeTransition(
-                        opacity: animation,
-                        child: SizeTransition(
-                          sizeFactor: animation,
-                          axis: Axis.horizontal,
-                          child: child,
-                        ),
-                      );
-                    },
-                    child: _showExtendedFab
-                        ? Row(
-                            children: [
-                              const Icon(Icons.done_all),
-                              Text(S.of(context)!.allSeen),
-                            ],
-                          )
-                        : const Icon(Icons.done_all),
-                  ),
-                  onPressed: documents.isNotEmpty ? _onMarkAllAsSeen : null,
-                ),
-              _ => const SizedBox.shrink(),
-            };
+            if (state.data == null) {
+              return const SizedBox.shrink();
+            }
+            final documents = state.data!.pages.flattened;
+            return FloatingActionButton.extended(
+              extendedPadding: _showExtendedFab
+                  ? null
+                  : const EdgeInsets.symmetric(horizontal: 16),
+              heroTag: "inbox_page_fab",
+              label: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 200),
+                transitionBuilder: (child, animation) {
+                  return FadeTransition(
+                    opacity: animation,
+                    child: SizeTransition(
+                      sizeFactor: animation,
+                      axis: Axis.horizontal,
+                      child: child,
+                    ),
+                  );
+                },
+                child: _showExtendedFab
+                    ? Row(
+                        children: [
+                          const Icon(Icons.done_all),
+                          Text(S.of(context)!.allSeen),
+                        ],
+                      )
+                    : const Icon(Icons.done_all),
+              ),
+              onPressed: documents.isNotEmpty ? _onMarkAllAsSeen : null,
+            );
           },
         ),
       ),
@@ -124,8 +124,16 @@ class _InboxPageState extends State<InboxPage> {
           body: QueryBuilder(
             query: context.inboxRepository.inboxDocumentsQuery,
             builder: (context, state) {
-              return switch (state) {
-                QueryError() => Column(
+              if (state.isLoading && state.data == null) {
+                return ListView.builder(
+                  padding: const EdgeInsets.only(top: 16, left: 16),
+                  physics: NeverScrollableScrollPhysics(),
+                  controller: _scrollController,
+                  itemBuilder: (context, index) => const InboxItemPlaceholder(),
+                );
+              }
+              if (state.isError) {
+                return Column(
                   children: [
                     Center(
                       child: Text(
@@ -133,20 +141,16 @@ class _InboxPageState extends State<InboxPage> {
                         textAlign: TextAlign.center,
                       ).padded(),
                     ),
+                    Text(state.error.toString()).padded(),
                     TextButton(
                       onPressed: context.inboxRepository.reload,
                       child: Text('Retry'), //TODO: INTL
                     ),
                   ],
-                ),
-                QuerySuccess(data: final documents) => _buildLoaded(documents),
-                _ => ListView.builder(
-                  padding: const EdgeInsets.only(top: 16, left: 16),
-                  physics: NeverScrollableScrollPhysics(),
-                  controller: _scrollController,
-                  itemBuilder: (context, index) => const InboxItemPlaceholder(),
-                ),
-              };
+                );
+              }
+              final documents = state.data!.pages.flattened;
+              return _buildLoaded(documents);
             },
           ),
         ),
@@ -165,7 +169,6 @@ class _InboxPageState extends State<InboxPage> {
     return RefreshIndicator(
       onRefresh: context.inboxRepository.reload,
       child: CustomScrollView(
-        key: _nestedScrollViewKey,
         slivers: [
           SliverToBoxAdapter(
             child: HintStateBuilder(

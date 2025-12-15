@@ -38,7 +38,7 @@ class InboxRepository {
 
     return DocumentFilter(
       page: page,
-      tags: IdsTagsQuery(include: inboxTags.map((e) => e.id).toList()),
+      tags: AnyAssignedTagsQuery(tagIds: inboxTags.map((e) => e.id).toList()),
     );
   }
 
@@ -83,7 +83,7 @@ class InboxRepository {
         final inboxTags = tagsResult.data!.map((e) => e.id);
         final filter = DocumentFilter(
           fields: ['id', 'tags'],
-          tags: IdsTagsQuery(include: inboxTags.toList()),
+          tags: AnyAssignedTagsQuery(tagIds: inboxTags.toList()),
         );
         final documentsResult = await _documentsRepo
             .getAllQuery(filter: filter, overrideKey: 'inbox_documents_count')
@@ -110,16 +110,20 @@ class InboxRepository {
           (state) => state.data ?? <Tag>[],
         );
         final documentIds = allDocuments.data?.firstPage?.all ?? [];
+        final request = BulkEditRequest(
+          documents: documentIds,
+          method: MethodEnum.modifyTags,
+          parameters: {
+            'remove_tags': inboxTags.map((e) => e.id).toList(),
+            'add_tags': [],
+          },
+        );
         final result = await _documentsRepo.bulkEditDocumentsMutation().mutate(
-          BulkEditRequest(
-            documents: documentIds,
-            method: MethodEnum.modifyTags,
-            parameters: {'remove_tags': inboxTags.map((e) => e.id).toList()},
-          ),
+          request,
         );
         return result.data!;
       },
-      invalidateQueries: ['inbox_documents'],
+      refetchQueries: ['inbox'],
     );
   }
 
@@ -140,7 +144,7 @@ class InboxRepository {
           BulkEditRequest(
             documents: [document.id],
             method: MethodEnum.modifyTags,
-            parameters: {'remove_tags': removeTags.toList()},
+            parameters: {'remove_tags': removeTags.toList(), 'add_tags': []},
           ),
         );
         return removeTags.toList();

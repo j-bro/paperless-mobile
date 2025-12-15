@@ -13,14 +13,12 @@ class UserCredentialsFormField extends StatefulWidget {
 
   final VoidCallback? onFieldsSubmitted;
   final String? initialUsername;
-  final String? initialPassword;
   final Map<String, String>? fieldErrors;
   final GlobalKey<FormBuilderState> formKey;
   const UserCredentialsFormField({
     super.key,
     this.onFieldsSubmitted,
     this.initialUsername,
-    this.initialPassword,
     required this.formKey,
     this.fieldErrors,
   });
@@ -45,14 +43,12 @@ class _UserCredentialsFormFieldState extends State<UserCredentialsFormField>
         .localUserData
         .keys;
     return FormBuilderField<LoginFormCredentials?>(
-      initialValue: LoginFormCredentials(
-        password: widget.initialPassword,
-        username: widget.initialUsername,
-      ),
+      initialValue: LoginFormCredentials(username: widget.initialUsername),
       name: UserCredentialsFormField.fkCredentials,
       builder: (field) => Column(
         children: [
           TextFormField(
+            initialValue: widget.initialUsername,
             key: const ValueKey('login-username'),
             focusNode: _usernameFocusNode,
             textCapitalization: TextCapitalization.none,

@@ -33,6 +33,7 @@ class DocumentUploadPreparationPage extends StatefulWidget {
   final String? title;
   final String? filename;
   final String? fileExtension;
+  final bool instantUpload;
 
   const DocumentUploadPreparationPage({
     super.key,
@@ -40,6 +41,7 @@ class DocumentUploadPreparationPage extends StatefulWidget {
     this.title,
     this.filename,
     this.fileExtension,
+    this.instantUpload = false,
   });
 
   @override
@@ -63,6 +65,11 @@ class _DocumentUploadPreparationPageState
   void initState() {
     super.initState();
     _syncTitleAndFilename = widget.filename == null && widget.title == null;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (widget.instantUpload) {
+        _onSubmit();
+      }
+    });
   }
 
   @override
@@ -107,10 +114,28 @@ class _DocumentUploadPreparationPageState
                       if (!snapshot.hasData) {
                         return const SizedBox.shrink();
                       }
-                      return FileThumbnail(
-                        bytes: snapshot.data!,
-                        fit: BoxFit.fitWidth,
-                        width: MediaQuery.sizeOf(context).width,
+                      return Stack(
+                        alignment: AlignmentGeometry.topCenter,
+                        children: [
+                          FileThumbnail(
+                            bytes: snapshot.data!,
+                            fit: BoxFit.fitWidth,
+                            width: MediaQuery.sizeOf(context).width,
+                          ),
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Container(
+                              height: 72,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.bottomCenter,
+                                  end: Alignment.topCenter,
+                                  colors: [Colors.black87, Colors.transparent],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       );
                     },
                   ),

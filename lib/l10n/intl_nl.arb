@@ -1,14 +1,24 @@
 {
-  "developedBy": "Ontwikkeld door {name}.",
-  "@developedBy": {
-    "placeholders": {
-      "name": {}
-    }
+  "aboutThisApp": "Over deze applicatie",
+  "@aboutThisApp": {
+    "description": "Label for about this app tile displayed in the drawer"
+  },
+  "absolute": "Absoluut",
+  "@absolute": {},
+  "account": "Account",
+  "@account": {},
+  "accounts": "Accounts",
+  "@accounts": {
+    "description": "Title of the account management dialog"
+  },
+  "aClientCertificateWasExpectedButNotSent": "Een clientcertificaat werd verwacht maar niet verzonden. Geef een geldig clientcertificaat op.",
+  "@aClientCertificateWasExpectedButNotSent": {},
+  "addAccount": "Account toevoegen",
+  "@addAccount": {
+    "description": "Label of add account action"
   },
   "addAnotherAccount": "Voeg nog een account toe",
   "@addAnotherAccount": {},
-  "account": "Account",
-  "@account": {},
   "addCorrespondent": "Nieuwe Correspondent",
   "@addCorrespondent": {
     "description": "Title when adding a new correspondent"
@@ -17,6 +27,17 @@
   "@addDocumentType": {
     "description": "Title when adding a new document type"
   },
+  "addedAt": "Toegevoegd op",
+  "@addedAt": {},
+  "addNewCorrespondent": "Nieuwe Correspondent",
+  "@addNewCorrespondent": {},
+  "addNewDocumentType": "Nieuw documenttype toevoegen",
+  "@addNewDocumentType": {},
+  "addNewStoragePath": "Nieuw opslagpad toevoegen",
+  "@addNewStoragePath": {},
+  "addNewTag": "Voeg een nieuw label toe",
+  "@addNewTag": {},
+  "addNote": "Notitie toevoegen",
   "addStoragePath": "Nieuw opslagpad",
   "@addStoragePath": {
     "description": "Title when adding a new storage path"
@@ -25,214 +46,288 @@
   "@addTag": {
     "description": "Title when adding a new tag"
   },
-  "aboutThisApp": "Over deze applicatie",
-  "@aboutThisApp": {
-    "description": "Label for about this app tile displayed in the drawer"
+  "advanced": "Geavanceerd",
+  "@advanced": {},
+  "advancedSettings": "Geavanceerde instellingen",
+  "@advancedSettings": {},
+  "after": "Na",
+  "@after": {},
+  "all": "Alle",
+  "@all": {},
+  "allScansWillBeMerged": "Alle scans worden samengevoegd tot één PDF-bestand.",
+  "allSeen": "Alle gezien",
+  "@allSeen": {},
+  "allTags": "Alle",
+  "@allTags": {
+    "description": "Label shown when a document has to be assigned to all selected tags"
   },
-  "loggedInAs": "Ingelogd als {name}",
-  "@loggedInAs": {
-    "placeholders": {
-      "name": {}
-    }
+  "alwaysAsk": "Altijd vragen",
+  "@alwaysAsk": {
+    "description": "Option to choose when the app should always ask the user which filetype to use"
   },
-  "disconnect": "Afmelden",
-  "@disconnect": {
-    "description": "Logout button label"
+  "amount": "Aantal",
+  "@amount": {},
+  "anErrorOccurredRemovingTheScans": "Er is een fout opgetreden tijdens het verwijderen van de scans.",
+  "@anErrorOccurredRemovingTheScans": {},
+  "anErrorOccurredWhileTryingToAutocompleteYourQuery": "Er is een fout opgetreden tijdens het automatisch voltooien van de zoekopdracht.",
+  "@anErrorOccurredWhileTryingToAutocompleteYourQuery": {},
+  "anInternetConnectionCouldNotBeEstablished": "Er kon geen internetverbinding tot stand komen.",
+  "@anInternetConnectionCouldNotBeEstablished": {},
+  "anUnknownErrorOccurred": "Er is een onbekende fout opgetreden.",
+  "@anUnknownErrorOccurred": {},
+  "any": "Een van",
+  "@any": {},
+  "anyAssigned": "Alle toegewezen",
+  "@anyAssigned": {},
+  "anyTag": "Elke",
+  "@anyTag": {
+    "description": "Label shown when any tag should be filtered"
   },
-  "reportABug": "Rapporteer een fout",
-  "@reportABug": {},
-  "settings": "Instellingen",
-  "@settings": {},
-  "authenticateOnAppStart": "Authenticeer bij starten app",
-  "@authenticateOnAppStart": {
-    "description": "Description of the biometric authentication settings tile"
-  },
-  "biometricAuthentication": "Biometrische authenticatie",
-  "@biometricAuthentication": {},
-  "authenticateToToggleBiometricAuthentication": "{mode, select, enable{Verifieer om biometrische authenticatie in te schakelen} disable{Verifieer om biometrische authenticatie uit te zetten} other{}}",
-  "@authenticateToToggleBiometricAuthentication": {
-    "placeholders": {
-      "mode": {}
-    }
-  },
-  "documents": "Documenten",
-  "@documents": {},
-  "inbox": "Inbox",
-  "@inbox": {},
-  "labels": "Labels",
-  "@labels": {},
-  "scanner": "Scanner",
-  "@scanner": {},
-  "startTyping": "Begin met typen...",
-  "@startTyping": {},
-  "doYouReallyWantToDeleteThisView": "Weet je zeker dat je deze weergave wilt verwijderen?",
-  "@doYouReallyWantToDeleteThisView": {},
-  "deleteView": "Weergave {name} verwijderen?",
-  "@deleteView": {},
-  "addedAt": "Toegevoegd op",
-  "@addedAt": {},
-  "archiveSerialNumber": "Archief serienummer",
-  "@archiveSerialNumber": {},
-  "asn": "ASN",
-  "@asn": {},
-  "correspondent": "Correspondent",
-  "@correspondent": {},
-  "createdAt": "Aangemaakt op",
-  "@createdAt": {},
-  "documentSuccessfullyDeleted": "Document succesvol verwijderd.",
-  "@documentSuccessfullyDeleted": {},
-  "assignAsn": "ASN toewijzen",
-  "@assignAsn": {},
-  "deleteDocumentTooltip": "Verwijderen",
-  "@deleteDocumentTooltip": {
-    "description": "Tooltip shown for the delete button on details page"
-  },
-  "downloadDocumentTooltip": "Downloaden",
-  "@downloadDocumentTooltip": {
-    "description": "Tooltip shown for the download button on details page"
-  },
-  "editDocumentTooltip": "Bewerken",
-  "@editDocumentTooltip": {
-    "description": "Tooltip shown for the edit button on details page"
-  },
-  "loadFullContent": "Volledige inhoud laden",
-  "@loadFullContent": {},
-  "noAppToDisplayPDFFilesFound": "Geen app gevonden om PDF-bestanden te openen!",
-  "@noAppToDisplayPDFFilesFound": {},
-  "openInSystemViewer": "Openen in systeemviewer",
-  "@openInSystemViewer": {},
-  "couldNotOpenFilePermissionDenied": "Kon bestand niet openen: Toegang geweigerd.",
-  "@couldNotOpenFilePermissionDenied": {},
-  "previewTooltip": "Voorbeeld",
-  "@previewTooltip": {
-    "description": "Tooltip shown for the preview button on details page"
-  },
-  "shareTooltip": "Delen",
-  "@shareTooltip": {
-    "description": "Tooltip shown for the share button on details page"
-  },
-  "similarDocuments": "Vergelijkbare documenten",
-  "@similarDocuments": {
-    "description": "Label shown in the tabbar on details page"
-  },
-  "content": "Inhoud",
-  "@content": {
-    "description": "Label shown in the tabbar on details page"
-  },
-  "metaData": "Metadata",
-  "@metaData": {
-    "description": "Label shown in the tabbar on details page"
-  },
-  "overview": "Overzicht",
-  "@overview": {
-    "description": "Label shown in the tabbar on details page"
-  },
-  "documentType": "Documenttype",
-  "@documentType": {},
+  "appearance": "Uiterlijk",
+  "@appearance": {},
+  "applicationSettings": "Applicatie",
+  "@applicationSettings": {},
+  "appLogs": "App-logs {date}",
+  "apply": "Toepassen",
+  "@apply": {},
   "archivedPdf": "Gearchiveerd (pdf)",
   "@archivedPdf": {
     "description": "Option to chose when downloading a document"
   },
-  "chooseFiletype": "Kies bestandstype",
-  "@chooseFiletype": {},
-  "original": "Bronbestand",
-  "@original": {
-    "description": "Option to chose when downloading a document"
+  "archiveSerialNumber": "Archief serienummer",
+  "@archiveSerialNumber": {},
+  "archiveSerialNumberUpdated": "Archief-serienummer bijgewerkt.",
+  "@archiveSerialNumberUpdated": {
+    "description": "Message shown when the ASN has been updated."
   },
-  "documentSuccessfullyDownloaded": "Document succesvol gedownload.",
-  "@documentSuccessfullyDownloaded": {},
-  "suggestions": "Suggesties: ",
-  "@suggestions": {},
-  "editDocument": "Document bewerken",
-  "@editDocument": {},
-  "advanced": "Geavanceerd",
-  "@advanced": {},
-  "apply": "Toepassen",
-  "@apply": {},
-  "extended": "Uitgebreid",
-  "@extended": {},
-  "titleAndContent": "Titel & inhoud",
-  "@titleAndContent": {},
-  "title": "Titel",
-  "@title": {},
-  "reset": "Resetten",
-  "@reset": {},
-  "filterDocuments": "Filter Documenten",
-  "@filterDocuments": {
-    "description": "Title of the document filter"
-  },
-  "originalMD5Checksum": "Originele MD5-Checksum",
-  "@originalMD5Checksum": {},
-  "mediaFilename": "Media bestandsnaam",
-  "@mediaFilename": {},
-  "originalFileSize": "Originele bestandsgrootte",
-  "@originalFileSize": {},
-  "originalMIMEType": "Oorspronkelijk MIME-Type",
-  "@originalMIMEType": {},
-  "modifiedAt": "Gewijzigd op",
-  "@modifiedAt": {},
-  "preview": "Voorbeeld",
-  "@preview": {
-    "description": "Title of the document preview page"
-  },
-  "scanADocument": "Scan een document",
-  "@scanADocument": {},
-  "noDocumentsScannedYet": "Nog geen documenten gescand.",
-  "@noDocumentsScannedYet": {},
-  "or": "of",
-  "@or": {
-    "description": "Used on the scanner page between both main actions when no scans have been captured."
-  },
-  "deleteAllScans": "Alle scans verwijderen",
-  "@deleteAllScans": {},
-  "uploadADocumentFromThisDevice": "Document uploaden van dit apparaat",
-  "@uploadADocumentFromThisDevice": {
-    "description": "Button label on scanner page"
-  },
-  "noMatchesFound": "Geen resultaten.",
-  "@noMatchesFound": {
-    "description": "Displayed when no documents were found in the document search."
-  },
-  "removeFromSearchHistory": "Uit de zoekgeschiedenis verwijderen?",
-  "@removeFromSearchHistory": {},
-  "results": "Resultaten",
-  "@results": {
-    "description": "Label displayed above search results in document search."
-  },
-  "searchDocuments": "Documenten zoeken",
-  "@searchDocuments": {},
-  "resetFilter": "Filter opnieuw instellen",
-  "@resetFilter": {},
-  "lastMonth": "Afgelopen maand",
-  "@lastMonth": {},
-  "last7Days": "Afgelopen 7 dagen",
-  "@last7Days": {},
-  "last3Months": "Afgelopen 3 maanden",
-  "@last3Months": {},
-  "lastYear": "Afgelopen jaar",
-  "@lastYear": {},
-  "search": "Zoeken",
-  "@search": {},
-  "documentsSuccessfullyDeleted": "Document succesvol verwijderd.",
-  "@documentsSuccessfullyDeleted": {},
-  "thereSeemsToBeNothingHere": "Er lijkt hier niets te zijn...",
-  "@thereSeemsToBeNothingHere": {},
-  "oops": "Oei.",
-  "@oops": {},
-  "newDocumentAvailable": "Nieuw document beschikbaar!",
-  "@newDocumentAvailable": {},
-  "orderBy": "Sorteren Op",
-  "@orderBy": {},
-  "thisActionIsIrreversibleDoYouWishToProceedAnyway": "Deze actie is onomkeerbaar. Wil je toch doorgaan?",
-  "@thisActionIsIrreversibleDoYouWishToProceedAnyway": {},
-  "confirmDeletion": "Verwijdering bevestigen",
-  "@confirmDeletion": {},
+  "areYouSureYouWantToContinue": "Weet je zeker dat je door wilt gaan?",
   "areYouSureYouWantToDeleteTheFollowingDocuments": "{count, plural, one{Weet je zeker dat je dit document wilt verwijderen?} other{Weet je zeker dat je deze documenten wilt verwijderen?}}",
   "@areYouSureYouWantToDeleteTheFollowingDocuments": {
     "placeholders": {
       "count": {}
     }
   },
+  "areYouSureYouWantToMarkAllDocumentsAsSeen": "Weet je zeker dat je alle documenten als gezien wilt markeren? Dit voert een bulkbewerking uit en verwijdert alle inbox labels uit de documenten. Deze actie is niet omkeerbaar! Weet je zeker dat je door wilt gaan?",
+  "@areYouSureYouWantToMarkAllDocumentsAsSeen": {},
+  "ascending": "Oplopend",
+  "@ascending": {},
+  "asn": "ASN",
+  "@asn": {},
+  "assignAsn": "ASN toewijzen",
+  "@assignAsn": {},
+  "authenticateOnAppStart": "Authenticeer bij starten app",
+  "@authenticateOnAppStart": {
+    "description": "Description of the biometric authentication settings tile"
+  },
+  "authenticateToToggleBiometricAuthentication": "{mode, select, enable{Verifieer om biometrische authenticatie in te schakelen} disable{Verifieer om biometrische authenticatie uit te zetten} other{}}",
+  "@authenticateToToggleBiometricAuthentication": {
+    "placeholders": {
+      "mode": {}
+    }
+  },
+  "authenticatingDots": "Authenticeren...",
+  "@authenticatingDots": {
+    "description": "Message shown when the app is authenticating the user"
+  },
+  "authenticationFailedPleaseTryAgain": "Authenticatie is mislukt. Probeer het opnieuw.",
+  "@authenticationFailedPleaseTryAgain": {},
+  "auto": "Automatisch",
+  "@auto": {},
+  "backToLogin": "Terug naar inloggen",
+  "before": "Voor",
+  "@before": {},
+  "behavior": "Gedrag",
+  "@behavior": {
+    "description": "Title of the settings concerning app beahvior"
+  },
+  "biometricAuthentication": "Biometrische authenticatie",
+  "@biometricAuthentication": {},
+  "biometricAuthenticationFailed": "Biometrische authenticatie is mislukt.",
+  "@biometricAuthenticationFailed": {},
+  "biometricAuthenticationNotSupported": "Biometrische authenticatie wordt op dit apparaat niet ondersteund.",
+  "@biometricAuthenticationNotSupported": {},
+  "bulkEditCorrespondentAssignMessage": "{count, plural, one{Deze actie wijst de correspondent {correspondent} toe aan het geselecteerde document.} other{Deze actie wijst de correspondent {correspondent} toe aan {count} geselecteerde documenten.}}",
+  "bulkEditCorrespondentRemoveMessage": "{count, plural, one{Deze actie verwijdert de correspondent van het geselecteerde document.} other{Deze actie verwijdert de correspondent van {count} geselecteerde documenten.}}",
+  "bulkEditDocumentTypeAssignMessage": "{count, plural, one{Deze actie wijst het documenttype {docType} toe aan het geselecteerde document.} other{Deze actie wijst het documenttype {docType} toe aan {count} geselecteerde documenten.}}",
+  "bulkEditDocumentTypeRemoveMessage": "{count, plural, one{Deze actie verwijdert het documenttype van het geselecteerde document.} other{Deze actie verwijdert het documenttype van {count} geselecteerde documenten.}}",
+  "bulkEditStoragePathAssignMessage": "{count, plural, one{Deze actie wijst het opslagpad {path} toe aan het geselecteerde document.} other{Deze actie wijst het opslagpad {path} toe aan {count} geselecteerde documenten.}}",
+  "bulkEditStoragePathRemoveMessage": "{count, plural, one{Deze actie verwijdert het opslagpad van het geselecteerde document.} other{Deze actie verwijdert het opslagpad van {count} geselecteerde documenten.}}",
+  "bulkEditTagsAddMessage": "{count, plural, one{Deze actie voegt de labels {tags} toe aan het geselecteerde document.} other{Deze actie voegt de labels {tags} aan {count} geselecteerde documenten.}}",
+  "@bulkEditTagsAddMessage": {
+    "description": "Message of the confirmation dialog when bulk adding tags."
+  },
+  "bulkEditTagsModifyMessage": "{count, plural, one{Deze actie voegt de labels {addTags} toe en verwijdert de labels {removeTags} van het geselecteerde document.} other{Deze actie voegt de labels {addTags} toe en verwijdert de labels {removeTags} van {count} geselecteerde documenten.}}",
+  "@bulkEditTagsModifyMessage": {
+    "description": "Message of the confirmation dialog when both adding and removing tags."
+  },
+  "bulkEditTagsRemoveMessage": "{count, plural, one{Deze actie verwijdert de labels {tags} van het geselecteerde document.} other{Deze actie verwijdert de labels {tags} van {count} geselecteerde documenten.}}",
+  "@bulkEditTagsRemoveMessage": {
+    "description": "Message of the confirmation dialog when bulk removing tags."
+  },
+  "calculatingDots": "Berekenen...",
+  "@calculatingDots": {
+    "description": "Text shown when the byte size is still being calculated"
+  },
+  "cancel": "Annuleer",
+  "@cancel": {},
+  "caseIrrelevant": "Zaak irrelevant",
+  "@caseIrrelevant": {},
+  "changelog": "Wijzigingen",
+  "chooseFiletype": "Kies bestandstype",
+  "@chooseFiletype": {},
+  "classicColorScheme": "Klassiek",
+  "@classicColorScheme": {},
+  "clearAll": "Alles wissen",
+  "@clearAll": {},
+  "clearCache": "Verwijder Cache",
+  "@clearCache": {
+    "description": "Title of the clear cache setting"
+  },
+  "clearLogs": "Logs van {date} wissen",
+  "clientcertificate": "Client Certificaat",
+  "@clientcertificate": {},
+  "close": "Sluiten",
+  "@close": {},
+  "color": "Kleur",
+  "@color": {},
+  "colors": "Kleuren",
+  "@colors": {},
+  "colorSchemeHint": "Kies tussen een klassiek kleurenschema dat geïnspireerd is op een traditioneel Paperless groen of gebruik het dynamische kleurschema gebaseerd op uw systeemthema.",
+  "@colorSchemeHint": {},
+  "colorSchemeNotSupportedWarning": "Dynamisch thema wordt alleen ondersteund voor apparaten met Android 12 en hoger. Het selecteren van de 'Dynamisch' optie heeft mogelijk geen effect afhankelijk van uw besturingssysteem.",
+  "@colorSchemeNotSupportedWarning": {},
+  "configureMutualTLSAuthentication": "Wederzijdse TLS-authenticatie configureren",
+  "@configureMutualTLSAuthentication": {},
+  "confirm": "Bevestigen",
+  "confirmAction": "Bevestig actie",
+  "@confirmAction": {
+    "description": "Typically used as a title to confirm a previously selected action"
+  },
+  "confirmDeletion": "Verwijdering bevestigen",
+  "@confirmDeletion": {},
+  "connect": "Verbinden",
+  "@connect": {},
+  "connectionSuccessfulylEstablished": "Verbinding gemaakt.",
+  "@connectionSuccessfulylEstablished": {},
+  "connectionTimedOut": "Time-out van verbinding.",
+  "@connectionTimedOut": {},
+  "connectToPaperless": "Verbinding maken met Paperless",
+  "@connectToPaperless": {},
+  "content": "Inhoud",
+  "@content": {
+    "description": "Label shown in the tabbar on details page"
+  },
+  "continueLabel": "Doorgaan",
+  "@continueLabel": {},
+  "convertSinglePageScanToPdf": "Enkelvoudige pagina voor het uploaden altijd naar PDF converteren",
+  "@convertSinglePageScanToPdf": {
+    "description": "description of the upload scans as pdf setting"
+  },
+  "copyToClipboard": "Kopiëren naar klembord",
+  "correspondent": "Correspondent",
+  "@correspondent": {},
+  "correspondents": "Correspondenten",
+  "@correspondents": {},
+  "couldNotAccessReceivedFile": "Het ontvangen bestand kon niet worden geopend. Probeer de app te openen voordat je het deelt.",
+  "@couldNotAccessReceivedFile": {},
+  "couldNotAcknowledgeTasks": "Kon taken niet erkennen.",
+  "@couldNotAcknowledgeTasks": {},
+  "couldNotAssignArchiveSerialNumber": "Kon archief serienummer niet toewijzen.",
+  "@couldNotAssignArchiveSerialNumber": {},
+  "couldNotBulkEditDocuments": "Kon bulkbestanden niet bewerken.",
+  "@couldNotBulkEditDocuments": {},
+  "couldNotCreateCorrespondent": "Kon correspondent niet aanmaken, probeer het opnieuw.",
+  "@couldNotCreateCorrespondent": {},
+  "couldNotCreateDocument": "Kon document niet aanmaken. Probeer het opnieuw.",
+  "@couldNotCreateDocument": {},
+  "couldNotCreateSavedView": "Kon opgeslagen weergave niet aanmaken, probeer het opnieuw.",
+  "@couldNotCreateSavedView": {},
+  "couldNotCreateStoragePath": "Kon opslagpad niet aanmaken, probeer het opnieuw.",
+  "@couldNotCreateStoragePath": {},
+  "couldNotCreateTag": "Kon label niet aanmaken, probeer het opnieuw.",
+  "@couldNotCreateTag": {},
+  "couldNotDeleteCorrespondent": "Kon correspondent niet verwijderen, probeer het opnieuw.",
+  "@couldNotDeleteCorrespondent": {
+    "description": "Message shown in snackbar when a correspondent could not be deleted."
+  },
+  "couldNotDeleteDocument": "Kon document niet verwijderen. Probeer het opnieuw.",
+  "@couldNotDeleteDocument": {},
+  "couldNotDeleteDocumentType": "Kon documenttype niet verwijderen, probeer het opnieuw.",
+  "@couldNotDeleteDocumentType": {
+    "description": "Message shown when a document type could not be deleted"
+  },
+  "couldNotDeleteSavedView": "Kon opgeslagen weergave niet verwijderen, probeer het opnieuw",
+  "@couldNotDeleteSavedView": {},
+  "couldNotDeleteStoragePath": "Kon opslagpad niet verwijderen, probeer het opnieuw.",
+  "@couldNotDeleteStoragePath": {
+    "description": "Message shown when a storage path could not be deleted"
+  },
+  "couldNotDeleteTag": "Kon label niet verwijderen, probeer het opnieuw.",
+  "@couldNotDeleteTag": {
+    "description": "Message shown when a tag could not be deleted"
+  },
+  "couldNotEstablishConnectionToTheServer": "Kon geen verbinding maken met de server.",
+  "@couldNotEstablishConnectionToTheServer": {},
+  "couldNotLoadCorrespondents": "Kon correspondenten niet laden.",
+  "@couldNotLoadCorrespondents": {},
+  "couldNotLoadDocumentPreview": "Kon documentvoorbeeld niet laden.",
+  "@couldNotLoadDocumentPreview": {},
+  "couldNotLoadDocuments": "Kon documenten niet laden, probeer het opnieuw.",
+  "@couldNotLoadDocuments": {},
+  "couldNotLoadDocumentTypes": "Kon documenttypes niet laden, probeer het opnieuw.",
+  "@couldNotLoadDocumentTypes": {},
+  "couldNotLoadLogfileFrom": "Kon logbestand van {date} niet laden.",
+  "couldNotLoadSavedViews": "Kon opgeslagen weergaven niet laden.",
+  "@couldNotLoadSavedViews": {},
+  "couldNotLoadServerInformation": "Kon serverinformatie niet laden.",
+  "@couldNotLoadServerInformation": {
+    "description": "Message shown when the server information could not be loaded"
+  },
+  "couldNotLoadSimilarDocuments": "Kon vergelijkbare documenten niet laden.",
+  "@couldNotLoadSimilarDocuments": {},
+  "couldNotLoadStatistics": "Kon serverstatistieken niet laden.",
+  "@couldNotLoadStatistics": {
+    "description": "Message shown when the server statistics could not be loaded"
+  },
+  "couldNotLoadStoragePaths": "Kon opslagpad niet laden.",
+  "@couldNotLoadStoragePaths": {},
+  "couldNotLoadSuggestions": "Suggesties kunnen niet worden geladen.",
+  "@couldNotLoadSuggestions": {},
+  "couldNotLoadTags": "Kon labels niet laden.",
+  "@couldNotLoadTags": {},
+  "couldNotLoadTasks": "Kon taken niet laden.",
+  "@couldNotLoadTasks": {
+    "description": "Message shown when the tasks (e.g. document consumed) could not be loaded"
+  },
+  "couldNotLoadUISettings": "Kon UI-instellingen niet laden.",
+  "@couldNotLoadUISettings": {
+    "description": "Message shown when the UI settings could not be loaded"
+  },
+  "couldNotOpenFilePermissionDenied": "Kon bestand niet openen: Toegang geweigerd.",
+  "@couldNotOpenFilePermissionDenied": {},
+  "couldNotReachYourPaperlessServer": "Kon uw Paperless server niet bereiken, is deze wel actief?",
+  "@couldNotReachYourPaperlessServer": {},
+  "couldNotUpdateCorrespondent": "Kon correspondent niet bijwerken, probeer het opnieuw.",
+  "@couldNotUpdateCorrespondent": {
+    "description": "Message shown when a correspondent could not be updated"
+  },
+  "couldNotUpdateDocument": "Kon document niet bijwerken. Probeer het opnieuw.",
+  "@couldNotUpdateDocument": {},
+  "couldNotUpdateDocumentType": "Kon documenttype niet bijwerken, probeer het opnieuw.",
+  "@couldNotUpdateDocumentType": {
+    "description": "Message shown when a document type could not be updated"
+  },
+  "couldNotUpdateSavedView": "Kon de opgeslagen weergave niet bijwerken, probeer het opnieuw.",
+  "@couldNotUpdateSavedView": {
+    "description": "Message shown when a saved view could not be updated"
+  },
+  "couldNotUpdateStoragePath": "Kon het opslagpad niet bijwerken, probeer het opnieuw.",
+  "couldNotUpdateTag": "Kon label niet bijwerken, probeer het opnieuw.",
+  "@couldNotUpdateTag": {
+    "description": "Message shown when a tag could not be updated"
+  },
+  "couldNotUploadDocument": "Kon document niet uploaden. Probeer het opnieuw.",
+  "@couldNotUploadDocument": {},
   "countSelected": "{count} geselecteerd",
   "@countSelected": {
     "description": "Displayed in the appbar when at least one document is selected.",
@@ -240,120 +335,255 @@
       "count": {}
     }
   },
-  "storagePath": "Opslag pad",
-  "@storagePath": {},
-  "prepareDocument": "Document voorbereiden",
-  "@prepareDocument": {},
-  "tags": "Labels",
-  "@tags": {},
-  "documentSuccessfullyUpdated": "Document succesvol bijgewerkt.",
-  "@documentSuccessfullyUpdated": {},
-  "fileName": "Bestandsnaam",
-  "@fileName": {},
-  "synchronizeTitleAndFilename": "Titel en bestandsnaam synchroniseren",
-  "@synchronizeTitleAndFilename": {},
-  "reload": "Herladen",
-  "@reload": {},
-  "documentSuccessfullyUploadedProcessing": "Document met succes geüpload, verwerken...",
-  "@documentSuccessfullyUploadedProcessing": {},
-  "deleteLabelWarningText": "Dit label bevat verwijzingen naar andere documenten. Door dit label te verwijderen, worden alle referenties verwijderd. Doorgaan?",
-  "@deleteLabelWarningText": {},
-  "couldNotAcknowledgeTasks": "Kon taken niet erkennen.",
-  "@couldNotAcknowledgeTasks": {},
-  "authenticationFailedPleaseTryAgain": "Authenticatie is mislukt. Probeer het opnieuw.",
-  "@authenticationFailedPleaseTryAgain": {},
-  "anErrorOccurredWhileTryingToAutocompleteYourQuery": "Er is een fout opgetreden tijdens het automatisch voltooien van de zoekopdracht.",
-  "@anErrorOccurredWhileTryingToAutocompleteYourQuery": {},
-  "biometricAuthenticationFailed": "Biometrische authenticatie is mislukt.",
-  "@biometricAuthenticationFailed": {},
-  "biometricAuthenticationNotSupported": "Biometrische authenticatie wordt op dit apparaat niet ondersteund.",
-  "@biometricAuthenticationNotSupported": {},
-  "couldNotBulkEditDocuments": "Kon bulkbestanden niet bewerken.",
-  "@couldNotBulkEditDocuments": {},
-  "couldNotCreateCorrespondent": "Kon correspondent niet aanmaken, probeer het opnieuw.",
-  "@couldNotCreateCorrespondent": {},
-  "couldNotLoadCorrespondents": "Kon correspondenten niet laden.",
-  "@couldNotLoadCorrespondents": {},
-  "couldNotCreateSavedView": "Kon opgeslagen weergave niet aanmaken, probeer het opnieuw.",
-  "@couldNotCreateSavedView": {},
-  "couldNotDeleteSavedView": "Kon opgeslagen weergave niet verwijderen, probeer het opnieuw",
-  "@couldNotDeleteSavedView": {},
-  "youAreCurrentlyOffline": "Je bent momenteel offline. Zorg ervoor dat je verbonden bent met het internet.",
-  "@youAreCurrentlyOffline": {},
-  "couldNotAssignArchiveSerialNumber": "Kon archief serienummer niet toewijzen.",
-  "@couldNotAssignArchiveSerialNumber": {},
-  "couldNotDeleteDocument": "Kon document niet verwijderen. Probeer het opnieuw.",
-  "@couldNotDeleteDocument": {},
-  "couldNotLoadDocuments": "Kon documenten niet laden, probeer het opnieuw.",
-  "@couldNotLoadDocuments": {},
-  "couldNotLoadDocumentPreview": "Kon documentvoorbeeld niet laden.",
-  "@couldNotLoadDocumentPreview": {},
-  "couldNotCreateDocument": "Kon document niet aanmaken. Probeer het opnieuw.",
-  "@couldNotCreateDocument": {},
-  "couldNotLoadDocumentTypes": "Kon documenttypes niet laden, probeer het opnieuw.",
-  "@couldNotLoadDocumentTypes": {},
-  "couldNotUpdateDocument": "Kon document niet bijwerken. Probeer het opnieuw.",
-  "@couldNotUpdateDocument": {},
-  "couldNotUploadDocument": "Kon document niet uploaden. Probeer het opnieuw.",
-  "@couldNotUploadDocument": {},
-  "invalidCertificateOrMissingPassphrase": "Ongeldig certificaat of ontbrekend wachtwoord, probeer het opnieuw",
-  "@invalidCertificateOrMissingPassphrase": {},
-  "couldNotLoadSavedViews": "Kon opgeslagen weergaven niet laden.",
-  "@couldNotLoadSavedViews": {},
-  "aClientCertificateWasExpectedButNotSent": "Een clientcertificaat werd verwacht maar niet verzonden. Geef een geldig clientcertificaat op.",
-  "@aClientCertificateWasExpectedButNotSent": {},
-  "userIsNotAuthenticated": "Gebruiker is niet geauthenticeerd.",
-  "@userIsNotAuthenticated": {},
-  "requestTimedOut": "Er is een time-out opgetreden op de server.",
-  "@requestTimedOut": {},
-  "anErrorOccurredRemovingTheScans": "Er is een fout opgetreden tijdens het verwijderen van de scans.",
-  "@anErrorOccurredRemovingTheScans": {},
-  "couldNotReachYourPaperlessServer": "Kon uw Paperless server niet bereiken, is deze wel actief?",
-  "@couldNotReachYourPaperlessServer": {},
-  "couldNotLoadSimilarDocuments": "Kon vergelijkbare documenten niet laden.",
-  "@couldNotLoadSimilarDocuments": {},
-  "couldNotCreateStoragePath": "Kon opslagpad niet aanmaken, probeer het opnieuw.",
-  "@couldNotCreateStoragePath": {},
-  "couldNotLoadStoragePaths": "Kon opslagpad niet laden.",
-  "@couldNotLoadStoragePaths": {},
-  "couldNotLoadSuggestions": "Suggesties kunnen niet worden geladen.",
-  "@couldNotLoadSuggestions": {},
-  "couldNotCreateTag": "Kon label niet aanmaken, probeer het opnieuw.",
-  "@couldNotCreateTag": {},
-  "couldNotLoadTags": "Kon labels niet laden.",
-  "@couldNotLoadTags": {},
-  "anUnknownErrorOccurred": "Er is een onbekende fout opgetreden.",
-  "@anUnknownErrorOccurred": {},
-  "fileFormatNotSupported": "Dit bestandstype wordt niet ondersteund.",
-  "@fileFormatNotSupported": {},
-  "report": "RAPPORTEER",
-  "@report": {},
-  "absolute": "Absoluut",
-  "@absolute": {},
-  "hintYouCanAlsoSpecifyRelativeValues": "Tip: afgezien van concrete datums kan je ook een periode opgeven ten opzichte van de huidige datum.",
-  "@hintYouCanAlsoSpecifyRelativeValues": {
-    "description": "Displayed in the extended date range picker"
+  "create": "Aanmaken",
+  "@create": {},
+  "createdAt": "Aangemaakt op",
+  "@createdAt": {},
+  "createFromCurrentFilter": "Aanmaken vanuit huidige filter",
+  "@createFromCurrentFilter": {
+    "description": "Tooltip of the \"New saved view\" button"
   },
-  "amount": "Aantal",
-  "@amount": {},
-  "relative": "Relatief",
-  "@relative": {},
-  "last": "Laatste",
-  "@last": {},
-  "timeUnit": "Tijdseenheid",
-  "@timeUnit": {},
-  "selectDateRange": "Selecteer periode",
-  "@selectDateRange": {},
-  "after": "Na",
-  "@after": {},
-  "before": "Voor",
-  "@before": {},
+  "createsASavedViewBasedOnTheCurrentFilterCriteria": "Maakt een nieuwe weergave aan op basis van de huidige filtercriteria.",
+  "@createsASavedViewBasedOnTheCurrentFilterCriteria": {},
+  "createViewsToQuicklyFilterYourDocuments": "Weergave maken om uw documenten snel te filteren.",
+  "@createViewsToQuicklyFilterYourDocuments": {},
+  "dark": "Donker",
+  "@dark": {},
+  "darkTheme": "Donker Thema",
+  "@darkTheme": {},
+  "dateOutOfRange": "Datum moet tussen {firstDate} en {lastDate} liggen.",
+  "@dateOutOfRange": {
+    "description": "Error message shown when the user tries to select a date outside of the allowed range.",
+    "placeholders": {
+      "firstDate": {
+        "type": "DateTime",
+        "format": "yMd"
+      },
+      "lastDate": {
+        "type": "DateTime",
+        "format": "yMd"
+      }
+    }
+  },
   "days": "{count, plural, one{dag} other{dagen}}",
   "@days": {
     "placeholders": {
       "count": {}
     }
   },
+  "defaultDownloadFileType": "Standaard bestandstype bij downloaden",
+  "@defaultDownloadFileType": {
+    "description": "Label indicating the default filetype to download (one of archived, original and always ask)"
+  },
+  "defaultShareFileType": "Standaard bestandstype bij delen",
+  "@defaultShareFileType": {
+    "description": "Label indicating the default filetype to share (one of archived, original and always ask)"
+  },
+  "delete": "Verwijderen",
+  "@delete": {},
+  "deleteAllScans": "Alle scans verwijderen",
+  "@deleteAllScans": {},
+  "deleteDocument": "Document verwijderen",
+  "@deleteDocument": {
+    "description": "Used as an action label on each inbox item"
+  },
+  "deleteDocumentTooltip": "Verwijderen",
+  "@deleteDocumentTooltip": {
+    "description": "Tooltip shown for the delete button on details page"
+  },
+  "deleteLabelWarningText": "Dit label bevat verwijzingen naar andere documenten. Door dit label te verwijderen, worden alle referenties verwijderd. Doorgaan?",
+  "@deleteLabelWarningText": {},
+  "deleteView": "Weergave {name} verwijderen?",
+  "@deleteView": {},
+  "descending": "Aflopend",
+  "@descending": {},
+  "detailed": "Gedetailleerd",
+  "@detailed": {},
+  "developedBy": "Ontwikkeld door {name}.",
+  "@developedBy": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "disableMatching": "Documenten niet automatisch labelen",
+  "@disableMatching": {
+    "description": "One of the options for automatic tagging of documents"
+  },
+  "discard": "Weggooien",
+  "discardChanges": "Wijzigingen annuleren?",
+  "@discardChanges": {
+    "description": "Title of the alert dialog shown when a user tries to close a view with unsaved changes."
+  },
+  "discardChangesWarning": "Je hebt niet-opgeslagen wijzigingen. Als je doorgaat, gaan alle wijzigingen verloren. Wil je deze wijzigingen weggooien?",
+  "@discardChangesWarning": {
+    "description": "Warning message shown when the user tries to close a route without saving the changes."
+  },
+  "discardFile": "Bestand weggooien?",
+  "disconnect": "Afmelden",
+  "@disconnect": {
+    "description": "Logout button label"
+  },
+  "documentContainsAllOfTheseWords": "Het document bevat al deze woorden",
+  "@documentContainsAllOfTheseWords": {},
+  "documentContainsAnyOfTheseWords": "Document bevat een van deze woorden",
+  "@documentContainsAnyOfTheseWords": {},
+  "documentContainsAWordSimilarToThisWord": "Document bevat een woord dat lijkt op dit woord",
+  "@documentContainsAWordSimilarToThisWord": {},
+  "documentContainsThisString": "Document bevat deze tekst",
+  "@documentContainsThisString": {},
+  "documentMatchesThisRegularExpression": "Document komt overeen met deze reguliere expressie",
+  "@documentMatchesThisRegularExpression": {},
+  "documents": "Documenten",
+  "@documents": {},
+  "documentsAssigned": "{count, plural, zero{Geen documenten} one{1 document} other{{count} documenten}}",
+  "@documentsAssigned": {
+    "description": "Text shown with a correspondent, document type etc. to indicate the number of documents this filter will maximally yield."
+  },
+  "documentsInInbox": "Documenten in inbox",
+  "documentsSuccessfullyDeleted": "Document succesvol verwijderd.",
+  "@documentsSuccessfullyDeleted": {},
+  "documentSuccessfullyDeleted": "Document succesvol verwijderd.",
+  "@documentSuccessfullyDeleted": {},
+  "documentSuccessfullyDownloaded": "Document succesvol gedownload.",
+  "@documentSuccessfullyDownloaded": {},
+  "documentSuccessfullyUpdated": "Document succesvol bijgewerkt.",
+  "@documentSuccessfullyUpdated": {},
+  "documentSuccessfullyUploadedProcessing": "Document met succes geüpload, verwerken...",
+  "@documentSuccessfullyUploadedProcessing": {},
+  "documentType": "Documenttype",
+  "@documentType": {},
+  "documentTypes": "Documenttypes",
+  "@documentTypes": {},
+  "donate": "Doneren",
+  "@donate": {
+    "description": "Label of the in-app donate button"
+  },
+  "donateCoffee": "Koop een koffie voor me",
+  "@donateCoffee": {
+    "description": "Label displayed in the app drawer"
+  },
+  "donationDialogContent": "Bedankt voor het overwegen om deze app te ondersteunen! Door zowel het betalingsbeleid van Google als dat van Apple kunnen er geen links naar donaties in de app worden weergegeven. In deze context lijkt zelfs het linken naar het project niet toegestaan. Bekijk daarom misschien de 'donaties' sectie in de project README. Jouw steun wordt zeer gewaardeerd en houdt de ontwikkeling van deze app in stand. Bedankt!",
+  "@donationDialogContent": {
+    "description": "Text displayed in the donation dialog"
+  },
+  "done": "Gereed",
+  "@done": {},
+  "downloadDocumentTooltip": "Downloaden",
+  "@downloadDocumentTooltip": {
+    "description": "Tooltip shown for the download button on details page"
+  },
+  "doYouReallyWantToDeleteThisView": "Weet je zeker dat je deze weergave wilt verwijderen?",
+  "@doYouReallyWantToDeleteThisView": {},
+  "dynamicColorScheme": "Dynamisch",
+  "@dynamicColorScheme": {},
+  "edit": "Bewerken",
+  "@edit": {},
+  "editDocument": "Document bewerken",
+  "@editDocument": {},
+  "editDocumentTooltip": "Bewerken",
+  "@editDocumentTooltip": {
+    "description": "Tooltip shown for the edit button on details page"
+  },
+  "editView": "Weergave bewerken",
+  "@editView": {
+    "description": "Title of the edit saved view page"
+  },
+  "errorRetrievingServerVersion": "Er is een fout opgetreden bij het ophalen van de serverversie.",
+  "@errorRetrievingServerVersion": {
+    "description": "Message shown at the bottom of the settings page when the remote server version could not be resolved."
+  },
+  "exact": "Exact",
+  "@exact": {},
+  "export": "Exporteren",
+  "@export": {
+    "description": "Label for button that exports scanned images to pdf (before upload)"
+  },
+  "exportScansToPdf": "Scans naar PDF exporteren",
+  "@exportScansToPdf": {
+    "description": "title of the alert dialog when exporting scans to pdf"
+  },
+  "extended": "Uitgebreid",
+  "@extended": {},
+  "fetchingUserInformation": "Gebruikersinformatie wordt opgehaald...",
+  "@fetchingUserInformation": {
+    "description": "Message shown when the app loads user data from the server"
+  },
+  "fileFormatNotSupported": "Dit bestandstype wordt niet ondersteund.",
+  "@fileFormatNotSupported": {},
+  "fileName": "Bestandsnaam",
+  "@fileName": {},
+  "filterDocuments": "Filter Documenten",
+  "@filterDocuments": {
+    "description": "Title of the document filter"
+  },
+  "filterTags": "Labels filteren...",
+  "@filterTags": {},
+  "findTheSourceCodeOn": "Vind de broncode op",
+  "@findTheSourceCodeOn": {
+    "description": "Text before link to Paperless Mobile GitHub"
+  },
+  "freeBytes": "{byteString} wissen",
+  "@freeBytes": {
+    "description": "Text shown for clear storage settings"
+  },
+  "freedDiskSpace": "{bytes} succesvol vrijgegeven.",
+  "@freedDiskSpace": {
+    "description": "Message shown after clearing storage"
+  },
+  "fuzzy": "Fuzzy",
+  "@fuzzy": {},
+  "gotIt": "Begrepen!",
+  "@gotIt": {},
+  "goToLogin": "Ga naar login",
+  "@goToLogin": {
+    "description": "Label of the button shown on the login page to skip logging in to existing accounts and navigate user to login page"
+  },
+  "grid": "Raster",
+  "@grid": {},
+  "hidePdf": "PDF verbergen",
+  "@hidePdf": {
+    "description": "Tooltip shown on the \"show pdf\" icon button on the document edit page"
+  },
+  "hintYouCanAlsoSpecifyRelativeValues": "Tip: afgezien van concrete datums kan je ook een periode opgeven ten opzichte van de huidige datum.",
+  "@hintYouCanAlsoSpecifyRelativeValues": {
+    "description": "Displayed in the extended date range picker"
+  },
+  "home": "Startpagina",
+  "@home": {
+    "description": "Label of the \"Home\" route"
+  },
+  "hostCouldNotBeResolved": "Host kan niet worden opgelost. Controleer het serveradres en uw internetverbinding. ",
+  "@hostCouldNotBeResolved": {},
+  "inbox": "Inbox",
+  "@inbox": {},
+  "inboxTag": "Inbox-Label",
+  "@inboxTag": {},
+  "incorrectOrMissingCertificatePassphrase": "Onjuist of ontbrekend wachtwoord van het certificaat.",
+  "@incorrectOrMissingCertificatePassphrase": {},
+  "invalidAddress": "Ongeldig adres.",
+  "@invalidAddress": {},
+  "invalidCertificateFormat": "Ongeldig certificaat formaat, alleen .pfx is toegestaan",
+  "@invalidCertificateFormat": {},
+  "invalidCertificateOrMissingPassphrase": "Ongeldig certificaat of ontbrekend wachtwoord, probeer het opnieuw",
+  "@invalidCertificateOrMissingPassphrase": {},
+  "invalidFilenameCharacter": "Ongeldige karakter(s) gevonden in bestandsnaam: {characters}",
+  "@invalidFilenameCharacter": {
+    "description": "For validating filename in export dialogue"
+  },
+  "labels": "Labels",
+  "@labels": {},
+  "language": "Taal",
+  "@language": {},
+  "languageAndVisualAppearance": "Taal en visuele weergave",
+  "@languageAndVisualAppearance": {},
+  "last": "Laatste",
+  "@last": {},
+  "last3Months": "Afgelopen 3 maanden",
+  "@last3Months": {},
+  "last7Days": "Afgelopen 7 dagen",
+  "@last7Days": {},
+  "lastMonth": "Afgelopen maand",
+  "@lastMonth": {},
   "lastNDays": "{count, plural, one{Gisteren} other{Laatste {count} dagen}}",
   "@lastNDays": {
     "placeholders": {
@@ -378,306 +608,129 @@
       "count": {}
     }
   },
+  "lastYear": "Afgelopen jaar",
+  "@lastYear": {},
+  "learnMatchingAutomatically": "Leer automatisch matchen",
+  "@learnMatchingAutomatically": {},
+  "light": "Licht",
+  "@light": {},
+  "lightTheme": "Licht Thema",
+  "@lightTheme": {},
+  "linkedDocuments": "Gekoppelde documenten",
+  "@linkedDocuments": {},
+  "list": "Lijst",
+  "@list": {},
+  "loadFullContent": "Volledige inhoud laden",
+  "@loadFullContent": {},
+  "loadInboxItemSuggestions": "Load suggestions",
+  "loadingLogsFrom": "Logs van {date} ophalen...",
+  "logfileBottomReached": "Je hebt de onderkant van dit logbestand bereikt.",
+  "loggedInAs": "Ingelogd als {name}",
+  "@loggedInAs": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "loggingOut": "Afmelden...",
+  "loginPageReachabilityMissingClientCertificateText": "Een clientcertificaat werd verwacht maar niet verzonden. Geef een geldig certificaat op.",
+  "@loginPageReachabilityMissingClientCertificateText": {},
+  "loginPageSignInTitle": "Aanmelden",
+  "@loginPageSignInTitle": {},
+  "loginRequiredPermissionsHint": "Het gebruik van Paperless Mobile vereist een minimum aan gebruikersrechten sinds paperless-ngx 1.14.0 en hoger. Zorg er daarom voor dat de gebruiker die aangemeld is toestemming heeft om andere gebruikers te bekijken (Gebruiker → Weergave) en de instellingen (UIInstellingen → Weergave). Als je deze machtigingen niet hebt, neem dan contact op met een beheerder van de paperless-ngx server.",
+  "@loginRequiredPermissionsHint": {
+    "description": "Hint shown on the login page informing the user of the required permissions to use the app."
+  },
+  "logInToExistingAccount": "Inloggen op een bestaand account",
+  "@logInToExistingAccount": {
+    "description": "Title shown on login page if at least one user is already known to the app."
+  },
+  "logout": "Uitloggen",
+  "@logout": {
+    "description": "Generic Logout label"
+  },
+  "managePermissions": "Machtigingen beheren",
+  "@managePermissions": {
+    "description": "Button which leads user to manage permissions page"
+  },
+  "mangeFilesAndStorageSpace": "Bestanden en opslagruimte beheren",
+  "@mangeFilesAndStorageSpace": {},
+  "markAllAsSeen": "Alles markeren als gezien?",
+  "@markAllAsSeen": {},
+  "markAsSeen": "Markeren als gezien",
+  "@markAsSeen": {},
+  "match": "Match",
+  "@match": {},
+  "matchingAlgorithm": "Matchend algoritme",
+  "@matchingAlgorithm": {},
+  "mediaFilename": "Media bestandsnaam",
+  "@mediaFilename": {},
+  "metaData": "Metadata",
+  "@metaData": {
+    "description": "Label shown in the tabbar on details page"
+  },
+  "mfaCodeInvalidLengthValidationMessage": "MFA code must be 6 digits.",
+  "mfaCodeRequiredValidationMessage": "Please enter the MFA code.",
+  "mfaFormFieldHint": "Your account is protected by two-factor authentication. Please enter an authentication code:",
+  "misc": "Overige",
+  "missingPermissions": "Je hebt niet de benodigde rechten om deze actie uit te voeren.",
+  "@missingPermissions": {
+    "description": "Message shown in a snackbar when a user without the reequired permissions performs an action."
+  },
+  "modifiedAt": "Gewijzigd op",
+  "@modifiedAt": {},
   "months": "{count, plural, zero{} one{maand} other{maanden}}",
   "@months": {
     "placeholders": {
       "count": {}
     }
   },
-  "weeks": "{count, plural, zero{} one{week} other{weken}}",
-  "@weeks": {
-    "placeholders": {
-      "count": {}
-    }
-  },
-  "years": "{count, plural, zero{} one{jaar} other{jaren}}",
-  "@years": {
-    "placeholders": {
-      "count": {}
-    }
-  },
-  "gotIt": "Begrepen!",
-  "@gotIt": {},
-  "cancel": "Annuleer",
-  "@cancel": {},
-  "close": "Sluiten",
-  "@close": {},
-  "create": "Aanmaken",
-  "@create": {},
-  "delete": "Verwijderen",
-  "@delete": {},
-  "edit": "Bewerken",
-  "@edit": {},
-  "ok": "OK",
-  "@ok": {},
-  "save": "Opslaan",
-  "@save": {},
-  "select": "Selecteer",
-  "@select": {},
-  "saveChanges": "Wijzigingen opslaan",
-  "@saveChanges": {},
-  "upload": "Uploaden",
-  "@upload": {},
-  "youreOffline": "Je bent offline.",
-  "@youreOffline": {},
-  "deleteDocument": "Document verwijderen",
-  "@deleteDocument": {
-    "description": "Used as an action label on each inbox item"
-  },
-  "removeDocumentFromInbox": "Document verwijderd uit inbox.",
-  "@removeDocumentFromInbox": {},
-  "areYouSureYouWantToMarkAllDocumentsAsSeen": "Weet je zeker dat je alle documenten als gezien wilt markeren? Dit voert een bulkbewerking uit en verwijdert alle inbox labels uit de documenten. Deze actie is niet omkeerbaar! Weet je zeker dat je door wilt gaan?",
-  "@areYouSureYouWantToMarkAllDocumentsAsSeen": {},
-  "markAllAsSeen": "Alles markeren als gezien?",
-  "@markAllAsSeen": {},
-  "allSeen": "Alle gezien",
-  "@allSeen": {},
-  "markAsSeen": "Markeren als gezien",
-  "@markAsSeen": {},
-  "refresh": "Vernieuw",
-  "@refresh": {},
-  "youDoNotHaveUnseenDocuments": "Je hebt geen ongelezen documenten.",
-  "@youDoNotHaveUnseenDocuments": {},
-  "quickAction": "Snelle actie",
-  "@quickAction": {},
-  "suggestionSuccessfullyApplied": "Suggestie succesvol toegepast.",
-  "@suggestionSuccessfullyApplied": {},
-  "today": "Vandaag",
-  "@today": {},
-  "undo": "Ongedaan maken",
-  "@undo": {},
-  "nUnseen": "{count} ongezien",
-  "@nUnseen": {
-    "placeholders": {
-      "count": {}
-    }
-  },
-  "swipeLeftToMarkADocumentAsSeen": "Hint: Veeg naar links om een document als gezien te markeren en alle inbox labels van het document te verwijderen.",
-  "@swipeLeftToMarkADocumentAsSeen": {},
-  "yesterday": "Gisteren",
-  "@yesterday": {},
-  "anyAssigned": "Alle toegewezen",
-  "@anyAssigned": {},
-  "noItemsFound": "Geen items gevonden!",
-  "@noItemsFound": {},
-  "caseIrrelevant": "Zaak irrelevant",
-  "@caseIrrelevant": {},
-  "matchingAlgorithm": "Matchend algoritme",
-  "@matchingAlgorithm": {},
-  "match": "Match",
-  "@match": {},
   "name": "Naam",
   "@name": {},
-  "notAssigned": "Niet toegewezen",
-  "@notAssigned": {},
-  "addNewCorrespondent": "Nieuwe Correspondent",
-  "@addNewCorrespondent": {},
-  "noCorrespondentsSetUp": "Het lijkt erop dat je geen correspondenten hebt ingesteld.",
-  "@noCorrespondentsSetUp": {},
-  "correspondents": "Correspondenten",
-  "@correspondents": {},
-  "addNewDocumentType": "Nieuw documenttype toevoegen",
-  "@addNewDocumentType": {},
-  "noDocumentTypesSetUp": "Het lijkt erop dat je geen documenttypes hebt ingesteld.",
-  "@noDocumentTypesSetUp": {},
-  "documentTypes": "Documenttypes",
-  "@documentTypes": {},
-  "addNewStoragePath": "Nieuw opslagpad toevoegen",
-  "@addNewStoragePath": {},
-  "noStoragePathsSetUp": "Het lijkt erop dat u geen opslagpaden heeft ingesteld.",
-  "@noStoragePathsSetUp": {},
-  "storagePaths": "Opslag paden",
-  "@storagePaths": {},
-  "addNewTag": "Voeg een nieuw label toe",
-  "@addNewTag": {},
-  "noTagsSetUp": "Het lijkt erop dat je geen labels hebt ingesteld.",
-  "@noTagsSetUp": {},
-  "linkedDocuments": "Gekoppelde documenten",
-  "@linkedDocuments": {},
-  "advancedSettings": "Geavanceerde instellingen",
-  "@advancedSettings": {},
-  "passphrase": "Wachtwoordzin",
-  "@passphrase": {},
-  "configureMutualTLSAuthentication": "Wederzijdse TLS-authenticatie configureren",
-  "@configureMutualTLSAuthentication": {},
-  "invalidCertificateFormat": "Ongeldig certificaat formaat, alleen .pfx is toegestaan",
-  "@invalidCertificateFormat": {},
-  "clientcertificate": "Client Certificaat",
-  "@clientcertificate": {},
-  "selectFile": "Bestand selecteren...",
-  "@selectFile": {},
-  "continueLabel": "Doorgaan",
-  "@continueLabel": {},
-  "incorrectOrMissingCertificatePassphrase": "Onjuist of ontbrekend wachtwoord van het certificaat.",
-  "@incorrectOrMissingCertificatePassphrase": {},
-  "connect": "Verbinden",
-  "@connect": {},
-  "password": "Wachtwoord",
-  "@password": {},
-  "passwordMustNotBeEmpty": "Wachtwoord mag niet leeg zijn.",
-  "@passwordMustNotBeEmpty": {},
-  "connectionTimedOut": "Time-out van verbinding.",
-  "@connectionTimedOut": {},
-  "loginPageReachabilityMissingClientCertificateText": "Een clientcertificaat werd verwacht maar niet verzonden. Geef een geldig certificaat op.",
-  "@loginPageReachabilityMissingClientCertificateText": {},
-  "couldNotEstablishConnectionToTheServer": "Kon geen verbinding maken met de server.",
-  "@couldNotEstablishConnectionToTheServer": {},
-  "connectionSuccessfulylEstablished": "Verbinding gemaakt.",
-  "@connectionSuccessfulylEstablished": {},
-  "hostCouldNotBeResolved": "Host kan niet worden opgelost. Controleer het serveradres en uw internetverbinding. ",
-  "@hostCouldNotBeResolved": {},
-  "serverAddress": "Serveradres",
-  "@serverAddress": {},
-  "invalidAddress": "Ongeldig adres.",
-  "@invalidAddress": {},
-  "serverAddressMustIncludeAScheme": "Serveradres moet een schema bevatten.",
-  "@serverAddressMustIncludeAScheme": {},
-  "serverAddressMustNotBeEmpty": "Serveradres mag niet leeg zijn.",
-  "@serverAddressMustNotBeEmpty": {},
-  "signIn": "Aanmelden",
-  "@signIn": {},
-  "loginPageSignInTitle": "Aanmelden",
-  "@loginPageSignInTitle": {},
-  "signInToServer": "Aanmelden bij {serverAddress}",
-  "@signInToServer": {
-    "placeholders": {
-      "serverAddress": {}
-    }
-  },
-  "connectToPaperless": "Verbinding maken met Paperless",
-  "@connectToPaperless": {},
-  "username": "Gebruikersnaam",
-  "@username": {},
-  "usernameMustNotBeEmpty": "Gebruikersnaam mag niet leeg zijn.",
-  "@usernameMustNotBeEmpty": {},
-  "documentContainsAllOfTheseWords": "Het document bevat al deze woorden",
-  "@documentContainsAllOfTheseWords": {},
-  "all": "Alle",
-  "@all": {},
-  "documentContainsAnyOfTheseWords": "Document bevat een van deze woorden",
-  "@documentContainsAnyOfTheseWords": {},
-  "any": "Een van",
-  "@any": {},
-  "learnMatchingAutomatically": "Leer automatisch matchen",
-  "@learnMatchingAutomatically": {},
-  "auto": "Automatisch",
-  "@auto": {},
-  "documentContainsThisString": "Document bevat deze tekst",
-  "@documentContainsThisString": {},
-  "exact": "Exact",
-  "@exact": {},
-  "documentContainsAWordSimilarToThisWord": "Document bevat een woord dat lijkt op dit woord",
-  "@documentContainsAWordSimilarToThisWord": {},
-  "fuzzy": "Fuzzy",
-  "@fuzzy": {},
-  "documentMatchesThisRegularExpression": "Document komt overeen met deze reguliere expressie",
-  "@documentMatchesThisRegularExpression": {},
-  "regularExpression": "Reguliere expressie",
-  "@regularExpression": {},
-  "anInternetConnectionCouldNotBeEstablished": "Er kon geen internetverbinding tot stand komen.",
-  "@anInternetConnectionCouldNotBeEstablished": {},
-  "done": "Gereed",
-  "@done": {},
-  "next": "Volgende",
-  "@next": {},
-  "couldNotAccessReceivedFile": "Het ontvangen bestand kon niet worden geopend. Probeer de app te openen voordat je het deelt.",
-  "@couldNotAccessReceivedFile": {},
+  "newDocumentAvailable": "Nieuw document beschikbaar!",
+  "@newDocumentAvailable": {},
+  "newerVersionAvailable": "Nieuwere versie beschikbaar:",
+  "newNote": "Nieuwe notitie",
   "newView": "Nieuwe weergave",
   "@newView": {},
-  "createsASavedViewBasedOnTheCurrentFilterCriteria": "Maakt een nieuwe weergave aan op basis van de huidige filtercriteria.",
-  "@createsASavedViewBasedOnTheCurrentFilterCriteria": {},
-  "createViewsToQuicklyFilterYourDocuments": "Weergave maken om uw documenten snel te filteren.",
-  "@createViewsToQuicklyFilterYourDocuments": {},
+  "next": "Volgende",
+  "@next": {},
   "nFiltersSet": "{count, plural, one{{count} filter ingesteld} other{{count} filters ingesteld}}",
   "@nFiltersSet": {
     "placeholders": {
       "count": {}
     }
   },
-  "showInSidebar": "In zijbalk weergeven",
-  "@showInSidebar": {},
-  "showOnDashboard": "Op dashboard weergeven",
-  "@showOnDashboard": {},
-  "views": "Weergaven",
-  "@views": {},
-  "clearAll": "Alles wissen",
-  "@clearAll": {},
-  "scan": "Scannen",
-  "@scan": {},
-  "previewScan": "Voorbeeldweergave",
-  "@previewScan": {},
-  "scrollToTop": "Naar boven scrollen",
-  "@scrollToTop": {},
-  "paperlessServerVersion": "Paperless server-versie",
-  "@paperlessServerVersion": {},
-  "darkTheme": "Donker Thema",
-  "@darkTheme": {},
-  "lightTheme": "Licht Thema",
-  "@lightTheme": {},
-  "systemTheme": "Gebruik systeemthema",
-  "@systemTheme": {},
-  "appearance": "Uiterlijk",
-  "@appearance": {},
-  "languageAndVisualAppearance": "Taal en visuele weergave",
-  "@languageAndVisualAppearance": {},
-  "applicationSettings": "Applicatie",
-  "@applicationSettings": {},
-  "colorSchemeHint": "Kies tussen een klassiek kleurenschema dat geïnspireerd is op een traditioneel Paperless groen of gebruik het dynamische kleurschema gebaseerd op uw systeemthema.",
-  "@colorSchemeHint": {},
-  "colorSchemeNotSupportedWarning": "Dynamisch thema wordt alleen ondersteund voor apparaten met Android 12 en hoger. Het selecteren van de 'Dynamisch' optie heeft mogelijk geen effect afhankelijk van uw besturingssysteem.",
-  "@colorSchemeNotSupportedWarning": {},
-  "colors": "Kleuren",
-  "@colors": {},
-  "language": "Taal",
-  "@language": {},
-  "security": "Beveiliging",
-  "@security": {},
-  "mangeFilesAndStorageSpace": "Bestanden en opslagruimte beheren",
-  "@mangeFilesAndStorageSpace": {},
-  "storage": "Opslag",
-  "@storage": {},
-  "dark": "Donker",
-  "@dark": {},
-  "light": "Licht",
-  "@light": {},
-  "system": "Systeem",
-  "@system": {},
-  "ascending": "Oplopend",
-  "@ascending": {},
-  "descending": "Aflopend",
-  "@descending": {},
-  "storagePathDay": "dag",
-  "@storagePathDay": {},
-  "storagePathMonth": "maand",
-  "@storagePathMonth": {},
-  "storagePathYear": "jaar",
-  "@storagePathYear": {},
-  "color": "Kleur",
-  "@color": {},
-  "filterTags": "Labels filteren...",
-  "@filterTags": {},
-  "inboxTag": "Inbox-Label",
-  "@inboxTag": {},
-  "uploadInferValuesHint": "Als je waarden voor deze velden opgeeft, zal je Paperless instantie niet automatisch een waarde afleiden. Als je wilt dat deze waarden automatisch door je server worden ingevuld, laat dan de velden leeg.",
-  "@uploadInferValuesHint": {},
-  "useTheConfiguredBiometricFactorToAuthenticate": "Gebruik de geconfigureerde biometrische factor om je documenten te authenticeren en te ontgrendelen.",
-  "@useTheConfiguredBiometricFactorToAuthenticate": {},
-  "verifyYourIdentity": "Verifieer je identiteit",
-  "@verifyYourIdentity": {},
-  "verifyIdentity": "Verifieer je identiteit",
-  "@verifyIdentity": {},
-  "detailed": "Gedetailleerd",
-  "@detailed": {},
-  "grid": "Raster",
-  "@grid": {},
-  "list": "Lijst",
-  "@list": {},
-  "remove": "Verwijder",
-  "removeQueryFromSearchHistory": "Uit de zoekgeschiedenis verwijderen?",
-  "dynamicColorScheme": "Dynamisch",
-  "@dynamicColorScheme": {},
-  "classicColorScheme": "Klassiek",
-  "@classicColorScheme": {},
+  "noAppToDisplayPDFFilesFound": "Geen app gevonden om PDF-bestanden te openen!",
+  "@noAppToDisplayPDFFilesFound": {},
+  "noCorrespondentsSetUp": "Het lijkt erop dat je geen correspondenten hebt ingesteld.",
+  "@noCorrespondentsSetUp": {},
+  "noDocumentsFound": "Geen documenten gevonden.",
+  "@noDocumentsFound": {
+    "description": "Message shown when no documents were found."
+  },
+  "noDocumentsScannedYet": "Nog geen documenten gescand.",
+  "@noDocumentsScannedYet": {},
+  "noDocumentTypesSetUp": "Het lijkt erop dat je geen documenttypes hebt ingesteld.",
+  "@noDocumentTypesSetUp": {},
+  "noItemsFound": "Geen items gevonden!",
+  "@noItemsFound": {},
+  "noLogsFoundOn": "Geen logs gevonden op {date}.",
+  "noMatchesFound": "Geen resultaten.",
+  "@noMatchesFound": {
+    "description": "Displayed when no documents were found in the document search."
+  },
+  "none": "Geen",
+  "@none": {
+    "description": "One of available enum values of matching algorithm for tags"
+  },
+  "noStoragePathsSetUp": "Het lijkt erop dat u geen opslagpaden heeft ingesteld.",
+  "@noStoragePathsSetUp": {},
+  "noTagsSetUp": "Het lijkt erop dat je geen labels hebt ingesteld.",
+  "@noTagsSetUp": {},
+  "notAssigned": "Niet toegewezen",
+  "@notAssigned": {},
+  "notes": "{count, plural, one{Notitie} other{Notities}}",
+  "notesMarkdownSyntaxSupportHint": "Paperless Mobile kan notities maken met basis-markdown syntax. Probeer het uit!",
   "notificationDownloadComplete": "Download voltooid",
   "@notificationDownloadComplete": {
     "description": "Notification title when a download has been completed."
@@ -686,367 +739,319 @@
   "@notificationDownloadingDocument": {
     "description": "Notification title shown when a document download is pending"
   },
-  "archiveSerialNumberUpdated": "Archief-serienummer bijgewerkt.",
-  "@archiveSerialNumberUpdated": {
-    "description": "Message shown when the ASN has been updated."
+  "nUnseen": "{count} ongezien",
+  "@nUnseen": {
+    "placeholders": {
+      "count": {}
+    }
   },
-  "donateCoffee": "Koop een koffie voor me",
-  "@donateCoffee": {
-    "description": "Label displayed in the app drawer"
+  "ok": "OK",
+  "@ok": {},
+  "oops": "Oei.",
+  "@oops": {},
+  "openInSystemViewer": "Openen in systeemviewer",
+  "@openInSystemViewer": {},
+  "or": "of",
+  "@or": {
+    "description": "Used on the scanner page between both main actions when no scans have been captured."
   },
-  "thisFieldIsRequired": "Dit veld is verplicht!",
-  "@thisFieldIsRequired": {
-    "description": "Message shown below the form field when a required field has not been filled out."
+  "orderBy": "Sorteren Op",
+  "@orderBy": {},
+  "original": "Bronbestand",
+  "@original": {
+    "description": "Option to chose when downloading a document"
   },
-  "confirm": "Bevestigen",
-  "confirmAction": "Bevestig actie",
-  "@confirmAction": {
-    "description": "Typically used as a title to confirm a previously selected action"
+  "originalFilename": "Original Filename",
+  "originalFileSize": "Originele bestandsgrootte",
+  "@originalFileSize": {},
+  "originalMD5Checksum": "Originele MD5-Checksum",
+  "@originalMD5Checksum": {},
+  "originalMIMEType": "Oorspronkelijk MIME-Type",
+  "@originalMIMEType": {},
+  "overview": "Overzicht",
+  "@overview": {
+    "description": "Label shown in the tabbar on details page"
   },
-  "areYouSureYouWantToContinue": "Weet je zeker dat je door wilt gaan?",
-  "bulkEditTagsAddMessage": "{count, plural, one{Deze actie voegt de labels {tags} toe aan het geselecteerde document.} other{Deze actie voegt de labels {tags} aan {count} geselecteerde documenten.}}",
-  "@bulkEditTagsAddMessage": {
-    "description": "Message of the confirmation dialog when bulk adding tags."
+  "paperlessServerVersion": "Paperless server-versie",
+  "@paperlessServerVersion": {},
+  "passphrase": "Wachtwoordzin",
+  "@passphrase": {},
+  "password": "Wachtwoord",
+  "@password": {},
+  "passwordMustNotBeEmpty": "Wachtwoord mag niet leeg zijn.",
+  "@passwordMustNotBeEmpty": {},
+  "permissions": "Machtigingen",
+  "persistingUserInformation": "Gebruikersinformatie wordt opgeslagen...",
+  "prepareDocument": "Document voorbereiden",
+  "@prepareDocument": {},
+  "preview": "Voorbeeld",
+  "@preview": {
+    "description": "Title of the document preview page"
   },
-  "bulkEditTagsRemoveMessage": "{count, plural, one{Deze actie verwijdert de labels {tags} van het geselecteerde document.} other{Deze actie verwijdert de labels {tags} van {count} geselecteerde documenten.}}",
-  "@bulkEditTagsRemoveMessage": {
-    "description": "Message of the confirmation dialog when bulk removing tags."
-  },
-  "bulkEditTagsModifyMessage": "{count, plural, one{Deze actie voegt de labels {addTags} toe en verwijdert de labels {removeTags} van het geselecteerde document.} other{Deze actie voegt de labels {addTags} toe en verwijdert de labels {removeTags} van {count} geselecteerde documenten.}}",
-  "@bulkEditTagsModifyMessage": {
-    "description": "Message of the confirmation dialog when both adding and removing tags."
-  },
-  "bulkEditCorrespondentAssignMessage": "{count, plural, one{Deze actie wijst de correspondent {correspondent} toe aan het geselecteerde document.} other{Deze actie wijst de correspondent {correspondent} toe aan {count} geselecteerde documenten.}}",
-  "bulkEditDocumentTypeAssignMessage": "{count, plural, one{Deze actie wijst het documenttype {docType} toe aan het geselecteerde document.} other{Deze actie wijst het documenttype {docType} toe aan {count} geselecteerde documenten.}}",
-  "bulkEditStoragePathAssignMessage": "{count, plural, one{Deze actie wijst het opslagpad {path} toe aan het geselecteerde document.} other{Deze actie wijst het opslagpad {path} toe aan {count} geselecteerde documenten.}}",
-  "bulkEditCorrespondentRemoveMessage": "{count, plural, one{Deze actie verwijdert de correspondent van het geselecteerde document.} other{Deze actie verwijdert de correspondent van {count} geselecteerde documenten.}}",
-  "bulkEditDocumentTypeRemoveMessage": "{count, plural, one{Deze actie verwijdert het documenttype van het geselecteerde document.} other{Deze actie verwijdert het documenttype van {count} geselecteerde documenten.}}",
-  "bulkEditStoragePathRemoveMessage": "{count, plural, one{Deze actie verwijdert het opslagpad van het geselecteerde document.} other{Deze actie verwijdert het opslagpad van {count} geselecteerde documenten.}}",
-  "anyTag": "Elke",
-  "@anyTag": {
-    "description": "Label shown when any tag should be filtered"
-  },
-  "allTags": "Alle",
-  "@allTags": {
-    "description": "Label shown when a document has to be assigned to all selected tags"
-  },
-  "switchingAccountsPleaseWait": "Van account wisselen. Een ogenblik geduld...",
-  "@switchingAccountsPleaseWait": {
-    "description": "Message shown while switching accounts is in progress."
-  },
-  "testConnection": "Verbinding testen",
-  "@testConnection": {
-    "description": "Button label shown on login page. Allows user to test whether the server is reachable or not."
-  },
-  "accounts": "Accounts",
-  "@accounts": {
-    "description": "Title of the account management dialog"
-  },
-  "addAccount": "Account toevoegen",
-  "@addAccount": {
-    "description": "Label of add account action"
-  },
-  "switchAccount": "Wisselen",
-  "@switchAccount": {
-    "description": "Label for switch account action"
-  },
-  "logout": "Uitloggen",
-  "@logout": {
-    "description": "Generic Logout label"
-  },
-  "switchAccountTitle": "Account wisselen",
-  "@switchAccountTitle": {
-    "description": "Title of the dialog shown after adding an account, asking the user whether to switch to the newly added account or not."
-  },
-  "switchToNewAccount": "Wil je overschakelen naar de nieuwe account? Je kan op elk moment terug wisselen.",
-  "@switchToNewAccount": {
-    "description": "Content of the dialog shown after adding an account, asking the user whether to switch to the newly added account or not."
-  },
-  "sourceCode": "Broncode",
-  "findTheSourceCodeOn": "Vind de broncode op",
-  "@findTheSourceCodeOn": {
-    "description": "Text before link to Paperless Mobile GitHub"
-  },
-  "rememberDecision": "Onthoud mijn beslissing",
-  "defaultDownloadFileType": "Standaard bestandstype bij downloaden",
-  "@defaultDownloadFileType": {
-    "description": "Label indicating the default filetype to download (one of archived, original and always ask)"
-  },
-  "defaultShareFileType": "Standaard bestandstype bij delen",
-  "@defaultShareFileType": {
-    "description": "Label indicating the default filetype to share (one of archived, original and always ask)"
-  },
-  "alwaysAsk": "Altijd vragen",
-  "@alwaysAsk": {
-    "description": "Option to choose when the app should always ask the user which filetype to use"
-  },
-  "disableMatching": "Documenten niet automatisch labelen",
-  "@disableMatching": {
-    "description": "One of the options for automatic tagging of documents"
-  },
-  "none": "Geen",
-  "@none": {
-    "description": "One of available enum values of matching algorithm for tags"
-  },
-  "logInToExistingAccount": "Inloggen op een bestaand account",
-  "@logInToExistingAccount": {
-    "description": "Title shown on login page if at least one user is already known to the app."
+  "previewScan": "Voorbeeldweergave",
+  "@previewScan": {},
+  "previewTooltip": "Voorbeeld",
+  "@previewTooltip": {
+    "description": "Tooltip shown for the preview button on details page"
   },
   "print": "Afdrukken",
   "@print": {
     "description": "Tooltip for print button"
   },
-  "managePermissions": "Machtigingen beheren",
-  "@managePermissions": {
-    "description": "Button which leads user to manage permissions page"
-  },
-  "errorRetrievingServerVersion": "Er is een fout opgetreden bij het ophalen van de serverversie.",
-  "@errorRetrievingServerVersion": {
-    "description": "Message shown at the bottom of the settings page when the remote server version could not be resolved."
-  },
+  "quickAction": "Snelle actie",
+  "@quickAction": {},
+  "refresh": "Vernieuw",
+  "@refresh": {},
+  "regularExpression": "Reguliere expressie",
+  "@regularExpression": {},
+  "relative": "Relatief",
+  "@relative": {},
+  "reload": "Herladen",
+  "@reload": {},
+  "rememberDecision": "Onthoud mijn beslissing",
+  "remove": "Verwijder",
+  "removeDocumentFromInbox": "Document verwijderd uit inbox.",
+  "@removeDocumentFromInbox": {},
+  "removeFromSearchHistory": "Uit de zoekgeschiedenis verwijderen?",
+  "@removeFromSearchHistory": {},
+  "removeQueryFromSearchHistory": "Uit de zoekgeschiedenis verwijderen?",
+  "report": "RAPPORTEER",
+  "@report": {},
+  "reportABug": "Rapporteer een fout",
+  "@reportABug": {},
+  "requestTimedOut": "Er is een time-out opgetreden op de server.",
+  "@requestTimedOut": {},
+  "reset": "Resetten",
+  "@reset": {},
+  "resetFilter": "Filter opnieuw instellen",
+  "@resetFilter": {},
   "resolvingServerVersion": "Serverversie ophalen...",
   "@resolvingServerVersion": {
     "description": "Message shown while the app is loading the remote server version."
-  },
-  "goToLogin": "Ga naar login",
-  "@goToLogin": {
-    "description": "Label of the button shown on the login page to skip logging in to existing accounts and navigate user to login page"
-  },
-  "export": "Exporteren",
-  "@export": {
-    "description": "Label for button that exports scanned images to pdf (before upload)"
-  },
-  "invalidFilenameCharacter": "Ongeldige karakter(s) gevonden in bestandsnaam: {characters}",
-  "@invalidFilenameCharacter": {
-    "description": "For validating filename in export dialogue"
-  },
-  "exportScansToPdf": "Scans naar PDF exporteren",
-  "@exportScansToPdf": {
-    "description": "title of the alert dialog when exporting scans to pdf"
-  },
-  "allScansWillBeMerged": "Alle scans worden samengevoegd tot één PDF-bestand.",
-  "behavior": "Gedrag",
-  "@behavior": {
-    "description": "Title of the settings concerning app beahvior"
-  },
-  "theme": "Thema",
-  "@theme": {
-    "description": "Title of the theme mode setting"
-  },
-  "clearCache": "Verwijder Cache",
-  "@clearCache": {
-    "description": "Title of the clear cache setting"
-  },
-  "freeBytes": "{byteString} wissen",
-  "@freeBytes": {
-    "description": "Text shown for clear storage settings"
-  },
-  "calculatingDots": "Berekenen...",
-  "@calculatingDots": {
-    "description": "Text shown when the byte size is still being calculated"
-  },
-  "freedDiskSpace": "{bytes} succesvol vrijgegeven.",
-  "@freedDiskSpace": {
-    "description": "Message shown after clearing storage"
-  },
-  "uploadScansAsPdf": "Scans als PDF uploaden",
-  "@uploadScansAsPdf": {
-    "description": "Title of the setting which toggles whether scans are always uploaded as pdf"
-  },
-  "convertSinglePageScanToPdf": "Enkelvoudige pagina voor het uploaden altijd naar PDF converteren",
-  "@convertSinglePageScanToPdf": {
-    "description": "description of the upload scans as pdf setting"
-  },
-  "loginRequiredPermissionsHint": "Het gebruik van Paperless Mobile vereist een minimum aan gebruikersrechten sinds paperless-ngx 1.14.0 en hoger. Zorg er daarom voor dat de gebruiker die aangemeld is toestemming heeft om andere gebruikers te bekijken (Gebruiker → Weergave) en de instellingen (UIInstellingen → Weergave). Als je deze machtigingen niet hebt, neem dan contact op met een beheerder van de paperless-ngx server.",
-  "@loginRequiredPermissionsHint": {
-    "description": "Hint shown on the login page informing the user of the required permissions to use the app."
-  },
-  "missingPermissions": "Je hebt niet de benodigde rechten om deze actie uit te voeren.",
-  "@missingPermissions": {
-    "description": "Message shown in a snackbar when a user without the reequired permissions performs an action."
-  },
-  "editView": "Weergave bewerken",
-  "@editView": {
-    "description": "Title of the edit saved view page"
-  },
-  "donate": "Doneren",
-  "@donate": {
-    "description": "Label of the in-app donate button"
-  },
-  "donationDialogContent": "Bedankt voor het overwegen om deze app te ondersteunen! Door zowel het betalingsbeleid van Google als dat van Apple kunnen er geen links naar donaties in de app worden weergegeven. In deze context lijkt zelfs het linken naar het project niet toegestaan. Bekijk daarom misschien de 'donaties' sectie in de project README. Jouw steun wordt zeer gewaardeerd en houdt de ontwikkeling van deze app in stand. Bedankt!",
-  "@donationDialogContent": {
-    "description": "Text displayed in the donation dialog"
-  },
-  "noDocumentsFound": "Geen documenten gevonden.",
-  "@noDocumentsFound": {
-    "description": "Message shown when no documents were found."
-  },
-  "couldNotDeleteCorrespondent": "Kon correspondent niet verwijderen, probeer het opnieuw.",
-  "@couldNotDeleteCorrespondent": {
-    "description": "Message shown in snackbar when a correspondent could not be deleted."
-  },
-  "couldNotDeleteDocumentType": "Kon documenttype niet verwijderen, probeer het opnieuw.",
-  "@couldNotDeleteDocumentType": {
-    "description": "Message shown when a document type could not be deleted"
-  },
-  "couldNotDeleteTag": "Kon label niet verwijderen, probeer het opnieuw.",
-  "@couldNotDeleteTag": {
-    "description": "Message shown when a tag could not be deleted"
-  },
-  "couldNotDeleteStoragePath": "Kon opslagpad niet verwijderen, probeer het opnieuw.",
-  "@couldNotDeleteStoragePath": {
-    "description": "Message shown when a storage path could not be deleted"
-  },
-  "couldNotUpdateCorrespondent": "Kon correspondent niet bijwerken, probeer het opnieuw.",
-  "@couldNotUpdateCorrespondent": {
-    "description": "Message shown when a correspondent could not be updated"
-  },
-  "couldNotUpdateDocumentType": "Kon documenttype niet bijwerken, probeer het opnieuw.",
-  "@couldNotUpdateDocumentType": {
-    "description": "Message shown when a document type could not be updated"
-  },
-  "couldNotUpdateTag": "Kon label niet bijwerken, probeer het opnieuw.",
-  "@couldNotUpdateTag": {
-    "description": "Message shown when a tag could not be updated"
-  },
-  "couldNotLoadServerInformation": "Kon serverinformatie niet laden.",
-  "@couldNotLoadServerInformation": {
-    "description": "Message shown when the server information could not be loaded"
-  },
-  "couldNotLoadStatistics": "Kon serverstatistieken niet laden.",
-  "@couldNotLoadStatistics": {
-    "description": "Message shown when the server statistics could not be loaded"
-  },
-  "couldNotLoadUISettings": "Kon UI-instellingen niet laden.",
-  "@couldNotLoadUISettings": {
-    "description": "Message shown when the UI settings could not be loaded"
-  },
-  "couldNotLoadTasks": "Kon taken niet laden.",
-  "@couldNotLoadTasks": {
-    "description": "Message shown when the tasks (e.g. document consumed) could not be loaded"
-  },
-  "userNotFound": "Gebruiker werd niet gevonden.",
-  "@userNotFound": {
-    "description": "Message shown when the specified user (e.g. by id) could not be found"
-  },
-  "couldNotUpdateSavedView": "Kon de opgeslagen weergave niet bijwerken, probeer het opnieuw.",
-  "@couldNotUpdateSavedView": {
-    "description": "Message shown when a saved view could not be updated"
-  },
-  "couldNotUpdateStoragePath": "Kon het opslagpad niet bijwerken, probeer het opnieuw.",
-  "savedViewSuccessfullyUpdated": "Opgeslagen weergave is bijgewerkt.",
-  "@savedViewSuccessfullyUpdated": {
-    "description": "Message shown when a saved view was successfully updated."
-  },
-  "discardChanges": "Wijzigingen annuleren?",
-  "@discardChanges": {
-    "description": "Title of the alert dialog shown when a user tries to close a view with unsaved changes."
-  },
-  "savedViewChangedDialogContent": "De filtervoorwaarden van de actieve weergave zijn gewijzigd. Door het resetten van de filter gaan deze wijzigingen verloren. Wil je nog steeds doorgaan?",
-  "@savedViewChangedDialogContent": {
-    "description": "Content of the alert dialog shown when all of the following applies:\r\n* User has saved view selected\r\n* User has performed changes to the current document filter\r\n* User now tries to reset this filter without having saved the changes to the view."
-  },
-  "createFromCurrentFilter": "Aanmaken vanuit huidige filter",
-  "@createFromCurrentFilter": {
-    "description": "Tooltip of the \"New saved view\" button"
-  },
-  "home": "Startpagina",
-  "@home": {
-    "description": "Label of the \"Home\" route"
-  },
-  "welcomeUser": "Welkom, {name}!",
-  "@welcomeUser": {
-    "description": "Top message shown on the home page"
-  },
-  "statistics": "Statistieken",
-  "documentsInInbox": "Documenten in inbox",
-  "totalDocuments": "Totaal aantal documenten",
-  "totalCharacters": "Totaal aantal tekens",
-  "showAll": "Alles weergeven",
-  "@showAll": {
-    "description": "Button label shown on a saved view preview to open this view in the documents page"
-  },
-  "userAlreadyExists": "Deze gebruiker bestaat al.",
-  "@userAlreadyExists": {
-    "description": "Error message shown when the user tries to add an already existing account."
-  },
-  "youDidNotSaveAnyViewsYet": "Je hebt nog geen weergaven opgeslagen, maak er een aan en het zal hier worden getoond.",
-  "@youDidNotSaveAnyViewsYet": {
-    "description": "Message shown when there are no saved views yet."
-  },
-  "tryAgain": "Probeer opnieuw",
-  "discardFile": "Bestand weggooien?",
-  "discard": "Weggooien",
-  "backToLogin": "Terug naar inloggen",
-  "skipEditingReceivedFiles": "Bewerken van ontvangen bestanden overslaan",
-  "uploadWithoutPromptingUploadForm": "Altijd uploaden zonder het uploadformulier te openen bij het delen van bestanden met de app.",
-  "authenticatingDots": "Authenticeren...",
-  "@authenticatingDots": {
-    "description": "Message shown when the app is authenticating the user"
-  },
-  "persistingUserInformation": "Gebruikersinformatie wordt opgeslagen...",
-  "fetchingUserInformation": "Gebruikersinformatie wordt opgehaald...",
-  "@fetchingUserInformation": {
-    "description": "Message shown when the app loads user data from the server"
   },
   "restoringSession": "Sessie herstellen...",
   "@restoringSession": {
     "description": "Message shown when the user opens the app and the previous user is tried to be authenticated and logged in"
   },
-  "documentsAssigned": "{count, plural, zero{Geen documenten} one{1 document} other{{count} documenten}}",
-  "@documentsAssigned": {
-    "description": "Text shown with a correspondent, document type etc. to indicate the number of documents this filter will maximally yield."
+  "results": "Resultaten",
+  "@results": {
+    "description": "Label displayed above search results in document search."
   },
-  "discardChangesWarning": "Je hebt niet-opgeslagen wijzigingen. Als je doorgaat, gaan alle wijzigingen verloren. Wil je deze wijzigingen weggooien?",
-  "@discardChangesWarning": {
-    "description": "Warning message shown when the user tries to close a route without saving the changes."
+  "save": "Opslaan",
+  "@save": {},
+  "saveChanges": "Wijzigingen opslaan",
+  "@saveChanges": {},
+  "savedViewChangedDialogContent": "De filtervoorwaarden van de actieve weergave zijn gewijzigd. Door het resetten van de filter gaan deze wijzigingen verloren. Wil je nog steeds doorgaan?",
+  "@savedViewChangedDialogContent": {
+    "description": "Content of the alert dialog shown when all of the following applies:\r\n* User has saved view selected\r\n* User has performed changes to the current document filter\r\n* User now tries to reset this filter without having saved the changes to the view."
   },
-  "changelog": "Wijzigingen",
-  "noLogsFoundOn": "Geen logs gevonden op {date}.",
-  "logfileBottomReached": "Je hebt de onderkant van dit logbestand bereikt.",
-  "appLogs": "App-logs {date}",
+  "savedViewSuccessfullyUpdated": "Opgeslagen weergave is bijgewerkt.",
+  "@savedViewSuccessfullyUpdated": {
+    "description": "Message shown when a saved view was successfully updated."
+  },
   "saveLogsToFile": "Sla logs op in bestand",
-  "copyToClipboard": "Kopiëren naar klembord",
-  "couldNotLoadLogfileFrom": "Kon logbestand van {date} niet laden.",
-  "loadingLogsFrom": "Logs van {date} ophalen...",
-  "clearLogs": "Logs van {date} wissen",
+  "scan": "Scannen",
+  "@scan": {},
+  "scanADocument": "Scan een document",
+  "@scanADocument": {},
+  "scanner": "Scanner",
+  "@scanner": {},
+  "scrollToTop": "Naar boven scrollen",
+  "@scrollToTop": {},
+  "search": "Zoeken",
+  "@search": {},
+  "searchDocuments": "Documenten zoeken",
+  "@searchDocuments": {},
+  "security": "Beveiliging",
+  "@security": {},
+  "select": "Selecteer",
+  "@select": {},
+  "selectDateRange": "Selecteer periode",
+  "@selectDateRange": {},
+  "selectFile": "Bestand selecteren...",
+  "@selectFile": {},
+  "serverAddress": "Serveradres",
+  "@serverAddress": {},
+  "serverAddressMustIncludeAScheme": "Serveradres moet een schema bevatten.",
+  "@serverAddressMustIncludeAScheme": {},
+  "serverAddressMustNotBeEmpty": "Serveradres mag niet leeg zijn.",
+  "@serverAddressMustNotBeEmpty": {},
+  "settings": "Instellingen",
+  "@settings": {},
+  "shareTooltip": "Delen",
+  "@shareTooltip": {
+    "description": "Tooltip shown for the share button on details page"
+  },
+  "showAll": "Alles weergeven",
+  "@showAll": {
+    "description": "Button label shown on a saved view preview to open this view in the documents page"
+  },
+  "showInSidebar": "In zijbalk weergeven",
+  "@showInSidebar": {},
+  "showOnDashboard": "Op dashboard weergeven",
+  "@showOnDashboard": {},
   "showPdf": "PDF tonen",
   "@showPdf": {
     "description": "Tooltip shown on the \"show pdf\" button on the document edit page"
   },
-  "hidePdf": "PDF verbergen",
-  "@hidePdf": {
-    "description": "Tooltip shown on the \"show pdf\" icon button on the document edit page"
+  "signIn": "Aanmelden",
+  "@signIn": {},
+  "signInToServer": "Aanmelden bij {serverAddress}",
+  "@signInToServer": {
+    "placeholders": {
+      "serverAddress": {}
+    }
   },
-  "misc": "Overige",
-  "loggingOut": "Afmelden...",
+  "similarDocuments": "Vergelijkbare documenten",
+  "@similarDocuments": {
+    "description": "Label shown in the tabbar on details page"
+  },
+  "skipEditingReceivedFiles": "Bewerken van ontvangen bestanden overslaan",
+  "sourceCode": "Broncode",
+  "startTyping": "Begin met typen...",
+  "@startTyping": {},
+  "statistics": "Statistieken",
+  "storage": "Opslag",
+  "@storage": {},
+  "storagePath": "Opslag pad",
+  "@storagePath": {},
+  "storagePathDay": "dag",
+  "@storagePathDay": {},
+  "storagePathMonth": "maand",
+  "@storagePathMonth": {},
+  "storagePaths": "Opslag paden",
+  "@storagePaths": {},
+  "storagePathYear": "jaar",
+  "@storagePathYear": {},
+  "suggestions": "Suggesties: ",
+  "@suggestions": {},
+  "suggestionSuccessfullyApplied": "Suggestie succesvol toegepast.",
+  "@suggestionSuccessfullyApplied": {},
+  "swipeLeftToMarkADocumentAsSeen": "Hint: Veeg naar links om een document als gezien te markeren en alle inbox labels van het document te verwijderen.",
+  "@swipeLeftToMarkADocumentAsSeen": {},
+  "switchAccount": "Wisselen",
+  "@switchAccount": {
+    "description": "Label for switch account action"
+  },
+  "switchAccountTitle": "Account wisselen",
+  "@switchAccountTitle": {
+    "description": "Title of the dialog shown after adding an account, asking the user whether to switch to the newly added account or not."
+  },
+  "switchingAccountsPleaseWait": "Van account wisselen. Een ogenblik geduld...",
+  "@switchingAccountsPleaseWait": {
+    "description": "Message shown while switching accounts is in progress."
+  },
+  "switchToNewAccount": "Wil je overschakelen naar de nieuwe account? Je kan op elk moment terug wisselen.",
+  "@switchToNewAccount": {
+    "description": "Content of the dialog shown after adding an account, asking the user whether to switch to the newly added account or not."
+  },
+  "synchronizeTitleAndFilename": "Titel en bestandsnaam synchroniseren",
+  "@synchronizeTitleAndFilename": {},
+  "system": "Systeem",
+  "@system": {},
+  "systemTheme": "Gebruik systeemthema",
+  "@systemTheme": {},
+  "tags": "Labels",
+  "@tags": {},
+  "testConnection": "Verbinding testen",
+  "@testConnection": {
+    "description": "Button label shown on login page. Allows user to test whether the server is reachable or not."
+  },
   "testingConnection": "Verbinding testen...",
   "@testingConnection": {
     "description": "Text shown while the app tries to establish a connection to the specified host."
   },
+  "theme": "Thema",
+  "@theme": {
+    "description": "Title of the theme mode setting"
+  },
+  "thereSeemsToBeNothingHere": "Er lijkt hier niets te zijn...",
+  "@thereSeemsToBeNothingHere": {},
+  "thisActionIsIrreversibleDoYouWishToProceedAnyway": "Deze actie is onomkeerbaar. Wil je toch doorgaan?",
+  "@thisActionIsIrreversibleDoYouWishToProceedAnyway": {},
+  "thisFieldIsRequired": "Dit veld is verplicht!",
+  "@thisFieldIsRequired": {
+    "description": "Message shown below the form field when a required field has not been filled out."
+  },
+  "timeUnit": "Tijdseenheid",
+  "@timeUnit": {},
+  "title": "Titel",
+  "@title": {},
+  "titleAndContent": "Titel & inhoud",
+  "@titleAndContent": {},
+  "today": "Vandaag",
+  "@today": {},
+  "totalCharacters": "Totaal aantal tekens",
+  "totalDocuments": "Totaal aantal documenten",
+  "tryAgain": "Probeer opnieuw",
+  "undo": "Ongedaan maken",
+  "@undo": {},
+  "upload": "Uploaden",
+  "@upload": {},
+  "uploadADocumentFromThisDevice": "Document uploaden van dit apparaat",
+  "@uploadADocumentFromThisDevice": {
+    "description": "Button label on scanner page"
+  },
+  "uploadInferValuesHint": "Als je waarden voor deze velden opgeeft, zal je Paperless instantie niet automatisch een waarde afleiden. Als je wilt dat deze waarden automatisch door je server worden ingevuld, laat dan de velden leeg.",
+  "@uploadInferValuesHint": {},
+  "uploadScansAsPdf": "Scans als PDF uploaden",
+  "@uploadScansAsPdf": {
+    "description": "Title of the setting which toggles whether scans are always uploaded as pdf"
+  },
+  "uploadWithoutPromptingUploadForm": "Altijd uploaden zonder het uploadformulier te openen bij het delen van bestanden met de app.",
+  "userAlreadyExists": "Deze gebruiker bestaat al.",
+  "@userAlreadyExists": {
+    "description": "Error message shown when the user tries to add an already existing account."
+  },
+  "userIsNotAuthenticated": "Gebruiker is niet geauthenticeerd.",
+  "@userIsNotAuthenticated": {},
+  "username": "Gebruikersnaam",
+  "@username": {},
+  "usernameMustNotBeEmpty": "Gebruikersnaam mag niet leeg zijn.",
+  "@usernameMustNotBeEmpty": {},
+  "userNotFound": "Gebruiker werd niet gevonden.",
+  "@userNotFound": {
+    "description": "Message shown when the specified user (e.g. by id) could not be found"
+  },
+  "useTheConfiguredBiometricFactorToAuthenticate": "Gebruik de geconfigureerde biometrische factor om je documenten te authenticeren en te ontgrendelen.",
+  "@useTheConfiguredBiometricFactorToAuthenticate": {},
+  "verifyIdentity": "Verifieer je identiteit",
+  "@verifyIdentity": {},
+  "verifyYourIdentity": "Verifieer je identiteit",
+  "@verifyYourIdentity": {},
   "version": "Versie {versionCode}",
-  "notes": "{count, plural, one{Notitie} other{Notities}}",
-  "addNote": "Notitie toevoegen",
-  "newerVersionAvailable": "Nieuwere versie beschikbaar:",
-  "dateOutOfRange": "Datum moet tussen {firstDate} en {lastDate} liggen.",
-  "@dateOutOfRange": {
-    "description": "Error message shown when the user tries to select a date outside of the allowed range.",
+  "views": "Weergaven",
+  "@views": {},
+  "weeks": "{count, plural, zero{} one{week} other{weken}}",
+  "@weeks": {
     "placeholders": {
-      "firstDate": {
-        "type": "DateTime",
-        "format": "yMd"
-      },
-      "lastDate": {
-        "type": "DateTime",
-        "format": "yMd"
-      }
+      "count": {}
     }
   },
-  "permissions": "Machtigingen",
-  "newNote": "Nieuwe notitie",
-  "notesMarkdownSyntaxSupportHint": "Paperless Mobile kan notities maken met basis-markdown syntax. Probeer het uit!",
-  "mfaCodeRequiredValidationMessage": "Please enter the MFA code.",
-  "mfaCodeInvalidLengthValidationMessage": "MFA code must be 6 digits.",
-  "mfaFormFieldHint": "Your account is protected by two-factor authentication. Please enter an authentication code:",
-  "youHaveNoViewsOnYourDashboardYet": "You have not added any views to your dashboard yet."
+  "welcomeUser": "Welkom, {name}!",
+  "@welcomeUser": {
+    "description": "Top message shown on the home page"
+  },
+  "years": "{count, plural, zero{} one{jaar} other{jaren}}",
+  "@years": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "yesterday": "Gisteren",
+  "@yesterday": {},
+  "youAreCurrentlyOffline": "Je bent momenteel offline. Zorg ervoor dat je verbonden bent met het internet.",
+  "@youAreCurrentlyOffline": {},
+  "youDidNotSaveAnyViewsYet": "Je hebt nog geen weergaven opgeslagen, maak er een aan en het zal hier worden getoond.",
+  "@youDidNotSaveAnyViewsYet": {
+    "description": "Message shown when there are no saved views yet."
+  },
+  "youDoNotHaveUnseenDocuments": "Je hebt geen ongelezen documenten.",
+  "@youDoNotHaveUnseenDocuments": {},
+  "youHaveNoViewsOnYourDashboardYet": "You have not added any views to your dashboard yet.",
+  "youreOffline": "Je bent offline.",
+  "@youreOffline": {},
+  "pendingFiles": "Pending Files",
+  "noSuggestionsForThisDocument": "No suggestions available.",
+  "unauthorizedErrorMessage": "You are not authorized to perform this action. Please contact your admin or make sure you have the necessary permissions."
 }

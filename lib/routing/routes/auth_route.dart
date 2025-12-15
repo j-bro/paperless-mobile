@@ -41,6 +41,15 @@ part 'auth_route.g.dart';
       path: 'restoring-session',
       name: R.restoringSession,
     ),
+    TypedGoRoute<LoginToExistingAccountRoute>(
+      path: 'select-account',
+      name: R.loginToExistingAccount,
+    ),
+    TypedGoRoute<SetActiveUserRoute>(
+      path: 'set-active-user',
+      name: R.setActiveUser,
+    ),
+    // TypedGoRoute<AddAcc>(path: 'add-account', name: R.addAccount),
   ],
 )
 class AuthRoute extends GoRouteData with $AuthRoute {
@@ -84,7 +93,18 @@ class AuthenticateRoute extends GoRouteData with $AuthenticateRoute {
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return MaterialPage(
+    return CustomTransitionPage(
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return SlideTransition(
+          position: animation.drive(
+            Tween<Offset>(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).chain(CurveTween(curve: Curves.easeInOut)),
+          ),
+          child: child,
+        );
+      },
       child: BlocProvider(
         create: (context) => AuthenticateUserCubit(),
         child: AuthenticateUserPage(
@@ -142,10 +162,6 @@ class SwitchingAccountsRoute extends GoRouteData with $SwitchingAccountsRoute {
   }
 }
 
-@TypedGoRoute<SetActiveUserRoute>(
-  path: '/set-active-user',
-  name: R.setActiveUser,
-)
 class SetActiveUserRoute extends GoRouteData with $SetActiveUserRoute {
   final String username;
   final String serverUrl;
@@ -182,10 +198,6 @@ class VerifyIdentityRoute extends GoRouteData with $VerifyIdentityRoute {
   }
 }
 
-@TypedGoRoute<LoginToExistingAccountRoute>(
-  path: '/existing',
-  name: R.loginToExistingAccount,
-)
 class LoginToExistingAccountRoute extends GoRouteData
     with $LoginToExistingAccountRoute {
   static final $parentNavigatorKey = rootNavigatorKey;

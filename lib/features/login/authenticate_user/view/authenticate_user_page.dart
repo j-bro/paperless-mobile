@@ -1,9 +1,8 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:paperless_mobile/constants.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
+import 'package:paperless_mobile/core/widgets/app_logs_footer_widget.dart';
 import 'package:paperless_mobile/features/login/authenticate_user/cubit/authenticate_user_cubit.dart';
 import 'package:paperless_mobile/features/login/model/client_certificate.dart';
 import 'package:paperless_mobile/features/login/model/login_form_credentials.dart';
@@ -11,7 +10,6 @@ import 'package:paperless_mobile/features/login/view/widgets/form_fields/user_cr
 import 'package:paperless_mobile/generated/assets.gen.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/helpers/message_helpers.dart';
-import 'package:paperless_mobile/routing/routes/app_logs_route.dart';
 import 'package:paperless_mobile/routing/routes/auth_route.dart';
 
 class AuthenticateUserPage extends StatefulWidget {
@@ -75,84 +73,72 @@ class _AuthenticateUserPageState extends State<AuthenticateUserPage> {
             break;
         }
       },
-      child: SafeArea(
-        bottom: true,
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          appBar: AppBar(title: Text(S.of(context)!.connectToPaperless)),
-          body: FormBuilder(
-            key: _formKey,
-            child: AutofillGroup(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Assets.logos.paperlessLogoGreenPng.image(
-                    width: 150,
-                    height: 150,
-                  ),
-                  Text(
-                    'Paperless Mobile',
-                    style: Theme.of(context).textTheme.displaySmall,
-                  ).padded(),
-                  SizedBox(height: 24),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        UserCredentialsFormField(
-                          formKey: _formKey,
-                          initialUsername: widget.initialUsername,
-                          initialPassword: widget.initialPassword,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            TextButton.icon(
-                              onPressed: () {
-                                AuthRoute(
-                                  initialHost: widget.serverUrl,
-                                  $extra: widget.clientCertificate,
-                                ).replace(context);
-                              },
-                              icon: Icon(Icons.arrow_back),
-                              label: Text(S.of(context)!.edit),
-                            ),
-                            _buildSubmitButton(),
-                          ],
-                        ).padded(),
-                        Text(
-                          S.of(context)!.loginRequiredPermissionsHint,
-                          style: Theme.of(context).textTheme.bodySmall?.apply(
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.onSurface.withAlpha(153),
-                          ),
-                        ).padded(16),
-                      ],
-                    ),
-                  ),
-                  Text.rich(
-                    TextSpan(
-                      style: Theme.of(context).textTheme.labelLarge,
-                      children: [
-                        TextSpan(
-                          text: S.of(context)!.version(packageInfo.version),
-                        ),
-                        WidgetSpan(child: SizedBox(width: 24)),
-                        TextSpan(
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                          text: S.of(context)!.appLogs(''),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              AppLogsRoute().push(context);
+      child: Scaffold(
+        persistentFooterButtons: [AppLogsFooterWidget().padded()],
+        persistentFooterAlignment: AlignmentDirectional.center,
+        persistentFooterDecoration: BoxDecoration(),
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          title: Text(S.of(context)!.connectToPaperless),
+          leading: BackButton(
+            onPressed: () => {
+              AuthRoute(
+                initialHost: widget.serverUrl,
+                $extra: widget.clientCertificate,
+              ).go(context),
+            },
+          ),
+        ),
+        body: FormBuilder(
+          key: _formKey,
+          child: AutofillGroup(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Assets.logos.paperlessLogoGreenPng.image(
+                  width: 150,
+                  height: 150,
+                ),
+                Text(
+                  'Paperless Mobile',
+                  style: Theme.of(context).textTheme.displaySmall,
+                ).padded(),
+                SizedBox(height: 24),
+                Expanded(
+                  child: Column(
+                    children: [
+                      UserCredentialsFormField(
+                        formKey: _formKey,
+                        initialUsername: widget.initialUsername,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton.icon(
+                            onPressed: () {
+                              AuthRoute(
+                                initialHost: widget.serverUrl,
+                                $extra: widget.clientCertificate,
+                              ).replace(context);
                             },
+                            icon: Icon(Icons.arrow_back),
+                            label: Text(S.of(context)!.edit),
+                          ),
+                          _buildSubmitButton(),
+                        ],
+                      ).padded(),
+                      Text(
+                        S.of(context)!.loginRequiredPermissionsHint,
+                        style: Theme.of(context).textTheme.bodySmall?.apply(
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onSurface.withAlpha(153),
                         ),
-                      ],
-                    ),
-                  ).padded(),
-                ],
-              ),
+                      ).padded(16),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ),

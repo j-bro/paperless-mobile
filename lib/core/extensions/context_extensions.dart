@@ -62,4 +62,12 @@ extension ContextExtensions on BuildContext {
       .localUserData[loggedInAppUserId]!
       .appState!
       .currentDocumentFilter;
+
+  void refetchLabels() {
+    tagRepository.getAllQuery().refetch();
+    correspondentRepository.getAllQuery().refetch();
+    documentTypeRepository.getAllQuery().refetch();
+    storagePathRepository.getAllQuery().refetch();
+    customFieldRepository.getAllQuery().refetch();
+  }
 }

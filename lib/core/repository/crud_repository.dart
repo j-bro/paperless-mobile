@@ -1,5 +1,6 @@
 import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:paperless_api/paperless_api.dart';
+import 'package:paperless_mobile/features/logging/data/logger.dart';
 
 abstract class CrudRepository<T, TRequest, TPatchedRequest, FindAllOptions> {
   CrudApi<T, TRequest, TPatchedRequest, FindAllOptions> get api;
@@ -28,9 +29,15 @@ abstract class CrudRepository<T, TRequest, TPatchedRequest, FindAllOptions> {
       key: queryKey,
       queryFn: () async {
         try {
-          final data = await api.getAll(filter);
-          return data;
-        } catch (e) {
+          return await api.getAll(filter);
+        } catch (error, stackTrace) {
+          logger.fe(
+            'An error occurred trying to get all ${queryKey}s in CrudRepository.',
+            className: runtimeType.toString(),
+            methodName: 'getAllQuery',
+            error: error,
+            stackTrace: stackTrace,
+          );
           rethrow;
         }
       },
@@ -42,7 +49,20 @@ abstract class CrudRepository<T, TRequest, TPatchedRequest, FindAllOptions> {
 
   Mutation<T, TRequest> get createMutation {
     return Mutation<T, TRequest>(
-      mutationFn: api.create,
+      mutationFn: (request) async {
+        try {
+          return await api.create(request);
+        } catch (error, stackTrace) {
+          logger.fe(
+            'An error occurred trying to create a $T in CrudRepository.',
+            className: runtimeType.toString(),
+            methodName: 'createMutation',
+            error: error,
+            stackTrace: stackTrace,
+          );
+          rethrow;
+        }
+      },
       onSuccess: (res, arg) {
         for (final getAllQuery in _cachedGetAllQueries) {
           final query = CachedQuery.instance.getQuery<Query<List<T>>>(
@@ -52,13 +72,27 @@ abstract class CrudRepository<T, TRequest, TPatchedRequest, FindAllOptions> {
           query.update((old) => [...old ?? [], res]);
         }
       },
+      refetchQueries: [..._cachedGetAllQueries],
     );
   }
 
   Mutation<T, TRequest> putMutation(int id) {
     return Mutation<T, TRequest>(
       key: 'put_$queryKey/$id',
-      mutationFn: (request) => api.put(id, request),
+      mutationFn: (request) async {
+        try {
+          return await api.put(id, request);
+        } catch (error, stackTrace) {
+          logger.fe(
+            'An error occurred trying to update (PUT) a $T in CrudRepository.',
+            className: runtimeType.toString(),
+            methodName: 'putMutation',
+            error: error,
+            stackTrace: stackTrace,
+          );
+          rethrow;
+        }
+      },
       onSuccess: (res, arg) async {
         for (final getAllQuery in _cachedGetAllQueries) {
           final query = CachedQuery.instance.getQuery<Query<List<T>>>(
@@ -80,7 +114,20 @@ abstract class CrudRepository<T, TRequest, TPatchedRequest, FindAllOptions> {
   Mutation<T, TPatchedRequest> patchMutation(int id) {
     return Mutation<T, TPatchedRequest>(
       key: 'patch_$queryKey/$id',
-      mutationFn: (request) => api.patch(id, request),
+      mutationFn: (request) async {
+        try {
+          return await api.patch(id, request);
+        } catch (error, stackTrace) {
+          logger.fe(
+            'An error occurred trying update (PATCH) a $T in CrudRepository.',
+            className: runtimeType.toString(),
+            methodName: 'createMutation',
+            error: error,
+            stackTrace: stackTrace,
+          );
+          rethrow;
+        }
+      },
       onSuccess: (res, arg) async {
         for (final getAllQuery in _cachedGetAllQueries) {
           final query = CachedQuery.instance.getQuery<Query<List<T>>>(
@@ -102,7 +149,20 @@ abstract class CrudRepository<T, TRequest, TPatchedRequest, FindAllOptions> {
   Mutation<int, void> deleteMutation(int id) {
     return Mutation<int, void>(
       key: 'delete_$queryKey/$id',
-      mutationFn: (_) => api.delete(id),
+      mutationFn: (_) async {
+        try {
+          return await api.delete(id);
+        } catch (error, stackTrace) {
+          logger.fe(
+            'An error occurred trying to delete a $T in CrudRepository.',
+            className: runtimeType.toString(),
+            methodName: 'deleteMutation',
+            error: error,
+            stackTrace: stackTrace,
+          );
+          rethrow;
+        }
+      },
       onSuccess: (res, arg) {
         for (final getAllQuery in _cachedGetAllQueries) {
           final query = CachedQuery.instance.getQuery<Query<List<T>>>(

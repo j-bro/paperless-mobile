@@ -24,7 +24,7 @@ class PaperlessApiException implements Exception {
 
   @override
   String toString() {
-    return "PaperlessServerException(code: $code${stackTrace != null ? ', stackTrace: ${stackTrace.toString()}' : ''}${httpStatusCode != null ? ', httpStatusCode: $httpStatusCode' : ''})";
+    return "PaperlessServerException(code: $code, details: '$details'${httpStatusCode != null ? ', httpStatusCode: $httpStatusCode' : ''})";
   }
 }
 

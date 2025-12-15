@@ -33,7 +33,14 @@ class TagsFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return QueryBuilder(
       query: context.tagRepository.getAllQuery(),
+      buildWhen: (oldState, newState) {
+        return SetEquality().equals(
+          Set.from(oldState.data ?? []),
+          Set.from(newState.data ?? []),
+        );
+      },
       builder: (context, state) {
+        debugPrint('Updated state!');
         final options = state.data?.toIdMap() ?? {};
         final enabled = options.values.isNotEmpty || allowCreation;
         return FormBuilderField<TagsQuery?>(
@@ -94,7 +101,6 @@ class TagsFormField extends StatelessWidget {
                     ),
                   ),
                   openBuilder: (context, closeForm) => FullscreenTagsForm(
-                    options: options,
                     onSubmit: closeForm,
                     initialValue: field.value,
                     allowOnlySelection: allowOnlySelection,

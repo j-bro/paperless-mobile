@@ -61,7 +61,10 @@ class _DocumentsPageState extends State<DocumentsPage> {
     context.read<PendingTasksNotifier>().addListener(_onTasksChanged);
     context.documentRepository
         .getAllQuery(filter: context.currentDocumentFilter)
-        .fetch();
+        .refetch();
+    context.refetchLabels();
+    context.savedViewRepository.getAllQuery().refetch();
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _nestedScrollViewKey.currentState!.innerController.addListener(
         _scrollExtentChangedListener,
@@ -435,7 +438,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
                           viewType: viewType,
                           onTap: (document) {
                             DocumentDetailsRoute(
-                              id: document.id,
+                              documentId: document.id,
                               title: document.title,
                               thumbnailUrl: document.buildThumbnailUrl(context),
                             ).push(context);

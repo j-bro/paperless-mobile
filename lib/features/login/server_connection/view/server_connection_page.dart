@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
+import 'package:paperless_mobile/core/widgets/app_logs_footer_widget.dart';
 import 'package:paperless_mobile/features/login/model/client_certificate.dart';
 import 'package:paperless_mobile/features/login/model/reachability_status.dart';
 import 'package:paperless_mobile/features/login/server_connection/cubit/server_connection_cubit.dart';
@@ -44,86 +45,79 @@ class _ServerConnectionPageState extends State<ServerConnectionPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: true,
-      bottom: true,
-      child: Scaffold(
-        appBar: AppBar(title: Text(S.of(context)!.connectToPaperless)),
-        body: FormBuilder(
-          key: _formKey,
-          child: Column(
-            children: [
-              Assets.logos.paperlessLogoGreenSvg
-                  .svg(height: 150, width: 150)
-                  .padded(),
-              ServerAddressFormField(
-                initialValue: widget.initialHost,
-                onChanged: (_) {
-                  context.read<ServerConnectionCubit>().reset();
-                },
-              ).paddedSymmetrically(horizontal: 12, vertical: 12),
-              ClientCertificateFormField(
-                initialBytes: widget.initialClientCertificate?.bytes,
-                initialPassphrase: widget.initialClientCertificate?.passphrase,
-              ).padded(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  //TODO: Move additional headers and client cert to separate page
-                  // IconButton.filledTonal(
-                  //   onPressed: () {
-                  //     Navigator.of(context).push(
-                  //       MaterialPageRoute(builder: (context) {
-                  //         return LoginSettingsPage();
-                  //       }),
-                  //     );
-                  //   },
-                  //   icon: Icon(Icons.settings),
-                  // ),
-                  SizedBox(width: 8),
-                  BlocConsumer<ServerConnectionCubit, ServerConnectionState>(
-                    listener: (context, state) {
-                      if (state is ServerConnectionSuccess) {
-                        Future.delayed(1.seconds, () {
-                          if (context.mounted) {
-                            AuthenticateRoute(
-                              serverUrl: state.serverUrl,
-                              $extra: state.clientCertificate,
-                            ).go(context);
-                          }
-                        });
-                      }
-                    },
-                    builder: (context, state) {
-                      return switch (state) {
-                        ServerConnectionCheckingReachability() =>
-                          FilledButton.icon(
-                            onPressed: null,
-                            label: Text(S.of(context)!.continueLabel),
-                            icon: SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.onSecondary,
-                              ),
+    return Scaffold(
+      persistentFooterButtons: [AppLogsFooterWidget().padded()],
+      persistentFooterAlignment: AlignmentDirectional.center,
+      persistentFooterDecoration: BoxDecoration(),
+      appBar: AppBar(title: Text(S.of(context)!.connectToPaperless)),
+      body: FormBuilder(
+        key: _formKey,
+        child: Column(
+          children: [
+            Assets.logos.paperlessLogoGreenSvg
+                .svg(height: 150, width: 150)
+                .padded(),
+            ServerAddressFormField(
+              initialValue: widget.initialHost,
+              onChanged: (_) {
+                context.read<ServerConnectionCubit>().reset();
+              },
+            ).paddedSymmetrically(horizontal: 12, vertical: 12),
+            ClientCertificateFormField(
+              initialBytes: widget.initialClientCertificate?.bytes,
+              initialPassphrase: widget.initialClientCertificate?.passphrase,
+            ).padded(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                //TODO: Move additional headers and client cert to separate page
+                // IconButton.filledTonal(
+                //   onPressed: () {
+                //     Navigator.of(context).push(
+                //       MaterialPageRoute(builder: (context) {
+                //         return LoginSettingsPage();
+                //       }),
+                //     );
+                //   },
+                //   icon: Icon(Icons.settings),
+                // ),
+                SizedBox(width: 8),
+                BlocConsumer<ServerConnectionCubit, ServerConnectionState>(
+                  listener: (context, state) {
+                    if (state is ServerConnectionSuccess) {
+                      AuthenticateRoute(
+                        serverUrl: state.serverUrl,
+                        $extra: state.clientCertificate,
+                      ).go(context);
+                    }
+                  },
+                  builder: (context, state) {
+                    return switch (state) {
+                      ServerConnectionCheckingReachability() =>
+                        FilledButton.icon(
+                          onPressed: null,
+                          label: Text(S.of(context)!.continueLabel),
+                          icon: SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Theme.of(context).colorScheme.onSecondary,
                             ),
                           ),
-                        _ => FilledButton.icon(
-                          onPressed: _onSubmit,
-                          icon: Icon(Icons.arrow_forward),
-                          label: Text(S.of(context)!.continueLabel),
                         ),
-                      };
-                    },
-                  ),
-                ],
-              ).paddedSymmetrically(horizontal: 16, vertical: 8),
-              _buildStatusIndicator().padded(),
-            ],
-          ),
+                      _ => FilledButton.icon(
+                        onPressed: _onSubmit,
+                        icon: Icon(Icons.arrow_forward),
+                        label: Text(S.of(context)!.continueLabel),
+                      ),
+                    };
+                  },
+                ),
+              ],
+            ).paddedSymmetrically(horizontal: 16, vertical: 8),
+            _buildStatusIndicator().padded(),
+          ],
         ),
       ),
     );

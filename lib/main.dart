@@ -41,8 +41,8 @@ import 'package:paperless_mobile/features/login/services/authentication_service.
 import 'package:paperless_mobile/features/notifications/services/local_notification_service.dart';
 import 'package:paperless_mobile/features/settings/model/color_scheme_option.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
+import 'package:paperless_mobile/helpers/message_helpers.dart';
 import 'package:paperless_mobile/routing/navigation_keys.dart';
-import 'package:paperless_mobile/routing/routes/add_account_route.dart';
 import 'package:paperless_mobile/routing/routes/app_logs_route.dart';
 import 'package:paperless_mobile/routing/routes/auth_route.dart';
 import 'package:paperless_mobile/routing/routes/changelog_route.dart';
@@ -272,7 +272,11 @@ class _GoRouterShellState extends State<GoRouterShell> {
     final DisplayMode mostOptimalMode = sameResolution.isNotEmpty
         ? sameResolution.first
         : active;
-    logger.fi('Setting refresh rate to ${mostOptimalMode.refreshRate}');
+    logger.fi(
+      'Setting refresh rate to ${mostOptimalMode.refreshRate}',
+      className: runtimeType.toString(),
+      methodName: '_setOptimalDisplayMode',
+    );
 
     await FlutterDisplayMode.setPreferredMode(mostOptimalMode);
   }
@@ -311,11 +315,20 @@ class _GoRouterShellState extends State<GoRouterShell> {
                   case LoggingOutState():
                     const LoggingOutRoute().go(context);
                     break;
-                  case AuthenticationError():
-                    if (context.canPop()) {
-                      context.pop();
-                    }
+                  case AuthenticationError error:
+                    showGenericError(context, error.error);
+                    AuthenticateRoute(
+                      serverUrl: error.serverUrl,
+                      $extra: error.clientCertificate,
+                      initialUsername: error.username,
+                    ).replace(context);
                     break;
+                  case ConnectionFailure():
+                    showSnackBar(
+                      context,
+                      S.of(context)!.couldNotEstablishConnectionToTheServer,
+                    );
+                    LoginToExistingAccountRoute().go(context);
                   default:
                     break;
                 }
@@ -328,8 +341,6 @@ class _GoRouterShellState extends State<GoRouterShell> {
         routes: [
           $authRoute,
           $loggingOutRoute,
-          $setActiveUserRoute,
-          $addAccountRoute,
           $changelogRoute,
           $appLogsRoute,
           $authenticatedRoute,

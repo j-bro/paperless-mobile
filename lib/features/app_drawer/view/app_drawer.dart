@@ -5,8 +5,8 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/constants.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
-import 'package:paperless_mobile/core/repository/saved_view_repository.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
+import 'package:paperless_mobile/core/repository/saved_view_repository.dart';
 import 'package:paperless_mobile/features/sharing/cubit/receive_share_cubit.dart';
 import 'package:paperless_mobile/generated/assets.gen.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
@@ -23,7 +23,8 @@ class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currentAccount = context.loggedInUser$;
-    final username = currentAccount.paperlessUser.username;
+    final currentUser = currentAccount.paperlessUser;
+    final username = currentUser.username;
     final serverUrl = currentAccount.serverUrl.replaceAll(
       RegExp(r'https?://'),
       '',
@@ -142,7 +143,7 @@ class AppDrawer extends StatelessWidget {
                 final child = ListTile(
                   dense: true,
                   leading: const Icon(Icons.drive_folder_upload_outlined),
-                  title: const Text("Pending Files"),
+                  title: Text(S.of(context)!.pendingFiles),
                   onTap: () {
                     UploadQueueRoute().push(context);
                   },
@@ -169,19 +170,21 @@ class AppDrawer extends StatelessWidget {
               onTap: () => SettingsRoute().push(context),
             ),
             const Divider(),
-            Text(
-              S.of(context)!.views,
-              textAlign: TextAlign.left,
-              style: Theme.of(context).textTheme.labelLarge,
-            ).padded(16),
-            _buildSavedViews(context),
+            if (currentUser.canViewSavedViews) ...[
+              Text(
+                S.of(context)!.views,
+                textAlign: TextAlign.left,
+                style: Theme.of(context).textTheme.labelLarge,
+              ).padded(16),
+              _buildSavedViews(context, currentUser),
+            ],
           ],
         ),
       ),
     );
   }
 
-  Widget _buildSavedViews(BuildContext context) {
+  Widget _buildSavedViews(BuildContext context, User currentUser) {
     return QueryBuilder(
       query: context.read<SavedViewRepository>().getAllQuery(),
       builder: (context, state) {
@@ -205,31 +208,35 @@ class AppDrawer extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodySmall,
               ).paddedOnly(left: 16, right: 16),
               TextButton.icon(
-                onPressed: () {
-                  Scaffold.of(context).closeDrawer();
-                  const CreateSavedViewRoute(showInSidebar: true).push(context);
-                },
+                onPressed: currentUser.canCreateSavedViews
+                    ? () {
+                        Scaffold.of(context).closeDrawer();
+                        const CreateSavedViewRoute(
+                          showInSidebar: true,
+                        ).push(context);
+                      }
+                    : null,
                 icon: const Icon(Icons.add),
                 label: Text(S.of(context)!.newView),
               ),
             ],
           );
         }
-        return Expanded(
-          child: ListView.builder(
-            itemBuilder: (context, index) {
-              final view = sidebarViews[index];
-              return ListTile(
-                title: Text(view.name),
-                trailing: const Icon(Icons.arrow_forward),
-                onTap: () {
-                  Scaffold.of(context).closeDrawer();
-                  DocumentsRoute($extra: view.toDocumentFilter()).go(context);
-                },
-              );
-            },
-            itemCount: sidebarViews.length,
-          ),
+        return ListView.builder(
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            final view = sidebarViews[index];
+            return ListTile(
+              enabled: currentUser.canViewDocuments,
+              title: Text(view.name),
+              trailing: const Icon(Icons.arrow_forward),
+              onTap: () {
+                Scaffold.of(context).closeDrawer();
+                DocumentsRoute($extra: view.toDocumentFilter()).go(context);
+              },
+            );
+          },
+          itemCount: sidebarViews.length,
         );
       },
     );
@@ -248,7 +255,7 @@ class AppDrawer extends StatelessWidget {
       children: [
         Text(S.of(context)!.developedBy('Anton Stubenbord')),
         const SizedBox(height: 16),
-        Text("Source Code", style: theme.textTheme.titleMedium),
+        Text(S.of(context)!.sourceCode, style: theme.textTheme.titleMedium),
         RichText(
           text: TextSpan(
             style: theme.textTheme.bodyMedium?.copyWith(

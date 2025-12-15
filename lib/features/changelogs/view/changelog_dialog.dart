@@ -18,16 +18,9 @@ class ChangelogDialog extends StatelessWidget {
         future: _loadChangelog(context),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            ).padded(24);
+            return const Center(child: CircularProgressIndicator()).padded(24);
           }
-          return SizedBox(
-            width: 1000,
-            child: Markdown(
-              data: snapshot.data!,
-            ),
-          );
+          return SizedBox(width: 1000, child: Markdown(data: snapshot.data!));
         },
       ),
       actions: [
@@ -47,7 +40,6 @@ class ChangelogDialog extends StatelessWidget {
       'de' => 'de-DE',
       _ => 'en-US',
     };
-    'en-US';
     String changelog = await rootBundle.loadString(
       'assets/changelogs/changelogs_$locale.md',
     );

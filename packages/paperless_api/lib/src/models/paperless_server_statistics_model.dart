@@ -37,9 +37,9 @@ class PaperlessServerStatisticsModel {
 @JsonSerializable(createToJson: false)
 class DocumentFileTypeCount {
   final String mimeType;
-  final int count;
+  final int mimeTypeCount;
 
-  DocumentFileTypeCount({required this.mimeType, required this.count});
+  DocumentFileTypeCount({required this.mimeType, required this.mimeTypeCount});
 
   factory DocumentFileTypeCount.fromJson(Map<String, dynamic> json) =>
       _$DocumentFileTypeCountFromJson(json);

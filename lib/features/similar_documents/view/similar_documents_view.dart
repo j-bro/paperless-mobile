@@ -63,7 +63,7 @@ class _SimilarDocumentsViewState extends State<SimilarDocumentsView> {
           onTap: (document) {
             DocumentDetailsRoute(
               title: document.title,
-              id: document.id,
+              documentId: document.id,
               thumbnailUrl: document.buildThumbnailUrl(context),
               isLabelClickable: false,
             ).push(context);

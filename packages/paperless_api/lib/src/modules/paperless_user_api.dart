@@ -26,7 +26,7 @@ class PaperlessUserApiImpl extends PaperlessUserApi
   PaperlessUserApiImpl(this.client);
 
   @override
-  String get path => "/api/users/";
+  String get path => "/api/users";
 
   @override
   User parse(Map<String, dynamic> json) => User.fromJson(json);

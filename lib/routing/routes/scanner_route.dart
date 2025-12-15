@@ -31,12 +31,14 @@ class DocumentUploadRoute extends GoRouteData with $DocumentUploadRoute {
   final String? title;
   final String? filename;
   final String? fileExtension;
+  final bool? instantUpload;
 
   const DocumentUploadRoute({
     required this.$extra,
     this.title,
     this.filename,
     this.fileExtension,
+    this.instantUpload,
   });
 
   @override
@@ -46,6 +48,7 @@ class DocumentUploadRoute extends GoRouteData with $DocumentUploadRoute {
       fileExtension: fileExtension,
       filename: filename,
       fileBytes: $extra,
+      instantUpload: instantUpload ?? false,
     );
   }
 }

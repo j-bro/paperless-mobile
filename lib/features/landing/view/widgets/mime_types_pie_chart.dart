@@ -127,10 +127,11 @@ class _MimeTypesPieChartState extends State<MimeTypesPieChart> {
       final isTouched = i == _touchedIndex;
       final fontSize = isTouched ? 18.0 : 16.0;
       final radius = isTouched ? 60.0 : 50.0;
-      final percentage = type.count / widget.statistics.documentsTotal * 100;
+      final percentage =
+          type.mimeTypeCount / widget.statistics.documentsTotal * 100;
       yield PieChartSectionData(
         color: colorShades[i % colorShades.length],
-        value: type.count.toDouble(),
+        value: type.mimeTypeCount.toDouble(),
         title: "${percentage.toStringAsFixed(1)}%",
         radius: radius,
         titleStyle: TextStyle(

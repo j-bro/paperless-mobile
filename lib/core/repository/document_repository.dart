@@ -42,9 +42,7 @@ class DocumentRepository {
       queryFn: (page) async {
         try {
           final response = await _api.getAll(
-            (filter ?? DocumentFilter()).toDocumentFilterOptions().copyWith(
-              page: page,
-            ),
+            (filter ?? DocumentFilter()).copyWith(page: page),
           );
           return response;
         } catch (e) {
@@ -241,8 +239,9 @@ class DocumentRepository {
   Query<Suggestions> getFieldSuggestionsQuery(int documentId) {
     return Query(
       key: 'field_suggestions/$documentId',
-      queryFn: () {
-        return _api.getFieldSuggestions(documentId);
+      queryFn: () async {
+        final result = await _api.getFieldSuggestions(documentId);
+        return result;
       },
     );
   }

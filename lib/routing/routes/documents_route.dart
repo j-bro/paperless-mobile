@@ -45,14 +45,14 @@ class DocumentDetailsRoute extends GoRouteData with $DocumentDetailsRoute {
   static final GlobalKey<NavigatorState> $parentNavigatorKey =
       outerShellNavigatorKey;
 
-  final int id;
+  final int documentId;
   final bool isLabelClickable;
   final String? queryString;
   final String? thumbnailUrl;
   final String? title;
 
   const DocumentDetailsRoute({
-    required this.id,
+    required this.documentId,
     this.isLabelClickable = true,
     this.queryString,
     this.thumbnailUrl,
@@ -68,33 +68,33 @@ class DocumentDetailsRoute extends GoRouteData with $DocumentDetailsRoute {
             context.read(),
             context.read(),
             context.read(),
-            documentId: id,
+            documentId: documentId,
           ),
         ),
         BlocProvider(
           create: (context) => DocumentShareCubit(
             context.read(),
             context.read(),
-            documentId: id,
+            documentId: documentId,
           ),
         ),
         BlocProvider(
           create: (context) => DocumentOpenInSystemCubit(
             context.read(),
             context.read(),
-            documentId: id,
+            documentId: documentId,
           ),
         ),
         BlocProvider(
           create: (context) => DocumentPrintCubit(
             context.read(),
             context.read(),
-            documentId: id,
+            documentId: documentId,
           ),
         ),
       ],
       child: DocumentDetailsPage(
-        id: id,
+        id: documentId,
         isLabelClickable: isLabelClickable,
         titleAndContentQueryString: queryString,
         thumbnailUrl: thumbnailUrl,

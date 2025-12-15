@@ -29,7 +29,7 @@ class PaperlessSavedViewsApiImpl extends PaperlessSavedViewsApi
   PaperlessSavedViewsApiImpl(this.client);
 
   @override
-  String get path => "/api/saved_views/";
+  String get path => "/api/saved_views";
   @override
   SavedView parse(Map<String, dynamic> json) => SavedView.fromJson(json);
 

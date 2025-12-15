@@ -63,7 +63,7 @@ mixin BaseCrudApiImplMixin<Model, Request, PatchedRequest, FilterOptions>
   @override
   Future<List<Model>> getAll([FilterOptions? options]) {
     return getCollection(
-      path,
+      '$path/',
       parse,
       listErrorCode,
       client: client,

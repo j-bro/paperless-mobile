@@ -6,7 +6,7 @@ import 'package:paperless_mobile/core/store/slices/local_user_data.dart';
 import 'package:paperless_mobile/features/login/cubit/authentication_cubit.dart';
 import 'package:paperless_mobile/features/users/view/widgets/user_account_list_tile.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
-import 'package:paperless_mobile/routing/routes/add_account_route.dart';
+import 'package:paperless_mobile/routing/routes/auth_route.dart';
 import 'package:provider/provider.dart';
 
 class ManageAccountsPage extends StatelessWidget {
@@ -138,7 +138,7 @@ class ManageAccountsPage extends StatelessWidget {
 
   Future<void> _onAddAccount(BuildContext context, String currentUser) async {
     Navigator.of(context).pop();
-    const AddAccountRoute().push<String>(context);
+    const AuthRoute().push(context);
   }
 
   void _onSwitchAccount(

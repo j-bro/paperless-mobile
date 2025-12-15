@@ -67,26 +67,34 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         clientCertificate,
         _sessionManager,
       );
-    } on PaperlessApiException catch (error) {
+
+      // Mark logged in user as currently active user.
+      _store.setLoggedInAppUserId(localUserId);
+
+      emit(Authenticated(localUserId: localUserId));
+      logger.fd(
+        'User $redactedId successfully logged in.',
+        className: runtimeType.toString(),
+        methodName: 'login',
+      );
+    } catch (error, stackTrace) {
+      logger.fe(
+        "An error occurred while fetching the remote paperless user.",
+        className: runtimeType.toString(),
+        methodName: '_addUser',
+        error: error,
+        stackTrace: stackTrace,
+      );
       emit(
         AuthenticationError(
           serverUrl: serverUrl,
           username: username,
-          errorCode: error.code,
           clientCertificate: clientCertificate,
+          error: error,
         ),
       );
-      rethrow;
+      return;
     }
-    // Mark logged in user as currently active user.
-    _store.setLoggedInAppUserId(localUserId);
-
-    emit(Authenticated(localUserId: localUserId));
-    logger.fd(
-      'User $redactedId successfully logged in.',
-      className: runtimeType.toString(),
-      methodName: 'login',
-    );
   }
 
   /// Switches to another account if it exists.
@@ -297,11 +305,11 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         methodName: 'restoreSession',
       );
     } else {
-      logger.fw(
-        "Could not update remote paperless user - "
-        "Server could not be reached. The app might behave unexpected!",
-        className: runtimeType.toString(),
-        methodName: 'restoreSession',
+      return emit(
+        ConnectionFailure(
+          serverUrl: localUserData.localUser.serverUrl,
+          username: localUserData.localUser.paperlessUser.username,
+        ),
       );
     }
     _store.setLoggedInAppUserId(restoreSessionUserId);
@@ -415,22 +423,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
 
     late User? serverUser;
 
-    try {
-      serverUser = await _usersApi.getCurrentUser();
-    } on DioException catch (error, stackTrace) {
-      logger.fe(
-        "An error occurred while fetching the remote paperless user.",
-        className: runtimeType.toString(),
-        methodName: '_addUser',
-        error: error,
-        stackTrace: stackTrace,
-      );
-
-      rethrow;
-    } catch (error) {
-      print(error);
-      return;
-    }
+    serverUser = await _usersApi.getCurrentUser();
     if (serverUser == null) {
       logger.fe(
         "Could not fetch remote paperless user!",
@@ -512,7 +505,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       methodName: '_getApiVersion',
     );
     try {
-      final response = await dio.get(
+      final response = await dio.head(
         "/api/",
         options: Options(sendTimeout: timeout),
       );

@@ -79,7 +79,7 @@ class SavedViewPreview extends StatelessWidget {
             onTap: (document) {
               DocumentDetailsRoute(
                 title: document.title,
-                id: document.id,
+                documentId: document.id,
                 thumbnailUrl: document.buildThumbnailUrl(context),
               ).push(context);
             },

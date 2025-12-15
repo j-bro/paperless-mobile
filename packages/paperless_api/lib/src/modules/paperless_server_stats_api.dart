@@ -58,7 +58,7 @@ class PaperlessServerStatsApiImpl implements PaperlessServerStatsApi {
   @override
   Future<PaperlessServerStatisticsModel> getServerStatistics() async {
     final result = await getSingleResult(
-      '/api/statistics',
+      '/api/statistics/',
       PaperlessServerStatisticsModel.fromJson,
       ErrorCode.serverStatisticsLoadFailed,
       client: client,

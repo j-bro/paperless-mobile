@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/accessibility/accessibility_utils.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/helpers/connectivity_aware_action_wrapper.dart';
 import 'package:paperless_mobile/routing/routes/documents_route.dart';
 import 'package:provider/provider.dart';
@@ -32,6 +33,8 @@ class DocumentPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentUser = context.loggedInUser$.paperlessUser;
+
     return ConnectivityAwareActionWrapper(
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
@@ -46,17 +49,17 @@ class DocumentPreview extends StatelessWidget {
             if (enableHero) {
               return Hero(
                 tag: "thumb_$documentId",
-                child: _buildPreview(context),
+                child: _buildPreview(context, currentUser),
               ).accessible();
             }
-            return _buildPreview(context);
+            return _buildPreview(context, currentUser);
           },
         ),
       ),
     );
   }
 
-  Widget _buildPreview(BuildContext context) {
+  Widget _buildPreview(BuildContext context, User currentUser) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(borderRadius),
       child: Transform.scale(
@@ -65,10 +68,13 @@ class DocumentPreview extends StatelessWidget {
           fit: fit,
           alignment: alignment,
           cacheKey: "thumb_$documentId",
-          imageUrl: context.read<PaperlessDocumentsApi>().getThumbnailUrl(
-            documentId,
-          ),
-          errorWidget: (ctxt, msg, __) => Text(msg),
+
+          imageUrl: currentUser.canViewDocuments
+              ? context.read<PaperlessDocumentsApi>().getThumbnailUrl(
+                  documentId,
+                )
+              : '',
+          errorWidget: (ctxt, msg, __) => SizedBox.shrink(),
           placeholder: (context, value) => Shimmer.fromColors(
             baseColor: Colors.grey[300]!,
             highlightColor: Colors.grey[100]!,
