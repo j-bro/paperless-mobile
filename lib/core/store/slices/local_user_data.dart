@@ -11,7 +11,7 @@ abstract class LocalUserData with _$LocalUserData {
     required String userId,
     required LocalUserAccount localUser,
     @Default(false) bool isBiometricAuthenticationEnabled,
-    @Default(LocalUserAppState()) LocalUserAppState? appState,
+    @Default(LocalUserAppState()) LocalUserAppState appState,
   }) = _UserSettings;
 
   factory LocalUserData.fromJson(Map<String, dynamic> json) =>

@@ -12,7 +12,7 @@ import 'package:paperless_mobile/routing/routes/saved_views_route.dart';
 
 class SavedViewsWidget extends StatefulWidget {
   final void Function(SavedView view) onViewSelected;
-  final void Function(SavedView view) onUpdateView;
+  final void Function(int id, SavedViewRequest view) onUpdateView;
   final void Function(SavedView view) onDeleteView;
 
   final DocumentFilter filter;
@@ -109,7 +109,7 @@ class _SavedViewsWidgetState extends State<SavedViewsWidget>
                       final newView = selectedView!.copyWith(
                         filterRules: widget.filter.toFilterRules(),
                       );
-                      widget.onUpdateView(newView);
+                      widget.onUpdateView(newView.id, newView.toRequest());
                     },
                     child: Text(S.of(context)!.saveChanges),
                   ),

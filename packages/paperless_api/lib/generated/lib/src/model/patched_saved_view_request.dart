@@ -70,7 +70,7 @@ class PatchedSavedViewRequest {
   final Option<DisplayModeEnum?>? displayMode;
 
   @JsonKey(name: r'display_fields', required: false, includeIfNull: false)
-  final Option<Object?>? displayFields;
+  final Option<List<String>?>? displayFields;
 
   @JsonKey(name: r'owner', required: false, includeIfNull: false)
   final Option<int?>? owner;

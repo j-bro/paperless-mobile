@@ -11,7 +11,6 @@ import 'package:paperless_mobile/features/sharing/cubit/receive_share_cubit.dart
 import 'package:paperless_mobile/generated/assets.gen.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/routing/routes/documents_route.dart';
-import 'package:paperless_mobile/routing/routes/saved_views_route.dart';
 import 'package:paperless_mobile/routing/routes/settings_route.dart';
 import 'package:paperless_mobile/routing/routes/upload_queue_route.dart';
 import 'package:provider/provider.dart';
@@ -200,28 +199,21 @@ class AppDrawer extends StatelessWidget {
         final sidebarViews =
             state.data?.where((element) => element.showInSidebar).toList() ??
             [];
-        if (sidebarViews.isEmpty) {
-          return Column(
-            children: [
-              Text(
-                S.of(context)!.youDidNotSaveAnyViewsYet,
-                style: Theme.of(context).textTheme.bodySmall,
-              ).paddedOnly(left: 16, right: 16),
-              TextButton.icon(
-                onPressed: currentUser.canCreateSavedViews
-                    ? () {
-                        Scaffold.of(context).closeDrawer();
-                        const CreateSavedViewRoute(
-                          showInSidebar: true,
-                        ).push(context);
-                      }
-                    : null,
-                icon: const Icon(Icons.add),
-                label: Text(S.of(context)!.newView),
-              ),
-            ],
-          );
+
+        if (state.data?.isEmpty ?? true) {
+          return Text(
+            S.of(context)!.youDidNotSaveAnyViewsYet,
+            style: Theme.of(context).textTheme.bodySmall,
+          ).paddedOnly(left: 16, right: 16);
         }
+
+        if (sidebarViews.isEmpty) {
+          return Text(
+            S.of(context)!.noViewsMarkedInSidebar,
+            style: Theme.of(context).textTheme.bodySmall,
+          ).paddedOnly(left: 16, right: 16);
+        }
+
         return ListView.builder(
           shrinkWrap: true,
           itemBuilder: (context, index) {

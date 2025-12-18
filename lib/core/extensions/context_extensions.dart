@@ -7,6 +7,7 @@ import 'package:paperless_mobile/core/repository/document_type_repository.dart';
 import 'package:paperless_mobile/core/repository/inbox_repository.dart';
 import 'package:paperless_mobile/core/repository/saved_view_repository.dart';
 import 'package:paperless_mobile/core/repository/search_repository.dart';
+import 'package:paperless_mobile/core/repository/server_statistics_repository.dart';
 import 'package:paperless_mobile/core/repository/storage_path_repository.dart';
 import 'package:paperless_mobile/core/repository/tag_repository.dart';
 import 'package:paperless_mobile/core/store/local_store.dart';
@@ -54,13 +55,14 @@ extension ContextExtensions on BuildContext {
       read<CustomFieldsRepository>();
   InboxRepository get inboxRepository => read<InboxRepository>();
   SearchRepository get searchRepository => read<SearchRepository>();
-
+  ServerStatisticsRepository get serverStatisticsRepository =>
+      read<ServerStatisticsRepository>();
   DocumentFilter get currentDocumentFilter$ =>
-      loggedInUserData$.appState!.currentDocumentFilter;
+      loggedInUserData$.appState.currentDocumentFilter;
   DocumentFilter get currentDocumentFilter => localStore
       .state
       .localUserData[loggedInAppUserId]!
-      .appState!
+      .appState
       .currentDocumentFilter;
 
   void refetchLabels() {

@@ -3,8 +3,8 @@ import 'package:collection/collection.dart';
 import 'package:defer_pointer/defer_pointer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fpdart/fpdart.dart' show Option;
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/extensions/document_extensions.dart';
@@ -104,7 +104,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
 
   Future<void> _reloadData() async {
     final currentFilter =
-        context.loggedInUserData.appState?.currentDocumentFilter;
+        context.loggedInUserData.appState.currentDocumentFilter;
     CachedQuery.instance.refetchQueries(
       keys: [
         context.savedViewRepository.queryKey,
@@ -148,15 +148,20 @@ class _DocumentsPageState extends State<DocumentsPage> {
       top: true,
       child: Scaffold(
         drawer: const AppDrawer(),
-        floatingActionButton: _selection.isNotEmpty
-            ? CurrentUserAppStateBuilder(
-                builder: (context, appState) {
+        floatingActionButtonAnimator: FloatingActionButtonAnimator.noAnimation,
+        floatingActionButton: _selection.isEmpty
+            ? CurrentUserAppDataBuilder(
+                builder: (context, userData) {
                   return _buildFilterButton(
                     context,
-                    appState.currentDocumentFilter.appliedFiltersCount > 0,
+                    userData
+                            .appState
+                            .currentDocumentFilter
+                            .appliedFiltersCount >
+                        0,
                   );
                 },
-              )
+              ).animate().fadeIn(duration: 200.milliseconds)
             : null,
         resizeToAvoidBottomInset: true,
         body: PopScope(
@@ -296,8 +301,9 @@ class _DocumentsPageState extends State<DocumentsPage> {
   }
 
   Widget _buildDocumentsTab(BuildContext context) {
+    final localStore = context.localStore;
     final currentFilter =
-        context.loggedInUserData$.appState?.currentDocumentFilter;
+        context.loggedInUserData$.appState.currentDocumentFilter;
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) {
         // Listen for scroll notifications to load new data.
@@ -353,76 +359,75 @@ class _DocumentsPageState extends State<DocumentsPage> {
             SliverOverlapInjector(handle: searchBarHandle),
             SliverOverlapInjector(handle: savedViewsHandle),
             SliverToBoxAdapter(
-              child: CurrentUserAppStateBuilder(
-                builder: (context, appState) {
+              child: CurrentUserAppDataBuilder(
+                builder: (context, userData) {
                   if (!context.loggedInUser$.paperlessUser.canViewSavedViews) {
                     return const SizedBox.shrink();
                   }
-                  return SavedViewsWidget(
-                    controller: _savedViewsExpansionController,
-                    onViewSelected: (view) {
-                      if (context.currentDocumentFilter.selectedView ==
-                          view.id) {
-                        _onResetFilter();
-                      } else {
-                        context.localStore.updateLoggedInUserAppState(
-                          (appState) => appState.copyWith(
-                            currentDocumentFilter: view.toDocumentFilter(),
-                          ),
-                        );
-                      }
-                    },
-                    onUpdateView: (view) async {
-                      await context.savedViewRepository
-                          .patchMutation(view.id)
-                          .mutate(
-                            PatchedSavedViewRequest(
-                              filterRules: Option.of(
-                                currentFilter?.toFilterRules().toRequest(),
-                              ),
+                  return CurrentUserAppDataBuilder(
+                    builder: (context, userData) => SavedViewsWidget(
+                      controller: _savedViewsExpansionController,
+                      onViewSelected: (view) {
+                        if (userData
+                                .appState
+                                .currentDocumentFilter
+                                .selectedView ==
+                            view.id) {
+                          _onResetFilter();
+                        } else {
+                          localStore.updateLoggedInUserAppState(
+                            (appState) => appState.copyWith(
+                              currentDocumentFilter: view.toDocumentFilter(),
                             ),
                           );
-                      if (context.mounted) {
-                        showSnackBar(
-                          context,
-                          S.of(context)!.savedViewSuccessfullyUpdated,
-                        );
-                      }
-                    },
-                    onDeleteView: (view) async {
-                      HapticFeedback.mediumImpact();
-                      final shouldRemove = await showDialog(
-                        context: context,
-                        builder: (context) =>
-                            ConfirmDeleteSavedViewDialog(view: view),
-                      );
-                      if (shouldRemove && context.mounted) {
-                        await context.savedViewRepository
-                            .deleteMutation(view.id)
-                            .mutate(null);
-                        if (currentFilter?.selectedView != null &&
-                            currentFilter!.selectedView == view.id) {
-                          _onResetFilter();
                         }
-                      }
-                    },
-                    filter: appState.currentDocumentFilter,
+                      },
+                      onUpdateView: (id, view) async {
+                        await context.savedViewRepository
+                            .putMutation(id)
+                            .mutate(view);
+                        if (context.mounted) {
+                          showSnackBar(
+                            context,
+                            S.of(context)!.savedViewSuccessfullyUpdated,
+                          );
+                        }
+                      },
+                      onDeleteView: (view) async {
+                        HapticFeedback.mediumImpact();
+                        final shouldRemove = await showDialog(
+                          context: context,
+                          builder: (context) =>
+                              ConfirmDeleteSavedViewDialog(view: view),
+                        );
+                        if (shouldRemove && context.mounted) {
+                          await context.savedViewRepository
+                              .deleteMutation(view.id)
+                              .mutate(null);
+                          if (currentFilter.selectedView != null &&
+                              currentFilter.selectedView == view.id) {
+                            _onResetFilter();
+                          }
+                        }
+                      },
+                      filter: userData.appState.currentDocumentFilter,
+                    ),
                   );
                 },
               ),
             ),
-            CurrentUserAppStateBuilder(
-              builder: (context, appState) {
+            CurrentUserAppDataBuilder(
+              builder: (context, userData) {
                 return QueryBuilder(
                   query: context.documentRepository.getAllQuery(
-                    filter: appState.currentDocumentFilter,
+                    filter: userData.appState.currentDocumentFilter,
                   ),
                   builder: (context, state) {
                     if (state.data != null &&
                         (state.data?.firstPage?.count ?? 0) == 0) {
                       return SliverToBoxAdapter(
                         child: DocumentsEmptyState(
-                          filter: context.currentDocumentFilter$,
+                          filter: userData.appState.currentDocumentFilter,
                           onReset: _onResetFilter,
                         ),
                       );
@@ -431,50 +436,47 @@ class _DocumentsPageState extends State<DocumentsPage> {
                         state.data?.pages.expand((p) => p.results).toList() ??
                         [];
                     final allowToggleFilter = _selection.isEmpty;
-                    return CurrentUserAppStateBuilder(
-                      builder: (context, appState) {
-                        final viewType = appState.documentsPageViewType;
-                        return SliverAdaptiveDocumentsView(
-                          viewType: viewType,
-                          onTap: (document) {
-                            DocumentDetailsRoute(
-                              documentId: document.id,
-                              title: document.title,
-                              thumbnailUrl: document.buildThumbnailUrl(context),
-                            ).push(context);
-                          },
-                          onSelected: (document) {
-                            setState(() {
-                              _selection.add(document);
-                            });
-                          },
-                          onTagSelected: allowToggleFilter
-                              ? _toggleTagInFilter
-                              : null,
-                          onCorrespondentSelected: allowToggleFilter
-                              ? _addCorrespondentToFilter
-                              : null,
-                          onDocumentTypeSelected: allowToggleFilter
-                              ? _addDocumentTypeToFilter
-                              : null,
-                          onStoragePathSelected: allowToggleFilter
-                              ? _addStoragePathToFilter
-                              : null,
-                          documents: documents,
-                          hasLoaded: state.isSuccess,
-                          isLabelClickable: true,
-                          isLoading: switch (state) {
-                            InfiniteQueryInitial() => true,
-                            InfiniteQueryLoading(
-                              :final isRefetching,
-                              :final isLoading,
-                            ) =>
-                              isLoading && !isRefetching,
-                            _ => false,
-                          },
-                          selectedDocumentIds: _selection.ids,
-                        );
+                    final viewType = userData.appState.documentsPageViewType;
+
+                    return SliverAdaptiveDocumentsView(
+                      viewType: viewType,
+                      onTap: (document) {
+                        DocumentDetailsRoute(
+                          documentId: document.id,
+                          title: document.title,
+                          thumbnailUrl: document.buildThumbnailUrl(context),
+                        ).push(context);
                       },
+                      onSelected: (document) {
+                        setState(() {
+                          _selection.add(document);
+                        });
+                      },
+                      onTagSelected: allowToggleFilter
+                          ? _toggleTagInFilter
+                          : null,
+                      onCorrespondentSelected: allowToggleFilter
+                          ? _addCorrespondentToFilter
+                          : null,
+                      onDocumentTypeSelected: allowToggleFilter
+                          ? _addDocumentTypeToFilter
+                          : null,
+                      onStoragePathSelected: allowToggleFilter
+                          ? _addStoragePathToFilter
+                          : null,
+                      documents: documents,
+                      hasLoaded: state.isSuccess,
+                      isLabelClickable: true,
+                      isLoading: switch (state) {
+                        InfiniteQueryInitial() => true,
+                        InfiniteQueryLoading(
+                          :final isRefetching,
+                          :final isLoading,
+                        ) =>
+                          isLoading && !isRefetching,
+                        _ => false,
+                      },
+                      selectedDocumentIds: _selection.ids,
                     );
                   },
                 );
@@ -495,9 +497,9 @@ class _DocumentsPageState extends State<DocumentsPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SortDocumentsButton(enabled: _selection.isEmpty),
-          CurrentUserAppStateBuilder(
-            builder: (context, appState) {
-              final viewType = appState.documentsPageViewType;
+          CurrentUserAppDataBuilder(
+            builder: (context, userData) {
+              final viewType = userData.appState.documentsPageViewType;
               return ViewTypeSelectionWidget(
                 viewType: viewType,
                 onChanged: (viewType) {
@@ -705,7 +707,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
         .getAllQuery()
         .state
         .data
-        ?.firstWhere(
+        ?.firstWhereOrNull(
           (view) => view.id == context.currentDocumentFilter.selectedView,
         );
 

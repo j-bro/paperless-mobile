@@ -92,6 +92,7 @@ class _DocumentFilterFormState extends State<DocumentFilterForm> {
             controller: widget.scrollController,
             slivers: [
               if (widget.header != null) widget.header!,
+              SliverToBoxAdapter(child: SizedBox(height: 8)),
               ..._buildFormFieldList(data),
               const SliverToBoxAdapter(child: SizedBox(height: 32)),
             ],
@@ -172,7 +173,7 @@ class _DocumentFilterFormState extends State<DocumentFilterForm> {
       prefixIcon: const Icon(Icons.description_outlined),
       allowSelectUnassigned: false,
       canCreateNewLabel:
-          context.loggedInUser$.paperlessUser.canCreateDocumentTypes,
+          context.loggedInUser.paperlessUser.canCreateDocumentTypes,
     );
   }
 
@@ -185,7 +186,7 @@ class _DocumentFilterFormState extends State<DocumentFilterForm> {
       prefixIcon: const Icon(Icons.person_outline),
       allowSelectUnassigned: false,
       canCreateNewLabel:
-          context.loggedInUser$.paperlessUser.canCreateCorrespondents,
+          context.loggedInUser.paperlessUser.canCreateCorrespondents,
     );
   }
 
@@ -198,7 +199,7 @@ class _DocumentFilterFormState extends State<DocumentFilterForm> {
       prefixIcon: const Icon(Icons.folder_outlined),
       allowSelectUnassigned: false,
       canCreateNewLabel:
-          context.loggedInUser$.paperlessUser.canCreateStoragePaths,
+          context.loggedInUser.paperlessUser.canCreateStoragePaths,
     );
   }
 

@@ -364,7 +364,7 @@ class _InboxItemState extends State<InboxItem> {
           avatar: Builder(
             builder: (context) {
               if (state.isLoading) {
-                return const CircularProgressIndicator();
+                return const IconLoadingWidget();
               }
               return SizedBox.shrink();
             },
@@ -401,17 +401,12 @@ class _InboxItemState extends State<InboxItem> {
       ),
       enabled: _suggestionsEnabled,
       builder: (context, state) {
-        if (state.isInitial) {
+        if (state.isInitial || state.isLoading && state.data == null) {
           return SliverToBoxAdapter(child: Center(child: SizedBox.shrink()));
         }
         if (state.isError) {
           return SliverToBoxAdapter(
             child: Center(child: Text(S.of(context)!.couldNotLoadSuggestions)),
-          );
-        }
-        if (state.isLoading && state.data == null) {
-          return SliverToBoxAdapter(
-            child: Center(child: CircularProgressIndicator()),
           );
         }
         final suggestions = state.data!;

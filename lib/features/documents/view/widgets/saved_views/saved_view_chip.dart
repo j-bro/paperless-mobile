@@ -1,14 +1,14 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:paperless_api/generated/lib/src/model/saved_view.dart';
+import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/routing/routes/saved_views_route.dart';
 
 class SavedViewChip extends StatefulWidget {
   final SavedView view;
   final void Function(SavedView view) onViewSelected;
-  final void Function(SavedView view) onUpdateView;
+  final void Function(int id, SavedViewRequest view) onUpdateView;
   final void Function(SavedView view) onDeleteView;
   final bool selected;
   final bool hasChanged;

@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:paperless_api/paperless_api.dart';
 
@@ -55,6 +56,9 @@ class DocumentFilter extends Equatable {
   });
 
   bool get forceExtendedQuery {
+    debugPrint(
+      'forceExtendedQuery called ${added.runtimeType}, ${created.runtimeType}, ${modified.runtimeType}',
+    );
     return added is RelativeDateRangeQuery ||
         created is RelativeDateRangeQuery ||
         modified is RelativeDateRangeQuery;
@@ -74,10 +78,7 @@ class DocumentFilter extends Equatable {
       ...modified.toQueryParameter(DateRangeQueryField.modified).entries,
       ...query.toQueryParameter().entries,
       if (sortField != null)
-        MapEntry(
-          'ordering',
-          '${sortOrder.queryString}${sortField!.queryString}',
-        ),
+        MapEntry('ordering', '${sortOrder.queryString}${sortField!.value}'),
       if (moreLike != null) MapEntry('more_like_id', moreLike),
       if (fields != null) MapEntry('fields', fields),
     ];

@@ -24,8 +24,12 @@ class TextQueryFormField extends StatelessWidget {
       initialValue: initialValue,
       builder: (field) {
         return Autocomplete(
-          optionsBuilder: (value) =>
-              context.read<PaperlessSearchApi>().autocomplete(value.text),
+          optionsBuilder: (value) async {
+            if (value.text.length < 3) {
+              return <String>[];
+            }
+            return context.read<PaperlessSearchApi>().autocomplete(value.text);
+          },
           initialValue: initialValue?.queryText != null
               ? TextEditingValue(text: initialValue!.queryText!)
               : null,
@@ -39,6 +43,7 @@ class TextQueryFormField extends StatelessWidget {
                     labelText: _buildLabelText(context, field.value!.queryType),
                     suffixIcon: _buildQueryTypeMenu(context, field),
                   ),
+
                   onChanged: (value) {
                     field.didChange(field.value?.copyWith(queryText: value));
                   },

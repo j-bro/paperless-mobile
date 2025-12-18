@@ -76,7 +76,7 @@ class SavedView {
   final DisplayModeEnum? displayMode;
 
   @JsonKey(name: r'display_fields', required: false, includeIfNull: false)
-  final Object? displayFields;
+  final List<String>? displayFields;
 
   @JsonKey(name: r'owner', required: false, includeIfNull: false)
   final int? owner;

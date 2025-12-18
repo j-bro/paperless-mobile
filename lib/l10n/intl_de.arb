@@ -622,7 +622,7 @@
   "@list": {},
   "loadFullContent": "Lade gesamten Inhalt",
   "@loadFullContent": {},
-  "loadInboxItemSuggestions": "Load suggestions",
+  "loadInboxItemSuggestions": "Vorschläge laden",
   "loadingLogsFrom": "Lade Logs vom {date}...",
   "logfileBottomReached": "Du hast das Ende dieser Logdatei erreicht.",
   "loggedInAs": "Eingeloggt als {name}",
@@ -668,9 +668,9 @@
   "@metaData": {
     "description": "Label shown in the tabbar on details page"
   },
-  "mfaCodeInvalidLengthValidationMessage": "MFA code must be 6 digits.",
-  "mfaCodeRequiredValidationMessage": "Please enter the MFA code.",
-  "mfaFormFieldHint": "Your account is protected by two-factor authentication. Please enter an authentication code:",
+  "mfaCodeInvalidLengthValidationMessage": "Der Code muss aus 6 Ziffern bestehen.",
+  "mfaCodeRequiredValidationMessage": "Bitte gib den MFA Code ein.",
+  "mfaFormFieldHint": "Dein Konto ist durch Zwei-Faktor-Authentifizierung geschützt. Bitte gib einen Authentifizierungscode ein:",
   "misc": "Sonstige",
   "missingPermissions": "Sie besitzen nicht die benötigten Berechtigungen, um diese Aktion durchzuführen.",
   "@missingPermissions": {
@@ -761,7 +761,7 @@
   "@original": {
     "description": "Option to chose when downloading a document"
   },
-  "originalFilename": "Original Filename",
+  "originalFilename": "Ursprünglicher Dateiname",
   "originalFileSize": "Dateigröße Original",
   "@originalFileSize": {},
   "originalMD5Checksum": "MD5-Prüfsumme Original",
@@ -1048,10 +1048,11 @@
   },
   "youDoNotHaveUnseenDocuments": "Du hast keine ungesehenen Dokumente.",
   "@youDoNotHaveUnseenDocuments": {},
-  "youHaveNoViewsOnYourDashboardYet": "You have not added any views to your dashboard yet.",
+  "youHaveNoViewsOnYourDashboardYet": "Du hast noch keine Ansichten zu deinem Dashboard hinzugefügt.",
   "youreOffline": "Du bist offline.",
   "@youreOffline": {},
-  "pendingFiles": "Pending Files",
-  "noSuggestionsForThisDocument": "No suggestions available.",
-  "unauthorizedErrorMessage": "You are not authorized to perform this action. Please contact your admin or make sure you have the necessary permissions."
+  "pendingFiles": "Ausstehende Dateien",
+  "noSuggestionsForThisDocument": "Keine Vorschläge verfügbar.",
+  "unauthorizedErrorMessage": "Du bist nicht berechtigt, diese Aktion durchzuführen. Bitte kontaktiere einen Administrator oder stelle sicher, dass Du über die erforderlichen Berechtigungen verfügst.",
+  "noViewsMarkedInSidebar": "Du hast keine Ansichten, die in der Seitenleiste angezeigt werden sollen."
 }

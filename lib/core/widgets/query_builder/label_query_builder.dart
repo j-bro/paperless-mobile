@@ -1,11 +1,8 @@
 import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:paperless_api/paperless_api.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/extensions/label_list_extension.dart';
-import 'package:paperless_mobile/core/repository/correspondent_repository.dart';
-import 'package:paperless_mobile/core/repository/document_type_repository.dart';
-import 'package:paperless_mobile/core/repository/storage_path_repository.dart';
-import 'package:paperless_mobile/core/repository/tag_repository.dart';
 import 'package:provider/provider.dart';
 
 class CombinedError {
@@ -55,10 +52,10 @@ class LabelQueryBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final correspondentRepository = context.read<CorrespondentRepository>();
-    final documentTypeRepository = context.read<DocumentTypeRepository>();
-    final storagePathRepository = context.read<StoragePathRepository>();
-    final tagRepository = context.read<TagRepository>();
+    final correspondentRepository = context.correspondentRepository;
+    final documentTypeRepository = context.documentTypeRepository;
+    final storagePathRepository = context.storagePathRepository;
+    final tagRepository = context.tagRepository;
 
     return QueryBuilder(
       query: correspondentRepository.getAllQuery(),

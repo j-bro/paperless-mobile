@@ -22,7 +22,7 @@ extension SavedViewRequestExtensions on DocumentFilter {
             ),
           )
           .toList(),
-      sortField: sortField?.queryString,
+      sortField: sortField?.value,
       showInSidebar: showInSidebar,
       showOnDashboard: showOnDashboard,
       sortReverse: sortOrder == SortOrder.descending,

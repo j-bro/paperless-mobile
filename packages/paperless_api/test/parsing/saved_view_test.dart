@@ -126,7 +126,7 @@ void main() {
             name: "test_name",
             showOnDashboard: false,
             showInSidebar: false,
-            sortField: SortField.added.queryString,
+            sortField: SortField.added.value,
             sortReverse: false,
             userCanChange: true,
             filterRules: [
@@ -186,7 +186,7 @@ void main() {
             name: "test_name",
             showOnDashboard: false,
             showInSidebar: false,
-            sortField: SortField.created.queryString,
+            sortField: SortField.created.value,
             sortReverse: true,
             filterRules: [],
           ),
@@ -213,7 +213,7 @@ void main() {
             name: "test_name",
             showOnDashboard: false,
             showInSidebar: false,
-            sortField: SortField.created.queryString,
+            sortField: SortField.created.value,
             sortReverse: false,
             filterRules: [
               SavedViewFilterRuleRequest(

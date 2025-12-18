@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
+import 'package:paperless_mobile/core/store/bloc/global_settings_builder.dart';
 import 'package:paperless_mobile/features/settings/view/widgets/radio_settings_dialog.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
@@ -28,36 +29,38 @@ class _LanguageSelectionSettingState extends State<LanguageSelectionSetting> {
 
   @override
   Widget build(BuildContext context) {
-    final settings = context.globalSettings$;
-    return ListTile(
-      title: Text(S.of(context)!.language),
-      subtitle: Text(_languageOptions[settings.preferredLocaleSubtag]!.name),
-      onTap: () =>
-          showDialog<String>(
-            context: context,
-            builder: (_) => RadioSettingsDialog<String>(
-              // footer: const Text(
-              //   "* Not fully translated yet. Some words may be displayed in English!",
-              // ),
-              titleText: S.of(context)!.language,
-              options: [
-                for (var language in _languageOptions.entries)
-                  RadioOption(
-                    value: language.key,
-                    label:
-                        language.value.name +
-                        (language.value.isComplete ? '' : '*'),
-                  ),
-              ],
-              initialValue: settings.preferredLocaleSubtag,
-            ),
-          ).then((value) {
-            if (value != null) {
-              context.localStore.updateGlobalSettings(
-                (state) => state.copyWith(preferredLocaleSubtag: value),
-              );
-            }
-          }),
+    final localStore = context.localStore;
+    return GlobalSettingsBuilder(
+      builder: (context, settings) => ListTile(
+        title: Text(S.of(context)!.language),
+        subtitle: Text(_languageOptions[settings.preferredLocaleSubtag]!.name),
+        onTap: () =>
+            showDialog<String>(
+              context: context,
+              builder: (_) => RadioSettingsDialog<String>(
+                // footer: const Text(
+                //   "* Not fully translated yet. Some words may be displayed in English!",
+                // ),
+                titleText: S.of(context)!.language,
+                options: [
+                  for (var language in _languageOptions.entries)
+                    RadioOption(
+                      value: language.key,
+                      label:
+                          language.value.name +
+                          (language.value.isComplete ? '' : '*'),
+                    ),
+                ],
+                initialValue: settings.preferredLocaleSubtag,
+              ),
+            ).then((value) {
+              if (value != null) {
+                localStore.updateGlobalSettings(
+                  (state) => state.copyWith(preferredLocaleSubtag: value),
+                );
+              }
+            }),
+      ),
     );
   }
 }

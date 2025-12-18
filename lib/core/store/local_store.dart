@@ -55,7 +55,7 @@ class LocalStore extends HydratedCubit<LocalStoreState> {
       return;
     }
     updateUserData(state.loggedInAppUserId!, (userData) {
-      final updated = userData.copyWith(appState: updater(userData.appState!));
+      final updated = userData.copyWith(appState: updater(userData.appState));
       return updated;
     });
   }

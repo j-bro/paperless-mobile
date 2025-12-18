@@ -668,7 +668,7 @@
   "@metaData": {
     "description": "Label shown in the tabbar on details page"
   },
-  "mfaCodeInvalidLengthValidationMessage": "MFA code must be 6 digits.",
+  "mfaCodeInvalidLengthValidationMessage": "Code must be 6 digits.",
   "mfaCodeRequiredValidationMessage": "Please enter the MFA code.",
   "mfaFormFieldHint": "Your account is protected by two-factor authentication. Please enter an authentication code:",
   "misc": "Otros",
@@ -1053,5 +1053,6 @@
   "@youreOffline": {},
   "pendingFiles": "Pending Files",
   "noSuggestionsForThisDocument": "No suggestions available.",
-  "unauthorizedErrorMessage": "You are not authorized to perform this action. Please contact your admin or make sure you have the necessary permissions."
+  "unauthorizedErrorMessage": "You are not authorized to perform this action. Please contact your admin or make sure you have the necessary permissions.",
+  "noViewsMarkedInSidebar": "You did not mark any views to be shown in the sidebar."
 }

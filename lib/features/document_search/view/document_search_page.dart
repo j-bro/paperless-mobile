@@ -54,7 +54,7 @@ class _DocumentSearchPageState extends State<DocumentSearchPage> {
       });
     });
     _documentViewType =
-        context.loggedInUserData.appState!.documentSearchViewType;
+        context.loggedInUserData.appState.documentSearchViewType;
   }
 
   @override
@@ -138,7 +138,7 @@ class _DocumentSearchPageState extends State<DocumentSearchPage> {
 
   Widget _buildSuggestionsView() {
     final searchHistory =
-        context.loggedInUserData$.appState?.documentSearchHistory ?? [];
+        context.loggedInUserData$.appState.documentSearchHistory ?? [];
     final historyMatches = searchHistory
         .where((element) => element.startsWith(_searchTerm))
         .toList();
