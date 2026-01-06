@@ -56,12 +56,14 @@ class AuthenticationError extends AuthenticationState with EquatableMixin {
   final dynamic error;
   final String serverUrl;
   final ClientCertificate? clientCertificate;
+  final List<HeaderEntry>? additionalHeaders;
   final String username;
 
   const AuthenticationError({
     this.error,
     required this.serverUrl,
     this.clientCertificate,
+    this.additionalHeaders,
     required this.username,
   });
 

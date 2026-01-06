@@ -6,6 +6,8 @@ import 'package:paperless_mobile/core/widgets/app_logs_footer_widget.dart';
 import 'package:paperless_mobile/features/login/model/client_certificate.dart';
 import 'package:paperless_mobile/features/login/model/reachability_status.dart';
 import 'package:paperless_mobile/features/login/server_connection/cubit/server_connection_cubit.dart';
+import 'package:paperless_mobile/features/login/server_connection/model/header_entry.dart';
+import 'package:paperless_mobile/features/login/view/widgets/form_fields/additional_headers_form_field.dart';
 import 'package:paperless_mobile/features/login/view/widgets/form_fields/client_certificate_form_field.dart';
 import 'package:paperless_mobile/features/login/view/widgets/form_fields/server_address_form_field.dart';
 import 'package:paperless_mobile/generated/assets.gen.dart';
@@ -15,10 +17,12 @@ import 'package:paperless_mobile/routing/routes/auth_route.dart';
 class ServerConnectionPage extends StatefulWidget {
   final String? initialHost;
   final ClientCertificate? initialClientCertificate;
+  final List<HeaderEntry>? initialAdditionalHeaders;
 
   const ServerConnectionPage({
     super.key,
     this.initialClientCertificate,
+    this.initialAdditionalHeaders,
     this.initialHost,
   });
 
@@ -36,6 +40,7 @@ class _ServerConnectionPageState extends State<ServerConnectionPage> {
       context.read<ServerConnectionCubit>().checkReachability(
         address: widget.initialHost!,
         clientCertificate: widget.initialClientCertificate,
+        additionalHeaders: widget.initialAdditionalHeaders,
       );
     } else {
       context.read<ServerConnectionCubit>().reset();
@@ -67,6 +72,10 @@ class _ServerConnectionPageState extends State<ServerConnectionPage> {
                 initialBytes: widget.initialClientCertificate?.bytes,
                 initialPassphrase: widget.initialClientCertificate?.passphrase,
               ).padded(),
+              AdditionalHeadersFormField(
+                name: 'additionalHeaders',
+                initialHeaders: widget.initialAdditionalHeaders,
+              ).padded(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -87,7 +96,10 @@ class _ServerConnectionPageState extends State<ServerConnectionPage> {
                       if (state is ServerConnectionSuccess) {
                         AuthenticateRoute(
                           serverUrl: state.serverUrl,
-                          $extra: state.clientCertificate,
+                          $extra: AuthRouteExtra(
+                            clientCertificate: state.clientCertificate,
+                            additionalHeaders: state.additionalHeaders,
+                          ),
                         ).go(context);
                       }
                     },
@@ -137,9 +149,13 @@ class _ServerConnectionPageState extends State<ServerConnectionPage> {
                   ?.fields[ServerAddressFormField.fkServerAddress]
                   ?.value
               as String;
+      final additionalHeaders =
+          _formKey.currentState?.fields['additionalHeaders']?.value
+              as List<HeaderEntry>?;
       context.read<ServerConnectionCubit>().checkReachability(
         address: address,
         clientCertificate: clientCertificate,
+        additionalHeaders: additionalHeaders,
       );
     }
   }

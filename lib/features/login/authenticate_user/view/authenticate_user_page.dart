@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:go_router/go_router.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/widgets/app_logs_footer_widget.dart';
 import 'package:paperless_mobile/features/login/authenticate_user/cubit/authenticate_user_cubit.dart';
 import 'package:paperless_mobile/features/login/model/client_certificate.dart';
 import 'package:paperless_mobile/features/login/model/login_form_credentials.dart';
+import 'package:paperless_mobile/features/login/server_connection/model/header_entry.dart';
 import 'package:paperless_mobile/features/login/view/widgets/form_fields/user_credentials_form_field.dart';
 import 'package:paperless_mobile/generated/assets.gen.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
@@ -15,6 +17,7 @@ import 'package:paperless_mobile/routing/routes/auth_route.dart';
 class AuthenticateUserPage extends StatefulWidget {
   final String serverUrl;
   final ClientCertificate? clientCertificate;
+  final List<HeaderEntry>? additionalHeaders;
   final String? initialUsername;
   final String? initialPassword;
 
@@ -24,6 +27,7 @@ class AuthenticateUserPage extends StatefulWidget {
     this.initialUsername,
     this.initialPassword,
     this.clientCertificate,
+    this.additionalHeaders,
   });
   @override
   State<AuthenticateUserPage> createState() => _AuthenticateUserPageState();
@@ -84,7 +88,10 @@ class _AuthenticateUserPageState extends State<AuthenticateUserPage> {
             onPressed: () => {
               AuthRoute(
                 initialHost: widget.serverUrl,
-                $extra: widget.clientCertificate,
+                $extra: AuthRouteExtra(
+                  clientCertificate: widget.clientCertificate,
+                  additionalHeaders: widget.additionalHeaders,
+                ),
               ).go(context),
             },
           ),
@@ -116,10 +123,7 @@ class _AuthenticateUserPageState extends State<AuthenticateUserPage> {
                         children: [
                           TextButton.icon(
                             onPressed: () {
-                              AuthRoute(
-                                initialHost: widget.serverUrl,
-                                $extra: widget.clientCertificate,
-                              ).replace(context);
+                              context.pop();
                             },
                             icon: Icon(Icons.arrow_back),
                             label: Text(S.of(context)!.edit),

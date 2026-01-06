@@ -1054,5 +1054,15 @@
   "pendingFiles": "Pending Files",
   "noSuggestionsForThisDocument": "No suggestions available.",
   "unauthorizedErrorMessage": "You are not authorized to perform this action. Please contact your admin or make sure you have the necessary permissions.",
-  "noViewsMarkedInSidebar": "You did not mark any views to be shown in the sidebar."
+  "noViewsMarkedInSidebar": "You did not mark any views to be shown in the sidebar.",
+  "additionalHeaders": "Additional Headers",
+  "configureAdditionalHttpHeaders": "Configure additional HTTP headers to be sent with each request",
+  "key": "Key",
+  "value": "Value",
+  "add": "Add",
+  "headerNameMustNotBeEmpty": "Header name must not be empty",
+  "headerValueMustNotBeEmpty": "Header value must not be empty",
+  "headerNameAlreadyExists": "The header already exists.",
+  "enabled": "Enabled",
+  "addAdditionalHeadersHint": "You can add HTTP headers to be included with each API request. This may be useful for custom authentication schemes, VPNs or other scenarios."
 }

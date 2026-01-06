@@ -319,7 +319,10 @@ class _GoRouterShellState extends State<GoRouterShell> {
                     showGenericError(context, error.error);
                     AuthenticateRoute(
                       serverUrl: error.serverUrl,
-                      $extra: error.clientCertificate,
+                      $extra: AuthRouteExtra(
+                        clientCertificate: error.clientCertificate,
+                        additionalHeaders: error.additionalHeaders,
+                      ),
                       initialUsername: error.username,
                     ).replace(context);
                     break;

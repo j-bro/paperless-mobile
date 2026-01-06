@@ -9,6 +9,7 @@ import 'package:paperless_mobile/features/login/authenticate_user/view/authentic
 import 'package:paperless_mobile/features/login/authenticate_user/view/otp_input_page.dart';
 import 'package:paperless_mobile/features/login/model/client_certificate.dart';
 import 'package:paperless_mobile/features/login/server_connection/cubit/server_connection_cubit.dart';
+import 'package:paperless_mobile/features/login/server_connection/model/header_entry.dart';
 import 'package:paperless_mobile/features/login/server_connection/view/server_connection_page.dart';
 import 'package:paperless_mobile/features/login/set_active_user/set_active_user_page.dart';
 import 'package:paperless_mobile/features/login/view/login_to_existing_account_page.dart';
@@ -58,7 +59,7 @@ class AuthRoute extends GoRouteData with $AuthRoute {
   final String? initialHost;
 
   /// The redirect chain determines the flow for authentication.
-  final ClientCertificate? $extra;
+  final AuthRouteExtra? $extra;
 
   const AuthRoute({this.initialHost, this.$extra});
 
@@ -69,11 +70,19 @@ class AuthRoute extends GoRouteData with $AuthRoute {
         create: (context) => ServerConnectionCubit(context.read()),
         child: ServerConnectionPage(
           initialHost: initialHost,
-          initialClientCertificate: $extra,
+          initialClientCertificate: $extra?.clientCertificate,
+          initialAdditionalHeaders: $extra?.additionalHeaders,
         ),
       ),
     );
   }
+}
+
+class AuthRouteExtra {
+  final ClientCertificate? clientCertificate;
+  final List<HeaderEntry>? additionalHeaders;
+
+  const AuthRouteExtra({this.clientCertificate, this.additionalHeaders});
 }
 
 class AuthenticateRoute extends GoRouteData with $AuthenticateRoute {
@@ -82,7 +91,7 @@ class AuthenticateRoute extends GoRouteData with $AuthenticateRoute {
   final String serverUrl;
   final String? initialUsername;
   final String? initialPassword;
-  final ClientCertificate? $extra;
+  final AuthRouteExtra? $extra;
 
   const AuthenticateRoute({
     required this.serverUrl,
@@ -111,7 +120,8 @@ class AuthenticateRoute extends GoRouteData with $AuthenticateRoute {
           serverUrl: serverUrl,
           initialUsername: initialUsername,
           initialPassword: initialPassword,
-          clientCertificate: $extra,
+          clientCertificate: $extra?.clientCertificate,
+          additionalHeaders: $extra?.additionalHeaders,
         ),
       ),
     );

@@ -18,6 +18,7 @@ import 'package:paperless_mobile/features/logging/data/logger.dart';
 import 'package:paperless_mobile/features/logging/utils/redaction_utils.dart';
 import 'package:paperless_mobile/features/login/model/client_certificate.dart';
 import 'package:paperless_mobile/features/login/model/reachability_status.dart';
+import 'package:paperless_mobile/features/login/server_connection/model/header_entry.dart';
 import 'package:paperless_mobile/features/login/services/authentication_service.dart';
 import 'package:paperless_mobile/features/notifications/services/local_notification_service.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
@@ -48,6 +49,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     required String username,
     required String token,
     ClientCertificate? clientCertificate,
+    List<HeaderEntry>? additionalHeaders,
   }) async {
     emit(const Authenticating());
     final localUserId = "$username@$serverUrl";
@@ -65,6 +67,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         username,
         token,
         clientCertificate,
+        additionalHeaders,
         _sessionManager,
       );
 
@@ -90,6 +93,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
           serverUrl: serverUrl,
           username: username,
           clientCertificate: clientCertificate,
+          additionalHeaders: additionalHeaders,
           error: error,
         ),
       );
@@ -155,6 +159,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     _sessionManager.updateSettings(
       authToken: decryptedState.credentials.token,
       clientCertificate: decryptedState.credentials.clientCertificate,
+      additionalHeaders: decryptedState.credentials.additionalHeaders,
       baseUrl: localUserData.localUser.serverUrl,
       broadcast: false,
     );
@@ -271,6 +276,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
 
     _sessionManager.updateSettings(
       clientCertificate: decryptedState.credentials.clientCertificate,
+      additionalHeaders: decryptedState.credentials.additionalHeaders,
       authToken: decryptedState.credentials.token,
       baseUrl: localUserData.localUser.serverUrl,
       broadcast: false,
@@ -284,6 +290,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         await _connectivityService.isPaperlessServerReachable(
           localUserData.localUser.serverUrl,
           decryptedState.credentials.clientCertificate,
+          decryptedState.credentials.additionalHeaders,
         ) ==
         ReachabilityStatus.reachable;
     logger.fd(
@@ -372,6 +379,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       methodName: '_resetExternalState',
     );
     await HydratedBloc.storage.clear();
+    CachedQuery.instance.deleteCache();
     logger.fd(
       "Local state cleard.",
       className: runtimeType.toString(),
@@ -388,6 +396,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     String username,
     String token,
     ClientCertificate? clientCert,
+    List<HeaderEntry>? additionalHeaders,
     SessionManager sessionManager,
   ) async {
     final redactedId = redactUserId(localUserId);
@@ -401,6 +410,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     sessionManager.updateSettings(
       baseUrl: serverUrl,
       clientCertificate: clientCert,
+      additionalHeaders: additionalHeaders,
       authToken: token,
       broadcast: false,
     );
@@ -475,6 +485,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         credentials: UserCredentials(
           token: token,
           clientCertificate: clientCert,
+          additionalHeaders: additionalHeaders,
         ),
       ),
     );

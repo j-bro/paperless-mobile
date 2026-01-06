@@ -10,6 +10,7 @@ import 'package:paperless_mobile/core/interceptor/dio_unauthorized_interceptor.d
 import 'package:paperless_mobile/core/interceptor/retry_on_connection_change_interceptor.dart';
 import 'package:paperless_mobile/core/security/session_manager.dart';
 import 'package:paperless_mobile/features/login/model/client_certificate.dart';
+import 'package:paperless_mobile/features/login/server_connection/model/header_entry.dart';
 
 /// Manages the security context, authentication and base request URL for
 /// an underlying [Dio] client which is injected into all services
@@ -53,6 +54,7 @@ class SessionManagerImpl extends ValueNotifier<Dio> implements SessionManager {
     String? baseUrl,
     String? authToken,
     ClientCertificate? clientCertificate,
+    List<HeaderEntry>? additionalHeaders,
     bool broadcast = true,
   }) {
     if (clientCertificate != null) {
@@ -82,9 +84,15 @@ class SessionManagerImpl extends ValueNotifier<Dio> implements SessionManager {
     }
 
     if (authToken != null) {
-      client.options.headers.addAll({
-        HttpHeaders.authorizationHeader: 'Token $authToken',
-      });
+      client.options.headers.addEntries([
+        MapEntry(HttpHeaders.authorizationHeader, 'Token $authToken'),
+        ...additionalHeaders
+                ?.where((header) => header.enabled)
+                .map(
+                  (header) => MapEntry(header.key.trim(), header.value.trim()),
+                ) ??
+            [],
+      ]);
     }
     if (broadcast) {
       notifyListeners();
@@ -95,7 +103,7 @@ class SessionManagerImpl extends ValueNotifier<Dio> implements SessionManager {
   void resetSettings({bool broadcast = true}) {
     client.httpClientAdapter = IOHttpClientAdapter();
     client.options.baseUrl = '';
-    client.options.headers.remove(HttpHeaders.authorizationHeader);
+    client.options.headers.clear();
     notifyListeners();
   }
 }
