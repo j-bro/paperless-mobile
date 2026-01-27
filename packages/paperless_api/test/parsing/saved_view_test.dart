@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_api/src/constants/filter_rules.dart';
 
 void main() {
   group('Parsing [SavedView] to [DocumentFilter]:', () {
@@ -14,28 +13,28 @@ void main() {
           "sort_field": SortField.created.name,
           "sort_reverse": true,
           "filter_rules": [
-            {'rule_type': correspondentRule.value, 'value': "42"},
-            {'rule_type': documentTypeRule.value, 'value': "69"},
-            {'rule_type': includeTagsRule.value, 'value': "1"},
-            {'rule_type': includeTagsRule.value, 'value': "2"},
-            {'rule_type': excludeTagsRule.value, 'value': "3"},
-            {'rule_type': excludeTagsRule.value, 'value': "4"},
+            {'rule_type': RuleTypeEnum.correspondentIs.value, 'value': "42"},
+            {'rule_type': RuleTypeEnum.documentTypeIs.value, 'value': "69"},
+            {'rule_type': RuleTypeEnum.hasTag.value, 'value': "1"},
+            {'rule_type': RuleTypeEnum.hasTag.value, 'value': "2"},
+            {'rule_type': RuleTypeEnum.doesNotHaveTag.value, 'value': "3"},
+            {'rule_type': RuleTypeEnum.doesNotHaveTag.value, 'value': "4"},
             {
-              'rule_type': extendedRule.value,
+              'rule_type': RuleTypeEnum.fulltextQuery.value,
               'value': "Never gonna give you up",
             },
-            {'rule_type': storagePathRule.value, 'value': "14"},
-            {'rule_type': createdBeforeRule, 'value': "2022-10-27"},
-            {'rule_type': createdAfterRule, 'value': "2022-09-27"},
-            {'rule_type': addedBeforeRule.value, 'value': "2022-09-26"},
-            {'rule_type': addedAfterRule.value, 'value': "2000-01-01"},
+            {'rule_type': RuleTypeEnum.storagePathIs.value, 'value': "14"},
+            {'rule_type': RuleTypeEnum.createdBefore, 'value': "2022-10-27"},
+            {'rule_type': RuleTypeEnum.createdAfter, 'value': "2022-09-27"},
+            {'rule_type': RuleTypeEnum.addedBefore, 'value': "2022-09-26"},
+            {'rule_type': RuleTypeEnum.addedAfter, 'value': "2000-01-01"},
           ],
         }).toDocumentFilter(),
         equals(
           DocumentFilter(
-            correspondent: const SetIdQueryParameter(id: 42),
-            documentType: const SetIdQueryParameter(id: 69),
-            storagePath: const SetIdQueryParameter(id: 14),
+            correspondent: IdQueryParameter.include(ids: [42]),
+            documentType: IdQueryParameter.include(ids: [69]),
+            storagePath: IdQueryParameter.include(ids: [14]),
             tags: const IdsTagsQuery(include: [1, 2], exclude: [3, 4]),
             created: AbsoluteDateRangeQuery(
               before: DateTime.parse("2022-10-27"),
@@ -78,10 +77,10 @@ void main() {
         "sort_field": SortField.created.name,
         "sort_reverse": true,
         "filter_rules": [
-          {'rule_type': correspondentRule, 'value': null},
-          {'rule_type': documentTypeRule, 'value': null},
-          {'rule_type': hasAnyTag, 'value': false.toString()},
-          {'rule_type': storagePathRule, 'value': null},
+          {'rule_type': RuleTypeEnum.correspondentIs, 'value': null},
+          {'rule_type': RuleTypeEnum.documentTypeIs, 'value': null},
+          {'rule_type': RuleTypeEnum.hasAnyTag, 'value': false.toString()},
+          {'rule_type': RuleTypeEnum.storagePathIs, 'value': null},
         ],
       }).toDocumentFilter();
       const expected = DocumentFilter(
@@ -100,9 +99,9 @@ void main() {
       expect(
         DocumentFilter(
           selectedView: 1,
-          correspondent: const SetIdQueryParameter(id: 1),
-          documentType: const SetIdQueryParameter(id: 2),
-          storagePath: const SetIdQueryParameter(id: 3),
+          correspondent: const IdQueryParameter.include(ids: [1]),
+          documentType: const IdQueryParameter.include(ids: [2]),
+          storagePath: const IdQueryParameter.include(ids: [3]),
           tags: const IdsTagsQuery(include: [4, 5], exclude: [6, 7, 8]),
           sortField: SortField.added,
           sortOrder: SortOrder.ascending,
@@ -130,32 +129,50 @@ void main() {
             sortReverse: false,
             userCanChange: true,
             filterRules: [
-              SavedViewFilterRule(ruleType: correspondentRule, value: "1"),
-              SavedViewFilterRule(ruleType: documentTypeRule, value: "2"),
-              SavedViewFilterRule(ruleType: storagePathRule, value: "3"),
-              SavedViewFilterRule(ruleType: includeTagsRule, value: "4"),
-              SavedViewFilterRule(ruleType: includeTagsRule, value: "5"),
-              SavedViewFilterRule(ruleType: excludeTagsRule, value: "6"),
-              SavedViewFilterRule(ruleType: excludeTagsRule, value: "7"),
-              SavedViewFilterRule(ruleType: excludeTagsRule, value: "8"),
               SavedViewFilterRule(
-                ruleType: addedAfterRule,
+                ruleType: RuleTypeEnum.correspondentIs,
+                value: "1",
+              ),
+              SavedViewFilterRule(
+                ruleType: RuleTypeEnum.documentTypeIs,
+                value: "2",
+              ),
+              SavedViewFilterRule(
+                ruleType: RuleTypeEnum.storagePathIs,
+                value: "3",
+              ),
+              SavedViewFilterRule(ruleType: RuleTypeEnum.hasTag, value: "4"),
+              SavedViewFilterRule(ruleType: RuleTypeEnum.hasTag, value: "5"),
+              SavedViewFilterRule(
+                ruleType: RuleTypeEnum.doesNotHaveTag,
+                value: "6",
+              ),
+              SavedViewFilterRule(
+                ruleType: RuleTypeEnum.doesNotHaveTag,
+                value: "7",
+              ),
+              SavedViewFilterRule(
+                ruleType: RuleTypeEnum.doesNotHaveTag,
+                value: "8",
+              ),
+              SavedViewFilterRule(
+                ruleType: RuleTypeEnum.addedAfter,
                 value: "2020-01-01",
               ),
               SavedViewFilterRule(
-                ruleType: addedBeforeRule,
+                ruleType: RuleTypeEnum.addedBefore,
                 value: "2020-03-01",
               ),
               SavedViewFilterRule(
-                ruleType: createdAfterRule,
+                ruleType: RuleTypeEnum.createdAfter,
                 value: "2020-02-01",
               ),
               SavedViewFilterRule(
-                ruleType: createdBeforeRule,
+                ruleType: RuleTypeEnum.createdBefore,
                 value: "2020-04-01",
               ),
               SavedViewFilterRule(
-                ruleType: titleRule,
+                ruleType: RuleTypeEnum.titleContains,
                 value: "Never gonna let you down",
               ),
             ],
@@ -167,9 +184,9 @@ void main() {
     test('Values are correctly parsed if unset.', () {
       expect(
         const DocumentFilter(
-          correspondent: UnsetIdQueryParameter(),
-          documentType: UnsetIdQueryParameter(),
-          storagePath: UnsetIdQueryParameter(),
+          correspondent: IdQueryParameter.unset(),
+          documentType: IdQueryParameter.unset(),
+          storagePath: IdQueryParameter.unset(),
           tags: IdsTagsQuery(),
           sortField: SortField.created,
           sortOrder: SortOrder.descending,
@@ -217,19 +234,19 @@ void main() {
             sortReverse: false,
             filterRules: [
               SavedViewFilterRuleRequest(
-                ruleType: correspondentRule,
+                ruleType: RuleTypeEnum.correspondentIs,
                 value: null,
               ),
               SavedViewFilterRuleRequest(
-                ruleType: documentTypeRule,
+                ruleType: RuleTypeEnum.documentTypeIs,
                 value: null,
               ),
               SavedViewFilterRuleRequest(
-                ruleType: storagePathRule,
+                ruleType: RuleTypeEnum.storagePathIs,
                 value: null,
               ),
               SavedViewFilterRuleRequest(
-                ruleType: hasAnyTag,
+                ruleType: RuleTypeEnum.hasAnyTag,
                 value: false.toString(),
               ),
             ],

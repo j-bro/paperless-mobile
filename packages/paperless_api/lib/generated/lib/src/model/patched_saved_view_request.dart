@@ -9,6 +9,7 @@ import 'package:paperless_api/generated/lib/src/model/saved_view_filter_rule_req
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/src/equatable_utils.dart';
+import 'package:paperless_api/src/utils/patched_value.dart';
 
 part 'patched_saved_view_request.g.dart';
 
@@ -18,6 +19,7 @@ part 'patched_saved_view_request.g.dart';
   createToJson: true,
   disallowUnrecognizedKeys: false,
   explicitToJson: true,
+  includeIfNull: false,
 )
 class PatchedSavedViewRequest {
   /// Returns a new [PatchedSavedViewRequest] instance.
@@ -43,36 +45,36 @@ class PatchedSavedViewRequest {
     this.owner,
   });
 
-  @JsonKey(name: r'name', required: false, includeIfNull: false)
+  @JsonKey(name: r'name', includeIfNull: false)
   final Option<String?>? name;
 
-  @JsonKey(name: r'show_on_dashboard', required: false, includeIfNull: false)
+  @JsonKey(name: r'show_on_dashboard', includeIfNull: false)
   final Option<bool?>? showOnDashboard;
 
-  @JsonKey(name: r'show_in_sidebar', required: false, includeIfNull: false)
+  @JsonKey(name: r'show_in_sidebar', includeIfNull: false)
   final Option<bool?>? showInSidebar;
 
-  @JsonKey(name: r'sort_field', required: false, includeIfNull: false)
+  @JsonKey(name: r'sort_field', includeIfNull: false)
   final Option<String?>? sortField;
 
-  @JsonKey(name: r'sort_reverse', required: false, includeIfNull: false)
+  @JsonKey(name: r'sort_reverse', includeIfNull: false)
   final Option<bool?>? sortReverse;
 
-  @JsonKey(name: r'filter_rules', required: false, includeIfNull: false)
+  @JsonKey(name: r'filter_rules', includeIfNull: false)
   final Option<List<SavedViewFilterRuleRequest>?>? filterRules;
 
   // minimum: 1
   // maximum: 2147483647
-  @JsonKey(name: r'page_size', required: false, includeIfNull: false)
+  @JsonKey(name: r'page_size', includeIfNull: false)
   final Option<int?>? pageSize;
 
-  @JsonKey(name: r'display_mode', required: false, includeIfNull: false)
+  @JsonKey(name: r'display_mode', includeIfNull: false)
   final Option<DisplayModeEnum?>? displayMode;
 
-  @JsonKey(name: r'display_fields', required: false, includeIfNull: false)
+  @JsonKey(name: r'display_fields', includeIfNull: false)
   final Option<List<String>?>? displayFields;
 
-  @JsonKey(name: r'owner', required: false, includeIfNull: false)
+  @JsonKey(name: r'owner', includeIfNull: false)
   final Option<int?>? owner;
 
   @override
@@ -127,7 +129,8 @@ class PatchedSavedViewRequest {
   factory PatchedSavedViewRequest.fromJson(Map<String, dynamic> json) =>
       _$PatchedSavedViewRequestFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PatchedSavedViewRequestToJson(this);
+  Map<String, dynamic> toJson() =>
+      processPatchedValueJson(_$PatchedSavedViewRequestToJson(this));
 
   @override
   String toString() {

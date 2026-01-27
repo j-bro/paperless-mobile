@@ -26,7 +26,7 @@ mixin BaseCrudApiImplMixin<Model, Request, PatchedRequest, FilterOptions>
   Future<Model> create(Request item) async {
     try {
       final response = await client.post(
-        path,
+        '$path/',
         data: unsafeToJson(item),
         options: Options(validateStatus: (status) => status == 201),
       );

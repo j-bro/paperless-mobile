@@ -1,162 +1,275 @@
-import 'package:paperless_api/generated/lib/src/model/saved_view_filter_rule.dart';
-import 'package:paperless_api/generated/lib/src/model/saved_view_filter_rule_request.dart';
-import 'package:paperless_api/src/constants/api_date_format.dart';
+import 'package:flutter/foundation.dart';
+import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_api/src/constants/filter_rules.dart';
 import 'package:paperless_api/src/converters/local_date_time_json_converter.dart';
-import 'package:paperless_api/src/models/document_filter.dart';
-import 'package:paperless_api/src/models/query_parameters/date_range_query.dart';
-import 'package:paperless_api/src/models/query_parameters/id_query_parameter.dart';
-import 'package:paperless_api/src/models/query_parameters/query_type.dart';
-import 'package:paperless_api/src/models/query_parameters/tags_query.dart';
-import 'package:paperless_api/src/models/query_parameters/text_query.dart';
+import 'package:paperless_api/src/models/query_parameters/asn_query_parameter.dart';
 
 extension FilterRuleToDocumentFilterExtension on SavedViewFilterRule {
   static const _dateTimeConverter = LocalDateTimeJsonConverter();
 
   DocumentFilter applyToFilter(final DocumentFilter filter) {
-    switch (ruleType) {
-      case titleRule:
-        return filter.copyWith(query: TextQuery.title(value));
-      case documentTypeRule:
-        return filter.copyWith(
-          documentType: value == null
-              ? const NotAssignedIdQueryParameter()
-              : SetIdQueryParameter(id: int.parse(value!)),
-        );
-      case correspondentRule:
-        return filter.copyWith(
-          correspondent: value == null
-              ? const NotAssignedIdQueryParameter()
-              : SetIdQueryParameter(id: int.parse(value!)),
-        );
-      case storagePathRule:
-        return filter.copyWith(
-          storagePath: value == null
-              ? const NotAssignedIdQueryParameter()
-              : SetIdQueryParameter(id: int.parse(value!)),
-        );
-      case hasAnyTag:
-        return filter.copyWith(
-          tags: value == "true"
-              ? const AnyAssignedTagsQuery()
-              : const NotAssignedTagsQuery(),
-        );
-      case includeTagsRule:
-        assert(filter.tags is IdsTagsQuery);
-        return filter.copyWith(
-          tags: switch (filter.tags) {
-            IdsTagsQuery(include: var i, exclude: var e) => IdsTagsQuery(
-              include: [...i, int.parse(value!)],
-              exclude: e,
-            ),
-            _ => filter.tags,
-          },
-        );
-      case excludeTagsRule:
-        assert(filter.tags is IdsTagsQuery);
-        return filter.copyWith(
-          tags: switch (filter.tags) {
-            IdsTagsQuery(include: var i, exclude: var e) => IdsTagsQuery(
-              include: i,
-              exclude: [...e, int.parse(value!)],
-            ),
-            _ => filter.tags,
-          },
-        );
-      case createdBeforeRule:
-        if (filter.created is AbsoluteDateRangeQuery) {
+    try {
+      switch (ruleType) {
+        case RuleTypeEnum.titleContains:
+          return filter.copyWith(query: TextQuery.title(value));
+        case RuleTypeEnum.documentTypeIs:
           return filter.copyWith(
-            created: (filter.created as AbsoluteDateRangeQuery).copyWith(
-              before: _dateTimeConverter.fromJson(value!),
+            documentType: value == null
+                ? const NotAssignedIdQueryParameter()
+                : IncludeIdsQueryParameter(
+                    ids: value!.split(',').map(int.parse).toList(),
+                  ),
+          );
+        case RuleTypeEnum.hasDocumentTypeIn:
+          return filter.copyWith(
+            documentType: IncludeIdsQueryParameter(
+              ids: value!.split(',').map(int.parse).toList(),
             ),
           );
-        } else {
+        case RuleTypeEnum.correspondentIs:
+          return filter.copyWith(
+            correspondent: value == null
+                ? const NotAssignedIdQueryParameter()
+                : IncludeIdsQueryParameter(ids: [int.parse(value!)]),
+          );
+        case RuleTypeEnum.storagePathIs:
+          return filter.copyWith(
+            storagePath: value == null
+                ? const NotAssignedIdQueryParameter()
+                : IncludeIdsQueryParameter(ids: [int.parse(value!)]),
+          );
+        case RuleTypeEnum.hasAnyTag:
+          return filter.copyWith(
+            tags: value == "true"
+                ? const AnyAssignedTagsQuery()
+                : const NotAssignedTagsQuery(),
+          );
+        case RuleTypeEnum.hasTag:
+          assert(filter.tags is IdsTagsQuery);
+          return filter.copyWith(
+            tags: switch (filter.tags) {
+              IdsTagsQuery(include: var i, exclude: var e) => IdsTagsQuery(
+                include: [...i, int.parse(value!)],
+                exclude: e,
+              ),
+              _ => filter.tags,
+            },
+          );
+        case RuleTypeEnum.doesNotHaveTag:
+          assert(filter.tags is IdsTagsQuery);
+          return filter.copyWith(
+            tags: switch (filter.tags) {
+              IdsTagsQuery(include: var i, exclude: var e) => IdsTagsQuery(
+                include: i,
+                exclude: [...e, int.parse(value!)],
+              ),
+              _ => filter.tags,
+            },
+          );
+        case RuleTypeEnum.createdBefore:
+          if (filter.created is AbsoluteDateRangeQuery) {
+            return filter.copyWith(
+              created: (filter.created as AbsoluteDateRangeQuery).copyWith(
+                before: _dateTimeConverter.fromJson(value!),
+              ),
+            );
+          } else {
+            return filter.copyWith(
+              created: AbsoluteDateRangeQuery(
+                before: _dateTimeConverter.fromJson(value!),
+              ),
+            );
+          }
+        case RuleTypeEnum.createdAfter:
+          if (filter.created is AbsoluteDateRangeQuery) {
+            return filter.copyWith(
+              created: (filter.created as AbsoluteDateRangeQuery).copyWith(
+                after: _dateTimeConverter.fromJson(value!),
+              ),
+            );
+          } else {
+            return filter.copyWith(
+              created: AbsoluteDateRangeQuery(
+                after: _dateTimeConverter.fromJson(value!),
+              ),
+            );
+          }
+        case RuleTypeEnum.addedBefore:
+          if (filter.added is AbsoluteDateRangeQuery) {
+            return filter.copyWith(
+              added: (filter.added as AbsoluteDateRangeQuery).copyWith(
+                before: _dateTimeConverter.fromJson(value!),
+              ),
+            );
+          } else {
+            return filter.copyWith(
+              added: AbsoluteDateRangeQuery(
+                before: _dateTimeConverter.fromJson(value!),
+              ),
+            );
+          }
+        case RuleTypeEnum.addedAfter:
+          if (filter.added is AbsoluteDateRangeQuery) {
+            return filter.copyWith(
+              added: (filter.added as AbsoluteDateRangeQuery).copyWith(
+                after: _dateTimeConverter.fromJson(value!),
+              ),
+            );
+          } else {
+            return filter.copyWith(
+              added: AbsoluteDateRangeQuery(
+                after: _dateTimeConverter.fromJson(value!),
+              ),
+            );
+          }
+        case RuleTypeEnum.modifiedBefore:
+          if (filter.modified is AbsoluteDateRangeQuery) {
+            return filter.copyWith(
+              modified: (filter.modified as AbsoluteDateRangeQuery).copyWith(
+                before: _dateTimeConverter.fromJson(value!),
+              ),
+            );
+          } else {
+            return filter.copyWith(
+              modified: AbsoluteDateRangeQuery(
+                before: _dateTimeConverter.fromJson(value!),
+              ),
+            );
+          }
+        case RuleTypeEnum.modifiedAfter:
+          if (filter.modified is AbsoluteDateRangeQuery) {
+            return filter.copyWith(
+              modified: (filter.modified as AbsoluteDateRangeQuery).copyWith(
+                after: _dateTimeConverter.fromJson(value!),
+              ),
+            );
+          } else {
+            return filter.copyWith(
+              added: AbsoluteDateRangeQuery(
+                after: _dateTimeConverter.fromJson(value!),
+              ),
+            );
+          }
+        case RuleTypeEnum.titleOrContentContains:
+          return filter.copyWith(query: TextQuery.titleAndContent(value));
+        case RuleTypeEnum.fulltextQuery:
+          return _parseFulltextQuery(filter);
+        case RuleTypeEnum.asnIs:
+          return filter.copyWith(
+            archiveSerialNumber: AsnQueryParameter.equals(
+              value: int.parse(value!),
+            ),
+          );
+        case RuleTypeEnum.doesNotHaveAsn:
+          return filter.copyWith(
+            archiveSerialNumber: AsnQueryParameter.empty(),
+          );
+        case RuleTypeEnum.moreLikeThis:
+          return filter.copyWith(moreLike: int.parse(value!));
+        case RuleTypeEnum.hasTagsIn:
+          return filter.copyWith(
+            tags: IdsTagsQuery(
+              include: value!.split(',').map(int.parse).toList(),
+              exclude: switch (filter.tags) {
+                IdsTagsQuery(exclude: var e) => e,
+                _ => [],
+              },
+            ),
+          );
+        case RuleTypeEnum.asnGreaterThan:
+          return filter.copyWith(
+            archiveSerialNumber: AsnQueryParameter.greaterThan(
+              value: int.parse(value!),
+            ),
+          );
+        case RuleTypeEnum.asnLessThan:
+          return filter.copyWith(
+            archiveSerialNumber: AsnQueryParameter.lessThan(
+              value: int.parse(value!),
+            ),
+          );
+        case RuleTypeEnum.hasCorrespondentIn:
+          return filter.copyWith(
+            correspondent: IncludeIdsQueryParameter(
+              ids: value!.split(',').map(int.parse).toList(),
+            ),
+          );
+        case RuleTypeEnum.doesNotHaveCorrespondentIn:
+          return filter.copyWith(
+            correspondent: IdQueryParameter.exclude(
+              ids: value!.split(',').map(int.parse).toList(),
+            ),
+          );
+        case RuleTypeEnum.doesNotHaveDocumentTypeIn:
+          return filter.copyWith(
+            documentType: IdQueryParameter.exclude(
+              ids: value!.split(',').map(int.parse).toList(),
+            ),
+          );
+        case RuleTypeEnum.hasStoragePathIn:
+          return filter.copyWith(
+            storagePath: IdQueryParameter.include(
+              ids: value!.split(',').map(int.parse).toList(),
+            ),
+          );
+        case RuleTypeEnum.doesNotHaveStoragePathIn:
+          return filter.copyWith(
+            storagePath: IdQueryParameter.exclude(
+              ids: value!.split(',').map(int.parse).toList(),
+            ),
+          );
+        case RuleTypeEnum.ownerIs:
+          return filter.copyWith(
+            owner: IdQueryParameter.single(id: int.parse(value!)),
+          );
+        case RuleTypeEnum.hasOwnerIn:
+          return filter.copyWith(
+            owner: IncludeIdsQueryParameter(
+              ids: value!.split(',').map(int.parse).toList(),
+            ),
+          );
+        case RuleTypeEnum.doesNotHaveOwner:
+          return filter.copyWith(owner: const NotAssignedIdQueryParameter());
+        case RuleTypeEnum.doesNotHaveOwnerIn:
+          return filter.copyWith(
+            owner: IdQueryParameter.exclude(
+              ids: value!.split(',').map(int.parse).toList(),
+            ),
+          );
+        case RuleTypeEnum.createdTo:
+          return filter.copyWith(
+            created: AbsoluteDateRangeQuery(
+              after: _dateTimeConverter.fromJson(value!),
+            ),
+          );
+        case RuleTypeEnum.createdFrom:
           return filter.copyWith(
             created: AbsoluteDateRangeQuery(
               before: _dateTimeConverter.fromJson(value!),
             ),
           );
-        }
-      case createdAfterRule:
-        if (filter.created is AbsoluteDateRangeQuery) {
-          return filter.copyWith(
-            created: (filter.created as AbsoluteDateRangeQuery).copyWith(
-              after: _dateTimeConverter.fromJson(value!),
-            ),
+        case RuleTypeEnum.addedTo:
+          // TODO: Handle this case.
+          throw UnimplementedError();
+        case RuleTypeEnum.addedFrom:
+          // TODO: Handle this case.
+          throw UnimplementedError();
+        case RuleTypeEnum.mimeTypeIs:
+          // TODO: Handle this case.
+          throw UnimplementedError();
+        default:
+          debugPrint(
+            'Unsupported filter rule: ${ruleType.name} (#${ruleType.value})',
           );
-        } else {
-          return filter.copyWith(
-            created: AbsoluteDateRangeQuery(
-              after: _dateTimeConverter.fromJson(value!),
-            ),
-          );
-        }
-      case addedBeforeRule:
-        if (filter.added is AbsoluteDateRangeQuery) {
-          return filter.copyWith(
-            added: (filter.added as AbsoluteDateRangeQuery).copyWith(
-              before: _dateTimeConverter.fromJson(value!),
-            ),
-          );
-        } else {
-          return filter.copyWith(
-            added: AbsoluteDateRangeQuery(
-              before: _dateTimeConverter.fromJson(value!),
-            ),
-          );
-        }
-      case addedAfterRule:
-        if (filter.added is AbsoluteDateRangeQuery) {
-          return filter.copyWith(
-            added: (filter.added as AbsoluteDateRangeQuery).copyWith(
-              after: _dateTimeConverter.fromJson(value!),
-            ),
-          );
-        } else {
-          return filter.copyWith(
-            added: AbsoluteDateRangeQuery(
-              after: _dateTimeConverter.fromJson(value!),
-            ),
-          );
-        }
-      case modifiedBeforeRule:
-        if (filter.modified is AbsoluteDateRangeQuery) {
-          return filter.copyWith(
-            modified: (filter.modified as AbsoluteDateRangeQuery).copyWith(
-              before: _dateTimeConverter.fromJson(value!),
-            ),
-          );
-        } else {
-          return filter.copyWith(
-            modified: AbsoluteDateRangeQuery(
-              before: _dateTimeConverter.fromJson(value!),
-            ),
-          );
-        }
-      case modifiedAfterRule:
-        if (filter.modified is AbsoluteDateRangeQuery) {
-          return filter.copyWith(
-            modified: (filter.modified as AbsoluteDateRangeQuery).copyWith(
-              after: _dateTimeConverter.fromJson(value!),
-            ),
-          );
-        } else {
-          return filter.copyWith(
-            added: AbsoluteDateRangeQuery(
-              after: _dateTimeConverter.fromJson(value!),
-            ),
-          );
-        }
-      case titleAndContentRule:
-        return filter.copyWith(query: TextQuery.titleAndContent(value));
-      case extendedRule:
-        return _parseExtendedRule(filter);
-      default:
-        return filter;
+          return filter;
+      }
+    } catch (e) {
+      debugPrint('Error applying filter rule $ruleType with value $value: $e');
+      return filter;
     }
   }
 
-  DocumentFilter _parseExtendedRule(DocumentFilter filter) {
+  DocumentFilter _parseFulltextQuery(DocumentFilter filter) {
     assert(value != null);
     final extendedQueryValues = value!.split(",").reversed;
 
@@ -219,12 +332,20 @@ extension ToFilterRuleExtension on DocumentFilter {
     List<SavedViewFilterRule> filterRules = [];
     final corrRule = switch (correspondent) {
       NotAssignedIdQueryParameter() => SavedViewFilterRule(
-        ruleType: correspondentRule,
+        ruleType: RuleTypeEnum.correspondentIs,
         value: null,
       ),
-      SetIdQueryParameter(id: var id) => SavedViewFilterRule(
-        ruleType: correspondentRule,
-        value: id.toString(),
+      IncludeIdsQueryParameter(ids: var ids) => SavedViewFilterRule(
+        ruleType: RuleTypeEnum.hasCorrespondentIn,
+        value: ids.toString(),
+      ),
+      AnyAssignedIdQueryParameter() => SavedViewFilterRule(
+        ruleType: RuleTypeEnum.correspondentIs,
+        value: '-1',
+      ),
+      ExcludeIdsQueryParameter(ids: var ids) => SavedViewFilterRule(
+        ruleType: RuleTypeEnum.doesNotHaveCorrespondentIn,
+        value: ids.join(','),
       ),
       _ => null,
     };
@@ -234,12 +355,20 @@ extension ToFilterRuleExtension on DocumentFilter {
 
     final docTypeRule = switch (documentType) {
       NotAssignedIdQueryParameter() => SavedViewFilterRule(
-        ruleType: documentTypeRule,
+        ruleType: RuleTypeEnum.documentTypeIs,
         value: null,
       ),
-      SetIdQueryParameter(id: var id) => SavedViewFilterRule(
-        ruleType: documentTypeRule,
-        value: id.toString(),
+      IncludeIdsQueryParameter(ids: var ids) => SavedViewFilterRule(
+        ruleType: RuleTypeEnum.hasDocumentTypeIn,
+        value: ids.join(','),
+      ),
+      AnyAssignedIdQueryParameter() => SavedViewFilterRule(
+        ruleType: RuleTypeEnum.documentTypeIs,
+        value: '-1',
+      ),
+      ExcludeIdsQueryParameter(ids: var ids) => SavedViewFilterRule(
+        ruleType: RuleTypeEnum.doesNotHaveDocumentTypeIn,
+        value: ids.join(','),
       ),
       _ => null,
     };
@@ -250,12 +379,20 @@ extension ToFilterRuleExtension on DocumentFilter {
 
     final sPathRule = switch (storagePath) {
       NotAssignedIdQueryParameter() => SavedViewFilterRule(
-        ruleType: storagePathRule,
+        ruleType: RuleTypeEnum.storagePathIs,
         value: null,
       ),
-      SetIdQueryParameter(id: var id) => SavedViewFilterRule(
-        ruleType: storagePathRule,
-        value: id.toString(),
+      IncludeIdsQueryParameter(ids: var ids) => SavedViewFilterRule(
+        ruleType: RuleTypeEnum.hasStoragePathIn,
+        value: ids.join(','),
+      ),
+      AnyAssignedIdQueryParameter() => SavedViewFilterRule(
+        ruleType: RuleTypeEnum.storagePathIs,
+        value: '-1',
+      ),
+      ExcludeIdsQueryParameter(ids: var ids) => SavedViewFilterRule(
+        ruleType: RuleTypeEnum.doesNotHaveStoragePathIn,
+        value: ids.join(','),
       ),
       _ => null,
     };
@@ -265,21 +402,21 @@ extension ToFilterRuleExtension on DocumentFilter {
     }
     final tagRules = switch (tags) {
       NotAssignedTagsQuery() => [
-        SavedViewFilterRule(ruleType: hasAnyTag, value: 'false'),
+        SavedViewFilterRule(ruleType: RuleTypeEnum.hasAnyTag, value: 'false'),
       ],
       AnyAssignedTagsQuery() => [
-        SavedViewFilterRule(ruleType: hasAnyTag, value: 'true'),
+        SavedViewFilterRule(ruleType: RuleTypeEnum.hasAnyTag, value: 'true'),
       ],
-      IdsTagsQuery(include: var i, exclude: var e) => [
-        ...i.map(
+      IdsTagsQuery(include: var include, exclude: var exclude) => [
+        ...include.map(
           (id) => SavedViewFilterRule(
-            ruleType: includeTagsRule,
+            ruleType: RuleTypeEnum.hasTag,
             value: id.toString(),
           ),
         ),
-        ...e.map(
+        ...exclude.map(
           (id) => SavedViewFilterRule(
-            ruleType: excludeTagsRule,
+            ruleType: RuleTypeEnum.doesNotHaveTag,
             value: id.toString(),
           ),
         ),
@@ -292,13 +429,16 @@ extension ToFilterRuleExtension on DocumentFilter {
       switch (query.queryType) {
         case QueryType.title:
           filterRules.add(
-            SavedViewFilterRule(ruleType: titleRule, value: query.queryText!),
+            SavedViewFilterRule(
+              ruleType: RuleTypeEnum.titleContains,
+              value: query.queryText!,
+            ),
           );
           break;
         case QueryType.titleAndContent:
           filterRules.add(
             SavedViewFilterRule(
-              ruleType: titleAndContentRule,
+              ruleType: RuleTypeEnum.titleOrContentContains,
               value: query.queryText!,
             ),
           );
@@ -306,16 +446,64 @@ extension ToFilterRuleExtension on DocumentFilter {
         case QueryType.extended:
           filterRules.add(
             SavedViewFilterRule(
-              ruleType: extendedRule,
+              ruleType: RuleTypeEnum.fulltextQuery,
               value: query.queryText!,
             ),
           );
           break;
         case QueryType.asn:
           filterRules.add(
-            SavedViewFilterRule(ruleType: asnRule, value: query.queryText!),
+            SavedViewFilterRule(
+              ruleType: RuleTypeEnum.asnIs,
+              value: query.queryText!,
+            ),
           );
           break;
+      }
+
+      if (archiveSerialNumber != null) {
+        switch (archiveSerialNumber!) {
+          case EqualsAsnQueryParameter(value: var value):
+            filterRules.add(
+              SavedViewFilterRule(
+                ruleType: RuleTypeEnum.asnIs,
+                value: value.toString(),
+              ),
+            );
+            break;
+          case EmptyAsnQueryParameter():
+            filterRules.add(
+              SavedViewFilterRule(
+                ruleType: RuleTypeEnum.doesNotHaveAsn,
+                value: 'true',
+              ),
+            );
+            break;
+          case NotEmptyAsnQueryParameter():
+            filterRules.add(
+              SavedViewFilterRule(
+                ruleType: RuleTypeEnum.doesNotHaveAsn,
+                value: 'false',
+              ),
+            );
+            break;
+          case GreaterThanAsnQueryParameter(value: var value):
+            filterRules.add(
+              SavedViewFilterRule(
+                ruleType: RuleTypeEnum.asnGreaterThan,
+                value: value.toString(),
+              ),
+            );
+            break;
+          case LessThanAsnQueryParameter(value: var value):
+            filterRules.add(
+              SavedViewFilterRule(
+                ruleType: RuleTypeEnum.asnLessThan,
+                value: value.toString(),
+              ),
+            );
+            break;
+        }
       }
     }
 
@@ -325,7 +513,7 @@ extension ToFilterRuleExtension on DocumentFilter {
         if (after != null) {
           filterRules.add(
             SavedViewFilterRule(
-              ruleType: createdAfterRule,
+              ruleType: RuleTypeEnum.createdAfter,
               value: apiDateFormat.format(after),
             ),
           );
@@ -333,7 +521,7 @@ extension ToFilterRuleExtension on DocumentFilter {
         if (before != null) {
           filterRules.add(
             SavedViewFilterRule(
-              ruleType: createdBeforeRule,
+              ruleType: RuleTypeEnum.createdBefore,
               value: apiDateFormat.format(before),
             ),
           );
@@ -342,7 +530,7 @@ extension ToFilterRuleExtension on DocumentFilter {
       case RelativeDateRangeQuery():
         filterRules.add(
           SavedViewFilterRule(
-            ruleType: extendedRule,
+            ruleType: RuleTypeEnum.fulltextQuery,
             value: created
                 .toQueryParameter(DateRangeQueryField.created)
                 .values
@@ -360,7 +548,7 @@ extension ToFilterRuleExtension on DocumentFilter {
         if (after != null) {
           filterRules.add(
             SavedViewFilterRule(
-              ruleType: addedAfterRule,
+              ruleType: RuleTypeEnum.addedAfter,
               value: apiDateFormat.format(after),
             ),
           );
@@ -368,7 +556,7 @@ extension ToFilterRuleExtension on DocumentFilter {
         if (before != null) {
           filterRules.add(
             SavedViewFilterRule(
-              ruleType: addedBeforeRule,
+              ruleType: RuleTypeEnum.addedBefore,
               value: apiDateFormat.format(before),
             ),
           );
@@ -377,7 +565,7 @@ extension ToFilterRuleExtension on DocumentFilter {
       case RelativeDateRangeQuery():
         filterRules.add(
           SavedViewFilterRule(
-            ruleType: extendedRule,
+            ruleType: RuleTypeEnum.fulltextQuery,
             value: added
                 .toQueryParameter(DateRangeQueryField.added)
                 .values
@@ -395,7 +583,7 @@ extension ToFilterRuleExtension on DocumentFilter {
         if (after != null) {
           filterRules.add(
             SavedViewFilterRule(
-              ruleType: modifiedAfterRule,
+              ruleType: RuleTypeEnum.modifiedAfter,
               value: apiDateFormat.format(after),
             ),
           );
@@ -403,7 +591,7 @@ extension ToFilterRuleExtension on DocumentFilter {
         if (before != null) {
           filterRules.add(
             SavedViewFilterRule(
-              ruleType: modifiedBeforeRule,
+              ruleType: RuleTypeEnum.modifiedBefore,
               value: apiDateFormat.format(before),
             ),
           );
@@ -412,7 +600,7 @@ extension ToFilterRuleExtension on DocumentFilter {
       case RelativeDateRangeQuery():
         filterRules.add(
           SavedViewFilterRule(
-            ruleType: extendedRule,
+            ruleType: RuleTypeEnum.fulltextQuery,
             value: modified
                 .toQueryParameter(DateRangeQueryField.modified)
                 .values
@@ -425,17 +613,21 @@ extension ToFilterRuleExtension on DocumentFilter {
     }
 
     //Join values of all extended filter rules if exist
-    if (filterRules.where((e) => e.ruleType == extendedRule).isNotEmpty) {
-      final mergedExtendedRule = filterRules
-          .where((r) => r.ruleType == extendedRule)
+    if (filterRules
+        .where((e) => e.ruleType == RuleTypeEnum.fulltextQuery)
+        .isNotEmpty) {
+      final mergedFulltextQueryRule = filterRules
+          .where((r) => r.ruleType == RuleTypeEnum.fulltextQuery)
           .map((e) => e.value)
           .join(",");
       filterRules
-        ..removeWhere((element) => element.ruleType == extendedRule)
+        ..removeWhere(
+          (element) => element.ruleType == RuleTypeEnum.fulltextQuery,
+        )
         ..add(
           SavedViewFilterRule(
-            ruleType: extendedRule,
-            value: mergedExtendedRule,
+            ruleType: RuleTypeEnum.fulltextQuery,
+            value: mergedFulltextQueryRule,
           ),
         );
     }

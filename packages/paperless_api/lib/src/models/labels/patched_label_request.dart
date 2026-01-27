@@ -2,6 +2,7 @@ import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:paperless_api/generated/lib/src/model/correspondent_request_set_permissions.dart';
 import 'package:paperless_api/src/models/models.dart';
+import 'package:paperless_api/src/utils/patched_value.dart';
 
 part 'patched_label_request.g.dart';
 
@@ -15,24 +16,24 @@ sealed class PatchedLabelRequest {
     this.setPermissions,
   });
 
-  @JsonKey(name: r'name', required: true, includeIfNull: false)
-  final String? name;
+  @JsonKey(name: r'name', includeIfNull: false)
+  final PatchedValue<String?>? name;
 
-  @JsonKey(name: r'match', required: false, includeIfNull: false)
-  final String? match;
+  @JsonKey(name: r'match', includeIfNull: false)
+  final PatchedValue<String?>? match;
 
   // minimum: 0.0
   // maximum: 2.147483647E9
-  @JsonKey(name: r'matching_algorithm', required: false, includeIfNull: false)
-  final MatchingAlgorithm? matchingAlgorithm;
+  @JsonKey(name: r'matching_algorithm', includeIfNull: false)
+  final PatchedValue<MatchingAlgorithm?>? matchingAlgorithm;
 
-  @JsonKey(name: r'is_insensitive', required: false, includeIfNull: false)
-  final bool? isInsensitive;
+  @JsonKey(name: r'is_insensitive', includeIfNull: false)
+  final PatchedValue<bool?>? isInsensitive;
 
-  @JsonKey(name: r'owner', required: false, includeIfNull: false)
-  final int? owner;
+  @JsonKey(name: r'owner', includeIfNull: false)
+  final PatchedValue<int?>? owner;
 
-  @JsonKey(name: r'set_permissions', required: false, includeIfNull: false)
+  @JsonKey(name: r'set_permissions', includeIfNull: false)
   final CorrespondentRequestSetPermissions? setPermissions;
 
   Map<String, dynamic> toJson();
@@ -44,10 +45,11 @@ sealed class PatchedLabelRequest {
   createToJson: true,
   explicitToJson: true,
   createFactory: false,
+  includeIfNull: false,
 )
 class PatchedCorrespondentRequest extends PatchedLabelRequest {
   PatchedCorrespondentRequest({
-    required super.name,
+    super.name,
     super.match,
     super.matchingAlgorithm,
     super.isInsensitive,
@@ -55,7 +57,8 @@ class PatchedCorrespondentRequest extends PatchedLabelRequest {
     super.setPermissions,
   });
   @override
-  Map<String, dynamic> toJson() => _$PatchedCorrespondentRequestToJson(this);
+  Map<String, dynamic> toJson() =>
+      processPatchedValueJson(_$PatchedCorrespondentRequestToJson(this));
 }
 
 @CopyWith()
@@ -64,10 +67,11 @@ class PatchedCorrespondentRequest extends PatchedLabelRequest {
   createToJson: true,
   explicitToJson: true,
   createFactory: false,
+  includeIfNull: false,
 )
 class PatchedTagRequest extends PatchedLabelRequest {
   PatchedTagRequest({
-    required super.name,
+    super.name,
     super.match,
     super.matchingAlgorithm,
     super.isInsensitive,
@@ -77,15 +81,16 @@ class PatchedTagRequest extends PatchedLabelRequest {
     this.color,
   });
 
-  @JsonKey(name: r'color', required: false, includeIfNull: false)
-  final String? color;
+  @JsonKey(name: r'color', includeIfNull: false)
+  final PatchedValue<String?>? color;
 
   /// Marks this tag as an inbox tag: All newly consumed documents will be tagged with inbox tags.
-  @JsonKey(name: r'is_inbox_tag', required: false, includeIfNull: false)
-  final bool? isInboxTag;
+  @JsonKey(name: r'is_inbox_tag', includeIfNull: false)
+  final PatchedValue<bool?>? isInboxTag;
 
   @override
-  Map<String, dynamic> toJson() => _$PatchedTagRequestToJson(this);
+  Map<String, dynamic> toJson() =>
+      processPatchedValueJson(_$PatchedTagRequestToJson(this));
 }
 
 @CopyWith()
@@ -94,10 +99,11 @@ class PatchedTagRequest extends PatchedLabelRequest {
   createToJson: true,
   explicitToJson: true,
   createFactory: false,
+  includeIfNull: false,
 )
 class PatchedDocumentTypeRequest extends PatchedLabelRequest {
   PatchedDocumentTypeRequest({
-    required super.name,
+    super.name,
     super.match,
     super.matchingAlgorithm,
     super.isInsensitive,
@@ -106,7 +112,8 @@ class PatchedDocumentTypeRequest extends PatchedLabelRequest {
   });
 
   @override
-  Map<String, dynamic> toJson() => _$PatchedDocumentTypeRequestToJson(this);
+  Map<String, dynamic> toJson() =>
+      processPatchedValueJson(_$PatchedDocumentTypeRequestToJson(this));
 }
 
 @CopyWith()
@@ -115,11 +122,12 @@ class PatchedDocumentTypeRequest extends PatchedLabelRequest {
   createToJson: true,
   explicitToJson: true,
   createFactory: false,
+  includeIfNull: false,
 )
 class PatchedStoragePathRequest extends PatchedLabelRequest {
   PatchedStoragePathRequest({
-    required super.name,
-    required this.path,
+    super.name,
+    this.path,
     super.match,
     super.matchingAlgorithm,
     super.isInsensitive,
@@ -127,9 +135,10 @@ class PatchedStoragePathRequest extends PatchedLabelRequest {
     super.setPermissions,
   });
 
-  @JsonKey(name: r'path', required: true, includeIfNull: false)
-  final String path;
+  @JsonKey(name: r'path', includeIfNull: false)
+  final PatchedValue<String?>? path;
 
   @override
-  Map<String, dynamic> toJson() => _$PatchedStoragePathRequestToJson(this);
+  Map<String, dynamic> toJson() =>
+      processPatchedValueJson(_$PatchedStoragePathRequestToJson(this));
 }

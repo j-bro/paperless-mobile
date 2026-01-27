@@ -1064,5 +1064,8 @@
   "headerValueMustNotBeEmpty": "Header value must not be empty",
   "headerNameAlreadyExists": "The header already exists.",
   "enabled": "Enabled",
-  "addAdditionalHeadersHint": "You can add HTTP headers to be included with each API request. This may be useful for custom authentication schemes, VPNs or other scenarios."
+  "addAdditionalHeadersHint": "You can add HTTP headers to be included with each API request. This may be useful for custom authentication schemes, VPNs or other scenarios.",
+  "include": "Include",
+  "exclude": "Exclude",
+  "discardSharedFileHint": "The shared file was not yet processed. Do you want to discard the file?"
 }

@@ -6,7 +6,7 @@ import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/widgets/form_builder_fields/extended_date_range_form_field/form_builder_extended_date_range_picker.dart';
 import 'package:paperless_mobile/core/widgets/query_builder/label_query_builder.dart';
 import 'package:paperless_mobile/features/labels/tags/view/widgets/tags_form_field.dart';
-import 'package:paperless_mobile/features/labels/view/widgets/label_form_field.dart';
+import 'package:paperless_mobile/features/labels/view/widgets/multi_label_form_field.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
 import 'text_query_form_field.dart';
@@ -165,41 +165,35 @@ class _DocumentFilterFormState extends State<DocumentFilterForm> {
   }
 
   Widget _buildDocumentTypeFormField(Map<int, DocumentType> documentTypes) {
-    return LabelFormField<DocumentType>(
+    return MultiLabelFormField<DocumentType>(
       name: DocumentFilterForm.fkDocumentType,
       query: context.documentTypeRepository.getAllQuery(),
       labelText: S.of(context)!.documentType,
       initialValue: widget.initialFilter.documentType,
       prefixIcon: const Icon(Icons.description_outlined),
-      allowSelectUnassigned: false,
-      canCreateNewLabel:
-          context.loggedInUser.paperlessUser.canCreateDocumentTypes,
+      allowExclude: true,
     );
   }
 
   Widget _buildCorrespondentFormField(Map<int, Correspondent> correspondents) {
-    return LabelFormField<Correspondent>(
+    return MultiLabelFormField<Correspondent>(
       name: DocumentFilterForm.fkCorrespondent,
       query: context.correspondentRepository.getAllQuery(),
       labelText: S.of(context)!.correspondent,
       initialValue: widget.initialFilter.correspondent,
       prefixIcon: const Icon(Icons.person_outline),
-      allowSelectUnassigned: false,
-      canCreateNewLabel:
-          context.loggedInUser.paperlessUser.canCreateCorrespondents,
+      allowExclude: true,
     );
   }
 
   Widget _buildStoragePathFormField(Map<int, StoragePath> storagePaths) {
-    return LabelFormField<StoragePath>(
+    return MultiLabelFormField<StoragePath>(
       name: DocumentFilterForm.fkStoragePath,
       query: context.storagePathRepository.getAllQuery(),
       labelText: S.of(context)!.storagePath,
       initialValue: widget.initialFilter.storagePath,
       prefixIcon: const Icon(Icons.folder_outlined),
-      allowSelectUnassigned: false,
-      canCreateNewLabel:
-          context.loggedInUser.paperlessUser.canCreateStoragePaths,
+      allowExclude: true,
     );
   }
 

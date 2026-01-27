@@ -36,7 +36,8 @@ class DocumentFilterIntent {
 }
 
 class DocumentsPage extends StatefulWidget {
-  const DocumentsPage({super.key});
+  final DocumentFilter? filter;
+  const DocumentsPage({super.key, this.filter});
 
   @override
   State<DocumentsPage> createState() => _DocumentsPageState();
@@ -152,13 +153,11 @@ class _DocumentsPageState extends State<DocumentsPage> {
         floatingActionButton: _selection.isEmpty
             ? CurrentUserAppDataBuilder(
                 builder: (context, userData) {
+                  final filter = userData.appState.currentDocumentFilter;
                   return _buildFilterButton(
                     context,
-                    userData
-                            .appState
-                            .currentDocumentFilter
-                            .appliedFiltersCount >
-                        0,
+                    filter.appliedFiltersCount > 0 ||
+                        filter.selectedView != null,
                   );
                 },
               ).animate().fadeIn(duration: 200.milliseconds)
@@ -562,131 +561,38 @@ class _DocumentsPageState extends State<DocumentsPage> {
   }
 
   void _toggleTagInFilter(int tagId) {
-    var updatedFilter = context.currentDocumentFilter;
-    try {
-      switch (context.currentDocumentFilter.tags) {
-        case IdsTagsQuery state:
-          if (state.include.contains(tagId)) {
-            updatedFilter = updatedFilter.copyWith(
-              tags: state.copyWith(
-                include: state.include.whereNot((e) => e == tagId).toList(),
-              ),
-            );
-          } else if (state.exclude.contains(tagId)) {
-            updatedFilter = updatedFilter.copyWith(
-              tags: state.copyWith(
-                include: state.exclude.whereNot((e) => e == tagId).toList(),
-              ),
-            );
-          } else {
-            updatedFilter = updatedFilter.copyWith(
-              tags: state.copyWith(include: [...state.include, tagId]),
-            );
-          }
-          break;
-        default:
-          updatedFilter = updatedFilter.copyWith(
-            tags: IdsTagsQuery(include: [tagId]),
-          );
-          break;
-      }
-      context.localStore.updateCurrentDocumentFilter((_) => updatedFilter);
-    } on PaperlessApiException catch (error, stackTrace) {
-      showErrorMessage(context, error, stackTrace);
-    }
+    context.localStore.updateCurrentDocumentFilter(
+      (filter) => filter.copyWith(tags: filter.tags.toggleInclude(tagId)),
+    );
   }
 
   void _addCorrespondentToFilter(int? correspondentId) {
     if (correspondentId == null) return;
-    try {
-      switch (context.currentDocumentFilter.correspondent) {
-        case SetIdQueryParameter(id: var id):
-          if (id == correspondentId) {
-            context.localStore.updateCurrentDocumentFilter(
-              (filter) =>
-                  filter.copyWith(correspondent: const UnsetIdQueryParameter()),
-            );
-          } else {
-            context.localStore.updateCurrentDocumentFilter(
-              (filter) => filter.copyWith(
-                correspondent: SetIdQueryParameter(id: correspondentId),
-              ),
-            );
-          }
-          break;
-        default:
-          context.localStore.updateCurrentDocumentFilter(
-            (filter) => filter.copyWith(
-              correspondent: SetIdQueryParameter(id: correspondentId),
-            ),
-          );
-          break;
-      }
-    } on PaperlessApiException catch (error, stackTrace) {
-      showErrorMessage(context, error, stackTrace);
-    }
+    context.localStore.updateCurrentDocumentFilter(
+      (filter) => filter.copyWith(
+        correspondent: filter.correspondent.toggleInclude(correspondentId),
+      ),
+    );
   }
 
   void _addDocumentTypeToFilter(int? documentTypeId) {
     if (documentTypeId == null) return;
 
-    try {
-      switch (context.currentDocumentFilter.documentType) {
-        case SetIdQueryParameter(id: var id):
-          if (id == documentTypeId) {
-            context.localStore.updateCurrentDocumentFilter(
-              (filter) =>
-                  filter.copyWith(documentType: const UnsetIdQueryParameter()),
-            );
-          } else {
-            context.localStore.updateCurrentDocumentFilter(
-              (filter) => filter.copyWith(
-                documentType: SetIdQueryParameter(id: documentTypeId),
-              ),
-            );
-          }
-          break;
-        default:
-          context.localStore.updateCurrentDocumentFilter(
-            (filter) => filter.copyWith(
-              documentType: SetIdQueryParameter(id: documentTypeId),
-            ),
-          );
-          break;
-      }
-    } on PaperlessApiException catch (error, stackTrace) {
-      showErrorMessage(context, error, stackTrace);
-    }
+    context.localStore.updateCurrentDocumentFilter(
+      (filter) => filter.copyWith(
+        documentType: filter.documentType.toggleInclude(documentTypeId),
+      ),
+    );
   }
 
   void _addStoragePathToFilter(int? pathId) {
     if (pathId == null) return;
 
-    try {
-      switch (context.currentDocumentFilter.storagePath) {
-        case SetIdQueryParameter(id: var id):
-          if (id == pathId) {
-            context.localStore.updateCurrentDocumentFilter(
-              (filter) =>
-                  filter.copyWith(storagePath: const UnsetIdQueryParameter()),
-            );
-          } else {
-            context.localStore.updateCurrentDocumentFilter(
-              (filter) =>
-                  filter.copyWith(storagePath: SetIdQueryParameter(id: pathId)),
-            );
-          }
-          break;
-        default:
-          context.localStore.updateCurrentDocumentFilter(
-            (filter) =>
-                filter.copyWith(storagePath: SetIdQueryParameter(id: pathId)),
-          );
-          break;
-      }
-    } on PaperlessApiException catch (error, stackTrace) {
-      showErrorMessage(context, error, stackTrace);
-    }
+    context.localStore.updateCurrentDocumentFilter(
+      (filter) => filter.copyWith(
+        storagePath: filter.storagePath.toggleInclude(pathId),
+      ),
+    );
   }
 
   ///

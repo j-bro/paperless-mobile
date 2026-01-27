@@ -224,7 +224,10 @@ class AppDrawer extends StatelessWidget {
               trailing: const Icon(Icons.arrow_forward),
               onTap: () {
                 Scaffold.of(context).closeDrawer();
-                DocumentsRoute($extra: view.toDocumentFilter()).go(context);
+                context.localStore.updateCurrentDocumentFilter(
+                  (_) => view.toDocumentFilter(),
+                );
+                DocumentsRoute().go(context);
               },
             );
           },

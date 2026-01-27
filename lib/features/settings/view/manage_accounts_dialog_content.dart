@@ -9,8 +9,8 @@ import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/routing/routes/auth_route.dart';
 import 'package:provider/provider.dart';
 
-class ManageAccountsPage extends StatelessWidget {
-  const ManageAccountsPage({super.key});
+class ManageAccountsDialogContent extends StatelessWidget {
+  const ManageAccountsDialogContent({super.key});
 
   @override
   Widget build(BuildContext context) {

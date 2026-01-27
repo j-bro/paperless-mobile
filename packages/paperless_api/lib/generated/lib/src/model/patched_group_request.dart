@@ -7,6 +7,7 @@ import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/src/equatable_utils.dart';
+import 'package:paperless_api/src/utils/patched_value.dart';
 
 part 'patched_group_request.g.dart';
 
@@ -42,7 +43,8 @@ class PatchedGroupRequest {
   factory PatchedGroupRequest.fromJson(Map<String, dynamic> json) =>
       _$PatchedGroupRequestFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PatchedGroupRequestToJson(this);
+  Map<String, dynamic> toJson() =>
+      processPatchedValueJson(_$PatchedGroupRequestToJson(this));
 
   @override
   String toString() {

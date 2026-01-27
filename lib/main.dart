@@ -133,7 +133,7 @@ void main() async {
       // Manages security context, required for self signed client certificates
       final SessionManager sessionManager = SessionManagerImpl([
         PrettyDioLogger(
-          enabled: true,
+          enabled: false,
           compact: true,
           responseBody: true,
           responseHeader: true,
@@ -307,7 +307,7 @@ class _GoRouterShellState extends State<GoRouterShell> {
                     VerifyIdentityRoute(userId: userId).go(context);
                     break;
                   case SwitchingAccounts():
-                    const SwitchingAccountsRoute().push(context);
+                    const SwitchingAccountsRoute().go(context);
                     break;
                   case Authenticated():
                     const LandingRoute().go(context);

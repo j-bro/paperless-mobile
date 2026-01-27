@@ -10,6 +10,7 @@ import 'package:paperless_api/generated/lib/src/model/workflow_action_webhook_re
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/src/equatable_utils.dart';
+import 'package:paperless_api/src/utils/patched_value.dart';
 
 part 'patched_workflow_action_request.g.dart';
 
@@ -346,7 +347,8 @@ class PatchedWorkflowActionRequest {
   factory PatchedWorkflowActionRequest.fromJson(Map<String, dynamic> json) =>
       _$PatchedWorkflowActionRequestFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PatchedWorkflowActionRequestToJson(this);
+  Map<String, dynamic> toJson() =>
+      processPatchedValueJson(_$PatchedWorkflowActionRequestToJson(this));
 
   @override
   String toString() {

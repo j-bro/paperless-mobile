@@ -8,6 +8,7 @@ import 'package:paperless_api/generated/lib/src/model/data_type_enum.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/src/equatable_utils.dart';
+import 'package:paperless_api/src/utils/patched_value.dart';
 
 part 'patched_custom_field_request.g.dart';
 
@@ -50,7 +51,8 @@ class PatchedCustomFieldRequest {
   factory PatchedCustomFieldRequest.fromJson(Map<String, dynamic> json) =>
       _$PatchedCustomFieldRequestFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PatchedCustomFieldRequestToJson(this);
+  Map<String, dynamic> toJson() =>
+      processPatchedValueJson(_$PatchedCustomFieldRequestToJson(this));
 
   @override
   String toString() {

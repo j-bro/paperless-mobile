@@ -10,6 +10,7 @@ import 'package:paperless_api/generated/lib/src/model/correspondent_request_set_
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/src/equatable_utils.dart';
+import 'package:paperless_api/src/utils/patched_value.dart';
 
 part 'patched_mail_account_request.g.dart';
 
@@ -151,7 +152,8 @@ class PatchedMailAccountRequest {
   factory PatchedMailAccountRequest.fromJson(Map<String, dynamic> json) =>
       _$PatchedMailAccountRequestFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PatchedMailAccountRequestToJson(this);
+  Map<String, dynamic> toJson() =>
+      processPatchedValueJson(_$PatchedMailAccountRequestToJson(this));
 
   @override
   String toString() {

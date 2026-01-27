@@ -13,7 +13,7 @@ import 'package:paperless_mobile/core/model/info_message_exception.dart';
 import 'package:paperless_mobile/core/widgets/form_builder_fields/form_builder_localized_date_picker.dart';
 import 'package:paperless_mobile/core/widgets/future_or_builder.dart';
 import 'package:paperless_mobile/features/labels/tags/view/widgets/tags_form_field.dart';
-import 'package:paperless_mobile/features/labels/view/widgets/label_form_field.dart';
+import 'package:paperless_mobile/features/labels/view/widgets/single_label_form_field.dart';
 import 'package:paperless_mobile/features/logging/data/logger.dart';
 import 'package:paperless_mobile/features/sharing/view/widgets/file_thumbnail.dart';
 import 'package:paperless_mobile/features/tasks/model/pending_tasks_notifier.dart';
@@ -251,47 +251,57 @@ class _DocumentUploadPreparationPageState
                             .loggedInUser$
                             .paperlessUser
                             .canViewCorrespondents)
-                          LabelFormField<Correspondent>(
+                          SingleLabelFormField<Correspondent>(
                             query: context.correspondentRepository
                                 .getAllQuery(),
-                            showAnyAssignedOption: false,
-                            showNotAssignedOption: false,
-                            onAddLabel: (initialName) => CreateLabelRoute(
-                              LabelType.correspondent,
-                              name: initialName,
-                            ).push<Correspondent>(context),
-                            addLabelText: S.of(context)!.addCorrespondent,
+                            onAddLabel:
+                                context
+                                    .loggedInUser$
+                                    .paperlessUser
+                                    .canCreateCorrespondents
+                                ? (initialName) => CreateLabelRoute(
+                                    LabelType.correspondent,
+                                    name: initialName,
+                                  ).push<Correspondent>(context)
+                                : null,
+                            addLabelText:
+                                context
+                                    .loggedInUser$
+                                    .paperlessUser
+                                    .canCreateCorrespondents
+                                ? S.of(context)!.addCorrespondent
+                                : null,
                             labelText: "${S.of(context)!.correspondent} *",
                             name: 'correspondent',
                             prefixIcon: const Icon(Icons.person_outline),
-                            allowSelectUnassigned: true,
-                            canCreateNewLabel: context
-                                .loggedInUser$
-                                .paperlessUser
-                                .canCreateCorrespondents,
                           ),
                         // Document type
                         if (context
                             .loggedInUser$
                             .paperlessUser
                             .canViewDocumentTypes)
-                          LabelFormField<DocumentType>(
-                            showAnyAssignedOption: false,
-                            showNotAssignedOption: false,
-                            onAddLabel: (initialName) => CreateLabelRoute(
-                              LabelType.documentType,
-                              name: initialName,
-                            ).push<DocumentType>(context),
-                            addLabelText: S.of(context)!.addDocumentType,
+                          SingleLabelFormField<DocumentType>(
+                            onAddLabel:
+                                context
+                                    .loggedInUser$
+                                    .paperlessUser
+                                    .canCreateDocumentTypes
+                                ? (initialName) => CreateLabelRoute(
+                                    LabelType.documentType,
+                                    name: initialName,
+                                  ).push<DocumentType>(context)
+                                : null,
+                            addLabelText:
+                                context
+                                    .loggedInUser$
+                                    .paperlessUser
+                                    .canCreateDocumentTypes
+                                ? S.of(context)!.addDocumentType
+                                : null,
                             labelText: "${S.of(context)!.documentType} *",
                             name: 'document_type',
                             query: context.documentTypeRepository.getAllQuery(),
                             prefixIcon: const Icon(Icons.description_outlined),
-                            allowSelectUnassigned: true,
-                            canCreateNewLabel: context
-                                .loggedInUser$
-                                .paperlessUser
-                                .canCreateDocumentTypes,
                           ),
                         if (context.loggedInUser$.paperlessUser.canViewTags)
                           TagsFormField(
@@ -332,11 +342,11 @@ class _DocumentUploadPreparationPageState
       final createdAt = formValues['created'] as FormDateTime?;
       final title = formValues['title'] as String;
       final correspondent = switch (correspondentParam) {
-        SetIdQueryParameter(id: var id) => id,
+        IncludeIdsQueryParameter(ids: var id) => id.firstOrNull,
         _ => null,
       };
       final docType = switch (docTypeParam) {
-        SetIdQueryParameter(id: var id) => id,
+        IncludeIdsQueryParameter(ids: var id) => id.firstOrNull,
         _ => null,
       };
       final tags = switch (tagsParam) {

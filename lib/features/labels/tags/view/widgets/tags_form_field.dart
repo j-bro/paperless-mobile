@@ -9,6 +9,7 @@ import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/extensions/label_list_extension.dart';
 import 'package:paperless_mobile/core/workarounds/colored_chip.dart';
 import 'package:paperless_mobile/features/labels/tags/view/widgets/fullscreen_tags_form.dart';
+import 'package:paperless_mobile/features/labels/view/widgets/query_label_option_chip.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
 class TagsFormField extends StatelessWidget {
@@ -206,7 +207,7 @@ class TagsFormField extends StatelessWidget {
     assert(field.value is IdsTagsQuery);
     final formValue = field.value as IdsTagsQuery;
     final tag = options[id]!;
-    return QueryTagChip(
+    return LabelQueryOptionChip(
       onDeleted: () => field.didChange(
         formValue.copyWith(
           include: formValue.include
@@ -250,7 +251,7 @@ class TagsFormField extends StatelessWidget {
     BuildContext context,
     FormFieldState<TagsQuery?> field,
   ) {
-    return QueryTagChip(
+    return LabelQueryOptionChip(
       onDeleted: () => field.didChange(null),
       exclude: false,
       backgroundColor: Colors.grey,
@@ -266,7 +267,7 @@ class TagsFormField extends StatelessWidget {
     AnyAssignedTagsQuery query,
     Map<int, Tag> options,
   ) {
-    return QueryTagChip(
+    return LabelQueryOptionChip(
       onDeleted: () {
         final updatedQuery = query.copyWith(
           tagIds: query.tagIds.whereNot((element) => element == e).toList(),
@@ -281,54 +282,6 @@ class TagsFormField extends StatelessWidget {
       backgroundColor: options[e]!.color,
       foregroundColor: options[e]!.textColor,
       labelText: options[e]!.name,
-    );
-  }
-}
-
-typedef TagQueryCallback = void Function(Tag tag);
-
-class QueryTagChip extends StatelessWidget {
-  final VoidCallback onDeleted;
-  final VoidCallback? onSelected;
-  final bool exclude;
-  final Color? backgroundColor;
-  final Color? foregroundColor;
-  final String labelText;
-
-  const QueryTagChip({
-    super.key,
-    required this.onDeleted,
-    this.onSelected,
-    required this.exclude,
-    this.backgroundColor,
-    this.foregroundColor,
-    required this.labelText,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ColoredChipWrapper(
-      child: InputChip(
-        labelPadding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-        padding: const EdgeInsets.all(4),
-        selectedColor: backgroundColor,
-        visualDensity: const VisualDensity(vertical: -2),
-        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        label: Text(
-          labelText,
-          style: TextStyle(
-            color: foregroundColor,
-            decorationColor: foregroundColor,
-            decoration: exclude ? TextDecoration.lineThrough : null,
-          ),
-        ),
-        onDeleted: onDeleted,
-        onPressed: onSelected,
-        deleteIconColor: foregroundColor,
-        checkmarkColor: foregroundColor,
-        backgroundColor: backgroundColor,
-        side: BorderSide.none,
-      ),
     );
   }
 }

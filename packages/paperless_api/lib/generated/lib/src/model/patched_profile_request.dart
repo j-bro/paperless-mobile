@@ -7,6 +7,7 @@ import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/src/equatable_utils.dart';
+import 'package:paperless_api/src/utils/patched_value.dart';
 
 part 'patched_profile_request.g.dart';
 
@@ -60,7 +61,8 @@ class PatchedProfileRequest {
   factory PatchedProfileRequest.fromJson(Map<String, dynamic> json) =>
       _$PatchedProfileRequestFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PatchedProfileRequestToJson(this);
+  Map<String, dynamic> toJson() =>
+      processPatchedValueJson(_$PatchedProfileRequestToJson(this));
 
   @override
   String toString() {

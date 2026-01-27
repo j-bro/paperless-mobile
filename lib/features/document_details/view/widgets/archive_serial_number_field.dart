@@ -26,7 +26,7 @@ class ArchiveSerialNumberField extends StatefulWidget {
 class _ArchiveSerialNumberFieldState extends State<ArchiveSerialNumberField> {
   late final TextEditingController _asnEditingController;
   late bool _showClearButton;
-  final bool _canUpdate = false;
+  bool _canUpdate = false;
   Map<String, dynamic> _errors = {};
 
   @override
@@ -34,13 +34,15 @@ class _ArchiveSerialNumberFieldState extends State<ArchiveSerialNumberField> {
     super.initState();
     _asnEditingController = TextEditingController(
       text: widget.initialValue?.toString(),
-    )..addListener(_clearButtonListener);
+    )..addListener(_onTextChanged);
     _showClearButton = widget.initialValue != null;
   }
 
-  void _clearButtonListener() {
+  void _onTextChanged() {
+    final currentValue = int.tryParse(_asnEditingController.text);
     setState(() {
       _showClearButton = _asnEditingController.text.isNotEmpty;
+      _canUpdate = currentValue != widget.initialValue;
     });
   }
 
@@ -103,7 +105,7 @@ class _ArchiveSerialNumberFieldState extends State<ArchiveSerialNumberField> {
             ),
             TextButton.icon(
               icon: const Icon(Icons.done),
-              onPressed: _canUpdate && !state.isLoading
+              onPressed: userCanEditDocument && _canUpdate && !state.isLoading
                   ? () => _onSubmitted(assignAsn)
                   : null,
               label: Text(S.of(context)!.save),

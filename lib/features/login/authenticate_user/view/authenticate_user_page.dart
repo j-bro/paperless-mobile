@@ -82,20 +82,7 @@ class _AuthenticateUserPageState extends State<AuthenticateUserPage> {
         persistentFooterAlignment: AlignmentDirectional.center,
         persistentFooterDecoration: BoxDecoration(),
         resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          title: Text(S.of(context)!.connectToPaperless),
-          leading: BackButton(
-            onPressed: () => {
-              AuthRoute(
-                initialHost: widget.serverUrl,
-                $extra: AuthRouteExtra(
-                  clientCertificate: widget.clientCertificate,
-                  additionalHeaders: widget.additionalHeaders,
-                ),
-              ).go(context),
-            },
-          ),
-        ),
+        appBar: AppBar(title: Text(S.of(context)!.connectToPaperless)),
         body: FormBuilder(
           key: _formKey,
           child: AutofillGroup(

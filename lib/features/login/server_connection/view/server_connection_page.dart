@@ -100,7 +100,7 @@ class _ServerConnectionPageState extends State<ServerConnectionPage> {
                             clientCertificate: state.clientCertificate,
                             additionalHeaders: state.additionalHeaders,
                           ),
-                        ).go(context);
+                        ).push(context);
                       }
                     },
                     builder: (context, state) {

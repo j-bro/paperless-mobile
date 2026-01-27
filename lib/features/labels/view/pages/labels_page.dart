@@ -236,8 +236,9 @@ class _LabelsPageState extends State<LabelsPage>
         SliverOverlapInjector(handle: tabBarHandle),
         LabelTabView<Correspondent>(
           query: context.correspondentRepository.getAllQuery(),
-          filterBuilder: (label) =>
-              DocumentFilter(correspondent: SetIdQueryParameter(id: label.id)),
+          filterBuilder: (label) => DocumentFilter(
+            correspondent: IdQueryParameter.include(ids: [label.id]),
+          ),
           canEdit: user.canEditCorrespondents,
           canAddNew: user.canCreateCorrespondents,
           onEdit: (correspondent) {
@@ -259,8 +260,9 @@ class _LabelsPageState extends State<LabelsPage>
         SliverOverlapInjector(handle: tabBarHandle),
         LabelTabView<DocumentType>(
           query: context.documentTypeRepository.getAllQuery(),
-          filterBuilder: (label) =>
-              DocumentFilter(documentType: SetIdQueryParameter(id: label.id)),
+          filterBuilder: (label) => DocumentFilter(
+            documentType: IdQueryParameter.include(ids: [label.id]),
+          ),
           canEdit: user.canEditDocumentTypes,
           canAddNew: user.canCreateDocumentTypes,
           onEdit: (label) {
@@ -311,8 +313,9 @@ class _LabelsPageState extends State<LabelsPage>
           onEdit: (label) {
             EditLabelRoute(label).push(context);
           },
-          filterBuilder: (label) =>
-              DocumentFilter(storagePath: SetIdQueryParameter(id: label.id)),
+          filterBuilder: (label) => DocumentFilter(
+            storagePath: IdQueryParameter.include(ids: [label.id]),
+          ),
           canEdit: user.canEditStoragePaths,
           canAddNew: user.canCreateStoragePaths,
           contentBuilder: (path) => Text(path.path),

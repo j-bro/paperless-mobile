@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:cached_query_flutter/cached_query_flutter.dart';
-import 'package:fpdart/fpdart.dart' show Option;
+import 'package:flutter/material.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/service/file_service.dart';
 import 'package:paperless_mobile/features/logging/data/logger.dart';
@@ -51,6 +51,9 @@ class DocumentRepository {
       },
       onSuccess: (data) {
         _cachedDocumentQueriesToInvalidate.add(queryKey);
+        debugPrint(
+          'Cached document queries to invalidate: $_cachedDocumentQueriesToInvalidate',
+        );
       },
       getNextArg: (state) {
         final lastPage = state?.lastPage;
@@ -113,8 +116,8 @@ class DocumentRepository {
     throw UnimplementedError();
   }
 
-  Mutation<int, AssignAsnRequest> assignAsnMutation(int documentId) {
-    return Mutation<int, AssignAsnRequest>(
+  Mutation<int?, AssignAsnRequest> assignAsnMutation(int documentId) {
+    return Mutation<int?, AssignAsnRequest>(
       key: 'assign_asn/$documentId',
       mutationFn: (request) async {
         var nextAsn = request.asn;
@@ -123,15 +126,15 @@ class DocumentRepository {
           if (asnResponse.isError) {
             throw PaperlessApiException(ErrorCode.documentAsnQueryFailed);
           }
-          nextAsn = asnResponse.data!;
+          nextAsn = asnResponse.data;
         }
         final response = await patchDocumentMutation(documentId).mutate(
-          PatchedDocumentRequest(archiveSerialNumber: Option.of(nextAsn)),
+          PatchedDocumentRequest(archiveSerialNumber: PatchedValue(nextAsn)),
         );
         if (response.isError && response.data == null) {
           throw PaperlessApiException(ErrorCode.documentUpdateFailed);
         }
-        return response.data!.archiveSerialNumber!;
+        return response.data!.archiveSerialNumber;
       },
       onSuccess: (res, arg) {
         final query = CachedQuery.instance.getQuery<Query<Document>>(
@@ -330,11 +333,15 @@ class DocumentRepository {
           'document/$id',
         );
         if (query?.state.data != null) {
+          final patchedJson = arg.toJson();
           query!.update(
             (currentData) =>
-                Document.fromJson({...currentData!.toJson(), ...arg.toJson()}),
+                Document.fromJson({...currentData!.toJson(), ...patchedJson}),
           );
         }
+      },
+      onSuccess: (res, arg) {
+        debugPrint('test');
       },
       invalidateQueries: [
         'document/$id',

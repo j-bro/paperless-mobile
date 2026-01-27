@@ -51,7 +51,7 @@ class DocumentOverviewWidget extends StatelessWidget {
               document.documentType!,
             ),
             builder: (context, state) {
-              if (state.isLoading) {
+              if (state.isLoading && state.data == null) {
                 return DetailsItemSkeleton(label: S.of(context)!.documentType);
               }
               if (state.isError) {
@@ -80,7 +80,7 @@ class DocumentOverviewWidget extends StatelessWidget {
               document.correspondent!,
             ),
             builder: (context, state) {
-              if (state.isLoading) {
+              if (state.isLoading && state.data == null) {
                 return DetailsItemSkeleton(label: S.of(context)!.documentType);
               }
               if (state.isError) {
@@ -109,7 +109,7 @@ class DocumentOverviewWidget extends StatelessWidget {
               document.storagePath!,
             ),
             builder: (context, state) {
-              if (state.isLoading) {
+              if (state.isLoading && state.data == null) {
                 return DetailsItemSkeleton(label: S.of(context)!.storagePath);
               }
               if (state.isError) {

@@ -1,7 +1,6 @@
 import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:fpdart/fpdart.dart' show Option;
 import 'package:intl/intl.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
@@ -432,7 +431,7 @@ class _InboxItemState extends State<InboxItem> {
                                         )
                                         .mutate(
                                           PatchedDocumentRequest(
-                                            correspondent: Option.of(e),
+                                            correspondent: PatchedValue(e),
                                           ),
                                         );
                                     if (context.mounted) {
@@ -469,7 +468,7 @@ class _InboxItemState extends State<InboxItem> {
                                         )
                                         .mutate(
                                           PatchedDocumentRequest(
-                                            documentType: Option.of(e),
+                                            documentType: PatchedValue(e),
                                           ),
                                         );
                                     if (context.mounted) {
@@ -501,7 +500,7 @@ class _InboxItemState extends State<InboxItem> {
                                       .patchDocumentMutation(widget.document.id)
                                       .mutate(
                                         PatchedDocumentRequest(
-                                          tags: Option.of(
+                                          tags: PatchedValue(
                                             {
                                               ...widget.document.tags,
                                               e,
@@ -541,7 +540,7 @@ class _InboxItemState extends State<InboxItem> {
                                         )
                                         .mutate(
                                           PatchedDocumentRequest(
-                                            storagePath: Option.of(e),
+                                            storagePath: PatchedValue(e),
                                           ),
                                         );
                                     if (context.mounted) {
@@ -577,7 +576,7 @@ class _InboxItemState extends State<InboxItem> {
                                     .patchDocumentMutation(widget.document.id)
                                     .mutate(
                                       PatchedDocumentRequest(
-                                        created: Option.of(e),
+                                        created: PatchedValue(e),
                                       ),
                                     );
                                 if (context.mounted) {

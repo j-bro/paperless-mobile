@@ -13,6 +13,7 @@ import 'package:paperless_api/generated/lib/src/model/output_type_enum.dart';
 // ignore_for_file: unused_element
 import 'package:paperless_api/generated/lib/src/model/skip_archive_file_enum.dart';
 import 'package:paperless_api/generated/lib/src/model/unpaper_clean_enum.dart';
+import 'package:paperless_api/src/utils/patched_value.dart';
 
 part 'patched_application_configuration_request.g.dart';
 
@@ -284,8 +285,9 @@ class PatchedApplicationConfigurationRequest {
     Map<String, dynamic> json,
   ) => _$PatchedApplicationConfigurationRequestFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$PatchedApplicationConfigurationRequestToJson(this);
+  Map<String, dynamic> toJson() => processPatchedValueJson(
+    _$PatchedApplicationConfigurationRequestToJson(this),
+  );
 
   @override
   String toString() {

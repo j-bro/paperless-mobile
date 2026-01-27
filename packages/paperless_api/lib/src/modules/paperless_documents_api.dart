@@ -143,11 +143,9 @@ class PaperlessDocumentsApiImpl implements PaperlessDocumentsApi {
 
   @override
   Future<Document> patch(int id, PatchedDocumentRequest request) async {
+    final data = request.toJson();
     try {
-      final response = await client.patch(
-        "/api/documents/$id/",
-        data: request.toJson(),
-      );
+      final response = await client.patch("/api/documents/$id/", data: data);
       return Document.fromJson(response.data);
     } on DioException catch (exception) {
       throw exception.unravel(

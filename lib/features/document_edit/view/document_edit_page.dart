@@ -5,7 +5,6 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:fpdart/fpdart.dart' show Option;
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:paperless_api/paperless_api.dart';
@@ -18,7 +17,7 @@ import 'package:paperless_mobile/core/widgets/query_builder/label_query_builder.
 import 'package:paperless_mobile/core/workarounds/colored_chip.dart';
 import 'package:paperless_mobile/features/documents/view/pages/document_view.dart';
 import 'package:paperless_mobile/features/labels/tags/view/widgets/tags_form_field.dart';
-import 'package:paperless_mobile/features/labels/view/widgets/label_form_field.dart';
+import 'package:paperless_mobile/features/labels/view/widgets/single_label_form_field.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/helpers/message_helpers.dart';
 import 'package:paperless_mobile/routing/routes/labels_route.dart';
@@ -34,7 +33,7 @@ class DocumentEditPage extends StatefulWidget {
 }
 
 class _DocumentEditPageState extends State<DocumentEditPage>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   static const fkTitle = "title";
   static const fkCorrespondent = "correspondent";
   static const fkTags = "tags";
@@ -46,13 +45,23 @@ class _DocumentEditPageState extends State<DocumentEditPage>
   final _formKey = GlobalKey<FormBuilderState>();
 
   bool _isShowingPdf = false;
+  int _selectedTabIndex = 0;
 
+  late final TabController _tabController;
   late final AnimationController _animationController;
   late final Animation<double> _animation;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    _tabController = TabController(length: 2, vsync: this);
+    _tabController.addListener(() {
+      if (_tabController.indexIsChanging) {
+        setState(() {
+          _selectedTabIndex = _tabController.index;
+        });
+      }
+    });
     _animationController = AnimationController(
       duration: const Duration(milliseconds: 150),
       vsync: this,
@@ -61,6 +70,13 @@ class _DocumentEditPageState extends State<DocumentEditPage>
       parent: _animationController,
       curve: Curves.easeInCubic,
     ).drive(Tween<double>(begin: 0, end: 1));
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    _animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -108,6 +124,21 @@ class _DocumentEditPageState extends State<DocumentEditPage>
           },
           child: FormBuilder(
             key: _formKey,
+            initialValue: {
+              fkTitle: state.data!.title,
+              fkCorrespondent: state.data!.correspondent,
+              fkDocumentType: state.data!.documentType,
+              fkStoragePath: state.data!.storagePath,
+              fkTags: IdsTagsQuery(include: state.data!.tags),
+              fkCreatedDate: state.data!.created,
+              fkContent: state.data!.content,
+            },
+            onChanged: () {
+              final values = _formKey.currentState?.fields.map(
+                (key, field) => MapEntry(key, field.value),
+              );
+              debugPrint('Form changed: $values');
+            },
             child: Scaffold(
               appBar: AppBar(
                 title: Text(S.of(context)!.editDocument),
@@ -144,38 +175,36 @@ class _DocumentEditPageState extends State<DocumentEditPage>
               ),
               body: Stack(
                 children: [
-                  DefaultTabController(
-                    length: 2,
-                    child: Scaffold(
-                      resizeToAvoidBottomInset: true,
-                      floatingActionButton: !_isShowingPdf
-                          ? FloatingActionButton.extended(
-                              heroTag: "fab_document_edit",
-                              onPressed: () => _onSubmit(state.data!),
-                              icon: const Icon(Icons.save),
-                              label: Text(S.of(context)!.saveChanges),
-                            )
-                          : null,
-                      appBar: TabBar(
-                        tabs: [
-                          Tab(text: S.of(context)!.overview),
-                          Tab(text: S.of(context)!.content),
-                        ],
-                      ),
-                      extendBody: true,
-                      body: QueryBuilder(
-                        query: context
-                            .read<DocumentRepository>()
-                            .getFieldSuggestionsQuery(state.data!.id),
-                        builder: (context, suggestionsState) {
-                          return _buildEditForm(
-                            context,
-                            state.data!,
-                            suggestionsState.data,
-                            currentUser,
-                          );
-                        },
-                      ),
+                  Scaffold(
+                    resizeToAvoidBottomInset: true,
+                    floatingActionButton: !_isShowingPdf
+                        ? FloatingActionButton.extended(
+                            heroTag: "fab_document_edit",
+                            onPressed: () => _onSubmit(state.data!),
+                            icon: const Icon(Icons.save),
+                            label: Text(S.of(context)!.saveChanges),
+                          )
+                        : null,
+                    appBar: TabBar(
+                      controller: _tabController,
+                      tabs: [
+                        Tab(text: S.of(context)!.overview),
+                        Tab(text: S.of(context)!.content),
+                      ],
+                    ),
+                    extendBody: true,
+                    body: QueryBuilder(
+                      query: context
+                          .read<DocumentRepository>()
+                          .getFieldSuggestionsQuery(state.data!.id),
+                      builder: (context, suggestionsState) {
+                        return _buildEditForm(
+                          context,
+                          state.data!,
+                          suggestionsState.data,
+                          currentUser,
+                        );
+                      },
                     ),
                   ),
                   QueryBuilder(
@@ -223,8 +252,8 @@ class _DocumentEditPageState extends State<DocumentEditPage>
   ) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: TabBarView(
-        physics: NeverScrollableScrollPhysics(),
+      child: IndexedStack(
+        index: _selectedTabIndex,
         children: [
           LabelQueryBuilder(
             builder: (context, state) {
@@ -247,24 +276,21 @@ class _DocumentEditPageState extends State<DocumentEditPage>
                   if (currentUser.canViewCorrespondents)
                     Column(
                       children: [
-                        LabelFormField<Correspondent>(
-                          showAnyAssignedOption: false,
-                          showNotAssignedOption: false,
-                          onAddLabel: (currentInput) => CreateLabelRoute(
-                            LabelType.correspondent,
-                            name: currentInput,
-                          ).push<Correspondent>(context),
-                          addLabelText: S.of(context)!.addCorrespondent,
+                        SingleLabelFormField<Correspondent>(
+                          onAddLabel: currentUser.canCreateCorrespondents
+                              ? (currentInput) => CreateLabelRoute(
+                                  LabelType.correspondent,
+                                  name: currentInput,
+                                ).push<Correspondent>(context)
+                              : null,
+                          addLabelText: currentUser.canCreateCorrespondents
+                              ? S.of(context)!.addCorrespondent
+                              : null,
                           labelText: S.of(context)!.correspondent,
                           query: context.correspondentRepository.getAllQuery(),
-                          initialValue: document.correspondent != null
-                              ? SetIdQueryParameter(id: document.correspondent!)
-                              : const UnsetIdQueryParameter(),
+                          initialValue: document.correspondent,
                           name: fkCorrespondent,
                           prefixIcon: const Icon(Icons.person_outlined),
-                          allowSelectUnassigned: true,
-                          canCreateNewLabel:
-                              currentUser.canCreateCorrespondents,
                           suggestions: fieldSuggestions?.correspondents ?? [],
                         ),
                       ],
@@ -273,23 +299,21 @@ class _DocumentEditPageState extends State<DocumentEditPage>
                   if (currentUser.canViewDocumentTypes)
                     Column(
                       children: [
-                        LabelFormField<DocumentType>(
-                          showAnyAssignedOption: false,
-                          showNotAssignedOption: false,
-                          onAddLabel: (currentInput) => CreateLabelRoute(
-                            LabelType.documentType,
-                            name: currentInput,
-                          ).push<DocumentType>(context),
-                          canCreateNewLabel: currentUser.canCreateDocumentTypes,
-                          addLabelText: S.of(context)!.addDocumentType,
+                        SingleLabelFormField<DocumentType>(
+                          onAddLabel: currentUser.canCreateDocumentTypes
+                              ? (currentInput) => CreateLabelRoute(
+                                  LabelType.documentType,
+                                  name: currentInput,
+                                ).push<DocumentType>(context)
+                              : null,
+                          addLabelText: currentUser.canCreateDocumentTypes
+                              ? S.of(context)!.addDocumentType
+                              : null,
                           labelText: S.of(context)!.documentType,
-                          initialValue: document.documentType != null
-                              ? SetIdQueryParameter(id: document.documentType!)
-                              : const UnsetIdQueryParameter(),
+                          initialValue: document.documentType,
                           query: context.documentTypeRepository.getAllQuery(),
                           name: _DocumentEditPageState.fkDocumentType,
                           prefixIcon: const Icon(Icons.description_outlined),
-                          allowSelectUnassigned: true,
                           suggestions: fieldSuggestions?.documentTypes ?? [],
                         ),
                       ],
@@ -298,23 +322,21 @@ class _DocumentEditPageState extends State<DocumentEditPage>
                   if (currentUser.canViewStoragePaths)
                     Column(
                       children: [
-                        LabelFormField<StoragePath>(
-                          showAnyAssignedOption: false,
-                          showNotAssignedOption: false,
-                          onAddLabel: (currentInput) => CreateLabelRoute(
-                            LabelType.storagePath,
-                            name: currentInput,
-                          ).push<StoragePath>(context),
-                          canCreateNewLabel: currentUser.canCreateStoragePaths,
-                          addLabelText: S.of(context)!.addStoragePath,
+                        SingleLabelFormField<StoragePath>(
+                          onAddLabel: currentUser.canCreateStoragePaths
+                              ? (currentInput) => CreateLabelRoute(
+                                  LabelType.storagePath,
+                                  name: currentInput,
+                                ).push<StoragePath>(context)
+                              : null,
+                          addLabelText: currentUser.canCreateStoragePaths
+                              ? S.of(context)!.addStoragePath
+                              : null,
                           labelText: S.of(context)!.storagePath,
                           query: context.storagePathRepository.getAllQuery(),
-                          initialValue: document.storagePath != null
-                              ? SetIdQueryParameter(id: document.storagePath!)
-                              : const UnsetIdQueryParameter(),
+                          initialValue: document.storagePath,
                           name: fkStoragePath,
                           prefixIcon: const Icon(Icons.folder_outlined),
-                          allowSelectUnassigned: true,
                         ),
                       ],
                     ).padded(),
@@ -367,37 +389,19 @@ class _DocumentEditPageState extends State<DocumentEditPage>
     String? content,
   )
   get _currentValues {
-    final fkState = _formKey.currentState!;
+    final fkState = _formKey.currentState!.fields;
 
-    final correspondentParam = fkState.getRawValue<IdQueryParameter?>(
-      fkCorrespondent,
-    );
-    final documentTypeParam = fkState.getRawValue<IdQueryParameter?>(
-      fkDocumentType,
-    );
-    final storagePathParam = fkState.getRawValue<IdQueryParameter?>(
-      fkStoragePath,
-    );
-    final tagsParam = fkState.getRawValue<TagsQuery?>(fkTags);
-    final title = fkState.getRawValue<String?>(fkTitle);
-    final created = fkState.getRawValue<FormDateTime?>(fkCreatedDate);
-    final correspondent = switch (correspondentParam) {
-      SetIdQueryParameter(id: var id) => id,
-      _ => null,
-    };
-    final documentType = switch (documentTypeParam) {
-      SetIdQueryParameter(id: var id) => id,
-      _ => null,
-    };
-    final storagePath = switch (storagePathParam) {
-      SetIdQueryParameter(id: var id) => id,
-      _ => null,
-    };
+    final correspondent = fkState[fkCorrespondent]?.value as int?;
+    final documentType = fkState[fkDocumentType]?.value as int?;
+    final storagePath = fkState[fkStoragePath]?.value as int?;
+    final tagsParam = fkState[fkTags]?.value as IdsTagsQuery?;
+    final title = fkState[fkTitle]?.value as String?;
+    final created = fkState[fkCreatedDate]?.value as FormDateTime?;
     final tags = switch (tagsParam) {
-      IdsTagsQuery(include: var i) => i,
+      IdsTagsQuery(include: var include) => include,
       _ => null,
     };
-    final content = fkState.getRawValue<String?>(fkContent);
+    final content = fkState[fkContent]?.value as String?;
 
     return (
       title,
@@ -422,19 +426,40 @@ class _DocumentEditPageState extends State<DocumentEditPage>
         content,
       ) = _currentValues;
 
+      // final title = titleValue != document.title ? Option.of(titleValue) : null;
+      // final correspondent = correspondentValue != document.correspondent
+      //     ? Option.of(correspondentValue)
+      //     : null;
+      // final documentType = documentTypeValue != document.documentType
+      //     ? Option.of(documentTypeValue)
+      //     : null;
+      // final storagePath = storagePathValue != document.storagePath
+      //     ? Option.of(storagePathValue)
+      //     : null;
+      // final tags =
+      //     !SetEquality().equals(tagsValue?.toSet(), document.tags.toSet())
+      //     ? Option.of(tagsValue)
+      //     : null;
+      // final createdAt = createdAtValue != document.created
+      //     ? Option.of(createdAtValue)
+      //     : null;
+      // final content = contentValue != document.content
+      //     ? Option.of(contentValue)
+      //     : null;
+
       try {
         await context
             .read<DocumentRepository>()
             .patchDocumentMutation(document.id)
             .mutate(
               PatchedDocumentRequest(
-                correspondent: Option.of(correspondent),
-                documentType: Option.of(documentType),
-                storagePath: Option.of(storagePath),
-                tags: Option.of(tags),
-                content: Option.of(content),
-                title: Option.of(title),
-                created: Option.of(createdAt),
+                correspondent: PatchedValue(correspondent),
+                documentType: PatchedValue(documentType),
+                storagePath: PatchedValue(storagePath),
+                tags: PatchedValue(tags),
+                content: PatchedValue(content),
+                title: PatchedValue(title),
+                created: PatchedValue(createdAt),
               ),
             );
         if (mounted) {

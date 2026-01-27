@@ -15,7 +15,6 @@ class TextQuery {
   const TextQuery.title(this.queryText) : queryType = QueryType.title;
   const TextQuery.titleAndContent(this.queryText)
     : queryType = QueryType.titleAndContent;
-
   const TextQuery.extended(this.queryText) : queryType = QueryType.extended;
 
   Map<String, String> toQueryParameter() {

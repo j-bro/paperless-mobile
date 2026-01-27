@@ -4,20 +4,22 @@
 
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/src/equatable_utils.dart';
-// ignore_for_file: unused_element
-import 'package:fpdart/fpdart.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:paperless_api/generated/lib/src/model/correspondent_request_set_permissions.dart';
 import 'package:paperless_api/generated/lib/src/model/custom_field_instance_request.dart';
+import 'package:paperless_api/src/converters/optional_json_converter.dart';
+import 'package:paperless_api/src/utils/patched_value.dart';
 
 part 'patched_document_request.g.dart';
 
 @CopyWith()
 @JsonSerializable(
   checked: true,
+  createFactory: false,
   createToJson: true,
   disallowUnrecognizedKeys: false,
-  explicitToJson: true,
+  explicitToJson: false,
+  includeIfNull: true,
 )
 class PatchedDocumentRequest {
   /// Returns a new [PatchedDocumentRequest] instance.
@@ -38,60 +40,51 @@ class PatchedDocumentRequest {
     this.removeInboxTags = false,
   });
 
-  @JsonKey(name: r'correspondent', required: false, includeIfNull: false)
-  final Option<int?>? correspondent;
+  @JsonKey(name: r'correspondent')
+  final PatchedValue<int?>? correspondent;
 
-  @JsonKey(name: r'document_type', required: false, includeIfNull: false)
-  final Option<int?>? documentType;
+  @JsonKey(name: r'document_type')
+  final PatchedValue<int?>? documentType;
 
-  @JsonKey(name: r'storage_path', required: false, includeIfNull: false)
-  final Option<int?>? storagePath;
+  @JsonKey(name: r'storage_path')
+  final PatchedValue<int?>? storagePath;
 
-  @JsonKey(name: r'title', required: false, includeIfNull: false)
-  final Option<String?>? title;
+  @JsonKey(name: r'title')
+  final PatchedValue<String?>? title;
 
   /// The raw, text-only data of the document. This field is primarily used for searching.
-  @JsonKey(name: r'content', required: false, includeIfNull: false)
-  final Option<String?>? content;
+  @JsonKey(name: r'content')
+  final PatchedValue<String?>? content;
 
-  @JsonKey(name: r'tags', required: false, includeIfNull: false)
-  final Option<List<int>?>? tags;
+  @JsonKey(name: r'tags')
+  final PatchedValue<List<int>?>? tags;
 
-  @JsonKey(name: r'created', required: false, includeIfNull: false)
-  final Option<DateTime?>? created;
+  @JsonKey(name: r'created')
+  final PatchedValue<DateTime?>? created;
 
   @Deprecated('createdDate has been deprecated')
-  @JsonKey(name: r'created_date', required: false, includeIfNull: false)
-  final Option<DateTime?>? createdDate;
+  @JsonKey(name: r'created_date')
+  final PatchedValue<DateTime?>? createdDate;
 
-  @JsonKey(name: r'deleted_at', required: false, includeIfNull: false)
-  final Option<DateTime?>? deletedAt;
+  @JsonKey(name: r'deleted_at')
+  final PatchedValue<DateTime?>? deletedAt;
 
   /// The position of this document in your physical document archive.
   // minimum: 0
   // maximum: 4294967295
-  @JsonKey(
-    name: r'archive_serial_number',
-    required: false,
-    includeIfNull: false,
-  )
-  final Option<int?>? archiveSerialNumber;
+  @JsonKey(name: r'archive_serial_number')
+  final PatchedValue<int?>? archiveSerialNumber;
 
-  @JsonKey(name: r'owner', required: false, includeIfNull: false)
-  final Option<int?>? owner;
+  @JsonKey(name: r'owner')
+  final PatchedValue<int?>? owner;
 
-  @JsonKey(name: r'set_permissions', required: false, includeIfNull: false)
+  @JsonKey(name: r'set_permissions')
   final CorrespondentRequestSetPermissions? setPermissions;
 
-  @JsonKey(name: r'custom_fields', required: false, includeIfNull: false)
+  @JsonKey(name: r'custom_fields')
   final List<CustomFieldInstanceRequest>? customFields;
 
-  @JsonKey(
-    defaultValue: false,
-    name: r'remove_inbox_tags',
-    required: false,
-    includeIfNull: false,
-  )
+  @JsonKey(name: r'remove_inbox_tags')
   final bool? removeInboxTags;
 
   @override
@@ -135,6 +128,7 @@ class PatchedDocumentRequest {
             );
   }
 
+  @JsonKey(includeToJson: true)
   @override
   int get hashCode =>
       runtimeType.hashCode ^
@@ -155,10 +149,8 @@ class PatchedDocumentRequest {
         removeInboxTags,
       ]);
 
-  factory PatchedDocumentRequest.fromJson(Map<String, dynamic> json) =>
-      _$PatchedDocumentRequestFromJson(json);
-
-  Map<String, dynamic> toJson() => _$PatchedDocumentRequestToJson(this);
+  Map<String, dynamic> toJson() =>
+      convertPatchedValueJson(_$PatchedDocumentRequestToJson(this));
 
   @override
   String toString() {

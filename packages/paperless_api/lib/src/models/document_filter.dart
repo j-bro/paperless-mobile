@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:paperless_api/paperless_api.dart';
+import 'package:paperless_api/src/models/query_parameters/asn_query_parameter.dart';
 
 part 'document_filter.g.dart';
 
@@ -24,7 +25,7 @@ class DocumentFilter extends Equatable {
   final IdQueryParameter documentType;
   final IdQueryParameter correspondent;
   final IdQueryParameter storagePath;
-  final IdQueryParameter archiveSerialNumber;
+  final AsnQueryParameter? archiveSerialNumber;
   final TagsQuery tags;
   final SortField? sortField;
   final SortOrder sortOrder;
@@ -35,12 +36,13 @@ class DocumentFilter extends Equatable {
   final int? moreLike;
   final int? selectedView;
   final List<String>? fields;
+  final IdQueryParameter owner;
 
   const DocumentFilter({
-    this.documentType = const UnsetIdQueryParameter(),
-    this.correspondent = const UnsetIdQueryParameter(),
-    this.storagePath = const UnsetIdQueryParameter(),
-    this.archiveSerialNumber = const UnsetIdQueryParameter(),
+    this.documentType = const IdQueryParameter.unset(),
+    this.correspondent = const IdQueryParameter.unset(),
+    this.storagePath = const IdQueryParameter.unset(),
+    this.archiveSerialNumber,
     this.tags = const IdsTagsQuery(),
     this.sortField = SortField.created,
     this.sortOrder = SortOrder.descending,
@@ -50,6 +52,7 @@ class DocumentFilter extends Equatable {
     this.added = const UnsetDateRangeQuery(),
     this.created = const UnsetDateRangeQuery(),
     this.modified = const UnsetDateRangeQuery(),
+    this.owner = const IdQueryParameter.unset(),
     this.moreLike,
     this.selectedView,
     this.fields,
@@ -71,11 +74,14 @@ class DocumentFilter extends Equatable {
       ...documentType.toQueryParameter('document_type').entries,
       ...correspondent.toQueryParameter('correspondent').entries,
       ...storagePath.toQueryParameter('storage_path').entries,
-      ...archiveSerialNumber.toQueryParameter('archive_serial_number').entries,
+      ...(archiveSerialNumber != null
+          ? archiveSerialNumber!.toQueryParameter().entries
+          : []),
       ...tags.toQueryParameter().entries,
       ...added.toQueryParameter(DateRangeQueryField.added).entries,
       ...created.toQueryParameter(DateRangeQueryField.created).entries,
       ...modified.toQueryParameter(DateRangeQueryField.modified).entries,
+      ...owner.toQueryParameter('owner').entries,
       ...query.toQueryParameter().entries,
       if (sortField != null)
         MapEntry('ordering', '${sortOrder.queryString}${sortField!.value}'),
@@ -115,21 +121,22 @@ class DocumentFilter extends Equatable {
       IdsTagsQuery(include: var i, exclude: var e) => e.length + i.length,
     },
     switch (added) {
-      RelativeDateRangeQuery() => 1,
-      AbsoluteDateRangeQuery() => 1,
       UnsetDateRangeQuery() => 0,
+      _ => 1,
     },
     switch (created) {
-      RelativeDateRangeQuery() => 1,
-      AbsoluteDateRangeQuery() => 1,
       UnsetDateRangeQuery() => 0,
+      _ => 1,
     },
     switch (modified) {
-      RelativeDateRangeQuery() => 1,
-      AbsoluteDateRangeQuery() => 1,
       UnsetDateRangeQuery() => 0,
+      _ => 1,
     },
     switch (archiveSerialNumber) {
+      null => 0,
+      _ => 1,
+    },
+    switch (owner) {
       UnsetIdQueryParameter() => 0,
       _ => 1,
     },
@@ -153,6 +160,7 @@ class DocumentFilter extends Equatable {
     query,
     moreLike,
     selectedView,
+    owner,
   ];
 
   Map<String, dynamic> toJson() => _$DocumentFilterToJson(this);

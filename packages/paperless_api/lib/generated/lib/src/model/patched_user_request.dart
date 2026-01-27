@@ -7,6 +7,7 @@ import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/src/equatable_utils.dart';
+import 'package:paperless_api/src/utils/patched_value.dart';
 
 part 'patched_user_request.g.dart';
 
@@ -135,7 +136,8 @@ class PatchedUserRequest {
   factory PatchedUserRequest.fromJson(Map<String, dynamic> json) =>
       _$PatchedUserRequestFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PatchedUserRequestToJson(this);
+  Map<String, dynamic> toJson() =>
+      processPatchedValueJson(_$PatchedUserRequestToJson(this));
 
   @override
   String toString() {
