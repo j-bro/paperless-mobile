@@ -52,6 +52,9 @@ class _ArchiveSerialNumberFieldState extends State<ArchiveSerialNumberField> {
         context.loggedInUser$.paperlessUser.canEditDocuments;
     return MutationConsumer(
       mutation: context.documentRepository.assignAsnMutation(widget.documentId),
+      listenWhen: (oldState, newState) {
+        return oldState.runtimeType != newState.runtimeType;
+      },
       listener: (state) {
         switch (state) {
           case MutationSuccess():

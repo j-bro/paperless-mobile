@@ -41,29 +41,34 @@ class SingleLabelFormField<T extends Label> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return QueryBuilder(
-      query: query,
-      builder: (context, state) {
-        final options = state.data?.toIdMap() ?? {};
-        final enabled = options.isNotEmpty || onAddLabel != null;
+    // FormBuilderField must be OUTSIDE QueryBuilder to keep a stable field reference
+    // when the query cache updates (e.g., after creating a new label)
+    return FormBuilderField<int?>(
+      name: name,
+      initialValue: initialValue,
+      onChanged: onChanged,
+      builder: (field) {
+        return QueryBuilder(
+          query: query,
+          builder: (context, state) {
+            // Handle initial loading state
+            final isInitialLoading = state.isLoading && state.data == null;
+            if (isInitialLoading) {
+              return _buildLoadingInput(context);
+            }
 
-        return FormBuilderField<int?>(
-          name: name,
-          initialValue: initialValue,
-          onChanged: onChanged,
-          enabled: enabled,
-          builder: (field) {
-            final text = field.value != null
+            final options = state.data?.toIdMap() ?? {};
+            final enabled = options.isNotEmpty || onAddLabel != null;
+            final displayText = field.value != null
                 ? (options[field.value]?.name ?? '')
                 : '';
-            final controller = TextEditingController(text: text);
             final displayedSuggestions = suggestions
                 .whereNot((id) => field.value == id)
                 .toList();
 
             return Column(
               children: [
-                OpenContainer<IdQueryParameter>(
+                OpenContainer<int?>(
                   middleColor: Theme.of(context).colorScheme.surface,
                   closedColor: Theme.of(context).colorScheme.surface,
                   openColor: Theme.of(context).colorScheme.surface,
@@ -73,7 +78,8 @@ class SingleLabelFormField<T extends Label> extends StatelessWidget {
                   tappable: enabled,
                   closedBuilder: (context, openForm) {
                     return _buildSingleValueInput(
-                      controller,
+                      context,
+                      displayText,
                       openForm,
                       enabled,
                       field,
@@ -83,24 +89,14 @@ class SingleLabelFormField<T extends Label> extends StatelessWidget {
                     addNewLabelText: addLabelText,
                     leadingIcon: prefixIcon,
                     onCreateNewLabel: onAddLabel,
-                    options: options,
+                    query: query,
                     onSubmit: ({int? returnValue}) {
-                      closeForm(
-                        returnValue: returnValue != null
-                            ? IdQueryParameter.single(id: returnValue)
-                            : const IdQueryParameter.unset(),
-                      );
+                      closeForm(returnValue: returnValue);
                     },
                     initialValue: field.value,
                   ),
                   onClosed: (data) {
-                    if (data != null) {
-                      final newValue = switch (data) {
-                        SingleIdQueryParameter(id: final id) => id,
-                        _ => null,
-                      };
-                      field.didChange(newValue);
-                    }
+                    field.didChange(data);
                   },
                 ),
                 if (displayedSuggestions.isNotEmpty)
@@ -143,27 +139,50 @@ class SingleLabelFormField<T extends Label> extends StatelessWidget {
     );
   }
 
-  Container _buildSingleValueInput(
-    TextEditingController controller,
+  Widget _buildLoadingInput(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(top: 6),
+      child: InputDecorator(
+        decoration: InputDecoration(
+          prefixIcon: prefixIcon,
+          labelText: labelText,
+          enabled: false,
+        ),
+        isEmpty: true,
+        child: null,
+      ),
+    );
+  }
+
+  Widget _buildSingleValueInput(
+    BuildContext context,
+    String displayText,
     VoidCallback openForm,
     bool enabled,
     FormFieldState<int?> field,
   ) {
+    final theme = Theme.of(context);
+    final hasValue = displayText.isNotEmpty;
+
     return Container(
       margin: const EdgeInsets.only(top: 6),
-      child: TextField(
-        controller: controller,
-        onTap: openForm,
-        readOnly: true,
-        enabled: enabled,
-        decoration: InputDecoration(
-          prefixIcon: prefixIcon,
-          labelText: labelText,
-          suffixIcon: controller.text.isNotEmpty
-              ? IconButton(
-                  icon: const Icon(Icons.clear),
-                  onPressed: () => field.didChange(null),
-                )
+      child: GestureDetector(
+        onTap: enabled ? openForm : null,
+        child: InputDecorator(
+          decoration: InputDecoration(
+            prefixIcon: prefixIcon,
+            labelText: labelText,
+            enabled: enabled,
+            suffixIcon: hasValue
+                ? IconButton(
+                    icon: const Icon(Icons.clear),
+                    onPressed: () => field.didChange(null),
+                  )
+                : null,
+          ),
+          isEmpty: !hasValue,
+          child: hasValue
+              ? Text(displayText, style: theme.textTheme.titleMedium)
               : null,
         ),
       ),

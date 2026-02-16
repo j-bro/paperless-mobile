@@ -13,7 +13,6 @@ import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/repository/document_repository.dart';
 import 'package:paperless_mobile/core/widgets/dialog_utils/pop_with_unsaved_changes.dart';
 import 'package:paperless_mobile/core/widgets/form_builder_fields/form_builder_localized_date_picker.dart';
-import 'package:paperless_mobile/core/widgets/query_builder/label_query_builder.dart';
 import 'package:paperless_mobile/core/workarounds/colored_chip.dart';
 import 'package:paperless_mobile/features/documents/view/pages/document_view.dart';
 import 'package:paperless_mobile/features/labels/tags/view/widgets/tags_form_field.dart';
@@ -212,7 +211,7 @@ class _DocumentEditPageState extends State<DocumentEditPage>
                         .read<DocumentRepository>()
                         .downloadDocumentQuery(
                           widget.documentId,
-                          original: false,
+                          original: true,
                         ),
                     builder: (context, downloadState) {
                       if (downloadState.isLoading) {
@@ -227,6 +226,8 @@ class _DocumentEditPageState extends State<DocumentEditPage>
                             child: DocumentView(
                               documentId: widget.documentId,
                               title: state.data?.title,
+                              mimeType:
+                                  state.data?.mimeType ?? 'application/pdf',
                               showAppBar: false,
                               showControls: false,
                             ),
@@ -255,110 +256,96 @@ class _DocumentEditPageState extends State<DocumentEditPage>
       child: IndexedStack(
         index: _selectedTabIndex,
         children: [
-          LabelQueryBuilder(
-            builder: (context, state) {
-              if (state.isError) {
-                //TODO: Better error handling
-                return SizedBox.shrink();
-              }
-              if (state.isLoading) {
-                return Center(child: CircularProgressIndicator());
-              }
-              return ListView(
-                children: [
-                  SizedBox(height: 16),
-                  _buildTitleFormField(document.title).padded(),
-                  _buildCreatedAtFormField(
-                    document.created,
-                    fieldSuggestions,
-                  ).padded(),
-                  // Correspondent form field
-                  if (currentUser.canViewCorrespondents)
-                    Column(
-                      children: [
-                        SingleLabelFormField<Correspondent>(
-                          onAddLabel: currentUser.canCreateCorrespondents
-                              ? (currentInput) => CreateLabelRoute(
-                                  LabelType.correspondent,
-                                  name: currentInput,
-                                ).push<Correspondent>(context)
-                              : null,
-                          addLabelText: currentUser.canCreateCorrespondents
-                              ? S.of(context)!.addCorrespondent
-                              : null,
-                          labelText: S.of(context)!.correspondent,
-                          query: context.correspondentRepository.getAllQuery(),
-                          initialValue: document.correspondent,
-                          name: fkCorrespondent,
-                          prefixIcon: const Icon(Icons.person_outlined),
-                          suggestions: fieldSuggestions?.correspondents ?? [],
-                        ),
-                      ],
-                    ).padded(),
-                  // DocumentType form field
-                  if (currentUser.canViewDocumentTypes)
-                    Column(
-                      children: [
-                        SingleLabelFormField<DocumentType>(
-                          onAddLabel: currentUser.canCreateDocumentTypes
-                              ? (currentInput) => CreateLabelRoute(
-                                  LabelType.documentType,
-                                  name: currentInput,
-                                ).push<DocumentType>(context)
-                              : null,
-                          addLabelText: currentUser.canCreateDocumentTypes
-                              ? S.of(context)!.addDocumentType
-                              : null,
-                          labelText: S.of(context)!.documentType,
-                          initialValue: document.documentType,
-                          query: context.documentTypeRepository.getAllQuery(),
-                          name: _DocumentEditPageState.fkDocumentType,
-                          prefixIcon: const Icon(Icons.description_outlined),
-                          suggestions: fieldSuggestions?.documentTypes ?? [],
-                        ),
-                      ],
-                    ).padded(),
-                  // StoragePath form field
-                  if (currentUser.canViewStoragePaths)
-                    Column(
-                      children: [
-                        SingleLabelFormField<StoragePath>(
-                          onAddLabel: currentUser.canCreateStoragePaths
-                              ? (currentInput) => CreateLabelRoute(
-                                  LabelType.storagePath,
-                                  name: currentInput,
-                                ).push<StoragePath>(context)
-                              : null,
-                          addLabelText: currentUser.canCreateStoragePaths
-                              ? S.of(context)!.addStoragePath
-                              : null,
-                          labelText: S.of(context)!.storagePath,
-                          query: context.storagePathRepository.getAllQuery(),
-                          initialValue: document.storagePath,
-                          name: fkStoragePath,
-                          prefixIcon: const Icon(Icons.folder_outlined),
-                        ),
-                      ],
-                    ).padded(),
-                  // Tag form field
-                  if (currentUser.canViewTags)
-                    TagsFormField(
-                      name: fkTags,
-                      allowOnlySelection: true,
-                      allowCreation: true,
-                      allowExclude: false,
-                      suggestions:
-                          fieldSuggestions?.tags.whereNot(
-                            document.tags.contains,
-                          ) ??
-                          [],
-                      initialValue: IdsTagsQuery(include: document.tags),
-                    ).padded(),
+          ListView(
+            children: [
+              SizedBox(height: 16),
+              _buildTitleFormField(document.title).padded(),
+              _buildCreatedAtFormField(
+                document.created,
+                fieldSuggestions,
+              ).padded(),
+              // Correspondent form field
+              if (currentUser.canViewCorrespondents)
+                Column(
+                  children: [
+                    SingleLabelFormField<Correspondent>(
+                      onAddLabel: currentUser.canCreateCorrespondents
+                          ? (currentInput) => CreateLabelRoute(
+                              LabelType.correspondent,
+                              name: currentInput,
+                            ).push<Correspondent>(context)
+                          : null,
+                      addLabelText: currentUser.canCreateCorrespondents
+                          ? S.of(context)!.addCorrespondent
+                          : null,
+                      labelText: S.of(context)!.correspondent,
+                      query: context.correspondentRepository.getAllQuery(),
+                      initialValue: document.correspondent,
+                      name: fkCorrespondent,
+                      prefixIcon: const Icon(Icons.person_outlined),
+                      suggestions: fieldSuggestions?.correspondents ?? [],
+                    ),
+                  ],
+                ).padded(),
+              // DocumentType form field
+              if (currentUser.canViewDocumentTypes)
+                Column(
+                  children: [
+                    SingleLabelFormField<DocumentType>(
+                      onAddLabel: currentUser.canCreateDocumentTypes
+                          ? (currentInput) => CreateLabelRoute(
+                              LabelType.documentType,
+                              name: currentInput,
+                            ).push<DocumentType>(context)
+                          : null,
+                      addLabelText: currentUser.canCreateDocumentTypes
+                          ? S.of(context)!.addDocumentType
+                          : null,
+                      labelText: S.of(context)!.documentType,
+                      initialValue: document.documentType,
+                      query: context.documentTypeRepository.getAllQuery(),
+                      name: _DocumentEditPageState.fkDocumentType,
+                      prefixIcon: const Icon(Icons.description_outlined),
+                      suggestions: fieldSuggestions?.documentTypes ?? [],
+                    ),
+                  ],
+                ).padded(),
+              // StoragePath form field
+              if (currentUser.canViewStoragePaths)
+                Column(
+                  children: [
+                    SingleLabelFormField<StoragePath>(
+                      onAddLabel: currentUser.canCreateStoragePaths
+                          ? (currentInput) => CreateLabelRoute(
+                              LabelType.storagePath,
+                              name: currentInput,
+                            ).push<StoragePath>(context)
+                          : null,
+                      addLabelText: currentUser.canCreateStoragePaths
+                          ? S.of(context)!.addStoragePath
+                          : null,
+                      labelText: S.of(context)!.storagePath,
+                      query: context.storagePathRepository.getAllQuery(),
+                      initialValue: document.storagePath,
+                      name: fkStoragePath,
+                      prefixIcon: const Icon(Icons.folder_outlined),
+                    ),
+                  ],
+                ).padded(),
+              // Tag form field
+              if (currentUser.canViewTags)
+                TagsFormField(
+                  name: fkTags,
+                  allowCreation: true,
+                  allowExclude: false,
+                  suggestions:
+                      fieldSuggestions?.tags.whereNot(document.tags.contains) ??
+                      [],
+                  initialValue: IdsTagsQuery(include: document.tags),
+                ).padded(),
 
-                  const SizedBox(height: 140),
-                ],
-              );
-            },
+              const SizedBox(height: 140),
+            ],
           ),
           SingleChildScrollView(
             child: Column(
@@ -425,27 +412,6 @@ class _DocumentEditPageState extends State<DocumentEditPage>
         createdAt,
         content,
       ) = _currentValues;
-
-      // final title = titleValue != document.title ? Option.of(titleValue) : null;
-      // final correspondent = correspondentValue != document.correspondent
-      //     ? Option.of(correspondentValue)
-      //     : null;
-      // final documentType = documentTypeValue != document.documentType
-      //     ? Option.of(documentTypeValue)
-      //     : null;
-      // final storagePath = storagePathValue != document.storagePath
-      //     ? Option.of(storagePathValue)
-      //     : null;
-      // final tags =
-      //     !SetEquality().equals(tagsValue?.toSet(), document.tags.toSet())
-      //     ? Option.of(tagsValue)
-      //     : null;
-      // final createdAt = createdAtValue != document.created
-      //     ? Option.of(createdAtValue)
-      //     : null;
-      // final content = contentValue != document.content
-      //     ? Option.of(contentValue)
-      //     : null;
 
       try {
         await context

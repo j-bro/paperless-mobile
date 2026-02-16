@@ -131,12 +131,21 @@ class DocumentPreviewRoute extends GoRouteData with $DocumentPreviewRoute {
 
   final int documentId;
   final String? title;
+  final String? mimeType;
 
-  const DocumentPreviewRoute({required this.documentId, this.title});
+  const DocumentPreviewRoute({
+    required this.documentId,
+    this.title,
+    this.mimeType,
+  });
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return DocumentView(documentId: documentId, title: title);
+    return DocumentView(
+      documentId: documentId,
+      title: title,
+      mimeType: mimeType,
+    );
   }
 }
 

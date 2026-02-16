@@ -12,6 +12,7 @@ import 'package:shimmer/shimmer.dart';
 class DocumentPreview extends StatelessWidget {
   final int documentId;
   final String? title;
+  final String? mimeType;
   final BoxFit fit;
   final Alignment alignment;
   final double borderRadius;
@@ -29,12 +30,13 @@ class DocumentPreview extends StatelessWidget {
     this.scale = 1.1,
     this.isClickable = true,
     this.title,
+    this.mimeType,
   });
 
   @override
   Widget build(BuildContext context) {
     final currentUser = context.loggedInUser$.paperlessUser;
-
+    debugPrint(mimeType);
     return ConnectivityAwareActionWrapper(
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
@@ -42,6 +44,7 @@ class DocumentPreview extends StatelessWidget {
             ? () => DocumentPreviewRoute(
                 documentId: documentId,
                 title: title,
+                mimeType: mimeType,
               ).push(context)
             : null,
         child: Builder(

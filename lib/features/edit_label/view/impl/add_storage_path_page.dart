@@ -20,6 +20,7 @@ class AddStoragePathPage extends StatelessWidget {
         StoragePathAutofillFormBuilderField(name: StoragePath.pathKey),
         SizedBox(height: 120.0),
       ],
+      initialData: {StoragePath.pathKey: ""},
     );
   }
 }

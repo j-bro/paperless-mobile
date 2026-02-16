@@ -3,18 +3,155 @@ import 'dart:async';
 import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
-import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
+import 'package:paperless_mobile/features/documents/view/pages/viewers/image_document_viewer.dart';
+import 'package:paperless_mobile/features/documents/view/pages/viewers/pdf_document_viewer.dart';
+import 'package:paperless_mobile/features/documents/view/pages/viewers/text_document_viewer.dart';
+import 'package:paperless_mobile/features/documents/view/pages/viewers/unsupported_document_viewer.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
-import 'package:pdfx/pdfx.dart';
 
+// Re-export for backward compatibility with existing LoadedPdfView usages.
+export 'package:paperless_mobile/features/documents/view/pages/viewers/pdf_document_viewer.dart'
+    show PdfDocumentPageView;
+
+/// MIME types supported by the in-app document viewer.
+const _pdfMimeTypes = {'application/pdf'};
+
+const _imageMimeTypes = {
+  'image/png',
+  'image/jpeg',
+  'image/gif',
+  'image/tiff',
+  'image/bmp',
+  'image/webp',
+};
+
+const _textMimeTypes = {
+  'text/plain',
+  'text/csv',
+  'text/html',
+  'text/xml',
+  'text/markdown',
+  'text/yaml',
+  'application/json',
+  'application/xml',
+  'application/x-yaml',
+  'application/yaml',
+};
+
+/// Determines whether the given [mimeType] can be previewed in-app.
+bool canPreviewMimeType(String? mimeType) {
+  if (mimeType == null) return false;
+  return _pdfMimeTypes.contains(mimeType) ||
+      _imageMimeTypes.contains(mimeType) ||
+      _textMimeTypes.contains(mimeType);
+}
+
+/// Attempts to infer the MIME type from the leading bytes (magic numbers)
+/// of [data]. Returns `null` if the format is not recognized.
+String? _inferMimeType(Uint8List data) {
+  if (data.length < 4) return null;
+
+  // PDF: starts with "%PDF"
+  if (data[0] == 0x25 &&
+      data[1] == 0x50 &&
+      data[2] == 0x44 &&
+      data[3] == 0x46) {
+    return 'application/pdf';
+  }
+
+  // PNG: starts with 0x89 "PNG"
+  if (data[0] == 0x89 &&
+      data[1] == 0x50 &&
+      data[2] == 0x4E &&
+      data[3] == 0x47) {
+    return 'image/png';
+  }
+
+  // JPEG: starts with 0xFF 0xD8 0xFF
+  if (data[0] == 0xFF && data[1] == 0xD8 && data[2] == 0xFF) {
+    return 'image/jpeg';
+  }
+
+  // GIF: starts with "GIF8"
+  if (data[0] == 0x47 &&
+      data[1] == 0x49 &&
+      data[2] == 0x46 &&
+      data[3] == 0x38) {
+    return 'image/gif';
+  }
+
+  // BMP: starts with "BM"
+  if (data[0] == 0x42 && data[1] == 0x4D) {
+    return 'image/bmp';
+  }
+
+  // WebP: starts with "RIFF" ... "WEBP"
+  if (data.length >= 12 &&
+      data[0] == 0x52 &&
+      data[1] == 0x49 &&
+      data[2] == 0x46 &&
+      data[3] == 0x46 &&
+      data[8] == 0x57 &&
+      data[9] == 0x45 &&
+      data[10] == 0x42 &&
+      data[11] == 0x50) {
+    return 'image/webp';
+  }
+
+  // TIFF: starts with "II" (little-endian) or "MM" (big-endian)
+  if ((data[0] == 0x49 && data[1] == 0x49) ||
+      (data[0] == 0x4D && data[1] == 0x4D)) {
+    return 'image/tiff';
+  }
+
+  // Heuristic: if the first 512 bytes are valid UTF-8 text, treat as plain text.
+  if (_looksLikeText(data)) {
+    return 'text/plain';
+  }
+
+  return null;
+}
+
+/// Returns `true` if the first bytes of [data] look like UTF-8 encoded text
+/// (no null bytes and predominantly printable / whitespace characters).
+bool _looksLikeText(Uint8List data) {
+  final sampleSize = data.length < 512 ? data.length : 512;
+  for (int i = 0; i < sampleSize; i++) {
+    final byte = data[i];
+    // Null byte is a strong indicator of binary content.
+    if (byte == 0x00) return false;
+  }
+  return true;
+}
+
+/// A document viewer that selects the appropriate viewer widget based on
+/// the document's MIME type.
+///
+/// Supports PDF, common image formats (PNG, JPEG, GIF, TIFF, BMP, WebP),
+/// and plain text files. Falls back to an unsupported-type placeholder
+/// for unknown MIME types.
+///
+/// Provide either [documentId] (to fetch via the repository) or [bytes]
+/// (for already-available data such as scanned documents).
+///
+/// When using [bytes], a [mimeType] should be provided so the correct viewer
+/// is selected. If omitted, the MIME type is inferred from the file's magic
+/// bytes at runtime.
 class DocumentView extends StatelessWidget {
   final int? documentId;
   final Future<Uint8List>? bytes;
   final String? title;
   final bool showAppBar;
   final bool showControls;
+
+  /// The MIME type of the document. Used to select the appropriate viewer.
+  ///
+  /// When [documentId] is provided, the MIME type is resolved from the
+  /// document metadata automatically. When [bytes] is provided directly,
+  /// this should be set explicitly. If omitted the viewer will attempt to
+  /// infer the type from the file's magic bytes.
+  final String? mimeType;
 
   const DocumentView({
     super.key,
@@ -23,6 +160,7 @@ class DocumentView extends StatelessWidget {
     this.showAppBar = true,
     this.showControls = true,
     this.title,
+    this.mimeType,
   }) : assert(documentId != null || bytes != null);
 
   @override
@@ -31,7 +169,7 @@ class DocumentView extends StatelessWidget {
       return QueryBuilder(
         query: context.documentRepository.downloadDocumentQuery(
           documentId!,
-          original: false,
+          original: true,
         ),
         builder: (context, state) {
           if (state.isLoading) {
@@ -43,12 +181,7 @@ class DocumentView extends StatelessWidget {
             );
           }
 
-          return _DocumentView(
-            bytes: state.data!,
-            title: title,
-            showAppBar: showAppBar,
-            showControls: showControls,
-          );
+          return _buildViewer(state.data!);
         },
       );
     }
@@ -59,186 +192,49 @@ class DocumentView extends StatelessWidget {
         if (!snapshot.hasData) {
           return _buildLoadingState();
         }
-        return _DocumentView(
-          bytes: snapshot.data!,
-          title: title,
-          showAppBar: showAppBar,
-          showControls: showControls,
-        );
+        return _buildViewer(snapshot.data!);
       },
+    );
+  }
+
+  /// Selects and builds the appropriate viewer widget for the given [data]
+  /// based on the current [mimeType], or infers the type from magic bytes.
+  Widget _buildViewer(Uint8List data) {
+    final resolvedMimeType = mimeType ?? _inferMimeType(data);
+
+    if (_pdfMimeTypes.contains(resolvedMimeType)) {
+      return PdfDocumentViewer(
+        bytes: data,
+        title: title,
+        showAppBar: showAppBar,
+        showControls: showControls,
+      );
+    }
+
+    if (_imageMimeTypes.contains(resolvedMimeType)) {
+      return ImageDocumentViewer(
+        bytes: data,
+        title: title,
+        showAppBar: showAppBar,
+      );
+    }
+
+    if (_textMimeTypes.contains(resolvedMimeType)) {
+      return TextDocumentViewer(
+        bytes: data,
+        title: title,
+        showAppBar: showAppBar,
+      );
+    }
+
+    return UnsupportedDocumentViewer(
+      mimeType: resolvedMimeType ?? 'unknown',
+      title: title,
+      showAppBar: showAppBar,
     );
   }
 
   Widget _buildLoadingState() {
     return Center(child: CircularProgressIndicator());
-  }
-}
-
-class _DocumentView extends StatefulWidget {
-  final Uint8List bytes;
-  final String? title;
-  final bool showAppBar;
-  final bool showControls;
-
-  const _DocumentView({
-    required this.bytes,
-    this.showAppBar = true,
-    this.showControls = true,
-    this.title,
-  });
-
-  @override
-  State<_DocumentView> createState() => _DocumentViewState();
-}
-
-class _DocumentViewState extends State<_DocumentView> {
-  late final PdfController _controller;
-  int _currentPage = 1;
-  int? _totalPages;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = PdfController(document: PdfDocument.openData(widget.bytes));
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final pageTransitionDuration = MediaQuery.disableAnimationsOf(context)
-        ? 0.milliseconds
-        : 100.milliseconds;
-    final canGoToNextPage = _totalPages != null && _currentPage < _totalPages!;
-    final canGoToPreviousPage =
-        _controller.pagesCount != null && _currentPage > 1;
-
-    return Scaffold(
-      appBar: widget.showAppBar
-          ? AppBar(title: widget.title != null ? Text(widget.title!) : null)
-          : null,
-      bottomNavigationBar: _buildControls(
-        canGoToPreviousPage,
-        pageTransitionDuration,
-        canGoToNextPage,
-      ),
-      body: LoadedPdfView(
-        bytes: widget.bytes,
-        onInitialized: (pagesCount) {
-          setState(() {
-            _totalPages = pagesCount;
-          });
-        },
-        onPageChanged: (page) {
-          setState(() {
-            _currentPage = page;
-          });
-        },
-      ),
-    );
-  }
-
-  Widget? _buildControls(
-    bool canGoToPreviousPage,
-    Duration pageTransitionDuration,
-    bool canGoToNextPage,
-  ) {
-    if (!widget.showControls) {
-      return null;
-    }
-    return BottomAppBar(
-      child: Row(
-        children: [
-          Flexible(
-            child: Row(
-              children: [
-                IconButton.filled(
-                  onPressed: canGoToPreviousPage
-                      ? () async {
-                          await _controller.previousPage(
-                            duration: pageTransitionDuration,
-                            curve: Curves.easeOut,
-                          );
-                        }
-                      : null,
-                  icon: const Icon(Icons.arrow_left),
-                ),
-                const SizedBox(width: 16),
-                IconButton.filled(
-                  onPressed: canGoToNextPage
-                      ? () async {
-                          await _controller.nextPage(
-                            duration: pageTransitionDuration,
-                            curve: Curves.easeOut,
-                          );
-                        }
-                      : null,
-                  icon: const Icon(Icons.arrow_right),
-                ),
-              ],
-            ),
-          ),
-          PdfPageNumber(
-            controller: _controller,
-            builder: (context, loadingState, page, pagesCount) {
-              if (loadingState != PdfLoadingState.success) {
-                return const Text("-/-");
-              }
-              return Text(
-                "$page/$pagesCount",
-                style: Theme.of(context).textTheme.titleMedium,
-              ).padded();
-            },
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class LoadedPdfView extends StatefulWidget {
-  final Uint8List bytes;
-  final ValueChanged<int> onPageChanged;
-  final ValueChanged<int> onInitialized;
-  const LoadedPdfView({
-    super.key,
-    required this.bytes,
-    required this.onPageChanged,
-    required this.onInitialized,
-  });
-
-  @override
-  State<LoadedPdfView> createState() => _LoadedPdfViewState();
-}
-
-class _LoadedPdfViewState extends State<LoadedPdfView> {
-  late final PdfController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _controller = PdfController(document: PdfDocument.openData(widget.bytes));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return PdfView(
-      controller: _controller,
-      onDocumentLoaded: (document) {
-        if (mounted) {
-          widget.onInitialized(document.pagesCount);
-        }
-      },
-      onPageChanged: (page) {
-        if (mounted) {
-          widget.onPageChanged(page);
-        }
-      },
-    );
   }
 }

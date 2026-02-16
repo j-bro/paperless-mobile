@@ -81,7 +81,7 @@ class MultiLabelFormField<T extends Label> extends StatelessWidget {
                   },
                   openBuilder: (context, closeForm) => MultiLabelForm<T>(
                     leadingIcon: prefixIcon,
-                    options: options,
+                    query: query,
                     onSubmit: closeForm,
                     initialValue: field.value ?? const IdQueryParameter.unset(),
                     allowExclude: allowExclude,

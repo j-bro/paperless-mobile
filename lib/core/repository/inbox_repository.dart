@@ -19,7 +19,9 @@ class InboxRepository {
   final DocumentRepository _documentsRepo;
   final TagRepository _tagsRepo;
 
-  InboxRepository(this._documentsRepo, this._tagsRepo);
+  InboxRepository(this._documentsRepo, this._tagsRepo) {
+    _documentsRepo.registerQueryKeyForInvalidation('inbox');
+  }
 
   Query<List<Tag>> get inboxTagsQuery {
     return Query<List<Tag>>(

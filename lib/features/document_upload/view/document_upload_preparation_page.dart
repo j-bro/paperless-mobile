@@ -308,7 +308,6 @@ class _DocumentUploadPreparationPageState
                             name: 'tags',
                             allowCreation: true,
                             allowExclude: false,
-                            allowOnlySelection: true,
                           ),
                         Text(
                           "* ${S.of(context)!.uploadInferValuesHint}",
@@ -335,24 +334,11 @@ class _DocumentUploadPreparationPageState
     try {
       final formValues = _formKey.currentState!.value;
 
-      final correspondentParam =
-          formValues['correspondent'] as IdQueryParameter?;
-      final docTypeParam = formValues['document_type'] as IdQueryParameter?;
-      final tagsParam = formValues['tags'] as TagsQuery?;
+      final correspondent = formValues['correspondent'] as int?;
+      final docType = formValues['document_type'] as int?;
+      final tags = formValues['tags'] as Iterable<int>?;
       final createdAt = formValues['created'] as FormDateTime?;
       final title = formValues['title'] as String;
-      final correspondent = switch (correspondentParam) {
-        IncludeIdsQueryParameter(ids: var id) => id.firstOrNull,
-        _ => null,
-      };
-      final docType = switch (docTypeParam) {
-        IncludeIdsQueryParameter(ids: var id) => id.firstOrNull,
-        _ => null,
-      };
-      final tags = switch (tagsParam) {
-        IdsTagsQuery(include: var ids) => ids,
-        _ => const <int>[],
-      };
 
       final asn = formValues['asn'] as int?;
       final mutationState = await context.documentRepository
@@ -365,7 +351,7 @@ class _DocumentUploadPreparationPageState
             title: title,
             documentType: docType,
             correspondent: correspondent,
-            tags: tags,
+            tags: tags ?? [],
             createdAt: createdAt?.toDateTime(),
             archiveSerialNumber: asn,
           )

@@ -11,6 +11,7 @@ class AddLabelPage<T extends Label, TRequest extends LabelRequest>
   final TRequest Function(Map<String, dynamic> json) fromJsonT;
   final List<Widget> additionalFields;
   final Mutation<T, TRequest> mutation;
+  final Map<String, dynamic>? initialData;
 
   const AddLabelPage({
     super.key,
@@ -19,6 +20,7 @@ class AddLabelPage<T extends Label, TRequest extends LabelRequest>
     required this.pageTitle,
     required this.fromJsonT,
     this.additionalFields = const [],
+    this.initialData,
   });
 
   @override
@@ -26,7 +28,7 @@ class AddLabelPage<T extends Label, TRequest extends LabelRequest>
     return AddLabelFormWidget(
       pageTitle: pageTitle,
       initialValue: initialName != null
-          ? fromJsonT({'name': initialName})
+          ? fromJsonT({'name': initialName, ...initialData ?? {}})
           : null,
       additionalFields: additionalFields,
       fromJsonT: fromJsonT,

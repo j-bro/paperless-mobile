@@ -209,8 +209,7 @@ class _DocumentFilterFormState extends State<DocumentFilterForm> {
     return TagsFormField(
       name: DocumentFilterForm.fkTags,
       initialValue: widget.initialFilter.tags,
-      allowExclude: false,
-      allowOnlySelection: false,
+      allowExclude: true,
       allowCreation: false,
     );
   }

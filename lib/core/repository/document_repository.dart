@@ -20,6 +20,12 @@ class DocumentRepository {
 
   DocumentRepository(this._api);
 
+  /// Registers an external query key so it will be invalidated whenever
+  /// document-mutating operations (patch, put, bulk edit, delete, …) complete.
+  void registerQueryKeyForInvalidation(String key) {
+    _cachedDocumentQueriesToInvalidate.add(key);
+  }
+
   String queryKeyForFilter(DocumentFilter? filter, [String? overrideKey]) {
     if (overrideKey != null) {
       return overrideKey;
@@ -140,7 +146,7 @@ class DocumentRepository {
         final query = CachedQuery.instance.getQuery<Query<Document>>(
           getDocumentQuery(documentId).key,
         );
-        if (query == null) {
+        if (query == null || query.state.data == null) {
           return;
         }
         query.update(
@@ -170,7 +176,7 @@ class DocumentRepository {
           query?.invalidate();
         }
       },
-      invalidateQueries: [_cachedDocumentQueriesToInvalidate],
+      invalidateQueries: [..._cachedDocumentQueriesToInvalidate],
     );
   }
 

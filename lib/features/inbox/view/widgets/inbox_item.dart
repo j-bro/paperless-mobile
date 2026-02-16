@@ -258,7 +258,7 @@ class _InboxItemState extends State<InboxItem> {
     final canDelete = currentUser.canDeleteDocuments;
     final actions = [
       if (canEdit) _buildAssignAsnAction(context),
-      if (canEdit && canDelete) const SizedBox(width: 8.0),
+      // if (canEdit && canDelete) const SizedBox(width: 8.0),
       if (canDelete)
         ColoredChipWrapper(
           child: ActionChip(
@@ -279,7 +279,7 @@ class _InboxItemState extends State<InboxItem> {
                     .mutate();
               }
             },
-          ),
+          ).paddedOnly(right: 4),
         ),
     ].map((a) => SliverToBoxAdapter(child: a)).toList();
 
@@ -314,7 +314,7 @@ class _InboxItemState extends State<InboxItem> {
                   avatar: state.isLoading
                       ? IconLoadingWidget()
                       : const Icon(Icons.refresh),
-                  label: Text('Reload suggestions'),
+                  label: Text('Reload suggestions'), //TODO: INTL
                   onPressed: () {
                     setState(() {
                       _suggestionsEnabled = true;
@@ -323,7 +323,7 @@ class _InboxItemState extends State<InboxItem> {
                         .getFieldSuggestionsQuery(widget.document.id)
                         .refetch();
                   },
-                );
+                ).paddedOnly(right: 4);
               }
               return ActionChip(
                 avatar: state.isLoading
@@ -338,12 +338,11 @@ class _InboxItemState extends State<InboxItem> {
                       .fetch();
                 },
                 label: Text(S.of(context)!.loadInboxItemSuggestions),
-              );
+              ).paddedOnly(right: 4);
             },
           ),
         ),
         _buildSuggestionChips(context),
-        SliverToBoxAdapter(child: const SizedBox(width: 4.0)),
         ...actions,
       ],
     );
@@ -354,29 +353,28 @@ class _InboxItemState extends State<InboxItem> {
     if (hasAsn) {
       return SizedBox.shrink();
     }
-    return MutationBuilder(
+    return MutationConsumer(
       mutation: context.documentRepository.assignAsnMutation(
         widget.document.id,
       ),
+      listenWhen: (oldState, newState) {
+        return oldState.runtimeType != newState.runtimeType;
+      },
+      listener: (state) {
+        if (state is MutationSuccess && context.mounted) {
+          showSnackBar(context, S.of(context)!.archiveSerialNumberUpdated);
+        }
+      },
       builder: (context, state, mutate) {
+        if (state is MutationSuccess) {
+          // If the ASN has been assigned, we don't need to show the action anymore
+          return SizedBox.shrink();
+        }
         return ActionChip(
-          avatar: Builder(
-            builder: (context) {
-              if (state.isLoading) {
-                return const IconLoadingWidget();
-              }
-              return SizedBox.shrink();
-            },
-          ),
-          label: hasAsn
-              ? Text(
-                  '${S.of(context)!.asn} #${widget.document.archiveSerialNumber}',
-                )
-              : Text(S.of(context)!.assignAsn),
-          onPressed: !hasAsn
-              ? () => mutate(AssignAsnRequest(auto: true))
-              : null,
-        );
+          avatar: state.isLoading ? IconLoadingWidget() : null,
+          label: Text(S.of(context)!.assignAsn),
+          onPressed: () => mutate(AssignAsnRequest(auto: true)),
+        ).paddedOnly(right: 4);
       },
     );
   }
@@ -401,7 +399,7 @@ class _InboxItemState extends State<InboxItem> {
       enabled: _suggestionsEnabled,
       builder: (context, state) {
         if (state.isInitial || state.isLoading && state.data == null) {
-          return SliverToBoxAdapter(child: Center(child: SizedBox.shrink()));
+          return SliverToBoxAdapter(child: SizedBox.shrink());
         }
         if (state.isError) {
           return SliverToBoxAdapter(
@@ -410,195 +408,153 @@ class _InboxItemState extends State<InboxItem> {
         }
         final suggestions = state.data!;
         return SliverList.list(
-          children:
-              [
-                    ...suggestions.correspondents
-                        .whereNot((e) => widget.document.correspondent == e)
-                        .map(
-                          (e) => QueryBuilder(
-                            query: context.correspondentRepository
-                                .getAllQuery(),
-                            builder: (context, state) {
-                              final correspondents = state.data?.toIdMap();
-                              return SliverToBoxAdapter(
-                                child: ActionChip(
-                                  avatar: const Icon(Icons.person_outline),
-                                  label: Text(correspondents?[e]?.name ?? ''),
-                                  onPressed: () async {
-                                    await context.documentRepository
-                                        .patchDocumentMutation(
-                                          widget.document.id,
-                                        )
-                                        .mutate(
-                                          PatchedDocumentRequest(
-                                            correspondent: PatchedValue(e),
-                                          ),
-                                        );
-                                    if (context.mounted) {
-                                      showSnackBar(
-                                        context,
-                                        S
-                                            .of(context)!
-                                            .suggestionSuccessfullyApplied,
-                                      );
-                                    }
-                                  },
+          children: [
+            ...suggestions.correspondents
+                .whereNot((e) => widget.document.correspondent == e)
+                .map(
+                  (e) => QueryBuilder(
+                    query: context.correspondentRepository.getAllQuery(),
+                    builder: (context, state) {
+                      final correspondents = state.data?.toIdMap();
+                      return ActionChip(
+                        avatar: const Icon(Icons.person_outline),
+                        label: Text(correspondents?[e]?.name ?? ''),
+                        onPressed: () async {
+                          await context.documentRepository
+                              .patchDocumentMutation(widget.document.id)
+                              .mutate(
+                                PatchedDocumentRequest(
+                                  correspondent: PatchedValue(e),
                                 ),
                               );
-                            },
-                          ),
-                        ),
-                    ...suggestions.documentTypes
-                        .whereNot((e) => widget.document.documentType == e)
-                        .map(
-                          (e) => QueryBuilder(
-                            query: context.documentTypeRepository.getAllQuery(),
-                            builder: (context, state) {
-                              final documentTypes = state.data?.toIdMap();
-                              return SliverToBoxAdapter(
-                                child: ActionChip(
-                                  avatar: const Icon(
-                                    Icons.description_outlined,
+                          if (context.mounted) {
+                            showSnackBar(
+                              context,
+                              S.of(context)!.suggestionSuccessfullyApplied,
+                            );
+                          }
+                        },
+                      ).paddedOnly(right: 4);
+                    },
+                  ),
+                ),
+            ...suggestions.documentTypes
+                .whereNot((e) => widget.document.documentType == e)
+                .map(
+                  (e) => QueryBuilder(
+                    query: context.documentTypeRepository.getAllQuery(),
+                    builder: (context, state) {
+                      final documentTypes = state.data?.toIdMap();
+                      return ActionChip(
+                        avatar: const Icon(Icons.description_outlined),
+                        label: Text(documentTypes?[e]?.name ?? ''),
+                        onPressed: () async {
+                          await context.documentRepository
+                              .patchDocumentMutation(widget.document.id)
+                              .mutate(
+                                PatchedDocumentRequest(
+                                  documentType: PatchedValue(e),
+                                ),
+                              );
+                          if (context.mounted) {
+                            showSnackBar(
+                              context,
+                              S.of(context)!.suggestionSuccessfullyApplied,
+                            );
+                          }
+                        },
+                      ).paddedOnly(right: 4);
+                    },
+                  ),
+                ),
+            ...suggestions.tags
+                .whereNot((e) => widget.document.tags.contains(e))
+                .map(
+                  (e) => QueryBuilder(
+                    query: context.tagRepository.getAllQuery(),
+                    builder: (context, state) {
+                      final tags = state.data?.toIdMap();
+                      return ActionChip(
+                        avatar: const Icon(Icons.label_outline),
+                        label: Text(tags?[e]?.name ?? ''),
+                        onPressed: () async {
+                          await context.documentRepository
+                              .patchDocumentMutation(widget.document.id)
+                              .mutate(
+                                PatchedDocumentRequest(
+                                  tags: PatchedValue(
+                                    {...widget.document.tags, e}.toList(),
                                   ),
-                                  label: Text(documentTypes?[e]?.name ?? ''),
-                                  onPressed: () async {
-                                    await context.documentRepository
-                                        .patchDocumentMutation(
-                                          widget.document.id,
-                                        )
-                                        .mutate(
-                                          PatchedDocumentRequest(
-                                            documentType: PatchedValue(e),
-                                          ),
-                                        );
-                                    if (context.mounted) {
-                                      showSnackBar(
-                                        context,
-                                        S
-                                            .of(context)!
-                                            .suggestionSuccessfullyApplied,
-                                      );
-                                    }
-                                  },
                                 ),
                               );
-                            },
-                          ),
-                        ),
-                    ...suggestions.tags
-                        .whereNot((e) => widget.document.tags.contains(e))
-                        .map(
-                          (e) => QueryBuilder(
-                            query: context.tagRepository.getAllQuery(),
-                            builder: (context, state) {
-                              final tags = state.data?.toIdMap();
-                              return ActionChip(
-                                avatar: const Icon(Icons.label_outline),
-                                label: Text(tags?[e]?.name ?? ''),
-                                onPressed: () async {
-                                  await context.documentRepository
-                                      .patchDocumentMutation(widget.document.id)
-                                      .mutate(
-                                        PatchedDocumentRequest(
-                                          tags: PatchedValue(
-                                            {
-                                              ...widget.document.tags,
-                                              e,
-                                            }.toList(),
-                                          ),
-                                        ),
-                                      );
-                                  if (context.mounted) {
-                                    showSnackBar(
-                                      context,
-                                      S
-                                          .of(context)!
-                                          .suggestionSuccessfullyApplied,
-                                    );
-                                  }
-                                },
-                              );
-                            },
-                          ),
-                        ),
+                          if (context.mounted) {
+                            showSnackBar(
+                              context,
+                              S.of(context)!.suggestionSuccessfullyApplied,
+                            );
+                          }
+                        },
+                      ).paddedOnly(right: 4);
+                    },
+                  ),
+                ),
 
-                    ...suggestions.storagePaths
-                        .whereNot((e) => widget.document.storagePath == e)
-                        .map(
-                          (e) => QueryBuilder(
-                            query: context.storagePathRepository.getAllQuery(),
-                            builder: (context, state) {
-                              final storagePaths = state.data?.toIdMap();
-                              return SliverToBoxAdapter(
-                                child: ActionChip(
-                                  avatar: const Icon(Icons.label_outline),
-                                  label: Text(storagePaths?[e]?.name ?? ''),
-                                  onPressed: () async {
-                                    await context.documentRepository
-                                        .patchDocumentMutation(
-                                          widget.document.id,
-                                        )
-                                        .mutate(
-                                          PatchedDocumentRequest(
-                                            storagePath: PatchedValue(e),
-                                          ),
-                                        );
-                                    if (context.mounted) {
-                                      showSnackBar(
-                                        context,
-                                        S
-                                            .of(context)!
-                                            .suggestionSuccessfullyApplied,
-                                      );
-                                    }
-                                  },
+            ...suggestions.storagePaths
+                .whereNot((e) => widget.document.storagePath == e)
+                .map(
+                  (e) => QueryBuilder(
+                    query: context.storagePathRepository.getAllQuery(),
+                    builder: (context, state) {
+                      final storagePaths = state.data?.toIdMap();
+                      return ActionChip(
+                        avatar: const Icon(Icons.label_outline),
+                        label: Text(storagePaths?[e]?.name ?? ''),
+                        onPressed: () async {
+                          await context.documentRepository
+                              .patchDocumentMutation(widget.document.id)
+                              .mutate(
+                                PatchedDocumentRequest(
+                                  storagePath: PatchedValue(e),
                                 ),
                               );
-                            },
-                          ),
-                        ),
-                    ...suggestions.dates
-                        .map(DateTime.parse)
-                        .whereNot(
-                          (e) =>
-                              widget.document.created?.isOnSameDayAs(e) ??
-                              false,
-                        )
-                        .map(
-                          (e) => SliverToBoxAdapter(
-                            child: ActionChip(
-                              avatar: const Icon(Icons.calendar_today_outlined),
-                              label: Text(
-                                "${S.of(context)!.createdAt}: ${DateFormat.yMd().format(e)}",
-                              ),
-                              onPressed: () async {
-                                await context.documentRepository
-                                    .patchDocumentMutation(widget.document.id)
-                                    .mutate(
-                                      PatchedDocumentRequest(
-                                        created: PatchedValue(e),
-                                      ),
-                                    );
-                                if (context.mounted) {
-                                  showSnackBar(
-                                    context,
-                                    S
-                                        .of(context)!
-                                        .suggestionSuccessfullyApplied,
-                                  );
-                                }
-                              },
-                            ),
-                          ),
-                        ),
-                  ]
-                  .expand(
-                    (element) => [
-                      element,
-                      SliverToBoxAdapter(child: const SizedBox(width: 4)),
-                    ],
-                  )
-                  .toList(),
+                          if (context.mounted) {
+                            showSnackBar(
+                              context,
+                              S.of(context)!.suggestionSuccessfullyApplied,
+                            );
+                          }
+                        },
+                      ).paddedOnly(right: 4);
+                    },
+                  ),
+                ),
+            ...suggestions.dates
+                .map(DateTime.parse)
+                .whereNot(
+                  (e) => widget.document.created?.isOnSameDayAs(e) ?? false,
+                )
+                .map(
+                  (e) => ActionChip(
+                    avatar: const Icon(Icons.calendar_today_outlined),
+                    label: Text(
+                      "${S.of(context)!.createdAt}: ${DateFormat.yMd().format(e)}",
+                    ),
+                    onPressed: () async {
+                      await context.documentRepository
+                          .patchDocumentMutation(widget.document.id)
+                          .mutate(
+                            PatchedDocumentRequest(created: PatchedValue(e)),
+                          );
+                      if (context.mounted) {
+                        showSnackBar(
+                          context,
+                          S.of(context)!.suggestionSuccessfullyApplied,
+                        );
+                      }
+                    },
+                  ).paddedOnly(right: 4),
+                ),
+          ],
         );
       },
     );

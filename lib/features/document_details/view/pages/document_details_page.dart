@@ -17,6 +17,7 @@ import 'package:paperless_mobile/features/document_details/view/widgets/document
 import 'package:paperless_mobile/features/document_details/view/widgets/document_notes_widget.dart';
 import 'package:paperless_mobile/features/document_details/view/widgets/document_overview_widget.dart';
 import 'package:paperless_mobile/features/document_details/view/widgets/document_permissions_widget.dart';
+import 'package:paperless_mobile/features/documents/view/pages/document_view.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/delete_document_confirmation_dialog.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/document_preview.dart';
 import 'package:paperless_mobile/features/similar_documents/view/similar_documents_view.dart';
@@ -233,11 +234,12 @@ class _DocumentDetailsPageState extends State<DocumentDetailsPage> {
             return Hero(
               tag: widget.heroTag ?? "thumb_${widget.id}",
               child: GestureDetector(
-                onTap: state.data?.mimeType == 'application/pdf'
+                onTap: canPreviewMimeType(state.data?.mimeType)
                     ? () {
                         DocumentPreviewRoute(
                           documentId: widget.id,
                           title: title,
+                          mimeType: state.data?.mimeType,
                         ).push(context);
                       }
                     : null,

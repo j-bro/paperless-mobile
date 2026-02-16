@@ -173,18 +173,18 @@ packages:
     dependency: transitive
     description:
       name: cached_query
-      sha256: aaa3040f10e759761728ecf81f157cb4d469d0ee0a78dbff6716676993133944
+      sha256: ddf372e0d456ddb82f639bf510fdf3bc436abc72167f8bfc0a313e25bb6fb06e
       url: "https://pub.dev"
     source: hosted
-    version: "3.4.0"
+    version: "3.4.1"
   cached_query_flutter:
     dependency: "direct main"
     description:
       name: cached_query_flutter
-      sha256: "609805c66b839e847e13b9afe60734169b31568b74264159ab79fb7e0ada690a"
+      sha256: b7c51d3ea471e296c9d610d87d0c50152f381a37f17a457638acd2cffc8fc60a
       url: "https://pub.dev"
     source: hosted
-    version: "3.3.3"
+    version: "3.3.4"
   characters:
     dependency: transitive
     description:
