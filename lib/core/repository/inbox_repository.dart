@@ -1,4 +1,5 @@
 import 'package:cached_query_flutter/cached_query_flutter.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/repository/document_repository.dart';
 import 'package:paperless_mobile/core/repository/tag_repository.dart';
@@ -126,6 +127,7 @@ class InboxRepository {
         return result.data!;
       },
       refetchQueries: ['inbox'],
+      invalidateQueries: ['inbox_documents', 'inbox_count'],
     );
   }
 
@@ -177,32 +179,33 @@ class InboxRepository {
           );
         });
       },
-      invalidateQueries: ['inbox_documents'],
+      invalidateQueries: ['document/${document.id}'],
+      refetchQueries: ['inbox_documents', 'inbox', 'inbox_count'],
     );
   }
 
-  Mutation undoMarkAsSeenMutation(Document doc) {
-    return Mutation(
+  Mutation<void, List<int>> undoMarkAsSeenMutation(Document doc) {
+    return Mutation<void, List<int>>(
       key: 'inbox_undo_mark_as_seen_${doc.id}',
-      mutationFn: (_) async {
-        final removedTags = markAsSeenMutation(doc).state.data ?? [];
+      mutationFn: (removedTags) async {
+        debugPrint(removedTags.join(','));
         if (removedTags.isEmpty) {
           logger.fw(
-            'No tags from previous markAsSeenMutation found',
+            'No tags to re-add for undo',
             className: runtimeType.toString(),
             methodName: 'undoMarkAsSeenMutation',
           );
           return;
         }
-        await _documentsRepo.bulkEditDocumentsMutation().mutate(
-          BulkEditRequest(
-            documents: [doc.id],
-            method: MethodEnum.modifyTags,
-            parameters: {'add_tags': removedTags},
-          ),
-        );
+        await _documentsRepo
+            .patchDocumentMutation(doc.id)
+            .mutate(
+              PatchedDocumentRequest(
+                tags: PatchedValue(<int>{...doc.tags, ...removedTags}.toList()),
+              ),
+            );
       },
-      invalidateQueries: ['inbox_documents'],
+      refetchQueries: ['inbox_documents', 'inbox', 'inbox_count'],
     );
   }
 }

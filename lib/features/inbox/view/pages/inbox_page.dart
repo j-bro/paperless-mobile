@@ -283,14 +283,17 @@ class _InboxPageState extends State<InboxPage> {
     }
     try {
       if (mounted) {
-        await context.inboxRepository.markAsSeenMutation(doc).mutate();
+        final result = await context.inboxRepository
+            .markAsSeenMutation(doc)
+            .mutate();
+        final removedTags = result.data ?? <int>[];
         if (mounted) {
           showSnackBar(
             context,
             S.of(context)!.removeDocumentFromInbox,
             action: SnackBarActionConfig(
               label: S.of(context)!.undo,
-              onPressed: () => _onUndoMarkAsSeen(doc),
+              onPressed: () => _onUndoMarkAsSeen(doc, removedTags),
             ),
           );
         }
@@ -308,9 +311,14 @@ class _InboxPageState extends State<InboxPage> {
     return false;
   }
 
-  Future<void> _onUndoMarkAsSeen(Document document) async {
+  Future<void> _onUndoMarkAsSeen(
+    Document document,
+    List<int> removedTags,
+  ) async {
     try {
-      await context.inboxRepository.undoMarkAsSeenMutation(document).mutate();
+      await context.inboxRepository
+          .undoMarkAsSeenMutation(document)
+          .mutate(removedTags);
     } on PaperlessApiException catch (error, stackTrace) {
       if (mounted) showErrorMessage(context, error, stackTrace);
     }
