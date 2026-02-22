@@ -24,13 +24,13 @@ jobs:
         shell: bash
         run: echo "branch=$(echo ${GITHUB_REF#refs/heads/})" >>$GITHUB_OUTPUT
         id: extract_branch
-      
+
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
           submodules: recursive
-      
+
       - name: Copy files to build directory
         run: |
           mkdir -p /tmp/build
@@ -50,7 +50,7 @@ jobs:
           release-keystore: ${{ secrets.RELEASE_KEYSTORE }}
           release-keystore-passphrase: ${{ secrets.RELEASE_KEYSTORE_PASSPHRASE }}
           output-directory: /tmp/build/android
-        
+
       - name: Get packages and run codegen
         run: |
           bash /tmp/build/scripts/install_dependencies_with_submodule.sh
@@ -59,10 +59,10 @@ jobs:
       - name: Setup Fastlane
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "2.6"
+          ruby-version: "3.2"
           bundler-cache: true
           working-directory: /tmp/build/android
-          
+
       - name: Build and publish GitHub release
         run: |
           cd /tmp/build/android
