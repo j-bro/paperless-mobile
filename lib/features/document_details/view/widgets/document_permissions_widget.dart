@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paperless_api/generated/lib/src/model/document.dart';
 import 'package:paperless_mobile/core/repository/user_repository.dart';
 import 'package:paperless_mobile/features/document_details/view/widgets/details_item.dart';
+import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class DocumentPermissionsWidget extends StatefulWidget {
@@ -35,20 +36,18 @@ class _DocumentPermissionsWidgetState extends State<DocumentPermissionsWidget> {
               ),
               builder: (context, state) {
                 if (state.isLoading) {
-                  return DetailsItemSkeleton(
-                    label: 'Owner', //TODO: INTL
-                  );
+                  return DetailsItemSkeleton(label: S.of(context)!.owner);
                 }
                 if (state.isError) {
                   return Center(
-                    child: Text('Could not load permissions.'),
-                  ); //TODO: INTL/error handling
+                    child: Text(S.of(context)!.couldNotLoadPermissions),
+                  );
                 }
                 final data = state.data!;
 
                 return DetailsItem.text(
                   data.username,
-                  label: 'Owner', //TODO: INTL
+                  label: S.of(context)!.owner,
                   context: context,
                 );
               },
@@ -62,7 +61,9 @@ class _DocumentPermissionsWidgetState extends State<DocumentPermissionsWidget> {
                   for (final userId
                       in widget.document.permissions?.view?.users ?? [])
                     state.isLoading
-                        ? Skeletonizer(child: ListTile(title: Text('User1')))
+                        ? Skeletonizer(
+                            child: ListTile(title: Text(BoneMock.words(1))),
+                          )
                         : ListTile(
                             title: Text(
                               state.data
@@ -84,7 +85,9 @@ class _DocumentPermissionsWidgetState extends State<DocumentPermissionsWidget> {
                   for (final userId
                       in widget.document.permissions?.change?.users ?? [])
                     state.isLoading
-                        ? Skeletonizer(child: ListTile(title: Text('User1')))
+                        ? Skeletonizer(
+                            child: ListTile(title: Text(BoneMock.words(1))),
+                          )
                         : ListTile(
                             title: Text(
                               state.data

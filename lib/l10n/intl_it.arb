@@ -13,10 +13,12 @@
   },
   "aClientCertificateWasExpectedButNotSent": "È previsto un certificato del client ma non è stato inviato. Si prega di fornire un certificato del client valido.",
   "@aClientCertificateWasExpectedButNotSent": {},
+  "add": "Add",
   "addAccount": "Aggiungi account",
   "@addAccount": {
     "description": "Label of add account action"
   },
+  "addAdditionalHeadersHint": "You can add HTTP headers to be included with each API request. This may be useful for custom authentication schemes, VPNs or other scenarios.",
   "addAnotherAccount": "Aggiungi un altro account",
   "@addAnotherAccount": {},
   "addCorrespondent": "Nuovo Corrispondente",
@@ -29,6 +31,7 @@
   },
   "addedAt": "Aggiunto il",
   "@addedAt": {},
+  "additionalHeaders": "Additional Headers",
   "addNewCorrespondent": "Aggiungi nuovo corrispondente",
   "@addNewCorrespondent": {},
   "addNewDocumentType": "Aggiungi nuovo tipo di documento",
@@ -196,6 +199,7 @@
   "@colorSchemeHint": {},
   "colorSchemeNotSupportedWarning": "Il tema dinamico è supportato solo per i dispositivi che eseguono Android 12 e versioni precedenti. Selezionando l'opzione 'Dinamica' potrebbe non avere alcun effetto in base all'implementazione del tuo sistema operativo.",
   "@colorSchemeNotSupportedWarning": {},
+  "configureAdditionalHttpHeaders": "Configure additional HTTP headers to be sent with each request",
   "configureMutualTLSAuthentication": "Configura Autenticazione TLS Mutua",
   "@configureMutualTLSAuthentication": {},
   "confirm": "Conferma",
@@ -234,28 +238,33 @@
   "@couldNotAcknowledgeTasks": {},
   "couldNotAssignArchiveSerialNumber": "Impossibile assegnare il numero seriale di archivio.",
   "@couldNotAssignArchiveSerialNumber": {},
-  "couldNotBulkEditDocuments": "Impossibile modificare i documenti collettivamente.",
+  "couldNotBulkEditDocuments": "Could not bulk edit documents, please try again.",
   "@couldNotBulkEditDocuments": {},
   "couldNotCreateCorrespondent": "Impossibile creare il corrispondente, per favore riprova.",
   "@couldNotCreateCorrespondent": {},
+  "couldNotCreateCustomField": "Could not create custom field, please try again.",
   "couldNotCreateDocument": "Impossibile creare il documento, riprova.",
   "@couldNotCreateDocument": {},
+  "couldNotCreateNote": "Could not create note, please try again.",
   "couldNotCreateSavedView": "Impossibile creare la vista salvata, riprova.",
   "@couldNotCreateSavedView": {},
   "couldNotCreateStoragePath": "Impossibile creare il percorso di archiviazione, per favore riprova.",
   "@couldNotCreateStoragePath": {},
   "couldNotCreateTag": "Impossibile creare il tag, riprova.",
   "@couldNotCreateTag": {},
+  "couldNotCreateUser": "Could not create user, please try again.",
   "couldNotDeleteCorrespondent": "Impossibile eliminare il corrispondente, per favore riprova.",
   "@couldNotDeleteCorrespondent": {
     "description": "Message shown in snackbar when a correspondent could not be deleted."
   },
+  "couldNotDeleteCustomField": "Could not delete custom field, please try again.",
   "couldNotDeleteDocument": "Impossibile eliminare il documento, per favore riprova.",
   "@couldNotDeleteDocument": {},
   "couldNotDeleteDocumentType": "Impossibile eliminare il tipo di documento, per favore riprova.",
   "@couldNotDeleteDocumentType": {
     "description": "Message shown when a document type could not be deleted"
   },
+  "couldNotDeleteNote": "Could not delete note, please try again.",
   "couldNotDeleteSavedView": "Impossibile eliminare la vista salvata, riprova",
   "@couldNotDeleteSavedView": {},
   "couldNotDeleteStoragePath": "Impossibile eliminare il percorso di archiviazione, per favore riprova.",
@@ -266,10 +275,13 @@
   "@couldNotDeleteTag": {
     "description": "Message shown when a tag could not be deleted"
   },
+  "couldNotDeleteUser": "Could not delete user, please try again.",
+  "couldNotDownloadDocuments": "Could not download documents, please try again.",
   "couldNotEstablishConnectionToTheServer": "Impossibile stabilire una connessione con il server.",
   "@couldNotEstablishConnectionToTheServer": {},
   "couldNotLoadCorrespondents": "Impossibile caricare i corrispondenti.",
   "@couldNotLoadCorrespondents": {},
+  "couldNotLoadCustomField": "Could not load custom field.",
   "couldNotLoadDocumentPreview": "Impossibile caricare l'anteprima del documento.",
   "@couldNotLoadDocumentPreview": {},
   "couldNotLoadDocuments": "Impossibile caricare il documento, per favore riprova.",
@@ -277,6 +289,7 @@
   "couldNotLoadDocumentTypes": "Impossibile caricare i tipi di documento, per favore riprova.",
   "@couldNotLoadDocumentTypes": {},
   "couldNotLoadLogfileFrom": "Impossibile caricare il file di log da {date}.",
+  "couldNotLoadPermissions": "Could not load permissions.",
   "couldNotLoadSavedViews": "Impossibile caricare le viste salvate.",
   "@couldNotLoadSavedViews": {},
   "couldNotLoadServerInformation": "Impossibile caricare le informazioni del server.",
@@ -303,6 +316,8 @@
   "@couldNotLoadUISettings": {
     "description": "Message shown when the UI settings could not be loaded"
   },
+  "couldNotLoadUser": "Could not load user, please try again.",
+  "couldNotLoadUsers": "Could not load users, please try again.",
   "couldNotOpenFilePermissionDenied": "Impossibile aprire il file: Permesso negato.",
   "@couldNotOpenFilePermissionDenied": {},
   "couldNotReachYourPaperlessServer": "Impossibile raggiungere il server Paperless, è in esecuzione?",
@@ -311,6 +326,7 @@
   "@couldNotUpdateCorrespondent": {
     "description": "Message shown when a correspondent could not be updated"
   },
+  "couldNotUpdateCustomField": "Could not delete custom field, please try again.",
   "couldNotUpdateDocument": "Impossibile aggiornare il documento, riprova.",
   "@couldNotUpdateDocument": {},
   "couldNotUpdateDocumentType": "Impossibile aggiornare il tipo di documento, per favore riprova.",
@@ -326,6 +342,7 @@
   "@couldNotUpdateTag": {
     "description": "Message shown when a tag could not be updated"
   },
+  "couldNotUpdateUser": "Could not update user, please try again.",
   "couldNotUploadDocument": "Impossibile caricare il documento, per favore riprova.",
   "@couldNotUploadDocument": {},
   "countSelected": "{count} selezionati",
@@ -405,6 +422,8 @@
       "name": {}
     }
   },
+  "disableAnimations": "Disable animations",
+  "disableAnimationsDescription": "Disables page transitions and most animations. Temporary workaround until system accessibility settings can be used.",
   "disableMatching": "Non taggare i documenti automaticamente",
   "@disableMatching": {
     "description": "One of the options for automatic tagging of documents"
@@ -419,6 +438,7 @@
     "description": "Warning message shown when the user tries to close a route without saving the changes."
   },
   "discardFile": "Eliminare il file?",
+  "discardSharedFileHint": "The shared file was not yet processed. Do you want to discard the file?",
   "disconnect": "Disconnetti",
   "@disconnect": {
     "description": "Logout button label"
@@ -454,6 +474,7 @@
   "@documentType": {},
   "documentTypes": "Tipi Di Documento",
   "@documentTypes": {},
+  "documentUploadUploading": "Uploading...",
   "donate": "Fai una donazione",
   "@donate": {
     "description": "Label of the in-app donate button"
@@ -488,12 +509,14 @@
   "@editView": {
     "description": "Title of the edit saved view page"
   },
+  "enabled": "Enabled",
   "errorRetrievingServerVersion": "Si è verificato un errore nella risoluzione della versione del server.",
   "@errorRetrievingServerVersion": {
     "description": "Message shown at the bottom of the settings page when the remote server version could not be resolved."
   },
   "exact": "Esatto",
   "@exact": {},
+  "exclude": "Exclude",
   "export": "Esporta",
   "@export": {
     "description": "Label for button that exports scanned images to pdf (before upload)"
@@ -540,6 +563,9 @@
   },
   "grid": "Griglia",
   "@grid": {},
+  "headerNameAlreadyExists": "The header already exists.",
+  "headerNameMustNotBeEmpty": "Header name must not be empty",
+  "headerValueMustNotBeEmpty": "Header value must not be empty",
   "hidePdf": "Nascondi PDF",
   "@hidePdf": {
     "description": "Tooltip shown on the \"show pdf\" icon button on the document edit page"
@@ -556,8 +582,10 @@
   "@hostCouldNotBeResolved": {},
   "inbox": "Posta in arrivo",
   "@inbox": {},
+  "inboxItemReloadSuggestions": "Reload suggestions",
   "inboxTag": "Inbox-Tag",
   "@inboxTag": {},
+  "include": "Include",
   "incorrectOrMissingCertificatePassphrase": "Passphrase del certificato errata o mancante.",
   "@incorrectOrMissingCertificatePassphrase": {},
   "invalidAddress": "Indirizzo non valido.",
@@ -570,6 +598,7 @@
   "@invalidFilenameCharacter": {
     "description": "For validating filename in export dialogue"
   },
+  "key": "Key",
   "labels": "Etichette",
   "@labels": {},
   "language": "Lingua",
@@ -669,6 +698,7 @@
     "description": "Label shown in the tabbar on details page"
   },
   "mfaCodeInvalidLengthValidationMessage": "Code must be 6 digits.",
+  "mfaCodeRequired": "MFA Code required",
   "mfaCodeRequiredValidationMessage": "Please enter the MFA code.",
   "mfaFormFieldHint": "Your account is protected by two-factor authentication. Please enter an authentication code:",
   "misc": "Varie",
@@ -725,6 +755,7 @@
   },
   "noStoragePathsSetUp": "Sembra che non abbiate impostato alcun percorso di archiviazione.",
   "@noStoragePathsSetUp": {},
+  "noSuggestionsForThisDocument": "No suggestions available.",
   "noTagsSetUp": "Sembra che non abbiate impostato alcuna etichetta.",
   "@noTagsSetUp": {},
   "notAssigned": "Non assegnato",
@@ -739,6 +770,7 @@
   "@notificationDownloadingDocument": {
     "description": "Notification title shown when a document download is pending"
   },
+  "noViewsMarkedInSidebar": "You did not mark any views to be shown in the sidebar.",
   "nUnseen": "{count} non visti",
   "@nUnseen": {
     "placeholders": {
@@ -772,6 +804,7 @@
   "@overview": {
     "description": "Label shown in the tabbar on details page"
   },
+  "owner": "Owner",
   "paperlessServerVersion": "Versione server Paperless",
   "@paperlessServerVersion": {},
   "passphrase": "Passphrase",
@@ -780,6 +813,7 @@
   "@password": {},
   "passwordMustNotBeEmpty": "La password non deve essere vuota.",
   "@passwordMustNotBeEmpty": {},
+  "pendingFiles": "Pending Files",
   "permissions": "Permessi",
   "persistingUserInformation": "Salvataggio informazioni utente...",
   "prepareDocument": "Prepara documento",
@@ -965,6 +999,7 @@
   "@theme": {
     "description": "Title of the theme mode setting"
   },
+  "thereAreNoPendingFiles": "There are no pending files.",
   "thereSeemsToBeNothingHere": "Sembra che non ci sia niente qui...",
   "@thereSeemsToBeNothingHere": {},
   "thisActionIsIrreversibleDoYouWishToProceedAnyway": "Questa azione è irreversibile. Vuoi procedere comunque?",
@@ -984,6 +1019,7 @@
   "totalCharacters": "Totale caratteri",
   "totalDocuments": "Totale documenti",
   "tryAgain": "Riprova",
+  "unauthorizedErrorMessage": "You are not authorized to perform this action. Please contact your admin or make sure you have the necessary permissions.",
   "undo": "Annullare",
   "@undo": {},
   "upload": "Upload",
@@ -998,6 +1034,7 @@
   "@uploadScansAsPdf": {
     "description": "Title of the setting which toggles whether scans are always uploaded as pdf"
   },
+  "uploadStatusDocumentReceived": "Document received",
   "uploadWithoutPromptingUploadForm": "Carica sempre senza richiedere il modulo di caricamento quando condividi file con l'app.",
   "userAlreadyExists": "Utente già esistente.",
   "@userAlreadyExists": {
@@ -1015,6 +1052,7 @@
   },
   "useTheConfiguredBiometricFactorToAuthenticate": "Usa il riconoscimento biometrico configurato per autenticarti e sbloccare i tuoi documenti.",
   "@useTheConfiguredBiometricFactorToAuthenticate": {},
+  "value": "Value",
   "verifyIdentity": "Verifica Identità",
   "@verifyIdentity": {},
   "verifyYourIdentity": "Verifica la tua identità",
@@ -1050,22 +1088,5 @@
   "@youDoNotHaveUnseenDocuments": {},
   "youHaveNoViewsOnYourDashboardYet": "You have not added any views to your dashboard yet.",
   "youreOffline": "Sei offline.",
-  "@youreOffline": {},
-  "pendingFiles": "Pending Files",
-  "noSuggestionsForThisDocument": "No suggestions available.",
-  "unauthorizedErrorMessage": "You are not authorized to perform this action. Please contact your admin or make sure you have the necessary permissions.",
-  "noViewsMarkedInSidebar": "You did not mark any views to be shown in the sidebar.",
-  "additionalHeaders": "Additional Headers",
-  "configureAdditionalHttpHeaders": "Configure additional HTTP headers to be sent with each request",
-  "key": "Key",
-  "value": "Value",
-  "add": "Add",
-  "headerNameMustNotBeEmpty": "Header name must not be empty",
-  "headerValueMustNotBeEmpty": "Header value must not be empty",
-  "headerNameAlreadyExists": "The header already exists.",
-  "enabled": "Enabled",
-  "addAdditionalHeadersHint": "You can add HTTP headers to be included with each API request. This may be useful for custom authentication schemes, VPNs or other scenarios.",
-  "include": "Include",
-  "exclude": "Exclude",
-  "discardSharedFileHint": "The shared file was not yet processed. Do you want to discard the file?"
+  "@youreOffline": {}
 }

@@ -13,10 +13,12 @@
   },
   "aClientCertificateWasExpectedButNotSent": "Certifikat klienta je bil pričakovan, vendar in bil poslan. Posreduj veljaven certifikat.",
   "@aClientCertificateWasExpectedButNotSent": {},
+  "add": "Dodaj",
   "addAccount": "Dodaj račun",
   "@addAccount": {
     "description": "Label of add account action"
   },
+  "addAdditionalHeadersHint": "Vsaki zahtevi API lahko dodate glave HTTP. To je lahko uporabno za sheme preverjanja pristnosti po meri, VPN-je ali druge scenarije.",
   "addAnotherAccount": "Dodaj nov račun",
   "@addAnotherAccount": {},
   "addCorrespondent": "Novi dopisnik",
@@ -29,6 +31,7 @@
   },
   "addedAt": "Dodano",
   "@addedAt": {},
+  "additionalHeaders": "Dodatne glave",
   "addNewCorrespondent": "Dodaj novega dopisnika",
   "@addNewCorrespondent": {},
   "addNewDocumentType": "Dodaj nov tip dokumenta",
@@ -196,6 +199,7 @@
   "@colorSchemeHint": {},
   "colorSchemeNotSupportedWarning": "Dinamične teme so podprte samo za naparave z Android 12 ali novejši. Z izbiro 'Dinamično' morda ne bo nobenega učinka, odvisno od sistema.",
   "@colorSchemeNotSupportedWarning": {},
+  "configureAdditionalHttpHeaders": "Konfigurirajte dodatne glave HTTP, ki se pošljejo z vsako zahtevo",
   "configureMutualTLSAuthentication": "Nastavi medsebojno preverjanje pristnosti TLS",
   "@configureMutualTLSAuthentication": {},
   "confirm": "Potrdi",
@@ -234,28 +238,33 @@
   "@couldNotAcknowledgeTasks": {},
   "couldNotAssignArchiveSerialNumber": "Arhivi ni možno dodeliti serijske številku.",
   "@couldNotAssignArchiveSerialNumber": {},
-  "couldNotBulkEditDocuments": "Množično urejanje dokumentov ni mogoče.",
+  "couldNotBulkEditDocuments": "Could not bulk edit documents, please try again.",
   "@couldNotBulkEditDocuments": {},
   "couldNotCreateCorrespondent": "Dopisnika ni bilo mogoče ustvariti, poskusi znova.",
   "@couldNotCreateCorrespondent": {},
+  "couldNotCreateCustomField": "Could not create custom field, please try again.",
   "couldNotCreateDocument": "Ni možno ustvariti dokumenta, poskusi ponovno.",
   "@couldNotCreateDocument": {},
+  "couldNotCreateNote": "Could not create note, please try again.",
   "couldNotCreateSavedView": "Shranjenega pogleda ni bilo mogoče ustvariti, poskusi znova.",
   "@couldNotCreateSavedView": {},
   "couldNotCreateStoragePath": "Ni možno ustvariti shranjevalnega mesta, poskusi ponovno.",
   "@couldNotCreateStoragePath": {},
   "couldNotCreateTag": "Ni možno ustvariti oznak, poskusi ponovno.",
   "@couldNotCreateTag": {},
+  "couldNotCreateUser": "Could not create user, please try again.",
   "couldNotDeleteCorrespondent": "Dopisnika ni bilo možno izbrisati, poskusi ponovno.",
   "@couldNotDeleteCorrespondent": {
     "description": "Message shown in snackbar when a correspondent could not be deleted."
   },
+  "couldNotDeleteCustomField": "Could not delete custom field, please try again.",
   "couldNotDeleteDocument": "Ni možno izbrisati dokumenta, poskusi ponovono.",
   "@couldNotDeleteDocument": {},
   "couldNotDeleteDocumentType": "Tipa dokumenta ni bilo možno izbrisati, poskusi ponovno.",
   "@couldNotDeleteDocumentType": {
     "description": "Message shown when a document type could not be deleted"
   },
+  "couldNotDeleteNote": "Could not delete note, please try again.",
   "couldNotDeleteSavedView": "Ni možno izbrisati shranjenega pogleda, poskusi znova",
   "@couldNotDeleteSavedView": {},
   "couldNotDeleteStoragePath": "Mesta shranjevanja ni bilo možno izbrisati, poskusi ponovno.",
@@ -266,10 +275,13 @@
   "@couldNotDeleteTag": {
     "description": "Message shown when a tag could not be deleted"
   },
+  "couldNotDeleteUser": "Could not delete user, please try again.",
+  "couldNotDownloadDocuments": "Could not download documents, please try again.",
   "couldNotEstablishConnectionToTheServer": "Ni možno vzpostaviti povezave s strežnikom.",
   "@couldNotEstablishConnectionToTheServer": {},
   "couldNotLoadCorrespondents": "Dopisnikov ni bilo mogoče naložiti.",
   "@couldNotLoadCorrespondents": {},
+  "couldNotLoadCustomField": "Could not load custom field.",
   "couldNotLoadDocumentPreview": "Ni možno naložiti predogleda dokumenta.",
   "@couldNotLoadDocumentPreview": {},
   "couldNotLoadDocuments": "Ni možno naložiti dokumentov, poskusi ponovno.",
@@ -277,6 +289,7 @@
   "couldNotLoadDocumentTypes": "Ni možno naložiti tipov dokumentov, poskusi ponovno.",
   "@couldNotLoadDocumentTypes": {},
   "couldNotLoadLogfileFrom": "Ne morem naložiti dnevnika iz {date}.",
+  "couldNotLoadPermissions": "Could not load permissions.",
   "couldNotLoadSavedViews": "Ni možno naložiti shranjenih pogledov.",
   "@couldNotLoadSavedViews": {},
   "couldNotLoadServerInformation": "Informacije strežnika ni bilo možno naložiti.",
@@ -303,6 +316,8 @@
   "@couldNotLoadUISettings": {
     "description": "Message shown when the UI settings could not be loaded"
   },
+  "couldNotLoadUser": "Could not load user, please try again.",
+  "couldNotLoadUsers": "Could not load users, please try again.",
   "couldNotOpenFilePermissionDenied": "Ni možno odpreti datoteke: Pravica zavrnjena.",
   "@couldNotOpenFilePermissionDenied": {},
   "couldNotReachYourPaperlessServer": "Paperless strežnik ni dosegljiv, ali je zagnan in dostopen?",
@@ -311,6 +326,7 @@
   "@couldNotUpdateCorrespondent": {
     "description": "Message shown when a correspondent could not be updated"
   },
+  "couldNotUpdateCustomField": "Could not delete custom field, please try again.",
   "couldNotUpdateDocument": "Ni možno posodobiti dokumenta, poskusi ponovno.",
   "@couldNotUpdateDocument": {},
   "couldNotUpdateDocumentType": "Tipa dokumenta ni bilo možno posodobiti, poskusi ponovno.",
@@ -326,6 +342,7 @@
   "@couldNotUpdateTag": {
     "description": "Message shown when a tag could not be updated"
   },
+  "couldNotUpdateUser": "Could not update user, please try again.",
   "couldNotUploadDocument": "Ni možno naložiti dokumenta, poskusi ponovno.",
   "@couldNotUploadDocument": {},
   "countSelected": "{count} izbrano",
@@ -405,6 +422,8 @@
       "name": {}
     }
   },
+  "disableAnimations": "Disable animations",
+  "disableAnimationsDescription": "Disables page transitions and most animations. Temporary workaround until system accessibility settings can be used.",
   "disableMatching": "Ne označuj dokumentov samodejno",
   "@disableMatching": {
     "description": "One of the options for automatic tagging of documents"
@@ -419,6 +438,7 @@
     "description": "Warning message shown when the user tries to close a route without saving the changes."
   },
   "discardFile": "Zavrzi datoteko?",
+  "discardSharedFileHint": "Datoteka v skupni rabi še ni bila obdelana. Ali želite datoteko zavreči?",
   "disconnect": "Prekini povezavo",
   "@disconnect": {
     "description": "Logout button label"
@@ -454,6 +474,7 @@
   "@documentType": {},
   "documentTypes": "Tipi dokumentov",
   "@documentTypes": {},
+  "documentUploadUploading": "Uploading...",
   "donate": "Donacija",
   "@donate": {
     "description": "Label of the in-app donate button"
@@ -488,12 +509,14 @@
   "@editView": {
     "description": "Title of the edit saved view page"
   },
+  "enabled": "Omogočeno",
   "errorRetrievingServerVersion": "Pri poskusu razrešitve različice strežnika je prišlo do napake.",
   "@errorRetrievingServerVersion": {
     "description": "Message shown at the bottom of the settings page when the remote server version could not be resolved."
   },
   "exact": "Točno",
   "@exact": {},
+  "exclude": "Izključi",
   "export": "Izvozi",
   "@export": {
     "description": "Label for button that exports scanned images to pdf (before upload)"
@@ -540,6 +563,9 @@
   },
   "grid": "Mreža",
   "@grid": {},
+  "headerNameAlreadyExists": "Glava že obstaja.",
+  "headerNameMustNotBeEmpty": "Ime glave ne sme biti prazno",
+  "headerValueMustNotBeEmpty": "Vrednost glave ne sme biti prazna",
   "hidePdf": "Skrij PDF",
   "@hidePdf": {
     "description": "Tooltip shown on the \"show pdf\" icon button on the document edit page"
@@ -556,8 +582,10 @@
   "@hostCouldNotBeResolved": {},
   "inbox": "Prejeto",
   "@inbox": {},
+  "inboxItemReloadSuggestions": "Reload suggestions",
   "inboxTag": "Oznaka predalnika",
   "@inboxTag": {},
+  "include": "Vključi",
   "incorrectOrMissingCertificatePassphrase": "Neveljavno ali manjkajoče geslo certifikata.",
   "@incorrectOrMissingCertificatePassphrase": {},
   "invalidAddress": "Neveljaven naslov.",
@@ -570,6 +598,7 @@
   "@invalidFilenameCharacter": {
     "description": "For validating filename in export dialogue"
   },
+  "key": "Ključ",
   "labels": "Oznake",
   "@labels": {},
   "language": "Jezik",
@@ -669,6 +698,7 @@
     "description": "Label shown in the tabbar on details page"
   },
   "mfaCodeInvalidLengthValidationMessage": "Koda mora imeti 6 mest.",
+  "mfaCodeRequired": "MFA Code required",
   "mfaCodeRequiredValidationMessage": "Prosimo, vnesite kodo MFA.",
   "mfaFormFieldHint": "Vaš račun je zaščiten z dvofaktorsko avtentikacijo. Vnesite avtentikacijsko kodo:",
   "misc": "Razno",
@@ -725,6 +755,7 @@
   },
   "noStoragePathsSetUp": "Ni nastavljenih mest shranjevanja.",
   "@noStoragePathsSetUp": {},
+  "noSuggestionsForThisDocument": "Ni na voljo predlogov.",
   "noTagsSetUp": "Ni nastavljenih oznak.",
   "@noTagsSetUp": {},
   "notAssigned": "Ni dodeljeno",
@@ -739,6 +770,7 @@
   "@notificationDownloadingDocument": {
     "description": "Notification title shown when a document download is pending"
   },
+  "noViewsMarkedInSidebar": "Niste označili nobenega pogleda za prikaz v stranski vrstici.",
   "nUnseen": "{count} neprebrano",
   "@nUnseen": {
     "placeholders": {
@@ -772,6 +804,7 @@
   "@overview": {
     "description": "Label shown in the tabbar on details page"
   },
+  "owner": "Owner",
   "paperlessServerVersion": "Verzija strežnika Paperless",
   "@paperlessServerVersion": {},
   "passphrase": "Geslo",
@@ -780,6 +813,7 @@
   "@password": {},
   "passwordMustNotBeEmpty": "Geslo ne sme biti prazno.",
   "@passwordMustNotBeEmpty": {},
+  "pendingFiles": "Čakajoče datoteke",
   "permissions": "Dovoljenja",
   "persistingUserInformation": "Trajanje uporabniških podatkov...",
   "prepareDocument": "Pripravi dokument",
@@ -965,6 +999,7 @@
   "@theme": {
     "description": "Title of the theme mode setting"
   },
+  "thereAreNoPendingFiles": "There are no pending files.",
   "thereSeemsToBeNothingHere": "Tukaj ni ničesar...",
   "@thereSeemsToBeNothingHere": {},
   "thisActionIsIrreversibleDoYouWishToProceedAnyway": "Ta ukaz je nepovraten. Želiš kljub temu nadaljevati?",
@@ -984,6 +1019,7 @@
   "totalCharacters": "Vsi znaki",
   "totalDocuments": "Vsi dokumenti",
   "tryAgain": "Poskusi ponovno",
+  "unauthorizedErrorMessage": "Nimate dovoljenja za izvedbo tega dejanja. Obrnite se na skrbnika ali se prepričajte, da imate potrebna dovoljenja.",
   "undo": "Razveljavi",
   "@undo": {},
   "upload": "Naloži",
@@ -998,6 +1034,7 @@
   "@uploadScansAsPdf": {
     "description": "Title of the setting which toggles whether scans are always uploaded as pdf"
   },
+  "uploadStatusDocumentReceived": "Document received",
   "uploadWithoutPromptingUploadForm": "Ko delite datoteke z aplikacijo, vedno naložite brez poziva k obrazcu za nalaganje.",
   "userAlreadyExists": "Ta uprabnik že obstaja.",
   "@userAlreadyExists": {
@@ -1015,6 +1052,7 @@
   },
   "useTheConfiguredBiometricFactorToAuthenticate": "Uporabi konfigurirani biometrični faktor za preverjanje pristnosti in odklepanje vaših dokumentov.",
   "@useTheConfiguredBiometricFactorToAuthenticate": {},
+  "value": "Vrednost",
   "verifyIdentity": "Potrdi identiteto",
   "@verifyIdentity": {},
   "verifyYourIdentity": "Potrdi svojo identiteto",
@@ -1050,22 +1088,5 @@
   "@youDoNotHaveUnseenDocuments": {},
   "youHaveNoViewsOnYourDashboardYet": "Na nadzorno ploščo še niste dodali nobenega pogleda.",
   "youreOffline": "Ni povezave.",
-  "@youreOffline": {},
-  "pendingFiles": "Čakajoče datoteke",
-  "noSuggestionsForThisDocument": "Ni na voljo predlogov.",
-  "unauthorizedErrorMessage": "Nimate dovoljenja za izvedbo tega dejanja. Obrnite se na skrbnika ali se prepričajte, da imate potrebna dovoljenja.",
-  "noViewsMarkedInSidebar": "Niste označili nobenega pogleda za prikaz v stranski vrstici.",
-  "additionalHeaders": "Dodatne glave",
-  "configureAdditionalHttpHeaders": "Konfigurirajte dodatne glave HTTP, ki se pošljejo z vsako zahtevo",
-  "key": "Ključ",
-  "value": "Vrednost",
-  "add": "Dodaj",
-  "headerNameMustNotBeEmpty": "Ime glave ne sme biti prazno",
-  "headerValueMustNotBeEmpty": "Vrednost glave ne sme biti prazna",
-  "headerNameAlreadyExists": "Glava že obstaja.",
-  "enabled": "Omogočeno",
-  "addAdditionalHeadersHint": "Vsaki zahtevi API lahko dodate glave HTTP. To je lahko uporabno za sheme preverjanja pristnosti po meri, VPN-je ali druge scenarije.",
-  "include": "Include",
-  "exclude": "Exclude",
-  "discardSharedFileHint": "The shared file was not yet processed. Do you want to discard the file?"
+  "@youreOffline": {}
 }

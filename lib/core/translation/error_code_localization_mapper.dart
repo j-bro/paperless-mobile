@@ -77,31 +77,22 @@ String translateError(BuildContext context, ErrorCode code) {
     ErrorCode.updateSavedViewError => S.of(context)!.couldNotUpdateSavedView,
     ErrorCode.userAlreadyExists => S.of(context)!.userAlreadyExists,
     ErrorCode.customFieldCreateFailed =>
-      'Could not create custom field, please try again.', //TODO: INTL
-    ErrorCode.customFieldLoadFailed =>
-      'Could not load custom field.', //TODO: INTL
+      S.of(context)!.couldNotCreateCustomField,
+    ErrorCode.customFieldLoadFailed => S.of(context)!.couldNotLoadCustomField,
     ErrorCode.customFieldDeleteFailed =>
-      'Could not delete custom field, please try again.', //TODO: INTL
-    ErrorCode.deleteNoteFailed => 'Could not delete note, please try again.',
-    ErrorCode.addNoteFailed => 'Could not create note, please try again.',
-    _ => code.name,
-    // TODO: Handle this case.
-    ErrorCode.mfaCodeRequired => 'MFA Code required',
-    // TODO: Handle this case.
-    ErrorCode.customFieldUpdateFailed => throw UnimplementedError(),
-    // TODO: Handle this case.
-    ErrorCode.userCreateError => throw UnimplementedError(),
-    // TODO: Handle this case.
-    ErrorCode.userUpdateError => throw UnimplementedError(),
-    // TODO: Handle this case.
-    ErrorCode.userListError => throw UnimplementedError(),
-    // TODO: Handle this case.
-    ErrorCode.userGetError => throw UnimplementedError(),
-    // TODO: Handle this case.
-    ErrorCode.userDeleteError => throw UnimplementedError(),
-    // TODO: Handle this case.
-    ErrorCode.bulkDownloadFailed => throw UnimplementedError(),
-    // TODO: Handle this case.
-    ErrorCode.bulkEditDocumentsFailed => throw UnimplementedError(),
+      S.of(context)!.couldNotDeleteCustomField,
+    ErrorCode.deleteNoteFailed => S.of(context)!.couldNotDeleteNote,
+    ErrorCode.addNoteFailed => S.of(context)!.couldNotCreateNote,
+    ErrorCode.mfaCodeRequired => S.of(context)!.mfaCodeRequired,
+    ErrorCode.customFieldUpdateFailed =>
+      S.of(context)!.couldNotUpdateCustomField,
+    ErrorCode.userCreateError => S.of(context)!.couldNotCreateUser,
+    ErrorCode.userUpdateError => S.of(context)!.couldNotUpdateUser,
+    ErrorCode.userListError => S.of(context)!.couldNotLoadUsers,
+    ErrorCode.userGetError => S.of(context)!.couldNotLoadUser,
+    ErrorCode.userDeleteError => S.of(context)!.couldNotDeleteUser,
+    ErrorCode.bulkDownloadFailed => S.of(context)!.couldNotDownloadDocuments,
+    ErrorCode.bulkEditDocumentsFailed =>
+      S.of(context)!.couldNotBulkEditDocuments,
   };
 }

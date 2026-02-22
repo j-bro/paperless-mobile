@@ -13,10 +13,12 @@
   },
   "aClientCertificateWasExpectedButNotSent": "Ожидался сертификат клиента, но он не отправлен. Пожалуйста, предоставьте действительный клиентский сертификат.",
   "@aClientCertificateWasExpectedButNotSent": {},
+  "add": "Add",
   "addAccount": "Добавить аккаунт",
   "@addAccount": {
     "description": "Label of add account action"
   },
+  "addAdditionalHeadersHint": "You can add HTTP headers to be included with each API request. This may be useful for custom authentication schemes, VPNs or other scenarios.",
   "addAnotherAccount": "Добавить другую учетную запись",
   "@addAnotherAccount": {},
   "addCorrespondent": "Новый корреспондент",
@@ -29,6 +31,7 @@
   },
   "addedAt": "Добавлено в",
   "@addedAt": {},
+  "additionalHeaders": "Additional Headers",
   "addNewCorrespondent": "Добавить нового корреспондента",
   "@addNewCorrespondent": {},
   "addNewDocumentType": "Добавить новый тип документа",
@@ -196,6 +199,7 @@
   "@colorSchemeHint": {},
   "colorSchemeNotSupportedWarning": "Динамическая тема поддерживается только для устройств с Android 12 и выше. Выбор параметра \"Динамическая\" может не повлиять на реализацию вашей ОС.",
   "@colorSchemeNotSupportedWarning": {},
+  "configureAdditionalHttpHeaders": "Configure additional HTTP headers to be sent with each request",
   "configureMutualTLSAuthentication": "Настроить взаимную TLS аутентификацию",
   "@configureMutualTLSAuthentication": {},
   "confirm": "Подтвердить",
@@ -234,28 +238,33 @@
   "@couldNotAcknowledgeTasks": {},
   "couldNotAssignArchiveSerialNumber": "Не удалось присвоить архивный серийный номер.",
   "@couldNotAssignArchiveSerialNumber": {},
-  "couldNotBulkEditDocuments": "Не удалось редактировать документы.",
+  "couldNotBulkEditDocuments": "Could not bulk edit documents, please try again.",
   "@couldNotBulkEditDocuments": {},
   "couldNotCreateCorrespondent": "Не удалось создать корреспондента, попробуйте еще раз.",
   "@couldNotCreateCorrespondent": {},
+  "couldNotCreateCustomField": "Could not create custom field, please try again.",
   "couldNotCreateDocument": "Не удалось создать документ, попробуйте еще раз.",
   "@couldNotCreateDocument": {},
+  "couldNotCreateNote": "Could not create note, please try again.",
   "couldNotCreateSavedView": "Не удалось обновить сохраненный вид, попробуйте еще раз.",
   "@couldNotCreateSavedView": {},
   "couldNotCreateStoragePath": "Не удалось создать путь к хранилищу, пожалуйста, попробуйте еще раз.",
   "@couldNotCreateStoragePath": {},
   "couldNotCreateTag": "Не удалось создать тег, попробуйте еще раз.",
   "@couldNotCreateTag": {},
+  "couldNotCreateUser": "Could not create user, please try again.",
   "couldNotDeleteCorrespondent": "Не удалось удалить корреспондента, попробуйте еще раз.",
   "@couldNotDeleteCorrespondent": {
     "description": "Message shown in snackbar when a correspondent could not be deleted."
   },
+  "couldNotDeleteCustomField": "Could not delete custom field, please try again.",
   "couldNotDeleteDocument": "Не удалось удалить документ, попробуйте еще раз.",
   "@couldNotDeleteDocument": {},
   "couldNotDeleteDocumentType": "Не удалось удалить тип документа, попробуйте еще раз.",
   "@couldNotDeleteDocumentType": {
     "description": "Message shown when a document type could not be deleted"
   },
+  "couldNotDeleteNote": "Could not delete note, please try again.",
   "couldNotDeleteSavedView": "Не удалось обновить сохраненный вид, попробуйте еще раз",
   "@couldNotDeleteSavedView": {},
   "couldNotDeleteStoragePath": "Не удалось удалить путь к хранилищу, попробуйте еще раз.",
@@ -266,10 +275,13 @@
   "@couldNotDeleteTag": {
     "description": "Message shown when a tag could not be deleted"
   },
+  "couldNotDeleteUser": "Could not delete user, please try again.",
+  "couldNotDownloadDocuments": "Could not download documents, please try again.",
   "couldNotEstablishConnectionToTheServer": "Не удалось установить соединение с сервером.",
   "@couldNotEstablishConnectionToTheServer": {},
   "couldNotLoadCorrespondents": "Не удалось загрузить корреспондентов.",
   "@couldNotLoadCorrespondents": {},
+  "couldNotLoadCustomField": "Could not load custom field.",
   "couldNotLoadDocumentPreview": "Не удалось загрузить предпросмотр документа.",
   "@couldNotLoadDocumentPreview": {},
   "couldNotLoadDocuments": "Не удалось загрузить документы, попробуйте еще раз.",
@@ -277,6 +289,7 @@
   "couldNotLoadDocumentTypes": "Не удалось загрузить типы документов, попробуйте еще раз.",
   "@couldNotLoadDocumentTypes": {},
   "couldNotLoadLogfileFrom": "Не удалось загрузить лог файл за {date}.",
+  "couldNotLoadPermissions": "Could not load permissions.",
   "couldNotLoadSavedViews": "Не удалось загрузить сохраненные виды.",
   "@couldNotLoadSavedViews": {},
   "couldNotLoadServerInformation": "Не удалось загрузить информацию о сервере.",
@@ -303,6 +316,8 @@
   "@couldNotLoadUISettings": {
     "description": "Message shown when the UI settings could not be loaded"
   },
+  "couldNotLoadUser": "Could not load user, please try again.",
+  "couldNotLoadUsers": "Could not load users, please try again.",
   "couldNotOpenFilePermissionDenied": "Не удалось открыть файл: Отказано в разрешении.",
   "@couldNotOpenFilePermissionDenied": {},
   "couldNotReachYourPaperlessServer": "Не удалось получить доступ к вашему серверу Paperless, он работает?",
@@ -311,6 +326,7 @@
   "@couldNotUpdateCorrespondent": {
     "description": "Message shown when a correspondent could not be updated"
   },
+  "couldNotUpdateCustomField": "Could not delete custom field, please try again.",
   "couldNotUpdateDocument": "Не удалось обновить документ, попробуйте еще раз.",
   "@couldNotUpdateDocument": {},
   "couldNotUpdateDocumentType": "Не удалось обновить тип документа, попробуйте еще раз.",
@@ -326,6 +342,7 @@
   "@couldNotUpdateTag": {
     "description": "Message shown when a tag could not be updated"
   },
+  "couldNotUpdateUser": "Could not update user, please try again.",
   "couldNotUploadDocument": "Не удалось загрузить документ, попробуйте еще раз.",
   "@couldNotUploadDocument": {},
   "countSelected": "{count} выбрано",
@@ -405,6 +422,8 @@
       "name": {}
     }
   },
+  "disableAnimations": "Disable animations",
+  "disableAnimationsDescription": "Disables page transitions and most animations. Temporary workaround until system accessibility settings can be used.",
   "disableMatching": "Не отмечать документы автоматически",
   "@disableMatching": {
     "description": "One of the options for automatic tagging of documents"
@@ -419,6 +438,7 @@
     "description": "Warning message shown when the user tries to close a route without saving the changes."
   },
   "discardFile": "Удалить файл?",
+  "discardSharedFileHint": "The shared file was not yet processed. Do you want to discard the file?",
   "disconnect": "Отключиться",
   "@disconnect": {
     "description": "Logout button label"
@@ -454,6 +474,7 @@
   "@documentType": {},
   "documentTypes": "Типы документов",
   "@documentTypes": {},
+  "documentUploadUploading": "Uploading...",
   "donate": "Пожертвовать",
   "@donate": {
     "description": "Label of the in-app donate button"
@@ -488,12 +509,14 @@
   "@editView": {
     "description": "Title of the edit saved view page"
   },
+  "enabled": "Enabled",
   "errorRetrievingServerVersion": "Произошла ошибка при попытке определить версию сервера.",
   "@errorRetrievingServerVersion": {
     "description": "Message shown at the bottom of the settings page when the remote server version could not be resolved."
   },
   "exact": "Точно",
   "@exact": {},
+  "exclude": "Exclude",
   "export": "Экспорт",
   "@export": {
     "description": "Label for button that exports scanned images to pdf (before upload)"
@@ -540,6 +563,9 @@
   },
   "grid": "Сетка",
   "@grid": {},
+  "headerNameAlreadyExists": "The header already exists.",
+  "headerNameMustNotBeEmpty": "Header name must not be empty",
+  "headerValueMustNotBeEmpty": "Header value must not be empty",
   "hidePdf": "Скрыть PDF",
   "@hidePdf": {
     "description": "Tooltip shown on the \"show pdf\" icon button on the document edit page"
@@ -556,8 +582,10 @@
   "@hostCouldNotBeResolved": {},
   "inbox": "Входящие",
   "@inbox": {},
+  "inboxItemReloadSuggestions": "Reload suggestions",
   "inboxTag": "Тег \"Входящие\"",
   "@inboxTag": {},
+  "include": "Include",
   "incorrectOrMissingCertificatePassphrase": "Неверный или отсутствует пароль сертификата.",
   "@incorrectOrMissingCertificatePassphrase": {},
   "invalidAddress": "Неверный адрес.",
@@ -570,6 +598,7 @@
   "@invalidFilenameCharacter": {
     "description": "For validating filename in export dialogue"
   },
+  "key": "Key",
   "labels": "Метки",
   "@labels": {},
   "language": "Язык",
@@ -669,6 +698,7 @@
     "description": "Label shown in the tabbar on details page"
   },
   "mfaCodeInvalidLengthValidationMessage": "Code must be 6 digits.",
+  "mfaCodeRequired": "MFA Code required",
   "mfaCodeRequiredValidationMessage": "Please enter the MFA code.",
   "mfaFormFieldHint": "Your account is protected by two-factor authentication. Please enter an authentication code:",
   "misc": "Прочее",
@@ -725,6 +755,7 @@
   },
   "noStoragePathsSetUp": "Похоже, у вас нет никаких путей хранения.",
   "@noStoragePathsSetUp": {},
+  "noSuggestionsForThisDocument": "No suggestions available.",
   "noTagsSetUp": "Похоже, у вас нет настроенных тегов.",
   "@noTagsSetUp": {},
   "notAssigned": "Не назначенные",
@@ -739,6 +770,7 @@
   "@notificationDownloadingDocument": {
     "description": "Notification title shown when a document download is pending"
   },
+  "noViewsMarkedInSidebar": "You did not mark any views to be shown in the sidebar.",
   "nUnseen": "{count} непросмотренных",
   "@nUnseen": {
     "placeholders": {
@@ -772,6 +804,7 @@
   "@overview": {
     "description": "Label shown in the tabbar on details page"
   },
+  "owner": "Owner",
   "paperlessServerVersion": "Версия сервера Paperless",
   "@paperlessServerVersion": {},
   "passphrase": "Ключевая фраза",
@@ -780,6 +813,7 @@
   "@password": {},
   "passwordMustNotBeEmpty": "Пароль не может быть пустым.",
   "@passwordMustNotBeEmpty": {},
+  "pendingFiles": "Pending Files",
   "permissions": "Права доступа",
   "persistingUserInformation": "Сохранение информации о пользователе...",
   "prepareDocument": "Подготовить документ",
@@ -965,6 +999,7 @@
   "@theme": {
     "description": "Title of the theme mode setting"
   },
+  "thereAreNoPendingFiles": "There are no pending files.",
   "thereSeemsToBeNothingHere": "Похоже, здесь ничего нет...",
   "@thereSeemsToBeNothingHere": {},
   "thisActionIsIrreversibleDoYouWishToProceedAnyway": "Это действие необратимо. Все равно хотите продолжить?",
@@ -984,6 +1019,7 @@
   "totalCharacters": "Всего символов",
   "totalDocuments": "Всего документов",
   "tryAgain": "Попробуйте еще раз",
+  "unauthorizedErrorMessage": "You are not authorized to perform this action. Please contact your admin or make sure you have the necessary permissions.",
   "undo": "Отменить",
   "@undo": {},
   "upload": "Загрузить",
@@ -998,6 +1034,7 @@
   "@uploadScansAsPdf": {
     "description": "Title of the setting which toggles whether scans are always uploaded as pdf"
   },
+  "uploadStatusDocumentReceived": "Document received",
   "uploadWithoutPromptingUploadForm": "При нажатии \"Поделиться\" загружать файлы без открытия форму для загрузки файлов.",
   "userAlreadyExists": "Этот пользователь уже существует.",
   "@userAlreadyExists": {
@@ -1015,6 +1052,7 @@
   },
   "useTheConfiguredBiometricFactorToAuthenticate": "Используйте настроенный биометрический фактор для аутентификации и разблокировки документов.",
   "@useTheConfiguredBiometricFactorToAuthenticate": {},
+  "value": "Value",
   "verifyIdentity": "Подтвердить личность",
   "@verifyIdentity": {},
   "verifyYourIdentity": "Подтвердите вашу личность",
@@ -1050,22 +1088,5 @@
   "@youDoNotHaveUnseenDocuments": {},
   "youHaveNoViewsOnYourDashboardYet": "You have not added any views to your dashboard yet.",
   "youreOffline": "Вы не в сети.",
-  "@youreOffline": {},
-  "pendingFiles": "Pending Files",
-  "noSuggestionsForThisDocument": "No suggestions available.",
-  "unauthorizedErrorMessage": "You are not authorized to perform this action. Please contact your admin or make sure you have the necessary permissions.",
-  "noViewsMarkedInSidebar": "You did not mark any views to be shown in the sidebar.",
-  "additionalHeaders": "Additional Headers",
-  "configureAdditionalHttpHeaders": "Configure additional HTTP headers to be sent with each request",
-  "key": "Key",
-  "value": "Value",
-  "add": "Add",
-  "headerNameMustNotBeEmpty": "Header name must not be empty",
-  "headerValueMustNotBeEmpty": "Header value must not be empty",
-  "headerNameAlreadyExists": "The header already exists.",
-  "enabled": "Enabled",
-  "addAdditionalHeadersHint": "You can add HTTP headers to be included with each API request. This may be useful for custom authentication schemes, VPNs or other scenarios.",
-  "include": "Include",
-  "exclude": "Exclude",
-  "discardSharedFileHint": "The shared file was not yet processed. Do you want to discard the file?"
+  "@youreOffline": {}
 }

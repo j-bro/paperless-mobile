@@ -35,7 +35,7 @@ class DocumentOverviewWidget extends StatelessWidget {
               highlights: queryString?.split(" ") ?? [],
               style: Theme.of(context).textTheme.bodyLarge,
             ),
-          ).paddedOnly(bottom: itemSpacing),
+          ),
         DetailsItem.text(
           document.created != null
               ? DateFormat.yMMMMd(
@@ -44,7 +44,7 @@ class DocumentOverviewWidget extends StatelessWidget {
               : null,
           context: context,
           label: S.of(context)!.createdAt,
-        ).paddedOnly(bottom: itemSpacing),
+        ),
         if (document.documentType != null && user.canViewDocumentTypes)
           QueryBuilder(
             query: context.documentTypeRepository.getByIdQuery(
@@ -65,7 +65,7 @@ class DocumentOverviewWidget extends StatelessWidget {
                 ),
               );
             },
-          ).paddedOnly(bottom: itemSpacing)
+          )
         else
           DetailsItem(
             label: S.of(context)!.documentType,
@@ -94,7 +94,7 @@ class DocumentOverviewWidget extends StatelessWidget {
                 ),
               );
             },
-          ).paddedOnly(bottom: itemSpacing)
+          )
         else
           DetailsItem(
             label: S.of(context)!.correspondent,
@@ -123,7 +123,7 @@ class DocumentOverviewWidget extends StatelessWidget {
                 ),
               );
             },
-          ).paddedOnly(bottom: itemSpacing)
+          )
         else
           DetailsItem(
             label: S.of(context)!.storagePath,
@@ -135,11 +135,8 @@ class DocumentOverviewWidget extends StatelessWidget {
         if (document.tags.isNotEmpty && user.canViewTags)
           DetailsItem(
             label: S.of(context)!.tags,
-            content: TagsWidget(
-              isClickable: false,
-              tagIds: document.tags,
-            ).paddedOnly(top: 8),
-          ).paddedOnly(bottom: itemSpacing)
+            content: TagsWidget(isClickable: false, tagIds: document.tags),
+          )
         else
           DetailsItem(
             label: S.of(context)!.tags,
@@ -148,7 +145,7 @@ class DocumentOverviewWidget extends StatelessWidget {
               label: null,
             ),
           ),
-      ],
+      ].map((e) => e.paddedOnly(bottom: itemSpacing)).toList(),
     );
   }
 }

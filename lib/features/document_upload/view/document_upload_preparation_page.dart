@@ -84,7 +84,7 @@ class _DocumentUploadPreparationPageState
           onPressed: _uploadProgress == null ? _onSubmit : null,
           label: _uploadProgress == null
               ? Text(S.of(context)!.upload)
-              : Text("Uploading..."), //TODO: INTL
+              : Text(S.of(context)!.documentUploadUploading),
           icon: _uploadProgress == null
               ? const Icon(Icons.upload)
               : SizedBox(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/store/bloc/global_settings_builder.dart';
+import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
 class DisableAnimationsSetting extends StatelessWidget {
   const DisableAnimationsSetting({super.key});
@@ -11,11 +12,8 @@ class DisableAnimationsSetting extends StatelessWidget {
     return GlobalSettingsBuilder(
       builder: (context, settings) => SwitchListTile(
         value: settings.disableAnimations,
-        title: Text('Disable animations'), //TODO: INTL
-        subtitle: Text(
-          'Disables page transitions and most animations.'
-          ' Temporary workaround until system accessibility settings can be used.',
-        ),
+        title: Text(S.of(context)!.disableAnimations),
+        subtitle: Text(S.of(context)!.disableAnimationsDescription),
         onChanged: (val) async {
           localStore.updateGlobalSettings(
             (state) => state.copyWith(disableAnimations: val),

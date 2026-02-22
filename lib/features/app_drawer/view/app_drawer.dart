@@ -24,6 +24,7 @@ class AppDrawer extends StatelessWidget {
     final currentAccount = context.loggedInUser$;
     final currentUser = currentAccount.paperlessUser;
     final username = currentUser.username;
+    final appVersion = packageInfo.version;
     final serverUrl = currentAccount.serverUrl.replaceAll(
       RegExp(r'https?://'),
       '',
@@ -33,15 +34,19 @@ class AppDrawer extends StatelessWidget {
         child: ListView(
           children: [
             Row(
+              spacing: 8,
               children: [
                 const $AssetsLogosGen().paperlessLogoGreenSvg.svg(
                   width: 32,
                   height: 32,
                 ),
-                SizedBox(width: 8),
                 Text(
                   "Paperless Mobile",
                   style: Theme.of(context).textTheme.titleMedium,
+                ),
+                Text(
+                  'v$appVersion',
+                  style: Theme.of(context).textTheme.labelSmall,
                 ),
               ],
             ).paddedLTRB(8, 8, 8, 16),

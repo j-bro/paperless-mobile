@@ -314,7 +314,7 @@ class _InboxItemState extends State<InboxItem> {
                   avatar: state.isLoading
                       ? IconLoadingWidget()
                       : const Icon(Icons.refresh),
-                  label: Text('Reload suggestions'), //TODO: INTL
+                  label: Text(S.of(context)!.inboxItemReloadSuggestions),
                   onPressed: () {
                     setState(() {
                       _suggestionsEnabled = true;

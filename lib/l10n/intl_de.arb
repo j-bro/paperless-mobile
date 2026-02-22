@@ -13,10 +13,12 @@
   },
   "aClientCertificateWasExpectedButNotSent": "Ein Client Zerfitikat wurde erwartet, aber nicht gesendet. Bitte konfiguriere ein gültiges Zertifikat.",
   "@aClientCertificateWasExpectedButNotSent": {},
+  "add": "Hinzufügen",
   "addAccount": "Account hinzufügen",
   "@addAccount": {
     "description": "Label of add account action"
   },
+  "addAdditionalHeadersHint": "Du kannst HTTP-Header hinzufügen, welche in jeder API-Anfrage mitgesendet werden. Dies kann bspw. bei der Konfiguration von benutzerdefinierten Authentifizierungsschemas oder VPNs von Nutzen sein.",
   "addAnotherAccount": "Einen Account hinzufügen",
   "@addAnotherAccount": {},
   "addCorrespondent": "Neuer Korrespondent",
@@ -29,6 +31,7 @@
   },
   "addedAt": "Hinzugefügt am",
   "@addedAt": {},
+  "additionalHeaders": "Zusätzliche Header",
   "addNewCorrespondent": "Neuen Korrespondenten erstellen",
   "@addNewCorrespondent": {},
   "addNewDocumentType": "Neuen Dokumenten-Typ erstellen",
@@ -196,6 +199,7 @@
   "@colorSchemeHint": {},
   "colorSchemeNotSupportedWarning": "Dynamische Farbgebung wird nur von Geräten mit Android 12 und höher unterstützt. Das Auswählen des dynamischen Farbschemas hat für Geräte unter Android 12 womöglich keinen Effekt.",
   "@colorSchemeNotSupportedWarning": {},
+  "configureAdditionalHttpHeaders": "Konfiguriere zusätzliche HTTP-Header, welche mit jeder Anfrage gesendet werden",
   "configureMutualTLSAuthentication": "Konfiguriere Mutual TLS Authentifizierung",
   "@configureMutualTLSAuthentication": {},
   "confirm": "Bestätigen",
@@ -234,28 +238,33 @@
   "@couldNotAcknowledgeTasks": {},
   "couldNotAssignArchiveSerialNumber": "Archiv-Seriennummer konnte nicht zugewiesen werden.",
   "@couldNotAssignArchiveSerialNumber": {},
-  "couldNotBulkEditDocuments": "Es ist ein Fehler beim massenhaften bearbeiten der Dokumente aufgetreten.",
+  "couldNotBulkEditDocuments": "Dokumente konnten nicht bearbeitet werden, bitte versuche es erneut.",
   "@couldNotBulkEditDocuments": {},
   "couldNotCreateCorrespondent": "Korrespondent konnte nicht erstellt werden, bitte versuche es erneut.",
   "@couldNotCreateCorrespondent": {},
+  "couldNotCreateCustomField": "Gespeicherte Ansicht konnte nicht erstellt werden, bitte versuche es erneut.",
   "couldNotCreateDocument": "Dokumenttyp konnte nicht erstellt werden, bitte versuche es erneut.",
   "@couldNotCreateDocument": {},
+  "couldNotCreateNote": "Notiz konnte nicht erstellt werden, bitte versuche es erneut.",
   "couldNotCreateSavedView": "Gespeicherte Ansicht konnte nicht erstellt werden, bitte versuche es erneut.",
   "@couldNotCreateSavedView": {},
   "couldNotCreateStoragePath": "Speicherpfad konnte nicht erstellt werden, bitte versuche es erneut.",
   "@couldNotCreateStoragePath": {},
   "couldNotCreateTag": "Tag konnte nicht erstellt werden, bitte versuche es erneut.",
   "@couldNotCreateTag": {},
+  "couldNotCreateUser": "Benutzer konnte nicht erstellt werden, bitte versuche es erneut.",
   "couldNotDeleteCorrespondent": "Korrespondent konnte nicht gelöscht werden, bitte versuche es erneut.",
   "@couldNotDeleteCorrespondent": {
     "description": "Message shown in snackbar when a correspondent could not be deleted."
   },
+  "couldNotDeleteCustomField": "Benutzerdefiniertes Feld konnte nicht gelöscht werden, bitte versuche es erneut.",
   "couldNotDeleteDocument": "Dokument konnte nicht gelöscht werden, bitte versuche es erneut.",
   "@couldNotDeleteDocument": {},
   "couldNotDeleteDocumentType": "Dokumenttyp konnten nicht gelöscht werden, bitte versuche es erneut.",
   "@couldNotDeleteDocumentType": {
     "description": "Message shown when a document type could not be deleted"
   },
+  "couldNotDeleteNote": "Notiz konnte nicht gelöscht werden, bitte versuche es erneut.",
   "couldNotDeleteSavedView": "Gespeicherte Ansicht konnte nicht geklöscht werden, bitte versuche es erneut.",
   "@couldNotDeleteSavedView": {},
   "couldNotDeleteStoragePath": "Speicherpfad konnte nicht gelöscht werden, bitte versuchen Sie es erneut.",
@@ -266,10 +275,13 @@
   "@couldNotDeleteTag": {
     "description": "Message shown when a tag could not be deleted"
   },
+  "couldNotDeleteUser": "Benutzer konnte nicht gelöscht werden, bitte versuche es erneut.",
+  "couldNotDownloadDocuments": "Dokumente konnten nicht heruntergeladen werden, bitte versuche es erneut.",
   "couldNotEstablishConnectionToTheServer": "Es konnte keine Verbindung zum Server hergestellt werden.",
   "@couldNotEstablishConnectionToTheServer": {},
   "couldNotLoadCorrespondents": "Korrespondenten konnten nicht geladen werden.",
   "@couldNotLoadCorrespondents": {},
+  "couldNotLoadCustomField": "Benutzerdefiniertes Feld konnte nicht geladen werden.",
   "couldNotLoadDocumentPreview": "Vorschau konnte nicht geladen werden.",
   "@couldNotLoadDocumentPreview": {},
   "couldNotLoadDocuments": "Dokumente konnten nicht geladen werden, bitte versuche es erneut.",
@@ -277,6 +289,7 @@
   "couldNotLoadDocumentTypes": "Dokumenttypen konnten nicht geladen werden, bitte versuche es erneut.",
   "@couldNotLoadDocumentTypes": {},
   "couldNotLoadLogfileFrom": "Logs vom {date} konnten nicht geladen werden.",
+  "couldNotLoadPermissions": "Berechtigungen konnten nicht geladen werden.",
   "couldNotLoadSavedViews": "Ansichten konnten nicht geladen werden.",
   "@couldNotLoadSavedViews": {},
   "couldNotLoadServerInformation": "Serverinformationen konnten nicht geladen werden.",
@@ -303,6 +316,8 @@
   "@couldNotLoadUISettings": {
     "description": "Message shown when the UI settings could not be loaded"
   },
+  "couldNotLoadUser": "Benutzer konnte nicht geladen werden, bitte versuche es erneut.",
+  "couldNotLoadUsers": "Benutzer konnten nicht geladen werden, bitte versuche es erneut.",
   "couldNotOpenFilePermissionDenied": "Datei konnte nicht geöffnet werden: Zugriff verweigert.",
   "@couldNotOpenFilePermissionDenied": {},
   "couldNotReachYourPaperlessServer": "Es konnte keine Verbindung zu Deinem Paperless Server hergestellt werden, ist die Instanz in Betrieb?",
@@ -311,6 +326,7 @@
   "@couldNotUpdateCorrespondent": {
     "description": "Message shown when a correspondent could not be updated"
   },
+  "couldNotUpdateCustomField": "Benutzerdefiniertes Feld konnte nicht gelöscht werden, bitte versuche es erneut.",
   "couldNotUpdateDocument": "Dokument konnte nicht aktualisiert werden, bitte versuche es erneut.",
   "@couldNotUpdateDocument": {},
   "couldNotUpdateDocumentType": "Dokumenttyp konnte nicht aktualisiert werden, bitte versuche es erneut.",
@@ -326,6 +342,7 @@
   "@couldNotUpdateTag": {
     "description": "Message shown when a tag could not be updated"
   },
+  "couldNotUpdateUser": "Änderungen am Benutzer konnten nicht gespeichert werden, bitte versuche es erneut.",
   "couldNotUploadDocument": "Dokument konnte nicht hochgeladen werden, bitte versuche es erneut.",
   "@couldNotUploadDocument": {},
   "countSelected": "{count} ausgewählt",
@@ -405,6 +422,8 @@
       "name": {}
     }
   },
+  "disableAnimations": "Animationen deaktivieren",
+  "disableAnimationsDescription": "Disables page transitions and most animations. Temporary workaround until system accessibility settings can be used.",
   "disableMatching": "Deaktiviere automatische Zuweisung",
   "@disableMatching": {
     "description": "One of the options for automatic tagging of documents"
@@ -419,6 +438,7 @@
     "description": "Warning message shown when the user tries to close a route without saving the changes."
   },
   "discardFile": "Datei verwerfen?",
+  "discardSharedFileHint": "Die freigegebene Datei wurde noch nicht verarbeitet. Möchtest Du die Datei verwerfen?",
   "disconnect": "Verbindung trennen",
   "@disconnect": {
     "description": "Logout button label"
@@ -454,6 +474,7 @@
   "@documentType": {},
   "documentTypes": "Dokumenttypen",
   "@documentTypes": {},
+  "documentUploadUploading": "Uploading...",
   "donate": "Spenden",
   "@donate": {
     "description": "Label of the in-app donate button"
@@ -488,12 +509,14 @@
   "@editView": {
     "description": "Title of the edit saved view page"
   },
+  "enabled": "Aktiv",
   "errorRetrievingServerVersion": "Beim Laden der Server-Version ist ein Fehler aufgetreten.",
   "@errorRetrievingServerVersion": {
     "description": "Message shown at the bottom of the settings page when the remote server version could not be resolved."
   },
   "exact": "Exakt",
   "@exact": {},
+  "exclude": "Ausschließen",
   "export": "Exportieren",
   "@export": {
     "description": "Label for button that exports scanned images to pdf (before upload)"
@@ -540,6 +563,9 @@
   },
   "grid": "Raster",
   "@grid": {},
+  "headerNameAlreadyExists": "Der Header ist bereits vorhanden.",
+  "headerNameMustNotBeEmpty": "Header-Name darf nicht leer sein",
+  "headerValueMustNotBeEmpty": "Header-Wert darf nicht leer sein",
   "hidePdf": "PDF ausblenden",
   "@hidePdf": {
     "description": "Tooltip shown on the \"show pdf\" icon button on the document edit page"
@@ -556,8 +582,10 @@
   "@hostCouldNotBeResolved": {},
   "inbox": "Posteingang",
   "@inbox": {},
+  "inboxItemReloadSuggestions": "Reload suggestions",
   "inboxTag": "Posteingangs-Tag",
   "@inboxTag": {},
+  "include": "Einschließen",
   "incorrectOrMissingCertificatePassphrase": "Falsche oder fehlende Zertifikatspassphrase.",
   "@incorrectOrMissingCertificatePassphrase": {},
   "invalidAddress": "Ungültige Adresse.",
@@ -570,6 +598,7 @@
   "@invalidFilenameCharacter": {
     "description": "For validating filename in export dialogue"
   },
+  "key": "Schlüssel",
   "labels": "Labels",
   "@labels": {},
   "language": "Sprache",
@@ -669,6 +698,7 @@
     "description": "Label shown in the tabbar on details page"
   },
   "mfaCodeInvalidLengthValidationMessage": "Der Code muss aus 6 Ziffern bestehen.",
+  "mfaCodeRequired": "MFA Code required",
   "mfaCodeRequiredValidationMessage": "Bitte gib den MFA Code ein.",
   "mfaFormFieldHint": "Dein Konto ist durch Zwei-Faktor-Authentifizierung geschützt. Bitte gib einen Authentifizierungscode ein:",
   "misc": "Sonstige",
@@ -725,6 +755,7 @@
   },
   "noStoragePathsSetUp": "Es wurden noch keine Speicherpfade angelegt.",
   "@noStoragePathsSetUp": {},
+  "noSuggestionsForThisDocument": "Keine Vorschläge verfügbar.",
   "noTagsSetUp": "Es wurden noch keine Tags angelegt.",
   "@noTagsSetUp": {},
   "notAssigned": "Nicht zugewiesen",
@@ -739,6 +770,7 @@
   "@notificationDownloadingDocument": {
     "description": "Notification title shown when a document download is pending"
   },
+  "noViewsMarkedInSidebar": "Du hast keine Ansichten, die in der Seitenleiste angezeigt werden sollen.",
   "nUnseen": "{count} ungesehen",
   "@nUnseen": {
     "placeholders": {
@@ -772,6 +804,7 @@
   "@overview": {
     "description": "Label shown in the tabbar on details page"
   },
+  "owner": "Owner",
   "paperlessServerVersion": "Paperless Server-Version",
   "@paperlessServerVersion": {},
   "passphrase": "Passphrase",
@@ -780,6 +813,7 @@
   "@password": {},
   "passwordMustNotBeEmpty": "Passwort darf nicht leer sein.",
   "@passwordMustNotBeEmpty": {},
+  "pendingFiles": "Ausstehende Dateien",
   "permissions": "Berechtigungen",
   "persistingUserInformation": "Nutzerinformationen werden gespeichert...",
   "prepareDocument": "Dokument vorbereiten",
@@ -965,6 +999,7 @@
   "@theme": {
     "description": "Title of the theme mode setting"
   },
+  "thereAreNoPendingFiles": "There are no pending files.",
   "thereSeemsToBeNothingHere": "Es scheint nichts hier zu sein...",
   "@thereSeemsToBeNothingHere": {},
   "thisActionIsIrreversibleDoYouWishToProceedAnyway": "Diese Aktion ist unwiderruflich. Möchtest Du trotzdem fortfahren?",
@@ -984,6 +1019,7 @@
   "totalCharacters": "Zeichen insgesamt",
   "totalDocuments": "Dokumente insgesamt",
   "tryAgain": "Erneut versuchen",
+  "unauthorizedErrorMessage": "Du bist nicht berechtigt, diese Aktion durchzuführen. Bitte kontaktiere einen Administrator oder stelle sicher, dass Du über die erforderlichen Berechtigungen verfügst.",
   "undo": "Undo",
   "@undo": {},
   "upload": "Hochladen",
@@ -998,6 +1034,7 @@
   "@uploadScansAsPdf": {
     "description": "Title of the setting which toggles whether scans are always uploaded as pdf"
   },
+  "uploadStatusDocumentReceived": "Document received",
   "uploadWithoutPromptingUploadForm": "Mit der App geteilte Dateien immer direkt hochladen, ohne das Upload-Formular anzuzeigen.",
   "userAlreadyExists": "Dieser Nutzer existiert bereits.",
   "@userAlreadyExists": {
@@ -1015,6 +1052,7 @@
   },
   "useTheConfiguredBiometricFactorToAuthenticate": "Benutze den konfigurierten Biometrischen Faktor um dich zu identifizieren und auf deine Dokumente zuzugreifen.",
   "@useTheConfiguredBiometricFactorToAuthenticate": {},
+  "value": "Wert",
   "verifyIdentity": "Identität verifizieren",
   "@verifyIdentity": {},
   "verifyYourIdentity": "Verifiziere deine Identität",
@@ -1050,22 +1088,5 @@
   "@youDoNotHaveUnseenDocuments": {},
   "youHaveNoViewsOnYourDashboardYet": "Du hast noch keine Ansichten zu deinem Dashboard hinzugefügt.",
   "youreOffline": "Du bist offline.",
-  "@youreOffline": {},
-  "pendingFiles": "Ausstehende Dateien",
-  "noSuggestionsForThisDocument": "Keine Vorschläge verfügbar.",
-  "unauthorizedErrorMessage": "Du bist nicht berechtigt, diese Aktion durchzuführen. Bitte kontaktiere einen Administrator oder stelle sicher, dass Du über die erforderlichen Berechtigungen verfügst.",
-  "noViewsMarkedInSidebar": "Du hast keine Ansichten, die in der Seitenleiste angezeigt werden sollen.",
-  "additionalHeaders": "Zusätzliche Header",
-  "configureAdditionalHttpHeaders": "Konfiguriere zusätzliche HTTP-Header, welche mit jeder Anfrage gesendet werden",
-  "key": "Schlüssel",
-  "value": "Wert",
-  "add": "Hinzufügen",
-  "headerNameMustNotBeEmpty": "Header-Name darf nicht leer sein",
-  "headerValueMustNotBeEmpty": "Header-Wert darf nicht leer sein",
-  "headerNameAlreadyExists": "Der Header ist bereits vorhanden.",
-  "enabled": "Aktiv",
-  "addAdditionalHeadersHint": "Du kannst HTTP-Header hinzufügen, welche in jeder API-Anfrage mitgesendet werden. Dies kann bspw. bei der Konfiguration von benutzerdefinierten Authentifizierungsschemas oder VPNs von Nutzen sein.",
-  "include": "Einschließen",
-  "exclude": "Ausschließen",
-  "discardSharedFileHint": "Die freigegebene Datei wurde noch nicht verarbeitet. Möchtest Du die Datei verwerfen?"
+  "@youreOffline": {}
 }

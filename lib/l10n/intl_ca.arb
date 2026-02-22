@@ -13,10 +13,12 @@
   },
   "aClientCertificateWasExpectedButNotSent": "Certificat de client esperat però no trobat. Proporciona un certificat de client vàlid.",
   "@aClientCertificateWasExpectedButNotSent": {},
+  "add": "Add",
   "addAccount": "Afegir compte",
   "@addAccount": {
     "description": "Label of add account action"
   },
+  "addAdditionalHeadersHint": "You can add HTTP headers to be included with each API request. This may be useful for custom authentication schemes, VPNs or other scenarios.",
   "addAnotherAccount": "Afegir altre compte",
   "@addAnotherAccount": {},
   "addCorrespondent": "Nou corresponsal",
@@ -29,6 +31,7 @@
   },
   "addedAt": "Afegit",
   "@addedAt": {},
+  "additionalHeaders": "Additional Headers",
   "addNewCorrespondent": "Crear nou corresponsal",
   "@addNewCorrespondent": {},
   "addNewDocumentType": "Crea nou tipus de document",
@@ -196,6 +199,7 @@
   "@colorSchemeHint": {},
   "colorSchemeNotSupportedWarning": "Temàtica dinàmica només admès per a dispositius amb Android 12 i versions posteriors. La selecció de l'opció \"Dinàmica\" pot no tenir cap efecte en funció de la implementació del vostre sistema operatiu.",
   "@colorSchemeNotSupportedWarning": {},
+  "configureAdditionalHttpHeaders": "Configure additional HTTP headers to be sent with each request",
   "configureMutualTLSAuthentication": "Configura Autentificació TLS mútua",
   "@configureMutualTLSAuthentication": {},
   "confirm": "Confirma",
@@ -234,28 +238,33 @@
   "@couldNotAcknowledgeTasks": {},
   "couldNotAssignArchiveSerialNumber": "No es pot assignar el número de sèrie de l'arxiu.",
   "@couldNotAssignArchiveSerialNumber": {},
-  "couldNotBulkEditDocuments": "No es poden editar els documents de manera massiva.",
+  "couldNotBulkEditDocuments": "Could not bulk edit documents, please try again.",
   "@couldNotBulkEditDocuments": {},
   "couldNotCreateCorrespondent": "No es pot crear corresponsal, prova de nou.",
   "@couldNotCreateCorrespondent": {},
+  "couldNotCreateCustomField": "Could not create custom field, please try again.",
   "couldNotCreateDocument": "No es pot crear document, prova de nou.",
   "@couldNotCreateDocument": {},
+  "couldNotCreateNote": "Could not create note, please try again.",
   "couldNotCreateSavedView": "No es pot crear vista desada, prova de nou.",
   "@couldNotCreateSavedView": {},
   "couldNotCreateStoragePath": "No es pot crear ruta emmagatzematge, prova de nou.",
   "@couldNotCreateStoragePath": {},
   "couldNotCreateTag": "No es pot crear etiqueta, prova de nou.",
   "@couldNotCreateTag": {},
+  "couldNotCreateUser": "Could not create user, please try again.",
   "couldNotDeleteCorrespondent": "No es pot esborrar corresponsal, torna a provar.",
   "@couldNotDeleteCorrespondent": {
     "description": "Message shown in snackbar when a correspondent could not be deleted."
   },
+  "couldNotDeleteCustomField": "Could not delete custom field, please try again.",
   "couldNotDeleteDocument": "No es pot esborrar document, prova de nou.",
   "@couldNotDeleteDocument": {},
   "couldNotDeleteDocumentType": "No es pot esborrar document, prova de nou.",
   "@couldNotDeleteDocumentType": {
     "description": "Message shown when a document type could not be deleted"
   },
+  "couldNotDeleteNote": "Could not delete note, please try again.",
   "couldNotDeleteSavedView": "No es pot esborrar vista guardada, prova de nou",
   "@couldNotDeleteSavedView": {},
   "couldNotDeleteStoragePath": "No es pot esborrar ruta emmagatzematge, prova de nou.",
@@ -266,10 +275,13 @@
   "@couldNotDeleteTag": {
     "description": "Message shown when a tag could not be deleted"
   },
+  "couldNotDeleteUser": "Could not delete user, please try again.",
+  "couldNotDownloadDocuments": "Could not download documents, please try again.",
   "couldNotEstablishConnectionToTheServer": "No es pot establir una connexió amb el servidor.",
   "@couldNotEstablishConnectionToTheServer": {},
   "couldNotLoadCorrespondents": "No es poden carregar corresponsals.",
   "@couldNotLoadCorrespondents": {},
+  "couldNotLoadCustomField": "Could not load custom field.",
   "couldNotLoadDocumentPreview": "No es pot carregar la vista prèvia.",
   "@couldNotLoadDocumentPreview": {},
   "couldNotLoadDocuments": "No es poden carregar documents, prova de nou.",
@@ -277,6 +289,7 @@
   "couldNotLoadDocumentTypes": "No es poden carregar tipus de documents, prova de nou.",
   "@couldNotLoadDocumentTypes": {},
   "couldNotLoadLogfileFrom": "No es pot carregar log desde {date}.",
+  "couldNotLoadPermissions": "Could not load permissions.",
   "couldNotLoadSavedViews": "No es pot carregar vistes guardades.",
   "@couldNotLoadSavedViews": {},
   "couldNotLoadServerInformation": "No es pot carregar informació del servidor.",
@@ -303,6 +316,8 @@
   "@couldNotLoadUISettings": {
     "description": "Message shown when the UI settings could not be loaded"
   },
+  "couldNotLoadUser": "Could not load user, please try again.",
+  "couldNotLoadUsers": "Could not load users, please try again.",
   "couldNotOpenFilePermissionDenied": "No es pot obrir arxiu: Accés denegat.",
   "@couldNotOpenFilePermissionDenied": {},
   "couldNotReachYourPaperlessServer": "No es pot connectar al saervidor, està funcionant?",
@@ -311,6 +326,7 @@
   "@couldNotUpdateCorrespondent": {
     "description": "Message shown when a correspondent could not be updated"
   },
+  "couldNotUpdateCustomField": "Could not delete custom field, please try again.",
   "couldNotUpdateDocument": "No es pot actualitzar el document, prova de nou.",
   "@couldNotUpdateDocument": {},
   "couldNotUpdateDocumentType": "No es pot actualitzar tipus de document, prova de nou.",
@@ -326,6 +342,7 @@
   "@couldNotUpdateTag": {
     "description": "Message shown when a tag could not be updated"
   },
+  "couldNotUpdateUser": "Could not update user, please try again.",
   "couldNotUploadDocument": "No es pot carregar document, prova de nou.",
   "@couldNotUploadDocument": {},
   "countSelected": "{count} seleccionats",
@@ -405,6 +422,8 @@
       "name": {}
     }
   },
+  "disableAnimations": "Disable animations",
+  "disableAnimationsDescription": "Disables page transitions and most animations. Temporary workaround until system accessibility settings can be used.",
   "disableMatching": "No etiquetar documents automaticament",
   "@disableMatching": {
     "description": "One of the options for automatic tagging of documents"
@@ -419,6 +438,7 @@
     "description": "Warning message shown when the user tries to close a route without saving the changes."
   },
   "discardFile": "Desestimar arxiu?",
+  "discardSharedFileHint": "The shared file was not yet processed. Do you want to discard the file?",
   "disconnect": "Desconnectar",
   "@disconnect": {
     "description": "Logout button label"
@@ -454,6 +474,7 @@
   "@documentType": {},
   "documentTypes": "Tipus Documents",
   "@documentTypes": {},
+  "documentUploadUploading": "Uploading...",
   "donate": "Donar",
   "@donate": {
     "description": "Label of the in-app donate button"
@@ -488,12 +509,14 @@
   "@editView": {
     "description": "Title of the edit saved view page"
   },
+  "enabled": "Enabled",
   "errorRetrievingServerVersion": "Error en determinar la versió del servidor.",
   "@errorRetrievingServerVersion": {
     "description": "Message shown at the bottom of the settings page when the remote server version could not be resolved."
   },
   "exact": "Exacte",
   "@exact": {},
+  "exclude": "Exclude",
   "export": "Exporta",
   "@export": {
     "description": "Label for button that exports scanned images to pdf (before upload)"
@@ -540,6 +563,9 @@
   },
   "grid": "Graella",
   "@grid": {},
+  "headerNameAlreadyExists": "The header already exists.",
+  "headerNameMustNotBeEmpty": "Header name must not be empty",
+  "headerValueMustNotBeEmpty": "Header value must not be empty",
   "hidePdf": "Oculta PDF",
   "@hidePdf": {
     "description": "Tooltip shown on the \"show pdf\" icon button on the document edit page"
@@ -556,8 +582,10 @@
   "@hostCouldNotBeResolved": {},
   "inbox": "Inbox",
   "@inbox": {},
+  "inboxItemReloadSuggestions": "Reload suggestions",
   "inboxTag": "Etiqueta d'entrada",
   "@inboxTag": {},
+  "include": "Include",
   "incorrectOrMissingCertificatePassphrase": "Incorrecte o falta de contrasenya de certificat.",
   "@incorrectOrMissingCertificatePassphrase": {},
   "invalidAddress": "Adreça Invàlida.",
@@ -570,6 +598,7 @@
   "@invalidFilenameCharacter": {
     "description": "For validating filename in export dialogue"
   },
+  "key": "Key",
   "labels": "Etiquetes",
   "@labels": {},
   "language": "Idioma",
@@ -669,6 +698,7 @@
     "description": "Label shown in the tabbar on details page"
   },
   "mfaCodeInvalidLengthValidationMessage": "Code must be 6 digits.",
+  "mfaCodeRequired": "MFA Code required",
   "mfaCodeRequiredValidationMessage": "Please enter the MFA code.",
   "mfaFormFieldHint": "Your account is protected by two-factor authentication. Please enter an authentication code:",
   "misc": "Divers",
@@ -725,6 +755,7 @@
   },
   "noStoragePathsSetUp": "No has afegit cap ruta d'emmagatzematge.",
   "@noStoragePathsSetUp": {},
+  "noSuggestionsForThisDocument": "No suggestions available.",
   "noTagsSetUp": "No has afegit cap etiqueta.",
   "@noTagsSetUp": {},
   "notAssigned": "No assignat",
@@ -739,6 +770,7 @@
   "@notificationDownloadingDocument": {
     "description": "Notification title shown when a document download is pending"
   },
+  "noViewsMarkedInSidebar": "You did not mark any views to be shown in the sidebar.",
   "nUnseen": "{count} no vist",
   "@nUnseen": {
     "placeholders": {
@@ -772,6 +804,7 @@
   "@overview": {
     "description": "Label shown in the tabbar on details page"
   },
+  "owner": "Owner",
   "paperlessServerVersion": "Versió servidor Paperless",
   "@paperlessServerVersion": {},
   "passphrase": "Contrasenya",
@@ -780,6 +813,7 @@
   "@password": {},
   "passwordMustNotBeEmpty": "Contrasenya no pot ser buida.",
   "@passwordMustNotBeEmpty": {},
+  "pendingFiles": "Pending Files",
   "permissions": "Permisos",
   "persistingUserInformation": "Informació de l'usuari persistent...",
   "prepareDocument": "Prepara document",
@@ -965,6 +999,7 @@
   "@theme": {
     "description": "Title of the theme mode setting"
   },
+  "thereAreNoPendingFiles": "There are no pending files.",
   "thereSeemsToBeNothingHere": "Sembla que no hi ha res...",
   "@thereSeemsToBeNothingHere": {},
   "thisActionIsIrreversibleDoYouWishToProceedAnyway": "Acció irreversible. Continuar?",
@@ -984,6 +1019,7 @@
   "totalCharacters": "Caràcters Totals",
   "totalDocuments": "Total de documents",
   "tryAgain": "Torna a provar",
+  "unauthorizedErrorMessage": "You are not authorized to perform this action. Please contact your admin or make sure you have the necessary permissions.",
   "undo": "Desfer",
   "@undo": {},
   "upload": "Carrega",
@@ -998,6 +1034,7 @@
   "@uploadScansAsPdf": {
     "description": "Title of the setting which toggles whether scans are always uploaded as pdf"
   },
+  "uploadStatusDocumentReceived": "Document received",
   "uploadWithoutPromptingUploadForm": "Pengeu sempre sense demanar el formulari de càrrega quan compartiu fitxers amb l'aplicació.",
   "userAlreadyExists": "Usuari ja esisteix.",
   "@userAlreadyExists": {
@@ -1015,6 +1052,7 @@
   },
   "useTheConfiguredBiometricFactorToAuthenticate": "Utilitza el factor biomètric per autenticar i desbloquejar els documents.",
   "@useTheConfiguredBiometricFactorToAuthenticate": {},
+  "value": "Value",
   "verifyIdentity": "Verifica identitat",
   "@verifyIdentity": {},
   "verifyYourIdentity": "Verifica la identitat",
@@ -1050,22 +1088,5 @@
   "@youDoNotHaveUnseenDocuments": {},
   "youHaveNoViewsOnYourDashboardYet": "You have not added any views to your dashboard yet.",
   "youreOffline": "Sense connexió.",
-  "@youreOffline": {},
-  "pendingFiles": "Pending Files",
-  "noSuggestionsForThisDocument": "No suggestions available.",
-  "unauthorizedErrorMessage": "You are not authorized to perform this action. Please contact your admin or make sure you have the necessary permissions.",
-  "noViewsMarkedInSidebar": "You did not mark any views to be shown in the sidebar.",
-  "additionalHeaders": "Additional Headers",
-  "configureAdditionalHttpHeaders": "Configure additional HTTP headers to be sent with each request",
-  "key": "Key",
-  "value": "Value",
-  "add": "Add",
-  "headerNameMustNotBeEmpty": "Header name must not be empty",
-  "headerValueMustNotBeEmpty": "Header value must not be empty",
-  "headerNameAlreadyExists": "The header already exists.",
-  "enabled": "Enabled",
-  "addAdditionalHeadersHint": "You can add HTTP headers to be included with each API request. This may be useful for custom authentication schemes, VPNs or other scenarios.",
-  "include": "Include",
-  "exclude": "Exclude",
-  "discardSharedFileHint": "The shared file was not yet processed. Do you want to discard the file?"
+  "@youreOffline": {}
 }

@@ -110,7 +110,7 @@ class LocalNotificationService {
       payload: jsonEncode(
         OpenDirectoryNotificationResponsePayload(filePath: filePath).toJson(),
       ),
-    ); //TODO: INTL
+    );
     _addNotification(userId, documentId);
   }
 
@@ -175,7 +175,7 @@ class LocalNotificationService {
     dynamic payload;
     switch (status) {
       case StatusEnum.STARTED:
-        title = "Document received";
+        title = 'Document received';
         body = task.taskFileName;
         timestampMillis = task.dateCreated?.millisecondsSinceEpoch ?? 0;
         break;
