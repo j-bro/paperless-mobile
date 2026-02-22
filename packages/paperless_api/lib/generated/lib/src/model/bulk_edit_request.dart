@@ -24,7 +24,7 @@ class BulkEditRequest {
 
     required this.method,
 
-    this.parameters = const {},
+    this.parameters,
   });
 
   @JsonKey(name: r'documents', required: true, includeIfNull: false)

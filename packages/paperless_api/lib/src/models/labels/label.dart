@@ -6,7 +6,7 @@ import 'package:paperless_api/src/converters/hex_color_json_converter.dart';
 import 'package:paperless_api/src/converters/local_date_time_json_converter.dart';
 import 'package:paperless_api/src/models/labels/matching_algorithm.dart';
 
-part 'label_model.g.dart';
+part 'label.g.dart';
 
 @JsonEnum()
 enum LabelType { correspondent, documentType, tag, storagePath }
@@ -59,7 +59,7 @@ sealed class Label extends Equatable implements Comparable {
 
   @override
   int compareTo(dynamic other) {
-    return toString().toLowerCase().compareTo(other.toString().toLowerCase());
+    return name.toLowerCase().compareTo(other.name.toLowerCase());
   }
 
   Map<String, dynamic> toJson();
