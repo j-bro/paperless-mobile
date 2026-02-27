@@ -1,26 +1,36 @@
 import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/features/edit_label/view/label_form.dart';
+import 'package:paperless_mobile/features/edit_label/view/label_form_values.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
 class AddLabelPage<T extends Label, TRequest extends LabelRequest>
     extends StatelessWidget {
   final String? initialName;
   final Widget pageTitle;
-  final TRequest Function(Map<String, dynamic> json) fromJsonT;
+  final TRequest Function(
+    LabelFormValues commonValues,
+    FormBuilderState formState,
+  )
+  buildRequest;
   final List<Widget> additionalFields;
   final Mutation<T, TRequest> mutation;
-  final Map<String, dynamic>? initialData;
+
+  /// Optional initial value pre-populated with [initialName].
+  /// If not provided but [initialName] is set, a default [TRequest] is
+  /// constructed via [buildRequestFromName].
+  final TRequest? Function(String name)? buildRequestFromName;
 
   const AddLabelPage({
     super.key,
     this.initialName,
     required this.mutation,
     required this.pageTitle,
-    required this.fromJsonT,
+    required this.buildRequest,
     this.additionalFields = const [],
-    this.initialData,
+    this.buildRequestFromName,
   });
 
   @override
@@ -28,10 +38,10 @@ class AddLabelPage<T extends Label, TRequest extends LabelRequest>
     return AddLabelFormWidget(
       pageTitle: pageTitle,
       initialValue: initialName != null
-          ? fromJsonT({'name': initialName, ...initialData ?? {}})
+          ? buildRequestFromName?.call(initialName!)
           : null,
       additionalFields: additionalFields,
-      fromJsonT: fromJsonT,
+      buildRequest: buildRequest,
       mutation: mutation,
     );
   }
@@ -40,14 +50,18 @@ class AddLabelPage<T extends Label, TRequest extends LabelRequest>
 class AddLabelFormWidget<T extends Label, TRequest extends LabelRequest>
     extends StatelessWidget {
   final TRequest? initialValue;
-  final TRequest Function(Map<String, dynamic> json) fromJsonT;
+  final TRequest Function(
+    LabelFormValues commonValues,
+    FormBuilderState formState,
+  )
+  buildRequest;
   final List<Widget> additionalFields;
   final Mutation<T, TRequest> mutation;
   final Widget pageTitle;
   const AddLabelFormWidget({
     super.key,
     this.initialValue,
-    required this.fromJsonT,
+    required this.buildRequest,
     required this.additionalFields,
     required this.pageTitle,
     required this.mutation,
@@ -60,7 +74,7 @@ class AddLabelFormWidget<T extends Label, TRequest extends LabelRequest>
       body: LabelForm(
         autofocusNameField: true,
         initialValue: initialValue,
-        fromJsonT: fromJsonT,
+        buildRequest: buildRequest,
         submitButtonConfig: SubmitButtonConfig<T, TRequest>(
           icon: const Icon(Icons.add),
           label: Text(S.of(context)!.create),

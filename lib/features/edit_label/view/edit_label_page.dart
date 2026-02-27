@@ -10,13 +10,19 @@ import 'package:paperless_mobile/core/widgets/dialog_utils/dialog_confirm_button
 import 'package:paperless_mobile/core/widgets/dialog_utils/pop_with_unsaved_changes.dart';
 import 'package:paperless_mobile/core/widgets/icon_loading_widget.dart';
 import 'package:paperless_mobile/features/edit_label/view/label_form.dart';
+import 'package:paperless_mobile/features/edit_label/view/label_form_values.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/helpers/message_helpers.dart';
 
 class EditLabelPage<T extends Label, TRequest extends LabelRequest>
     extends StatelessWidget {
   final T initialValue;
-  final TRequest Function(Map<String, dynamic> json) fromJsonTRequest;
+  final TRequest initialRequest;
+  final TRequest Function(
+    LabelFormValues commonValues,
+    FormBuilderState formState,
+  )
+  buildRequest;
   final List<Widget> additionalFields;
   final Mutation<T, TRequest> editMutation;
   final Mutation<int, void> deleteMutation;
@@ -25,7 +31,8 @@ class EditLabelPage<T extends Label, TRequest extends LabelRequest>
   const EditLabelPage({
     super.key,
     required this.initialValue,
-    required this.fromJsonTRequest,
+    required this.initialRequest,
+    required this.buildRequest,
     this.additionalFields = const [],
     required this.editMutation,
     required this.deleteMutation,
@@ -36,8 +43,9 @@ class EditLabelPage<T extends Label, TRequest extends LabelRequest>
   Widget build(BuildContext context) {
     return EditLabelForm(
       initialValue: initialValue,
+      initialRequest: initialRequest,
       additionalFields: additionalFields,
-      fromJsonT: fromJsonTRequest,
+      buildRequest: buildRequest,
       editMutation: editMutation,
       deleteMutation: deleteMutation,
       canDelete: canDelete,
@@ -48,7 +56,12 @@ class EditLabelPage<T extends Label, TRequest extends LabelRequest>
 class EditLabelForm<T extends Label, TRequest extends LabelRequest>
     extends StatelessWidget {
   final T initialValue;
-  final TRequest Function(Map<String, dynamic> json) fromJsonT;
+  final TRequest initialRequest;
+  final TRequest Function(
+    LabelFormValues commonValues,
+    FormBuilderState formState,
+  )
+  buildRequest;
   final List<Widget> additionalFields;
   final Mutation<T, TRequest> editMutation;
   final Mutation<int, void> deleteMutation;
@@ -58,7 +71,8 @@ class EditLabelForm<T extends Label, TRequest extends LabelRequest>
   EditLabelForm({
     super.key,
     required this.initialValue,
-    required this.fromJsonT,
+    required this.initialRequest,
+    required this.buildRequest,
     required this.additionalFields,
     required this.editMutation,
     required this.deleteMutation,
@@ -93,8 +107,8 @@ class EditLabelForm<T extends Label, TRequest extends LabelRequest>
         body: LabelForm(
           formKey: _formKey,
           autofocusNameField: false,
-          initialValue: initialValue.toRequest(),
-          fromJsonT: fromJsonT,
+          initialValue: initialRequest,
+          buildRequest: buildRequest,
           submitButtonConfig: SubmitButtonConfig<T, TRequest>(
             icon: const Icon(Icons.save),
             label: Text(S.of(context)!.saveChanges),

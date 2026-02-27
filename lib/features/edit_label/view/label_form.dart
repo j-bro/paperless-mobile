@@ -7,6 +7,7 @@ import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/translation/matching_algorithm_localization_mapper.dart';
 import 'package:paperless_mobile/core/widgets/icon_loading_widget.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
+import 'package:paperless_mobile/features/edit_label/view/label_form_values.dart';
 import 'package:paperless_mobile/helpers/message_helpers.dart';
 
 class SubmitButtonConfig<T extends Label, TRequest extends LabelRequest> {
@@ -27,8 +28,14 @@ class LabelForm<T extends Label, TRequest extends LabelRequest>
 
   final SubmitButtonConfig<T, TRequest> submitButtonConfig;
 
-  /// FromJson method to parse the form field values into a label instance.
-  final TRequest Function(Map<String, dynamic> json) fromJsonT;
+  /// Type-safe builder that constructs a [TRequest] from the common
+  /// [LabelFormValues] and optional additional field values read from
+  /// [FormBuilderState].
+  final TRequest Function(
+    LabelFormValues commonValues,
+    FormBuilderState formState,
+  )
+  buildRequest;
 
   /// List of additionally rendered form fields.
   final List<Widget> additionalFields;
@@ -39,7 +46,7 @@ class LabelForm<T extends Label, TRequest extends LabelRequest>
   const LabelForm({
     super.key,
     required this.initialValue,
-    required this.fromJsonT,
+    required this.buildRequest,
     this.additionalFields = const [],
     required this.submitButtonConfig,
     required this.autofocusNameField,
@@ -167,11 +174,19 @@ class _LabelFormState<T extends Label, TRequest extends LabelRequest>
   void _onSubmit() async {
     if (_formKey.currentState?.saveAndValidate() ?? false) {
       try {
-        final mergedJson = {
-          ...widget.initialValue?.toJson() ?? {},
-          ..._formKey.currentState!.value,
-        };
-        final parsed = widget.fromJsonT(mergedJson);
+        final formState = _formKey.currentState!;
+        final commonValues = LabelFormValues(
+          name: formState.value[Label.nameKey] as String,
+          match: formState.value[Label.matchKey] as String?,
+          matchingAlgorithm: formState.value[Label.matchingAlgorithmKey] != null
+              ? MatchingAlgorithm.values.firstWhere(
+                  (e) => e.value == formState.value[Label.matchingAlgorithmKey],
+                )
+              : null,
+          isInsensitive: formState.value[Label.isInsensitiveKey] as bool?,
+          owner: widget.initialValue?.owner,
+        );
+        final parsed = widget.buildRequest(commonValues, formState);
         final mutationResult = await widget.submitButtonConfig.mutation.mutate(
           parsed,
         );

@@ -9,14 +9,6 @@ import 'package:paperless_mobile/core/widgets/dialog_utils/dialog_confirm_button
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
 extension HexColor on Color {
-  /// String is in the format "aabbcc" or "ffaabbcc" with an optional leading "#".
-  /*static Color fromHex(String hexString) {
-    final buffer = StringBuffer();
-    if (hexString.length == 6 || hexString.length == 7) buffer.write('ff');
-    buffer.write(hexString.replaceFirst('#', ''));
-    return Color(int.parse(buffer.toString(), radix: 16));
-  }*/
-
   /// Prefixes a hash sign if [leadingHashSign] is set to `true` (default is `true`).
   String toHex({bool leadingHashSign = true}) {
     /// Converts an rgba value (0-1) into a 2-digit Hex code.
