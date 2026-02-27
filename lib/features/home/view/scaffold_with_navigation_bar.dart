@@ -9,13 +9,8 @@ import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/theme.dart';
 
 class ScaffoldWithNavigationBar extends StatefulWidget {
-  final User authenticatedUser;
   final StatefulNavigationShell navigationShell;
-  const ScaffoldWithNavigationBar({
-    super.key,
-    required this.authenticatedUser,
-    required this.navigationShell,
-  });
+  const ScaffoldWithNavigationBar({super.key, required this.navigationShell});
 
   @override
   State<ScaffoldWithNavigationBar> createState() =>
@@ -25,6 +20,7 @@ class ScaffoldWithNavigationBar extends StatefulWidget {
 class ScaffoldWithNavigationBarState extends State<ScaffoldWithNavigationBar> {
   @override
   Widget build(BuildContext context) {
+    final authenticatedUser = context.loggedInUser$.paperlessUser;
     final theme = Theme.of(context);
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: buildOverlayStyle(theme),
@@ -55,7 +51,7 @@ class ScaffoldWithNavigationBarState extends State<ScaffoldWithNavigationBar> {
                 ),
                 label: S.of(context)!.documents,
               ),
-              disableWhen: !widget.authenticatedUser.canViewDocuments,
+              disableWhen: !authenticatedUser.canViewDocuments,
             ),
             _toggleDestination(
               NavigationDestination(
@@ -66,7 +62,7 @@ class ScaffoldWithNavigationBarState extends State<ScaffoldWithNavigationBar> {
                 ),
                 label: S.of(context)!.scanner,
               ),
-              disableWhen: !widget.authenticatedUser.canCreateDocuments,
+              disableWhen: !authenticatedUser.canCreateDocuments,
             ),
             _toggleDestination(
               NavigationDestination(
@@ -77,7 +73,7 @@ class ScaffoldWithNavigationBarState extends State<ScaffoldWithNavigationBar> {
                 ),
                 label: S.of(context)!.labels,
               ),
-              disableWhen: !widget.authenticatedUser.canViewAnyLabel,
+              disableWhen: !authenticatedUser.canViewAnyLabel,
             ),
             _toggleDestination(
               NavigationDestination(
@@ -102,7 +98,7 @@ class ScaffoldWithNavigationBarState extends State<ScaffoldWithNavigationBar> {
                     final count = state.data?.pages.flattened.length ?? 0;
                     return Badge.count(
                       isLabelVisible:
-                          count > 0 && widget.authenticatedUser.canViewInbox,
+                          count > 0 && authenticatedUser.canViewInbox,
                       count: count,
                       child: Icon(
                         Icons.inbox,
@@ -113,7 +109,7 @@ class ScaffoldWithNavigationBarState extends State<ScaffoldWithNavigationBar> {
                 ),
                 label: S.of(context)!.inbox,
               ),
-              disableWhen: !widget.authenticatedUser.canViewInbox,
+              disableWhen: !authenticatedUser.canViewInbox,
             ),
           ],
         ),

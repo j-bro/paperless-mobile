@@ -2,25 +2,30 @@ import 'package:paperless_api/paperless_api.dart';
 
 extension UserPermissionExtension on User {
   bool hasPermission(PermissionAction action, PermissionTarget target) {
+    if (isSuperuser ?? false) {
+      return true;
+    }
     final permission = [action.value, target.value].join("_");
 
-    return userPermissions?.any((p) => p == permission) ??
-        false ||
-            inheritedPermissions.any((p) => p.split(".").last == permission);
+    return (userPermissions?.any((p) => p == permission) ?? false) ||
+        inheritedPermissions.any((p) => p.split(".").last == permission);
   }
 
   bool hasPermissions(
     List<PermissionAction> actions,
     List<PermissionTarget> targets,
   ) {
+    if (isSuperuser ?? false) {
+      return true;
+    }
     final permissions = [
       for (var action in actions)
         for (var target in targets) [action, target].join("_"),
     ];
     return permissions.every(
       (p) =>
-          userPermissions?.contains(p) ??
-          false || inheritedPermissions.any((ip) => ip.split(".").last == p),
+          (userPermissions?.contains(p) ?? false) ||
+          inheritedPermissions.any((ip) => ip.split(".").last == p),
     );
   }
 
