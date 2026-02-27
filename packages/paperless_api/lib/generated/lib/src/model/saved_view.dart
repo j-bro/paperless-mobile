@@ -22,27 +22,16 @@ class SavedView {
   /// Returns a new [SavedView] instance.
   SavedView({
     required this.id,
-
     required this.name,
-
     required this.showOnDashboard,
-
     required this.showInSidebar,
-
     this.sortField,
-
     this.sortReverse,
-
     required this.filterRules,
-
     this.pageSize,
-
     this.displayMode,
-
     this.displayFields,
-
     this.owner,
-
     required this.userCanChange,
   });
 
@@ -58,10 +47,10 @@ class SavedView {
   @JsonKey(name: r'show_in_sidebar', required: true, includeIfNull: false)
   final bool showInSidebar;
 
-  @JsonKey(name: r'sort_field', required: false, includeIfNull: false)
+  @JsonKey(name: r'sort_field', includeIfNull: false)
   final String? sortField;
 
-  @JsonKey(name: r'sort_reverse', required: false, includeIfNull: false)
+  @JsonKey(name: r'sort_reverse', includeIfNull: false)
   final bool? sortReverse;
 
   @JsonKey(name: r'filter_rules', required: true, includeIfNull: false)
@@ -69,20 +58,20 @@ class SavedView {
 
   // minimum: 1
   // maximum: 2147483647
-  @JsonKey(name: r'page_size', required: false, includeIfNull: false)
+  @JsonKey(name: r'page_size', includeIfNull: false)
   final int? pageSize;
 
-  @JsonKey(name: r'display_mode', required: false, includeIfNull: false)
+  @JsonKey(name: r'display_mode', includeIfNull: false)
   final DisplayModeEnum? displayMode;
 
-  @JsonKey(name: r'display_fields', required: false, includeIfNull: false)
+  @JsonKey(name: r'display_fields', includeIfNull: false)
   final List<String>? displayFields;
 
-  @JsonKey(name: r'owner', required: false, includeIfNull: false)
+  @JsonKey(name: r'owner', includeIfNull: false)
   final int? owner;
 
-  @JsonKey(name: r'user_can_change', required: true, includeIfNull: false)
-  final bool userCanChange;
+  @JsonKey(name: r'user_can_change', includeIfNull: false)
+  final bool? userCanChange;
 
   @override
   bool operator ==(Object other) {

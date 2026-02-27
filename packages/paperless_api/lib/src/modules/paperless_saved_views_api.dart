@@ -31,6 +31,9 @@ class PaperlessSavedViewsApiImpl extends PaperlessSavedViewsApi
   @override
   String get path => "/api/saved_views";
   @override
+  GetFilterOptions defaultFilterOptions = const GetFilterOptions();
+
+  @override
   SavedView parse(Map<String, dynamic> json) => SavedView.fromJson(json);
 
   @override

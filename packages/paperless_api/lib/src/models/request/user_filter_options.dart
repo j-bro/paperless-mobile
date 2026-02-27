@@ -1,5 +1,3 @@
-// ignore_for_file: overridden_fields
-
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -7,7 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'user_filter_options.g.dart';
 
 @CopyWith()
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(includeIfNull: false)
 class UserFilterOptions with EquatableMixin {
   final int? id;
   @JsonKey(name: 'ids__in')
@@ -23,6 +21,7 @@ class UserFilterOptions with EquatableMixin {
   final String? ordering;
   final int? page;
   final int? pageSize;
+
   const UserFilterOptions({
     this.id,
     this.ids,

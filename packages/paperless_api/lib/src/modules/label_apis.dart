@@ -43,6 +43,8 @@ class PaperlessTagsApiImpl extends PaperlessTagsApi
         > {
   @override
   String get path => '/api/tags';
+  @override
+  GetFilterOptions defaultFilterOptions = const GetFilterOptions();
 
   @override
   final Dio client;
@@ -81,6 +83,8 @@ class PaperlessStoragePathsApiImpl extends PaperlessStoragePathsApi
         > {
   @override
   String get path => '/api/storage_paths';
+  @override
+  GetFilterOptions defaultFilterOptions = const GetFilterOptions();
 
   @override
   final Dio client;
@@ -119,6 +123,8 @@ class PaperlessDocumentTypesApiImpl extends PaperlessDocumentTypesApi
         > {
   @override
   String get path => '/api/document_types';
+  @override
+  GetFilterOptions defaultFilterOptions = const GetFilterOptions();
 
   @override
   final Dio client;
@@ -157,6 +163,8 @@ class PaperlessCorrespondentsApiImpl extends PaperlessCorrespondentsApi
         > {
   @override
   String get path => '/api/correspondents';
+  @override
+  GetFilterOptions defaultFilterOptions = const GetFilterOptions();
 
   @override
   final Dio client;

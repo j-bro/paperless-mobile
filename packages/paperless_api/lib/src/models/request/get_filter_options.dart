@@ -7,7 +7,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'get_filter_options.g.dart';
 
 @CopyWith()
-@JsonSerializable(createFactory: false, includeIfNull: false)
+@JsonSerializable(includeIfNull: false)
 class GetFilterOptions with EquatableMixin {
   final int? id;
   @JsonKey(name: 'ids__in')

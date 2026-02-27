@@ -27,6 +27,8 @@ class PaperlessUserApiImpl extends PaperlessUserApi
 
   @override
   String get path => "/api/users";
+  @override
+  UserFilterOptions defaultFilterOptions = const UserFilterOptions();
 
   @override
   User parse(Map<String, dynamic> json) => User.fromJson(json);

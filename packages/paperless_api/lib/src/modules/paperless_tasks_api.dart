@@ -9,7 +9,7 @@ import 'package:paperless_api/src/utils/request_utils.dart';
 
 abstract class PaperlessTasksApi {
   Future<TasksView?> find(int id);
-  Future<Iterable<TasksView>> findAll([TaskFilterOptions? options]);
+  Future<Iterable<TasksView>> findAll([TaskFilterOptions options]);
   Stream<TasksView> listenForTaskChanges(String taskId);
   Future<void> acknowledgeTasks(Iterable<int> tasks);
 }
@@ -30,13 +30,15 @@ class PaperlessTasksApiImpl implements PaperlessTasksApi {
   }
 
   @override
-  Future<Iterable<TasksView>> findAll([TaskFilterOptions? options]) async {
+  Future<Iterable<TasksView>> findAll([
+    TaskFilterOptions options = const TaskFilterOptions(),
+  ]) async {
     return getCollection(
       '/api/tasks/',
       TasksView.fromJson,
       ErrorCode.loadTasksError,
       client: _client,
-      queryParams: options?.toJson(),
+      queryParams: options.toJson(),
     );
   }
 

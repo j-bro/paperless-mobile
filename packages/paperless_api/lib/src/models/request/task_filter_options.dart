@@ -21,7 +21,7 @@ class TaskFilterOptions with EquatableMixin {
   final TasksViewTypeEnum? type;
   final String? ordering;
 
-  TaskFilterOptions({
+  const TaskFilterOptions({
     this.acknowledged,
     this.status,
     this.taskName,

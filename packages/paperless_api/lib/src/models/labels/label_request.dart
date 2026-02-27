@@ -1,6 +1,7 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:paperless_api/generated/lib/src/model/correspondent_request_set_permissions.dart';
+import 'package:paperless_api/src/converters/hex_color_json_converter.dart';
 import 'package:paperless_api/src/models/models.dart';
 
 part 'label_request.g.dart';

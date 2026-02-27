@@ -12,7 +12,9 @@ mixin BaseCrudApiImplMixin<Model, Request, PatchedRequest, FilterOptions>
     on CrudApi<Model, Request, PatchedRequest, FilterOptions> {
   Dio get client;
 
+  FilterOptions get defaultFilterOptions;
   String get path;
+
   Model parse(Map<String, dynamic> json);
 
   ErrorCode get createErrorCode;
@@ -67,7 +69,9 @@ mixin BaseCrudApiImplMixin<Model, Request, PatchedRequest, FilterOptions>
       parse,
       listErrorCode,
       client: client,
-      queryParams: removeNullValues(unsafeToJson(options)),
+      queryParams: removeNullValues(
+        unsafeToJson(options ?? defaultFilterOptions),
+      ),
     );
   }
 

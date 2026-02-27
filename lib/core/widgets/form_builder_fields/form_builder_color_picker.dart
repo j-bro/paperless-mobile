@@ -26,8 +26,10 @@ extension HexColor on Color {
       return rgbaVal.toRadixString(16).padLeft(2, '0').toUpperCase();
     }
 
-    return '${leadingHashSign ? '#' : ''}'
+    final color =
+        '${leadingHashSign ? '#' : ''}'
         '${hexValue(r)}${hexValue(g)}${hexValue(b)}';
+    return color;
   }
 }
 

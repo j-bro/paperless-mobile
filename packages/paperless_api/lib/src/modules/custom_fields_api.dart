@@ -31,6 +31,9 @@ class PaperlessCustomFieldsApiImpl extends PaperlessCustomFieldsApi
   @override
   String get path => "/api/custom_fields";
   @override
+  GetFilterOptions defaultFilterOptions = const GetFilterOptions();
+
+  @override
   CustomField parse(Map<String, dynamic> json) => CustomField.fromJson(json);
 
   @override
