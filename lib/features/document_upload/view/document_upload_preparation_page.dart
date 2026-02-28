@@ -336,7 +336,7 @@ class _DocumentUploadPreparationPageState
 
       final correspondent = formValues['correspondent'] as int?;
       final docType = formValues['document_type'] as int?;
-      final tags = formValues['tags'] as Iterable<int>?;
+      final tags = formValues['tags'] as TagsQuery?;
       final createdAt = formValues['created'] as FormDateTime?;
       final title = formValues['title'] as String;
 
@@ -351,7 +351,7 @@ class _DocumentUploadPreparationPageState
             title: title,
             documentType: docType,
             correspondent: correspondent,
-            tags: tags ?? [],
+            tags: tags?.mapOrNull(ids: (value) => value.include) ?? [],
             createdAt: createdAt?.toDateTime(),
             archiveSerialNumber: asn,
           )

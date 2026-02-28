@@ -46,20 +46,20 @@ class _MimeTypesPieChartState extends State<MimeTypesPieChart> {
           child: PieChart(
             PieChartData(
               startDegreeOffset: 90,
-              // pieTouchData: PieTouchData(
-              //   touchCallback: (event, response) {
-              //     setState(() {
-              //       if (!event.isInterestedForInteractions ||
-              //           response == null ||
-              //           response.touchedSection == null) {
-              //         _touchedIndex = -1;
-              //         return;
-              //       }
-              //       _touchedIndex =
-              //           response.touchedSection!.touchedSectionIndex;
-              //     });
-              //   },
-              // ),
+              pieTouchData: PieTouchData(
+                touchCallback: (event, response) {
+                  setState(() {
+                    if (!event.isInterestedForInteractions ||
+                        response == null ||
+                        response.touchedSection == null) {
+                      _touchedIndex = -1;
+                      return;
+                    }
+                    _touchedIndex =
+                        response.touchedSection!.touchedSectionIndex;
+                  });
+                },
+              ),
               borderData: FlBorderData(show: false),
               sectionsSpace: 0,
               centerSpaceRadius: 40,
@@ -106,10 +106,9 @@ class _MimeTypesPieChartState extends State<MimeTypesPieChart> {
                       height: 20,
                     ),
                     Text(
-                      _mimeTypeNames[widget
-                          .statistics
-                          .documentFileTypeCounts[i]
-                          .mimeType]!,
+                      getMimeTypeName(
+                        widget.statistics.documentFileTypeCounts[i].mimeType,
+                      ),
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ],
@@ -119,6 +118,10 @@ class _MimeTypesPieChartState extends State<MimeTypesPieChart> {
         ),
       ],
     );
+  }
+
+  String getMimeTypeName(String mimeType) {
+    return _mimeTypeNames[mimeType] ?? mimeType;
   }
 
   Iterable<PieChartSectionData> _buildSections(List<Color> colorShades) sync* {

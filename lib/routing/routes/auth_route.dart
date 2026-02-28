@@ -176,7 +176,7 @@ class SetActiveUserRoute extends GoRouteData with $SetActiveUserRoute {
   final String username;
   final String serverUrl;
   final String token;
-  final ClientCertificate? $extra;
+  final AuthRouteExtra? $extra;
 
   SetActiveUserRoute({
     required this.username,
@@ -191,7 +191,8 @@ class SetActiveUserRoute extends GoRouteData with $SetActiveUserRoute {
       serverUrl: serverUrl,
       username: username,
       token: token,
-      clientCertificate: $extra,
+      clientCertificate: $extra?.clientCertificate,
+      additionalHeaders: $extra?.additionalHeaders,
     );
   }
 }

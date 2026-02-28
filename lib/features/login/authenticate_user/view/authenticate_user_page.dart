@@ -52,12 +52,16 @@ class _AuthenticateUserPageState extends State<AuthenticateUserPage> {
             :final username,
             :final token,
             :final clientCertificate,
+            :final additionalHeaders,
           ):
             SetActiveUserRoute(
               serverUrl: serverUrl,
               username: username,
               token: token,
-              $extra: clientCertificate,
+              $extra: AuthRouteExtra(
+                additionalHeaders: additionalHeaders,
+                clientCertificate: clientCertificate,
+              ),
             ).go(context);
             break;
           case AuthenticateUserOtpRequired(
@@ -171,6 +175,8 @@ class _AuthenticateUserPageState extends State<AuthenticateUserPage> {
         // We can safely enforce non-null here since the validation already took care of it
         username: credentials.username!,
         password: credentials.password!,
+        clientCertificate: widget.clientCertificate,
+        additionalHeaders: widget.additionalHeaders,
       );
     }
   }

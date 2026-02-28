@@ -83,15 +83,17 @@ class SessionManagerImpl extends ValueNotifier<Dio> implements SessionManager {
       client.options.baseUrl = baseUrl;
     }
 
+    if (additionalHeaders != null && additionalHeaders.isNotEmpty) {
+      client.options.headers.addEntries(
+        additionalHeaders
+            .where((header) => header.enabled)
+            .map((header) => MapEntry(header.key.trim(), header.value.trim())),
+      );
+    }
+
     if (authToken != null) {
       client.options.headers.addEntries([
         MapEntry(HttpHeaders.authorizationHeader, 'Token $authToken'),
-        ...additionalHeaders
-                ?.where((header) => header.enabled)
-                .map(
-                  (header) => MapEntry(header.key.trim(), header.value.trim()),
-                ) ??
-            [],
       ]);
     }
     if (broadcast) {

@@ -63,7 +63,10 @@ class _OtpInputPageState extends State<OtpInputPage> {
                 serverUrl: state.serverUrl,
                 username: state.username,
                 token: state.token,
-                $extra: state.clientCertificate,
+                $extra: AuthRouteExtra(
+                  additionalHeaders: state.additionalHeaders,
+                  clientCertificate: state.clientCertificate,
+                ),
               ).go(context);
               break;
             default:

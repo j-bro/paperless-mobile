@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/security/session_manager_impl.dart';
 import 'package:paperless_mobile/features/login/model/client_certificate.dart';
+import 'package:paperless_mobile/features/login/server_connection/model/header_entry.dart';
 
 part 'authenticate_user_state.dart';
 
@@ -14,6 +15,7 @@ class AuthenticateUserCubit extends Cubit<AuthenticateUserState> {
     required String password,
     String? otp,
     ClientCertificate? clientCertificate,
+    List<HeaderEntry>? additionalHeaders,
   }) async {
     emit(const AuthenticateUserChecking());
     try {
@@ -21,6 +23,7 @@ class AuthenticateUserCubit extends Cubit<AuthenticateUserState> {
         ..updateSettings(
           clientCertificate: clientCertificate,
           baseUrl: serverUrl,
+          additionalHeaders: additionalHeaders,
         );
       final token = await PaperlessAuthenticationApiImpl(sessionManager.client)
           .token(
@@ -36,6 +39,7 @@ class AuthenticateUserCubit extends Cubit<AuthenticateUserState> {
           token: token,
           username: username,
           clientCertificate: clientCertificate,
+          additionalHeaders: additionalHeaders,
         ),
       );
     } on PaperlessApiException catch (error) {
@@ -46,6 +50,7 @@ class AuthenticateUserCubit extends Cubit<AuthenticateUserState> {
             username: username,
             password: password,
             clientCertificate: clientCertificate,
+            additionalHeaders: additionalHeaders,
           ),
         );
       } else {
