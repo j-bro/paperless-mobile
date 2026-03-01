@@ -1,9 +1,9 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_mobile/core/database/tables/local_user_account.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/features/edit_label/view/edit_label_page.dart';
-import 'package:paperless_mobile/features/labels/cubit/label_cubit.dart';
+import 'package:paperless_mobile/features/edit_label/view/label_form_values.dart';
 
 class EditDocumentTypePage extends StatelessWidget {
   final DocumentType documentType;
@@ -11,22 +11,34 @@ class EditDocumentTypePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => LabelCubit(
-        context.read(),
+    return EditLabelPage(
+      initialValue: documentType,
+      initialRequest: DocumentTypeRequest(
+        name: documentType.name,
+        match: documentType.match,
+        matchingAlgorithm: documentType.matchingAlgorithm,
+        isInsensitive: documentType.isInsensitive,
+        owner: documentType.owner,
       ),
-      child: EditLabelPage<DocumentType>(
-        label: documentType,
-        fromJsonT: DocumentType.fromJson,
-        onSubmit: (context, label) =>
-            context.read<LabelCubit>().replaceDocumentType(label),
-        onDelete: (context, label) =>
-            context.read<LabelCubit>().removeDocumentType(label),
-        canDelete: context
-            .watch<LocalUserAccount>()
-            .paperlessUser
-            .canDeleteDocumentTypes,
+      buildRequest: _buildRequest,
+      editMutation: context.documentTypeRepository.putMutation(documentType.id),
+      deleteMutation: context.documentTypeRepository.deleteMutation(
+        documentType.id,
       ),
+      canDelete: context.loggedInUser$.paperlessUser.canDeleteDocumentTypes,
+    );
+  }
+
+  static DocumentTypeRequest _buildRequest(
+    LabelFormValues values,
+    FormBuilderState formState,
+  ) {
+    return DocumentTypeRequest(
+      name: values.name,
+      match: values.match,
+      matchingAlgorithm: values.matchingAlgorithm,
+      isInsensitive: values.isInsensitive,
+      owner: values.owner,
     );
   }
 }

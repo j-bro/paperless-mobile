@@ -1,35 +1,21 @@
-import 'package:hive_ce/hive.dart';
-import 'package:paperless_api/config/hive/hive_type_ids.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 import 'query_type.dart';
 
 part 'text_query.g.dart';
 
-@HiveType(typeId: PaperlessApiHiveTypeIds.textQuery)
+@CopyWith()
+@JsonSerializable()
 class TextQuery {
-  @HiveField(0)
   final QueryType queryType;
-  @HiveField(1)
   final String? queryText;
 
-  const TextQuery({
-    this.queryType = QueryType.titleAndContent,
-    this.queryText,
-  });
-
+  const TextQuery({this.queryType = QueryType.titleAndContent, this.queryText});
   const TextQuery.title(this.queryText) : queryType = QueryType.title;
-
   const TextQuery.titleAndContent(this.queryText)
-      : queryType = QueryType.titleAndContent;
-
+    : queryType = QueryType.titleAndContent;
   const TextQuery.extended(this.queryText) : queryType = QueryType.extended;
-
-  TextQuery copyWith({QueryType? queryType, String? queryText}) {
-    return TextQuery(
-      queryType: queryType ?? this.queryType,
-      queryText: queryText ?? this.queryText,
-    );
-  }
 
   Map<String, String> toQueryParameter() {
     final params = <String, String>{};
@@ -60,11 +46,7 @@ class TextQuery {
     return null;
   }
 
-  bool matches({
-    required String title,
-    String? content,
-    int? asn,
-  }) {
+  bool matches({required String title, String? content, int? asn}) {
     if (queryText?.isEmpty ?? true) return true;
     switch (queryType) {
       case QueryType.title:
@@ -97,4 +79,8 @@ class TextQuery {
 
   @override
   int get hashCode => Object.hash(queryText, queryType);
+
+  Map<String, dynamic> toJson() => _$TextQueryToJson(this);
+  factory TextQuery.fromJson(Map<String, dynamic> json) =>
+      _$TextQueryFromJson(json);
 }

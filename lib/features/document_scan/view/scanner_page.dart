@@ -7,12 +7,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive_ce/hive.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/constants.dart';
 import 'package:paperless_mobile/core/bloc/loading_status.dart';
-import 'package:paperless_mobile/core/database/hive/hive_config.dart';
-import 'package:paperless_mobile/core/database/tables/global_settings.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/global/constants.dart';
 import 'package:paperless_mobile/core/model/info_message_exception.dart';
 import 'package:paperless_mobile/core/service/file_service.dart';
@@ -66,15 +64,11 @@ class _ScannerPageState extends State<ScannerPage>
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             SliverOverlapAbsorber(
               handle: searchBarHandle,
-              sliver: SliverSearchBar(
-                titleText: S.of(context)!.scanner,
-              ),
+              sliver: SliverSearchBar(titleText: S.of(context)!.scanner),
             ),
             SliverOverlapAbsorber(
               handle: actionsHandle,
-              sliver: SliverPinnedHeader(
-                child: _buildActions(),
-              ),
+              sliver: SliverPinnedHeader(child: _buildActions()),
             ),
           ],
           body: BlocBuilder<DocumentScannerCubit, DocumentScannerState>(
@@ -118,15 +112,15 @@ class _ScannerPageState extends State<ScannerPage>
                     ),
                     onPressed: state.scans.isNotEmpty
                         ? () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => DocumentView(
-                                  bytes: _assembleFileBytes(
-                                    state.scans,
-                                    forcePdf: true,
-                                  ).then((file) => file.bytes),
-                                ),
+                            MaterialPageRoute(
+                              builder: (context) => DocumentView(
+                                bytes: _assembleFileBytes(
+                                  state.scans,
+                                  forcePdf: true,
+                                ).then((file) => file.bytes),
                               ),
-                            )
+                            ),
+                          )
                         : null,
                     icon: const Icon(Icons.visibility_outlined),
                   ),
@@ -136,8 +130,9 @@ class _ScannerPageState extends State<ScannerPage>
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.fromLTRB(5, 10, 5, 10),
                     ),
-                    onPressed:
-                        state.scans.isEmpty ? null : () => _reset(context),
+                    onPressed: state.scans.isEmpty
+                        ? null
+                        : () => _reset(context),
                     icon: const Icon(Icons.delete_sweep_outlined),
                   ),
                   SizedBox(width: 8),
@@ -183,6 +178,7 @@ class _ScannerPageState extends State<ScannerPage>
   }
 
   void _onSaveToFile() async {
+    final globalSettings = context.localStore.state.globalSettings;
     final fileName = await showDialog<String>(
       context: context,
       builder: (context) => const ExportScansDialog(),
@@ -195,8 +191,6 @@ class _ScannerPageState extends State<ScannerPage>
         context.read<DocumentScannerCubit>().state.scans,
       );
       try {
-        final globalSettings =
-            Hive.box<GlobalSettings>(HiveBoxes.globalSettings).getValue()!;
         if (Platform.isAndroid && androidInfo!.version.sdkInt <= 29) {
           final isGranted = await askForPermission(Permission.storage);
           if (!isGranted) {
@@ -242,7 +236,8 @@ class _ScannerPageState extends State<ScannerPage>
     if (!success) {
       if (kDebugMode) {
         dev.log(
-            '[ScannerPage] Scan either not successful or canceled by user.');
+          '[ScannerPage] Scan either not successful or canceled by user.',
+        );
       }
       return;
     }
@@ -256,9 +251,8 @@ class _ScannerPageState extends State<ScannerPage>
   void _onPrepareDocumentUpload(BuildContext context, List<File> scans) async {
     final file = await _assembleFileBytes(
       scans,
-      forcePdf: Hive.box<GlobalSettings>(HiveBoxes.globalSettings)
-          .getValue()!
-          .enforceSinglePagePdfUpload,
+      forcePdf:
+          context.localStore.state.globalSettings.enforceSinglePagePdfUpload,
     );
     if (!context.mounted) return;
     final uploadResult = await DocumentUploadRoute(
@@ -327,9 +321,9 @@ class _ScannerPageState extends State<ScannerPage>
                 file: scans[index],
                 onDelete: () async {
                   try {
-                    context
-                        .read<DocumentScannerCubit>()
-                        .removeScan(scans[index]);
+                    context.read<DocumentScannerCubit>().removeScan(
+                      scans[index],
+                    );
                   } on PaperlessApiException catch (error, stackTrace) {
                     showErrorMessage(context, error, stackTrace);
                   } on InfoMessageException catch (error, stackTrace) {
@@ -357,8 +351,9 @@ class _ScannerPageState extends State<ScannerPage>
   void _onUploadFromFilesystem() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions:
-          supportedFileExtensions.map((e) => e.replaceAll(".", "")).toList(),
+      allowedExtensions: supportedFileExtensions
+          .map((e) => e.replaceAll(".", ""))
+          .toList(),
       withData: true,
       allowMultiple: false,
     );

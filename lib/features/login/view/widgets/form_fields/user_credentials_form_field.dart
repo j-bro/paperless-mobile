@@ -1,27 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:hive_ce_flutter/adapters.dart';
-import 'package:paperless_mobile/core/database/hive/hive_extensions.dart';
-
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
+import 'package:paperless_mobile/core/store/local_store.dart';
 import 'package:paperless_mobile/features/login/model/login_form_credentials.dart';
 import 'package:paperless_mobile/features/login/view/widgets/form_fields/obscured_input_text_form_field.dart';
 import 'package:paperless_mobile/features/login/view/widgets/form_fields/server_address_form_field.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 class UserCredentialsFormField extends StatefulWidget {
   static const fkCredentials = 'credentials';
 
   final VoidCallback? onFieldsSubmitted;
   final String? initialUsername;
-  final String? initialPassword;
+  final Map<String, String>? fieldErrors;
   final GlobalKey<FormBuilderState> formKey;
   const UserCredentialsFormField({
     super.key,
     this.onFieldsSubmitted,
     this.initialUsername,
-    this.initialPassword,
     required this.formKey,
+    this.fieldErrors,
   });
 
   @override
@@ -37,15 +36,19 @@ class _UserCredentialsFormFieldState extends State<UserCredentialsFormField>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
+    final existingUserIds = context
+        .watch<LocalStore>()
+        .state
+        .localUserData
+        .keys;
     return FormBuilderField<LoginFormCredentials?>(
-      initialValue: LoginFormCredentials(
-        password: widget.initialPassword,
-        username: widget.initialUsername,
-      ),
+      initialValue: LoginFormCredentials(username: widget.initialUsername),
       name: UserCredentialsFormField.fkCredentials,
       builder: (field) => Column(
         children: [
           TextFormField(
+            initialValue: widget.initialUsername,
             key: const ValueKey('login-username'),
             focusNode: _usernameFocusNode,
             textCapitalization: TextCapitalization.none,
@@ -66,9 +69,9 @@ class _UserCredentialsFormFieldState extends State<UserCredentialsFormField>
               final serverAddress = widget.formKey.currentState!
                   .getRawValue<String>(ServerAddressFormField.fkServerAddress);
               if (serverAddress != null) {
-                final userExists = Hive.localUserAccountBox.values
-                    .map((e) => e.id)
-                    .contains('$value@$serverAddress');
+                final userExists = existingUserIds.contains(
+                  '$value@$serverAddress',
+                );
                 if (userExists) {
                   return S.of(context)!.userAlreadyExists;
                 }
@@ -78,6 +81,7 @@ class _UserCredentialsFormFieldState extends State<UserCredentialsFormField>
             autofillHints: const [AutofillHints.username],
             decoration: InputDecoration(
               label: Text(S.of(context)!.username),
+              errorText: widget.fieldErrors?['username'],
             ),
           ),
           ObscuredInputTextFormField(
@@ -88,6 +92,7 @@ class _UserCredentialsFormFieldState extends State<UserCredentialsFormField>
               field.value?.copyWith(password: password) ??
                   LoginFormCredentials(password: password),
             ),
+            errorText: widget.fieldErrors?['password'],
             onFieldSubmitted: (_) {
               widget.onFieldsSubmitted?.call();
             },

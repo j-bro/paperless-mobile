@@ -47,11 +47,11 @@ class ConnectivityAwareActionWrapper extends StatelessWidget {
           return GestureDetector(
             onTap: () {
               HapticFeedback.heavyImpact();
-              showSnackBar(context, S.of(context)!.youAreCurrentlyOffline);
+              if (!disabled) {
+                showSnackBar(context, S.of(context)!.youAreCurrentlyOffline);
+              }
             },
-            child: AbsorbPointer(
-              child: offlineBuilder(context, child),
-            ),
+            child: AbsorbPointer(child: offlineBuilder(context, child)),
           );
         }
         return child;

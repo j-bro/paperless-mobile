@@ -1,14 +1,26 @@
 {
-  "developedBy": "Entwickelt von {name}.",
-  "@developedBy": {
-    "placeholders": {
-      "name": {}
-    }
+  "aboutThisApp": "Über diese App",
+  "@aboutThisApp": {
+    "description": "Label for about this app tile displayed in the drawer"
   },
-  "addAnotherAccount": "Einen Account hinzufügen",
-  "@addAnotherAccount": {},
+  "absolute": "Absolut",
+  "@absolute": {},
   "account": "Account",
   "@account": {},
+  "accounts": "Accounts",
+  "@accounts": {
+    "description": "Title of the account management dialog"
+  },
+  "aClientCertificateWasExpectedButNotSent": "Ein Client Zerfitikat wurde erwartet, aber nicht gesendet. Bitte konfiguriere ein gültiges Zertifikat.",
+  "@aClientCertificateWasExpectedButNotSent": {},
+  "add": "Hinzufügen",
+  "addAccount": "Account hinzufügen",
+  "@addAccount": {
+    "description": "Label of add account action"
+  },
+  "addAdditionalHeadersHint": "Du kannst HTTP-Header hinzufügen, welche in jeder API-Anfrage mitgesendet werden. Dies kann bspw. bei der Konfiguration von benutzerdefinierten Authentifizierungsschemas oder VPNs von Nutzen sein.",
+  "addAnotherAccount": "Einen Account hinzufügen",
+  "@addAnotherAccount": {},
   "addCorrespondent": "Neuer Korrespondent",
   "@addCorrespondent": {
     "description": "Title when adding a new correspondent"
@@ -17,6 +29,18 @@
   "@addDocumentType": {
     "description": "Title when adding a new document type"
   },
+  "addedAt": "Hinzugefügt am",
+  "@addedAt": {},
+  "additionalHeaders": "Zusätzliche Header",
+  "addNewCorrespondent": "Neuen Korrespondenten erstellen",
+  "@addNewCorrespondent": {},
+  "addNewDocumentType": "Neuen Dokumenten-Typ erstellen",
+  "@addNewDocumentType": {},
+  "addNewStoragePath": "Neuen Speicherpfad erstellen",
+  "@addNewStoragePath": {},
+  "addNewTag": "Neuen Tag erstellen",
+  "@addNewTag": {},
+  "addNote": "Notiz hinzufügen",
   "addStoragePath": "Neuer Speicherpfad",
   "@addStoragePath": {
     "description": "Title when adding a new storage path"
@@ -25,214 +49,302 @@
   "@addTag": {
     "description": "Title when adding a new tag"
   },
-  "aboutThisApp": "Über diese App",
-  "@aboutThisApp": {
-    "description": "Label for about this app tile displayed in the drawer"
+  "advanced": "Erweitert",
+  "@advanced": {},
+  "advancedSettings": "Erweiterte Einstellungen",
+  "@advancedSettings": {},
+  "after": "Nach",
+  "@after": {},
+  "all": "Alle",
+  "@all": {},
+  "allScansWillBeMerged": "Alle Scans werden in eine einzige PDF-Datei zusammengeführt.",
+  "allSeen": "Alle gesehen",
+  "@allSeen": {},
+  "allTags": "Alle",
+  "@allTags": {
+    "description": "Label shown when a document has to be assigned to all selected tags"
   },
-  "loggedInAs": "Eingeloggt als {name}",
-  "@loggedInAs": {
-    "placeholders": {
-      "name": {}
-    }
+  "alwaysAsk": "Immer fragen",
+  "@alwaysAsk": {
+    "description": "Option to choose when the app should always ask the user which filetype to use"
   },
-  "disconnect": "Verbindung trennen",
-  "@disconnect": {
-    "description": "Logout button label"
+  "amount": "Anzahl",
+  "@amount": {},
+  "anErrorOccurredRemovingTheScans": "Beim Löschen der Aufnahmen ist ein Fehler aufgetreten.",
+  "@anErrorOccurredRemovingTheScans": {},
+  "anErrorOccurredWhileTryingToAutocompleteYourQuery": "Beim automatischen Vervollständigen ist ein Fehler aufgetreten.",
+  "@anErrorOccurredWhileTryingToAutocompleteYourQuery": {},
+  "anInternetConnectionCouldNotBeEstablished": "Es konte keine Verbindung zum Internet hergestellt werden.",
+  "@anInternetConnectionCouldNotBeEstablished": {},
+  "anUnknownErrorOccurred": "Ein unbekannter Fehler ist aufgetreten.",
+  "@anUnknownErrorOccurred": {},
+  "any": "Irgendein Wort",
+  "@any": {},
+  "anyAssigned": "Beliebig zugewiesen",
+  "@anyAssigned": {},
+  "anyTag": "Irgendeines",
+  "@anyTag": {
+    "description": "Label shown when any tag should be filtered"
   },
-  "reportABug": "Einen Fehler melden",
-  "@reportABug": {},
-  "settings": "Einstellungen",
-  "@settings": {},
-  "authenticateOnAppStart": "Authentifizierung beim Start der Anwendung",
-  "@authenticateOnAppStart": {
-    "description": "Description of the biometric authentication settings tile"
-  },
-  "biometricAuthentication": "Biometrische Authentifizierung",
-  "@biometricAuthentication": {},
-  "authenticateToToggleBiometricAuthentication": "{mode, select, enable{Authentifizieren, um die biometrische Authentifizierung zu aktivieren} disable{Authentifizieren, um die biometrische Authentifizierung zu deaktivieren}  other{}}",
-  "@authenticateToToggleBiometricAuthentication": {
-    "placeholders": {
-      "mode": {}
-    }
-  },
-  "documents": "Dokumente",
-  "@documents": {},
-  "inbox": "Posteingang",
-  "@inbox": {},
-  "labels": "Labels",
-  "@labels": {},
-  "scanner": "Scanner",
-  "@scanner": {},
-  "startTyping": "Beginne zu tippen...",
-  "@startTyping": {},
-  "doYouReallyWantToDeleteThisView": "Möchtest Du diese Ansicht wirklich löschen?",
-  "@doYouReallyWantToDeleteThisView": {},
-  "deleteView": "Ansicht {name} löschen?",
-  "@deleteView": {},
-  "addedAt": "Hinzugefügt am",
-  "@addedAt": {},
-  "archiveSerialNumber": "Archiv-Seriennummer",
-  "@archiveSerialNumber": {},
-  "asn": "ASN",
-  "@asn": {},
-  "correspondent": "Korrespondent",
-  "@correspondent": {},
-  "createdAt": "Ausgestellt am",
-  "@createdAt": {},
-  "documentSuccessfullyDeleted": "Das Dokument wurde erfolgreich gelöscht.",
-  "@documentSuccessfullyDeleted": {},
-  "assignAsn": "ASN zuweisen",
-  "@assignAsn": {},
-  "deleteDocumentTooltip": "Löschen",
-  "@deleteDocumentTooltip": {
-    "description": "Tooltip shown for the delete button on details page"
-  },
-  "downloadDocumentTooltip": "Herunterladen",
-  "@downloadDocumentTooltip": {
-    "description": "Tooltip shown for the download button on details page"
-  },
-  "editDocumentTooltip": "Bearbeiten",
-  "@editDocumentTooltip": {
-    "description": "Tooltip shown for the edit button on details page"
-  },
-  "loadFullContent": "Lade gesamten Inhalt",
-  "@loadFullContent": {},
-  "noAppToDisplayPDFFilesFound": "Es wurde keine App zum Anzeigen von PDF Dateien gefunden!",
-  "@noAppToDisplayPDFFilesFound": {},
-  "openInSystemViewer": "In System-Viewer öffnen",
-  "@openInSystemViewer": {},
-  "couldNotOpenFilePermissionDenied": "Datei konnte nicht geöffnet werden: Zugriff verweigert.",
-  "@couldNotOpenFilePermissionDenied": {},
-  "previewTooltip": "Vorschau",
-  "@previewTooltip": {
-    "description": "Tooltip shown for the preview button on details page"
-  },
-  "shareTooltip": "Teilen",
-  "@shareTooltip": {
-    "description": "Tooltip shown for the share button on details page"
-  },
-  "similarDocuments": "Similar Documents",
-  "@similarDocuments": {
-    "description": "Label shown in the tabbar on details page"
-  },
-  "content": "Inhalt",
-  "@content": {
-    "description": "Label shown in the tabbar on details page"
-  },
-  "metaData": "Metadaten",
-  "@metaData": {
-    "description": "Label shown in the tabbar on details page"
-  },
-  "overview": "Übersicht",
-  "@overview": {
-    "description": "Label shown in the tabbar on details page"
-  },
-  "documentType": "Dokumenttyp",
-  "@documentType": {},
+  "appearance": "Aussehen",
+  "@appearance": {},
+  "applicationSettings": "Anwendung",
+  "@applicationSettings": {},
+  "appLogs": "App Logs {date}",
+  "apply": "Anwenden",
+  "@apply": {},
   "archivedPdf": "Archiviert (pdf)",
   "@archivedPdf": {
     "description": "Option to chose when downloading a document"
   },
-  "chooseFiletype": "Wähle Dateityp",
-  "@chooseFiletype": {},
-  "original": "Original",
-  "@original": {
-    "description": "Option to chose when downloading a document"
+  "archiveSerialNumber": "Archiv-Seriennummer",
+  "@archiveSerialNumber": {},
+  "archiveSerialNumberUpdated": "Archiv-Seriennummer aktualisiert.",
+  "@archiveSerialNumberUpdated": {
+    "description": "Message shown when the ASN has been updated."
   },
-  "documentSuccessfullyDownloaded": "Dokument erfolgreich heruntergeladen.",
-  "@documentSuccessfullyDownloaded": {},
-  "suggestions": "Vorschläge: ",
-  "@suggestions": {},
-  "editDocument": "Dokument Bearbeiten",
-  "@editDocument": {},
-  "advanced": "Erweitert",
-  "@advanced": {},
-  "apply": "Anwenden",
-  "@apply": {},
-  "extended": "Erweitert",
-  "@extended": {},
-  "titleAndContent": "Titel & Inhalt",
-  "@titleAndContent": {},
-  "title": "Titel",
-  "@title": {},
-  "reset": "Zurücksetzen",
-  "@reset": {},
-  "filterDocuments": "Dokumente filtern",
-  "@filterDocuments": {
-    "description": "Title of the document filter"
-  },
-  "originalMD5Checksum": "MD5-Prüfsumme Original",
-  "@originalMD5Checksum": {},
-  "mediaFilename": "Media-Dateiname",
-  "@mediaFilename": {},
-  "originalFileSize": "Dateigröße Original",
-  "@originalFileSize": {},
-  "originalMIMEType": "MIME-Typ Original",
-  "@originalMIMEType": {},
-  "modifiedAt": "Geändert am",
-  "@modifiedAt": {},
-  "preview": "Vorschau",
-  "@preview": {
-    "description": "Title of the document preview page"
-  },
-  "scanADocument": "Scanne ein Dokument",
-  "@scanADocument": {},
-  "noDocumentsScannedYet": "Es wurden noch keine Dokumente gescannt.",
-  "@noDocumentsScannedYet": {},
-  "or": "oder",
-  "@or": {
-    "description": "Used on the scanner page between both main actions when no scans have been captured."
-  },
-  "deleteAllScans": "Alle scans löschen",
-  "@deleteAllScans": {},
-  "uploadADocumentFromThisDevice": "Lade ein Dokument von diesem Gerät hoch",
-  "@uploadADocumentFromThisDevice": {
-    "description": "Button label on scanner page"
-  },
-  "noMatchesFound": "Keine Treffer.",
-  "@noMatchesFound": {
-    "description": "Displayed when no documents were found in the document search."
-  },
-  "removeFromSearchHistory": "Aus dem Suchverlauf entfernen?",
-  "@removeFromSearchHistory": {},
-  "results": "Ergebnisse",
-  "@results": {
-    "description": "Label displayed above search results in document search."
-  },
-  "searchDocuments": "Durchsuche Dokumente",
-  "@searchDocuments": {},
-  "resetFilter": "Filter zurücksetzen",
-  "@resetFilter": {},
-  "lastMonth": "Letzter Monat",
-  "@lastMonth": {},
-  "last7Days": "Letzte 7 Tage",
-  "@last7Days": {},
-  "last3Months": "Letzten 3 Monate",
-  "@last3Months": {},
-  "lastYear": "Letztes Jahr",
-  "@lastYear": {},
-  "search": "Suche",
-  "@search": {},
-  "documentsSuccessfullyDeleted": "Das massenhafte Löschen der Dokumente war erfolgreich.",
-  "@documentsSuccessfullyDeleted": {},
-  "thereSeemsToBeNothingHere": "Es scheint nichts hier zu sein...",
-  "@thereSeemsToBeNothingHere": {},
-  "oops": "Ups.",
-  "@oops": {},
-  "newDocumentAvailable": "Neues Dokument verfügbar!",
-  "@newDocumentAvailable": {},
-  "orderBy": "Sortiere nach",
-  "@orderBy": {},
-  "thisActionIsIrreversibleDoYouWishToProceedAnyway": "Diese Aktion ist unwiderruflich. Möchtest Du trotzdem fortfahren?",
-  "@thisActionIsIrreversibleDoYouWishToProceedAnyway": {},
-  "confirmDeletion": "Löschen bestätigen",
-  "@confirmDeletion": {},
+  "areYouSureYouWantToContinue": "Bist Du sicher, dass Du fortfahren möchtest?",
   "areYouSureYouWantToDeleteTheFollowingDocuments": "{count, plural, one{Bist Du sicher, dass Du folgendes Dokument löschen möchtest?} other{Bist Du sicher, dass Du folgende Dokumente löschen möchtest?}}",
   "@areYouSureYouWantToDeleteTheFollowingDocuments": {
     "placeholders": {
       "count": {}
     }
   },
+  "areYouSureYouWantToMarkAllDocumentsAsSeen": "Bist Du sicher, dass Du alle Dokumente als gesehen markieren möchtest? Dadurch wird eine Massenbearbeitung durchgeführt, bei der alle Posteingangs-Tags von den Dokumenten entfernt werden. Diese Aktion kann nicht rückgängig gemacht werden! Möchtest Du trotzdem fortfahren?",
+  "@areYouSureYouWantToMarkAllDocumentsAsSeen": {},
+  "ascending": "Aufsteigend",
+  "@ascending": {},
+  "asn": "ASN",
+  "@asn": {},
+  "assignAsn": "ASN zuweisen",
+  "@assignAsn": {},
+  "authenticateOnAppStart": "Authentifizierung beim Start der Anwendung",
+  "@authenticateOnAppStart": {
+    "description": "Description of the biometric authentication settings tile"
+  },
+  "authenticateToToggleBiometricAuthentication": "{mode, select, enable{Authentifizieren, um die biometrische Authentifizierung zu aktivieren} disable{Authentifizieren, um die biometrische Authentifizierung zu deaktivieren}  other{}}",
+  "@authenticateToToggleBiometricAuthentication": {
+    "placeholders": {
+      "mode": {}
+    }
+  },
+  "authenticatingDots": "Authentifizieren...",
+  "@authenticatingDots": {
+    "description": "Message shown when the app is authenticating the user"
+  },
+  "authenticationFailedPleaseTryAgain": "Authentifizierung fehlgeschlagen, bitte versuche es erneut.",
+  "@authenticationFailedPleaseTryAgain": {},
+  "auto": "Auto",
+  "@auto": {},
+  "backToLogin": "Zurück zur Anmeldung",
+  "before": "Vor",
+  "@before": {},
+  "behavior": "Verhalten",
+  "@behavior": {
+    "description": "Title of the settings concerning app beahvior"
+  },
+  "biometricAuthentication": "Biometrische Authentifizierung",
+  "@biometricAuthentication": {},
+  "biometricAuthenticationFailed": "Biometrische Authentifizierung fehlgeschlagen.",
+  "@biometricAuthenticationFailed": {},
+  "biometricAuthenticationNotSupported": "Biometrische Authentifizierung wird von diesem Gerät nicht unterstützt.",
+  "@biometricAuthenticationNotSupported": {},
+  "bulkEditCorrespondentAssignMessage": "{count, plural, one{Diese Operation wird den Korrespondent {correspondent} dem ausgewählten Dokument zuweisen.} other{Diese Operation wird den Korrespondent {correspondent} den {count} ausgewählten Dokumenten zuweisen.}}",
+  "bulkEditCorrespondentRemoveMessage": "{count, plural, one{Diese Operation wird den Korrespondent vom ausgewählten Dokument entfernen.} other{Diese Operation wird den Korrespondent von {count} ausgewählten Dokumenten entfernen.}}",
+  "bulkEditDocumentTypeAssignMessage": "{count, plural, one{Diese Operation wird den Dokumenttyp {docType} dem ausgewählten Dokument zuweisen.} other{Diese Operation wird den Dokumenttyp {docType} den {count} ausgewählten Dokumenten zuweisen.}}",
+  "bulkEditDocumentTypeRemoveMessage": "{count, plural, one{Diese Operation wird den Dokumenttyp vom ausgewählten Dokument entfernen.} other{Diese Operation wird den Dokumenttyp von {count} ausgewählten Dokumenten entfernen.}}",
+  "bulkEditStoragePathAssignMessage": "{count, plural, one{Diese Operation wird den Speicherpfad {path} dem ausgewählten Dokument zuweisen.} other{Diese Operation wird den Speicherpfad {path} den {count} ausgewählten Dokumenten zuweisen.}}",
+  "bulkEditStoragePathRemoveMessage": "{count, plural, one{Diese Operation wird den Speicherpfad vom ausgewählten Dokument entfernen.} other{Diese Operation wird den Speicherpfad von {count} ausgewählten Dokumenten entfernen.}}",
+  "bulkEditTagsAddMessage": "{count, plural, one{Diese Operation wird die Tags {tags} dem ausgewählten Dokument hinzufügen.} other{Diese Operation wird die Tags {tags} den {count} ausgewählten Dokumenten hinzufügen.}}",
+  "@bulkEditTagsAddMessage": {
+    "description": "Message of the confirmation dialog when bulk adding tags."
+  },
+  "bulkEditTagsModifyMessage": "{count, plural, one{Diese Operation wird die Tags {addTags} hinzufügen und die Tags {removeTags} von dem ausgewählten Dokument entfernen.} other{Diese Operation wird die Tags {addTags} hinzufügen und die Tags {removeTags} von {count} ausgewählten Dokumenten entfernen.}}",
+  "@bulkEditTagsModifyMessage": {
+    "description": "Message of the confirmation dialog when both adding and removing tags."
+  },
+  "bulkEditTagsRemoveMessage": "{count, plural, one{Diese Operation wird die Tags {tags} vom ausgewählten Dokument entfernen.} other{Diese Operation wird die Tags {tags} von den {count} ausgewählten Dokumenten entfernen.}}",
+  "@bulkEditTagsRemoveMessage": {
+    "description": "Message of the confirmation dialog when bulk removing tags."
+  },
+  "calculatingDots": "Berechne...",
+  "@calculatingDots": {
+    "description": "Text shown when the byte size is still being calculated"
+  },
+  "cancel": "Abbrechen",
+  "@cancel": {},
+  "caseIrrelevant": "Groß-/Kleinschreibung irrelevant",
+  "@caseIrrelevant": {},
+  "changelog": "Changelog",
+  "chooseFiletype": "Wähle Dateityp",
+  "@chooseFiletype": {},
+  "classicColorScheme": "Klassisch",
+  "@classicColorScheme": {},
+  "clearAll": "Alle löschen",
+  "@clearAll": {},
+  "clearCache": "Cache leeren",
+  "@clearCache": {
+    "description": "Title of the clear cache setting"
+  },
+  "clearLogs": "Logs vom {date} leeren",
+  "clientcertificate": "Client Zertifikat",
+  "@clientcertificate": {},
+  "close": "Schließen",
+  "@close": {},
+  "color": "Farbe",
+  "@color": {},
+  "colors": "Farben",
+  "@colors": {},
+  "colorSchemeHint": "Wähle zwischen einem klassischen Farbschema, das vom traditionellen Paperless-Grün inspiriert ist, oder einem dynamische Farbschema basierend auf den Systemfarben.",
+  "@colorSchemeHint": {},
+  "colorSchemeNotSupportedWarning": "Dynamische Farbgebung wird nur von Geräten mit Android 12 und höher unterstützt. Das Auswählen des dynamischen Farbschemas hat für Geräte unter Android 12 womöglich keinen Effekt.",
+  "@colorSchemeNotSupportedWarning": {},
+  "configureAdditionalHttpHeaders": "Konfiguriere zusätzliche HTTP-Header, welche mit jeder Anfrage gesendet werden",
+  "configureMutualTLSAuthentication": "Konfiguriere Mutual TLS Authentifizierung",
+  "@configureMutualTLSAuthentication": {},
+  "confirm": "Bestätigen",
+  "confirmAction": "Aktion bestätigen",
+  "@confirmAction": {
+    "description": "Typically used as a title to confirm a previously selected action"
+  },
+  "confirmDeletion": "Löschen bestätigen",
+  "@confirmDeletion": {},
+  "connect": "Verbinden",
+  "@connect": {},
+  "connectionSuccessfulylEstablished": "Verbindung erfolgreich hergestellt.",
+  "@connectionSuccessfulylEstablished": {},
+  "connectionTimedOut": "Zeitüberschreitung der Verbindung.",
+  "@connectionTimedOut": {},
+  "connectToPaperless": "Mit Paperless verbinden",
+  "@connectToPaperless": {},
+  "content": "Inhalt",
+  "@content": {
+    "description": "Label shown in the tabbar on details page"
+  },
+  "continueLabel": "Fortfahren",
+  "@continueLabel": {},
+  "convertSinglePageScanToPdf": "Einseitige Scans vor dem Hochladen immer in PDF umwandeln",
+  "@convertSinglePageScanToPdf": {
+    "description": "description of the upload scans as pdf setting"
+  },
+  "copyToClipboard": "In Zwischenablage kopieren",
+  "correspondent": "Korrespondent",
+  "@correspondent": {},
+  "correspondents": "Korrespondenten",
+  "@correspondents": {},
+  "couldNotAccessReceivedFile": "Der Zugriff auf die empfangene Datei wurde verweigert. Bitte öffne die App vor dem teilen.",
+  "@couldNotAccessReceivedFile": {},
+  "couldNotAcknowledgeTasks": "Dateiaufgabe konnte nicht verworfen werden.",
+  "@couldNotAcknowledgeTasks": {},
+  "couldNotAssignArchiveSerialNumber": "Archiv-Seriennummer konnte nicht zugewiesen werden.",
+  "@couldNotAssignArchiveSerialNumber": {},
+  "couldNotBulkEditDocuments": "Dokumente konnten nicht bearbeitet werden, bitte versuche es erneut.",
+  "@couldNotBulkEditDocuments": {},
+  "couldNotCreateCorrespondent": "Korrespondent konnte nicht erstellt werden, bitte versuche es erneut.",
+  "@couldNotCreateCorrespondent": {},
+  "couldNotCreateCustomField": "Gespeicherte Ansicht konnte nicht erstellt werden, bitte versuche es erneut.",
+  "couldNotCreateDocument": "Dokumenttyp konnte nicht erstellt werden, bitte versuche es erneut.",
+  "@couldNotCreateDocument": {},
+  "couldNotCreateNote": "Notiz konnte nicht erstellt werden, bitte versuche es erneut.",
+  "couldNotCreateSavedView": "Gespeicherte Ansicht konnte nicht erstellt werden, bitte versuche es erneut.",
+  "@couldNotCreateSavedView": {},
+  "couldNotCreateStoragePath": "Speicherpfad konnte nicht erstellt werden, bitte versuche es erneut.",
+  "@couldNotCreateStoragePath": {},
+  "couldNotCreateTag": "Tag konnte nicht erstellt werden, bitte versuche es erneut.",
+  "@couldNotCreateTag": {},
+  "couldNotCreateUser": "Benutzer konnte nicht erstellt werden, bitte versuche es erneut.",
+  "couldNotDeleteCorrespondent": "Korrespondent konnte nicht gelöscht werden, bitte versuche es erneut.",
+  "@couldNotDeleteCorrespondent": {
+    "description": "Message shown in snackbar when a correspondent could not be deleted."
+  },
+  "couldNotDeleteCustomField": "Benutzerdefiniertes Feld konnte nicht gelöscht werden, bitte versuche es erneut.",
+  "couldNotDeleteDocument": "Dokument konnte nicht gelöscht werden, bitte versuche es erneut.",
+  "@couldNotDeleteDocument": {},
+  "couldNotDeleteDocumentType": "Dokumenttyp konnten nicht gelöscht werden, bitte versuche es erneut.",
+  "@couldNotDeleteDocumentType": {
+    "description": "Message shown when a document type could not be deleted"
+  },
+  "couldNotDeleteNote": "Notiz konnte nicht gelöscht werden, bitte versuche es erneut.",
+  "couldNotDeleteSavedView": "Gespeicherte Ansicht konnte nicht geklöscht werden, bitte versuche es erneut.",
+  "@couldNotDeleteSavedView": {},
+  "couldNotDeleteStoragePath": "Speicherpfad konnte nicht gelöscht werden, bitte versuchen Sie es erneut.",
+  "@couldNotDeleteStoragePath": {
+    "description": "Message shown when a storage path could not be deleted"
+  },
+  "couldNotDeleteTag": "Tag konnte nicht gelöscht werden, bitte versuche es erneut.",
+  "@couldNotDeleteTag": {
+    "description": "Message shown when a tag could not be deleted"
+  },
+  "couldNotDeleteUser": "Benutzer konnte nicht gelöscht werden, bitte versuche es erneut.",
+  "couldNotDownloadDocuments": "Dokumente konnten nicht heruntergeladen werden, bitte versuche es erneut.",
+  "couldNotEstablishConnectionToTheServer": "Es konnte keine Verbindung zum Server hergestellt werden.",
+  "@couldNotEstablishConnectionToTheServer": {},
+  "couldNotLoadCorrespondents": "Korrespondenten konnten nicht geladen werden.",
+  "@couldNotLoadCorrespondents": {},
+  "couldNotLoadCustomField": "Benutzerdefiniertes Feld konnte nicht geladen werden.",
+  "couldNotLoadDocumentPreview": "Vorschau konnte nicht geladen werden.",
+  "@couldNotLoadDocumentPreview": {},
+  "couldNotLoadDocuments": "Dokumente konnten nicht geladen werden, bitte versuche es erneut.",
+  "@couldNotLoadDocuments": {},
+  "couldNotLoadDocumentTypes": "Dokumenttypen konnten nicht geladen werden, bitte versuche es erneut.",
+  "@couldNotLoadDocumentTypes": {},
+  "couldNotLoadLogfileFrom": "Logs vom {date} konnten nicht geladen werden.",
+  "couldNotLoadPermissions": "Berechtigungen konnten nicht geladen werden.",
+  "couldNotLoadSavedViews": "Ansichten konnten nicht geladen werden.",
+  "@couldNotLoadSavedViews": {},
+  "couldNotLoadServerInformation": "Serverinformationen konnten nicht geladen werden.",
+  "@couldNotLoadServerInformation": {
+    "description": "Message shown when the server information could not be loaded"
+  },
+  "couldNotLoadSimilarDocuments": "Ähnliche Dokumente konnten nicht geladen werden.",
+  "@couldNotLoadSimilarDocuments": {},
+  "couldNotLoadStatistics": "Serverstatistiken konnten nicht geladen werden.",
+  "@couldNotLoadStatistics": {
+    "description": "Message shown when the server statistics could not be loaded"
+  },
+  "couldNotLoadStoragePaths": "Speicherpfade konnten nicht geladen werden.",
+  "@couldNotLoadStoragePaths": {},
+  "couldNotLoadSuggestions": "Vorschläge konnten nicht geladen werden.",
+  "@couldNotLoadSuggestions": {},
+  "couldNotLoadTags": "Tags konnten nicht geladen werden.",
+  "@couldNotLoadTags": {},
+  "couldNotLoadTasks": "Dateiaufgaben konnten nicht geladen werden.",
+  "@couldNotLoadTasks": {
+    "description": "Message shown when the tasks (e.g. document consumed) could not be loaded"
+  },
+  "couldNotLoadUISettings": "UI Einstellungen konnten nicht geladen werden.",
+  "@couldNotLoadUISettings": {
+    "description": "Message shown when the UI settings could not be loaded"
+  },
+  "couldNotLoadUser": "Benutzer konnte nicht geladen werden, bitte versuche es erneut.",
+  "couldNotLoadUsers": "Benutzer konnten nicht geladen werden, bitte versuche es erneut.",
+  "couldNotOpenFilePermissionDenied": "Datei konnte nicht geöffnet werden: Zugriff verweigert.",
+  "@couldNotOpenFilePermissionDenied": {},
+  "couldNotReachYourPaperlessServer": "Es konnte keine Verbindung zu Deinem Paperless Server hergestellt werden, ist die Instanz in Betrieb?",
+  "@couldNotReachYourPaperlessServer": {},
+  "couldNotUpdateCorrespondent": "Korrespondent konnte nicht aktualisiert werden, bitte versuche es erneut.",
+  "@couldNotUpdateCorrespondent": {
+    "description": "Message shown when a correspondent could not be updated"
+  },
+  "couldNotUpdateCustomField": "Benutzerdefiniertes Feld konnte nicht gelöscht werden, bitte versuche es erneut.",
+  "couldNotUpdateDocument": "Dokument konnte nicht aktualisiert werden, bitte versuche es erneut.",
+  "@couldNotUpdateDocument": {},
+  "couldNotUpdateDocumentType": "Dokumenttyp konnte nicht aktualisiert werden, bitte versuche es erneut.",
+  "@couldNotUpdateDocumentType": {
+    "description": "Message shown when a document type could not be updated"
+  },
+  "couldNotUpdateSavedView": "Ansicht konnte nicht aktualisiert werden, bitte versuche es erneut.",
+  "@couldNotUpdateSavedView": {
+    "description": "Message shown when a saved view could not be updated"
+  },
+  "couldNotUpdateStoragePath": "Speicherpfad konnte nicht aktualisiert werden, bitte versuchen Sie es erneut.",
+  "couldNotUpdateTag": "Tag konnte nicht aktualisiert werden, bitte versuche es erneut.",
+  "@couldNotUpdateTag": {
+    "description": "Message shown when a tag could not be updated"
+  },
+  "couldNotUpdateUser": "Änderungen am Benutzer konnten nicht gespeichert werden, bitte versuche es erneut.",
+  "couldNotUploadDocument": "Dokument konnte nicht hochgeladen werden, bitte versuche es erneut.",
+  "@couldNotUploadDocument": {},
   "countSelected": "{count} ausgewählt",
   "@countSelected": {
     "description": "Displayed in the appbar when at least one document is selected.",
@@ -240,120 +352,267 @@
       "count": {}
     }
   },
-  "storagePath": "Speicherpfad",
-  "@storagePath": {},
-  "prepareDocument": "Dokument vorbereiten",
-  "@prepareDocument": {},
-  "tags": "Tags",
-  "@tags": {},
-  "documentSuccessfullyUpdated": "Dokument erfolgreich aktualisiert.",
-  "@documentSuccessfullyUpdated": {},
-  "fileName": "Dateiname",
-  "@fileName": {},
-  "synchronizeTitleAndFilename": "Synchronisiere Titel und Dateiname",
-  "@synchronizeTitleAndFilename": {},
-  "reload": "Neu laden",
-  "@reload": {},
-  "documentSuccessfullyUploadedProcessing": "Das Dokument wurde erfolgreich hochgeladen. Verarbeite...",
-  "@documentSuccessfullyUploadedProcessing": {},
-  "deleteLabelWarningText": "Dieser Kennzeichner wird von Dokumenten referenziert. Durch das Löschen dieses Kennzeichners werden alle Referenzen entfernt. Fortfahren?",
-  "@deleteLabelWarningText": {},
-  "couldNotAcknowledgeTasks": "Dateiaufgabe konnte nicht verworfen werden.",
-  "@couldNotAcknowledgeTasks": {},
-  "authenticationFailedPleaseTryAgain": "Authentifizierung fehlgeschlagen, bitte versuche es erneut.",
-  "@authenticationFailedPleaseTryAgain": {},
-  "anErrorOccurredWhileTryingToAutocompleteYourQuery": "Beim automatischen Vervollständigen ist ein Fehler aufgetreten.",
-  "@anErrorOccurredWhileTryingToAutocompleteYourQuery": {},
-  "biometricAuthenticationFailed": "Biometrische Authentifizierung fehlgeschlagen.",
-  "@biometricAuthenticationFailed": {},
-  "biometricAuthenticationNotSupported": "Biometrische Authentifizierung wird von diesem Gerät nicht unterstützt.",
-  "@biometricAuthenticationNotSupported": {},
-  "couldNotBulkEditDocuments": "Es ist ein Fehler beim massenhaften bearbeiten der Dokumente aufgetreten.",
-  "@couldNotBulkEditDocuments": {},
-  "couldNotCreateCorrespondent": "Korrespondent konnte nicht erstellt werden, bitte versuche es erneut.",
-  "@couldNotCreateCorrespondent": {},
-  "couldNotLoadCorrespondents": "Korrespondenten konnten nicht geladen werden.",
-  "@couldNotLoadCorrespondents": {},
-  "couldNotCreateSavedView": "Gespeicherte Ansicht konnte nicht erstellt werden, bitte versuche es erneut.",
-  "@couldNotCreateSavedView": {},
-  "couldNotDeleteSavedView": "Gespeicherte Ansicht konnte nicht geklöscht werden, bitte versuche es erneut.",
-  "@couldNotDeleteSavedView": {},
-  "youAreCurrentlyOffline": "Du bist offline. Bitte stelle sicher, dass du mit dem Internet verbunden bist.",
-  "@youAreCurrentlyOffline": {},
-  "couldNotAssignArchiveSerialNumber": "Archiv-Seriennummer konnte nicht zugewiesen werden.",
-  "@couldNotAssignArchiveSerialNumber": {},
-  "couldNotDeleteDocument": "Dokument konnte nicht gelöscht werden, bitte versuche es erneut.",
-  "@couldNotDeleteDocument": {},
-  "couldNotLoadDocuments": "Dokumente konnten nicht geladen werden, bitte versuche es erneut.",
-  "@couldNotLoadDocuments": {},
-  "couldNotLoadDocumentPreview": "Vorschau konnte nicht geladen werden.",
-  "@couldNotLoadDocumentPreview": {},
-  "couldNotCreateDocument": "Dokumenttyp konnte nicht erstellt werden, bitte versuche es erneut.",
-  "@couldNotCreateDocument": {},
-  "couldNotLoadDocumentTypes": "Dokumenttypen konnten nicht geladen werden, bitte versuche es erneut.",
-  "@couldNotLoadDocumentTypes": {},
-  "couldNotUpdateDocument": "Dokument konnte nicht aktualisiert werden, bitte versuche es erneut.",
-  "@couldNotUpdateDocument": {},
-  "couldNotUploadDocument": "Dokument konnte nicht hochgeladen werden, bitte versuche es erneut.",
-  "@couldNotUploadDocument": {},
-  "invalidCertificateOrMissingPassphrase": "Ungültiges Zertifikat oder fehlende Passphrase, bitte versuche es erneut.",
-  "@invalidCertificateOrMissingPassphrase": {},
-  "couldNotLoadSavedViews": "Ansichten konnten nicht geladen werden.",
-  "@couldNotLoadSavedViews": {},
-  "aClientCertificateWasExpectedButNotSent": "Ein Client Zerfitikat wurde erwartet, aber nicht gesendet. Bitte konfiguriere ein gültiges Zertifikat.",
-  "@aClientCertificateWasExpectedButNotSent": {},
-  "userIsNotAuthenticated": "User is not authenticated.",
-  "@userIsNotAuthenticated": {},
-  "requestTimedOut": "Bei der Anfrage an den Server kam es zu einer Zeitüberschreitung.",
-  "@requestTimedOut": {},
-  "anErrorOccurredRemovingTheScans": "Beim Löschen der Aufnahmen ist ein Fehler aufgetreten.",
-  "@anErrorOccurredRemovingTheScans": {},
-  "couldNotReachYourPaperlessServer": "Es konnte keine Verbindung zu Deinem Paperless Server hergestellt werden, ist die Instanz in Betrieb?",
-  "@couldNotReachYourPaperlessServer": {},
-  "couldNotLoadSimilarDocuments": "Ähnliche Dokumente konnten nicht geladen werden.",
-  "@couldNotLoadSimilarDocuments": {},
-  "couldNotCreateStoragePath": "Speicherpfad konnte nicht erstellt werden, bitte versuche es erneut.",
-  "@couldNotCreateStoragePath": {},
-  "couldNotLoadStoragePaths": "Speicherpfade konnten nicht geladen werden.",
-  "@couldNotLoadStoragePaths": {},
-  "couldNotLoadSuggestions": "Vorschläge konnten nicht geladen werden.",
-  "@couldNotLoadSuggestions": {},
-  "couldNotCreateTag": "Tag konnte nicht erstellt werden, bitte versuche es erneut.",
-  "@couldNotCreateTag": {},
-  "couldNotLoadTags": "Tags konnten nicht geladen werden.",
-  "@couldNotLoadTags": {},
-  "anUnknownErrorOccurred": "Ein unbekannter Fehler ist aufgetreten.",
-  "@anUnknownErrorOccurred": {},
-  "fileFormatNotSupported": "Das Dateiformat wird nicht unterstützt.",
-  "@fileFormatNotSupported": {},
-  "report": "MELDEN",
-  "@report": {},
-  "absolute": "Absolut",
-  "@absolute": {},
-  "hintYouCanAlsoSpecifyRelativeValues": "Hinweis: Neben konkreten Daten kannst du den Zeitraum auch über eine relative Zeitspanne einschränken.",
-  "@hintYouCanAlsoSpecifyRelativeValues": {
-    "description": "Displayed in the extended date range picker"
+  "create": "Erstellen",
+  "@create": {},
+  "createdAt": "Ausgestellt am",
+  "@createdAt": {},
+  "createFromCurrentFilter": "Vom aktuellen Filter erstellen",
+  "@createFromCurrentFilter": {
+    "description": "Tooltip of the \"New saved view\" button"
   },
-  "amount": "Anzahl",
-  "@amount": {},
-  "relative": "Relativ",
-  "@relative": {},
-  "last": "Letzte",
-  "@last": {},
-  "timeUnit": "Zeiteinheit",
-  "@timeUnit": {},
-  "selectDateRange": "Wähle Zeitraum",
-  "@selectDateRange": {},
-  "after": "Nach",
-  "@after": {},
-  "before": "Vor",
-  "@before": {},
+  "createsASavedViewBasedOnTheCurrentFilterCriteria": "Erstellt eine neue Ansicht basierend auf den aktuellen Filterkriterien.",
+  "@createsASavedViewBasedOnTheCurrentFilterCriteria": {},
+  "createViewsToQuicklyFilterYourDocuments": "Lege Ansichten an, um Dokumente schneller zu finden.",
+  "@createViewsToQuicklyFilterYourDocuments": {},
+  "dark": "Dunkel",
+  "@dark": {},
+  "darkTheme": "Dunkler Modus",
+  "@darkTheme": {},
+  "dateOutOfRange": "Das Datum muss zwischen {firstDate} und {lastDate} liegen.",
+  "@dateOutOfRange": {
+    "description": "Error message shown when the user tries to select a date outside of the allowed range.",
+    "placeholders": {
+      "firstDate": {
+        "type": "DateTime",
+        "format": "yMd"
+      },
+      "lastDate": {
+        "type": "DateTime",
+        "format": "yMd"
+      }
+    }
+  },
   "days": "{count, plural, zero{} one{Tag} other{Tage}}",
   "@days": {
     "placeholders": {
       "count": {}
     }
   },
+  "defaultDownloadFileType": "Standard Dateityp beim Herunterladen",
+  "@defaultDownloadFileType": {
+    "description": "Label indicating the default filetype to download (one of archived, original and always ask)"
+  },
+  "defaultShareFileType": "Standard Dateityp beim Teilen",
+  "@defaultShareFileType": {
+    "description": "Label indicating the default filetype to share (one of archived, original and always ask)"
+  },
+  "delete": "Löschen",
+  "@delete": {},
+  "deleteAllScans": "Alle scans löschen",
+  "@deleteAllScans": {},
+  "deleteDocument": "Dokument löschen",
+  "@deleteDocument": {
+    "description": "Used as an action label on each inbox item"
+  },
+  "deleteDocumentTooltip": "Löschen",
+  "@deleteDocumentTooltip": {
+    "description": "Tooltip shown for the delete button on details page"
+  },
+  "deleteLabelWarningText": "Dieser Kennzeichner wird von Dokumenten referenziert. Durch das Löschen dieses Kennzeichners werden alle Referenzen entfernt. Fortfahren?",
+  "@deleteLabelWarningText": {},
+  "deleteView": "Ansicht {name} löschen?",
+  "@deleteView": {},
+  "descending": "Absteigend",
+  "@descending": {},
+  "detailed": "Detailliert",
+  "@detailed": {},
+  "developedBy": "Entwickelt von {name}.",
+  "@developedBy": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "disableAnimations": "Animationen deaktivieren",
+  "disableAnimationsDescription": "Disables page transitions and most animations. Temporary workaround until system accessibility settings can be used.",
+  "disableMatching": "Deaktiviere automatische Zuweisung",
+  "@disableMatching": {
+    "description": "One of the options for automatic tagging of documents"
+  },
+  "discard": "Verwerfen",
+  "discardChanges": "Änderungen verwerfen?",
+  "@discardChanges": {
+    "description": "Title of the alert dialog shown when a user tries to close a view with unsaved changes."
+  },
+  "discardChangesWarning": "Du hast ungespeicherte Änderungen. Diese gehen verloren, falls du fortfährst. Möchtest du die Änderungen verwerfen?",
+  "@discardChangesWarning": {
+    "description": "Warning message shown when the user tries to close a route without saving the changes."
+  },
+  "discardFile": "Datei verwerfen?",
+  "discardSharedFileHint": "Die freigegebene Datei wurde noch nicht verarbeitet. Möchtest Du die Datei verwerfen?",
+  "disconnect": "Verbindung trennen",
+  "@disconnect": {
+    "description": "Logout button label"
+  },
+  "documentContainsAllOfTheseWords": "Dokument enthält alle folgenden Wörter",
+  "@documentContainsAllOfTheseWords": {},
+  "documentContainsAnyOfTheseWords": "Dokument enthält eins der folgenden Wörter",
+  "@documentContainsAnyOfTheseWords": {},
+  "documentContainsAWordSimilarToThisWord": "Dokument enthält ein zum folgenden Wort ähnliches Wort",
+  "@documentContainsAWordSimilarToThisWord": {},
+  "documentContainsThisString": "Dokument enthält die folgende Zeichenkette",
+  "@documentContainsThisString": {},
+  "documentMatchesThisRegularExpression": "Dokument passt zum folgenden Ausdruck",
+  "@documentMatchesThisRegularExpression": {},
+  "documents": "Dokumente",
+  "@documents": {},
+  "documentsAssigned": "{count, plural, zero{Keine Dokumente} one{1 Dokument} other{{count} Dokumente}}",
+  "@documentsAssigned": {
+    "description": "Text shown with a correspondent, document type etc. to indicate the number of documents this filter will maximally yield."
+  },
+  "documentsInInbox": "Dokumente im Posteingang",
+  "documentsSuccessfullyDeleted": "Das massenhafte Löschen der Dokumente war erfolgreich.",
+  "@documentsSuccessfullyDeleted": {},
+  "documentSuccessfullyDeleted": "Das Dokument wurde erfolgreich gelöscht.",
+  "@documentSuccessfullyDeleted": {},
+  "documentSuccessfullyDownloaded": "Dokument erfolgreich heruntergeladen.",
+  "@documentSuccessfullyDownloaded": {},
+  "documentSuccessfullyUpdated": "Dokument erfolgreich aktualisiert.",
+  "@documentSuccessfullyUpdated": {},
+  "documentSuccessfullyUploadedProcessing": "Das Dokument wurde erfolgreich hochgeladen. Verarbeite...",
+  "@documentSuccessfullyUploadedProcessing": {},
+  "documentType": "Dokumenttyp",
+  "@documentType": {},
+  "documentTypes": "Dokumenttypen",
+  "@documentTypes": {},
+  "documentUploadUploading": "Uploading...",
+  "donate": "Spenden",
+  "@donate": {
+    "description": "Label of the in-app donate button"
+  },
+  "donateCoffee": "Spendiere mir einen Kaffee",
+  "@donateCoffee": {
+    "description": "Label displayed in the app drawer"
+  },
+  "donationDialogContent": "Vielen Dank, dass Du diese App unterstützen möchtest! Aufgrund der Zahlungsrichtlinien von Google und Apple dürfen keine Links, die zu Spendenseiten führen, in der App angezeigt werden. Nicht einmal die Verlinkung zur Repository-Seite des Projekts scheint in diesem Zusammenhang erlaubt zu sein. Werfe von daher vielleicht einen Blick auf den Abschnitt 'Donations' in der README des Projekts. Deine Unterstützung ist sehr willkommen und hält die Entwicklung dieser App am Leben. Vielen Dank!",
+  "@donationDialogContent": {
+    "description": "Text displayed in the donation dialog"
+  },
+  "done": "Fertig",
+  "@done": {},
+  "downloadDocumentTooltip": "Herunterladen",
+  "@downloadDocumentTooltip": {
+    "description": "Tooltip shown for the download button on details page"
+  },
+  "doYouReallyWantToDeleteThisView": "Möchtest Du diese Ansicht wirklich löschen?",
+  "@doYouReallyWantToDeleteThisView": {},
+  "dynamicColorScheme": "Dynamisch",
+  "@dynamicColorScheme": {},
+  "edit": "Bearbeiten",
+  "@edit": {},
+  "editDocument": "Dokument Bearbeiten",
+  "@editDocument": {},
+  "editDocumentTooltip": "Bearbeiten",
+  "@editDocumentTooltip": {
+    "description": "Tooltip shown for the edit button on details page"
+  },
+  "editView": "Ansicht bearbeiten",
+  "@editView": {
+    "description": "Title of the edit saved view page"
+  },
+  "enabled": "Aktiv",
+  "errorRetrievingServerVersion": "Beim Laden der Server-Version ist ein Fehler aufgetreten.",
+  "@errorRetrievingServerVersion": {
+    "description": "Message shown at the bottom of the settings page when the remote server version could not be resolved."
+  },
+  "exact": "Exakt",
+  "@exact": {},
+  "exclude": "Ausschließen",
+  "export": "Exportieren",
+  "@export": {
+    "description": "Label for button that exports scanned images to pdf (before upload)"
+  },
+  "exportScansToPdf": "Scans als PDF exportieren",
+  "@exportScansToPdf": {
+    "description": "title of the alert dialog when exporting scans to pdf"
+  },
+  "extended": "Erweitert",
+  "@extended": {},
+  "fetchingUserInformation": "Benutzerinformationen werden abgerufen...",
+  "@fetchingUserInformation": {
+    "description": "Message shown when the app loads user data from the server"
+  },
+  "fileFormatNotSupported": "Das Dateiformat wird nicht unterstützt.",
+  "@fileFormatNotSupported": {},
+  "fileName": "Dateiname",
+  "@fileName": {},
+  "filterDocuments": "Dokumente filtern",
+  "@filterDocuments": {
+    "description": "Title of the document filter"
+  },
+  "filterTags": "Beginne zu tippen...",
+  "@filterTags": {},
+  "findTheSourceCodeOn": "Finde den Code auf",
+  "@findTheSourceCodeOn": {
+    "description": "Text before link to Paperless Mobile GitHub"
+  },
+  "freeBytes": "{byteString} freigeben",
+  "@freeBytes": {
+    "description": "Text shown for clear storage settings"
+  },
+  "freedDiskSpace": "{bytes} erfolgreich freigegeben.",
+  "@freedDiskSpace": {
+    "description": "Message shown after clearing storage"
+  },
+  "fuzzy": "Ungenau",
+  "@fuzzy": {},
+  "gotIt": "Verstanden!",
+  "@gotIt": {},
+  "goToLogin": "Gehe zur Anmeldung",
+  "@goToLogin": {
+    "description": "Label of the button shown on the login page to skip logging in to existing accounts and navigate user to login page"
+  },
+  "grid": "Raster",
+  "@grid": {},
+  "headerNameAlreadyExists": "Der Header ist bereits vorhanden.",
+  "headerNameMustNotBeEmpty": "Header-Name darf nicht leer sein",
+  "headerValueMustNotBeEmpty": "Header-Wert darf nicht leer sein",
+  "hidePdf": "PDF ausblenden",
+  "@hidePdf": {
+    "description": "Tooltip shown on the \"show pdf\" icon button on the document edit page"
+  },
+  "hintYouCanAlsoSpecifyRelativeValues": "Hinweis: Neben konkreten Daten kannst du den Zeitraum auch über eine relative Zeitspanne einschränken.",
+  "@hintYouCanAlsoSpecifyRelativeValues": {
+    "description": "Displayed in the extended date range picker"
+  },
+  "home": "Startseite",
+  "@home": {
+    "description": "Label of the \"Home\" route"
+  },
+  "hostCouldNotBeResolved": "Der Host konnte nicht aufgelöst werden. Bitte überprüfe die Server-Adresse und deine Internetverbindung.",
+  "@hostCouldNotBeResolved": {},
+  "inbox": "Posteingang",
+  "@inbox": {},
+  "inboxItemReloadSuggestions": "Reload suggestions",
+  "inboxTag": "Posteingangs-Tag",
+  "@inboxTag": {},
+  "include": "Einschließen",
+  "incorrectOrMissingCertificatePassphrase": "Falsche oder fehlende Zertifikatspassphrase.",
+  "@incorrectOrMissingCertificatePassphrase": {},
+  "invalidAddress": "Ungültige Adresse.",
+  "@invalidAddress": {},
+  "invalidCertificateFormat": "Ungültiges Zertifikatsformat, nur .pfx ist erlaubt.",
+  "@invalidCertificateFormat": {},
+  "invalidCertificateOrMissingPassphrase": "Ungültiges Zertifikat oder fehlende Passphrase, bitte versuche es erneut.",
+  "@invalidCertificateOrMissingPassphrase": {},
+  "invalidFilenameCharacter": "Ungültige(s) Zeichen im Dateinamen gefunden: {characters}",
+  "@invalidFilenameCharacter": {
+    "description": "For validating filename in export dialogue"
+  },
+  "key": "Schlüssel",
+  "labels": "Labels",
+  "@labels": {},
+  "language": "Sprache",
+  "@language": {},
+  "languageAndVisualAppearance": "Sprache und Aussehen",
+  "@languageAndVisualAppearance": {},
+  "last": "Letzte",
+  "@last": {},
+  "last3Months": "Letzten 3 Monate",
+  "@last3Months": {},
+  "last7Days": "Letzte 7 Tage",
+  "@last7Days": {},
+  "lastMonth": "Letzter Monat",
+  "@lastMonth": {},
   "lastNDays": "{count, plural, zero{} one{Gestern} other{Letzte {count} Tage}}",
   "@lastNDays": {
     "placeholders": {
@@ -378,306 +637,131 @@
       "count": {}
     }
   },
+  "lastYear": "Letztes Jahr",
+  "@lastYear": {},
+  "learnMatchingAutomatically": "Zuweisung automatisch erlernen",
+  "@learnMatchingAutomatically": {},
+  "light": "Hell",
+  "@light": {},
+  "lightTheme": "Heller Modus",
+  "@lightTheme": {},
+  "linkedDocuments": "Referenzierte Dokumente",
+  "@linkedDocuments": {},
+  "list": "Liste",
+  "@list": {},
+  "loadFullContent": "Lade gesamten Inhalt",
+  "@loadFullContent": {},
+  "loadInboxItemSuggestions": "Vorschläge laden",
+  "loadingLogsFrom": "Lade Logs vom {date}...",
+  "logfileBottomReached": "Du hast das Ende dieser Logdatei erreicht.",
+  "loggedInAs": "Eingeloggt als {name}",
+  "@loggedInAs": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "loggingOut": "Abmelden...",
+  "loginPageReachabilityMissingClientCertificateText": "Ein Client-Zertifikat wurde erwartet aber nicht gesendet. Bitte stelle ein Zertifikat zur Verfügung.",
+  "@loginPageReachabilityMissingClientCertificateText": {},
+  "loginPageSignInTitle": "Anmelden",
+  "@loginPageSignInTitle": {},
+  "loginRequiredPermissionsHint": "Die Verwendung von Paperless Mobile erfordert seit paperless-ngx 1.14.0 und höher ein Mindestmaß an Benutzerberechtigungen. Stelle deshalb bitte sicher, dass der anzumeldende Benutzer die Berechtigung hat, andere Benutzer (User → View) und die Einstellungen (UISettings → View) einzusehen. Falls du nicht über diese Berechtigungen verfügst, wende dich bitte an einen Administrator deines paperless-ngx Servers.",
+  "@loginRequiredPermissionsHint": {
+    "description": "Hint shown on the login page informing the user of the required permissions to use the app."
+  },
+  "logInToExistingAccount": "Mit bestehendem Account anmelden",
+  "@logInToExistingAccount": {
+    "description": "Title shown on login page if at least one user is already known to the app."
+  },
+  "logout": "Ausloggen",
+  "@logout": {
+    "description": "Generic Logout label"
+  },
+  "managePermissions": "Berechtigungen verwalten",
+  "@managePermissions": {
+    "description": "Button which leads user to manage permissions page"
+  },
+  "mangeFilesAndStorageSpace": "Dateien und Speicherplatz verwalten",
+  "@mangeFilesAndStorageSpace": {},
+  "markAllAsSeen": "Alle als gesehen markieren?",
+  "@markAllAsSeen": {},
+  "markAsSeen": "Als gesehen markieren",
+  "@markAsSeen": {},
+  "match": "Zuweisungsmuster",
+  "@match": {},
+  "matchingAlgorithm": "Zuweisungsalgorithmus",
+  "@matchingAlgorithm": {},
+  "mediaFilename": "Media-Dateiname",
+  "@mediaFilename": {},
+  "metaData": "Metadaten",
+  "@metaData": {
+    "description": "Label shown in the tabbar on details page"
+  },
+  "mfaCodeInvalidLengthValidationMessage": "Der Code muss aus 6 Ziffern bestehen.",
+  "mfaCodeRequired": "MFA Code required",
+  "mfaCodeRequiredValidationMessage": "Bitte gib den MFA Code ein.",
+  "mfaFormFieldHint": "Dein Konto ist durch Zwei-Faktor-Authentifizierung geschützt. Bitte gib einen Authentifizierungscode ein:",
+  "misc": "Sonstige",
+  "missingPermissions": "Sie besitzen nicht die benötigten Berechtigungen, um diese Aktion durchzuführen.",
+  "@missingPermissions": {
+    "description": "Message shown in a snackbar when a user without the reequired permissions performs an action."
+  },
+  "modifiedAt": "Geändert am",
+  "@modifiedAt": {},
   "months": "{count, plural, zero{} one{Monat} other{Monate}}",
   "@months": {
     "placeholders": {
       "count": {}
     }
   },
-  "weeks": "{count, plural, zero{} one{Woche} other{Wochen}}",
-  "@weeks": {
-    "placeholders": {
-      "count": {}
-    }
-  },
-  "years": "{count, plural, zero{} one{Jahr} other{Jahre}}",
-  "@years": {
-    "placeholders": {
-      "count": {}
-    }
-  },
-  "gotIt": "Verstanden!",
-  "@gotIt": {},
-  "cancel": "Abbrechen",
-  "@cancel": {},
-  "close": "Schließen",
-  "@close": {},
-  "create": "Erstellen",
-  "@create": {},
-  "delete": "Löschen",
-  "@delete": {},
-  "edit": "Bearbeiten",
-  "@edit": {},
-  "ok": "Ok",
-  "@ok": {},
-  "save": "Speichern",
-  "@save": {},
-  "select": "Auswählen",
-  "@select": {},
-  "saveChanges": "Änderungen speichern",
-  "@saveChanges": {},
-  "upload": "Hochladen",
-  "@upload": {},
-  "youreOffline": "Du bist offline.",
-  "@youreOffline": {},
-  "deleteDocument": "Dokument löschen",
-  "@deleteDocument": {
-    "description": "Used as an action label on each inbox item"
-  },
-  "removeDocumentFromInbox": "Dokument aus Posteingang entfernt.",
-  "@removeDocumentFromInbox": {},
-  "areYouSureYouWantToMarkAllDocumentsAsSeen": "Bist Du sicher, dass Du alle Dokumente als gesehen markieren möchtest? Dadurch wird eine Massenbearbeitung durchgeführt, bei der alle Posteingangs-Tags von den Dokumenten entfernt werden. Diese Aktion kann nicht rückgängig gemacht werden! Möchtest Du trotzdem fortfahren?",
-  "@areYouSureYouWantToMarkAllDocumentsAsSeen": {},
-  "markAllAsSeen": "Alle als gesehen markieren?",
-  "@markAllAsSeen": {},
-  "allSeen": "Alle gesehen",
-  "@allSeen": {},
-  "markAsSeen": "Als gesehen markieren",
-  "@markAsSeen": {},
-  "refresh": "Neu laden",
-  "@refresh": {},
-  "youDoNotHaveUnseenDocuments": "Du hast keine ungesehenen Dokumente.",
-  "@youDoNotHaveUnseenDocuments": {},
-  "quickAction": "Schnell Aktion",
-  "@quickAction": {},
-  "suggestionSuccessfullyApplied": "Vorschlag wurde erfolgreich angewendet.",
-  "@suggestionSuccessfullyApplied": {},
-  "today": "Heute",
-  "@today": {},
-  "undo": "Undo",
-  "@undo": {},
-  "nUnseen": "{count} ungesehen",
-  "@nUnseen": {
-    "placeholders": {
-      "count": {}
-    }
-  },
-  "swipeLeftToMarkADocumentAsSeen": "Tipp: Wische nach links um ein Dokument als gesehen zu markieren und alle Posteingangs-Tags von diesem Dokument zu entfernen.",
-  "@swipeLeftToMarkADocumentAsSeen": {},
-  "yesterday": "Gestern",
-  "@yesterday": {},
-  "anyAssigned": "Beliebig zugewiesen",
-  "@anyAssigned": {},
-  "noItemsFound": "Keine Treffer gefunden!",
-  "@noItemsFound": {},
-  "caseIrrelevant": "Groß-/Kleinschreibung irrelevant",
-  "@caseIrrelevant": {},
-  "matchingAlgorithm": "Zuweisungsalgorithmus",
-  "@matchingAlgorithm": {},
-  "match": "Zuweisungsmuster",
-  "@match": {},
   "name": "Name",
   "@name": {},
-  "notAssigned": "Nicht zugewiesen",
-  "@notAssigned": {},
-  "addNewCorrespondent": "Erstelle neuen Korrespondenten",
-  "@addNewCorrespondent": {},
-  "noCorrespondentsSetUp": "Es wurden noch keine Korrespondenten angelegt.",
-  "@noCorrespondentsSetUp": {},
-  "correspondents": "Korrespondenten",
-  "@correspondents": {},
-  "addNewDocumentType": "Erstelle neuen Dokumenttypen",
-  "@addNewDocumentType": {},
-  "noDocumentTypesSetUp": "Es wurden noch keine Dokumenttypen angelegt.",
-  "@noDocumentTypesSetUp": {},
-  "documentTypes": "Dokumenttypen",
-  "@documentTypes": {},
-  "addNewStoragePath": "Erstelle neuen Speicherpfad",
-  "@addNewStoragePath": {},
-  "noStoragePathsSetUp": "Es wurden noch keine Speicherpfade angelegt.",
-  "@noStoragePathsSetUp": {},
-  "storagePaths": "Speicherpfade",
-  "@storagePaths": {},
-  "addNewTag": "Erstelle neuen Tag",
-  "@addNewTag": {},
-  "noTagsSetUp": "Es wurden noch keine Tags angelegt.",
-  "@noTagsSetUp": {},
-  "linkedDocuments": "Referenzierte Dokumente",
-  "@linkedDocuments": {},
-  "advancedSettings": "Erweiterte Einstellungen",
-  "@advancedSettings": {},
-  "passphrase": "Passphrase",
-  "@passphrase": {},
-  "configureMutualTLSAuthentication": "Konfiguriere Mutual TLS Authentifizierung",
-  "@configureMutualTLSAuthentication": {},
-  "invalidCertificateFormat": "Ungültiges Zertifikatsformat, nur .pfx ist erlaubt.",
-  "@invalidCertificateFormat": {},
-  "clientcertificate": "Client Zertifikat",
-  "@clientcertificate": {},
-  "selectFile": "Datei auswählen...",
-  "@selectFile": {},
-  "continueLabel": "Fortfahren",
-  "@continueLabel": {},
-  "incorrectOrMissingCertificatePassphrase": "Falsche oder fehlende Zertifikatspassphrase.",
-  "@incorrectOrMissingCertificatePassphrase": {},
-  "connect": "Verbinden",
-  "@connect": {},
-  "password": "Passwort",
-  "@password": {},
-  "passwordMustNotBeEmpty": "Passwort darf nicht leer sein.",
-  "@passwordMustNotBeEmpty": {},
-  "connectionTimedOut": "Zeitüberschreitung der Verbindung.",
-  "@connectionTimedOut": {},
-  "loginPageReachabilityMissingClientCertificateText": "Ein Client-Zertifikat wurde erwartet aber nicht gesendet. Bitte stelle ein Zertifikat zur Verfügung.",
-  "@loginPageReachabilityMissingClientCertificateText": {},
-  "couldNotEstablishConnectionToTheServer": "Es konnte keine Verbindung zum Server hergestellt werden.",
-  "@couldNotEstablishConnectionToTheServer": {},
-  "connectionSuccessfulylEstablished": "Verbindung erfolgreich hergestellt.",
-  "@connectionSuccessfulylEstablished": {},
-  "hostCouldNotBeResolved": "Der Host konnte nicht aufgelöst werden. Bitte überprüfe die Server-Adresse und deine Internetverbindung.",
-  "@hostCouldNotBeResolved": {},
-  "serverAddress": "Server-Adresse",
-  "@serverAddress": {},
-  "invalidAddress": "Ungültige Adresse.",
-  "@invalidAddress": {},
-  "serverAddressMustIncludeAScheme": "Server-Adresse muss ein Schema enthalten.",
-  "@serverAddressMustIncludeAScheme": {},
-  "serverAddressMustNotBeEmpty": "Server-Addresse darf nicht leer sein.",
-  "@serverAddressMustNotBeEmpty": {},
-  "signIn": "Anmelden",
-  "@signIn": {},
-  "loginPageSignInTitle": "Anmelden",
-  "@loginPageSignInTitle": {},
-  "signInToServer": "Bei {serverAddress} anmelden",
-  "@signInToServer": {
-    "placeholders": {
-      "serverAddress": {}
-    }
-  },
-  "connectToPaperless": "Mit Paperless verbinden",
-  "@connectToPaperless": {},
-  "username": "Nutzername",
-  "@username": {},
-  "usernameMustNotBeEmpty": "Nutzername darf nicht leer sein.",
-  "@usernameMustNotBeEmpty": {},
-  "documentContainsAllOfTheseWords": "Dokument enthält alle folgenden Wörter",
-  "@documentContainsAllOfTheseWords": {},
-  "all": "Alle",
-  "@all": {},
-  "documentContainsAnyOfTheseWords": "Dokument enthält eins der folgenden Wörter",
-  "@documentContainsAnyOfTheseWords": {},
-  "any": "Irgendein Wort",
-  "@any": {},
-  "learnMatchingAutomatically": "Zuweisung automatisch erlernen",
-  "@learnMatchingAutomatically": {},
-  "auto": "Auto",
-  "@auto": {},
-  "documentContainsThisString": "Dokument enthält die folgende Zeichenkette",
-  "@documentContainsThisString": {},
-  "exact": "Exakt",
-  "@exact": {},
-  "documentContainsAWordSimilarToThisWord": "Dokument enthält ein zum folgenden Wort ähnliches Wort",
-  "@documentContainsAWordSimilarToThisWord": {},
-  "fuzzy": "Ungenau",
-  "@fuzzy": {},
-  "documentMatchesThisRegularExpression": "Dokument passt zum folgenden Ausdruck",
-  "@documentMatchesThisRegularExpression": {},
-  "regularExpression": "Regulärer Ausdruck",
-  "@regularExpression": {},
-  "anInternetConnectionCouldNotBeEstablished": "Es konte keine Verbindung zum Internet hergestellt werden.",
-  "@anInternetConnectionCouldNotBeEstablished": {},
-  "done": "Fertig",
-  "@done": {},
-  "next": "Weiter",
-  "@next": {},
-  "couldNotAccessReceivedFile": "Der Zugriff auf die empfangene Datei wurde verweigert. Bitte öffne die App vor dem teilen.",
-  "@couldNotAccessReceivedFile": {},
+  "newDocumentAvailable": "Neues Dokument verfügbar!",
+  "@newDocumentAvailable": {},
+  "newerVersionAvailable": "Neuere Version verfügbar:",
+  "newNote": "Neue Notiz",
   "newView": "Neue Ansicht",
   "@newView": {},
-  "createsASavedViewBasedOnTheCurrentFilterCriteria": "Erstellt eine neue Ansicht basierend auf den aktuellen Filterkriterien.",
-  "@createsASavedViewBasedOnTheCurrentFilterCriteria": {},
-  "createViewsToQuicklyFilterYourDocuments": "Lege Ansichten an, um Dokumente schneller zu finden.",
-  "@createViewsToQuicklyFilterYourDocuments": {},
+  "next": "Weiter",
+  "@next": {},
   "nFiltersSet": "{count, plural, zero{{count} Filter gesetzt} one{{count} Filter gesetzt} other{{count} Filter gesetzt}}",
   "@nFiltersSet": {
     "placeholders": {
       "count": {}
     }
   },
-  "showInSidebar": "In Seitenleiste zeigen",
-  "@showInSidebar": {},
-  "showOnDashboard": "Auf Startseite zeigen",
-  "@showOnDashboard": {},
-  "views": "Ansichten",
-  "@views": {},
-  "clearAll": "Alle löschen",
-  "@clearAll": {},
-  "scan": "Aufnahme",
-  "@scan": {},
-  "previewScan": "Vorschau",
-  "@previewScan": {},
-  "scrollToTop": "Zum Anfang",
-  "@scrollToTop": {},
-  "paperlessServerVersion": "Paperless Server-Version",
-  "@paperlessServerVersion": {},
-  "darkTheme": "Dunkler Modus",
-  "@darkTheme": {},
-  "lightTheme": "Heller Modus",
-  "@lightTheme": {},
-  "systemTheme": "Benutze Sytemeinstellung",
-  "@systemTheme": {},
-  "appearance": "Aussehen",
-  "@appearance": {},
-  "languageAndVisualAppearance": "Sprache und Aussehen",
-  "@languageAndVisualAppearance": {},
-  "applicationSettings": "Anwendung",
-  "@applicationSettings": {},
-  "colorSchemeHint": "Wähle zwischen einem klassischen Farbschema, das vom traditionellen Paperless-Grün inspiriert ist, oder einem dynamische Farbschema basierend auf den Systemfarben.",
-  "@colorSchemeHint": {},
-  "colorSchemeNotSupportedWarning": "Dynamische Farbgebung wird nur von Geräten mit Android 12 und höher unterstützt. Das Auswählen des dynamischen Farbschemas hat für Geräte unter Android 12 womöglich keinen Effekt.",
-  "@colorSchemeNotSupportedWarning": {},
-  "colors": "Farben",
-  "@colors": {},
-  "language": "Sprache",
-  "@language": {},
-  "security": "Sicherheit",
-  "@security": {},
-  "mangeFilesAndStorageSpace": "Dateien und Speicherplatz verwalten",
-  "@mangeFilesAndStorageSpace": {},
-  "storage": "Speicher",
-  "@storage": {},
-  "dark": "Dunkel",
-  "@dark": {},
-  "light": "Hell",
-  "@light": {},
-  "system": "System",
-  "@system": {},
-  "ascending": "Aufsteigend",
-  "@ascending": {},
-  "descending": "Absteigend",
-  "@descending": {},
-  "storagePathDay": "Tag",
-  "@storagePathDay": {},
-  "storagePathMonth": "Monat",
-  "@storagePathMonth": {},
-  "storagePathYear": "Jahr",
-  "@storagePathYear": {},
-  "color": "Farbe",
-  "@color": {},
-  "filterTags": "Beginne zu tippen...",
-  "@filterTags": {},
-  "inboxTag": "Posteingangs-Tag",
-  "@inboxTag": {},
-  "uploadInferValuesHint": "Wenn Werte für diese Felder angegeben werden, wird Paperless nicht automatisch einen Wert zuweisen. Wenn diese Felder automatisch von Paperless erkannt werden sollen, sollten die Felder leer bleiben.",
-  "@uploadInferValuesHint": {},
-  "useTheConfiguredBiometricFactorToAuthenticate": "Benutze den konfigurierten Biometrischen Faktor um dich zu identifizieren und auf deine Dokumente zuzugreifen.",
-  "@useTheConfiguredBiometricFactorToAuthenticate": {},
-  "verifyYourIdentity": "Verifiziere deine Identität",
-  "@verifyYourIdentity": {},
-  "verifyIdentity": "Identität verifizieren",
-  "@verifyIdentity": {},
-  "detailed": "Detailliert",
-  "@detailed": {},
-  "grid": "Raster",
-  "@grid": {},
-  "list": "Liste",
-  "@list": {},
-  "remove": "Entfernen",
-  "removeQueryFromSearchHistory": "Aus Suchverlauf entfernen?",
-  "dynamicColorScheme": "Dynamisch",
-  "@dynamicColorScheme": {},
-  "classicColorScheme": "Klassisch",
-  "@classicColorScheme": {},
+  "noAppToDisplayPDFFilesFound": "Es wurde keine App zum Anzeigen von PDF Dateien gefunden!",
+  "@noAppToDisplayPDFFilesFound": {},
+  "noCorrespondentsSetUp": "Es wurden noch keine Korrespondenten angelegt.",
+  "@noCorrespondentsSetUp": {},
+  "noDocumentsFound": "Keine Dokumente gefunden.",
+  "@noDocumentsFound": {
+    "description": "Message shown when no documents were found."
+  },
+  "noDocumentsScannedYet": "Es wurden noch keine Dokumente gescannt.",
+  "@noDocumentsScannedYet": {},
+  "noDocumentTypesSetUp": "Es wurden noch keine Dokumenttypen angelegt.",
+  "@noDocumentTypesSetUp": {},
+  "noItemsFound": "Keine Treffer gefunden!",
+  "@noItemsFound": {},
+  "noLogsFoundOn": "Keine Logs am {date} gefunden.",
+  "noMatchesFound": "Keine Treffer.",
+  "@noMatchesFound": {
+    "description": "Displayed when no documents were found in the document search."
+  },
+  "none": "Keine",
+  "@none": {
+    "description": "One of available enum values of matching algorithm for tags"
+  },
+  "noStoragePathsSetUp": "Es wurden noch keine Speicherpfade angelegt.",
+  "@noStoragePathsSetUp": {},
+  "noSuggestionsForThisDocument": "Keine Vorschläge verfügbar.",
+  "noTagsSetUp": "Es wurden noch keine Tags angelegt.",
+  "@noTagsSetUp": {},
+  "notAssigned": "Nicht zugewiesen",
+  "@notAssigned": {},
+  "notes": "{count, plural, zero{Notizen} one{Notiz} other{Notizen}}",
+  "notesMarkdownSyntaxSupportHint": "Paperless Mobile unterstützt Markdown-Syntax zur Darstellung und Formatierung von Notizen. Probiere es aus!",
   "notificationDownloadComplete": "Download abgeschlossen",
   "@notificationDownloadComplete": {
     "description": "Notification title when a download has been completed."
@@ -686,363 +770,323 @@
   "@notificationDownloadingDocument": {
     "description": "Notification title shown when a document download is pending"
   },
-  "archiveSerialNumberUpdated": "Archiv-Seriennummer aktualisiert.",
-  "@archiveSerialNumberUpdated": {
-    "description": "Message shown when the ASN has been updated."
+  "noViewsMarkedInSidebar": "Du hast keine Ansichten, die in der Seitenleiste angezeigt werden sollen.",
+  "nUnseen": "{count} ungesehen",
+  "@nUnseen": {
+    "placeholders": {
+      "count": {}
+    }
   },
-  "donateCoffee": "Spendiere mir einen Kaffee",
-  "@donateCoffee": {
-    "description": "Label displayed in the app drawer"
+  "ok": "Ok",
+  "@ok": {},
+  "oops": "Ups.",
+  "@oops": {},
+  "openInSystemViewer": "In System-Viewer öffnen",
+  "@openInSystemViewer": {},
+  "or": "oder",
+  "@or": {
+    "description": "Used on the scanner page between both main actions when no scans have been captured."
   },
-  "thisFieldIsRequired": "Dieses Feld ist erforderlich!",
-  "@thisFieldIsRequired": {
-    "description": "Message shown below the form field when a required field has not been filled out."
+  "orderBy": "Sortiere nach",
+  "@orderBy": {},
+  "original": "Original",
+  "@original": {
+    "description": "Option to chose when downloading a document"
   },
-  "confirm": "Bestätigen",
-  "confirmAction": "Aktion bestätigen",
-  "@confirmAction": {
-    "description": "Typically used as a title to confirm a previously selected action"
+  "originalFilename": "Ursprünglicher Dateiname",
+  "originalFileSize": "Dateigröße Original",
+  "@originalFileSize": {},
+  "originalMD5Checksum": "MD5-Prüfsumme Original",
+  "@originalMD5Checksum": {},
+  "originalMIMEType": "MIME-Typ Original",
+  "@originalMIMEType": {},
+  "overview": "Übersicht",
+  "@overview": {
+    "description": "Label shown in the tabbar on details page"
   },
-  "areYouSureYouWantToContinue": "Bist Du sicher, dass Du fortfahren möchtest?",
-  "bulkEditTagsAddMessage": "{count, plural, one{Diese Operation wird die Tags {tags} dem ausgewählten Dokument hinzufügen.} other{Diese Operation wird die Tags {tags} den {count} ausgewählten Dokumenten hinzufügen.}}",
-  "@bulkEditTagsAddMessage": {
-    "description": "Message of the confirmation dialog when bulk adding tags."
+  "owner": "Owner",
+  "paperlessServerVersion": "Paperless Server-Version",
+  "@paperlessServerVersion": {},
+  "passphrase": "Passphrase",
+  "@passphrase": {},
+  "password": "Passwort",
+  "@password": {},
+  "passwordMustNotBeEmpty": "Passwort darf nicht leer sein.",
+  "@passwordMustNotBeEmpty": {},
+  "pendingFiles": "Ausstehende Dateien",
+  "permissions": "Berechtigungen",
+  "persistingUserInformation": "Nutzerinformationen werden gespeichert...",
+  "prepareDocument": "Dokument vorbereiten",
+  "@prepareDocument": {},
+  "preview": "Vorschau",
+  "@preview": {
+    "description": "Title of the document preview page"
   },
-  "bulkEditTagsRemoveMessage": "{count, plural, one{Diese Operation wird die Tags {tags} vom ausgewählten Dokument entfernen.} other{Diese Operation wird die Tags {tags} von den {count} ausgewählten Dokumenten entfernen.}}",
-  "@bulkEditTagsRemoveMessage": {
-    "description": "Message of the confirmation dialog when bulk removing tags."
-  },
-  "bulkEditTagsModifyMessage": "{count, plural, one{Diese Operation wird die Tags {addTags} hinzufügen und die Tags {removeTags} von dem ausgewählten Dokument entfernen.} other{Diese Operation wird die Tags {addTags} hinzufügen und die Tags {removeTags} von {count} ausgewählten Dokumenten entfernen.}}",
-  "@bulkEditTagsModifyMessage": {
-    "description": "Message of the confirmation dialog when both adding and removing tags."
-  },
-  "bulkEditCorrespondentAssignMessage": "{count, plural, one{Diese Operation wird den Korrespondent {correspondent} dem ausgewählten Dokument zuweisen.} other{Diese Operation wird den Korrespondent {correspondent} den {count} ausgewählten Dokumenten zuweisen.}}",
-  "bulkEditDocumentTypeAssignMessage": "{count, plural, one{Diese Operation wird den Dokumenttyp {docType} dem ausgewählten Dokument zuweisen.} other{Diese Operation wird den Dokumenttyp {docType} den {count} ausgewählten Dokumenten zuweisen.}}",
-  "bulkEditStoragePathAssignMessage": "{count, plural, one{Diese Operation wird den Speicherpfad {path} dem ausgewählten Dokument zuweisen.} other{Diese Operation wird den Speicherpfad {path} den {count} ausgewählten Dokumenten zuweisen.}}",
-  "bulkEditCorrespondentRemoveMessage": "{count, plural, one{Diese Operation wird den Korrespondent vom ausgewählten Dokument entfernen.} other{Diese Operation wird den Korrespondent von {count} ausgewählten Dokumenten entfernen.}}",
-  "bulkEditDocumentTypeRemoveMessage": "{count, plural, one{Diese Operation wird den Dokumenttyp vom ausgewählten Dokument entfernen.} other{Diese Operation wird den Dokumenttyp von {count} ausgewählten Dokumenten entfernen.}}",
-  "bulkEditStoragePathRemoveMessage": "{count, plural, one{Diese Operation wird den Speicherpfad vom ausgewählten Dokument entfernen.} other{Diese Operation wird den Speicherpfad von {count} ausgewählten Dokumenten entfernen.}}",
-  "anyTag": "Irgendeines",
-  "@anyTag": {
-    "description": "Label shown when any tag should be filtered"
-  },
-  "allTags": "Alle",
-  "@allTags": {
-    "description": "Label shown when a document has to be assigned to all selected tags"
-  },
-  "switchingAccountsPleaseWait": "Kontowechsel, bitte warten...",
-  "@switchingAccountsPleaseWait": {
-    "description": "Message shown while switching accounts is in progress."
-  },
-  "testConnection": "Verbindung testen",
-  "@testConnection": {
-    "description": "Button label shown on login page. Allows user to test whether the server is reachable or not."
-  },
-  "accounts": "Accounts",
-  "@accounts": {
-    "description": "Title of the account management dialog"
-  },
-  "addAccount": "Account hinzufügen",
-  "@addAccount": {
-    "description": "Label of add account action"
-  },
-  "switchAccount": "Wechseln",
-  "@switchAccount": {
-    "description": "Label for switch account action"
-  },
-  "logout": "Ausloggen",
-  "@logout": {
-    "description": "Generic Logout label"
-  },
-  "switchAccountTitle": "Account wechseln",
-  "@switchAccountTitle": {
-    "description": "Title of the dialog shown after adding an account, asking the user whether to switch to the newly added account or not."
-  },
-  "switchToNewAccount": "Möchtest du zum neuen Account wechseln? Du kannst jederzeit zurückwechseln.",
-  "@switchToNewAccount": {
-    "description": "Content of the dialog shown after adding an account, asking the user whether to switch to the newly added account or not."
-  },
-  "sourceCode": "Source Code",
-  "findTheSourceCodeOn": "Finde den Code auf",
-  "@findTheSourceCodeOn": {
-    "description": "Text before link to Paperless Mobile GitHub"
-  },
-  "rememberDecision": "Meine Entscheidung merken",
-  "defaultDownloadFileType": "Standard Dateityp beim Herunterladen",
-  "@defaultDownloadFileType": {
-    "description": "Label indicating the default filetype to download (one of archived, original and always ask)"
-  },
-  "defaultShareFileType": "Standard Dateityp beim Teilen",
-  "@defaultShareFileType": {
-    "description": "Label indicating the default filetype to share (one of archived, original and always ask)"
-  },
-  "alwaysAsk": "Immer fragen",
-  "@alwaysAsk": {
-    "description": "Option to choose when the app should always ask the user which filetype to use"
-  },
-  "disableMatching": "Deaktiviere automatische Zuweisung",
-  "@disableMatching": {
-    "description": "One of the options for automatic tagging of documents"
-  },
-  "none": "Keine",
-  "@none": {
-    "description": "One of available enum values of matching algorithm for tags"
-  },
-  "logInToExistingAccount": "Mit bestehendem Account anmelden",
-  "@logInToExistingAccount": {
-    "description": "Title shown on login page if at least one user is already known to the app."
+  "previewScan": "Vorschau",
+  "@previewScan": {},
+  "previewTooltip": "Vorschau",
+  "@previewTooltip": {
+    "description": "Tooltip shown for the preview button on details page"
   },
   "print": "Drucken",
   "@print": {
     "description": "Tooltip for print button"
   },
-  "managePermissions": "Berechtigungen verwalten",
-  "@managePermissions": {
-    "description": "Button which leads user to manage permissions page"
-  },
-  "errorRetrievingServerVersion": "Beim Laden der Server-Version ist ein Fehler aufgetreten.",
-  "@errorRetrievingServerVersion": {
-    "description": "Message shown at the bottom of the settings page when the remote server version could not be resolved."
-  },
+  "quickAction": "Schnell Aktion",
+  "@quickAction": {},
+  "refresh": "Neu laden",
+  "@refresh": {},
+  "regularExpression": "Regulärer Ausdruck",
+  "@regularExpression": {},
+  "relative": "Relativ",
+  "@relative": {},
+  "reload": "Neu laden",
+  "@reload": {},
+  "rememberDecision": "Meine Entscheidung merken",
+  "remove": "Entfernen",
+  "removeDocumentFromInbox": "Dokument aus Posteingang entfernt.",
+  "@removeDocumentFromInbox": {},
+  "removeFromSearchHistory": "Aus dem Suchverlauf entfernen?",
+  "@removeFromSearchHistory": {},
+  "removeQueryFromSearchHistory": "Aus Suchverlauf entfernen?",
+  "report": "MELDEN",
+  "@report": {},
+  "reportABug": "Einen Fehler melden",
+  "@reportABug": {},
+  "requestTimedOut": "Bei der Anfrage an den Server kam es zu einer Zeitüberschreitung.",
+  "@requestTimedOut": {},
+  "reset": "Zurücksetzen",
+  "@reset": {},
+  "resetFilter": "Filter zurücksetzen",
+  "@resetFilter": {},
   "resolvingServerVersion": "Lade Server-Version...",
   "@resolvingServerVersion": {
     "description": "Message shown while the app is loading the remote server version."
-  },
-  "goToLogin": "Gehe zur Anmeldung",
-  "@goToLogin": {
-    "description": "Label of the button shown on the login page to skip logging in to existing accounts and navigate user to login page"
-  },
-  "export": "Exportieren",
-  "@export": {
-    "description": "Label for button that exports scanned images to pdf (before upload)"
-  },
-  "invalidFilenameCharacter": "Ungültige(s) Zeichen im Dateinamen gefunden: {characters}",
-  "@invalidFilenameCharacter": {
-    "description": "For validating filename in export dialogue"
-  },
-  "exportScansToPdf": "Scans als PDF exportieren",
-  "@exportScansToPdf": {
-    "description": "title of the alert dialog when exporting scans to pdf"
-  },
-  "allScansWillBeMerged": "Alle Scans werden in eine einzige PDF-Datei zusammengeführt.",
-  "behavior": "Verhalten",
-  "@behavior": {
-    "description": "Title of the settings concerning app beahvior"
-  },
-  "theme": "Erscheinungsbild",
-  "@theme": {
-    "description": "Title of the theme mode setting"
-  },
-  "clearCache": "Cache leeren",
-  "@clearCache": {
-    "description": "Title of the clear cache setting"
-  },
-  "freeBytes": "{byteString} freigeben",
-  "@freeBytes": {
-    "description": "Text shown for clear storage settings"
-  },
-  "calculatingDots": "Berechne...",
-  "@calculatingDots": {
-    "description": "Text shown when the byte size is still being calculated"
-  },
-  "freedDiskSpace": "{bytes} erfolgreich freigegeben.",
-  "@freedDiskSpace": {
-    "description": "Message shown after clearing storage"
-  },
-  "uploadScansAsPdf": "Scans als PDF hochladen",
-  "@uploadScansAsPdf": {
-    "description": "Title of the setting which toggles whether scans are always uploaded as pdf"
-  },
-  "convertSinglePageScanToPdf": "Einseitige Scans vor dem Hochladen immer in PDF umwandeln",
-  "@convertSinglePageScanToPdf": {
-    "description": "description of the upload scans as pdf setting"
-  },
-  "loginRequiredPermissionsHint": "Die Verwendung von Paperless Mobile erfordert seit paperless-ngx 1.14.0 und höher ein Mindestmaß an Benutzerberechtigungen. Stelle deshalb bitte sicher, dass der anzumeldende Benutzer die Berechtigung hat, andere Benutzer (User → View) und die Einstellungen (UISettings → View) einzusehen. Falls du nicht über diese Berechtigungen verfügst, wende dich bitte an einen Administrator deines paperless-ngx Servers.",
-  "@loginRequiredPermissionsHint": {
-    "description": "Hint shown on the login page informing the user of the required permissions to use the app."
-  },
-  "missingPermissions": "Sie besitzen nicht die benötigten Berechtigungen, um diese Aktion durchzuführen.",
-  "@missingPermissions": {
-    "description": "Message shown in a snackbar when a user without the reequired permissions performs an action."
-  },
-  "editView": "Ansicht bearbeiten",
-  "@editView": {
-    "description": "Title of the edit saved view page"
-  },
-  "donate": "Spenden",
-  "@donate": {
-    "description": "Label of the in-app donate button"
-  },
-  "donationDialogContent": "Vielen Dank, dass Du diese App unterstützen möchtest! Aufgrund der Zahlungsrichtlinien von Google und Apple dürfen keine Links, die zu Spendenseiten führen, in der App angezeigt werden. Nicht einmal die Verlinkung zur Repository-Seite des Projekts scheint in diesem Zusammenhang erlaubt zu sein. Werfe von daher vielleicht einen Blick auf den Abschnitt 'Donations' in der README des Projekts. Deine Unterstützung ist sehr willkommen und hält die Entwicklung dieser App am Leben. Vielen Dank!",
-  "@donationDialogContent": {
-    "description": "Text displayed in the donation dialog"
-  },
-  "noDocumentsFound": "Keine Dokumente gefunden.",
-  "@noDocumentsFound": {
-    "description": "Message shown when no documents were found."
-  },
-  "couldNotDeleteCorrespondent": "Korrespondent konnte nicht gelöscht werden, bitte versuche es erneut.",
-  "@couldNotDeleteCorrespondent": {
-    "description": "Message shown in snackbar when a correspondent could not be deleted."
-  },
-  "couldNotDeleteDocumentType": "Dokumenttyp konnten nicht gelöscht werden, bitte versuche es erneut.",
-  "@couldNotDeleteDocumentType": {
-    "description": "Message shown when a document type could not be deleted"
-  },
-  "couldNotDeleteTag": "Tag konnte nicht gelöscht werden, bitte versuche es erneut.",
-  "@couldNotDeleteTag": {
-    "description": "Message shown when a tag could not be deleted"
-  },
-  "couldNotDeleteStoragePath": "Speicherpfad konnte nicht gelöscht werden, bitte versuchen Sie es erneut.",
-  "@couldNotDeleteStoragePath": {
-    "description": "Message shown when a storage path could not be deleted"
-  },
-  "couldNotUpdateCorrespondent": "Korrespondent konnte nicht aktualisiert werden, bitte versuche es erneut.",
-  "@couldNotUpdateCorrespondent": {
-    "description": "Message shown when a correspondent could not be updated"
-  },
-  "couldNotUpdateDocumentType": "Dokumenttyp konnte nicht aktualisiert werden, bitte versuche es erneut.",
-  "@couldNotUpdateDocumentType": {
-    "description": "Message shown when a document type could not be updated"
-  },
-  "couldNotUpdateTag": "Tag konnte nicht aktualisiert werden, bitte versuche es erneut.",
-  "@couldNotUpdateTag": {
-    "description": "Message shown when a tag could not be updated"
-  },
-  "couldNotLoadServerInformation": "Serverinformationen konnten nicht geladen werden.",
-  "@couldNotLoadServerInformation": {
-    "description": "Message shown when the server information could not be loaded"
-  },
-  "couldNotLoadStatistics": "Serverstatistiken konnten nicht geladen werden.",
-  "@couldNotLoadStatistics": {
-    "description": "Message shown when the server statistics could not be loaded"
-  },
-  "couldNotLoadUISettings": "UI Einstellungen konnten nicht geladen werden.",
-  "@couldNotLoadUISettings": {
-    "description": "Message shown when the UI settings could not be loaded"
-  },
-  "couldNotLoadTasks": "Dateiaufgaben konnten nicht geladen werden.",
-  "@couldNotLoadTasks": {
-    "description": "Message shown when the tasks (e.g. document consumed) could not be loaded"
-  },
-  "userNotFound": "Der Nutzer konnte nicht gefunden werden.",
-  "@userNotFound": {
-    "description": "Message shown when the specified user (e.g. by id) could not be found"
-  },
-  "couldNotUpdateSavedView": "Ansicht konnte nicht aktualisiert werden, bitte versuche es erneut.",
-  "@couldNotUpdateSavedView": {
-    "description": "Message shown when a saved view could not be updated"
-  },
-  "couldNotUpdateStoragePath": "Speicherpfad konnte nicht aktualisiert werden, bitte versuchen Sie es erneut.",
-  "savedViewSuccessfullyUpdated": "Ansicht erfolgreich aktualisiert.",
-  "@savedViewSuccessfullyUpdated": {
-    "description": "Message shown when a saved view was successfully updated."
-  },
-  "discardChanges": "Änderungen verwerfen?",
-  "@discardChanges": {
-    "description": "Title of the alert dialog shown when a user tries to close a view with unsaved changes."
-  },
-  "savedViewChangedDialogContent": "Die Filterbedingungen der aktiven Ansicht haben sich geändert. Durch Zurücksetzen des aktuellen Filters gehen diese Änderungen verloren. Möchtest du trotzdem fortfahren?",
-  "@savedViewChangedDialogContent": {
-    "description": "Content of the alert dialog shown when all of the following applies:\r\n* User has saved view selected\r\n* User has performed changes to the current document filter\r\n* User now tries to reset this filter without having saved the changes to the view."
-  },
-  "createFromCurrentFilter": "Vom aktuellen Filter erstellen",
-  "@createFromCurrentFilter": {
-    "description": "Tooltip of the \"New saved view\" button"
-  },
-  "home": "Startseite",
-  "@home": {
-    "description": "Label of the \"Home\" route"
-  },
-  "welcomeUser": "Willkommen, {name}!",
-  "@welcomeUser": {
-    "description": "Top message shown on the home page"
-  },
-  "statistics": "Statistiken",
-  "documentsInInbox": "Dokumente im Posteingang",
-  "totalDocuments": "Dokumente insgesamt",
-  "totalCharacters": "Zeichen insgesamt",
-  "showAll": "Alle anzeigen",
-  "@showAll": {
-    "description": "Button label shown on a saved view preview to open this view in the documents page"
-  },
-  "userAlreadyExists": "Dieser Nutzer existiert bereits.",
-  "@userAlreadyExists": {
-    "description": "Error message shown when the user tries to add an already existing account."
-  },
-  "youDidNotSaveAnyViewsYet": "Du hast noch keine Ansichten gespeichert. Erstelle eine neue Ansicht, und sie wird hier angezeigt.",
-  "@youDidNotSaveAnyViewsYet": {
-    "description": "Message shown when there are no saved views yet."
-  },
-  "tryAgain": "Erneut versuchen",
-  "discardFile": "Datei verwerfen?",
-  "discard": "Verwerfen",
-  "backToLogin": "Zurück zur Anmeldung",
-  "skipEditingReceivedFiles": "Bearbeitung von empfangenen Dateien überspringen",
-  "uploadWithoutPromptingUploadForm": "Mit der App geteilte Dateien immer direkt hochladen, ohne das Upload-Formular anzuzeigen.",
-  "authenticatingDots": "Authentifizieren...",
-  "@authenticatingDots": {
-    "description": "Message shown when the app is authenticating the user"
-  },
-  "persistingUserInformation": "Nutzerinformationen werden gespeichert...",
-  "fetchingUserInformation": "Benutzerinformationen werden abgerufen...",
-  "@fetchingUserInformation": {
-    "description": "Message shown when the app loads user data from the server"
   },
   "restoringSession": "Sitzung wird wiederhergestellt...",
   "@restoringSession": {
     "description": "Message shown when the user opens the app and the previous user is tried to be authenticated and logged in"
   },
-  "documentsAssigned": "{count, plural, zero{Keine Dokumente} one{1 Dokument} other{{count} Dokumente}}",
-  "@documentsAssigned": {
-    "description": "Text shown with a correspondent, document type etc. to indicate the number of documents this filter will maximally yield."
+  "results": "Ergebnisse",
+  "@results": {
+    "description": "Label displayed above search results in document search."
   },
-  "discardChangesWarning": "Du hast ungespeicherte Änderungen. Diese gehen verloren, falls du fortfährst. Möchtest du die Änderungen verwerfen?",
-  "@discardChangesWarning": {
-    "description": "Warning message shown when the user tries to close a route without saving the changes."
+  "save": "Speichern",
+  "@save": {},
+  "saveChanges": "Änderungen speichern",
+  "@saveChanges": {},
+  "savedViewChangedDialogContent": "Die Filterbedingungen der aktiven Ansicht haben sich geändert. Durch Zurücksetzen des aktuellen Filters gehen diese Änderungen verloren. Möchtest du trotzdem fortfahren?",
+  "@savedViewChangedDialogContent": {
+    "description": "Content of the alert dialog shown when all of the following applies:\r\n* User has saved view selected\r\n* User has performed changes to the current document filter\r\n* User now tries to reset this filter without having saved the changes to the view."
   },
-  "changelog": "Changelog",
-  "noLogsFoundOn": "Keine Logs am {date} gefunden.",
-  "logfileBottomReached": "Du hast das Ende dieser Logdatei erreicht.",
-  "appLogs": "App Logs {date}",
+  "savedViewSuccessfullyUpdated": "Ansicht erfolgreich aktualisiert.",
+  "@savedViewSuccessfullyUpdated": {
+    "description": "Message shown when a saved view was successfully updated."
+  },
   "saveLogsToFile": "Logs in Datei speichern",
-  "copyToClipboard": "In Zwischenablage kopieren",
-  "couldNotLoadLogfileFrom": "Logs vom {date} konnten nicht geladen werden.",
-  "loadingLogsFrom": "Lade Logs vom {date}...",
-  "clearLogs": "Logs vom {date} leeren",
+  "scan": "Aufnahme",
+  "@scan": {},
+  "scanADocument": "Scanne ein Dokument",
+  "@scanADocument": {},
+  "scanner": "Scanner",
+  "@scanner": {},
+  "scrollToTop": "Zum Anfang",
+  "@scrollToTop": {},
+  "search": "Suche",
+  "@search": {},
+  "searchDocuments": "Durchsuche Dokumente",
+  "@searchDocuments": {},
+  "security": "Sicherheit",
+  "@security": {},
+  "select": "Auswählen",
+  "@select": {},
+  "selectDateRange": "Wähle Zeitraum",
+  "@selectDateRange": {},
+  "selectFile": "Datei auswählen...",
+  "@selectFile": {},
+  "serverAddress": "Server-Adresse",
+  "@serverAddress": {},
+  "serverAddressMustIncludeAScheme": "Server-Adresse muss ein Schema enthalten.",
+  "@serverAddressMustIncludeAScheme": {},
+  "serverAddressMustNotBeEmpty": "Server-Addresse darf nicht leer sein.",
+  "@serverAddressMustNotBeEmpty": {},
+  "settings": "Einstellungen",
+  "@settings": {},
+  "shareTooltip": "Teilen",
+  "@shareTooltip": {
+    "description": "Tooltip shown for the share button on details page"
+  },
+  "showAll": "Alle anzeigen",
+  "@showAll": {
+    "description": "Button label shown on a saved view preview to open this view in the documents page"
+  },
+  "showInSidebar": "In Seitenleiste zeigen",
+  "@showInSidebar": {},
+  "showOnDashboard": "Auf Startseite zeigen",
+  "@showOnDashboard": {},
   "showPdf": "PDF anzeigen",
   "@showPdf": {
     "description": "Tooltip shown on the \"show pdf\" button on the document edit page"
   },
-  "hidePdf": "PDF ausblenden",
-  "@hidePdf": {
-    "description": "Tooltip shown on the \"show pdf\" icon button on the document edit page"
+  "signIn": "Anmelden",
+  "@signIn": {},
+  "signInToServer": "Bei {serverAddress} anmelden",
+  "@signInToServer": {
+    "placeholders": {
+      "serverAddress": {}
+    }
   },
-  "misc": "Sonstige",
-  "loggingOut": "Abmelden...",
+  "similarDocuments": "Ähnliche Dokumente",
+  "@similarDocuments": {
+    "description": "Label shown in the tabbar on details page"
+  },
+  "skipEditingReceivedFiles": "Bearbeitung von empfangenen Dateien überspringen",
+  "sourceCode": "Source Code",
+  "startTyping": "Beginne zu tippen...",
+  "@startTyping": {},
+  "statistics": "Statistiken",
+  "storage": "Speicher",
+  "@storage": {},
+  "storagePath": "Speicherpfad",
+  "@storagePath": {},
+  "storagePathDay": "Tag",
+  "@storagePathDay": {},
+  "storagePathMonth": "Monat",
+  "@storagePathMonth": {},
+  "storagePaths": "Speicherpfade",
+  "@storagePaths": {},
+  "storagePathYear": "Jahr",
+  "@storagePathYear": {},
+  "suggestions": "Vorschläge: ",
+  "@suggestions": {},
+  "suggestionSuccessfullyApplied": "Vorschlag wurde erfolgreich angewendet.",
+  "@suggestionSuccessfullyApplied": {},
+  "swipeLeftToMarkADocumentAsSeen": "Tipp: Wische nach links um ein Dokument als gesehen zu markieren und alle Posteingangs-Tags von diesem Dokument zu entfernen.",
+  "@swipeLeftToMarkADocumentAsSeen": {},
+  "switchAccount": "Wechseln",
+  "@switchAccount": {
+    "description": "Label for switch account action"
+  },
+  "switchAccountTitle": "Account wechseln",
+  "@switchAccountTitle": {
+    "description": "Title of the dialog shown after adding an account, asking the user whether to switch to the newly added account or not."
+  },
+  "switchingAccountsPleaseWait": "Kontowechsel, bitte warten...",
+  "@switchingAccountsPleaseWait": {
+    "description": "Message shown while switching accounts is in progress."
+  },
+  "switchToNewAccount": "Möchtest du zum neuen Account wechseln? Du kannst jederzeit zurückwechseln.",
+  "@switchToNewAccount": {
+    "description": "Content of the dialog shown after adding an account, asking the user whether to switch to the newly added account or not."
+  },
+  "synchronizeTitleAndFilename": "Synchronisiere Titel und Dateiname",
+  "@synchronizeTitleAndFilename": {},
+  "system": "System",
+  "@system": {},
+  "systemTheme": "Benutze Sytemeinstellung",
+  "@systemTheme": {},
+  "tags": "Tags",
+  "@tags": {},
+  "testConnection": "Verbindung testen",
+  "@testConnection": {
+    "description": "Button label shown on login page. Allows user to test whether the server is reachable or not."
+  },
   "testingConnection": "Teste Verbindung...",
   "@testingConnection": {
     "description": "Text shown while the app tries to establish a connection to the specified host."
   },
+  "theme": "Erscheinungsbild",
+  "@theme": {
+    "description": "Title of the theme mode setting"
+  },
+  "thereAreNoPendingFiles": "There are no pending files.",
+  "thereSeemsToBeNothingHere": "Es scheint nichts hier zu sein...",
+  "@thereSeemsToBeNothingHere": {},
+  "thisActionIsIrreversibleDoYouWishToProceedAnyway": "Diese Aktion ist unwiderruflich. Möchtest Du trotzdem fortfahren?",
+  "@thisActionIsIrreversibleDoYouWishToProceedAnyway": {},
+  "thisFieldIsRequired": "Dieses Feld ist erforderlich!",
+  "@thisFieldIsRequired": {
+    "description": "Message shown below the form field when a required field has not been filled out."
+  },
+  "timeUnit": "Zeiteinheit",
+  "@timeUnit": {},
+  "title": "Titel",
+  "@title": {},
+  "titleAndContent": "Titel & Inhalt",
+  "@titleAndContent": {},
+  "today": "Heute",
+  "@today": {},
+  "totalCharacters": "Zeichen insgesamt",
+  "totalDocuments": "Dokumente insgesamt",
+  "tryAgain": "Erneut versuchen",
+  "unauthorizedErrorMessage": "Du bist nicht berechtigt, diese Aktion durchzuführen. Bitte kontaktiere einen Administrator oder stelle sicher, dass Du über die erforderlichen Berechtigungen verfügst.",
+  "undo": "Undo",
+  "@undo": {},
+  "upload": "Hochladen",
+  "@upload": {},
+  "uploadADocumentFromThisDevice": "Lade ein Dokument von diesem Gerät hoch",
+  "@uploadADocumentFromThisDevice": {
+    "description": "Button label on scanner page"
+  },
+  "uploadInferValuesHint": "Wenn Werte für diese Felder angegeben werden, wird Paperless nicht automatisch einen Wert zuweisen. Wenn diese Felder automatisch von Paperless erkannt werden sollen, sollten die Felder leer bleiben.",
+  "@uploadInferValuesHint": {},
+  "uploadScansAsPdf": "Scans als PDF hochladen",
+  "@uploadScansAsPdf": {
+    "description": "Title of the setting which toggles whether scans are always uploaded as pdf"
+  },
+  "uploadStatusDocumentReceived": "Document received",
+  "uploadWithoutPromptingUploadForm": "Mit der App geteilte Dateien immer direkt hochladen, ohne das Upload-Formular anzuzeigen.",
+  "userAlreadyExists": "Dieser Nutzer existiert bereits.",
+  "@userAlreadyExists": {
+    "description": "Error message shown when the user tries to add an already existing account."
+  },
+  "userIsNotAuthenticated": "User is not authenticated.",
+  "@userIsNotAuthenticated": {},
+  "username": "Nutzername",
+  "@username": {},
+  "usernameMustNotBeEmpty": "Nutzername darf nicht leer sein.",
+  "@usernameMustNotBeEmpty": {},
+  "userNotFound": "Der Nutzer konnte nicht gefunden werden.",
+  "@userNotFound": {
+    "description": "Message shown when the specified user (e.g. by id) could not be found"
+  },
+  "useTheConfiguredBiometricFactorToAuthenticate": "Benutze den konfigurierten Biometrischen Faktor um dich zu identifizieren und auf deine Dokumente zuzugreifen.",
+  "@useTheConfiguredBiometricFactorToAuthenticate": {},
+  "value": "Wert",
+  "verifyIdentity": "Identität verifizieren",
+  "@verifyIdentity": {},
+  "verifyYourIdentity": "Verifiziere deine Identität",
+  "@verifyYourIdentity": {},
   "version": "Version {versionCode}",
-  "notes": "{count, plural, zero{Notizen} one{Notiz} other{Notizen}}",
-  "addNote": "Notiz hinzufügen",
-  "newerVersionAvailable": "Neuere Version verfügbar:",
-  "dateOutOfRange": "Das Datum muss zwischen {firstDate} und {lastDate} liegen.",
-  "@dateOutOfRange": {
-    "description": "Error message shown when the user tries to select a date outside of the allowed range.",
+  "views": "Ansichten",
+  "@views": {},
+  "weeks": "{count, plural, zero{} one{Woche} other{Wochen}}",
+  "@weeks": {
     "placeholders": {
-      "firstDate": {
-        "type": "DateTime",
-        "format": "yMd"
-      },
-      "lastDate": {
-        "type": "DateTime",
-        "format": "yMd"
-      }
+      "count": {}
     }
   },
-  "permissions": "Berechtigungen",
-  "newNote": "Neue Notiz",
-  "notesMarkdownSyntaxSupportHint": "Paperless Mobile unterstützt Markdown-Syntax zur Darstellung und Formatierung von Notizen. Probiere es aus!"
+  "welcomeUser": "Willkommen, {name}!",
+  "@welcomeUser": {
+    "description": "Top message shown on the home page"
+  },
+  "years": "{count, plural, zero{} one{Jahr} other{Jahre}}",
+  "@years": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "yesterday": "Gestern",
+  "@yesterday": {},
+  "youAreCurrentlyOffline": "Du bist offline. Bitte stelle sicher, dass du mit dem Internet verbunden bist.",
+  "@youAreCurrentlyOffline": {},
+  "youDidNotSaveAnyViewsYet": "Du hast noch keine Ansichten gespeichert. Erstelle eine neue Ansicht, und sie wird hier angezeigt.",
+  "@youDidNotSaveAnyViewsYet": {
+    "description": "Message shown when there are no saved views yet."
+  },
+  "youDoNotHaveUnseenDocuments": "Du hast keine ungesehenen Dokumente.",
+  "@youDoNotHaveUnseenDocuments": {},
+  "youHaveNoViewsOnYourDashboardYet": "Du hast noch keine Ansichten zu deinem Dashboard hinzugefügt.",
+  "youreOffline": "Du bist offline.",
+  "@youreOffline": {}
 }

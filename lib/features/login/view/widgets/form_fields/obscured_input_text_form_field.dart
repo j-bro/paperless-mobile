@@ -7,6 +7,7 @@ class ObscuredInputTextFormField extends StatefulWidget {
   final FormFieldValidator<String>? validator;
   final bool enabled;
   final FocusNode? focusNode;
+  final String? errorText;
 
   final ValueChanged<String?>? onFieldSubmitted;
 
@@ -19,6 +20,7 @@ class ObscuredInputTextFormField extends StatefulWidget {
     this.enabled = true,
     this.focusNode,
     this.onFieldSubmitted,
+    this.errorText,
   });
 
   @override
@@ -64,6 +66,7 @@ class _ObscuredInputTextFormFieldState
             _showPassword = !_showPassword;
           }),
         ),
+        errorText: widget.errorText,
       ),
     );
   }

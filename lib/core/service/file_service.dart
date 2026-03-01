@@ -49,10 +49,7 @@ class FileService {
     return _singleton!;
   }
 
-  Future<File> saveToFile(
-    Uint8List bytes,
-    String filename,
-  ) async {
+  Future<File> saveToFile(Uint8List bytes, String filename) async {
     File file = File(p.join(_logDirectory.path, filename));
     logger.fd(
       "Writing bytes to file $filename",
@@ -94,8 +91,9 @@ class FileService {
   }
 
   Future<Directory> getConsumptionDirectory({required String userId}) async {
-    return Directory(p.join(_uploadDirectory.path, userId))
-        .create(recursive: true);
+    return Directory(
+      p.join(_uploadDirectory.path, userId),
+    ).create(recursive: true);
   }
 
   Future<void> clearUserData({required String userId}) async {
@@ -106,13 +104,16 @@ class FileService {
       methodName: "clearUserData",
     );
 
-    final scanDirSize =
-        formatBytes(await getDirSizeInBytes(_temporaryScansDirectory));
-    final tempDirSize =
-        formatBytes(await getDirSizeInBytes(_temporaryDirectory));
+    final scanDirSize = formatBytes(
+      await getDirSizeInBytes(_temporaryScansDirectory),
+    );
+    final tempDirSize = formatBytes(
+      await getDirSizeInBytes(_temporaryDirectory),
+    );
     final consumptionDir = await getConsumptionDirectory(userId: userId);
-    final consumptionDirSize =
-        formatBytes(await getDirSizeInBytes(consumptionDir));
+    final consumptionDirSize = formatBytes(
+      await getDirSizeInBytes(consumptionDir),
+    );
 
     logger.ft(
       "Clearing scans directory...",
@@ -186,20 +187,23 @@ class FileService {
   }
 
   Future<void> _initTemporaryDirectory() async {
-    _temporaryDirectory =
-        await getTemporaryDirectory().then((value) => value.create());
+    _temporaryDirectory = await getTemporaryDirectory().then(
+      (value) => value.create(),
+    );
   }
 
   Future<void> _initializeDocumentsDirectory() async {
     if (Platform.isAndroid) {
-      final dirs =
-          await getExternalStorageDirectories(type: StorageDirectory.documents);
+      final dirs = await getExternalStorageDirectories(
+        type: StorageDirectory.documents,
+      );
       _documentsDirectory = await dirs!.first.create(recursive: true);
       return;
     } else if (Platform.isIOS) {
       final dir = await getApplicationDocumentsDirectory();
-      _documentsDirectory = await Directory(p.join(dir.path, 'documents'))
-          .create(recursive: true);
+      _documentsDirectory = await Directory(
+        p.join(dir.path, 'documents'),
+      ).create(recursive: true);
       return;
     } else {
       throw UnsupportedError("Platform not supported.");
@@ -210,15 +214,22 @@ class FileService {
     if (Platform.isAndroid) {
       _logDirectory =
           await getExternalStorageDirectories(type: StorageDirectory.documents)
-              .then((directory) async =>
-                  directory?.firstOrNull ??
-                  await getApplicationDocumentsDirectory())
-              .then((directory) => Directory(p.join(directory.path, 'logs'))
-                  .create(recursive: true));
+              .then(
+                (directory) async =>
+                    directory?.firstOrNull ??
+                    await getApplicationDocumentsDirectory(),
+              )
+              .then(
+                (directory) => Directory(
+                  p.join(directory.path, 'logs'),
+                ).create(recursive: true),
+              );
       return;
     } else if (Platform.isIOS) {
-      _logDirectory = await getApplicationDocumentsDirectory().then((value) =>
-          Directory(p.join(value.path, 'logs')).create(recursive: true));
+      _logDirectory = await getApplicationDocumentsDirectory().then(
+        (value) =>
+            Directory(p.join(value.path, 'logs')).create(recursive: true),
+      );
       return;
     }
     throw UnsupportedError("Platform not supported.");
@@ -246,15 +257,17 @@ class FileService {
   }
 
   Future<void> _initUploadDirectory() async {
-    final dir = await getApplicationDocumentsDirectory()
-        .then((dir) => Directory(p.join(dir.path, 'upload')));
+    final dir = await getApplicationDocumentsDirectory().then(
+      (dir) => Directory(p.join(dir.path, 'upload')),
+    );
     _uploadDirectory = await dir.create(recursive: true);
   }
 
   Future<void> _initTemporaryScansDirectory() async {
-    _temporaryScansDirectory =
-        await Directory(p.join(_temporaryDirectory.path, 'scans'))
-            .create(recursive: true);
+    final applicationDirectory = await getApplicationDocumentsDirectory();
+    final dir = Directory(p.join(applicationDirectory.path, 'scans'));
+    await dir.create(recursive: true);
+    _temporaryScansDirectory = dir;
   }
 }
 
@@ -264,7 +277,7 @@ enum PaperlessDirectoryType {
   scans,
   download,
   upload,
-  logs;
+  logs,
 }
 
 extension ClearDirectoryExtension on Directory {

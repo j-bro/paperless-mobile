@@ -4,7 +4,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:open_filex/open_filex.dart';
-import 'package:paperless_api/paperless_api.dart';
+import 'package:paperless_api/generated/lib/src/model/status_enum.dart';
+import 'package:paperless_api/generated/lib/src/model/tasks_view.dart';
 import 'package:paperless_mobile/features/notifications/converters/notification_tap_response_payload.dart';
 import 'package:paperless_mobile/features/notifications/models/notification_actions.dart';
 import 'package:paperless_mobile/features/notifications/models/notification_channels.dart';
@@ -25,15 +26,15 @@ class LocalNotificationService {
         AndroidInitializationSettings('paperless_logo_green');
     final DarwinInitializationSettings initializationSettingsDarwin =
         DarwinInitializationSettings(
-      requestSoundPermission: false,
-      requestBadgePermission: false,
-      requestAlertPermission: false,
-    );
+          requestSoundPermission: false,
+          requestBadgePermission: false,
+          requestAlertPermission: false,
+        );
     final InitializationSettings initializationSettings =
         InitializationSettings(
-      android: initializationSettingsAndroid,
-      iOS: initializationSettingsDarwin,
-    );
+          android: initializationSettingsAndroid,
+          iOS: initializationSettingsDarwin,
+        );
     await _plugin.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse: onDidReceiveNotificationResponse,
@@ -42,13 +43,12 @@ class LocalNotificationService {
     );
     await _plugin
         .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
+          AndroidFlutterLocalNotificationsPlugin
+        >()
         ?.requestNotificationsPermission();
   }
 
-  Future<void> notifyFileDownload({
-    required String filePath,
-  }) async {
+  Future<void> notifyFileDownload({required String filePath}) async {
     await _plugin.show(
       filePath.hashCode,
       filePath,
@@ -66,13 +66,13 @@ class LocalNotificationService {
         ),
       ),
       payload: jsonEncode(
-          OpenDirectoryNotificationResponsePayload(filePath: filePath)
-              .toJson()),
+        OpenDirectoryNotificationResponsePayload(filePath: filePath).toJson(),
+      ),
     );
   }
 
   Future<void> notifyDocumentDownload({
-    required DocumentModel document,
+    required int documentId,
     required String filename,
     required String filePath,
     required bool finished,
@@ -82,16 +82,15 @@ class LocalNotificationService {
   }) async {
     final tr = await S.delegate.load(Locale(locale));
 
-    int id = document.id;
     await _plugin.show(
-      id,
+      documentId,
       filename,
       finished
           ? tr.notificationDownloadComplete
           : tr.notificationDownloadingDocument,
       NotificationDetails(
         android: AndroidNotificationDetails(
-          "${NotificationChannel.documentDownload.id}_${document.id}",
+          "${NotificationChannel.documentDownload.id}_$documentId",
           NotificationChannel.documentDownload.name,
           progress: ((progress ?? 0) * 100).toInt(),
           maxProgress: 100,
@@ -105,20 +104,14 @@ class LocalNotificationService {
           icon: finished ? 'file_download_done' : 'downloading',
         ),
         iOS: DarwinNotificationDetails(
-          attachments: [
-            DarwinNotificationAttachment(
-              filePath,
-            ),
-          ],
+          attachments: [DarwinNotificationAttachment(filePath)],
         ),
       ),
       payload: jsonEncode(
-        OpenDirectoryNotificationResponsePayload(
-          filePath: filePath,
-        ).toJson(),
+        OpenDirectoryNotificationResponsePayload(filePath: filePath).toJson(),
       ),
-    ); //TODO: INTL
-    _addNotification(userId, id);
+    );
+    _addNotification(userId, documentId);
   }
 
   void _addNotification(String userId, int notificationId) {
@@ -157,9 +150,7 @@ class LocalNotificationService {
           icon: finished ? 'file_download_done' : 'downloading',
         ),
         iOS: DarwinNotificationDetails(
-          attachments: [
-            DarwinNotificationAttachment(filePath),
-          ],
+          attachments: [DarwinNotificationAttachment(filePath)],
         ),
       ),
       payload: jsonEncode(
@@ -169,7 +160,10 @@ class LocalNotificationService {
   }
 
   //TODO: INTL
-  Future<void> notifyTaskChanged(Task task, {required String userId}) async {
+  Future<void> notifyTaskChanged(
+    TasksView task, {
+    required String userId,
+  }) async {
     log("[LocalNotificationService] notifyTaskChanged: ${task.toString()}");
     int id = task.id + 1000;
     final status = task.status;
@@ -177,30 +171,30 @@ class LocalNotificationService {
     late String? body;
     late int timestampMillis;
     bool showProgress =
-        status == TaskStatus.started || status == TaskStatus.pending;
+        status == StatusEnum.STARTED || status == StatusEnum.PENDING;
     dynamic payload;
     switch (status) {
-      case TaskStatus.started:
-        title = "Document received";
+      case StatusEnum.STARTED:
+        title = 'Document received';
         body = task.taskFileName;
-        timestampMillis = task.dateCreated.millisecondsSinceEpoch;
+        timestampMillis = task.dateCreated?.millisecondsSinceEpoch ?? 0;
         break;
-      case TaskStatus.pending:
+      case StatusEnum.PENDING:
         title = "Processing document...";
         body = task.taskFileName;
-        timestampMillis = task.dateCreated.millisecondsSinceEpoch;
+        timestampMillis = task.dateCreated?.millisecondsSinceEpoch ?? 0;
         break;
-      case TaskStatus.failure:
+      case StatusEnum.FAILURE:
         title = "Failed to process document";
         body = task.result ?? 'Rejected by the server.';
-        timestampMillis = task.dateCreated.millisecondsSinceEpoch;
+        timestampMillis = task.dateCreated?.millisecondsSinceEpoch ?? 0;
         break;
-      case TaskStatus.success:
+      case StatusEnum.SUCCESS:
         title = "Document successfully created";
         body = task.taskFileName;
-        timestampMillis = task.dateDone!.millisecondsSinceEpoch;
+        timestampMillis = task.dateDone?.millisecondsSinceEpoch ?? 0;
         payload = CreateDocumentSuccessPayload(
-          task.relatedDocument!,
+          int.tryParse(task.relatedDocument ?? '') ?? -1,
         );
         break;
       default:
@@ -220,7 +214,7 @@ class LocalNotificationService {
           maxProgress: 100,
           when: timestampMillis,
           indeterminate: true,
-          actions: status == TaskStatus.success
+          actions: status == StatusEnum.SUCCESS
               ? [
                   //TODO: Implement once moved to new routing
                   // AndroidNotificationAction(
@@ -255,17 +249,16 @@ class LocalNotificationService {
     switch (response.notificationResponseType) {
       case NotificationResponseType.selectedNotification:
         if (response.payload != null) {
-          final payload =
-              const NotificationTapResponsePayloadConverter().fromJson(
-            jsonDecode(response.payload!),
-          );
+          final payload = const NotificationTapResponsePayloadConverter()
+              .fromJson(jsonDecode(response.payload!));
           _handleResponseTapAction(payload.type, response);
         }
 
         break;
       case NotificationResponseType.selectedNotificationAction:
-        final action =
-            NotificationResponseButtonAction.values.byName(response.actionId!);
+        final action = NotificationResponseButtonAction.values.byName(
+          response.actionId!,
+        );
         _handleResponseButtonAction(action, response);
         break;
     }

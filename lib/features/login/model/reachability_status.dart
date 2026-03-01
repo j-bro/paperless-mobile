@@ -5,5 +5,5 @@ enum ReachabilityStatus {
   unknownHost,
   missingClientCertificate,
   invalidClientCertificateConfiguration,
-  connectionTimeout;
+  connectionTimeout,
 }

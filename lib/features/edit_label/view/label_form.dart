@@ -1,33 +1,41 @@
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_mobile/core/database/tables/local_user_account.dart';
-import 'package:paperless_mobile/core/translation/matching_algorithm_localization_mapper.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
+import 'package:paperless_mobile/core/translation/matching_algorithm_localization_mapper.dart';
+import 'package:paperless_mobile/core/widgets/icon_loading_widget.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
+import 'package:paperless_mobile/features/edit_label/view/label_form_values.dart';
 import 'package:paperless_mobile/helpers/message_helpers.dart';
 
-class SubmitButtonConfig<T extends Label> {
+class SubmitButtonConfig<T extends Label, TRequest extends LabelRequest> {
   final Widget icon;
   final Widget label;
-  final Future<T> Function(T) onSubmit;
+  final Mutation<T, TRequest> mutation;
 
   SubmitButtonConfig({
     required this.icon,
     required this.label,
-    required this.onSubmit,
+    required this.mutation,
   });
 }
 
-class LabelForm<T extends Label> extends StatefulWidget {
-  final T? initialValue;
+class LabelForm<T extends Label, TRequest extends LabelRequest>
+    extends StatefulWidget {
+  final TRequest? initialValue;
 
-  final SubmitButtonConfig<T> submitButtonConfig;
+  final SubmitButtonConfig<T, TRequest> submitButtonConfig;
 
-  /// FromJson method to parse the form field values into a label instance.
-  final T Function(Map<String, dynamic> json) fromJsonT;
+  /// Type-safe builder that constructs a [TRequest] from the common
+  /// [LabelFormValues] and optional additional field values read from
+  /// [FormBuilderState].
+  final TRequest Function(
+    LabelFormValues commonValues,
+    FormBuilderState formState,
+  )
+  buildRequest;
 
   /// List of additionally rendered form fields.
   final List<Widget> additionalFields;
@@ -38,7 +46,7 @@ class LabelForm<T extends Label> extends StatefulWidget {
   const LabelForm({
     super.key,
     required this.initialValue,
-    required this.fromJsonT,
+    required this.buildRequest,
     this.additionalFields = const [],
     required this.submitButtonConfig,
     required this.autofocusNameField,
@@ -46,10 +54,11 @@ class LabelForm<T extends Label> extends StatefulWidget {
   });
 
   @override
-  State<LabelForm> createState() => _LabelFormState<T>();
+  State<LabelForm<T, TRequest>> createState() => _LabelFormState<T, TRequest>();
 }
 
-class _LabelFormState<T extends Label> extends State<LabelForm<T>> {
+class _LabelFormState<T extends Label, TRequest extends LabelRequest>
+    extends State<LabelForm<T, TRequest>> {
   late final GlobalKey<FormBuilderState> _formKey;
 
   late bool _enableMatchFormField;
@@ -60,25 +69,30 @@ class _LabelFormState<T extends Label> extends State<LabelForm<T>> {
   void initState() {
     super.initState();
     _formKey = widget.formKey ?? GlobalKey<FormBuilderState>();
-    var matchingAlgorithm = (widget.initialValue?.matchingAlgorithm ??
+    var matchingAlgorithm =
+        (widget.initialValue?.matchingAlgorithm ??
         MatchingAlgorithm.defaultValue);
-    _enableMatchFormField = matchingAlgorithm != MatchingAlgorithm.auto &&
+    _enableMatchFormField =
+        matchingAlgorithm != MatchingAlgorithm.auto &&
         matchingAlgorithm != MatchingAlgorithm.none;
   }
 
   @override
   Widget build(BuildContext context) {
-    List<MatchingAlgorithm> selectableMatchingAlgorithmValues =
-        getSelectableMatchingAlgorithmValues(
-      context.watch<LocalUserAccount>().hasMultiUserSupport,
-    );
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      floatingActionButton: FloatingActionButton.extended(
-        heroTag: "fab_label_form",
-        icon: widget.submitButtonConfig.icon,
-        label: widget.submitButtonConfig.label,
-        onPressed: _onSubmit,
+      floatingActionButton: MutationBuilder(
+        mutation: widget.submitButtonConfig.mutation,
+        builder: (context, state, mutate) {
+          return FloatingActionButton.extended(
+            heroTag: "fab_label_form",
+            icon: state.isLoading
+                ? IconLoadingWidget()
+                : widget.submitButtonConfig.icon,
+            label: widget.submitButtonConfig.label,
+            onPressed: state.isLoading ? null : () => _onSubmit(),
+          );
+        },
       ),
       body: FormBuilder(
         key: _formKey,
@@ -102,9 +116,10 @@ class _LabelFormState<T extends Label> extends State<LabelForm<T>> {
             ),
             FormBuilderDropdown<int?>(
               name: Label.matchingAlgorithmKey,
-              initialValue: (widget.initialValue?.matchingAlgorithm ??
-                      MatchingAlgorithm.defaultValue)
-                  .value,
+              initialValue:
+                  (widget.initialValue?.matchingAlgorithm ??
+                          MatchingAlgorithm.defaultValue)
+                      .value,
               decoration: InputDecoration(
                 labelText: S.of(context)!.matchingAlgorithm,
                 errorText: _errors[Label.matchingAlgorithmKey],
@@ -112,11 +127,12 @@ class _LabelFormState<T extends Label> extends State<LabelForm<T>> {
               onChanged: (val) {
                 setState(() {
                   _errors = {};
-                  _enableMatchFormField = val != MatchingAlgorithm.auto.value &&
+                  _enableMatchFormField =
+                      val != MatchingAlgorithm.auto.value &&
                       val != MatchingAlgorithm.none.value;
                 });
               },
-              items: selectableMatchingAlgorithmValues
+              items: MatchingAlgorithm.values
                   .map(
                     (algo) => DropdownMenuItem<int?>(
                       value: algo.value,
@@ -155,32 +171,37 @@ class _LabelFormState<T extends Label> extends State<LabelForm<T>> {
     );
   }
 
-  List<MatchingAlgorithm> getSelectableMatchingAlgorithmValues(
-      bool hasMultiUserSupport) {
-    var selectableMatchingAlgorithmValues = MatchingAlgorithm.values;
-    if (!hasMultiUserSupport) {
-      selectableMatchingAlgorithmValues = selectableMatchingAlgorithmValues
-          .where((matchingAlgorithm) =>
-              matchingAlgorithm != MatchingAlgorithm.none)
-          .toList();
-    }
-    return selectableMatchingAlgorithmValues;
-  }
-
   void _onSubmit() async {
     if (_formKey.currentState?.saveAndValidate() ?? false) {
       try {
-        final mergedJson = {
-          ...widget.initialValue?.toJson() ?? {},
-          ..._formKey.currentState!.value
-        };
-        final parsed = widget.fromJsonT(mergedJson);
-        final createdLabel = await widget.submitButtonConfig.onSubmit(parsed);
-        if (mounted) context.pop(createdLabel);
+        final formState = _formKey.currentState!;
+        final commonValues = LabelFormValues(
+          name: formState.value[Label.nameKey] as String,
+          match: formState.value[Label.matchKey] as String?,
+          matchingAlgorithm: formState.value[Label.matchingAlgorithmKey] != null
+              ? MatchingAlgorithm.values.firstWhere(
+                  (e) => e.value == formState.value[Label.matchingAlgorithmKey],
+                )
+              : null,
+          isInsensitive: formState.value[Label.isInsensitiveKey] as bool?,
+          owner: widget.initialValue?.owner,
+        );
+        final parsed = widget.buildRequest(commonValues, formState);
+        final mutationResult = await widget.submitButtonConfig.mutation.mutate(
+          parsed,
+        );
+        if (mutationResult is MutationError) {
+          throw (mutationResult as MutationError).error;
+        }
+        if (mounted) context.pop(mutationResult.data);
       } on PaperlessApiException catch (error, stackTrace) {
         if (mounted) showErrorMessage(context, error, stackTrace);
       } on PaperlessFormValidationException catch (exception) {
         setState(() => _errors = exception.validationMessages);
+      } catch (error, stackTrace) {
+        if (mounted) {
+          showGenericError(context, error, stackTrace);
+        }
       }
     }
   }

@@ -15,6 +15,11 @@ class PaperlessServerMessageException implements Exception {
     return false;
   }
 
+  @override
+  String toString() {
+    return 'PaperlessServerMessageException: $detail';
+  }
+
   factory PaperlessServerMessageException.fromJson(Map<String, dynamic> json) =>
       _$PaperlessServerMessageExceptionFromJson(json);
 }

@@ -15,7 +15,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 3.2.1+405
+version: 4.0.0+540
 
 environment:
   sdk: ">=3.8.0 <4.0.0"
@@ -58,10 +58,7 @@ dependencies:
   flutter_native_splash: ^2.2.11
   share_plus: ^12.0.0
   introduction_screen: ^4.0.0
-  receive_sharing_intent:
-    git: # https://github.com/KasemJaffer/receive_sharing_intent/issues/377
-      url: https://github.com/KasemJaffer/receive_sharing_intent
-      ref: 2cea396843cd3ab1b5ec4334be4233864637874e
+  listen_sharing_intent: ^1.8.1
   uuid: ^4.1.0
   flutter_typeahead: ^5.0.1
   fluttertoast: ^9.0.0
@@ -72,7 +69,7 @@ dependencies:
   badges: ^3.1.2
   flutter_colorpicker: ^1.0.3
   provider: ^6.0.5
-  dio: ^5.0.0
+  dio: ^5.9.0
   hydrated_bloc: ^10.1.1
   json_annotation: ^4.9.0
   pretty_dio_logger: ^1.4.0
@@ -80,14 +77,14 @@ dependencies:
   device_info_plus: ^12.1.0
   flutter_local_notifications: ^19.4.2
   responsive_builder: ^0.7.0
-  open_filex: ^4.3.2
+  open_filex: ^4.7.0
   flutter_displaymode: ^0.6.0
   dynamic_color: ^1.5.4
   flutter_html: ^3.0.0-alpha.6
   freezed_annotation: ^3.1.0
   animations: ^2.0.7
   hive_ce_flutter: ^2.3.2
-  flutter_secure_storage: ^9.0.0
+  flutter_secure_storage: ^9.2.4
   sliver_tools: ^0.2.10
   webview_flutter: ^4.2.1
   printing: ^5.11.1
@@ -109,14 +106,13 @@ dependencies:
   path: ^1.9.1
   bloc: ^9.0.1
   mime: ^2.0.0
-  # pdfrx:
-  #   git:
-  #     url: https://github.com/astubenbord/pdfrx
-  #     ref: master
-
-# dependency_overrides:
-#   intl: ^0.18.1
-#   js: ^0.6.3
+  copy_with_extension: ^10.0.0
+  crypto: ^3.0.6
+  cached_query_flutter: ^3.3.4
+  skeletonizer: ^2.1.0+1
+  pinput: ^6.0.0
+  infinite_scroll_pagination: ^5.1.1
+  fpdart: ^1.2.0
 
 dev_dependencies:
   integration_test:
@@ -124,7 +120,6 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   build_runner: ^2.6.0
-  bloc_test: ^10.0.0
   dependency_validator: ^5.0.2
   flutter_lints: ^6.0.0
   json_serializable: ^6.11.1
@@ -135,10 +130,11 @@ dev_dependencies:
   go_router_builder: ^4.1.0
   flutter_gen_runner: ^5.3.2
   mockito: ^5.5.0
+  copy_with_extension_gen: ^10.0.0
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter.
-
 flutter_gen:
   output: lib/generated/ # Optional (default: lib/gen/)
   line_length: 80 # Optional (default: 80)
@@ -176,3 +172,6 @@ flutter_native_splash:
   color: "#f9f9f9"
   image_dark: assets/logos/paperless_logo_white.png
   color_dark: "#181818"
+
+flutter_intl:
+  enabled: false

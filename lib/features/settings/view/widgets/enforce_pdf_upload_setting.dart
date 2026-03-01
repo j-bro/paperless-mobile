@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:paperless_mobile/features/settings/view/widgets/global_settings_builder.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
+import 'package:paperless_mobile/core/store/bloc/global_settings_builder.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
 class EnforcePdfUploadSetting extends StatelessWidget {
@@ -7,16 +8,18 @@ class EnforcePdfUploadSetting extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GlobalSettingsBuilder(builder: (context, settings) {
-      return SwitchListTile(
+    final localStore = context.localStore;
+    return GlobalSettingsBuilder(
+      builder: (context, settings) => SwitchListTile(
         title: Text(S.of(context)!.uploadScansAsPdf),
         subtitle: Text(S.of(context)!.convertSinglePageScanToPdf),
         value: settings.enforceSinglePagePdfUpload,
         onChanged: (value) {
-          settings.enforceSinglePagePdfUpload = value;
-          settings.save();
+          localStore.updateGlobalSettings(
+            (state) => state.copyWith(enforceSinglePagePdfUpload: value),
+          );
         },
-      );
-    });
+      ),
+    );
   }
 }

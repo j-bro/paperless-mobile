@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:paperless_mobile/features/inbox/cubit/inbox_cubit.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
 class InboxEmptyWidget extends StatelessWidget {
@@ -15,7 +14,7 @@ class InboxEmptyWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       key: _emptyStateRefreshIndicatorKey,
-      onRefresh: () => context.read<InboxCubit>().loadInbox(),
+      onRefresh: context.inboxRepository.reload,
       child: Center(
         child: Column(
           mainAxisSize: MainAxisSize.max,

@@ -3,12 +3,14 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/interceptor/dio_offline_interceptor.dart';
 import 'package:paperless_mobile/core/interceptor/dio_unauthorized_interceptor.dart';
 import 'package:paperless_mobile/core/interceptor/retry_on_connection_change_interceptor.dart';
 import 'package:paperless_mobile/core/security/session_manager.dart';
 import 'package:paperless_mobile/features/login/model/client_certificate.dart';
+import 'package:paperless_mobile/features/login/server_connection/model/header_entry.dart';
 
 /// Manages the security context, authentication and base request URL for
 /// an underlying [Dio] client which is injected into all services
@@ -18,7 +20,7 @@ class SessionManagerImpl extends ValueNotifier<Dio> implements SessionManager {
   Dio get client => value;
 
   SessionManagerImpl([List<Interceptor> interceptors = const []])
-      : super(_initDio(interceptors));
+    : super(_initDio(interceptors));
 
   static Dio _initDio(List<Interceptor> interceptors) {
     //en- and decoded by utf8 by default
@@ -33,14 +35,16 @@ class SessionManagerImpl extends ValueNotifier<Dio> implements SessionManager {
       ..receiveTimeout = const Duration(seconds: 30)
       ..sendTimeout = const Duration(seconds: 60)
       ..responseType = ResponseType.json;
-    (dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient =
-        () => HttpClient()..badCertificateCallback = (cert, host, port) => true;
+    (dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () =>
+        HttpClient()
+          ..idleTimeout = 15.seconds
+          ..badCertificateCallback = (cert, host, port) => true;
     dio.interceptors.addAll([
       ...interceptors,
       DioUnauthorizedInterceptor(),
       DioHttpErrorInterceptor(),
       DioOfflineInterceptor(),
-      RetryOnConnectionChangeInterceptor(dio: dio)
+      RetryOnConnectionChangeInterceptor(dio: dio),
     ]);
     return dio;
   }
@@ -50,6 +54,8 @@ class SessionManagerImpl extends ValueNotifier<Dio> implements SessionManager {
     String? baseUrl,
     String? authToken,
     ClientCertificate? clientCertificate,
+    List<HeaderEntry>? additionalHeaders,
+    bool broadcast = true,
   }) {
     if (clientCertificate != null) {
       final context = SecurityContext()
@@ -77,20 +83,29 @@ class SessionManagerImpl extends ValueNotifier<Dio> implements SessionManager {
       client.options.baseUrl = baseUrl;
     }
 
-    if (authToken != null) {
-      client.options.headers.addAll({
-        HttpHeaders.authorizationHeader: 'Token $authToken',
-      });
+    if (additionalHeaders != null && additionalHeaders.isNotEmpty) {
+      client.options.headers.addEntries(
+        additionalHeaders
+            .where((header) => header.enabled)
+            .map((header) => MapEntry(header.key.trim(), header.value.trim())),
+      );
     }
 
-    notifyListeners();
+    if (authToken != null) {
+      client.options.headers.addEntries([
+        MapEntry(HttpHeaders.authorizationHeader, 'Token $authToken'),
+      ]);
+    }
+    if (broadcast) {
+      notifyListeners();
+    }
   }
 
   @override
-  void resetSettings() {
+  void resetSettings({bool broadcast = true}) {
     client.httpClientAdapter = IOHttpClientAdapter();
     client.options.baseUrl = '';
-    client.options.headers.remove(HttpHeaders.authorizationHeader);
+    client.options.headers.clear();
     notifyListeners();
   }
 }

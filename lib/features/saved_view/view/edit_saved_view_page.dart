@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_mobile/features/saved_view/cubit/saved_view_cubit.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
 const _fkName = 'name';
@@ -12,10 +11,7 @@ const _fkShowInSidebar = 'show_in_sidebar';
 
 class EditSavedViewPage extends StatefulWidget {
   final SavedView savedView;
-  const EditSavedViewPage({
-    super.key,
-    required this.savedView,
-  });
+  const EditSavedViewPage({super.key, required this.savedView});
 
   @override
   State<EditSavedViewPage> createState() => _EditSavedViewPageState();
@@ -26,9 +22,7 @@ class _EditSavedViewPageState extends State<EditSavedViewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(S.of(context)!.editView),
-      ),
+      appBar: AppBar(title: Text(S.of(context)!.editView)),
       floatingActionButton: FloatingActionButton.extended(
         heroTag: "fab_edit_saved_view_page",
         icon: const Icon(Icons.save),
@@ -91,15 +85,16 @@ class _EditSavedViewPageState extends State<EditSavedViewPage> {
 
   void _onCreate(BuildContext context) async {
     if (_savedViewFormKey.currentState?.saveAndValidate() ?? false) {
-      final cubit = context.read<SavedViewCubit>();
-      var savedView = widget.savedView.copyWith(
+      final savedView = widget.savedView.toDocumentFilter().toSavedViewRequest(
         name: _savedViewFormKey.currentState!.value[_fkName],
         showInSidebar: _savedViewFormKey.currentState!.value[_fkShowInSidebar],
         showOnDashboard:
             _savedViewFormKey.currentState!.value[_fkShowOnDashboard],
       );
       final router = GoRouter.of(context);
-      await cubit.update(savedView);
+      await context.savedViewRepository
+          .putMutation(widget.savedView.id)
+          .mutate(savedView);
       router.pop();
     }
   }

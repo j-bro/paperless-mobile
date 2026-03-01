@@ -1,16 +1,17 @@
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:collection/collection.dart';
 import 'package:defer_pointer/defer_pointer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_mobile/core/bloc/connectivity_cubit.dart';
-import 'package:paperless_mobile/core/database/tables/local_user_account.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/extensions/document_extensions.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
+import 'package:paperless_mobile/core/store/bloc/current_user_app_state_builder.dart';
 import 'package:paperless_mobile/features/app_drawer/view/app_drawer.dart';
 import 'package:paperless_mobile/features/document_search/view/sliver_search_bar.dart';
-import 'package:paperless_mobile/features/documents/cubit/documents_cubit.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/adaptive_documents_view.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/documents_empty_state.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/saved_views/saved_view_changed_dialog.dart';
@@ -20,9 +21,7 @@ import 'package:paperless_mobile/features/documents/view/widgets/selection/confi
 import 'package:paperless_mobile/features/documents/view/widgets/selection/document_selection_sliver_app_bar.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/selection/view_type_selection_widget.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/sort_documents_button.dart';
-import 'package:paperless_mobile/features/labels/cubit/label_cubit.dart';
 import 'package:paperless_mobile/features/logging/data/logger.dart';
-import 'package:paperless_mobile/features/saved_view/cubit/saved_view_cubit.dart';
 import 'package:paperless_mobile/features/tasks/model/pending_tasks_notifier.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/helpers/message_helpers.dart';
@@ -33,14 +32,12 @@ class DocumentFilterIntent {
   final DocumentFilter? filter;
   final bool shouldReset;
 
-  DocumentFilterIntent({
-    this.filter,
-    this.shouldReset = false,
-  });
+  DocumentFilterIntent({this.filter, this.shouldReset = false});
 }
 
 class DocumentsPage extends StatefulWidget {
-  const DocumentsPage({super.key});
+  final DocumentFilter? filter;
+  const DocumentsPage({super.key, this.filter});
 
   @override
   State<DocumentsPage> createState() => _DocumentsPageState();
@@ -57,21 +54,31 @@ class _DocumentsPageState extends State<DocumentsPage> {
 
   final _savedViewsExpansionController = ExpansibleController();
   bool _showExtendedFab = true;
+  final List<Document> _selection = [];
 
   @override
   void initState() {
     super.initState();
-    // context.read<PendingTasksNotifier>().addListener(_onTasksChanged);
+    context.read<PendingTasksNotifier>().addListener(_onTasksChanged);
+    context.documentRepository
+        .getAllQuery(filter: context.currentDocumentFilter)
+        .refetch();
+    context.refetchLabels();
+    context.savedViewRepository.getAllQuery().refetch();
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _nestedScrollViewKey.currentState!.innerController
-          .addListener(_scrollExtentChangedListener);
+      _nestedScrollViewKey.currentState!.innerController.addListener(
+        _scrollExtentChangedListener,
+      );
     });
   }
 
   void _onTasksChanged() {
     final notifier = context.read<PendingTasksNotifier>();
     final tasks = notifier.value;
-    final finishedTasks = tasks.values.where((element) => element.isSuccess);
+    final finishedTasks = tasks.values.where(
+      (element) => element.status == StatusEnum.SUCCESS,
+    );
     if (finishedTasks.isNotEmpty) {
       showSnackBar(
         context,
@@ -82,7 +89,13 @@ class _DocumentsPageState extends State<DocumentsPage> {
             // finishedTasks.forEach((task) {
             //   notifier.acknowledgeTasks([finishedTasks]);
             // });
-            context.read<DocumentsCubit>().reload();
+            CachedQuery.instance.refetchQueries(
+              keys: [
+                context.documentRepository.queryKeyForFilter(
+                  context.currentDocumentFilter,
+                ),
+              ],
+            );
           },
         ),
         duration: const Duration(seconds: 10),
@@ -91,22 +104,19 @@ class _DocumentsPageState extends State<DocumentsPage> {
   }
 
   Future<void> _reloadData() async {
-    final user = context.read<LocalUserAccount>().paperlessUser;
-    try {
-      await Future.wait([
-        context.read<DocumentsCubit>().reload(),
-        if (user.canViewSavedViews) context.read<SavedViewCubit>().reload(),
-        if (user.canViewTags) context.read<LabelCubit>().reloadTags(),
-        if (user.canViewCorrespondents)
-          context.read<LabelCubit>().reloadCorrespondents(),
-        if (user.canViewDocumentTypes)
-          context.read<LabelCubit>().reloadDocumentTypes(),
-        if (user.canViewStoragePaths)
-          context.read<LabelCubit>().reloadStoragePaths(),
-      ]);
-    } catch (error, stackTrace) {
-      if (mounted) showGenericError(context, error, stackTrace);
-    }
+    final currentFilter =
+        context.loggedInUserData.appState.currentDocumentFilter;
+    CachedQuery.instance.refetchQueries(
+      keys: [
+        context.savedViewRepository.queryKey,
+        context.correspondentRepository.queryKey,
+        context.tagRepository.queryKey,
+        context.documentTypeRepository.queryKey,
+        context.storagePathRepository.queryKey,
+        context.customFieldRepository.queryKey,
+        context.documentRepository.queryKeyForFilter(currentFilter),
+      ],
+    );
   }
 
   void _scrollExtentChangedListener() {
@@ -126,185 +136,173 @@ class _DocumentsPageState extends State<DocumentsPage> {
 
   @override
   void dispose() {
-    _nestedScrollViewKey.currentState?.innerController
-        .removeListener(_scrollExtentChangedListener);
+    _nestedScrollViewKey.currentState?.innerController.removeListener(
+      _scrollExtentChangedListener,
+    );
     // context.read<PendingTasksNotifier>().removeListener(_onTasksChanged);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ConnectivityCubit, ConnectivityState>(
-      listenWhen: (previous, current) =>
-          previous != ConnectivityState.connected &&
-          current == ConnectivityState.connected,
-      listener: (context, state) {
-        _reloadData();
-      },
-      builder: (context, connectivityState) {
-        return SafeArea(
-          top: true,
-          child: Scaffold(
-            drawer: const AppDrawer(),
-            floatingActionButton: BlocBuilder<DocumentsCubit, DocumentsState>(
-              builder: (context, state) {
-                final show = state.selection.isEmpty;
-                final canReset = state.filter.appliedFiltersCount > 0;
-                if (show) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      DeferredPointerHandler(
-                        child: Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            FloatingActionButton.extended(
-                              extendedPadding: _showExtendedFab
-                                  ? null
-                                  : const EdgeInsets.symmetric(horizontal: 16),
-                              heroTag: "fab_documents_page_filter",
-                              label: AnimatedSwitcher(
-                                duration: const Duration(milliseconds: 150),
-                                transitionBuilder: (child, animation) {
-                                  return FadeTransition(
-                                    opacity: animation,
-                                    child: SizeTransition(
-                                      sizeFactor: animation,
-                                      axis: Axis.horizontal,
-                                      child: child,
-                                    ),
-                                  );
-                                },
-                                child: _showExtendedFab
-                                    ? Row(
-                                        children: [
-                                          const Icon(Icons.filter_alt_outlined),
-                                          const SizedBox(width: 8),
-                                          Text(S.of(context)!.filterDocuments),
-                                        ],
-                                      )
-                                    : const Icon(Icons.filter_alt_outlined),
-                              ),
-                              onPressed: _openDocumentFilter,
-                            ),
-                            if (canReset)
-                              Positioned(
-                                top: -20,
-                                right: -8,
-                                child: DeferPointer(
-                                  paintOnTop: true,
-                                  child: Material(
-                                    color: Theme.of(context).colorScheme.error,
-                                    borderRadius: BorderRadius.circular(8),
-                                    child: InkWell(
-                                      borderRadius: BorderRadius.circular(8),
-                                      onTap: () {
-                                        HapticFeedback.mediumImpact();
-                                        _onResetFilter();
-                                      },
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          if (_showExtendedFab)
-                                            Text(
-                                              "Reset (${state.filter.appliedFiltersCount})",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .labelLarge
-                                                  ?.copyWith(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .onError,
-                                                  ),
-                                            ).padded()
-                                          else
-                                            Icon(
-                                              Icons.replay,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .onError,
-                                            ).padded(4),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                          ],
-                        ),
-                      ),
-                    ],
+    return SafeArea(
+      top: true,
+      child: Scaffold(
+        drawer: const AppDrawer(),
+        floatingActionButtonAnimator: FloatingActionButtonAnimator.noAnimation,
+        floatingActionButton: _selection.isEmpty
+            ? CurrentUserAppDataBuilder(
+                builder: (context, userData) {
+                  final filter = userData.appState.currentDocumentFilter;
+                  return _buildFilterButton(
+                    context,
+                    filter.appliedFiltersCount > 0 ||
+                        filter.selectedView != null,
                   );
-                } else {
-                  return const SizedBox.shrink();
-                }
-              },
-            ),
-            resizeToAvoidBottomInset: true,
-            body: PopScope(
-              onPopInvokedWithResult: (didPop, result) async {
-                if (didPop) return;
+                },
+              ).animate().fadeIn(duration: 200.milliseconds)
+            : null,
+        resizeToAvoidBottomInset: true,
+        body: PopScope(
+          onPopInvokedWithResult: (didPop, result) async {
+            if (didPop) return;
 
-                final cubit = context.read<DocumentsCubit>();
-                if (cubit.state.selection.isNotEmpty) {
-                  cubit.resetSelection();
-                  return;
-                }
-                if (cubit.state.filter.appliedFiltersCount > 0 ||
-                    cubit.state.filter.selectedView != null) {
-                  await _onResetFilter();
-                  return;
-                }
-                Navigator.of(context).pop();
-              },
-              child: NestedScrollView(
-                key: _nestedScrollViewKey,
-                floatHeaderSlivers: true,
-                headerSliverBuilder: (context, innerBoxIsScrolled) => [
-                  SliverOverlapAbsorber(
-                    handle: searchBarHandle,
-                    sliver: BlocBuilder<DocumentsCubit, DocumentsState>(
-                      builder: (context, state) {
-                        if (state.selection.isEmpty) {
-                          return SliverSearchBar(
-                            titleText: S.of(context)!.documents,
-                          );
-                        } else {
-                          return DocumentSelectionSliverAppBar(
-                            state: state,
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                  SliverOverlapAbsorber(
-                    handle: savedViewsHandle,
-                    sliver: SliverPinnedHeader(
-                      child: Material(
-                        elevation: 2,
-                        child: _buildViewActions(),
-                      ),
-                    ),
-                  ),
-                ],
-                body: _buildDocumentsTab(
-                  connectivityState,
-                  context,
+            if (_selection.isNotEmpty) {
+              setState(() {
+                _selection.clear();
+              });
+              return;
+            }
+            if (context.currentDocumentFilter.appliedFiltersCount > 0 ||
+                context.currentDocumentFilter.selectedView != null) {
+              await _onResetFilter();
+              return;
+            }
+            Navigator.of(context).pop();
+          },
+          child: NestedScrollView(
+            key: _nestedScrollViewKey,
+            floatHeaderSlivers: true,
+            headerSliverBuilder: (context, innerBoxIsScrolled) => [
+              SliverOverlapAbsorber(
+                handle: searchBarHandle,
+                sliver: Builder(
+                  builder: (context) {
+                    if (_selection.isEmpty) {
+                      return SliverSearchBar(
+                        titleText: S.of(context)!.documents,
+                      );
+                    } else {
+                      return DocumentSelectionSliverAppBar(
+                        selection: _selection,
+                        onResetSelection: () => setState(_selection.clear),
+                      );
+                    }
+                  },
                 ),
               ),
-            ),
+              SliverOverlapAbsorber(
+                handle: savedViewsHandle,
+                sliver: SliverPinnedHeader(
+                  child: Material(elevation: 2, child: _buildViewActions()),
+                ),
+              ),
+            ],
+            body: _buildDocumentsTab(context),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 
-  Widget _buildDocumentsTab(
-    ConnectivityState connectivityState,
-    BuildContext context,
-  ) {
+  Widget _buildFilterButton(BuildContext context, bool canResetFilter) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        DeferredPointerHandler(
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              FloatingActionButton.extended(
+                extendedPadding: _showExtendedFab
+                    ? null
+                    : const EdgeInsets.symmetric(horizontal: 16),
+                heroTag: "fab_documents_page_filter",
+                label: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 150),
+                  transitionBuilder: (child, animation) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: SizeTransition(
+                        sizeFactor: animation,
+                        axis: Axis.horizontal,
+                        child: child,
+                      ),
+                    );
+                  },
+                  child: _showExtendedFab
+                      ? Row(
+                          children: [
+                            const Icon(Icons.filter_alt_outlined),
+                            const SizedBox(width: 8),
+                            Text(S.of(context)!.filterDocuments),
+                          ],
+                        )
+                      : const Icon(Icons.filter_alt_outlined),
+                ),
+                onPressed: _openDocumentFilter,
+              ),
+              if (canResetFilter)
+                Positioned(
+                  top: -20,
+                  right: -8,
+                  child: DeferPointer(
+                    paintOnTop: true,
+                    child: Material(
+                      color: Theme.of(context).colorScheme.error,
+                      borderRadius: BorderRadius.circular(8),
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(8),
+                        onTap: () {
+                          HapticFeedback.mediumImpact();
+                          _onResetFilter();
+                        },
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            if (_showExtendedFab)
+                              Text(
+                                "Reset (${context.currentDocumentFilter$.appliedFiltersCount})", //TODO: INTL
+                                style: Theme.of(context).textTheme.labelLarge
+                                    ?.copyWith(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onError,
+                                    ),
+                              ).padded()
+                            else
+                              Icon(
+                                Icons.replay,
+                                color: Theme.of(context).colorScheme.onError,
+                              ).padded(4),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDocumentsTab(BuildContext context) {
+    final localStore = context.localStore;
+    final currentFilter =
+        context.loggedInUserData$.appState.currentDocumentFilter;
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) {
         // Listen for scroll notifications to load new data.
@@ -325,28 +323,28 @@ class _DocumentsPageState extends State<DocumentsPage> {
         }
 
         final max = notification.metrics.maxScrollExtent;
-        final currentState = context.read<DocumentsCubit>().state;
-        if (max == 0 ||
-            currentState.isLoading ||
-            currentState.isLastPageLoaded) {
+        final query = context.documentRepository.getAllQuery(
+          filter: context.currentDocumentFilter,
+        );
+        final isLastPageLoaded =
+            query.state.data?.pages.fold(
+              0,
+              (value, element) => value + element.results.length,
+            ) ==
+            (query.state.data?.firstPage?.count ?? 0);
+
+        if (max == 0 || query.state.isLoading || isLastPageLoaded) {
           return false;
         }
 
         if (offset >= max * 0.7) {
-          context
-              .read<DocumentsCubit>()
-              .loadMore()
-              .onError<PaperlessApiException>(
-            (error, stackTrace) {
-              if (context.mounted) {
-                showErrorMessage(
-                  context,
-                  error,
-                  stackTrace,
-                );
-              }
-            },
-          );
+          query.getNextPage().onError<PaperlessApiException>((
+            error,
+            stackTrace,
+          ) {
+            if (context.mounted) showErrorMessage(context, error, stackTrace);
+            return null;
+          });
           return true;
         }
         return false;
@@ -354,102 +352,136 @@ class _DocumentsPageState extends State<DocumentsPage> {
       child: RefreshIndicator(
         edgeOffset: kTextTabBarHeight + 2,
         onRefresh: _reloadData,
-        notificationPredicate: (_) => connectivityState.isConnected,
         child: CustomScrollView(
           key: const PageStorageKey<String>("documents"),
           slivers: <Widget>[
             SliverOverlapInjector(handle: searchBarHandle),
             SliverOverlapInjector(handle: savedViewsHandle),
             SliverToBoxAdapter(
-              child: BlocBuilder<DocumentsCubit, DocumentsState>(
-                buildWhen: (previous, current) =>
-                    previous.filter != current.filter,
-                builder: (context, state) {
-                  final currentUser = context.watch<LocalUserAccount>();
-                  if (!currentUser.paperlessUser.canViewSavedViews) {
+              child: CurrentUserAppDataBuilder(
+                builder: (context, userData) {
+                  if (!context.loggedInUser$.paperlessUser.canViewSavedViews) {
                     return const SizedBox.shrink();
                   }
-                  return SavedViewsWidget(
-                    controller: _savedViewsExpansionController,
-                    onViewSelected: (view) {
-                      final cubit = context.read<DocumentsCubit>();
-                      if (state.filter.selectedView == view.id) {
-                        _onResetFilter();
-                      } else {
-                        cubit.updateFilter(
-                          filter: view.toDocumentFilter(),
-                        );
-                      }
-                    },
-                    onUpdateView: (view) async {
-                      await context.read<SavedViewCubit>().update(view);
-                      if (context.mounted) {
-                        showSnackBar(context,
-                            S.of(context)!.savedViewSuccessfullyUpdated);
-                      }
-                    },
-                    onDeleteView: (view) async {
-                      HapticFeedback.mediumImpact();
-                      final shouldRemove = await showDialog(
-                        context: context,
-                        builder: (context) =>
-                            ConfirmDeleteSavedViewDialog(view: view),
-                      );
-                      if (shouldRemove && context.mounted) {
-                        final documentsCubit = context.read<DocumentsCubit>();
-                        context.read<SavedViewCubit>().remove(view);
-                        if (documentsCubit.state.filter.selectedView ==
+                  return CurrentUserAppDataBuilder(
+                    builder: (context, userData) => SavedViewsWidget(
+                      controller: _savedViewsExpansionController,
+                      onViewSelected: (view) {
+                        if (userData
+                                .appState
+                                .currentDocumentFilter
+                                .selectedView ==
                             view.id) {
-                          documentsCubit.resetFilter();
+                          _onResetFilter();
+                        } else {
+                          localStore.updateLoggedInUserAppState(
+                            (appState) => appState.copyWith(
+                              currentDocumentFilter: view.toDocumentFilter(),
+                            ),
+                          );
                         }
-                      }
-                    },
-                    filter: state.filter,
+                      },
+                      onUpdateView: (id, view) async {
+                        await context.savedViewRepository
+                            .putMutation(id)
+                            .mutate(view);
+                        if (context.mounted) {
+                          showSnackBar(
+                            context,
+                            S.of(context)!.savedViewSuccessfullyUpdated,
+                          );
+                        }
+                      },
+                      onDeleteView: (view) async {
+                        HapticFeedback.mediumImpact();
+                        final shouldRemove = await showDialog(
+                          context: context,
+                          builder: (context) =>
+                              ConfirmDeleteSavedViewDialog(view: view),
+                        );
+                        if (shouldRemove && context.mounted) {
+                          await context.savedViewRepository
+                              .deleteMutation(view.id)
+                              .mutate(null);
+                          if (currentFilter.selectedView != null &&
+                              currentFilter.selectedView == view.id) {
+                            _onResetFilter();
+                          }
+                        }
+                      },
+                      filter: userData.appState.currentDocumentFilter,
+                    ),
                   );
                 },
               ),
             ),
-            BlocBuilder<DocumentsCubit, DocumentsState>(
-              builder: (context, state) {
-                if (state.hasLoaded && state.documents.isEmpty) {
-                  return SliverToBoxAdapter(
-                    child: DocumentsEmptyState(
-                      state: state,
-                      onReset: _onResetFilter,
-                    ),
-                  );
-                }
-                final allowToggleFilter = state.selection.isEmpty;
-                return SliverAdaptiveDocumentsView(
-                  viewType: state.viewType,
-                  onTap: (document) {
-                    DocumentDetailsRoute(
-                      title: document.title,
-                      id: document.id,
-                      thumbnailUrl: document.buildThumbnailUrl(context),
-                    ).push(context);
+            CurrentUserAppDataBuilder(
+              builder: (context, userData) {
+                return QueryBuilder(
+                  query: context.documentRepository.getAllQuery(
+                    filter: userData.appState.currentDocumentFilter,
+                  ),
+                  builder: (context, state) {
+                    if (state.data != null &&
+                        (state.data?.firstPage?.count ?? 0) == 0) {
+                      return SliverToBoxAdapter(
+                        child: DocumentsEmptyState(
+                          filter: userData.appState.currentDocumentFilter,
+                          onReset: _onResetFilter,
+                        ),
+                      );
+                    }
+                    final documents =
+                        state.data?.pages.expand((p) => p.results).toList() ??
+                        [];
+                    final allowToggleFilter = _selection.isEmpty;
+                    final viewType = userData.appState.documentsPageViewType;
+
+                    return SliverAdaptiveDocumentsView(
+                      viewType: viewType,
+                      onTap: (document) {
+                        DocumentDetailsRoute(
+                          documentId: document.id,
+                          title: document.title,
+                          thumbnailUrl: document.buildThumbnailUrl(context),
+                        ).push(context);
+                      },
+                      onSelected: (document) {
+                        setState(() {
+                          _selection.add(document);
+                        });
+                      },
+                      onTagSelected: allowToggleFilter
+                          ? _toggleTagInFilter
+                          : null,
+                      onCorrespondentSelected: allowToggleFilter
+                          ? _addCorrespondentToFilter
+                          : null,
+                      onDocumentTypeSelected: allowToggleFilter
+                          ? _addDocumentTypeToFilter
+                          : null,
+                      onStoragePathSelected: allowToggleFilter
+                          ? _addStoragePathToFilter
+                          : null,
+                      documents: documents,
+                      hasLoaded: state.isSuccess,
+                      isLabelClickable: true,
+                      isLoading: switch (state) {
+                        InfiniteQueryInitial() => true,
+                        InfiniteQueryLoading(
+                          :final isRefetching,
+                          :final isLoading,
+                        ) =>
+                          isLoading && !isRefetching,
+                        _ => false,
+                      },
+                      selectedDocumentIds: _selection.ids,
+                    );
                   },
-                  onSelected:
-                      context.read<DocumentsCubit>().toggleDocumentSelection,
-                  hasInternetConnection: connectivityState.isConnected,
-                  onTagSelected: allowToggleFilter ? _addTagToFilter : null,
-                  onCorrespondentSelected:
-                      allowToggleFilter ? _addCorrespondentToFilter : null,
-                  onDocumentTypeSelected:
-                      allowToggleFilter ? _addDocumentTypeToFilter : null,
-                  onStoragePathSelected:
-                      allowToggleFilter ? _addStoragePathToFilter : null,
-                  documents: state.documents,
-                  hasLoaded: state.hasLoaded,
-                  isLabelClickable: true,
-                  isLoading: state.isLoading,
-                  selectedDocumentIds: state.selectedIds,
                 );
               },
             ),
-            const SliverToBoxAdapter(
-              child: SizedBox(height: 96),
-            )
+            const SliverToBoxAdapter(child: SizedBox(height: 96)),
           ],
         ),
       ),
@@ -457,25 +489,29 @@ class _DocumentsPageState extends State<DocumentsPage> {
   }
 
   Widget _buildViewActions() {
-    return BlocBuilder<DocumentsCubit, DocumentsState>(
-      builder: (context, state) {
-        return Container(
-          padding: const EdgeInsets.all(4),
-          color: Theme.of(context).colorScheme.surface,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SortDocumentsButton(
-                enabled: state.selection.isEmpty,
-              ),
-              ViewTypeSelectionWidget(
-                viewType: state.viewType,
-                onChanged: context.read<DocumentsCubit>().setViewType,
-              ),
-            ],
+    return Container(
+      padding: const EdgeInsets.all(4),
+      color: Theme.of(context).colorScheme.surface,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SortDocumentsButton(enabled: _selection.isEmpty),
+          CurrentUserAppDataBuilder(
+            builder: (context, userData) {
+              final viewType = userData.appState.documentsPageViewType;
+              return ViewTypeSelectionWidget(
+                viewType: viewType,
+                onChanged: (viewType) {
+                  context.localStore.updateLoggedInUserAppState(
+                    (appState) =>
+                        appState.copyWith(documentsPageViewType: viewType),
+                  );
+                },
+              );
+            },
           ),
-        );
-      },
+        ],
+      ),
     );
   }
 
@@ -491,25 +527,17 @@ class _DocumentsPageState extends State<DocumentsPage> {
         ),
       ),
       isScrollControlled: true,
-      builder: (_) => BlocProvider.value(
-        value: context.read<DocumentsCubit>(),
-        child: DraggableScrollableSheet(
-          controller: draggableSheetController,
-          expand: false,
-          snap: true,
-          snapSizes: const [0.9, 1],
-          initialChildSize: .9,
-          maxChildSize: 1,
-          builder: (context, controller) =>
-              BlocBuilder<DocumentsCubit, DocumentsState>(
-            builder: (context, state) {
-              return DocumentFilterPanel(
-                initialFilter: context.read<DocumentsCubit>().state.filter,
-                scrollController: controller,
-                draggableSheetController: draggableSheetController,
-              );
-            },
-          ),
+      builder: (_) => DraggableScrollableSheet(
+        controller: draggableSheetController,
+        expand: false,
+        snap: true,
+        snapSizes: const [0.9, 1],
+        initialChildSize: .9,
+        maxChildSize: 1,
+        builder: (context, controller) => DocumentFilterPanel(
+          initialFilter: context.currentDocumentFilter,
+          scrollController: controller,
+          draggableSheetController: draggableSheetController,
         ),
       ),
     );
@@ -519,9 +547,11 @@ class _DocumentsPageState extends State<DocumentsPage> {
           await _onResetFilter();
         } else {
           if (mounted) {
-            await context
-                .read<DocumentsCubit>()
-                .updateFilter(filter: filterIntent.filter!);
+            context.localStore.updateLoggedInUserAppState(
+              (appState) => appState.copyWith(
+                currentDocumentFilter: filterIntent.filter!,
+              ),
+            );
           }
         }
       } on PaperlessApiException catch (error, stackTrace) {
@@ -530,140 +560,39 @@ class _DocumentsPageState extends State<DocumentsPage> {
     }
   }
 
-  void _addTagToFilter(int tagId) {
-    final cubit = context.read<DocumentsCubit>();
-    try {
-      switch (cubit.state.filter.tags) {
-        case IdsTagsQuery state:
-          if (state.include.contains(tagId)) {
-            cubit.updateCurrentFilter(
-              (filter) => filter.copyWith(
-                tags: state.copyWith(
-                  include: state.include
-                      .whereNot((element) => element == tagId)
-                      .toList(),
-                ),
-              ),
-            );
-          } else if (state.exclude.contains(tagId)) {
-            cubit.updateCurrentFilter(
-              (filter) => filter.copyWith(
-                tags: state.copyWith(
-                  exclude: state.exclude
-                      .whereNot((element) => element == tagId)
-                      .toList(),
-                ),
-              ),
-            );
-          } else {
-            cubit.updateCurrentFilter(
-              (filter) => filter.copyWith(
-                tags: state.copyWith(include: [...state.include, tagId]),
-              ),
-            );
-          }
-          break;
-        default:
-          cubit.updateCurrentFilter(
-            (filter) => filter.copyWith(tags: IdsTagsQuery(include: [tagId])),
-          );
-          break;
-      }
-    } on PaperlessApiException catch (error, stackTrace) {
-      showErrorMessage(context, error, stackTrace);
-    }
+  void _toggleTagInFilter(int tagId) {
+    context.localStore.updateCurrentDocumentFilter(
+      (filter) => filter.copyWith(tags: filter.tags.toggleInclude(tagId)),
+    );
   }
 
   void _addCorrespondentToFilter(int? correspondentId) {
     if (correspondentId == null) return;
-    final cubit = context.read<DocumentsCubit>();
-
-    try {
-      switch (cubit.state.filter.correspondent) {
-        case SetIdQueryParameter(id: var id):
-          if (id == correspondentId) {
-            cubit.updateCurrentFilter(
-              (filter) =>
-                  filter.copyWith(correspondent: const UnsetIdQueryParameter()),
-            );
-          } else {
-            cubit.updateCurrentFilter(
-              (filter) => filter.copyWith(
-                  correspondent: SetIdQueryParameter(id: correspondentId)),
-            );
-          }
-          break;
-        default:
-          cubit.updateCurrentFilter((filter) => filter.copyWith(
-                correspondent: SetIdQueryParameter(id: correspondentId),
-              ));
-          break;
-      }
-    } on PaperlessApiException catch (error, stackTrace) {
-      showErrorMessage(context, error, stackTrace);
-    }
+    context.localStore.updateCurrentDocumentFilter(
+      (filter) => filter.copyWith(
+        correspondent: filter.correspondent.toggleInclude(correspondentId),
+      ),
+    );
   }
 
   void _addDocumentTypeToFilter(int? documentTypeId) {
     if (documentTypeId == null) return;
-    final cubit = context.read<DocumentsCubit>();
 
-    try {
-      switch (cubit.state.filter.documentType) {
-        case SetIdQueryParameter(id: var id):
-          if (id == documentTypeId) {
-            cubit.updateCurrentFilter(
-              (filter) =>
-                  filter.copyWith(documentType: const UnsetIdQueryParameter()),
-            );
-          } else {
-            cubit.updateCurrentFilter(
-              (filter) => filter.copyWith(
-                  documentType: SetIdQueryParameter(id: documentTypeId)),
-            );
-          }
-          break;
-        default:
-          cubit.updateCurrentFilter(
-            (filter) => filter.copyWith(
-                documentType: SetIdQueryParameter(id: documentTypeId)),
-          );
-          break;
-      }
-    } on PaperlessApiException catch (error, stackTrace) {
-      showErrorMessage(context, error, stackTrace);
-    }
+    context.localStore.updateCurrentDocumentFilter(
+      (filter) => filter.copyWith(
+        documentType: filter.documentType.toggleInclude(documentTypeId),
+      ),
+    );
   }
 
   void _addStoragePathToFilter(int? pathId) {
     if (pathId == null) return;
-    final cubit = context.read<DocumentsCubit>();
 
-    try {
-      switch (cubit.state.filter.storagePath) {
-        case SetIdQueryParameter(id: var id):
-          if (id == pathId) {
-            cubit.updateCurrentFilter(
-              (filter) =>
-                  filter.copyWith(storagePath: const UnsetIdQueryParameter()),
-            );
-          } else {
-            cubit.updateCurrentFilter(
-              (filter) =>
-                  filter.copyWith(storagePath: SetIdQueryParameter(id: pathId)),
-            );
-          }
-          break;
-        default:
-          cubit.updateCurrentFilter(
-            (filter) =>
-                filter.copyWith(storagePath: SetIdQueryParameter(id: pathId)),
-          );
-          break;
-      }
-    } on PaperlessApiException catch (error, stackTrace) {
-      showErrorMessage(context, error, stackTrace);
-    }
+    context.localStore.updateCurrentDocumentFilter(
+      (filter) => filter.copyWith(
+        storagePath: filter.storagePath.toggleInclude(pathId),
+      ),
+    );
   }
 
   ///
@@ -672,9 +601,6 @@ class _DocumentsPageState extends State<DocumentsPage> {
   /// the user will be shown a dialog informing them about the changes.
   /// The user can then decide whether to abort the reset or to continue and discard the changes.
   Future<void> _onResetFilter() async {
-    final cubit = context.read<DocumentsCubit>();
-    final savedViewCubit = context.read<SavedViewCubit>();
-
     void toTop() async {
       await _nestedScrollViewKey.currentState?.outerController.animateTo(
         0,
@@ -683,29 +609,35 @@ class _DocumentsPageState extends State<DocumentsPage> {
       );
     }
 
-    final activeView = savedViewCubit.state.mapOrNull(
-      loaded: (state) {
-        if (cubit.state.filter.selectedView != null) {
-          return state.savedViews[cubit.state.filter.selectedView!];
-        }
-        return null;
-      },
-    );
-    final viewHasChanged = activeView != null &&
-        activeView.toDocumentFilter() != cubit.state.filter;
+    final activeView = context.savedViewRepository
+        .getAllQuery()
+        .state
+        .data
+        ?.firstWhereOrNull(
+          (view) => view.id == context.currentDocumentFilter.selectedView,
+        );
+
+    void reset() {
+      context.localStore.updateLoggedInUserAppState(
+        (data) => data.copyWith(currentDocumentFilter: DocumentFilter()),
+      );
+    }
+
+    final viewHasChanged =
+        activeView != null &&
+        activeView.toDocumentFilter() != context.currentDocumentFilter;
     if (viewHasChanged) {
-      final discardChanges = await showDialog<bool>(
+      final discardChanges =
+          await showDialog<bool>(
             context: context,
             builder: (context) => const SavedViewChangedDialog(),
           ) ??
           false;
-      if (discardChanges) {
-        cubit.resetFilter();
-        toTop();
+      if (!discardChanges) {
+        return;
       }
-    } else {
-      cubit.resetFilter();
-      toTop();
     }
+    reset();
+    toTop();
   }
 }

@@ -3,14 +3,20 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_mobile/core/repository/label_repository.dart';
-import 'package:paperless_mobile/features/document_bulk_action/cubit/document_bulk_action_cubit.dart';
+import 'package:paperless_mobile/core/extensions/document_extensions.dart';
+import 'package:paperless_mobile/core/extensions/label_list_extension.dart';
+import 'package:paperless_mobile/core/repository/correspondent_repository.dart';
+import 'package:paperless_mobile/core/repository/document_repository.dart';
+import 'package:paperless_mobile/core/repository/document_type_repository.dart';
+import 'package:paperless_mobile/core/repository/storage_path_repository.dart';
 import 'package:paperless_mobile/features/document_bulk_action/view/widgets/fullscreen_bulk_edit_label_page.dart';
 import 'package:paperless_mobile/features/document_bulk_action/view/widgets/fullscreen_bulk_edit_tags_widget.dart';
-import 'package:paperless_mobile/features/document_details/cubit/document_details_cubit.dart';
 import 'package:paperless_mobile/features/document_details/view/pages/document_details_page.dart';
-import 'package:paperless_mobile/features/document_edit/cubit/document_edit_cubit.dart';
+import 'package:paperless_mobile/features/document_details/document_download/cubit/document_download_cubit.dart';
 import 'package:paperless_mobile/features/document_edit/view/document_edit_page.dart';
+import 'package:paperless_mobile/features/document_details/document_open_in_system/cubit/document_open_in_system_cubit.dart';
+import 'package:paperless_mobile/features/document_details/document_print/cubit/document_print_cubit.dart';
+import 'package:paperless_mobile/features/document_details/document_share/cubit/document_share_cubit.dart';
 import 'package:paperless_mobile/features/documents/view/pages/document_view.dart';
 import 'package:paperless_mobile/features/documents/view/pages/documents_page.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
@@ -25,6 +31,10 @@ class DocumentsBranch extends StatefulShellBranchData {
 }
 
 class DocumentsRoute extends GoRouteData with $DocumentsRoute {
+  final DocumentFilter? $extra;
+
+  DocumentsRoute({this.$extra});
+
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const DocumentsPage();
@@ -35,14 +45,14 @@ class DocumentDetailsRoute extends GoRouteData with $DocumentDetailsRoute {
   static final GlobalKey<NavigatorState> $parentNavigatorKey =
       outerShellNavigatorKey;
 
-  final int id;
+  final int documentId;
   final bool isLabelClickable;
   final String? queryString;
   final String? thumbnailUrl;
   final String? title;
 
   const DocumentDetailsRoute({
-    required this.id,
+    required this.documentId,
     this.isLabelClickable = true,
     this.queryString,
     this.thumbnailUrl,
@@ -51,16 +61,40 @@ class DocumentDetailsRoute extends GoRouteData with $DocumentDetailsRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return BlocProvider(
-      create: (_) => DocumentDetailsCubit(
-        context.read(),
-        context.read(),
-        context.read(),
-        id: id,
-      )..initialize(),
-      lazy: false,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => DocumentDownloadCubit(
+            context.read(),
+            context.read(),
+            context.read(),
+            documentId: documentId,
+          ),
+        ),
+        BlocProvider(
+          create: (context) => DocumentShareCubit(
+            context.read(),
+            context.read(),
+            documentId: documentId,
+          ),
+        ),
+        BlocProvider(
+          create: (context) => DocumentOpenInSystemCubit(
+            context.read(),
+            context.read(),
+            documentId: documentId,
+          ),
+        ),
+        BlocProvider(
+          create: (context) => DocumentPrintCubit(
+            context.read(),
+            context.read(),
+            documentId: documentId,
+          ),
+        ),
+      ],
       child: DocumentDetailsPage(
-        id: id,
+        id: documentId,
         isLabelClickable: isLabelClickable,
         titleAndContentQueryString: queryString,
         thumbnailUrl: thumbnailUrl,
@@ -74,9 +108,9 @@ class EditDocumentRoute extends GoRouteData with $EditDocumentRoute {
   static final GlobalKey<NavigatorState> $parentNavigatorKey =
       outerShellNavigatorKey;
 
-  final DocumentModel $extra;
+  final int documentId;
 
-  const EditDocumentRoute(this.$extra);
+  const EditDocumentRoute({required this.documentId});
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -86,15 +120,7 @@ class EditDocumentRoute extends GoRouteData with $EditDocumentRoute {
         theme,
         systemNavigationBarColor: theme.colorScheme.surface,
       ),
-      child: BlocProvider(
-        create: (context) => DocumentEditCubit(
-          context.read(),
-          context.read(),
-          context.read(),
-          document: $extra,
-        )..loadFieldSuggestions(),
-        child: const DocumentEditPage(),
-      ),
+      child: DocumentEditPage(documentId: documentId),
     );
   }
 }
@@ -102,29 +128,29 @@ class EditDocumentRoute extends GoRouteData with $EditDocumentRoute {
 class DocumentPreviewRoute extends GoRouteData with $DocumentPreviewRoute {
   static final GlobalKey<NavigatorState> $parentNavigatorKey =
       outerShellNavigatorKey;
-  final int id;
+
+  final int documentId;
   final String? title;
+  final String? mimeType;
 
   const DocumentPreviewRoute({
-    required this.id,
+    required this.documentId,
     this.title,
+    this.mimeType,
   });
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return DocumentView(
-      bytes: context.read<PaperlessDocumentsApi>().downloadDocument(id),
+      documentId: documentId,
       title: title,
+      mimeType: mimeType,
     );
-    // return DocumentView(
-    //   documentBytes: context.read<PaperlessDocumentsApi>().downloadDocument(id),
-    //   title: title,
-    // );
   }
 }
 
 class BulkEditExtraWrapper {
-  final List<DocumentModel> selection;
+  final List<Document> selection;
   final LabelType type;
 
   const BulkEditExtraWrapper(this.selection, this.type);
@@ -137,82 +163,92 @@ class BulkEditDocumentsRoute extends GoRouteData with $BulkEditDocumentsRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    final labelRepository = context.read<LabelRepository>();
-    return BlocProvider(
-      create: (_) => DocumentBulkActionCubit(
-        context.read(),
-        context.read(),
+    final correspondentRepository = context.read<CorrespondentRepository>();
+    final documentTypeRepository = context.read<DocumentTypeRepository>();
+    final storagePathRepository = context.read<StoragePathRepository>();
+    return switch ($extra.type) {
+      LabelType.tag => FullscreenBulkEditTagsWidget(
         selection: $extra.selection,
       ),
-      child: BlocBuilder<DocumentBulkActionCubit, DocumentBulkActionState>(
-        builder: (context, state) {
+      _ => FullscreenBulkEditLabelPage(
+        selection: $extra.selection,
+        hintText: S.of(context)!.startTyping,
+        options: switch ($extra.type) {
+          LabelType.correspondent =>
+            correspondentRepository.getAllQuery().state.data?.toIdMap() ?? {},
+          LabelType.documentType =>
+            documentTypeRepository.getAllQuery().state.data?.toIdMap() ?? {},
+          LabelType.storagePath =>
+            storagePathRepository.getAllQuery().state.data?.toIdMap() ?? {},
+          _ => throw Exception("Parameter not allowed here."),
+        },
+        labelMapper: (document) {
           return switch ($extra.type) {
-            LabelType.tag => const FullscreenBulkEditTagsWidget(),
-            _ => FullscreenBulkEditLabelPage(
-                options: switch ($extra.type) {
-                  LabelType.correspondent => labelRepository.correspondents,
-                  LabelType.documentType => labelRepository.documentTypes,
-                  LabelType.storagePath => labelRepository.storagePaths,
-                  _ => throw Exception("Parameter not allowed here."),
-                },
-                selection: state.selection,
-                labelMapper: (document) {
-                  return switch ($extra.type) {
-                    LabelType.correspondent => document.correspondent,
-                    LabelType.documentType => document.documentType,
-                    LabelType.storagePath => document.storagePath,
-                    _ => throw Exception("Parameter not allowed here."),
-                  };
-                },
-                leadingIcon: switch ($extra.type) {
-                  LabelType.correspondent => const Icon(Icons.person_outline),
-                  LabelType.documentType =>
-                    const Icon(Icons.description_outlined),
-                  LabelType.storagePath => const Icon(Icons.folder_outlined),
-                  _ => throw Exception("Parameter not allowed here."),
-                },
-                hintText: S.of(context)!.startTyping,
-                onSubmit: switch ($extra.type) {
-                  LabelType.correspondent => context
-                      .read<DocumentBulkActionCubit>()
-                      .bulkModifyCorrespondent,
-                  LabelType.documentType => context
-                      .read<DocumentBulkActionCubit>()
-                      .bulkModifyDocumentType,
-                  LabelType.storagePath => context
-                      .read<DocumentBulkActionCubit>()
-                      .bulkModifyStoragePath,
-                  _ => throw Exception("Parameter not allowed here."),
-                },
-                assignMessageBuilder: (int count, String name) {
-                  return switch ($extra.type) {
-                    LabelType.correspondent => S
-                        .of(context)!
-                        .bulkEditCorrespondentAssignMessage(name, count),
-                    LabelType.documentType => S
-                        .of(context)!
-                        .bulkEditDocumentTypeAssignMessage(count, name),
-                    LabelType.storagePath => S
-                        .of(context)!
-                        .bulkEditDocumentTypeAssignMessage(count, name),
-                    _ => throw Exception("Parameter not allowed here."),
-                  };
-                },
-                removeMessageBuilder: (int count) {
-                  return switch ($extra.type) {
-                    LabelType.correspondent =>
-                      S.of(context)!.bulkEditCorrespondentRemoveMessage(count),
-                    LabelType.documentType =>
-                      S.of(context)!.bulkEditDocumentTypeRemoveMessage(count),
-                    LabelType.storagePath =>
-                      S.of(context)!.bulkEditStoragePathRemoveMessage(count),
-                    _ => throw Exception("Parameter not allowed here."),
-                  };
-                },
-              ),
+            LabelType.correspondent => document.correspondent,
+            LabelType.documentType => document.documentType,
+            LabelType.storagePath => document.storagePath,
+            _ => throw Exception("Parameter not allowed here."),
+          };
+        },
+        leadingIcon: switch ($extra.type) {
+          LabelType.correspondent => const Icon(Icons.person_outline),
+          LabelType.documentType => const Icon(Icons.description_outlined),
+          LabelType.storagePath => const Icon(Icons.folder_outlined),
+          _ => throw Exception("Parameter not allowed here."),
+        },
+        onSubmit: switch ($extra.type) {
+          LabelType.correspondent =>
+            (int labelId) =>
+                context.read<DocumentRepository>().bulkActionMutation().mutate(
+                  BulkEditRequest(
+                    documents: $extra.selection.ids.toList(),
+                    method: MethodEnum.setCorrespondent,
+                    parameters: {'correspondent': labelId},
+                  ),
+                ),
+          LabelType.documentType =>
+            (int labelId) =>
+                context.read<DocumentRepository>().bulkActionMutation().mutate(
+                  BulkEditRequest(
+                    documents: $extra.selection.ids.toList(),
+                    method: MethodEnum.setDocumentType,
+                    parameters: {'document_type': labelId},
+                  ),
+                ),
+          LabelType.storagePath =>
+            (int labelId) =>
+                context.read<DocumentRepository>().bulkActionMutation().mutate(
+                  BulkEditRequest(
+                    documents: $extra.selection.ids.toList(),
+                    method: MethodEnum.setStoragePath,
+                    parameters: {'storage_path': labelId},
+                  ),
+                ),
+          _ => throw Exception("Parameter not allowed here."),
+        },
+        assignMessageBuilder: (int count, String name) {
+          return switch ($extra.type) {
+            LabelType.correspondent =>
+              S.of(context)!.bulkEditCorrespondentAssignMessage(name, count),
+            LabelType.documentType =>
+              S.of(context)!.bulkEditDocumentTypeAssignMessage(count, name),
+            LabelType.storagePath =>
+              S.of(context)!.bulkEditDocumentTypeAssignMessage(count, name),
+            _ => throw Exception("Parameter not allowed here."),
+          };
+        },
+        removeMessageBuilder: (int count) {
+          return switch ($extra.type) {
+            LabelType.correspondent =>
+              S.of(context)!.bulkEditCorrespondentRemoveMessage(count),
+            LabelType.documentType =>
+              S.of(context)!.bulkEditDocumentTypeRemoveMessage(count),
+            LabelType.storagePath =>
+              S.of(context)!.bulkEditStoragePathRemoveMessage(count),
+            _ => throw Exception("Parameter not allowed here."),
           };
         },
       ),
-    );
+    };
   }
 }

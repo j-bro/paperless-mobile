@@ -1,8 +1,10 @@
 project_id: "568557"
-files: [
- {
-  "source" : "/lib/l10n/intl_en.arb",
-  "translation" : "/lib/l10n/intl_%two_letters_code%.arb",
-  "type" : "arb",
- }
-]
+preserve_hierarchy: true
+files:
+  [
+    {
+      "source": "/lib/l10n/intl_en.arb",
+      "translation": "/lib/l10n/intl_%two_letters_code%.arb",
+      "type": "arb",
+    },
+  ]

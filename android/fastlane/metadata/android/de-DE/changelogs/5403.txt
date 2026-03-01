@@ -1,0 +1,5 @@
+- Unterstützung für API v9
+- Unterstützung von zwei-Faktor Authentifizierung (2FA)
+- Unterstützung für zusätzliche Header
+- Einige Fehlerbehebungen
+- Vorschau für mehrere Dateitypen in der App

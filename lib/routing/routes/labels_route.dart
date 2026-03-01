@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/features/edit_label/view/impl/add_correspondent_page.dart';
@@ -11,7 +10,6 @@ import 'package:paperless_mobile/features/edit_label/view/impl/edit_document_typ
 import 'package:paperless_mobile/features/edit_label/view/impl/edit_storage_path_page.dart';
 import 'package:paperless_mobile/features/edit_label/view/impl/edit_tag_page.dart';
 import 'package:paperless_mobile/features/labels/view/pages/labels_page.dart';
-import 'package:paperless_mobile/features/linked_documents/cubit/linked_documents_cubit.dart';
 import 'package:paperless_mobile/features/linked_documents/view/linked_documents_page.dart';
 import 'package:paperless_mobile/routing/navigation_keys.dart';
 
@@ -54,10 +52,7 @@ class CreateLabelRoute extends GoRouteData with $CreateLabelRoute {
   final LabelType $extra;
   final String? name;
 
-  CreateLabelRoute(
-    this.$extra, {
-    this.name,
-  });
+  CreateLabelRoute(this.$extra, {this.name});
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -78,14 +73,6 @@ class LinkedDocumentsRoute extends GoRouteData with $LinkedDocumentsRoute {
   const LinkedDocumentsRoute(this.$extra);
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return BlocProvider(
-      create: (context) => LinkedDocumentsCubit(
-        $extra,
-        context.read(),
-        context.read(),
-        context.read(),
-      ),
-      child: const LinkedDocumentsPage(),
-    );
+    return LinkedDocumentsPage(filter: $extra);
   }
 }

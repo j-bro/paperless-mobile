@@ -8,6 +8,7 @@ import 'package:paperless_mobile/core/security/session_manager.dart';
 import 'package:paperless_mobile/core/security/session_manager_impl.dart';
 import 'package:paperless_mobile/features/login/model/client_certificate.dart';
 import 'package:paperless_mobile/features/login/model/reachability_status.dart';
+import 'package:paperless_mobile/features/login/server_connection/model/header_entry.dart';
 import 'package:rxdart/subjects.dart';
 
 abstract class ConnectivityStatusService {
@@ -17,6 +18,7 @@ abstract class ConnectivityStatusService {
   Future<ReachabilityStatus> isPaperlessServerReachable(
     String serverAddress, [
     ClientCertificate? clientCertificate,
+    List<HeaderEntry>? additionalHeaders,
   ]);
 }
 
@@ -40,7 +42,8 @@ class ConnectivityStatusServiceImpl implements ConnectivityStatusService {
   @override
   Future<bool> isConnectedToInternet() async {
     return _hasActiveInternetConnection(
-        await (Connectivity().checkConnectivity()));
+      await (Connectivity().checkConnectivity()),
+    );
   }
 
   @override
@@ -78,6 +81,7 @@ class ConnectivityStatusServiceImpl implements ConnectivityStatusService {
   Future<ReachabilityStatus> isPaperlessServerReachable(
     String serverAddress, [
     ClientCertificate? clientCertificate,
+    List<HeaderEntry>? additionalHeaders,
   ]) async {
     if (!RegExp(r"^https?://.*").hasMatch(serverAddress)) {
       return ReachabilityStatus.unknown;
@@ -85,7 +89,10 @@ class ConnectivityStatusServiceImpl implements ConnectivityStatusService {
     try {
       SessionManager manager =
           SessionManagerImpl([ServerReachabilityErrorInterceptor()])
-            ..updateSettings(clientCertificate: clientCertificate)
+            ..updateSettings(
+              clientCertificate: clientCertificate,
+              additionalHeaders: additionalHeaders,
+            )
             ..client.options.connectTimeout = const Duration(seconds: 5)
             ..client.options.receiveTimeout = const Duration(seconds: 5);
 
@@ -125,8 +132,11 @@ class ConnectivityStatusServiceMock implements ConnectivityStatusService {
   }
 
   @override
-  Future<ReachabilityStatus> isPaperlessServerReachable(String serverAddress,
-      [ClientCertificate? clientCertificate]) async {
+  Future<ReachabilityStatus> isPaperlessServerReachable(
+    String serverAddress, [
+    ClientCertificate? clientCertificate,
+    List<HeaderEntry>? additionalHeaders,
+  ]) async {
     return isConnected
         ? ReachabilityStatus.reachable
         : ReachabilityStatus.notReachable;

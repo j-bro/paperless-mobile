@@ -1,7 +1,8 @@
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_mobile/core/repository/label_repository.dart';
+import 'package:paperless_api/generated/lib/src/model/document.dart';
+import 'package:paperless_mobile/core/repository/document_type_repository.dart';
 import 'package:provider/provider.dart';
 
 class DateAndDocumentTypeLabelWidget extends StatelessWidget {
@@ -11,20 +12,26 @@ class DateAndDocumentTypeLabelWidget extends StatelessWidget {
     required this.onDocumentTypeSelected,
   });
 
-  final DocumentModel document;
+  final Document document;
   final void Function(int? documentTypeId)? onDocumentTypeSelected;
 
   @override
   Widget build(BuildContext context) {
-    final subtitleStyle =
-        Theme.of(context).textTheme.labelMedium?.apply(color: Colors.grey);
-    final labelRepository = context.watch<LabelRepository>();
+    final documentTypeRepository = context.read<DocumentTypeRepository>();
+    final subtitleStyle = Theme.of(
+      context,
+    ).textTheme.labelMedium?.apply(color: Colors.grey);
+
+    final dateText = document.created != null
+        ? DateFormat.yMMMMd(
+            Localizations.localeOf(context).toString(),
+          ).format(document.created!)
+        : null;
     return RichText(
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
       text: TextSpan(
-        text: DateFormat.yMMMMd(Localizations.localeOf(context).toString())
-            .format(document.created),
+        text: dateText,
         style: subtitleStyle,
         children: document.documentType != null
             ? [
@@ -37,10 +44,16 @@ class DateAndDocumentTypeLabelWidget extends StatelessWidget {
                       onTap: onDocumentTypeSelected != null
                           ? () => onDocumentTypeSelected!(document.documentType)
                           : null,
-                      child: Text(
-                        labelRepository
-                            .documentTypes[document.documentType]!.name,
-                        style: subtitleStyle,
+                      child: QueryBuilder(
+                        query: documentTypeRepository.getByIdQuery(
+                          document.documentType!,
+                        ),
+                        builder: (context, state) {
+                          return Text(
+                            state.data?.name ?? '',
+                            style: subtitleStyle,
+                          );
+                        },
                       ),
                     ),
                   ),

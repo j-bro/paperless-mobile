@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:paperless_api/generated/lib/src/model/document.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/widgets/dialog_utils/dialog_cancel_button.dart';
 import 'package:paperless_mobile/core/widgets/dialog_utils/dialog_confirm_button.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
 class DeleteDocumentConfirmationDialog extends StatelessWidget {
-  final DocumentModel document;
+  final Document document;
   const DeleteDocumentConfirmationDialog({super.key, required this.document});
 
   @override
@@ -20,12 +21,12 @@ class DeleteDocumentConfirmationDialog extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            document.title.isEmpty ? '(no title)' : document.title,
+            (document.title?.isEmpty ?? true)
+                ? '(no title)'
+                : document.title!, //TODO: INTL
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontWeight: FontWeight.w700,
-            ),
+            style: const TextStyle(fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: 16),
           Text(S.of(context)!.thisActionIsIrreversibleDoYouWishToProceedAnyway),

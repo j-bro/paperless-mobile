@@ -1,74 +1,84 @@
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_mobile/core/repository/label_repository.dart';
 import 'package:paperless_mobile/features/edit_label/view/label_form.dart';
-import 'package:paperless_mobile/features/labels/cubit/label_cubit.dart';
+import 'package:paperless_mobile/features/edit_label/view/label_form_values.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
-class AddLabelPage<T extends Label> extends StatelessWidget {
+class AddLabelPage<T extends Label, TRequest extends LabelRequest>
+    extends StatelessWidget {
   final String? initialName;
   final Widget pageTitle;
-  final T Function(Map<String, dynamic> json) fromJsonT;
+  final TRequest Function(
+    LabelFormValues commonValues,
+    FormBuilderState formState,
+  )
+  buildRequest;
   final List<Widget> additionalFields;
-  final Future<T> Function(BuildContext context, T label) onSubmit;
+  final Mutation<T, TRequest> mutation;
+
+  /// Optional initial value pre-populated with [initialName].
+  /// If not provided but [initialName] is set, a default [TRequest] is
+  /// constructed via [buildRequestFromName].
+  final TRequest? Function(String name)? buildRequestFromName;
 
   const AddLabelPage({
     super.key,
     this.initialName,
+    required this.mutation,
     required this.pageTitle,
-    required this.fromJsonT,
+    required this.buildRequest,
     this.additionalFields = const [],
-    required this.onSubmit,
+    this.buildRequestFromName,
   });
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => LabelCubit(
-        context.read<LabelRepository>(),
-      ),
-      child: AddLabelFormWidget(
-        pageTitle: pageTitle,
-        label: initialName != null ? fromJsonT({'name': initialName}) : null,
-        additionalFields: additionalFields,
-        fromJsonT: fromJsonT,
-        onSubmit: onSubmit,
-      ),
+    return AddLabelFormWidget(
+      pageTitle: pageTitle,
+      initialValue: initialName != null
+          ? buildRequestFromName?.call(initialName!)
+          : null,
+      additionalFields: additionalFields,
+      buildRequest: buildRequest,
+      mutation: mutation,
     );
   }
 }
 
-class AddLabelFormWidget<T extends Label> extends StatelessWidget {
-  final T? label;
-  final T Function(Map<String, dynamic> json) fromJsonT;
+class AddLabelFormWidget<T extends Label, TRequest extends LabelRequest>
+    extends StatelessWidget {
+  final TRequest? initialValue;
+  final TRequest Function(
+    LabelFormValues commonValues,
+    FormBuilderState formState,
+  )
+  buildRequest;
   final List<Widget> additionalFields;
-  final Future<T> Function(BuildContext context, T label) onSubmit;
-
+  final Mutation<T, TRequest> mutation;
   final Widget pageTitle;
   const AddLabelFormWidget({
     super.key,
-    this.label,
-    required this.fromJsonT,
+    this.initialValue,
+    required this.buildRequest,
     required this.additionalFields,
     required this.pageTitle,
-    required this.onSubmit,
+    required this.mutation,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: pageTitle,
-      ),
-      body: LabelForm<T>(
+      appBar: AppBar(title: pageTitle),
+      body: LabelForm(
         autofocusNameField: true,
-        initialValue: label,
-        fromJsonT: fromJsonT,
-        submitButtonConfig: SubmitButtonConfig<T>(
+        initialValue: initialValue,
+        buildRequest: buildRequest,
+        submitButtonConfig: SubmitButtonConfig<T, TRequest>(
           icon: const Icon(Icons.add),
           label: Text(S.of(context)!.create),
-          onSubmit: (label) => onSubmit(context, label),
+          mutation: mutation,
         ),
         additionalFields: additionalFields,
       ),

@@ -2,27 +2,19 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:paperless_mobile/features/settings/model/color_scheme_option.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 const _classicThemeColorSeed = Colors.lightGreen;
 
-const _defaultListTileTheme = ListTileThemeData(
-  tileColor: Colors.transparent,
-);
+const _defaultListTileTheme = ListTileThemeData(tileColor: Colors.transparent);
 
 final _defaultCardTheme = CardThemeData(
-  shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(12),
-  ),
+  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
 );
 
 final _defaultInputDecorationTheme = InputDecorationTheme(
-  border: OutlineInputBorder(
-    borderRadius: BorderRadius.circular(16),
-  ),
-  contentPadding: const EdgeInsets.symmetric(
-    horizontal: 16.0,
-    vertical: 16.0,
-  ),
+  border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+  contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
 );
 
 ThemeData buildTheme({
@@ -43,28 +35,34 @@ ThemeData buildTheme({
       colorScheme = dynamicScheme ?? classicScheme;
       break;
   }
-  return ThemeData.from(
-    colorScheme: colorScheme.harmonized(),
-    useMaterial3: true,
-  ).copyWith(
-    bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      backgroundColor: colorScheme.surface,
-    ),
-    navigationBarTheme: NavigationBarThemeData(
-      backgroundColor: colorScheme.surface,
-    ),
-    cardTheme: _defaultCardTheme,
-    inputDecorationTheme: _defaultInputDecorationTheme,
-    listTileTheme: _defaultListTileTheme,
-    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-    appBarTheme: const AppBarTheme(
-      scrolledUnderElevation: 0,
-    ),
-    chipTheme: ChipThemeData(
-      backgroundColor: colorScheme.surfaceContainerHighest,
-      checkmarkColor: colorScheme.onSurfaceVariant,
-      deleteIconColor: colorScheme.onSurfaceVariant,
-    ),
+  final theme =
+      ThemeData.from(
+        colorScheme: colorScheme.harmonized(),
+        useMaterial3: true,
+      ).copyWith(
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          backgroundColor: colorScheme.surface,
+        ),
+        navigationBarTheme: NavigationBarThemeData(
+          backgroundColor: colorScheme.surface,
+        ),
+        cardTheme: _defaultCardTheme,
+        inputDecorationTheme: _defaultInputDecorationTheme,
+        listTileTheme: _defaultListTileTheme,
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        appBarTheme: const AppBarTheme(scrolledUnderElevation: 0),
+        chipTheme: ChipThemeData(
+          backgroundColor: colorScheme.surfaceContainerHighest,
+          checkmarkColor: colorScheme.onSurfaceVariant,
+          deleteIconColor: colorScheme.onSurfaceVariant,
+        ),
+      );
+  return theme.copyWith(
+    extensions: [
+      brightness == Brightness.dark
+          ? SkeletonizerConfigData.dark()
+          : SkeletonizerConfigData(),
+    ],
   );
 }
 
@@ -72,7 +70,8 @@ SystemUiOverlayStyle buildOverlayStyle(
   ThemeData theme, {
   Color? systemNavigationBarColor,
 }) {
-  final color = systemNavigationBarColor ??
+  final color =
+      systemNavigationBarColor ??
       ElevationOverlay.applySurfaceTint(
         theme.colorScheme.surface,
         theme.colorScheme.surfaceTint,
@@ -80,18 +79,18 @@ SystemUiOverlayStyle buildOverlayStyle(
       );
   return switch (theme.brightness) {
     Brightness.light => SystemUiOverlayStyle.dark.copyWith(
-        systemNavigationBarColor: color,
-        systemNavigationBarDividerColor: color,
-        statusBarColor: theme.colorScheme.surface,
-        // statusBarColor: theme.colorScheme.background,
-        // systemNavigationBarDividerColor: theme.colorScheme.surface,
-      ),
+      systemNavigationBarColor: color,
+      systemNavigationBarDividerColor: color,
+      statusBarColor: theme.colorScheme.surface,
+      // statusBarColor: theme.colorScheme.background,
+      // systemNavigationBarDividerColor: theme.colorScheme.surface,
+    ),
     Brightness.dark => SystemUiOverlayStyle.light.copyWith(
-        systemNavigationBarColor: color,
-        systemNavigationBarDividerColor: color,
-        statusBarColor: theme.colorScheme.surface,
-        // statusBarColor: theme.colorScheme.background,
-        // systemNavigationBarDividerColor: theme.colorScheme.surface,
-      ),
+      systemNavigationBarColor: color,
+      systemNavigationBarDividerColor: color,
+      statusBarColor: theme.colorScheme.surface,
+      // statusBarColor: theme.colorScheme.background,
+      // systemNavigationBarDividerColor: theme.colorScheme.surface,
+    ),
   };
 }

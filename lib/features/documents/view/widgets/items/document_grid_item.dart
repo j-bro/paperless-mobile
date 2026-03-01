@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_mobile/core/database/tables/local_user_account.dart';
-import 'package:paperless_mobile/core/repository/label_repository.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
+import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/document_preview.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/items/document_item.dart';
 import 'package:paperless_mobile/features/labels/correspondent/view/widgets/correspondent_widget.dart';
 import 'package:paperless_mobile/features/labels/document_type/view/widgets/document_type_widget.dart';
 import 'package:paperless_mobile/features/labels/tags/view/widgets/tags_widget.dart';
-import 'package:provider/provider.dart';
 
 class DocumentGridItem extends DocumentItem {
   const DocumentGridItem({
@@ -28,8 +27,7 @@ class DocumentGridItem extends DocumentItem {
 
   @override
   Widget build(BuildContext context) {
-    var currentUser = context.watch<LocalUserAccount>().paperlessUser;
-    final labelRepository = context.watch<LabelRepository>();
+    var currentUser = context.loggedInUser$.paperlessUser;
     return Stack(
       children: [
         Card(
@@ -40,8 +38,9 @@ class DocumentGridItem extends DocumentItem {
           child: InkWell(
             borderRadius: BorderRadius.circular(12),
             onTap: _onTap,
-            onLongPress:
-                onSelected != null ? () => onSelected!(document) : null,
+            onLongPress: onSelected != null
+                ? () => onSelected!(document)
+                : null,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -66,24 +65,26 @@ class DocumentGridItem extends DocumentItem {
                             child: NotificationListener<ScrollNotification>(
                               // Prevents ancestor notification listeners to be notified when this widget scrolls
                               onNotification: (notification) => true,
-                              child: CustomScrollView(
-                                scrollDirection: Axis.horizontal,
-                                slivers: [
-                                  const SliverToBoxAdapter(
-                                    child: SizedBox(width: 8),
-                                  ),
-                                  if (currentUser.canViewTags)
-                                    TagsWidget.sliver(
-                                      tags: document.tags
-                                          .map((e) => labelRepository.tags[e]!)
-                                          .toList(),
-                                      onTagSelected: onTagSelected,
-                                    ),
-                                  const SliverToBoxAdapter(
-                                    child: SizedBox(width: 8),
-                                  ),
-                                ],
-                              ),
+                              child: TagsWidget(
+                                tagIds: document.tags,
+                                onTagSelected: onTagSelected,
+                              ).padded(),
+                              // child: CustomScrollView(
+                              //   scrollDirection: Axis.horizontal,
+                              //   slivers: [
+                              //     const SliverToBoxAdapter(
+                              //       child: SizedBox(width: 8),
+                              //     ),
+                              //     if (currentUser.canViewTags)
+                              //       TagsWidget.sliver(
+                              //         tagIds: document.tags,
+                              //         onTagSelected: onTagSelected,
+                              //       ),
+                              //     const SliverToBoxAdapter(
+                              //       child: SizedBox(width: 8),
+                              //     ),
+                              //   ],
+                              // ),
                             ),
                           ),
                         ),
@@ -99,20 +100,18 @@ class DocumentGridItem extends DocumentItem {
                       children: [
                         if (currentUser.canViewCorrespondents)
                           CorrespondentWidget(
-                            correspondent: labelRepository
-                                .correspondents[document.correspondent],
+                            id: document.correspondent,
                             onSelected: onCorrespondentSelected,
                           ),
                         if (currentUser.canViewDocumentTypes)
                           DocumentTypeWidget(
-                            documentType: labelRepository
-                                .documentTypes[document.documentType],
+                            id: document.documentType,
                             onSelected: onDocumentTypeSelected,
                           ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 8.0),
                           child: Text(
-                            document.title.isEmpty ? '-' : document.title,
+                            document.title ?? '-',
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context).textTheme.titleMedium,
@@ -122,24 +121,23 @@ class DocumentGridItem extends DocumentItem {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              DateFormat.yMMMMd(
-                                Localizations.localeOf(context).toString(),
-                              ).format(document.created),
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
+                            if (document.created != null)
+                              Text(
+                                DateFormat.yMMMMd(
+                                  Localizations.localeOf(context).toString(),
+                                ).format(document.created!),
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
                             if (document.archiveSerialNumber != null)
                               Text(
                                 '#${document.archiveSerialNumber!}',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall
+                                style: Theme.of(context).textTheme.bodySmall
                                     ?.copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurface,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onSurface,
                                     ),
-                              )
+                              ),
                           ],
                         ),
                       ],

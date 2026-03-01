@@ -2,10 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:paperless_mobile/features/document_scan/view/scanner_page.dart';
-import 'package:paperless_mobile/features/document_upload/cubit/document_upload_cubit.dart';
 import 'package:paperless_mobile/features/document_upload/view/document_upload_preparation_page.dart';
 import 'package:paperless_mobile/routing/navigation_keys.dart';
 
@@ -33,29 +31,24 @@ class DocumentUploadRoute extends GoRouteData with $DocumentUploadRoute {
   final String? title;
   final String? filename;
   final String? fileExtension;
+  final bool? instantUpload;
 
   const DocumentUploadRoute({
     required this.$extra,
     this.title,
     this.filename,
     this.fileExtension,
+    this.instantUpload,
   });
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return BlocProvider(
-      create: (_) => DocumentUploadCubit(
-        context.read(),
-        context.read(),
-        context.read(),
-        context.read(),
-      ),
-      child: DocumentUploadPreparationPage(
-        title: title,
-        fileExtension: fileExtension,
-        filename: filename,
-        fileBytes: $extra,
-      ),
+    return DocumentUploadPreparationPage(
+      title: title,
+      fileExtension: fileExtension,
+      filename: filename,
+      fileBytes: $extra,
+      instantUpload: instantUpload ?? false,
     );
   }
 }

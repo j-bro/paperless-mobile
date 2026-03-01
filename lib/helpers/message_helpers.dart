@@ -4,15 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/model/info_message_exception.dart';
 import 'package:paperless_mobile/core/translation/error_code_localization_mapper.dart';
+import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
 class SnackBarActionConfig {
   final String label;
   final VoidCallback onPressed;
 
-  SnackBarActionConfig({
-    required this.label,
-    required this.onPressed,
-  });
+  SnackBarActionConfig({required this.label, required this.onPressed});
 }
 
 void showSnackBar(
@@ -33,8 +31,8 @@ void showSnackBar(
                 text: TextSpan(
                   text: message,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Theme.of(context).colorScheme.onInverseSurface,
-                      ),
+                    color: Theme.of(context).colorScheme.onInverseSurface,
+                  ),
                   children: <TextSpan>[
                     TextSpan(
                       text: "\n$details",
@@ -64,6 +62,22 @@ void showGenericError(
   dynamic error, [
   StackTrace? stackTrace,
 ]) {
+  if (error is PaperlessApiException) {
+    showErrorMessage(context, error, stackTrace);
+    return;
+  }
+  if (error is PaperlessUnauthorizedException) {
+    showLocalizedError(
+      context,
+      error.message ?? S.of(context)!.unauthorizedErrorMessage,
+      stackTrace,
+    );
+    return;
+  }
+  if (error is InfoMessageException) {
+    showInfoMessage(context, error, stackTrace);
+    return;
+  }
   showSnackBar(
     context,
     error.toString(),

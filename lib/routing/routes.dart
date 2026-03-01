@@ -2,6 +2,11 @@ class R {
   const R._();
   static const landing = "landing";
   static const login = "login";
+  static const loginOtp = "loginOtp";
+  static const loginConnectToServer = "loginConnectToServer";
+  static const loginAuthenticate = "loginAuthenticate";
+  static const setActiveUser = "setActiveUser";
+  static const addAccountCredentialsInput = "addAccountCredentialsInput";
   static const loginToExistingAccount = 'loginToExistingAccount';
   static const documents = "documents";
   static const verifyIdentity = "verifyIdentity";

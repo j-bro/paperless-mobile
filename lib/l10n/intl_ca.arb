@@ -1,14 +1,26 @@
 {
-  "developedBy": "Desenvolupat per {name}.",
-  "@developedBy": {
-    "placeholders": {
-      "name": {}
-    }
+  "aboutThisApp": "Sobre l'app",
+  "@aboutThisApp": {
+    "description": "Label for about this app tile displayed in the drawer"
   },
-  "addAnotherAccount": "Afegir altre compte",
-  "@addAnotherAccount": {},
+  "absolute": "Absolut",
+  "@absolute": {},
   "account": "Compte",
   "@account": {},
+  "accounts": "Comptes",
+  "@accounts": {
+    "description": "Title of the account management dialog"
+  },
+  "aClientCertificateWasExpectedButNotSent": "Certificat de client esperat però no trobat. Proporciona un certificat de client vàlid.",
+  "@aClientCertificateWasExpectedButNotSent": {},
+  "add": "Add",
+  "addAccount": "Afegir compte",
+  "@addAccount": {
+    "description": "Label of add account action"
+  },
+  "addAdditionalHeadersHint": "You can add HTTP headers to be included with each API request. This may be useful for custom authentication schemes, VPNs or other scenarios.",
+  "addAnotherAccount": "Afegir altre compte",
+  "@addAnotherAccount": {},
   "addCorrespondent": "Nou corresponsal",
   "@addCorrespondent": {
     "description": "Title when adding a new correspondent"
@@ -17,6 +29,18 @@
   "@addDocumentType": {
     "description": "Title when adding a new document type"
   },
+  "addedAt": "Afegit",
+  "@addedAt": {},
+  "additionalHeaders": "Additional Headers",
+  "addNewCorrespondent": "Crear nou corresponsal",
+  "@addNewCorrespondent": {},
+  "addNewDocumentType": "Crea nou tipus de document",
+  "@addNewDocumentType": {},
+  "addNewStoragePath": "Nova ruta emmagatzematge",
+  "@addNewStoragePath": {},
+  "addNewTag": "Afegir nova etiqueta",
+  "@addNewTag": {},
+  "addNote": "Afegir Nota",
   "addStoragePath": "Nova ruta emmagatzematge",
   "@addStoragePath": {
     "description": "Title when adding a new storage path"
@@ -25,214 +49,302 @@
   "@addTag": {
     "description": "Title when adding a new tag"
   },
-  "aboutThisApp": "Sobre l'app",
-  "@aboutThisApp": {
-    "description": "Label for about this app tile displayed in the drawer"
+  "advanced": "Avançat",
+  "@advanced": {},
+  "advancedSettings": "Opcions avançades",
+  "@advancedSettings": {},
+  "after": "Després",
+  "@after": {},
+  "all": "Tot",
+  "@all": {},
+  "allScansWillBeMerged": "Els escanejos s'uniran en un únic document PDF.",
+  "allSeen": "Tot vist",
+  "@allSeen": {},
+  "allTags": "Tot",
+  "@allTags": {
+    "description": "Label shown when a document has to be assigned to all selected tags"
   },
-  "loggedInAs": "Logat com a {name}",
-  "@loggedInAs": {
-    "placeholders": {
-      "name": {}
-    }
+  "alwaysAsk": "Pregunta sempre",
+  "@alwaysAsk": {
+    "description": "Option to choose when the app should always ask the user which filetype to use"
   },
-  "disconnect": "Desconnectar",
-  "@disconnect": {
-    "description": "Logout button label"
+  "amount": "Quantitat",
+  "@amount": {},
+  "anErrorOccurredRemovingTheScans": "Error eliminant escanejos.",
+  "@anErrorOccurredRemovingTheScans": {},
+  "anErrorOccurredWhileTryingToAutocompleteYourQuery": "Error al intentar autocompletar la cerca.",
+  "@anErrorOccurredWhileTryingToAutocompleteYourQuery": {},
+  "anInternetConnectionCouldNotBeEstablished": "No s'ha pogut establir una connexió a internet.",
+  "@anInternetConnectionCouldNotBeEstablished": {},
+  "anUnknownErrorOccurred": "Error desconegut.",
+  "@anUnknownErrorOccurred": {},
+  "any": "Qualsevol",
+  "@any": {},
+  "anyAssigned": "Qualsevol assignat",
+  "@anyAssigned": {},
+  "anyTag": "Qualsevol",
+  "@anyTag": {
+    "description": "Label shown when any tag should be filtered"
   },
-  "reportABug": "Informa error",
-  "@reportABug": {},
-  "settings": "Opcions",
-  "@settings": {},
-  "authenticateOnAppStart": "Autenticar al iniciar l'app",
-  "@authenticateOnAppStart": {
-    "description": "Description of the biometric authentication settings tile"
-  },
-  "biometricAuthentication": "Autenticació Biomètrica",
-  "@biometricAuthentication": {},
-  "authenticateToToggleBiometricAuthentication": "{mode, select, enable{Autentifica per habilitar l'autentificació biomètrica} disable{Autentifica per deshabilitar l'autentificació biomètrica} other{}}",
-  "@authenticateToToggleBiometricAuthentication": {
-    "placeholders": {
-      "mode": {}
-    }
-  },
-  "documents": "Documents",
-  "@documents": {},
-  "inbox": "Inbox",
-  "@inbox": {},
-  "labels": "Etiquetes",
-  "@labels": {},
-  "scanner": "Escàner",
-  "@scanner": {},
-  "startTyping": "Comença a escriure...",
-  "@startTyping": {},
-  "doYouReallyWantToDeleteThisView": "Vols esborrar aquesta vista?",
-  "@doYouReallyWantToDeleteThisView": {},
-  "deleteView": "Esborra Vista {name}?",
-  "@deleteView": {},
-  "addedAt": "Afegit",
-  "@addedAt": {},
-  "archiveSerialNumber": "ASN",
-  "@archiveSerialNumber": {},
-  "asn": "ASN",
-  "@asn": {},
-  "correspondent": "Corresponsal",
-  "@correspondent": {},
-  "createdAt": "Creat el",
-  "@createdAt": {},
-  "documentSuccessfullyDeleted": "Document esborrat correctament.",
-  "@documentSuccessfullyDeleted": {},
-  "assignAsn": "Assigna ASN",
-  "@assignAsn": {},
-  "deleteDocumentTooltip": "Esborra",
-  "@deleteDocumentTooltip": {
-    "description": "Tooltip shown for the delete button on details page"
-  },
-  "downloadDocumentTooltip": "Descarrega",
-  "@downloadDocumentTooltip": {
-    "description": "Tooltip shown for the download button on details page"
-  },
-  "editDocumentTooltip": "Edita",
-  "@editDocumentTooltip": {
-    "description": "Tooltip shown for the edit button on details page"
-  },
-  "loadFullContent": "Carregar contingut",
-  "@loadFullContent": {},
-  "noAppToDisplayPDFFilesFound": "Sense app per mostrar arxius PDF!",
-  "@noAppToDisplayPDFFilesFound": {},
-  "openInSystemViewer": "Obrir amb visualitzador del sistema",
-  "@openInSystemViewer": {},
-  "couldNotOpenFilePermissionDenied": "No es pot obrir arxiu: Accés denegat.",
-  "@couldNotOpenFilePermissionDenied": {},
-  "previewTooltip": "Previsualitza",
-  "@previewTooltip": {
-    "description": "Tooltip shown for the preview button on details page"
-  },
-  "shareTooltip": "Compartir",
-  "@shareTooltip": {
-    "description": "Tooltip shown for the share button on details page"
-  },
-  "similarDocuments": "Documents Similars",
-  "@similarDocuments": {
-    "description": "Label shown in the tabbar on details page"
-  },
-  "content": "Contingut",
-  "@content": {
-    "description": "Label shown in the tabbar on details page"
-  },
-  "metaData": "Meta Dades",
-  "@metaData": {
-    "description": "Label shown in the tabbar on details page"
-  },
-  "overview": "Visió general",
-  "@overview": {
-    "description": "Label shown in the tabbar on details page"
-  },
-  "documentType": "Tipus Document",
-  "@documentType": {},
+  "appearance": "Aparença",
+  "@appearance": {},
+  "applicationSettings": "Aplicació",
+  "@applicationSettings": {},
+  "appLogs": "Logs d'aplicació {date}",
+  "apply": "Aplica",
+  "@apply": {},
   "archivedPdf": "Arxivat (pdf)",
   "@archivedPdf": {
     "description": "Option to chose when downloading a document"
   },
-  "chooseFiletype": "Escull tipus arxiu",
-  "@chooseFiletype": {},
-  "original": "Original",
-  "@original": {
-    "description": "Option to chose when downloading a document"
+  "archiveSerialNumber": "Número de sèrie de l'arxiu",
+  "@archiveSerialNumber": {},
+  "archiveSerialNumberUpdated": "S'ha actualitzat el número de sèrie de l'arxiu.",
+  "@archiveSerialNumberUpdated": {
+    "description": "Message shown when the ASN has been updated."
   },
-  "documentSuccessfullyDownloaded": "Document descarregat correctament.",
-  "@documentSuccessfullyDownloaded": {},
-  "suggestions": "Suggerències: ",
-  "@suggestions": {},
-  "editDocument": "Edita Document",
-  "@editDocument": {},
-  "advanced": "Avançat",
-  "@advanced": {},
-  "apply": "Aplica",
-  "@apply": {},
-  "extended": "Ampliat",
-  "@extended": {},
-  "titleAndContent": "Títol i contingut",
-  "@titleAndContent": {},
-  "title": "Títol",
-  "@title": {},
-  "reset": "Restablir",
-  "@reset": {},
-  "filterDocuments": "Filtra Documents",
-  "@filterDocuments": {
-    "description": "Title of the document filter"
-  },
-  "originalMD5Checksum": "Original MD5-Checksum",
-  "@originalMD5Checksum": {},
-  "mediaFilename": "Nom Arxiu",
-  "@mediaFilename": {},
-  "originalFileSize": "Mida arxiu original",
-  "@originalFileSize": {},
-  "originalMIMEType": "Original MIME-Type",
-  "@originalMIMEType": {},
-  "modifiedAt": "Modificat",
-  "@modifiedAt": {},
-  "preview": "Previsualitza",
-  "@preview": {
-    "description": "Title of the document preview page"
-  },
-  "scanADocument": "Escaneja document",
-  "@scanADocument": {},
-  "noDocumentsScannedYet": "Sense documents escanejats.",
-  "@noDocumentsScannedYet": {},
-  "or": "o",
-  "@or": {
-    "description": "Used on the scanner page between both main actions when no scans have been captured."
-  },
-  "deleteAllScans": "Esborra tots els escanejos",
-  "@deleteAllScans": {},
-  "uploadADocumentFromThisDevice": "Puja document des d'aquest dispositiu",
-  "@uploadADocumentFromThisDevice": {
-    "description": "Button label on scanner page"
-  },
-  "noMatchesFound": "Cap coincidència trobada.",
-  "@noMatchesFound": {
-    "description": "Displayed when no documents were found in the document search."
-  },
-  "removeFromSearchHistory": "Elimina de l'historial de cerca?",
-  "@removeFromSearchHistory": {},
-  "results": "Resultats",
-  "@results": {
-    "description": "Label displayed above search results in document search."
-  },
-  "searchDocuments": "Cerca documents",
-  "@searchDocuments": {},
-  "resetFilter": "Restablir Filtre",
-  "@resetFilter": {},
-  "lastMonth": "Mes passat",
-  "@lastMonth": {},
-  "last7Days": "Últims 7 dies",
-  "@last7Days": {},
-  "last3Months": "Últims 3 mesos",
-  "@last3Months": {},
-  "lastYear": "Any passat",
-  "@lastYear": {},
-  "search": "Cerca",
-  "@search": {},
-  "documentsSuccessfullyDeleted": "Documents esborrats correctament.",
-  "@documentsSuccessfullyDeleted": {},
-  "thereSeemsToBeNothingHere": "Sembla que no hi ha res...",
-  "@thereSeemsToBeNothingHere": {},
-  "oops": "Vaja.",
-  "@oops": {},
-  "newDocumentAvailable": "Nou document discponible!",
-  "@newDocumentAvailable": {},
-  "orderBy": "Ordena per",
-  "@orderBy": {},
-  "thisActionIsIrreversibleDoYouWishToProceedAnyway": "Acció irreversible. Continuar?",
-  "@thisActionIsIrreversibleDoYouWishToProceedAnyway": {},
-  "confirmDeletion": "Confirma esborrat",
-  "@confirmDeletion": {},
+  "areYouSureYouWantToContinue": "Segur que vols continuar?",
   "areYouSureYouWantToDeleteTheFollowingDocuments": "{count, plural, one{Segur que vols esborrar el següent document?} other{Segur que vols esborrar els següents documents?}}",
   "@areYouSureYouWantToDeleteTheFollowingDocuments": {
     "placeholders": {
       "count": {}
     }
   },
+  "areYouSureYouWantToMarkAllDocumentsAsSeen": "Segur que vols marcar tots els documents com a vistos? Això realitzarà una operació massiva eliminant totes les etiquetes de la safata d'entrada dels documents. Aquesta acció no és reversible! Continuar?",
+  "@areYouSureYouWantToMarkAllDocumentsAsSeen": {},
+  "ascending": "Ascendent",
+  "@ascending": {},
+  "asn": "ASN",
+  "@asn": {},
+  "assignAsn": "Assigna ASN",
+  "@assignAsn": {},
+  "authenticateOnAppStart": "Autenticar al iniciar l'app",
+  "@authenticateOnAppStart": {
+    "description": "Description of the biometric authentication settings tile"
+  },
+  "authenticateToToggleBiometricAuthentication": "{mode, select, enable{Autentifica per habilitar l'autentificació biomètrica} disable{Autentifica per deshabilitar l'autentificació biomètrica} other{}}",
+  "@authenticateToToggleBiometricAuthentication": {
+    "placeholders": {
+      "mode": {}
+    }
+  },
+  "authenticatingDots": "Autenticant...",
+  "@authenticatingDots": {
+    "description": "Message shown when the app is authenticating the user"
+  },
+  "authenticationFailedPleaseTryAgain": "Autentificació fallida, torna a provar.",
+  "@authenticationFailedPleaseTryAgain": {},
+  "auto": "Auto",
+  "@auto": {},
+  "backToLogin": "Torna a inici de sessió",
+  "before": "Abans",
+  "@before": {},
+  "behavior": "Comportament",
+  "@behavior": {
+    "description": "Title of the settings concerning app beahvior"
+  },
+  "biometricAuthentication": "Autenticació Biomètrica",
+  "@biometricAuthentication": {},
+  "biometricAuthenticationFailed": "Autenticació biomètrica ha fallat.",
+  "@biometricAuthenticationFailed": {},
+  "biometricAuthenticationNotSupported": "L’autenticació biomètrica no és compatible en aquest dispositiu.",
+  "@biometricAuthenticationNotSupported": {},
+  "bulkEditCorrespondentAssignMessage": "{count, plural, one{Això assignarà el corresponsal {correspondent} al document seleccionat.} other{Això assignarà el corresponsal {correspondent} als {count} documents seleccionats.}}",
+  "bulkEditCorrespondentRemoveMessage": "{count, plural, one{Això esborrarà el corresponsal del document seleccionat.} other{Això esborrarà el corresponsal dels {count} documents seleccionats.}}",
+  "bulkEditDocumentTypeAssignMessage": "{count, plural, one{Això assignarà el tipus de document {docType} al document seleccionat.} other{Això assignarà el tipus de document {docType} als {count} documents seleccionats.}}",
+  "bulkEditDocumentTypeRemoveMessage": "{count, plural, one{Això esborrarà el tipus de document del document seleccionat.} other{Això esborrarà el tipus de document dels {count} documents seleccionats.}}",
+  "bulkEditStoragePathAssignMessage": "{count, plural, one{Això assignarà la ruta d'emmagatzematge {path} al document seleccionat.} other{Això assignarà la ruta d'emmagatzematge {path} als {count} documents seleccionats.}}",
+  "bulkEditStoragePathRemoveMessage": "{count, plural, one{Això esborrarà la ruta d'emmagatzematge del document selccionat.} other{Això esborrarà la ruta d'emmagatzematge dels {count} documents seleccionats.}}",
+  "bulkEditTagsAddMessage": "{count, plural, one{Això afegira l'etiqueta {tags} al document seleccionat.} other{Això afegira les etiquetes {tags} a {count} documents seleccionats.}}",
+  "@bulkEditTagsAddMessage": {
+    "description": "Message of the confirmation dialog when bulk adding tags."
+  },
+  "bulkEditTagsModifyMessage": "{count, plural, one{Això afegirà les etiquetes {addTags} i esborrarà les etiquetes {removeTags} del document seleccionat.} other{Això afegirà les etiquetes {addTags} i esborrarà les etiquetes {removeTags} dels {count} documents seleccionats.}}",
+  "@bulkEditTagsModifyMessage": {
+    "description": "Message of the confirmation dialog when both adding and removing tags."
+  },
+  "bulkEditTagsRemoveMessage": "{count, plural, one{Això eliminarà l'etiqueta {tags} del document seleccionat.} other{Això eliminarà les etiquetes {tags} dels {count} documents seleccionats.}}",
+  "@bulkEditTagsRemoveMessage": {
+    "description": "Message of the confirmation dialog when bulk removing tags."
+  },
+  "calculatingDots": "Calculant...",
+  "@calculatingDots": {
+    "description": "Text shown when the byte size is still being calculated"
+  },
+  "cancel": "Cancel·la",
+  "@cancel": {},
+  "caseIrrelevant": "No distingeix majúscules-minúscules",
+  "@caseIrrelevant": {},
+  "changelog": "Historial de canvis",
+  "chooseFiletype": "Escull tipus arxiu",
+  "@chooseFiletype": {},
+  "classicColorScheme": "Clàssic",
+  "@classicColorScheme": {},
+  "clearAll": "Neteja tot",
+  "@clearAll": {},
+  "clearCache": "Esborra cache",
+  "@clearCache": {
+    "description": "Title of the clear cache setting"
+  },
+  "clearLogs": "Netejar registres des de {date}",
+  "clientcertificate": "Certificat de client",
+  "@clientcertificate": {},
+  "close": "Tanca",
+  "@close": {},
+  "color": "Color",
+  "@color": {},
+  "colors": "Colors",
+  "@colors": {},
+  "colorSchemeHint": "Tria entre un esquema de colors clàssic inspirat en un verd tradicional de Paperless o utilitzeu l'esquema de colors dinàmic basat en el tema del vostre sistema.",
+  "@colorSchemeHint": {},
+  "colorSchemeNotSupportedWarning": "Temàtica dinàmica només admès per a dispositius amb Android 12 i versions posteriors. La selecció de l'opció \"Dinàmica\" pot no tenir cap efecte en funció de la implementació del vostre sistema operatiu.",
+  "@colorSchemeNotSupportedWarning": {},
+  "configureAdditionalHttpHeaders": "Configure additional HTTP headers to be sent with each request",
+  "configureMutualTLSAuthentication": "Configura Autentificació TLS mútua",
+  "@configureMutualTLSAuthentication": {},
+  "confirm": "Confirma",
+  "confirmAction": "Confirmar acció",
+  "@confirmAction": {
+    "description": "Typically used as a title to confirm a previously selected action"
+  },
+  "confirmDeletion": "Confirma esborrat",
+  "@confirmDeletion": {},
+  "connect": "Connecta",
+  "@connect": {},
+  "connectionSuccessfulylEstablished": "Connexió establerta correctament.",
+  "@connectionSuccessfulylEstablished": {},
+  "connectionTimedOut": "Temps de connexió exhaurit.",
+  "@connectionTimedOut": {},
+  "connectToPaperless": "Connecta a Paperless",
+  "@connectToPaperless": {},
+  "content": "Contingut",
+  "@content": {
+    "description": "Label shown in the tabbar on details page"
+  },
+  "continueLabel": "Continua",
+  "@continueLabel": {},
+  "convertSinglePageScanToPdf": "Coverteix únics escanejos a PDF abans de pujar",
+  "@convertSinglePageScanToPdf": {
+    "description": "description of the upload scans as pdf setting"
+  },
+  "copyToClipboard": "Copia al porta-retalls",
+  "correspondent": "Corresponsal",
+  "@correspondent": {},
+  "correspondents": "Corresponsals",
+  "@correspondents": {},
+  "couldNotAccessReceivedFile": "No es pot accedir al fitxer rebut. Prova d'obrir l'app abans de compartir.",
+  "@couldNotAccessReceivedFile": {},
+  "couldNotAcknowledgeTasks": "No es poden reconèixer les tasques.",
+  "@couldNotAcknowledgeTasks": {},
+  "couldNotAssignArchiveSerialNumber": "No es pot assignar el número de sèrie de l'arxiu.",
+  "@couldNotAssignArchiveSerialNumber": {},
+  "couldNotBulkEditDocuments": "Could not bulk edit documents, please try again.",
+  "@couldNotBulkEditDocuments": {},
+  "couldNotCreateCorrespondent": "No es pot crear corresponsal, prova de nou.",
+  "@couldNotCreateCorrespondent": {},
+  "couldNotCreateCustomField": "Could not create custom field, please try again.",
+  "couldNotCreateDocument": "No es pot crear document, prova de nou.",
+  "@couldNotCreateDocument": {},
+  "couldNotCreateNote": "Could not create note, please try again.",
+  "couldNotCreateSavedView": "No es pot crear vista desada, prova de nou.",
+  "@couldNotCreateSavedView": {},
+  "couldNotCreateStoragePath": "No es pot crear ruta emmagatzematge, prova de nou.",
+  "@couldNotCreateStoragePath": {},
+  "couldNotCreateTag": "No es pot crear etiqueta, prova de nou.",
+  "@couldNotCreateTag": {},
+  "couldNotCreateUser": "Could not create user, please try again.",
+  "couldNotDeleteCorrespondent": "No es pot esborrar corresponsal, torna a provar.",
+  "@couldNotDeleteCorrespondent": {
+    "description": "Message shown in snackbar when a correspondent could not be deleted."
+  },
+  "couldNotDeleteCustomField": "Could not delete custom field, please try again.",
+  "couldNotDeleteDocument": "No es pot esborrar document, prova de nou.",
+  "@couldNotDeleteDocument": {},
+  "couldNotDeleteDocumentType": "No es pot esborrar document, prova de nou.",
+  "@couldNotDeleteDocumentType": {
+    "description": "Message shown when a document type could not be deleted"
+  },
+  "couldNotDeleteNote": "Could not delete note, please try again.",
+  "couldNotDeleteSavedView": "No es pot esborrar vista guardada, prova de nou",
+  "@couldNotDeleteSavedView": {},
+  "couldNotDeleteStoragePath": "No es pot esborrar ruta emmagatzematge, prova de nou.",
+  "@couldNotDeleteStoragePath": {
+    "description": "Message shown when a storage path could not be deleted"
+  },
+  "couldNotDeleteTag": "No es pot esborrar etiqueta, prova de nou.",
+  "@couldNotDeleteTag": {
+    "description": "Message shown when a tag could not be deleted"
+  },
+  "couldNotDeleteUser": "Could not delete user, please try again.",
+  "couldNotDownloadDocuments": "Could not download documents, please try again.",
+  "couldNotEstablishConnectionToTheServer": "No es pot establir una connexió amb el servidor.",
+  "@couldNotEstablishConnectionToTheServer": {},
+  "couldNotLoadCorrespondents": "No es poden carregar corresponsals.",
+  "@couldNotLoadCorrespondents": {},
+  "couldNotLoadCustomField": "Could not load custom field.",
+  "couldNotLoadDocumentPreview": "No es pot carregar la vista prèvia.",
+  "@couldNotLoadDocumentPreview": {},
+  "couldNotLoadDocuments": "No es poden carregar documents, prova de nou.",
+  "@couldNotLoadDocuments": {},
+  "couldNotLoadDocumentTypes": "No es poden carregar tipus de documents, prova de nou.",
+  "@couldNotLoadDocumentTypes": {},
+  "couldNotLoadLogfileFrom": "No es pot carregar log desde {date}.",
+  "couldNotLoadPermissions": "Could not load permissions.",
+  "couldNotLoadSavedViews": "No es pot carregar vistes guardades.",
+  "@couldNotLoadSavedViews": {},
+  "couldNotLoadServerInformation": "No es pot carregar informació del servidor.",
+  "@couldNotLoadServerInformation": {
+    "description": "Message shown when the server information could not be loaded"
+  },
+  "couldNotLoadSimilarDocuments": "No es poden carregar documents similars.",
+  "@couldNotLoadSimilarDocuments": {},
+  "couldNotLoadStatistics": "No es poden carregar estadístiques del servidor.",
+  "@couldNotLoadStatistics": {
+    "description": "Message shown when the server statistics could not be loaded"
+  },
+  "couldNotLoadStoragePaths": "No es pot carregar ruta d'emmagatzematge.",
+  "@couldNotLoadStoragePaths": {},
+  "couldNotLoadSuggestions": "No es poden carregar suggerències.",
+  "@couldNotLoadSuggestions": {},
+  "couldNotLoadTags": "No es poden carregar etiquetes.",
+  "@couldNotLoadTags": {},
+  "couldNotLoadTasks": "No es poden carregar les tasques.",
+  "@couldNotLoadTasks": {
+    "description": "Message shown when the tasks (e.g. document consumed) could not be loaded"
+  },
+  "couldNotLoadUISettings": "No es pot carregar l'interfície.",
+  "@couldNotLoadUISettings": {
+    "description": "Message shown when the UI settings could not be loaded"
+  },
+  "couldNotLoadUser": "Could not load user, please try again.",
+  "couldNotLoadUsers": "Could not load users, please try again.",
+  "couldNotOpenFilePermissionDenied": "No es pot obrir arxiu: Accés denegat.",
+  "@couldNotOpenFilePermissionDenied": {},
+  "couldNotReachYourPaperlessServer": "No es pot connectar al saervidor, està funcionant?",
+  "@couldNotReachYourPaperlessServer": {},
+  "couldNotUpdateCorrespondent": "No es pot actualitzar corresponsal, prova de nou.",
+  "@couldNotUpdateCorrespondent": {
+    "description": "Message shown when a correspondent could not be updated"
+  },
+  "couldNotUpdateCustomField": "Could not delete custom field, please try again.",
+  "couldNotUpdateDocument": "No es pot actualitzar el document, prova de nou.",
+  "@couldNotUpdateDocument": {},
+  "couldNotUpdateDocumentType": "No es pot actualitzar tipus de document, prova de nou.",
+  "@couldNotUpdateDocumentType": {
+    "description": "Message shown when a document type could not be updated"
+  },
+  "couldNotUpdateSavedView": "No es poden acualitzar les vistes desades, prova de nou.",
+  "@couldNotUpdateSavedView": {
+    "description": "Message shown when a saved view could not be updated"
+  },
+  "couldNotUpdateStoragePath": "No es pot actualitzar la ruta emmagatzematge, prova de nou.",
+  "couldNotUpdateTag": "No es pot actualitzar etiqueta, prova de nou.",
+  "@couldNotUpdateTag": {
+    "description": "Message shown when a tag could not be updated"
+  },
+  "couldNotUpdateUser": "Could not update user, please try again.",
+  "couldNotUploadDocument": "No es pot carregar document, prova de nou.",
+  "@couldNotUploadDocument": {},
   "countSelected": "{count} seleccionats",
   "@countSelected": {
     "description": "Displayed in the appbar when at least one document is selected.",
@@ -240,120 +352,267 @@
       "count": {}
     }
   },
-  "storagePath": "Ruta emmagatzematge",
-  "@storagePath": {},
-  "prepareDocument": "Prepara document",
-  "@prepareDocument": {},
-  "tags": "Etiquetes",
-  "@tags": {},
-  "documentSuccessfullyUpdated": "Document actualitzat correctament.",
-  "@documentSuccessfullyUpdated": {},
-  "fileName": "Nom d'arxiu",
-  "@fileName": {},
-  "synchronizeTitleAndFilename": "Sincronitza títol i nom d'arxiu",
-  "@synchronizeTitleAndFilename": {},
-  "reload": "Recarrega",
-  "@reload": {},
-  "documentSuccessfullyUploadedProcessing": "Document carregat correctament, processant...",
-  "@documentSuccessfullyUploadedProcessing": {},
-  "deleteLabelWarningText": "Aquesta etiqueta conté referències a altres documents. Si l'elimines totes les altres referències s'esborraran. Continuar?",
-  "@deleteLabelWarningText": {},
-  "couldNotAcknowledgeTasks": "No es poden reconèixer les tasques.",
-  "@couldNotAcknowledgeTasks": {},
-  "authenticationFailedPleaseTryAgain": "Autentificació fallida, torna a provar.",
-  "@authenticationFailedPleaseTryAgain": {},
-  "anErrorOccurredWhileTryingToAutocompleteYourQuery": "Error al intentar autocompletar la cerca.",
-  "@anErrorOccurredWhileTryingToAutocompleteYourQuery": {},
-  "biometricAuthenticationFailed": "Autenticació biomètrica ha fallat.",
-  "@biometricAuthenticationFailed": {},
-  "biometricAuthenticationNotSupported": "L’autenticació biomètrica no és compatible en aquest dispositiu.",
-  "@biometricAuthenticationNotSupported": {},
-  "couldNotBulkEditDocuments": "No es poden editar els documents de manera massiva.",
-  "@couldNotBulkEditDocuments": {},
-  "couldNotCreateCorrespondent": "No es pot crear corresponsal, prova de nou.",
-  "@couldNotCreateCorrespondent": {},
-  "couldNotLoadCorrespondents": "No es poden carregar corresponsals.",
-  "@couldNotLoadCorrespondents": {},
-  "couldNotCreateSavedView": "No es pot crear vista desada, prova de nou.",
-  "@couldNotCreateSavedView": {},
-  "couldNotDeleteSavedView": "No es pot esborrar vista guardada, prova de nou",
-  "@couldNotDeleteSavedView": {},
-  "youAreCurrentlyOffline": "Estàs fora de línia. Assegura't d'estar connectat a internet.",
-  "@youAreCurrentlyOffline": {},
-  "couldNotAssignArchiveSerialNumber": "No es pot assignar ASN.",
-  "@couldNotAssignArchiveSerialNumber": {},
-  "couldNotDeleteDocument": "No es pot esborrar document, prova de nou.",
-  "@couldNotDeleteDocument": {},
-  "couldNotLoadDocuments": "No es poden carregar documents, prova de nou.",
-  "@couldNotLoadDocuments": {},
-  "couldNotLoadDocumentPreview": "No es pot carregar la vista prèvia.",
-  "@couldNotLoadDocumentPreview": {},
-  "couldNotCreateDocument": "No es pot crear document, prova de nou.",
-  "@couldNotCreateDocument": {},
-  "couldNotLoadDocumentTypes": "No es poden carregar tipus de documents, prova de nou.",
-  "@couldNotLoadDocumentTypes": {},
-  "couldNotUpdateDocument": "No es pot actualitzar el document, prova de nou.",
-  "@couldNotUpdateDocument": {},
-  "couldNotUploadDocument": "No es pot carregar document, prova de nou.",
-  "@couldNotUploadDocument": {},
-  "invalidCertificateOrMissingPassphrase": "Certificat invàlid o sense paraula de pas",
-  "@invalidCertificateOrMissingPassphrase": {},
-  "couldNotLoadSavedViews": "No es pot carregar vistes guardades.",
-  "@couldNotLoadSavedViews": {},
-  "aClientCertificateWasExpectedButNotSent": "Certificat de client esperat però no trobat. Proporciona un certificat de client vàlid.",
-  "@aClientCertificateWasExpectedButNotSent": {},
-  "userIsNotAuthenticated": "Usuari no autenticat.",
-  "@userIsNotAuthenticated": {},
-  "requestTimedOut": "Esgotat el temps d'espera de connexió amb el servidor.",
-  "@requestTimedOut": {},
-  "anErrorOccurredRemovingTheScans": "Error eliminant escanejos.",
-  "@anErrorOccurredRemovingTheScans": {},
-  "couldNotReachYourPaperlessServer": "No es pot connectar al saervidor, està funcionant?",
-  "@couldNotReachYourPaperlessServer": {},
-  "couldNotLoadSimilarDocuments": "No es poden carregar documents similars.",
-  "@couldNotLoadSimilarDocuments": {},
-  "couldNotCreateStoragePath": "No es pot crear ruta emmagatzematge, prova de nou.",
-  "@couldNotCreateStoragePath": {},
-  "couldNotLoadStoragePaths": "No es pot carregar ruta d'emmagatzematge.",
-  "@couldNotLoadStoragePaths": {},
-  "couldNotLoadSuggestions": "No es poden carregar suggerències.",
-  "@couldNotLoadSuggestions": {},
-  "couldNotCreateTag": "No es pot crear etiqueta, prova de nou.",
-  "@couldNotCreateTag": {},
-  "couldNotLoadTags": "No es poden carregar etiquetes.",
-  "@couldNotLoadTags": {},
-  "anUnknownErrorOccurred": "Error desconegut.",
-  "@anUnknownErrorOccurred": {},
-  "fileFormatNotSupported": "Aquest format no és compatible.",
-  "@fileFormatNotSupported": {},
-  "report": "REPORT",
-  "@report": {},
-  "absolute": "Absolut",
-  "@absolute": {},
-  "hintYouCanAlsoSpecifyRelativeValues": "Suggeriment: a part de les dates concretes, també es pot especificar un interval de temps relatiu a la data actual.",
-  "@hintYouCanAlsoSpecifyRelativeValues": {
-    "description": "Displayed in the extended date range picker"
+  "create": "Crea",
+  "@create": {},
+  "createdAt": "Creat el",
+  "@createdAt": {},
+  "createFromCurrentFilter": "Crear desde filtre actual",
+  "@createFromCurrentFilter": {
+    "description": "Tooltip of the \"New saved view\" button"
   },
-  "amount": "Quantitat",
-  "@amount": {},
-  "relative": "Relatiu",
-  "@relative": {},
-  "last": "Últim",
-  "@last": {},
-  "timeUnit": "Unitat de temps",
-  "@timeUnit": {},
-  "selectDateRange": "Rang de dates",
-  "@selectDateRange": {},
-  "after": "Després",
-  "@after": {},
-  "before": "Abans",
-  "@before": {},
+  "createsASavedViewBasedOnTheCurrentFilterCriteria": "Crea una nova vista basada en els filtres actuals.",
+  "@createsASavedViewBasedOnTheCurrentFilterCriteria": {},
+  "createViewsToQuicklyFilterYourDocuments": "Crea vistes per filtrar documents de manera ràpida.",
+  "@createViewsToQuicklyFilterYourDocuments": {},
+  "dark": "Fosc",
+  "@dark": {},
+  "darkTheme": "Tema fosc",
+  "@darkTheme": {},
+  "dateOutOfRange": "Data ha d'estar entre {firstDate} i {lastDate}.",
+  "@dateOutOfRange": {
+    "description": "Error message shown when the user tries to select a date outside of the allowed range.",
+    "placeholders": {
+      "firstDate": {
+        "type": "DateTime",
+        "format": "yMd"
+      },
+      "lastDate": {
+        "type": "DateTime",
+        "format": "yMd"
+      }
+    }
+  },
   "days": "{count, plural, one{dia} other{dies}}",
   "@days": {
     "placeholders": {
       "count": {}
     }
   },
+  "defaultDownloadFileType": "Tipus de Fitxer a descarregar per defecte",
+  "@defaultDownloadFileType": {
+    "description": "Label indicating the default filetype to download (one of archived, original and always ask)"
+  },
+  "defaultShareFileType": "Tipus compartició de fitxer per defecte",
+  "@defaultShareFileType": {
+    "description": "Label indicating the default filetype to share (one of archived, original and always ask)"
+  },
+  "delete": "Esborra",
+  "@delete": {},
+  "deleteAllScans": "Esborra tots els escanejos",
+  "@deleteAllScans": {},
+  "deleteDocument": "Esborra document",
+  "@deleteDocument": {
+    "description": "Used as an action label on each inbox item"
+  },
+  "deleteDocumentTooltip": "Esborra",
+  "@deleteDocumentTooltip": {
+    "description": "Tooltip shown for the delete button on details page"
+  },
+  "deleteLabelWarningText": "Aquesta etiqueta conté referències a altres documents. Si l'elimines totes les altres referències s'esborraran. Continuar?",
+  "@deleteLabelWarningText": {},
+  "deleteView": "Esborra Vista {name}?",
+  "@deleteView": {},
+  "descending": "Descendent",
+  "@descending": {},
+  "detailed": "Detall",
+  "@detailed": {},
+  "developedBy": "Desenvolupat per {name}.",
+  "@developedBy": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "disableAnimations": "Disable animations",
+  "disableAnimationsDescription": "Disables page transitions and most animations. Temporary workaround until system accessibility settings can be used.",
+  "disableMatching": "No etiquetar documents automaticament",
+  "@disableMatching": {
+    "description": "One of the options for automatic tagging of documents"
+  },
+  "discard": "Descarta",
+  "discardChanges": "Descartar canvis?",
+  "@discardChanges": {
+    "description": "Title of the alert dialog shown when a user tries to close a view with unsaved changes."
+  },
+  "discardChangesWarning": "Tens canvis sense desar. Si continues es perdran. Vols descartar els canvis?",
+  "@discardChangesWarning": {
+    "description": "Warning message shown when the user tries to close a route without saving the changes."
+  },
+  "discardFile": "Desestimar arxiu?",
+  "discardSharedFileHint": "The shared file was not yet processed. Do you want to discard the file?",
+  "disconnect": "Desconnectar",
+  "@disconnect": {
+    "description": "Logout button label"
+  },
+  "documentContainsAllOfTheseWords": "Document conté totes aquestes paraules",
+  "@documentContainsAllOfTheseWords": {},
+  "documentContainsAnyOfTheseWords": "Document conté qualsevol d'aquestes paraules",
+  "@documentContainsAnyOfTheseWords": {},
+  "documentContainsAWordSimilarToThisWord": "Document conté una paraula semblant a aquesta",
+  "@documentContainsAWordSimilarToThisWord": {},
+  "documentContainsThisString": "Document conté la cadena",
+  "@documentContainsThisString": {},
+  "documentMatchesThisRegularExpression": "Document coincideix amb aquesta expresió regular",
+  "@documentMatchesThisRegularExpression": {},
+  "documents": "Documents",
+  "@documents": {},
+  "documentsAssigned": "{count, plural, zero{No documents} one{1 document} other{{count} documents}}",
+  "@documentsAssigned": {
+    "description": "Text shown with a correspondent, document type etc. to indicate the number of documents this filter will maximally yield."
+  },
+  "documentsInInbox": "Document safata",
+  "documentsSuccessfullyDeleted": "Documents esborrats correctament.",
+  "@documentsSuccessfullyDeleted": {},
+  "documentSuccessfullyDeleted": "Document esborrat correctament.",
+  "@documentSuccessfullyDeleted": {},
+  "documentSuccessfullyDownloaded": "Document descarregat correctament.",
+  "@documentSuccessfullyDownloaded": {},
+  "documentSuccessfullyUpdated": "Document actualitzat correctament.",
+  "@documentSuccessfullyUpdated": {},
+  "documentSuccessfullyUploadedProcessing": "Document carregat correctament, processant...",
+  "@documentSuccessfullyUploadedProcessing": {},
+  "documentType": "Tipus Document",
+  "@documentType": {},
+  "documentTypes": "Tipus Documents",
+  "@documentTypes": {},
+  "documentUploadUploading": "Uploading...",
+  "donate": "Donar",
+  "@donate": {
+    "description": "Label of the in-app donate button"
+  },
+  "donateCoffee": "Compra'm un café",
+  "@donateCoffee": {
+    "description": "Label displayed in the app drawer"
+  },
+  "donationDialogContent": "Gràcies per considerar donar suport a aquesta aplicació! A causa de les polítiques de pagament de Google i d'Apple, no es pot mostrar cap enllaç a les donacions a l'aplicació. Ni tan sols l'enllaç a la pàgina del repositori del projecte sembla que estigui permès en aquest context. Per tant, potser feu una ullada a la secció 'Donacions' del README del projecte. El vostre suport és molt apreciat i manté viu el desenvolupament d'aquesta aplicació. Gràcies!",
+  "@donationDialogContent": {
+    "description": "Text displayed in the donation dialog"
+  },
+  "done": "Fet",
+  "@done": {},
+  "downloadDocumentTooltip": "Descarrega",
+  "@downloadDocumentTooltip": {
+    "description": "Tooltip shown for the download button on details page"
+  },
+  "doYouReallyWantToDeleteThisView": "Vols esborrar aquesta vista?",
+  "@doYouReallyWantToDeleteThisView": {},
+  "dynamicColorScheme": "Dinàmic",
+  "@dynamicColorScheme": {},
+  "edit": "Edita",
+  "@edit": {},
+  "editDocument": "Edita Document",
+  "@editDocument": {},
+  "editDocumentTooltip": "Edita",
+  "@editDocumentTooltip": {
+    "description": "Tooltip shown for the edit button on details page"
+  },
+  "editView": "Editar Vista",
+  "@editView": {
+    "description": "Title of the edit saved view page"
+  },
+  "enabled": "Enabled",
+  "errorRetrievingServerVersion": "Error en determinar la versió del servidor.",
+  "@errorRetrievingServerVersion": {
+    "description": "Message shown at the bottom of the settings page when the remote server version could not be resolved."
+  },
+  "exact": "Exacte",
+  "@exact": {},
+  "exclude": "Exclude",
+  "export": "Exporta",
+  "@export": {
+    "description": "Label for button that exports scanned images to pdf (before upload)"
+  },
+  "exportScansToPdf": "Exporta escanejos a PDF",
+  "@exportScansToPdf": {
+    "description": "title of the alert dialog when exporting scans to pdf"
+  },
+  "extended": "Ampliat",
+  "@extended": {},
+  "fetchingUserInformation": "Obtenint dades d'usuari...",
+  "@fetchingUserInformation": {
+    "description": "Message shown when the app loads user data from the server"
+  },
+  "fileFormatNotSupported": "Aquest format no és compatible.",
+  "@fileFormatNotSupported": {},
+  "fileName": "Nom d'arxiu",
+  "@fileName": {},
+  "filterDocuments": "Filtra Documents",
+  "@filterDocuments": {
+    "description": "Title of the document filter"
+  },
+  "filterTags": "Filtra etiquetes...",
+  "@filterTags": {},
+  "findTheSourceCodeOn": "Troba el codi font a",
+  "@findTheSourceCodeOn": {
+    "description": "Text before link to Paperless Mobile GitHub"
+  },
+  "freeBytes": "Lliure {byteString}",
+  "@freeBytes": {
+    "description": "Text shown for clear storage settings"
+  },
+  "freedDiskSpace": "Alliberats {bytes} d'espai de disc.",
+  "@freedDiskSpace": {
+    "description": "Message shown after clearing storage"
+  },
+  "fuzzy": "Difús",
+  "@fuzzy": {},
+  "gotIt": "Ho tinc!",
+  "@gotIt": {},
+  "goToLogin": "Anar al login",
+  "@goToLogin": {
+    "description": "Label of the button shown on the login page to skip logging in to existing accounts and navigate user to login page"
+  },
+  "grid": "Graella",
+  "@grid": {},
+  "headerNameAlreadyExists": "The header already exists.",
+  "headerNameMustNotBeEmpty": "Header name must not be empty",
+  "headerValueMustNotBeEmpty": "Header value must not be empty",
+  "hidePdf": "Oculta PDF",
+  "@hidePdf": {
+    "description": "Tooltip shown on the \"show pdf\" icon button on the document edit page"
+  },
+  "hintYouCanAlsoSpecifyRelativeValues": "Suggeriment: a part de les dates concretes, també es pot especificar un interval de temps relatiu a la data actual.",
+  "@hintYouCanAlsoSpecifyRelativeValues": {
+    "description": "Displayed in the extended date range picker"
+  },
+  "home": "Inici",
+  "@home": {
+    "description": "Label of the \"Home\" route"
+  },
+  "hostCouldNotBeResolved": "No es pot connectar al host. Comprova l'adreça del servidor i la connexió a internet. ",
+  "@hostCouldNotBeResolved": {},
+  "inbox": "Inbox",
+  "@inbox": {},
+  "inboxItemReloadSuggestions": "Reload suggestions",
+  "inboxTag": "Etiqueta d'entrada",
+  "@inboxTag": {},
+  "include": "Include",
+  "incorrectOrMissingCertificatePassphrase": "Incorrecte o falta de contrasenya de certificat.",
+  "@incorrectOrMissingCertificatePassphrase": {},
+  "invalidAddress": "Adreça Invàlida.",
+  "@invalidAddress": {},
+  "invalidCertificateFormat": "Format de certificat invàlid, només s'accepta .pfx",
+  "@invalidCertificateFormat": {},
+  "invalidCertificateOrMissingPassphrase": "Certificat invàlid o sense paraula de pas",
+  "@invalidCertificateOrMissingPassphrase": {},
+  "invalidFilenameCharacter": "Caràcter(s) invàlids trobats a nom d'arxiu: {characters}",
+  "@invalidFilenameCharacter": {
+    "description": "For validating filename in export dialogue"
+  },
+  "key": "Key",
+  "labels": "Etiquetes",
+  "@labels": {},
+  "language": "Idioma",
+  "@language": {},
+  "languageAndVisualAppearance": "Llengua i aspecte visual",
+  "@languageAndVisualAppearance": {},
+  "last": "Últim",
+  "@last": {},
+  "last3Months": "Últims 3 mesos",
+  "@last3Months": {},
+  "last7Days": "Últims 7 dies",
+  "@last7Days": {},
+  "lastMonth": "Mes passat",
+  "@lastMonth": {},
   "lastNDays": "{count, plural, one{Ahir} other{Últims {count} dies}}",
   "@lastNDays": {
     "placeholders": {
@@ -378,306 +637,131 @@
       "count": {}
     }
   },
+  "lastYear": "Any passat",
+  "@lastYear": {},
+  "learnMatchingAutomatically": "Aprenentatge automàtic",
+  "@learnMatchingAutomatically": {},
+  "light": "Clar",
+  "@light": {},
+  "lightTheme": "Tema clar",
+  "@lightTheme": {},
+  "linkedDocuments": "Documents enllaçats",
+  "@linkedDocuments": {},
+  "list": "Llista",
+  "@list": {},
+  "loadFullContent": "Carregar contingut",
+  "@loadFullContent": {},
+  "loadInboxItemSuggestions": "Load suggestions",
+  "loadingLogsFrom": "Carregant registres des de {date}...",
+  "logfileBottomReached": "Final d'aquest arxiu de registres.",
+  "loggedInAs": "Logat com a {name}",
+  "@loggedInAs": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "loggingOut": "Sortint...",
+  "loginPageReachabilityMissingClientCertificateText": "Certificat de client esperat però no trobat. Proporciona un certificat.",
+  "@loginPageReachabilityMissingClientCertificateText": {},
+  "loginPageSignInTitle": "Entrar",
+  "@loginPageSignInTitle": {},
+  "loginRequiredPermissionsHint": "L'ús de Paperless Mobile requereix un conjunt mínim de permisos d'usuari des de paperless-ngx 1.14.0 i posterior. Per tant, assegureu-vos que l'usuari que voleu iniciar sessió té el permís per veure altres usuaris (Usuari → Visualització) i la configuració (UISettings → Visualització). Si no teniu aquests permisos, poseu-vos en contacte amb un administrador del vostre servidor paperless-ngx.",
+  "@loginRequiredPermissionsHint": {
+    "description": "Hint shown on the login page informing the user of the required permissions to use the app."
+  },
+  "logInToExistingAccount": "Entrar en compte existent",
+  "@logInToExistingAccount": {
+    "description": "Title shown on login page if at least one user is already known to the app."
+  },
+  "logout": "Tanca sessió",
+  "@logout": {
+    "description": "Generic Logout label"
+  },
+  "managePermissions": "Gestionar permisos",
+  "@managePermissions": {
+    "description": "Button which leads user to manage permissions page"
+  },
+  "mangeFilesAndStorageSpace": "Gestioneu fitxers i espais d'emmagatzematge",
+  "@mangeFilesAndStorageSpace": {},
+  "markAllAsSeen": "Marca tot com a llegit?",
+  "@markAllAsSeen": {},
+  "markAsSeen": "Marca com a llegit",
+  "@markAsSeen": {},
+  "match": "Coincidència",
+  "@match": {},
+  "matchingAlgorithm": "Algoritme coincident",
+  "@matchingAlgorithm": {},
+  "mediaFilename": "Nom Arxiu",
+  "@mediaFilename": {},
+  "metaData": "Meta Dades",
+  "@metaData": {
+    "description": "Label shown in the tabbar on details page"
+  },
+  "mfaCodeInvalidLengthValidationMessage": "Code must be 6 digits.",
+  "mfaCodeRequired": "MFA Code required",
+  "mfaCodeRequiredValidationMessage": "Please enter the MFA code.",
+  "mfaFormFieldHint": "Your account is protected by two-factor authentication. Please enter an authentication code:",
+  "misc": "Divers",
+  "missingPermissions": "No tens els permisos necessaris per a completar l'acció.",
+  "@missingPermissions": {
+    "description": "Message shown in a snackbar when a user without the reequired permissions performs an action."
+  },
+  "modifiedAt": "Modificat",
+  "@modifiedAt": {},
   "months": "{count, plural, one{mes} other{mesos}}",
   "@months": {
     "placeholders": {
       "count": {}
     }
   },
-  "weeks": "{count, plural, one{setmana} other{weeks}}",
-  "@weeks": {
-    "placeholders": {
-      "count": {}
-    }
-  },
-  "years": "{count, plural, one{any} other{anys}}",
-  "@years": {
-    "placeholders": {
-      "count": {}
-    }
-  },
-  "gotIt": "Ho tinc!",
-  "@gotIt": {},
-  "cancel": "Cancel·la",
-  "@cancel": {},
-  "close": "Tanca",
-  "@close": {},
-  "create": "Crea",
-  "@create": {},
-  "delete": "Esborra",
-  "@delete": {},
-  "edit": "Edita",
-  "@edit": {},
-  "ok": "Ok",
-  "@ok": {},
-  "save": "Desa",
-  "@save": {},
-  "select": "Selecciona",
-  "@select": {},
-  "saveChanges": "Desa canvis",
-  "@saveChanges": {},
-  "upload": "Carrega",
-  "@upload": {},
-  "youreOffline": "Sense connexió.",
-  "@youreOffline": {},
-  "deleteDocument": "Esborra document",
-  "@deleteDocument": {
-    "description": "Used as an action label on each inbox item"
-  },
-  "removeDocumentFromInbox": "Document esborrat de la safata d'entrada.",
-  "@removeDocumentFromInbox": {},
-  "areYouSureYouWantToMarkAllDocumentsAsSeen": "Segur que vols marcar tots els documents com a vistos? Això realitzarà una operació massiva eliminant totes les etiquetes de la safata d'entrada dels documents. Aquesta acció no és reversible! Continuar?",
-  "@areYouSureYouWantToMarkAllDocumentsAsSeen": {},
-  "markAllAsSeen": "Marca tot com a llegit?",
-  "@markAllAsSeen": {},
-  "allSeen": "Tot vist",
-  "@allSeen": {},
-  "markAsSeen": "Marca com a llegit",
-  "@markAsSeen": {},
-  "refresh": "Refresca",
-  "@refresh": {},
-  "youDoNotHaveUnseenDocuments": "Sense document no vistos.",
-  "@youDoNotHaveUnseenDocuments": {},
-  "quickAction": "Acció ràpida",
-  "@quickAction": {},
-  "suggestionSuccessfullyApplied": "Suggerència aplicada correctament.",
-  "@suggestionSuccessfullyApplied": {},
-  "today": "Avui",
-  "@today": {},
-  "undo": "Desfer",
-  "@undo": {},
-  "nUnseen": "{count} no vist",
-  "@nUnseen": {
-    "placeholders": {
-      "count": {}
-    }
-  },
-  "swipeLeftToMarkADocumentAsSeen": "Suggeriment: llisca el dit cap a l'esquerra per marcar un document com a vist i eliminar totes les etiquetes del document.",
-  "@swipeLeftToMarkADocumentAsSeen": {},
-  "yesterday": "Ahir",
-  "@yesterday": {},
-  "anyAssigned": "Qualsevol assignat",
-  "@anyAssigned": {},
-  "noItemsFound": "Elements no trobats!",
-  "@noItemsFound": {},
-  "caseIrrelevant": "No distingeix majúscules-minúscules",
-  "@caseIrrelevant": {},
-  "matchingAlgorithm": "Algoritme coincident",
-  "@matchingAlgorithm": {},
-  "match": "Coincidència",
-  "@match": {},
   "name": "Nom",
   "@name": {},
-  "notAssigned": "No assignat",
-  "@notAssigned": {},
-  "addNewCorrespondent": "Crear nou corresponsal",
-  "@addNewCorrespondent": {},
-  "noCorrespondentsSetUp": "No has afegit cap corresponsal.",
-  "@noCorrespondentsSetUp": {},
-  "correspondents": "Corresponsals",
-  "@correspondents": {},
-  "addNewDocumentType": "Crea nou tipus de document",
-  "@addNewDocumentType": {},
-  "noDocumentTypesSetUp": "No has afegit cap tipus de document.",
-  "@noDocumentTypesSetUp": {},
-  "documentTypes": "Tipus Documents",
-  "@documentTypes": {},
-  "addNewStoragePath": "Nova ruta emmagatzematge",
-  "@addNewStoragePath": {},
-  "noStoragePathsSetUp": "No has afegit cap ruta d'emmagatzematge.",
-  "@noStoragePathsSetUp": {},
-  "storagePaths": "Rutes emmagatzematge",
-  "@storagePaths": {},
-  "addNewTag": "Afegir nova etiqueta",
-  "@addNewTag": {},
-  "noTagsSetUp": "No has afegit cap etiqueta.",
-  "@noTagsSetUp": {},
-  "linkedDocuments": "Documents enllaçats",
-  "@linkedDocuments": {},
-  "advancedSettings": "Opcions avançades",
-  "@advancedSettings": {},
-  "passphrase": "Contrasenya",
-  "@passphrase": {},
-  "configureMutualTLSAuthentication": "Configura Autentificació TLS mútua",
-  "@configureMutualTLSAuthentication": {},
-  "invalidCertificateFormat": "Format de certificat invàlid, només s'accepta .pfx",
-  "@invalidCertificateFormat": {},
-  "clientcertificate": "Certificat de client",
-  "@clientcertificate": {},
-  "selectFile": "Selecciona Fitxer...",
-  "@selectFile": {},
-  "continueLabel": "Continua",
-  "@continueLabel": {},
-  "incorrectOrMissingCertificatePassphrase": "Incorrecte o falta de contrasenya de certificat.",
-  "@incorrectOrMissingCertificatePassphrase": {},
-  "connect": "Connecta",
-  "@connect": {},
-  "password": "Contrasenya",
-  "@password": {},
-  "passwordMustNotBeEmpty": "Contrasenya no pot ser buida.",
-  "@passwordMustNotBeEmpty": {},
-  "connectionTimedOut": "Temps de connexió exhaurit.",
-  "@connectionTimedOut": {},
-  "loginPageReachabilityMissingClientCertificateText": "Certificat de client esperat però no trobat. Proporciona un certificat.",
-  "@loginPageReachabilityMissingClientCertificateText": {},
-  "couldNotEstablishConnectionToTheServer": "No es pot establir una connexió amb el servidor.",
-  "@couldNotEstablishConnectionToTheServer": {},
-  "connectionSuccessfulylEstablished": "Connexió establerta correctament.",
-  "@connectionSuccessfulylEstablished": {},
-  "hostCouldNotBeResolved": "No es pot connectar al host. Comprova l'adreça del servidor i la connexió a internet. ",
-  "@hostCouldNotBeResolved": {},
-  "serverAddress": "Adreça Servidor",
-  "@serverAddress": {},
-  "invalidAddress": "Adreça Invàlida.",
-  "@invalidAddress": {},
-  "serverAddressMustIncludeAScheme": "Adreça del servidor ha d'incloure esquema.",
-  "@serverAddressMustIncludeAScheme": {},
-  "serverAddressMustNotBeEmpty": "Adreça del servidor no pot estar buida.",
-  "@serverAddressMustNotBeEmpty": {},
-  "signIn": "Entrar",
-  "@signIn": {},
-  "loginPageSignInTitle": "Entrar",
-  "@loginPageSignInTitle": {},
-  "signInToServer": "Entrar a {serverAddress}",
-  "@signInToServer": {
-    "placeholders": {
-      "serverAddress": {}
-    }
-  },
-  "connectToPaperless": "Connecta a Paperless",
-  "@connectToPaperless": {},
-  "username": "Nom usuari",
-  "@username": {},
-  "usernameMustNotBeEmpty": "Nom d'usuari no pot estar buit.",
-  "@usernameMustNotBeEmpty": {},
-  "documentContainsAllOfTheseWords": "Document conté totes aquestes paraules",
-  "@documentContainsAllOfTheseWords": {},
-  "all": "Tot",
-  "@all": {},
-  "documentContainsAnyOfTheseWords": "Document conté qualsevol d'aquestes paraules",
-  "@documentContainsAnyOfTheseWords": {},
-  "any": "Qualsevol",
-  "@any": {},
-  "learnMatchingAutomatically": "Aprenentatge automàtic",
-  "@learnMatchingAutomatically": {},
-  "auto": "Auto",
-  "@auto": {},
-  "documentContainsThisString": "Document conté la cadena",
-  "@documentContainsThisString": {},
-  "exact": "Exacte",
-  "@exact": {},
-  "documentContainsAWordSimilarToThisWord": "Document conté una paraula semblant a aquesta",
-  "@documentContainsAWordSimilarToThisWord": {},
-  "fuzzy": "Difús",
-  "@fuzzy": {},
-  "documentMatchesThisRegularExpression": "Document coincideix amb aquesta expresió regular",
-  "@documentMatchesThisRegularExpression": {},
-  "regularExpression": "Expressió Regular",
-  "@regularExpression": {},
-  "anInternetConnectionCouldNotBeEstablished": "No s'ha pogut establir una connexió a internet.",
-  "@anInternetConnectionCouldNotBeEstablished": {},
-  "done": "Fet",
-  "@done": {},
-  "next": "Següent",
-  "@next": {},
-  "couldNotAccessReceivedFile": "No es pot accedir al fitxer rebut. Prova d'obrir l'app abans de compartir.",
-  "@couldNotAccessReceivedFile": {},
+  "newDocumentAvailable": "Nou document discponible!",
+  "@newDocumentAvailable": {},
+  "newerVersionAvailable": "Nova versió disponible:",
+  "newNote": "Nova nota",
   "newView": "Nova Vista",
   "@newView": {},
-  "createsASavedViewBasedOnTheCurrentFilterCriteria": "Crea una nova vista basada en els filtres actuals.",
-  "@createsASavedViewBasedOnTheCurrentFilterCriteria": {},
-  "createViewsToQuicklyFilterYourDocuments": "Crea vistes per filtrar documents de manera ràpida.",
-  "@createViewsToQuicklyFilterYourDocuments": {},
+  "next": "Següent",
+  "@next": {},
   "nFiltersSet": "{count, plural, one{{count} filtre aplicat} other{{count} filtres aplicats}}",
   "@nFiltersSet": {
     "placeholders": {
       "count": {}
     }
   },
-  "showInSidebar": "Mostra a la barra lateral",
-  "@showInSidebar": {},
-  "showOnDashboard": "Mostra al panell",
-  "@showOnDashboard": {},
-  "views": "Vistes",
-  "@views": {},
-  "clearAll": "Neteja tot",
-  "@clearAll": {},
-  "scan": "Escaneja",
-  "@scan": {},
-  "previewScan": "Previsualitza",
-  "@previewScan": {},
-  "scrollToTop": "Torna a dalt",
-  "@scrollToTop": {},
-  "paperlessServerVersion": "Versió servidor Paperless",
-  "@paperlessServerVersion": {},
-  "darkTheme": "Tema fosc",
-  "@darkTheme": {},
-  "lightTheme": "Tema clar",
-  "@lightTheme": {},
-  "systemTheme": "Utilitza tema del sistema",
-  "@systemTheme": {},
-  "appearance": "Aparença",
-  "@appearance": {},
-  "languageAndVisualAppearance": "Llengua i aspecte visual",
-  "@languageAndVisualAppearance": {},
-  "applicationSettings": "Aplicació",
-  "@applicationSettings": {},
-  "colorSchemeHint": "Tria entre un esquema de colors clàssic inspirat en un verd tradicional de Paperless o utilitzeu l'esquema de colors dinàmic basat en el tema del vostre sistema.",
-  "@colorSchemeHint": {},
-  "colorSchemeNotSupportedWarning": "Temàtica dinàmica només admès per a dispositius amb Android 12 i versions posteriors. La selecció de l'opció \"Dinàmica\" pot no tenir cap efecte en funció de la implementació del vostre sistema operatiu.",
-  "@colorSchemeNotSupportedWarning": {},
-  "colors": "Colors",
-  "@colors": {},
-  "language": "Idioma",
-  "@language": {},
-  "security": "Seguretat",
-  "@security": {},
-  "mangeFilesAndStorageSpace": "Gestioneu fitxers i espais d'emmagatzematge",
-  "@mangeFilesAndStorageSpace": {},
-  "storage": "Emmagatzematge",
-  "@storage": {},
-  "dark": "Fosc",
-  "@dark": {},
-  "light": "Clar",
-  "@light": {},
-  "system": "Sistema",
-  "@system": {},
-  "ascending": "Ascendent",
-  "@ascending": {},
-  "descending": "Descendent",
-  "@descending": {},
-  "storagePathDay": "dia",
-  "@storagePathDay": {},
-  "storagePathMonth": "mes",
-  "@storagePathMonth": {},
-  "storagePathYear": "any",
-  "@storagePathYear": {},
-  "color": "Color",
-  "@color": {},
-  "filterTags": "Filtra etiquetes...",
-  "@filterTags": {},
-  "inboxTag": "Etiqueta d'entrada",
-  "@inboxTag": {},
-  "uploadInferValuesHint": "Si especifiques valors per a aquests camps, la instància de Paperless no obtindrà un valor automàticament. Deixa els camps en blanc si vols que el vostre servidor els ompli automàticament.",
-  "@uploadInferValuesHint": {},
-  "useTheConfiguredBiometricFactorToAuthenticate": "Utilitza el factor biomètric per autenticar i desbloquejar els documents.",
-  "@useTheConfiguredBiometricFactorToAuthenticate": {},
-  "verifyYourIdentity": "Verifica la identitat",
-  "@verifyYourIdentity": {},
-  "verifyIdentity": "Verifica identitat",
-  "@verifyIdentity": {},
-  "detailed": "Detall",
-  "@detailed": {},
-  "grid": "Graella",
-  "@grid": {},
-  "list": "Llista",
-  "@list": {},
-  "remove": "Esborra",
-  "removeQueryFromSearchHistory": "Elimina consulta de l'historial de cerca?",
-  "dynamicColorScheme": "Dinàmic",
-  "@dynamicColorScheme": {},
-  "classicColorScheme": "Clàssic",
-  "@classicColorScheme": {},
+  "noAppToDisplayPDFFilesFound": "Sense app per mostrar arxius PDF!",
+  "@noAppToDisplayPDFFilesFound": {},
+  "noCorrespondentsSetUp": "No has afegit cap corresponsal.",
+  "@noCorrespondentsSetUp": {},
+  "noDocumentsFound": "Sense Documents trobats.",
+  "@noDocumentsFound": {
+    "description": "Message shown when no documents were found."
+  },
+  "noDocumentsScannedYet": "Sense documents escanejats.",
+  "@noDocumentsScannedYet": {},
+  "noDocumentTypesSetUp": "No has afegit cap tipus de document.",
+  "@noDocumentTypesSetUp": {},
+  "noItemsFound": "Elements no trobats!",
+  "@noItemsFound": {},
+  "noLogsFoundOn": "Sense logs trovats per {date}.",
+  "noMatchesFound": "Cap coincidència trobada.",
+  "@noMatchesFound": {
+    "description": "Displayed when no documents were found in the document search."
+  },
+  "none": "Cap",
+  "@none": {
+    "description": "One of available enum values of matching algorithm for tags"
+  },
+  "noStoragePathsSetUp": "No has afegit cap ruta d'emmagatzematge.",
+  "@noStoragePathsSetUp": {},
+  "noSuggestionsForThisDocument": "No suggestions available.",
+  "noTagsSetUp": "No has afegit cap etiqueta.",
+  "@noTagsSetUp": {},
+  "notAssigned": "No assignat",
+  "@notAssigned": {},
+  "notes": "{count, plural, zero{Notes} one{Nota} other{Notes}}",
+  "notesMarkdownSyntaxSupportHint": "Paperless Mobile pot representar notes mitjançant la sintaxi bàsica de reducció. Prova-ho!",
   "notificationDownloadComplete": "Descàrrega complerta",
   "@notificationDownloadComplete": {
     "description": "Notification title when a download has been completed."
@@ -686,363 +770,323 @@
   "@notificationDownloadingDocument": {
     "description": "Notification title shown when a document download is pending"
   },
-  "archiveSerialNumberUpdated": "ASN actualitzat.",
-  "@archiveSerialNumberUpdated": {
-    "description": "Message shown when the ASN has been updated."
+  "noViewsMarkedInSidebar": "You did not mark any views to be shown in the sidebar.",
+  "nUnseen": "{count} no vist",
+  "@nUnseen": {
+    "placeholders": {
+      "count": {}
+    }
   },
-  "donateCoffee": "Compra'm un café",
-  "@donateCoffee": {
-    "description": "Label displayed in the app drawer"
+  "ok": "Ok",
+  "@ok": {},
+  "oops": "Vaja.",
+  "@oops": {},
+  "openInSystemViewer": "Obrir amb visualitzador del sistema",
+  "@openInSystemViewer": {},
+  "or": "o",
+  "@or": {
+    "description": "Used on the scanner page between both main actions when no scans have been captured."
   },
-  "thisFieldIsRequired": "Aquest camp és obligatori!",
-  "@thisFieldIsRequired": {
-    "description": "Message shown below the form field when a required field has not been filled out."
+  "orderBy": "Ordena per",
+  "@orderBy": {},
+  "original": "Original",
+  "@original": {
+    "description": "Option to chose when downloading a document"
   },
-  "confirm": "Confirma",
-  "confirmAction": "Confirmar acció",
-  "@confirmAction": {
-    "description": "Typically used as a title to confirm a previously selected action"
+  "originalFilename": "Original Filename",
+  "originalFileSize": "Mida arxiu original",
+  "@originalFileSize": {},
+  "originalMD5Checksum": "Original MD5-Checksum",
+  "@originalMD5Checksum": {},
+  "originalMIMEType": "Original MIME-Type",
+  "@originalMIMEType": {},
+  "overview": "Visió general",
+  "@overview": {
+    "description": "Label shown in the tabbar on details page"
   },
-  "areYouSureYouWantToContinue": "Segur que vols continuar?",
-  "bulkEditTagsAddMessage": "{count, plural, one{Això afegira l'etiqueta {tags} al document seleccionat.} other{Això afegira les etiquetes {tags} a {count} documents seleccionats.}}",
-  "@bulkEditTagsAddMessage": {
-    "description": "Message of the confirmation dialog when bulk adding tags."
+  "owner": "Owner",
+  "paperlessServerVersion": "Versió servidor Paperless",
+  "@paperlessServerVersion": {},
+  "passphrase": "Contrasenya",
+  "@passphrase": {},
+  "password": "Contrasenya",
+  "@password": {},
+  "passwordMustNotBeEmpty": "Contrasenya no pot ser buida.",
+  "@passwordMustNotBeEmpty": {},
+  "pendingFiles": "Pending Files",
+  "permissions": "Permisos",
+  "persistingUserInformation": "Informació de l'usuari persistent...",
+  "prepareDocument": "Prepara document",
+  "@prepareDocument": {},
+  "preview": "Previsualitza",
+  "@preview": {
+    "description": "Title of the document preview page"
   },
-  "bulkEditTagsRemoveMessage": "{count, plural, one{Això eliminarà l'etiqueta {tags} del document seleccionat.} other{Això eliminarà les etiquetes {tags} dels {count} documents seleccionats.}}",
-  "@bulkEditTagsRemoveMessage": {
-    "description": "Message of the confirmation dialog when bulk removing tags."
-  },
-  "bulkEditTagsModifyMessage": "{count, plural, one{Això afegirà les etiquetes {addTags} i esborrarà les etiquetes {removeTags} del document seleccionat.} other{Això afegirà les etiquetes {addTags} i esborrarà les etiquetes {removeTags} dels {count} documents seleccionats.}}",
-  "@bulkEditTagsModifyMessage": {
-    "description": "Message of the confirmation dialog when both adding and removing tags."
-  },
-  "bulkEditCorrespondentAssignMessage": "{count, plural, one{Això assignarà el corresponsal {correspondent} al document seleccionat.} other{Això assignarà el corresponsal {correspondent} als {count} documents seleccionats.}}",
-  "bulkEditDocumentTypeAssignMessage": "{count, plural, one{Això assignarà el tipus de document {docType} al document seleccionat.} other{Això assignarà el tipus de document {docType} als {count} documents seleccionats.}}",
-  "bulkEditStoragePathAssignMessage": "{count, plural, one{Això assignarà la ruta d'emmagatzematge {path} al document seleccionat.} other{Això assignarà la ruta d'emmagatzematge {path} als {count} documents seleccionats.}}",
-  "bulkEditCorrespondentRemoveMessage": "{count, plural, one{Això esborrarà el corresponsal del document seleccionat.} other{Això esborrarà el corresponsal dels {count} documents seleccionats.}}",
-  "bulkEditDocumentTypeRemoveMessage": "{count, plural, one{Això esborrarà el tipus de document del document seleccionat.} other{Això esborrarà el tipus de document dels {count} documents seleccionats.}}",
-  "bulkEditStoragePathRemoveMessage": "{count, plural, one{Això esborrarà la ruta d'emmagatzematge del document selccionat.} other{Això esborrarà la ruta d'emmagatzematge dels {count} documents seleccionats.}}",
-  "anyTag": "Qualsevol",
-  "@anyTag": {
-    "description": "Label shown when any tag should be filtered"
-  },
-  "allTags": "Tot",
-  "@allTags": {
-    "description": "Label shown when a document has to be assigned to all selected tags"
-  },
-  "switchingAccountsPleaseWait": "Canviant de compte. Espera...",
-  "@switchingAccountsPleaseWait": {
-    "description": "Message shown while switching accounts is in progress."
-  },
-  "testConnection": "Prova connexió",
-  "@testConnection": {
-    "description": "Button label shown on login page. Allows user to test whether the server is reachable or not."
-  },
-  "accounts": "Comptes",
-  "@accounts": {
-    "description": "Title of the account management dialog"
-  },
-  "addAccount": "Afegir compte",
-  "@addAccount": {
-    "description": "Label of add account action"
-  },
-  "switchAccount": "Alterna",
-  "@switchAccount": {
-    "description": "Label for switch account action"
-  },
-  "logout": "Tanca sessió",
-  "@logout": {
-    "description": "Generic Logout label"
-  },
-  "switchAccountTitle": "Canvi de compte",
-  "@switchAccountTitle": {
-    "description": "Title of the dialog shown after adding an account, asking the user whether to switch to the newly added account or not."
-  },
-  "switchToNewAccount": "Vols canviar al nou compte? Pots canviar en qualsevol moment.",
-  "@switchToNewAccount": {
-    "description": "Content of the dialog shown after adding an account, asking the user whether to switch to the newly added account or not."
-  },
-  "sourceCode": "Codi Font",
-  "findTheSourceCodeOn": "Troba el codi font a",
-  "@findTheSourceCodeOn": {
-    "description": "Text before link to Paperless Mobile GitHub"
-  },
-  "rememberDecision": "Recorda la selecció",
-  "defaultDownloadFileType": "Tipus de Fitxer a descarregar per defecte",
-  "@defaultDownloadFileType": {
-    "description": "Label indicating the default filetype to download (one of archived, original and always ask)"
-  },
-  "defaultShareFileType": "Tipus compartició de fitxer per defecte",
-  "@defaultShareFileType": {
-    "description": "Label indicating the default filetype to share (one of archived, original and always ask)"
-  },
-  "alwaysAsk": "Pregunta sempre",
-  "@alwaysAsk": {
-    "description": "Option to choose when the app should always ask the user which filetype to use"
-  },
-  "disableMatching": "No etiquetar documents automaticament",
-  "@disableMatching": {
-    "description": "One of the options for automatic tagging of documents"
-  },
-  "none": "Cap",
-  "@none": {
-    "description": "One of available enum values of matching algorithm for tags"
-  },
-  "logInToExistingAccount": "Entrar en compte existent",
-  "@logInToExistingAccount": {
-    "description": "Title shown on login page if at least one user is already known to the app."
+  "previewScan": "Previsualitza",
+  "@previewScan": {},
+  "previewTooltip": "Previsualitza",
+  "@previewTooltip": {
+    "description": "Tooltip shown for the preview button on details page"
   },
   "print": "Imprimir",
   "@print": {
     "description": "Tooltip for print button"
   },
-  "managePermissions": "Gestionar permisos",
-  "@managePermissions": {
-    "description": "Button which leads user to manage permissions page"
-  },
-  "errorRetrievingServerVersion": "Error en determinar la versió del servidor.",
-  "@errorRetrievingServerVersion": {
-    "description": "Message shown at the bottom of the settings page when the remote server version could not be resolved."
-  },
+  "quickAction": "Acció ràpida",
+  "@quickAction": {},
+  "refresh": "Refresca",
+  "@refresh": {},
+  "regularExpression": "Expressió Regular",
+  "@regularExpression": {},
+  "relative": "Relatiu",
+  "@relative": {},
+  "reload": "Recarrega",
+  "@reload": {},
+  "rememberDecision": "Recorda la selecció",
+  "remove": "Esborra",
+  "removeDocumentFromInbox": "Document esborrat de la safata d'entrada.",
+  "@removeDocumentFromInbox": {},
+  "removeFromSearchHistory": "Elimina de l'historial de cerca?",
+  "@removeFromSearchHistory": {},
+  "removeQueryFromSearchHistory": "Elimina consulta de l'historial de cerca?",
+  "report": "REPORT",
+  "@report": {},
+  "reportABug": "Informa error",
+  "@reportABug": {},
+  "requestTimedOut": "Esgotat el temps d'espera de connexió amb el servidor.",
+  "@requestTimedOut": {},
+  "reset": "Restablir",
+  "@reset": {},
+  "resetFilter": "Restablir Filtre",
+  "@resetFilter": {},
   "resolvingServerVersion": "Determinant versió del servidor...",
   "@resolvingServerVersion": {
     "description": "Message shown while the app is loading the remote server version."
-  },
-  "goToLogin": "Anar al login",
-  "@goToLogin": {
-    "description": "Label of the button shown on the login page to skip logging in to existing accounts and navigate user to login page"
-  },
-  "export": "Exporta",
-  "@export": {
-    "description": "Label for button that exports scanned images to pdf (before upload)"
-  },
-  "invalidFilenameCharacter": "Caràcter(s) invàlids trobats a nom d'arxiu: {characters}",
-  "@invalidFilenameCharacter": {
-    "description": "For validating filename in export dialogue"
-  },
-  "exportScansToPdf": "Exporta escanejos a PDF",
-  "@exportScansToPdf": {
-    "description": "title of the alert dialog when exporting scans to pdf"
-  },
-  "allScansWillBeMerged": "Els escanejos s'uniran en un únic document PDF.",
-  "behavior": "Comportament",
-  "@behavior": {
-    "description": "Title of the settings concerning app beahvior"
-  },
-  "theme": "Tema",
-  "@theme": {
-    "description": "Title of the theme mode setting"
-  },
-  "clearCache": "Esborra cache",
-  "@clearCache": {
-    "description": "Title of the clear cache setting"
-  },
-  "freeBytes": "Lliure {byteString}",
-  "@freeBytes": {
-    "description": "Text shown for clear storage settings"
-  },
-  "calculatingDots": "Calculant...",
-  "@calculatingDots": {
-    "description": "Text shown when the byte size is still being calculated"
-  },
-  "freedDiskSpace": "Alliberats {bytes} d'espai de disc.",
-  "@freedDiskSpace": {
-    "description": "Message shown after clearing storage"
-  },
-  "uploadScansAsPdf": "Puja escanejos com a PDF",
-  "@uploadScansAsPdf": {
-    "description": "Title of the setting which toggles whether scans are always uploaded as pdf"
-  },
-  "convertSinglePageScanToPdf": "Coverteix únics escanejos a PDF abans de pujar",
-  "@convertSinglePageScanToPdf": {
-    "description": "description of the upload scans as pdf setting"
-  },
-  "loginRequiredPermissionsHint": "L'ús de Paperless Mobile requereix un conjunt mínim de permisos d'usuari des de paperless-ngx 1.14.0 i posterior. Per tant, assegureu-vos que l'usuari que voleu iniciar sessió té el permís per veure altres usuaris (Usuari → Visualització) i la configuració (UISettings → Visualització). Si no teniu aquests permisos, poseu-vos en contacte amb un administrador del vostre servidor paperless-ngx.",
-  "@loginRequiredPermissionsHint": {
-    "description": "Hint shown on the login page informing the user of the required permissions to use the app."
-  },
-  "missingPermissions": "No tens els permisos necessaris per a completar l'acció.",
-  "@missingPermissions": {
-    "description": "Message shown in a snackbar when a user without the reequired permissions performs an action."
-  },
-  "editView": "Editar Vista",
-  "@editView": {
-    "description": "Title of the edit saved view page"
-  },
-  "donate": "Donar",
-  "@donate": {
-    "description": "Label of the in-app donate button"
-  },
-  "donationDialogContent": "Gràcies per considerar donar suport a aquesta aplicació! A causa de les polítiques de pagament de Google i d'Apple, no es pot mostrar cap enllaç a les donacions a l'aplicació. Ni tan sols l'enllaç a la pàgina del repositori del projecte sembla que estigui permès en aquest context. Per tant, potser feu una ullada a la secció 'Donacions' del README del projecte. El vostre suport és molt apreciat i manté viu el desenvolupament d'aquesta aplicació. Gràcies!",
-  "@donationDialogContent": {
-    "description": "Text displayed in the donation dialog"
-  },
-  "noDocumentsFound": "Sense Documents trobats.",
-  "@noDocumentsFound": {
-    "description": "Message shown when no documents were found."
-  },
-  "couldNotDeleteCorrespondent": "No es pot esborrar corresponsal, torna a provar.",
-  "@couldNotDeleteCorrespondent": {
-    "description": "Message shown in snackbar when a correspondent could not be deleted."
-  },
-  "couldNotDeleteDocumentType": "No es pot esborrar document, prova de nou.",
-  "@couldNotDeleteDocumentType": {
-    "description": "Message shown when a document type could not be deleted"
-  },
-  "couldNotDeleteTag": "No es pot esborrar etiqueta, prova de nou.",
-  "@couldNotDeleteTag": {
-    "description": "Message shown when a tag could not be deleted"
-  },
-  "couldNotDeleteStoragePath": "No es pot esborrar ruta emmagatzematge, prova de nou.",
-  "@couldNotDeleteStoragePath": {
-    "description": "Message shown when a storage path could not be deleted"
-  },
-  "couldNotUpdateCorrespondent": "No es pot actualitzar corresponsal, prova de nou.",
-  "@couldNotUpdateCorrespondent": {
-    "description": "Message shown when a correspondent could not be updated"
-  },
-  "couldNotUpdateDocumentType": "No es pot actualitzar tipus de document, prova de nou.",
-  "@couldNotUpdateDocumentType": {
-    "description": "Message shown when a document type could not be updated"
-  },
-  "couldNotUpdateTag": "No es pot actualitzar etiqueta, prova de nou.",
-  "@couldNotUpdateTag": {
-    "description": "Message shown when a tag could not be updated"
-  },
-  "couldNotLoadServerInformation": "No es pot carregar informació del servidor.",
-  "@couldNotLoadServerInformation": {
-    "description": "Message shown when the server information could not be loaded"
-  },
-  "couldNotLoadStatistics": "No es poden carregar estadístiques del servidor.",
-  "@couldNotLoadStatistics": {
-    "description": "Message shown when the server statistics could not be loaded"
-  },
-  "couldNotLoadUISettings": "No es pot carregar l'interfície.",
-  "@couldNotLoadUISettings": {
-    "description": "Message shown when the UI settings could not be loaded"
-  },
-  "couldNotLoadTasks": "No es poden carregar les tasques.",
-  "@couldNotLoadTasks": {
-    "description": "Message shown when the tasks (e.g. document consumed) could not be loaded"
-  },
-  "userNotFound": "Usuari no trobat.",
-  "@userNotFound": {
-    "description": "Message shown when the specified user (e.g. by id) could not be found"
-  },
-  "couldNotUpdateSavedView": "No es poden acualitzar les vistes desades, prova de nou.",
-  "@couldNotUpdateSavedView": {
-    "description": "Message shown when a saved view could not be updated"
-  },
-  "couldNotUpdateStoragePath": "No es pot actualitzar la ruta emmagatzematge, prova de nou.",
-  "savedViewSuccessfullyUpdated": "Vista desada actualitzada correctament.",
-  "@savedViewSuccessfullyUpdated": {
-    "description": "Message shown when a saved view was successfully updated."
-  },
-  "discardChanges": "Descartar canvis?",
-  "@discardChanges": {
-    "description": "Title of the alert dialog shown when a user tries to close a view with unsaved changes."
-  },
-  "savedViewChangedDialogContent": "Les condicions del filtre de la vista activa han canviat. En restablir el filtre, aquests canvis es perdran. Encara vols continuar?",
-  "@savedViewChangedDialogContent": {
-    "description": "Content of the alert dialog shown when all of the following applies:\r\n* User has saved view selected\r\n* User has performed changes to the current document filter\r\n* User now tries to reset this filter without having saved the changes to the view."
-  },
-  "createFromCurrentFilter": "Crear desde filtre actual",
-  "@createFromCurrentFilter": {
-    "description": "Tooltip of the \"New saved view\" button"
-  },
-  "home": "Inici",
-  "@home": {
-    "description": "Label of the \"Home\" route"
-  },
-  "welcomeUser": "Benvingut {name}!",
-  "@welcomeUser": {
-    "description": "Top message shown on the home page"
-  },
-  "statistics": "Estadí­stiques",
-  "documentsInInbox": "Document safata",
-  "totalDocuments": "Total documents",
-  "totalCharacters": "Caràcters Totals",
-  "showAll": "Mostra tot",
-  "@showAll": {
-    "description": "Button label shown on a saved view preview to open this view in the documents page"
-  },
-  "userAlreadyExists": "Usuari ja esisteix.",
-  "@userAlreadyExists": {
-    "description": "Error message shown when the user tries to add an already existing account."
-  },
-  "youDidNotSaveAnyViewsYet": "Encara no has desat cap visualització, crea'n una i es mostrarà aquí.",
-  "@youDidNotSaveAnyViewsYet": {
-    "description": "Message shown when there are no saved views yet."
-  },
-  "tryAgain": "Torna a provar",
-  "discardFile": "Desestimar arxiu?",
-  "discard": "Descarta",
-  "backToLogin": "Torna a inici de sessió",
-  "skipEditingReceivedFiles": "Salta l'edició de fitxers rebuts",
-  "uploadWithoutPromptingUploadForm": "Pengeu sempre sense demanar el formulari de càrrega quan compartiu fitxers amb l'aplicació.",
-  "authenticatingDots": "Autenticant…",
-  "@authenticatingDots": {
-    "description": "Message shown when the app is authenticating the user"
-  },
-  "persistingUserInformation": "Informació de l'usuari persistent...",
-  "fetchingUserInformation": "Obtenint dades d'usuari...",
-  "@fetchingUserInformation": {
-    "description": "Message shown when the app loads user data from the server"
   },
   "restoringSession": "Restaurant sessió...",
   "@restoringSession": {
     "description": "Message shown when the user opens the app and the previous user is tried to be authenticated and logged in"
   },
-  "documentsAssigned": "{count, plural, zero{No documents} one{1 document} other{{count} documents}}",
-  "@documentsAssigned": {
-    "description": "Text shown with a correspondent, document type etc. to indicate the number of documents this filter will maximally yield."
+  "results": "Resultats",
+  "@results": {
+    "description": "Label displayed above search results in document search."
   },
-  "discardChangesWarning": "Tens canvis sense desar. Si continues es perdran. Vols descartar els canvis?",
-  "@discardChangesWarning": {
-    "description": "Warning message shown when the user tries to close a route without saving the changes."
+  "save": "Desa",
+  "@save": {},
+  "saveChanges": "Desa canvis",
+  "@saveChanges": {},
+  "savedViewChangedDialogContent": "Les condicions del filtre de la vista activa han canviat. En restablir el filtre, aquests canvis es perdran. Encara vols continuar?",
+  "@savedViewChangedDialogContent": {
+    "description": "Content of the alert dialog shown when all of the following applies:\r\n* User has saved view selected\r\n* User has performed changes to the current document filter\r\n* User now tries to reset this filter without having saved the changes to the view."
   },
-  "changelog": "Historial de canvis",
-  "noLogsFoundOn": "Sense logs trovats per {date}.",
-  "logfileBottomReached": "Final d'aquest arxiu de registres.",
-  "appLogs": "Logs d'aplicació {date}",
+  "savedViewSuccessfullyUpdated": "Vista desada actualitzada correctament.",
+  "@savedViewSuccessfullyUpdated": {
+    "description": "Message shown when a saved view was successfully updated."
+  },
   "saveLogsToFile": "Desar registres a arxiu",
-  "copyToClipboard": "Copia al porta-retalls",
-  "couldNotLoadLogfileFrom": "No es pot carregar log desde {date}.",
-  "loadingLogsFrom": "Carregant registres des de {date}...",
-  "clearLogs": "Netejar registres des de {date}",
+  "scan": "Escaneja",
+  "@scan": {},
+  "scanADocument": "Escaneja document",
+  "@scanADocument": {},
+  "scanner": "Escàner",
+  "@scanner": {},
+  "scrollToTop": "Torna a dalt",
+  "@scrollToTop": {},
+  "search": "Cerca",
+  "@search": {},
+  "searchDocuments": "Cerca documents",
+  "@searchDocuments": {},
+  "security": "Seguretat",
+  "@security": {},
+  "select": "Selecciona",
+  "@select": {},
+  "selectDateRange": "Rang de dates",
+  "@selectDateRange": {},
+  "selectFile": "Selecciona Fitxer...",
+  "@selectFile": {},
+  "serverAddress": "Adreça Servidor",
+  "@serverAddress": {},
+  "serverAddressMustIncludeAScheme": "Adreça del servidor ha d'incloure esquema.",
+  "@serverAddressMustIncludeAScheme": {},
+  "serverAddressMustNotBeEmpty": "Adreça del servidor no pot estar buida.",
+  "@serverAddressMustNotBeEmpty": {},
+  "settings": "Opcions",
+  "@settings": {},
+  "shareTooltip": "Compartir",
+  "@shareTooltip": {
+    "description": "Tooltip shown for the share button on details page"
+  },
+  "showAll": "Mostra tot",
+  "@showAll": {
+    "description": "Button label shown on a saved view preview to open this view in the documents page"
+  },
+  "showInSidebar": "Mostra a la barra lateral",
+  "@showInSidebar": {},
+  "showOnDashboard": "Mostra al panell",
+  "@showOnDashboard": {},
   "showPdf": "Mostra PDF",
   "@showPdf": {
     "description": "Tooltip shown on the \"show pdf\" button on the document edit page"
   },
-  "hidePdf": "Oculta PDF",
-  "@hidePdf": {
-    "description": "Tooltip shown on the \"show pdf\" icon button on the document edit page"
+  "signIn": "Entrar",
+  "@signIn": {},
+  "signInToServer": "Entrar a {serverAddress}",
+  "@signInToServer": {
+    "placeholders": {
+      "serverAddress": {}
+    }
   },
-  "misc": "Miscel·lanni",
-  "loggingOut": "Sortint...",
+  "similarDocuments": "Documents Similars",
+  "@similarDocuments": {
+    "description": "Label shown in the tabbar on details page"
+  },
+  "skipEditingReceivedFiles": "Salta l'edició de fitxers rebuts",
+  "sourceCode": "Codi Font",
+  "startTyping": "Comença a escriure...",
+  "@startTyping": {},
+  "statistics": "Estadí­stiques",
+  "storage": "Emmagatzematge",
+  "@storage": {},
+  "storagePath": "Ruta emmagatzematge",
+  "@storagePath": {},
+  "storagePathDay": "dia",
+  "@storagePathDay": {},
+  "storagePathMonth": "mes",
+  "@storagePathMonth": {},
+  "storagePaths": "Rutes emmagatzematge",
+  "@storagePaths": {},
+  "storagePathYear": "any",
+  "@storagePathYear": {},
+  "suggestions": "Suggerències: ",
+  "@suggestions": {},
+  "suggestionSuccessfullyApplied": "Suggerència aplicada correctament.",
+  "@suggestionSuccessfullyApplied": {},
+  "swipeLeftToMarkADocumentAsSeen": "Suggeriment: llisca el dit cap a l'esquerra per marcar un document com a vist i eliminar totes les etiquetes del document.",
+  "@swipeLeftToMarkADocumentAsSeen": {},
+  "switchAccount": "Alterna",
+  "@switchAccount": {
+    "description": "Label for switch account action"
+  },
+  "switchAccountTitle": "Canvi de compte",
+  "@switchAccountTitle": {
+    "description": "Title of the dialog shown after adding an account, asking the user whether to switch to the newly added account or not."
+  },
+  "switchingAccountsPleaseWait": "Canviant de compte. Espera...",
+  "@switchingAccountsPleaseWait": {
+    "description": "Message shown while switching accounts is in progress."
+  },
+  "switchToNewAccount": "Vols canviar al nou compte? Pots canviar en qualsevol moment.",
+  "@switchToNewAccount": {
+    "description": "Content of the dialog shown after adding an account, asking the user whether to switch to the newly added account or not."
+  },
+  "synchronizeTitleAndFilename": "Sincronitza títol i nom d'arxiu",
+  "@synchronizeTitleAndFilename": {},
+  "system": "Sistema",
+  "@system": {},
+  "systemTheme": "Utilitza tema del sistema",
+  "@systemTheme": {},
+  "tags": "Etiquetes",
+  "@tags": {},
+  "testConnection": "Prova connexió",
+  "@testConnection": {
+    "description": "Button label shown on login page. Allows user to test whether the server is reachable or not."
+  },
   "testingConnection": "Provant connexió...",
   "@testingConnection": {
     "description": "Text shown while the app tries to establish a connection to the specified host."
   },
+  "theme": "Tema",
+  "@theme": {
+    "description": "Title of the theme mode setting"
+  },
+  "thereAreNoPendingFiles": "There are no pending files.",
+  "thereSeemsToBeNothingHere": "Sembla que no hi ha res...",
+  "@thereSeemsToBeNothingHere": {},
+  "thisActionIsIrreversibleDoYouWishToProceedAnyway": "Acció irreversible. Continuar?",
+  "@thisActionIsIrreversibleDoYouWishToProceedAnyway": {},
+  "thisFieldIsRequired": "Aquest camp és obligatori!",
+  "@thisFieldIsRequired": {
+    "description": "Message shown below the form field when a required field has not been filled out."
+  },
+  "timeUnit": "Unitat de temps",
+  "@timeUnit": {},
+  "title": "Títol",
+  "@title": {},
+  "titleAndContent": "Títol i contingut",
+  "@titleAndContent": {},
+  "today": "Avui",
+  "@today": {},
+  "totalCharacters": "Caràcters Totals",
+  "totalDocuments": "Total de documents",
+  "tryAgain": "Torna a provar",
+  "unauthorizedErrorMessage": "You are not authorized to perform this action. Please contact your admin or make sure you have the necessary permissions.",
+  "undo": "Desfer",
+  "@undo": {},
+  "upload": "Carrega",
+  "@upload": {},
+  "uploadADocumentFromThisDevice": "Puja document des d'aquest dispositiu",
+  "@uploadADocumentFromThisDevice": {
+    "description": "Button label on scanner page"
+  },
+  "uploadInferValuesHint": "Si especifiques valors per a aquests camps, la instància de Paperless no obtindrà un valor automàticament. Deixa els camps en blanc si vols que el vostre servidor els ompli automàticament.",
+  "@uploadInferValuesHint": {},
+  "uploadScansAsPdf": "Puja escanejos com a PDF",
+  "@uploadScansAsPdf": {
+    "description": "Title of the setting which toggles whether scans are always uploaded as pdf"
+  },
+  "uploadStatusDocumentReceived": "Document received",
+  "uploadWithoutPromptingUploadForm": "Pengeu sempre sense demanar el formulari de càrrega quan compartiu fitxers amb l'aplicació.",
+  "userAlreadyExists": "Usuari ja esisteix.",
+  "@userAlreadyExists": {
+    "description": "Error message shown when the user tries to add an already existing account."
+  },
+  "userIsNotAuthenticated": "Usuari no autenticat.",
+  "@userIsNotAuthenticated": {},
+  "username": "Nom usuari",
+  "@username": {},
+  "usernameMustNotBeEmpty": "Nom d'usuari no pot estar buit.",
+  "@usernameMustNotBeEmpty": {},
+  "userNotFound": "Usuari no trobat.",
+  "@userNotFound": {
+    "description": "Message shown when the specified user (e.g. by id) could not be found"
+  },
+  "useTheConfiguredBiometricFactorToAuthenticate": "Utilitza el factor biomètric per autenticar i desbloquejar els documents.",
+  "@useTheConfiguredBiometricFactorToAuthenticate": {},
+  "value": "Value",
+  "verifyIdentity": "Verifica identitat",
+  "@verifyIdentity": {},
+  "verifyYourIdentity": "Verifica la identitat",
+  "@verifyYourIdentity": {},
   "version": "Versió {versionCode}",
-  "notes": "{count, plural, zero{Notes} one{Nota} other{Notes}}",
-  "addNote": "Afegir Nota",
-  "newerVersionAvailable": "Newer version available:",
-  "dateOutOfRange": "Date must be between {firstDate} and {lastDate}.",
-  "@dateOutOfRange": {
-    "description": "Error message shown when the user tries to select a date outside of the allowed range.",
+  "views": "Vistes",
+  "@views": {},
+  "weeks": "{count, plural, one{setmana} other{setmanes}}",
+  "@weeks": {
     "placeholders": {
-      "firstDate": {
-        "type": "DateTime",
-        "format": "yMd"
-      },
-      "lastDate": {
-        "type": "DateTime",
-        "format": "yMd"
-      }
+      "count": {}
     }
   },
-  "permissions": "Permissions",
-  "newNote": "New note",
-  "notesMarkdownSyntaxSupportHint": "Paperless Mobile can render notes using basic markdown syntax. Try it out!"
+  "welcomeUser": "Benvingut {name}!",
+  "@welcomeUser": {
+    "description": "Top message shown on the home page"
+  },
+  "years": "{count, plural, one{any} other{anys}}",
+  "@years": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "yesterday": "Ahir",
+  "@yesterday": {},
+  "youAreCurrentlyOffline": "Estàs fora de línia. Assegura't d'estar connectat a internet.",
+  "@youAreCurrentlyOffline": {},
+  "youDidNotSaveAnyViewsYet": "Encara no has desat cap visualització, crea'n una i es mostrarà aquí.",
+  "@youDidNotSaveAnyViewsYet": {
+    "description": "Message shown when there are no saved views yet."
+  },
+  "youDoNotHaveUnseenDocuments": "Sense document no vistos.",
+  "@youDoNotHaveUnseenDocuments": {},
+  "youHaveNoViewsOnYourDashboardYet": "You have not added any views to your dashboard yet.",
+  "youreOffline": "Sense connexió.",
+  "@youreOffline": {}
 }

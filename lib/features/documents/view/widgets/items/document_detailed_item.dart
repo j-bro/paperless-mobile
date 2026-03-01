@@ -2,13 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:hive_ce_flutter/adapters.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_mobile/core/database/hive/hive_config.dart';
-import 'package:paperless_mobile/core/database/tables/global_settings.dart';
-import 'package:paperless_mobile/core/database/tables/local_user_account.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
-import 'package:paperless_mobile/core/repository/label_repository.dart';
+import 'package:paperless_mobile/core/store/local_store.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/date_and_document_type_widget.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/document_preview.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/items/document_item.dart';
@@ -36,16 +32,17 @@ class DocumentDetailedItem extends DocumentItem {
 
   @override
   Widget build(BuildContext context) {
-    final currentUserId = Hive.box<GlobalSettings>(HiveBoxes.globalSettings)
-        .getValue()!
-        .loggedInUserId;
-    final paperlessUser = Hive.box<LocalUserAccount>(HiveBoxes.localUserAccount)
-        .get(currentUserId)!
-        .paperlessUser;
+    final store = context.watch<LocalStore>();
+
+    final currentUserId = store.state.loggedInAppUserId!;
+    final paperlessUser =
+        store.state.localUserData[currentUserId]!.localUser.paperlessUser;
+
     final size = MediaQuery.of(context).size;
     final insets = MediaQuery.of(context).viewInsets;
     final padding = MediaQuery.of(context).viewPadding;
-    final availableHeight = size.height -
+    final availableHeight =
+        size.height -
         insets.top -
         insets.bottom -
         padding.top -
@@ -55,7 +52,6 @@ class DocumentDetailedItem extends DocumentItem {
     final maxHeight = highlights != null
         ? min(600.0, availableHeight)
         : min(500.0, availableHeight);
-    final labelRepository = context.watch<LabelRepository>();
     return Card(
       color: isSelected ? Theme.of(context).colorScheme.inversePrimary : null,
       child: InkWell(
@@ -90,10 +86,8 @@ class DocumentDetailedItem extends DocumentItem {
                     Align(
                       alignment: Alignment.bottomLeft,
                       child: TagsWidget(
-                        tags: document.tags
-                            .map((e) => labelRepository.tags[e]!)
-                            .toList(),
                         onTagSelected: onTagSelected,
+                        tagIds: document.tags,
                       ).padded(),
                     ),
                 ],
@@ -101,15 +95,14 @@ class DocumentDetailedItem extends DocumentItem {
             ),
             if (paperlessUser.canViewCorrespondents)
               CorrespondentWidget(
+                id: document.correspondent,
                 onSelected: onCorrespondentSelected,
                 textStyle: Theme.of(context).textTheme.titleSmall?.apply(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
-                correspondent:
-                    labelRepository.correspondents[document.correspondent],
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
               ).paddedLTRB(8, 8, 8, 0),
             Text(
-              document.title.isEmpty ? '(-)' : document.title,
+              document.title ?? '-',
               style: Theme.of(context).textTheme.titleMedium,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
@@ -127,10 +120,9 @@ class DocumentDetailedItem extends DocumentItem {
                 if (document.archiveSerialNumber != null)
                   Text(
                     '#${document.archiveSerialNumber}',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall
-                        ?.apply(color: Theme.of(context).hintColor),
+                    style: Theme.of(context).textTheme.bodySmall?.apply(
+                      color: Theme.of(context).hintColor,
+                    ),
                   ),
               ],
             ).paddedLTRB(8, 4, 8, 8),
@@ -142,10 +134,7 @@ class DocumentDetailedItem extends DocumentItem {
                     backgroundColor: Colors.yellow,
                     color: Colors.black,
                   ),
-                  "p": Style(
-                    maxLines: 3,
-                    textOverflow: TextOverflow.ellipsis,
-                  ),
+                  "p": Style(maxLines: 3, textOverflow: TextOverflow.ellipsis),
                 },
               ).padded(),
           ],

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:paperless_mobile/core/database/tables/local_user_account.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/features/sharing/cubit/receive_share_cubit.dart';
-import 'package:paperless_mobile/features/sharing/view/widgets/file_thumbnail.dart';
 import 'package:paperless_mobile/features/sharing/view/widgets/event_listener_shell.dart';
+import 'package:paperless_mobile/features/sharing/view/widgets/file_thumbnail.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:path/path.dart' as p;
 import 'package:provider/provider.dart';
@@ -12,17 +12,13 @@ class ConsumptionQueueView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentUser = context.watch<LocalUserAccount>();
+    final currentUser = context.loggedInUser$;
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Pending Files"), //TODO: INTL
-      ),
+      appBar: AppBar(title: Text(S.of(context)!.pendingFiles)),
       body: Consumer<ConsumptionChangeNotifier>(
         builder: (context, value, child) {
           if (value.pendingFiles.isEmpty) {
-            return Center(
-              child: Text("There are no pending files."), //TODO: INTL
-            );
+            return Center(child: Text(S.of(context)!.thereAreNoPendingFiles));
           }
           return ListView.builder(
             itemBuilder: (context, index) {
@@ -43,7 +39,7 @@ class ConsumptionQueueView extends StatelessWidget {
                         consumeLocalFile(
                           context,
                           file: file,
-                          userId: currentUser.id,
+                          userId: currentUser.appUserId,
                         );
                       },
                     ),
@@ -53,9 +49,9 @@ class ConsumptionQueueView extends StatelessWidget {
                       avatar: const Icon(Icons.delete),
                       onPressed: () {
                         context.read<ConsumptionChangeNotifier>().discardFile(
-                              file,
-                              userId: currentUser.id,
-                            );
+                          file,
+                          userId: currentUser.appUserId,
+                        );
                       },
                     ),
                   ],

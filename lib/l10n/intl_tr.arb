@@ -1,14 +1,26 @@
 {
-  "developedBy": "Developed by {name}.",
-  "@developedBy": {
-    "placeholders": {
-      "name": {}
-    }
+  "aboutThisApp": "Bu uygulama hakkında",
+  "@aboutThisApp": {
+    "description": "Label for about this app tile displayed in the drawer"
   },
-  "addAnotherAccount": "Add another account",
-  "@addAnotherAccount": {},
+  "absolute": "Mutlak",
+  "@absolute": {},
   "account": "Account",
   "@account": {},
+  "accounts": "Hesaplar",
+  "@accounts": {
+    "description": "Title of the account management dialog"
+  },
+  "aClientCertificateWasExpectedButNotSent": "Bir müşteri sertifikası bekleniyordu ancak gönderilmedi. Lütfen geçerli bir müşteri sertifikası sağlayın.",
+  "@aClientCertificateWasExpectedButNotSent": {},
+  "add": "Add",
+  "addAccount": "Hesap ekle",
+  "@addAccount": {
+    "description": "Label of add account action"
+  },
+  "addAdditionalHeadersHint": "You can add HTTP headers to be included with each API request. This may be useful for custom authentication schemes, VPNs or other scenarios.",
+  "addAnotherAccount": "Add another account",
+  "@addAnotherAccount": {},
   "addCorrespondent": "Yeni ek yazar",
   "@addCorrespondent": {
     "description": "Title when adding a new correspondent"
@@ -17,6 +29,18 @@
   "@addDocumentType": {
     "description": "Title when adding a new document type"
   },
+  "addedAt": "Added at",
+  "@addedAt": {},
+  "additionalHeaders": "Additional Headers",
+  "addNewCorrespondent": "Yeni ek yazar ekle",
+  "@addNewCorrespondent": {},
+  "addNewDocumentType": "Yeni döküman türü ekle",
+  "@addNewDocumentType": {},
+  "addNewStoragePath": "Yeni depolama yolu ekle",
+  "@addNewStoragePath": {},
+  "addNewTag": "Yeni etiket ekle",
+  "@addNewTag": {},
+  "addNote": "Add note",
   "addStoragePath": "Yeni Depolama Yolu",
   "@addStoragePath": {
     "description": "Title when adding a new storage path"
@@ -25,214 +49,302 @@
   "@addTag": {
     "description": "Title when adding a new tag"
   },
-  "aboutThisApp": "Bu uygulama hakkında",
-  "@aboutThisApp": {
-    "description": "Label for about this app tile displayed in the drawer"
+  "advanced": "Gelişmiş",
+  "@advanced": {},
+  "advancedSettings": "Gelişmiş Ayarlar",
+  "@advancedSettings": {},
+  "after": "Sonra",
+  "@after": {},
+  "all": "All",
+  "@all": {},
+  "allScansWillBeMerged": "Tüm taramalar tek bir PDF dosyasında birleştirilecektir.",
+  "allSeen": "Hepsi görüntülendi",
+  "@allSeen": {},
+  "allTags": "All",
+  "@allTags": {
+    "description": "Label shown when a document has to be assigned to all selected tags"
   },
-  "loggedInAs": "Olarak giriş yapıldı {name}",
-  "@loggedInAs": {
-    "placeholders": {
-      "name": {}
-    }
+  "alwaysAsk": "Her zaman sor",
+  "@alwaysAsk": {
+    "description": "Option to choose when the app should always ask the user which filetype to use"
   },
-  "disconnect": "Bağlantıyı kes",
-  "@disconnect": {
-    "description": "Logout button label"
+  "amount": "Miktar",
+  "@amount": {},
+  "anErrorOccurredRemovingTheScans": "Taramalar kaldırılırken bir hata oluştu.",
+  "@anErrorOccurredRemovingTheScans": {},
+  "anErrorOccurredWhileTryingToAutocompleteYourQuery": "Sorgunuz otomatik olarak tamamlanmaya çalışılırken bir hata oluştu.",
+  "@anErrorOccurredWhileTryingToAutocompleteYourQuery": {},
+  "anInternetConnectionCouldNotBeEstablished": "İnternet bağlantısı kurulamadı.",
+  "@anInternetConnectionCouldNotBeEstablished": {},
+  "anUnknownErrorOccurred": "Bilinmeyen bir hata oluştu.",
+  "@anUnknownErrorOccurred": {},
+  "any": "Any",
+  "@any": {},
+  "anyAssigned": "Herhangi bir atanan",
+  "@anyAssigned": {},
+  "anyTag": "Any",
+  "@anyTag": {
+    "description": "Label shown when any tag should be filtered"
   },
-  "reportABug": "Hata Bildir",
-  "@reportABug": {},
-  "settings": "Ayarlar",
-  "@settings": {},
-  "authenticateOnAppStart": "Uygulama başlangıcında kimlik doğrulaması yapın",
-  "@authenticateOnAppStart": {
-    "description": "Description of the biometric authentication settings tile"
-  },
-  "biometricAuthentication": "Biyometrik kimlik doğrulama",
-  "@biometricAuthentication": {},
-  "authenticateToToggleBiometricAuthentication": "{mode, select, enable{Biyometrik kimlik doğrulamayı etkinleştirmek için kimlik doğrulaması yapın} disable{Biyometrik kimlik doğrulamayı devre dışı bırakmak için kimlik doğrulaması yapın} other{}}",
-  "@authenticateToToggleBiometricAuthentication": {
-    "placeholders": {
-      "mode": {}
-    }
-  },
-  "documents": "Dökümanlar",
-  "@documents": {},
-  "inbox": "Gelen Kutusu",
-  "@inbox": {},
-  "labels": "Etiketler",
-  "@labels": {},
-  "scanner": "Tarayıcı",
-  "@scanner": {},
-  "startTyping": "Yazmaya başlayın...",
-  "@startTyping": {},
-  "doYouReallyWantToDeleteThisView": "Bu görünümü gerçekten silmek istiyor musunuz?",
-  "@doYouReallyWantToDeleteThisView": {},
-  "deleteView": "Görünümü sil {name}?",
-  "@deleteView": {},
-  "addedAt": "Added at",
-  "@addedAt": {},
-  "archiveSerialNumber": "Arşiv Seri Numarası",
-  "@archiveSerialNumber": {},
-  "asn": "ASN",
-  "@asn": {},
-  "correspondent": "Ek Yazarlar",
-  "@correspondent": {},
-  "createdAt": "Created at",
-  "@createdAt": {},
-  "documentSuccessfullyDeleted": "Doküman başarıyla silindi.",
-  "@documentSuccessfullyDeleted": {},
-  "assignAsn": "Assign ASN",
-  "@assignAsn": {},
-  "deleteDocumentTooltip": "Delete",
-  "@deleteDocumentTooltip": {
-    "description": "Tooltip shown for the delete button on details page"
-  },
-  "downloadDocumentTooltip": "Download",
-  "@downloadDocumentTooltip": {
-    "description": "Tooltip shown for the download button on details page"
-  },
-  "editDocumentTooltip": "Edit",
-  "@editDocumentTooltip": {
-    "description": "Tooltip shown for the edit button on details page"
-  },
-  "loadFullContent": "Tüm içeriği yükle",
-  "@loadFullContent": {},
-  "noAppToDisplayPDFFilesFound": "No app to display PDF files found!",
-  "@noAppToDisplayPDFFilesFound": {},
-  "openInSystemViewer": "Open in system viewer",
-  "@openInSystemViewer": {},
-  "couldNotOpenFilePermissionDenied": "Could not open file: Permission denied.",
-  "@couldNotOpenFilePermissionDenied": {},
-  "previewTooltip": "Preview",
-  "@previewTooltip": {
-    "description": "Tooltip shown for the preview button on details page"
-  },
-  "shareTooltip": "Share",
-  "@shareTooltip": {
-    "description": "Tooltip shown for the share button on details page"
-  },
-  "similarDocuments": "Benzer Belgeler",
-  "@similarDocuments": {
-    "description": "Label shown in the tabbar on details page"
-  },
-  "content": "İçerik",
-  "@content": {
-    "description": "Label shown in the tabbar on details page"
-  },
-  "metaData": "Meta Veri",
-  "@metaData": {
-    "description": "Label shown in the tabbar on details page"
-  },
-  "overview": "Genel bakış",
-  "@overview": {
-    "description": "Label shown in the tabbar on details page"
-  },
-  "documentType": "Döküman tipi",
-  "@documentType": {},
+  "appearance": "Görünüm",
+  "@appearance": {},
+  "applicationSettings": "Uygulama",
+  "@applicationSettings": {},
+  "appLogs": "App logs {date}",
+  "apply": "Uygula",
+  "@apply": {},
   "archivedPdf": "Archived (pdf)",
   "@archivedPdf": {
     "description": "Option to chose when downloading a document"
   },
-  "chooseFiletype": "Choose filetype",
-  "@chooseFiletype": {},
-  "original": "Original",
-  "@original": {
-    "description": "Option to chose when downloading a document"
+  "archiveSerialNumber": "Arşiv Seri Numarası",
+  "@archiveSerialNumber": {},
+  "archiveSerialNumberUpdated": "Arşiv Seri Numarası güncellendi.",
+  "@archiveSerialNumberUpdated": {
+    "description": "Message shown when the ASN has been updated."
   },
-  "documentSuccessfullyDownloaded": "Döküman başarıyla indirildi.",
-  "@documentSuccessfullyDownloaded": {},
-  "suggestions": "Öneriler:",
-  "@suggestions": {},
-  "editDocument": "Dökümanı Düzenle",
-  "@editDocument": {},
-  "advanced": "Gelişmiş",
-  "@advanced": {},
-  "apply": "Uygula",
-  "@apply": {},
-  "extended": "Genişletilmiş",
-  "@extended": {},
-  "titleAndContent": "Başlık & İçerik",
-  "@titleAndContent": {},
-  "title": "Başlık",
-  "@title": {},
-  "reset": "Sıfırla",
-  "@reset": {},
-  "filterDocuments": "Dökümanları Filtrele",
-  "@filterDocuments": {
-    "description": "Title of the document filter"
-  },
-  "originalMD5Checksum": "Orijinal MD5-Sağlaması",
-  "@originalMD5Checksum": {},
-  "mediaFilename": "Medya Dosya Adı",
-  "@mediaFilename": {},
-  "originalFileSize": "Orijinal Dosya Boyutu",
-  "@originalFileSize": {},
-  "originalMIMEType": "Orijinal MIME-Tipi",
-  "@originalMIMEType": {},
-  "modifiedAt": "Modified at",
-  "@modifiedAt": {},
-  "preview": "Ön izleme",
-  "@preview": {
-    "description": "Title of the document preview page"
-  },
-  "scanADocument": "Belge tarat",
-  "@scanADocument": {},
-  "noDocumentsScannedYet": "Henüz taranan belge yok.",
-  "@noDocumentsScannedYet": {},
-  "or": "yada",
-  "@or": {
-    "description": "Used on the scanner page between both main actions when no scans have been captured."
-  },
-  "deleteAllScans": "Tüm tarananları sil",
-  "@deleteAllScans": {},
-  "uploadADocumentFromThisDevice": "Bu cihazdan bir döküman yükleyin",
-  "@uploadADocumentFromThisDevice": {
-    "description": "Button label on scanner page"
-  },
-  "noMatchesFound": "No matches found.",
-  "@noMatchesFound": {
-    "description": "Displayed when no documents were found in the document search."
-  },
-  "removeFromSearchHistory": "Remove from search history?",
-  "@removeFromSearchHistory": {},
-  "results": "Results",
-  "@results": {
-    "description": "Label displayed above search results in document search."
-  },
-  "searchDocuments": "Search documents",
-  "@searchDocuments": {},
-  "resetFilter": "Filtreyi sıfırla",
-  "@resetFilter": {},
-  "lastMonth": "Geçen Ay",
-  "@lastMonth": {},
-  "last7Days": "Geçmiş 7 Gün",
-  "@last7Days": {},
-  "last3Months": "Geçmiş 3 Ay",
-  "@last3Months": {},
-  "lastYear": "Geçen sene",
-  "@lastYear": {},
-  "search": "Ara",
-  "@search": {},
-  "documentsSuccessfullyDeleted": "Dokümanlar başarıyla silindi.",
-  "@documentsSuccessfullyDeleted": {},
-  "thereSeemsToBeNothingHere": "Burada hiçbir şey yok gibi görünüyor...",
-  "@thereSeemsToBeNothingHere": {},
-  "oops": "Hata.",
-  "@oops": {},
-  "newDocumentAvailable": "Yeni döküman mevcut!",
-  "@newDocumentAvailable": {},
-  "orderBy": "Şuna göre sırala",
-  "@orderBy": {},
-  "thisActionIsIrreversibleDoYouWishToProceedAnyway": "Bu işlem geri alınamaz. Yine de devam etmek istiyor musunuz?",
-  "@thisActionIsIrreversibleDoYouWishToProceedAnyway": {},
-  "confirmDeletion": "Silmeyi onayla",
-  "@confirmDeletion": {},
+  "areYouSureYouWantToContinue": "Devam etmek istediğinizden emin misiniz?",
   "areYouSureYouWantToDeleteTheFollowingDocuments": "{count, plural, one{Aşağıdaki belgeyi silmek istediğinizden emin misiniz?} other{Aşağıdaki belgeleri silmek istediğinizden emin misiniz?}}",
   "@areYouSureYouWantToDeleteTheFollowingDocuments": {
     "placeholders": {
       "count": {}
     }
   },
+  "areYouSureYouWantToMarkAllDocumentsAsSeen": "Tüm belgeleri görüntülendi olarak işaretlemek istediğinizden emin misiniz? Bu, tüm gelen kutusu etiketlerini belgelerden kaldırarak, toplu bir düzenleme işlemi gerçekleştirecektir. Bu eylem geri alınamaz! Devam etmek istediğine emin misiniz?",
+  "@areYouSureYouWantToMarkAllDocumentsAsSeen": {},
+  "ascending": "Ascending",
+  "@ascending": {},
+  "asn": "ASN",
+  "@asn": {},
+  "assignAsn": "Assign ASN",
+  "@assignAsn": {},
+  "authenticateOnAppStart": "Uygulama başlangıcında kimlik doğrulaması yapın",
+  "@authenticateOnAppStart": {
+    "description": "Description of the biometric authentication settings tile"
+  },
+  "authenticateToToggleBiometricAuthentication": "{mode, select, enable{Biyometrik kimlik doğrulamayı etkinleştirmek için kimlik doğrulaması yapın} disable{Biyometrik kimlik doğrulamayı devre dışı bırakmak için kimlik doğrulaması yapın} other{}}",
+  "@authenticateToToggleBiometricAuthentication": {
+    "placeholders": {
+      "mode": {}
+    }
+  },
+  "authenticatingDots": "Authenticating...",
+  "@authenticatingDots": {
+    "description": "Message shown when the app is authenticating the user"
+  },
+  "authenticationFailedPleaseTryAgain": "Kimlik doğrulama başarısız oldu, lütfen tekrar deneyin.",
+  "@authenticationFailedPleaseTryAgain": {},
+  "auto": "Auto",
+  "@auto": {},
+  "backToLogin": "Back to login",
+  "before": "Önce",
+  "@before": {},
+  "behavior": "Behavior",
+  "@behavior": {
+    "description": "Title of the settings concerning app beahvior"
+  },
+  "biometricAuthentication": "Biyometrik kimlik doğrulama",
+  "@biometricAuthentication": {},
+  "biometricAuthenticationFailed": "Biyometrik doğrulama başarısız oldu.",
+  "@biometricAuthenticationFailed": {},
+  "biometricAuthenticationNotSupported": "Biyometrik kimlik doğrulama bu cihazda desteklenmiyor.",
+  "@biometricAuthenticationNotSupported": {},
+  "bulkEditCorrespondentAssignMessage": "{count, plural, one{Bu işlem, seçilen belgeye {correspondent} muhatabını atayacaktır.} other{Bu işlem, seçilen {count} belgeye {correspondent} muhatabını atayacaktır.}}",
+  "bulkEditCorrespondentRemoveMessage": "{count, plural, one{Bu işlem, seçilen belgeden muhatabı kaldıracaktır.} other{Bu işlem, seçilen {count} belgeden muhatabı kaldıracaktır.}}",
+  "bulkEditDocumentTypeAssignMessage": "{count, plural, one{Bu işlem, seçilen belgeye {docType} belge türünü atayacaktır.} other{Bu işlem, seçilen {count} belgeye {docType} belge türünü atayacaktır.}}",
+  "bulkEditDocumentTypeRemoveMessage": "{count, plural, one{Bu işlem, seçilen belgeden belge türünü kaldıracaktır.} other{Bu işlem, seçilen {count} belgeden belge türünü kaldıracaktır.}}",
+  "bulkEditStoragePathAssignMessage": "{count, plural, one{Bu işlem, seçilen belgeye {path} depolama yolunu atayacaktır.} other{Bu işlem, seçilen {count} belgeye {path} depolama yolunu atayacaktır.}}",
+  "bulkEditStoragePathRemoveMessage": "{count, plural, one{Bu işlem, seçilen belgeden depolama yolunu kaldıracaktır.} other{Bu işlem, seçilen {count} belgeden depolama yolunu kaldıracaktır.}}",
+  "bulkEditTagsAddMessage": "{count, plural, one{Bu işlem, seçilen belgeden {tags} etiketlerini kaldıracaktır.} other{Bu işlem, seçilen {count} belgeden {tags} etiketlerini kaldıracaktır.}}",
+  "@bulkEditTagsAddMessage": {
+    "description": "Message of the confirmation dialog when bulk adding tags."
+  },
+  "bulkEditTagsModifyMessage": "{count, plural, one{Bu işlem, seçilen belgeye {addTags} etiketlerini ekleyip {removeTags} etiketlerini kaldıracaktır.} other{Bu işlem, seçilen {count} belgeye {addTags} etiketlerini ekleyip {removeTags} etiketlerini kaldıracaktır.}}",
+  "@bulkEditTagsModifyMessage": {
+    "description": "Message of the confirmation dialog when both adding and removing tags."
+  },
+  "bulkEditTagsRemoveMessage": "{count, plural, one{Bu işlem seçilen belgeye {tags} etiketlerini ekleyecek.} other{Bu işlem seçilen {count} belgeye {tags} etiketlerini ekleyecek.}}",
+  "@bulkEditTagsRemoveMessage": {
+    "description": "Message of the confirmation dialog when bulk removing tags."
+  },
+  "calculatingDots": "Calculating...",
+  "@calculatingDots": {
+    "description": "Text shown when the byte size is still being calculated"
+  },
+  "cancel": "İptal",
+  "@cancel": {},
+  "caseIrrelevant": "İlişkisiz durum.",
+  "@caseIrrelevant": {},
+  "changelog": "Changelog",
+  "chooseFiletype": "Choose filetype",
+  "@chooseFiletype": {},
+  "classicColorScheme": "Classic",
+  "@classicColorScheme": {},
+  "clearAll": "Clear all",
+  "@clearAll": {},
+  "clearCache": "Clear cache",
+  "@clearCache": {
+    "description": "Title of the clear cache setting"
+  },
+  "clearLogs": "Clear logs from {date}",
+  "clientcertificate": "İstemci Sertifikası",
+  "@clientcertificate": {},
+  "close": "Close",
+  "@close": {},
+  "color": "Renkler",
+  "@color": {},
+  "colors": "Colors",
+  "@colors": {},
+  "colorSchemeHint": "Choose between a classic color scheme inspired by a traditional Paperless green or use the dynamic color scheme based on your system theme.",
+  "@colorSchemeHint": {},
+  "colorSchemeNotSupportedWarning": "Dynamic theming is only supported for devices running Android 12 and above. Selecting the 'Dynamic' option might not have any effect depending on your OS implementation.",
+  "@colorSchemeNotSupportedWarning": {},
+  "configureAdditionalHttpHeaders": "Configure additional HTTP headers to be sent with each request",
+  "configureMutualTLSAuthentication": "Karşılıklı TLS Kimlik Doğrulamasını Yapılandırma",
+  "@configureMutualTLSAuthentication": {},
+  "confirm": "Onayla",
+  "confirmAction": "İşlemi onayla",
+  "@confirmAction": {
+    "description": "Typically used as a title to confirm a previously selected action"
+  },
+  "confirmDeletion": "Silmeyi onayla",
+  "@confirmDeletion": {},
+  "connect": "Bağlan",
+  "@connect": {},
+  "connectionSuccessfulylEstablished": "Bağlantı başarıyla kuruldu.",
+  "@connectionSuccessfulylEstablished": {},
+  "connectionTimedOut": "Bağlantı zaman aşımına uğradı.",
+  "@connectionTimedOut": {},
+  "connectToPaperless": "Paperless'a Bağlan",
+  "@connectToPaperless": {},
+  "content": "İçerik",
+  "@content": {
+    "description": "Label shown in the tabbar on details page"
+  },
+  "continueLabel": "Devam",
+  "@continueLabel": {},
+  "convertSinglePageScanToPdf": "Always convert single page scans to PDF before uploading",
+  "@convertSinglePageScanToPdf": {
+    "description": "description of the upload scans as pdf setting"
+  },
+  "copyToClipboard": "Copy to clipboard",
+  "correspondent": "Ek Yazarlar",
+  "@correspondent": {},
+  "correspondents": "Correspondents",
+  "@correspondents": {},
+  "couldNotAccessReceivedFile": "Alınan dosyaya erişilemedi. Lütfen paylaşmadan önce uygulamayı açmayı deneyin.",
+  "@couldNotAccessReceivedFile": {},
+  "couldNotAcknowledgeTasks": "Görevler kabul edilemedi.",
+  "@couldNotAcknowledgeTasks": {},
+  "couldNotAssignArchiveSerialNumber": "Arşiv seri numarası atanamadı.",
+  "@couldNotAssignArchiveSerialNumber": {},
+  "couldNotBulkEditDocuments": "Could not bulk edit documents, please try again.",
+  "@couldNotBulkEditDocuments": {},
+  "couldNotCreateCorrespondent": "Ek yazar oluşturulamadı, lütfen tekrar deneyin.",
+  "@couldNotCreateCorrespondent": {},
+  "couldNotCreateCustomField": "Could not create custom field, please try again.",
+  "couldNotCreateDocument": "Doküman oluşturulamadı, lütfen tekrar deneyin.",
+  "@couldNotCreateDocument": {},
+  "couldNotCreateNote": "Could not create note, please try again.",
+  "couldNotCreateSavedView": "Kayıtlı görünüm oluşturulamadı, lütfen tekrar deneyin.",
+  "@couldNotCreateSavedView": {},
+  "couldNotCreateStoragePath": "Depolama yolu oluşturulamadı, lütfen tekrar deneyin.",
+  "@couldNotCreateStoragePath": {},
+  "couldNotCreateTag": "Etiket oluşturulamadı, lütfen tekrar deneyin.",
+  "@couldNotCreateTag": {},
+  "couldNotCreateUser": "Could not create user, please try again.",
+  "couldNotDeleteCorrespondent": "Could not delete correspondent, please try again.",
+  "@couldNotDeleteCorrespondent": {
+    "description": "Message shown in snackbar when a correspondent could not be deleted."
+  },
+  "couldNotDeleteCustomField": "Could not delete custom field, please try again.",
+  "couldNotDeleteDocument": "Doküman silinemedi, lütfen tekrar deneyin.",
+  "@couldNotDeleteDocument": {},
+  "couldNotDeleteDocumentType": "Could not delete document type, please try again.",
+  "@couldNotDeleteDocumentType": {
+    "description": "Message shown when a document type could not be deleted"
+  },
+  "couldNotDeleteNote": "Could not delete note, please try again.",
+  "couldNotDeleteSavedView": "Kayıtlı görünüm silinemedi, lütfen tekrar deneyin",
+  "@couldNotDeleteSavedView": {},
+  "couldNotDeleteStoragePath": "Could not delete storage path, please try again.",
+  "@couldNotDeleteStoragePath": {
+    "description": "Message shown when a storage path could not be deleted"
+  },
+  "couldNotDeleteTag": "Could not delete tag, please try again.",
+  "@couldNotDeleteTag": {
+    "description": "Message shown when a tag could not be deleted"
+  },
+  "couldNotDeleteUser": "Could not delete user, please try again.",
+  "couldNotDownloadDocuments": "Could not download documents, please try again.",
+  "couldNotEstablishConnectionToTheServer": "Sunucuyla bağlantı kurulamadı.",
+  "@couldNotEstablishConnectionToTheServer": {},
+  "couldNotLoadCorrespondents": "Ek yazarlar yüklenemedi.",
+  "@couldNotLoadCorrespondents": {},
+  "couldNotLoadCustomField": "Could not load custom field.",
+  "couldNotLoadDocumentPreview": "Doküman önizlemesi yüklenemedi.",
+  "@couldNotLoadDocumentPreview": {},
+  "couldNotLoadDocuments": "Dokümanlar yüklenemedi, lütfen tekrar deneyin.",
+  "@couldNotLoadDocuments": {},
+  "couldNotLoadDocumentTypes": "Belge türleri yüklenemedi, lütfen tekrar deneyin.",
+  "@couldNotLoadDocumentTypes": {},
+  "couldNotLoadLogfileFrom": "Could not load logfile from {date}.",
+  "couldNotLoadPermissions": "Could not load permissions.",
+  "couldNotLoadSavedViews": "Kayıtlı görünümler yüklenemedi.",
+  "@couldNotLoadSavedViews": {},
+  "couldNotLoadServerInformation": "Could not load server information.",
+  "@couldNotLoadServerInformation": {
+    "description": "Message shown when the server information could not be loaded"
+  },
+  "couldNotLoadSimilarDocuments": "Benzer belgeler yüklenemedi.",
+  "@couldNotLoadSimilarDocuments": {},
+  "couldNotLoadStatistics": "Could not load server statistics.",
+  "@couldNotLoadStatistics": {
+    "description": "Message shown when the server statistics could not be loaded"
+  },
+  "couldNotLoadStoragePaths": "Depolama yolları yüklenemedi.",
+  "@couldNotLoadStoragePaths": {},
+  "couldNotLoadSuggestions": "Öneriler yüklenemedi.",
+  "@couldNotLoadSuggestions": {},
+  "couldNotLoadTags": "Etiketler yüklenemedi.",
+  "@couldNotLoadTags": {},
+  "couldNotLoadTasks": "Could not load tasks.",
+  "@couldNotLoadTasks": {
+    "description": "Message shown when the tasks (e.g. document consumed) could not be loaded"
+  },
+  "couldNotLoadUISettings": "Could not load UI settings.",
+  "@couldNotLoadUISettings": {
+    "description": "Message shown when the UI settings could not be loaded"
+  },
+  "couldNotLoadUser": "Could not load user, please try again.",
+  "couldNotLoadUsers": "Could not load users, please try again.",
+  "couldNotOpenFilePermissionDenied": "Could not open file: Permission denied.",
+  "@couldNotOpenFilePermissionDenied": {},
+  "couldNotReachYourPaperlessServer": "Paperless sunucunuza erişilemedi, çalışır durumda mı?",
+  "@couldNotReachYourPaperlessServer": {},
+  "couldNotUpdateCorrespondent": "Could not update correspondent, please try again.",
+  "@couldNotUpdateCorrespondent": {
+    "description": "Message shown when a correspondent could not be updated"
+  },
+  "couldNotUpdateCustomField": "Could not delete custom field, please try again.",
+  "couldNotUpdateDocument": "Doküman güncellenemedi, lütfen tekrar deneyin.",
+  "@couldNotUpdateDocument": {},
+  "couldNotUpdateDocumentType": "Could not update document type, please try again.",
+  "@couldNotUpdateDocumentType": {
+    "description": "Message shown when a document type could not be updated"
+  },
+  "couldNotUpdateSavedView": "Could not update saved view, please try again.",
+  "@couldNotUpdateSavedView": {
+    "description": "Message shown when a saved view could not be updated"
+  },
+  "couldNotUpdateStoragePath": "Could not update storage path, please try again.",
+  "couldNotUpdateTag": "Could not update tag, please try again.",
+  "@couldNotUpdateTag": {
+    "description": "Message shown when a tag could not be updated"
+  },
+  "couldNotUpdateUser": "Could not update user, please try again.",
+  "couldNotUploadDocument": "Doküman yüklenemedi, lütfen tekrar deneyin.",
+  "@couldNotUploadDocument": {},
   "countSelected": "{count} seçilmiş",
   "@countSelected": {
     "description": "Displayed in the appbar when at least one document is selected.",
@@ -240,120 +352,267 @@
       "count": {}
     }
   },
-  "storagePath": "Depolama Yolu",
-  "@storagePath": {},
-  "prepareDocument": "Belge hazırla",
-  "@prepareDocument": {},
-  "tags": "Etiketler",
-  "@tags": {},
-  "documentSuccessfullyUpdated": "Doküman başarıyla güncellendi.",
-  "@documentSuccessfullyUpdated": {},
-  "fileName": "Dosya adı",
-  "@fileName": {},
-  "synchronizeTitleAndFilename": "Başlığı ve dosya adını senkronize et",
-  "@synchronizeTitleAndFilename": {},
-  "reload": "Yenile",
-  "@reload": {},
-  "documentSuccessfullyUploadedProcessing": "Doküman başarıyla yüklendi, işleniyor...",
-  "@documentSuccessfullyUploadedProcessing": {},
-  "deleteLabelWarningText": "Bu etiket, diğer belgelere referanslar içerir. Bu etiketi silerek, tüm referanslar kaldırılacaktır. Devam etmek ister misiniz?",
-  "@deleteLabelWarningText": {},
-  "couldNotAcknowledgeTasks": "Görevler kabul edilemedi.",
-  "@couldNotAcknowledgeTasks": {},
-  "authenticationFailedPleaseTryAgain": "Kimlik doğrulama başarısız oldu, lütfen tekrar deneyin.",
-  "@authenticationFailedPleaseTryAgain": {},
-  "anErrorOccurredWhileTryingToAutocompleteYourQuery": "Sorgunuz otomatik olarak tamamlanmaya çalışılırken bir hata oluştu.",
-  "@anErrorOccurredWhileTryingToAutocompleteYourQuery": {},
-  "biometricAuthenticationFailed": "Biyometrik doğrulama başarısız oldu.",
-  "@biometricAuthenticationFailed": {},
-  "biometricAuthenticationNotSupported": "Biyometrik kimlik doğrulama bu cihazda desteklenmiyor.",
-  "@biometricAuthenticationNotSupported": {},
-  "couldNotBulkEditDocuments": "Dokümanlar toplu düzenlenemedi.",
-  "@couldNotBulkEditDocuments": {},
-  "couldNotCreateCorrespondent": "Ek yazar oluşturulamadı, lütfen tekrar deneyin.",
-  "@couldNotCreateCorrespondent": {},
-  "couldNotLoadCorrespondents": "Ek yazarlar yüklenemedi.",
-  "@couldNotLoadCorrespondents": {},
-  "couldNotCreateSavedView": "Kayıtlı görünüm oluşturulamadı, lütfen tekrar deneyin.",
-  "@couldNotCreateSavedView": {},
-  "couldNotDeleteSavedView": "Kayıtlı görünüm silinemedi, lütfen tekrar deneyin",
-  "@couldNotDeleteSavedView": {},
-  "youAreCurrentlyOffline": "Şu anda çevrimdışısınız. Lütfen internete bağlı olduğunuzdan emin olun.",
-  "@youAreCurrentlyOffline": {},
-  "couldNotAssignArchiveSerialNumber": "Arşiv seri numarası atanamadı.",
-  "@couldNotAssignArchiveSerialNumber": {},
-  "couldNotDeleteDocument": "Doküman silinemedi, lütfen tekrar deneyin.",
-  "@couldNotDeleteDocument": {},
-  "couldNotLoadDocuments": "Dokümanlar yüklenemedi, lütfen tekrar deneyin.",
-  "@couldNotLoadDocuments": {},
-  "couldNotLoadDocumentPreview": "Doküman önizlemesi yüklenemedi.",
-  "@couldNotLoadDocumentPreview": {},
-  "couldNotCreateDocument": "Doküman oluşturulamadı, lütfen tekrar deneyin.",
-  "@couldNotCreateDocument": {},
-  "couldNotLoadDocumentTypes": "Belge türleri yüklenemedi, lütfen tekrar deneyin.",
-  "@couldNotLoadDocumentTypes": {},
-  "couldNotUpdateDocument": "Doküman güncellenemedi, lütfen tekrar deneyin.",
-  "@couldNotUpdateDocument": {},
-  "couldNotUploadDocument": "Doküman yüklenemedi, lütfen tekrar deneyin.",
-  "@couldNotUploadDocument": {},
-  "invalidCertificateOrMissingPassphrase": "Geçersiz sertifika veya eksik parola, lütfen tekrar deneyin",
-  "@invalidCertificateOrMissingPassphrase": {},
-  "couldNotLoadSavedViews": "Kayıtlı görünümler yüklenemedi.",
-  "@couldNotLoadSavedViews": {},
-  "aClientCertificateWasExpectedButNotSent": "Bir müşteri sertifikası bekleniyordu ancak gönderilmedi. Lütfen geçerli bir müşteri sertifikası sağlayın.",
-  "@aClientCertificateWasExpectedButNotSent": {},
-  "userIsNotAuthenticated": "Kullanıcının kimliği doğrulanmadı.",
-  "@userIsNotAuthenticated": {},
-  "requestTimedOut": "Sunucuya yapılan istek zaman aşımına uğradı.",
-  "@requestTimedOut": {},
-  "anErrorOccurredRemovingTheScans": "Taramalar kaldırılırken bir hata oluştu.",
-  "@anErrorOccurredRemovingTheScans": {},
-  "couldNotReachYourPaperlessServer": "Paperless sunucunuza erişilemedi, çalışır durumda mı?",
-  "@couldNotReachYourPaperlessServer": {},
-  "couldNotLoadSimilarDocuments": "Benzer belgeler yüklenemedi.",
-  "@couldNotLoadSimilarDocuments": {},
-  "couldNotCreateStoragePath": "Depolama yolu oluşturulamadı, lütfen tekrar deneyin.",
-  "@couldNotCreateStoragePath": {},
-  "couldNotLoadStoragePaths": "Depolama yolları yüklenemedi.",
-  "@couldNotLoadStoragePaths": {},
-  "couldNotLoadSuggestions": "Öneriler yüklenemedi.",
-  "@couldNotLoadSuggestions": {},
-  "couldNotCreateTag": "Etiket oluşturulamadı, lütfen tekrar deneyin.",
-  "@couldNotCreateTag": {},
-  "couldNotLoadTags": "Etiketler yüklenemedi.",
-  "@couldNotLoadTags": {},
-  "anUnknownErrorOccurred": "Bilinmeyen bir hata oluştu.",
-  "@anUnknownErrorOccurred": {},
-  "fileFormatNotSupported": "Bu dosya formatı desteklenmiyor.",
-  "@fileFormatNotSupported": {},
-  "report": "RAPORLA",
-  "@report": {},
-  "absolute": "Mutlak",
-  "@absolute": {},
-  "hintYouCanAlsoSpecifyRelativeValues": "İpucu: Somut tarihlerin yanı sıra, geçerli tarihe göre bir zaman aralığı da belirleyebilirsiniz.",
-  "@hintYouCanAlsoSpecifyRelativeValues": {
-    "description": "Displayed in the extended date range picker"
+  "create": "Yarat",
+  "@create": {},
+  "createdAt": "Created at",
+  "@createdAt": {},
+  "createFromCurrentFilter": "Create from current filter",
+  "@createFromCurrentFilter": {
+    "description": "Tooltip of the \"New saved view\" button"
   },
-  "amount": "Miktar",
-  "@amount": {},
-  "relative": "Bağıl",
-  "@relative": {},
-  "last": "Son",
-  "@last": {},
-  "timeUnit": "Zaman birimi",
-  "@timeUnit": {},
-  "selectDateRange": "Tarih aralığı seçin",
-  "@selectDateRange": {},
-  "after": "Sonra",
-  "@after": {},
-  "before": "Önce",
-  "@before": {},
+  "createsASavedViewBasedOnTheCurrentFilterCriteria": "Geçerli filtre ölçütlerine göre yeni bir görünüm oluşturur.",
+  "@createsASavedViewBasedOnTheCurrentFilterCriteria": {},
+  "createViewsToQuicklyFilterYourDocuments": "Belgelerinizi hızla filtrelemek için görünümler oluşturun.",
+  "@createViewsToQuicklyFilterYourDocuments": {},
+  "dark": "Koyu",
+  "@dark": {},
+  "darkTheme": "Koyu Tema",
+  "@darkTheme": {},
+  "dateOutOfRange": "Date must be between {firstDate} and {lastDate}.",
+  "@dateOutOfRange": {
+    "description": "Error message shown when the user tries to select a date outside of the allowed range.",
+    "placeholders": {
+      "firstDate": {
+        "type": "DateTime",
+        "format": "yMd"
+      },
+      "lastDate": {
+        "type": "DateTime",
+        "format": "yMd"
+      }
+    }
+  },
   "days": "{count, plural, zero{} one{gün} other{günler}}",
   "@days": {
     "placeholders": {
       "count": {}
     }
   },
+  "defaultDownloadFileType": "Default Download File Type",
+  "@defaultDownloadFileType": {
+    "description": "Label indicating the default filetype to download (one of archived, original and always ask)"
+  },
+  "defaultShareFileType": "Varsayılan Paylaşım Dosya Türü",
+  "@defaultShareFileType": {
+    "description": "Label indicating the default filetype to share (one of archived, original and always ask)"
+  },
+  "delete": "Sil",
+  "@delete": {},
+  "deleteAllScans": "Tüm tarananları sil",
+  "@deleteAllScans": {},
+  "deleteDocument": "Delete document",
+  "@deleteDocument": {
+    "description": "Used as an action label on each inbox item"
+  },
+  "deleteDocumentTooltip": "Silmek",
+  "@deleteDocumentTooltip": {
+    "description": "Tooltip shown for the delete button on details page"
+  },
+  "deleteLabelWarningText": "Bu etiket, diğer belgelere referanslar içerir. Bu etiketi silerek, tüm referanslar kaldırılacaktır. Devam etmek ister misiniz?",
+  "@deleteLabelWarningText": {},
+  "deleteView": "Görünümü sil {name}?",
+  "@deleteView": {},
+  "descending": "Descending",
+  "@descending": {},
+  "detailed": "Detailed",
+  "@detailed": {},
+  "developedBy": "Developed by {name}.",
+  "@developedBy": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "disableAnimations": "Disable animations",
+  "disableAnimationsDescription": "Disables page transitions and most animations. Temporary workaround until system accessibility settings can be used.",
+  "disableMatching": "Belgeleri otomatik etiketleme",
+  "@disableMatching": {
+    "description": "One of the options for automatic tagging of documents"
+  },
+  "discard": "Discard",
+  "discardChanges": "Discard changes?",
+  "@discardChanges": {
+    "description": "Title of the alert dialog shown when a user tries to close a view with unsaved changes."
+  },
+  "discardChangesWarning": "You have unsaved changes. By continuing, all changes will be lost. Do you want to discard these changes?",
+  "@discardChangesWarning": {
+    "description": "Warning message shown when the user tries to close a route without saving the changes."
+  },
+  "discardFile": "Discard file?",
+  "discardSharedFileHint": "The shared file was not yet processed. Do you want to discard the file?",
+  "disconnect": "Bağlantıyı kes",
+  "@disconnect": {
+    "description": "Logout button label"
+  },
+  "documentContainsAllOfTheseWords": "Document contains all of these words",
+  "@documentContainsAllOfTheseWords": {},
+  "documentContainsAnyOfTheseWords": "Document contains any of these words",
+  "@documentContainsAnyOfTheseWords": {},
+  "documentContainsAWordSimilarToThisWord": "Document contains a word similar to this word",
+  "@documentContainsAWordSimilarToThisWord": {},
+  "documentContainsThisString": "Document contains this string",
+  "@documentContainsThisString": {},
+  "documentMatchesThisRegularExpression": "Document matches this regular expression",
+  "@documentMatchesThisRegularExpression": {},
+  "documents": "Dökümanlar",
+  "@documents": {},
+  "documentsAssigned": "{count, plural, zero{No documents} one{1 document} other{{count} documents}}",
+  "@documentsAssigned": {
+    "description": "Text shown with a correspondent, document type etc. to indicate the number of documents this filter will maximally yield."
+  },
+  "documentsInInbox": "Documents in inbox",
+  "documentsSuccessfullyDeleted": "Dokümanlar başarıyla silindi.",
+  "@documentsSuccessfullyDeleted": {},
+  "documentSuccessfullyDeleted": "Doküman başarıyla silindi.",
+  "@documentSuccessfullyDeleted": {},
+  "documentSuccessfullyDownloaded": "Döküman başarıyla indirildi.",
+  "@documentSuccessfullyDownloaded": {},
+  "documentSuccessfullyUpdated": "Doküman başarıyla güncellendi.",
+  "@documentSuccessfullyUpdated": {},
+  "documentSuccessfullyUploadedProcessing": "Doküman başarıyla yüklendi, işleniyor...",
+  "@documentSuccessfullyUploadedProcessing": {},
+  "documentType": "Döküman tipi",
+  "@documentType": {},
+  "documentTypes": "Döküman Türleri",
+  "@documentTypes": {},
+  "documentUploadUploading": "Uploading...",
+  "donate": "Donate",
+  "@donate": {
+    "description": "Label of the in-app donate button"
+  },
+  "donateCoffee": "Bana kahve ısmarla",
+  "@donateCoffee": {
+    "description": "Label displayed in the app drawer"
+  },
+  "donationDialogContent": "Thank you for considering to support this app! Due to both Google's and Apple's Payment Policies, no links leading to donations may be displayed in-app. Not even linking to the project's repository page appears to be allowed in this context. Therefore, maybe have a look at the 'Donations' section in the project's README. Your support is much appreciated and keeps the development of this app alive. Thanks!",
+  "@donationDialogContent": {
+    "description": "Text displayed in the donation dialog"
+  },
+  "done": "Bitti",
+  "@done": {},
+  "downloadDocumentTooltip": "Download",
+  "@downloadDocumentTooltip": {
+    "description": "Tooltip shown for the download button on details page"
+  },
+  "doYouReallyWantToDeleteThisView": "Bu görünümü gerçekten silmek istiyor musunuz?",
+  "@doYouReallyWantToDeleteThisView": {},
+  "dynamicColorScheme": "Dynamic",
+  "@dynamicColorScheme": {},
+  "edit": "Düzenle",
+  "@edit": {},
+  "editDocument": "Dökümanı Düzenle",
+  "@editDocument": {},
+  "editDocumentTooltip": "Edit",
+  "@editDocumentTooltip": {
+    "description": "Tooltip shown for the edit button on details page"
+  },
+  "editView": "Edit View",
+  "@editView": {
+    "description": "Title of the edit saved view page"
+  },
+  "enabled": "Enabled",
+  "errorRetrievingServerVersion": "An error occurred trying to resolve the server version.",
+  "@errorRetrievingServerVersion": {
+    "description": "Message shown at the bottom of the settings page when the remote server version could not be resolved."
+  },
+  "exact": "Exact",
+  "@exact": {},
+  "exclude": "Exclude",
+  "export": "Export",
+  "@export": {
+    "description": "Label for button that exports scanned images to pdf (before upload)"
+  },
+  "exportScansToPdf": "Taramaları PDF olarak dışa aktar",
+  "@exportScansToPdf": {
+    "description": "title of the alert dialog when exporting scans to pdf"
+  },
+  "extended": "Genişletilmiş",
+  "@extended": {},
+  "fetchingUserInformation": "Fetching user information...",
+  "@fetchingUserInformation": {
+    "description": "Message shown when the app loads user data from the server"
+  },
+  "fileFormatNotSupported": "Bu dosya formatı desteklenmiyor.",
+  "@fileFormatNotSupported": {},
+  "fileName": "Dosya adı",
+  "@fileName": {},
+  "filterDocuments": "Dökümanları Filtrele",
+  "@filterDocuments": {
+    "description": "Title of the document filter"
+  },
+  "filterTags": "Etiketleri filtrele...",
+  "@filterTags": {},
+  "findTheSourceCodeOn": "Find the source code on",
+  "@findTheSourceCodeOn": {
+    "description": "Text before link to Paperless Mobile GitHub"
+  },
+  "freeBytes": "Free {byteString}",
+  "@freeBytes": {
+    "description": "Text shown for clear storage settings"
+  },
+  "freedDiskSpace": "Successfully freed {bytes} of disk space.",
+  "@freedDiskSpace": {
+    "description": "Message shown after clearing storage"
+  },
+  "fuzzy": "Fuzzy",
+  "@fuzzy": {},
+  "gotIt": "Başarılı!",
+  "@gotIt": {},
+  "goToLogin": "Giriş yap",
+  "@goToLogin": {
+    "description": "Label of the button shown on the login page to skip logging in to existing accounts and navigate user to login page"
+  },
+  "grid": "Grid",
+  "@grid": {},
+  "headerNameAlreadyExists": "The header already exists.",
+  "headerNameMustNotBeEmpty": "Header name must not be empty",
+  "headerValueMustNotBeEmpty": "Header value must not be empty",
+  "hidePdf": "Hide PDF",
+  "@hidePdf": {
+    "description": "Tooltip shown on the \"show pdf\" icon button on the document edit page"
+  },
+  "hintYouCanAlsoSpecifyRelativeValues": "İpucu: Somut tarihlerin yanı sıra, geçerli tarihe göre bir zaman aralığı da belirleyebilirsiniz.",
+  "@hintYouCanAlsoSpecifyRelativeValues": {
+    "description": "Displayed in the extended date range picker"
+  },
+  "home": "Home",
+  "@home": {
+    "description": "Label of the \"Home\" route"
+  },
+  "hostCouldNotBeResolved": "Ana bilgisayar çözülemedi. Lütfen sunucu adresini ve internet bağlantınızı kontrol edin.",
+  "@hostCouldNotBeResolved": {},
+  "inbox": "Gelen Kutusu",
+  "@inbox": {},
+  "inboxItemReloadSuggestions": "Reload suggestions",
+  "inboxTag": "Gelen Kutusu-Etiketi",
+  "@inboxTag": {},
+  "include": "Include",
+  "incorrectOrMissingCertificatePassphrase": "Yanlış veya eksik sertifika parolası.",
+  "@incorrectOrMissingCertificatePassphrase": {},
+  "invalidAddress": "Geçersiz adres.",
+  "@invalidAddress": {},
+  "invalidCertificateFormat": "Geçersiz sertifika biçimi, yalnızca .pfx'e izin verilir",
+  "@invalidCertificateFormat": {},
+  "invalidCertificateOrMissingPassphrase": "Geçersiz sertifika veya eksik parola, lütfen tekrar deneyin",
+  "@invalidCertificateOrMissingPassphrase": {},
+  "invalidFilenameCharacter": "Dosya adında geçersiz karakterler bulundu: {characters}",
+  "@invalidFilenameCharacter": {
+    "description": "For validating filename in export dialogue"
+  },
+  "key": "Key",
+  "labels": "Etiketler",
+  "@labels": {},
+  "language": "Dil",
+  "@language": {},
+  "languageAndVisualAppearance": "Dil ve görsel görünüm",
+  "@languageAndVisualAppearance": {},
+  "last": "Son",
+  "@last": {},
+  "last3Months": "Geçmiş 3 Ay",
+  "@last3Months": {},
+  "last7Days": "Geçmiş 7 Gün",
+  "@last7Days": {},
+  "lastMonth": "Geçen Ay",
+  "@lastMonth": {},
   "lastNDays": "{count, plural, zero{} one{Dün} other{Geçmiş {count} gün}}",
   "@lastNDays": {
     "placeholders": {
@@ -378,17 +637,438 @@
       "count": {}
     }
   },
+  "lastYear": "Geçen sene",
+  "@lastYear": {},
+  "learnMatchingAutomatically": "Learn matching automatically",
+  "@learnMatchingAutomatically": {},
+  "light": "Aydınlık",
+  "@light": {},
+  "lightTheme": "Aydınlık Tema",
+  "@lightTheme": {},
+  "linkedDocuments": "Bağlantılı Belgeler",
+  "@linkedDocuments": {},
+  "list": "List",
+  "@list": {},
+  "loadFullContent": "Tüm içeriği yükle",
+  "@loadFullContent": {},
+  "loadInboxItemSuggestions": "Load suggestions",
+  "loadingLogsFrom": "Loading logs from {date}...",
+  "logfileBottomReached": "You have reached the bottom of this logfile.",
+  "loggedInAs": "Olarak giriş yapıldı {name}",
+  "@loggedInAs": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "loggingOut": "Logging out...",
+  "loginPageReachabilityMissingClientCertificateText": "Bir istemci sertifikası bekleniyordu ancak gönderilmedi. Lütfen bir sertifika sağlayın.",
+  "@loginPageReachabilityMissingClientCertificateText": {},
+  "loginPageSignInTitle": "Oturum Aç",
+  "@loginPageSignInTitle": {},
+  "loginRequiredPermissionsHint": "Using Paperless Mobile requires a minimum set of user permissions since paperless-ngx 1.14.0 and higher. Therefore, please make sure that the user to be logged in has the permission to view other users (User → View) and the settings (UISettings → View). If you do not have these permissions, please contact an administrator of your paperless-ngx server.",
+  "@loginRequiredPermissionsHint": {
+    "description": "Hint shown on the login page informing the user of the required permissions to use the app."
+  },
+  "logInToExistingAccount": "Mevcut hesaba giriş yap",
+  "@logInToExistingAccount": {
+    "description": "Title shown on login page if at least one user is already known to the app."
+  },
+  "logout": "Çıkış yap",
+  "@logout": {
+    "description": "Generic Logout label"
+  },
+  "managePermissions": "İzinleri yönet",
+  "@managePermissions": {
+    "description": "Button which leads user to manage permissions page"
+  },
+  "mangeFilesAndStorageSpace": "Dosyaları ve depolama alanını yönetin",
+  "@mangeFilesAndStorageSpace": {},
+  "markAllAsSeen": "Tümü görüntülendi olarak işaretlensin mi?",
+  "@markAllAsSeen": {},
+  "markAsSeen": "Görüntülendi olarak işaretle",
+  "@markAsSeen": {},
+  "match": "Match",
+  "@match": {},
+  "matchingAlgorithm": "Eşleştirme Algoritması",
+  "@matchingAlgorithm": {},
+  "mediaFilename": "Medya Dosya Adı",
+  "@mediaFilename": {},
+  "metaData": "Meta Veri",
+  "@metaData": {
+    "description": "Label shown in the tabbar on details page"
+  },
+  "mfaCodeInvalidLengthValidationMessage": "Code must be 6 digits.",
+  "mfaCodeRequired": "MFA Code required",
+  "mfaCodeRequiredValidationMessage": "Please enter the MFA code.",
+  "mfaFormFieldHint": "Your account is protected by two-factor authentication. Please enter an authentication code:",
+  "misc": "Miscellaneous",
+  "missingPermissions": "You do not have the necessary permissions to perform this action.",
+  "@missingPermissions": {
+    "description": "Message shown in a snackbar when a user without the reequired permissions performs an action."
+  },
+  "modifiedAt": "Modified at",
+  "@modifiedAt": {},
   "months": "{count, plural, zero{} one{ay} other{aylar}}",
   "@months": {
     "placeholders": {
       "count": {}
     }
   },
+  "name": "İsim",
+  "@name": {},
+  "newDocumentAvailable": "Yeni döküman mevcut!",
+  "@newDocumentAvailable": {},
+  "newerVersionAvailable": "Newer version available:",
+  "newNote": "New note",
+  "newView": "Yeni görünüm",
+  "@newView": {},
+  "next": "İleri",
+  "@next": {},
+  "nFiltersSet": "{count, plural, zero{{count} filters set} one{{count} filter set} other{{count} filters set}}",
+  "@nFiltersSet": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "noAppToDisplayPDFFilesFound": "No app to display PDF files found!",
+  "@noAppToDisplayPDFFilesFound": {},
+  "noCorrespondentsSetUp": "Herhangi bir ek yazar ayarlamamışsınız gibi görünüyor.",
+  "@noCorrespondentsSetUp": {},
+  "noDocumentsFound": "No documents found.",
+  "@noDocumentsFound": {
+    "description": "Message shown when no documents were found."
+  },
+  "noDocumentsScannedYet": "Henüz taranan belge yok.",
+  "@noDocumentsScannedYet": {},
+  "noDocumentTypesSetUp": "Ayarlanmış herhangi bir döküman türünüz yok gibi görünüyor.",
+  "@noDocumentTypesSetUp": {},
+  "noItemsFound": "Hiç bir öğe bulunamadı!",
+  "@noItemsFound": {},
+  "noLogsFoundOn": "No logs found on {date}.",
+  "noMatchesFound": "No matches found.",
+  "@noMatchesFound": {
+    "description": "Displayed when no documents were found in the document search."
+  },
+  "none": "Hiçbiri",
+  "@none": {
+    "description": "One of available enum values of matching algorithm for tags"
+  },
+  "noStoragePathsSetUp": "Ayarlanmış herhangi bir depolama yolunuz yok gibi görünüyor.",
+  "@noStoragePathsSetUp": {},
+  "noSuggestionsForThisDocument": "No suggestions available.",
+  "noTagsSetUp": "Ayarlanmış herhangi bir etiketiniz yok gibi görünüyor.",
+  "@noTagsSetUp": {},
+  "notAssigned": "Atanmadı",
+  "@notAssigned": {},
+  "notes": "{count, plural, zero{Notes} one{Note} other{Notes}}",
+  "notesMarkdownSyntaxSupportHint": "Paperless Mobile can render notes using basic markdown syntax. Try it out!",
+  "notificationDownloadComplete": "İndirme tamamlandı",
+  "@notificationDownloadComplete": {
+    "description": "Notification title when a download has been completed."
+  },
+  "notificationDownloadingDocument": "Belge indiriliyor",
+  "@notificationDownloadingDocument": {
+    "description": "Notification title shown when a document download is pending"
+  },
+  "noViewsMarkedInSidebar": "You did not mark any views to be shown in the sidebar.",
+  "nUnseen": "{count} görüntülenmemiş",
+  "@nUnseen": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "ok": "Tamam",
+  "@ok": {},
+  "oops": "Hata.",
+  "@oops": {},
+  "openInSystemViewer": "Open in system viewer",
+  "@openInSystemViewer": {},
+  "or": "yada",
+  "@or": {
+    "description": "Used on the scanner page between both main actions when no scans have been captured."
+  },
+  "orderBy": "Şuna göre sırala",
+  "@orderBy": {},
+  "original": "Original",
+  "@original": {
+    "description": "Option to chose when downloading a document"
+  },
+  "originalFilename": "Original Filename",
+  "originalFileSize": "Orijinal Dosya Boyutu",
+  "@originalFileSize": {},
+  "originalMD5Checksum": "Orijinal MD5-Sağlaması",
+  "@originalMD5Checksum": {},
+  "originalMIMEType": "Orijinal MIME-Tipi",
+  "@originalMIMEType": {},
+  "overview": "Genel bakış",
+  "@overview": {
+    "description": "Label shown in the tabbar on details page"
+  },
+  "owner": "Owner",
+  "paperlessServerVersion": "Paperless sunucu versiyonu",
+  "@paperlessServerVersion": {},
+  "passphrase": "Gizli şifre",
+  "@passphrase": {},
+  "password": "Parola",
+  "@password": {},
+  "passwordMustNotBeEmpty": "Şifre boş bırakılamaz.",
+  "@passwordMustNotBeEmpty": {},
+  "pendingFiles": "Pending Files",
+  "permissions": "Permissions",
+  "persistingUserInformation": "Persisting user information...",
+  "prepareDocument": "Belge hazırla",
+  "@prepareDocument": {},
+  "preview": "Ön izleme",
+  "@preview": {
+    "description": "Title of the document preview page"
+  },
+  "previewScan": "Preview",
+  "@previewScan": {},
+  "previewTooltip": "Preview",
+  "@previewTooltip": {
+    "description": "Tooltip shown for the preview button on details page"
+  },
+  "print": "Yazdır",
+  "@print": {
+    "description": "Tooltip for print button"
+  },
+  "quickAction": "Hızlı eylemler",
+  "@quickAction": {},
+  "refresh": "Yenile",
+  "@refresh": {},
+  "regularExpression": "Regular Expression",
+  "@regularExpression": {},
+  "relative": "Bağıl",
+  "@relative": {},
+  "reload": "Yenile",
+  "@reload": {},
+  "rememberDecision": "Remember my decision",
+  "remove": "Remove",
+  "removeDocumentFromInbox": "Döküman gelen kutusundan kaldırıldı.",
+  "@removeDocumentFromInbox": {},
+  "removeFromSearchHistory": "Remove from search history?",
+  "@removeFromSearchHistory": {},
+  "removeQueryFromSearchHistory": "Arama geçmişinden sorgu silinsin mi?",
+  "report": "RAPORLA",
+  "@report": {},
+  "reportABug": "Hata Bildir",
+  "@reportABug": {},
+  "requestTimedOut": "Sunucuya yapılan istek zaman aşımına uğradı.",
+  "@requestTimedOut": {},
+  "reset": "Sıfırla",
+  "@reset": {},
+  "resetFilter": "Filtreyi sıfırla",
+  "@resetFilter": {},
+  "resolvingServerVersion": "Sunucu sürümü çözülüyor...",
+  "@resolvingServerVersion": {
+    "description": "Message shown while the app is loading the remote server version."
+  },
+  "restoringSession": "Restoring session...",
+  "@restoringSession": {
+    "description": "Message shown when the user opens the app and the previous user is tried to be authenticated and logged in"
+  },
+  "results": "Results",
+  "@results": {
+    "description": "Label displayed above search results in document search."
+  },
+  "save": "Kaydet",
+  "@save": {},
+  "saveChanges": "Değişiklikleri Kaydet",
+  "@saveChanges": {},
+  "savedViewChangedDialogContent": "The filter conditions of the active view have changed. By resetting the filter, these changes will be lost. Do you still wish to continue?",
+  "@savedViewChangedDialogContent": {
+    "description": "Content of the alert dialog shown when all of the following applies:\r\n* User has saved view selected\r\n* User has performed changes to the current document filter\r\n* User now tries to reset this filter without having saved the changes to the view."
+  },
+  "savedViewSuccessfullyUpdated": "Saved view successfully updated.",
+  "@savedViewSuccessfullyUpdated": {
+    "description": "Message shown when a saved view was successfully updated."
+  },
+  "saveLogsToFile": "Save logs to file",
+  "scan": "Tara",
+  "@scan": {},
+  "scanADocument": "Belge tarat",
+  "@scanADocument": {},
+  "scanner": "Tarayıcı",
+  "@scanner": {},
+  "scrollToTop": "Scroll to top",
+  "@scrollToTop": {},
+  "search": "Ara",
+  "@search": {},
+  "searchDocuments": "Search documents",
+  "@searchDocuments": {},
+  "security": "Güvenlik",
+  "@security": {},
+  "select": "Seç",
+  "@select": {},
+  "selectDateRange": "Tarih aralığı seçin",
+  "@selectDateRange": {},
+  "selectFile": "Dosya seç...",
+  "@selectFile": {},
+  "serverAddress": "Sunucu adresi",
+  "@serverAddress": {},
+  "serverAddressMustIncludeAScheme": "Sunucu adresi bir şema içermelidir.",
+  "@serverAddressMustIncludeAScheme": {},
+  "serverAddressMustNotBeEmpty": "Sunucu adresi boş bırakılamaz.",
+  "@serverAddressMustNotBeEmpty": {},
+  "settings": "Ayarlar",
+  "@settings": {},
+  "shareTooltip": "Share",
+  "@shareTooltip": {
+    "description": "Tooltip shown for the share button on details page"
+  },
+  "showAll": "Show all",
+  "@showAll": {
+    "description": "Button label shown on a saved view preview to open this view in the documents page"
+  },
+  "showInSidebar": "Kenar çubuğunda göster",
+  "@showInSidebar": {},
+  "showOnDashboard": "Kontrol panelinde göster",
+  "@showOnDashboard": {},
+  "showPdf": "Show PDF",
+  "@showPdf": {
+    "description": "Tooltip shown on the \"show pdf\" button on the document edit page"
+  },
+  "signIn": "Oturum Aç",
+  "@signIn": {},
+  "signInToServer": "{serverAddress} adresinde oturum aç",
+  "@signInToServer": {
+    "placeholders": {
+      "serverAddress": {}
+    }
+  },
+  "similarDocuments": "Benzer Belgeler",
+  "@similarDocuments": {
+    "description": "Label shown in the tabbar on details page"
+  },
+  "skipEditingReceivedFiles": "Skip editing received files",
+  "sourceCode": "Source Code",
+  "startTyping": "Yazmaya başlayın...",
+  "@startTyping": {},
+  "statistics": "Statistics",
+  "storage": "Depolama",
+  "@storage": {},
+  "storagePath": "Depolama Yolu",
+  "@storagePath": {},
+  "storagePathDay": "gün",
+  "@storagePathDay": {},
+  "storagePathMonth": "ay",
+  "@storagePathMonth": {},
+  "storagePaths": "Depolama Yolları",
+  "@storagePaths": {},
+  "storagePathYear": "yıl",
+  "@storagePathYear": {},
+  "suggestions": "Öneriler:",
+  "@suggestions": {},
+  "suggestionSuccessfullyApplied": "Öneri başarıyla gönderildi.",
+  "@suggestionSuccessfullyApplied": {},
+  "swipeLeftToMarkADocumentAsSeen": "İpucu: Bir belgeyi görüntülendi olarak işaretlemek ve tüm gelen kutusu etiketlerini belgeden kaldırmak için sola kaydırın.",
+  "@swipeLeftToMarkADocumentAsSeen": {},
+  "switchAccount": "Değiştir",
+  "@switchAccount": {
+    "description": "Label for switch account action"
+  },
+  "switchAccountTitle": "Hesap değiştir",
+  "@switchAccountTitle": {
+    "description": "Title of the dialog shown after adding an account, asking the user whether to switch to the newly added account or not."
+  },
+  "switchingAccountsPleaseWait": "Switching accounts. Please wait...",
+  "@switchingAccountsPleaseWait": {
+    "description": "Message shown while switching accounts is in progress."
+  },
+  "switchToNewAccount": "Yeni hesaba geçmek istiyor musunuz? Her zaman geri dönebilirsiniz.",
+  "@switchToNewAccount": {
+    "description": "Content of the dialog shown after adding an account, asking the user whether to switch to the newly added account or not."
+  },
+  "synchronizeTitleAndFilename": "Başlığı ve dosya adını senkronize et",
+  "@synchronizeTitleAndFilename": {},
+  "system": "Sistem",
+  "@system": {},
+  "systemTheme": "Sistem temasını kullan",
+  "@systemTheme": {},
+  "tags": "Etiketler",
+  "@tags": {},
+  "testConnection": "Bağlantıyı test et",
+  "@testConnection": {
+    "description": "Button label shown on login page. Allows user to test whether the server is reachable or not."
+  },
+  "testingConnection": "Testing connection...",
+  "@testingConnection": {
+    "description": "Text shown while the app tries to establish a connection to the specified host."
+  },
+  "theme": "Theme",
+  "@theme": {
+    "description": "Title of the theme mode setting"
+  },
+  "thereAreNoPendingFiles": "There are no pending files.",
+  "thereSeemsToBeNothingHere": "Burada hiçbir şey yok gibi görünüyor...",
+  "@thereSeemsToBeNothingHere": {},
+  "thisActionIsIrreversibleDoYouWishToProceedAnyway": "Bu işlem geri alınamaz. Yine de devam etmek istiyor musunuz?",
+  "@thisActionIsIrreversibleDoYouWishToProceedAnyway": {},
+  "thisFieldIsRequired": "Bu alan zorunlu!",
+  "@thisFieldIsRequired": {
+    "description": "Message shown below the form field when a required field has not been filled out."
+  },
+  "timeUnit": "Zaman birimi",
+  "@timeUnit": {},
+  "title": "Başlık",
+  "@title": {},
+  "titleAndContent": "Başlık & İçerik",
+  "@titleAndContent": {},
+  "today": "Bugün",
+  "@today": {},
+  "totalCharacters": "Total characters",
+  "totalDocuments": "Total documents",
+  "tryAgain": "Try again",
+  "unauthorizedErrorMessage": "You are not authorized to perform this action. Please contact your admin or make sure you have the necessary permissions.",
+  "undo": "Geri al",
+  "@undo": {},
+  "upload": "Yükle",
+  "@upload": {},
+  "uploadADocumentFromThisDevice": "Bu cihazdan bir döküman yükleyin",
+  "@uploadADocumentFromThisDevice": {
+    "description": "Button label on scanner page"
+  },
+  "uploadInferValuesHint": "Bu alanlar için değerler belirtirseniz, paperless örneğiniz otomatik olarak bir değer türetmeyecektir. Bu değerlerin sunucunuz tarafından otomatik olarak doldurulmasını istiyorsanız, alanları boş bırakın.",
+  "@uploadInferValuesHint": {},
+  "uploadScansAsPdf": "Upload scans as PDF",
+  "@uploadScansAsPdf": {
+    "description": "Title of the setting which toggles whether scans are always uploaded as pdf"
+  },
+  "uploadStatusDocumentReceived": "Document received",
+  "uploadWithoutPromptingUploadForm": "Always upload without prompting the upload form when sharing files with the app.",
+  "userAlreadyExists": "This user already exists.",
+  "@userAlreadyExists": {
+    "description": "Error message shown when the user tries to add an already existing account."
+  },
+  "userIsNotAuthenticated": "Kullanıcının kimliği doğrulanmadı.",
+  "@userIsNotAuthenticated": {},
+  "username": "Kullanıcı adı",
+  "@username": {},
+  "usernameMustNotBeEmpty": "Kullanıcı adı boş bırakılamaz.",
+  "@usernameMustNotBeEmpty": {},
+  "userNotFound": "User could not be found.",
+  "@userNotFound": {
+    "description": "Message shown when the specified user (e.g. by id) could not be found"
+  },
+  "useTheConfiguredBiometricFactorToAuthenticate": "Belgelerinizin şifresini çözmek ve oturum açmak için biyometrik faktör kullanın.",
+  "@useTheConfiguredBiometricFactorToAuthenticate": {},
+  "value": "Value",
+  "verifyIdentity": "Kimliği Doğrula",
+  "@verifyIdentity": {},
+  "verifyYourIdentity": "Kimliğinizi doğrulayın",
+  "@verifyYourIdentity": {},
+  "version": "Version {versionCode}",
+  "views": "Kayıtlı Görünümler",
+  "@views": {},
   "weeks": "{count, plural, zero{} one{hafta} other{haftalar}}",
   "@weeks": {
     "placeholders": {
       "count": {}
     }
+  },
+  "welcomeUser": "Welcome, {name}!",
+  "@welcomeUser": {
+    "description": "Top message shown on the home page"
   },
   "years": "{count, plural, zero{} one{yıl} other{yıllar}}",
   "@years": {
@@ -396,653 +1076,17 @@
       "count": {}
     }
   },
-  "gotIt": "Başarılı!",
-  "@gotIt": {},
-  "cancel": "İptal",
-  "@cancel": {},
-  "close": "Close",
-  "@close": {},
-  "create": "Yarat",
-  "@create": {},
-  "delete": "Sil",
-  "@delete": {},
-  "edit": "Düzenle",
-  "@edit": {},
-  "ok": "Tamam",
-  "@ok": {},
-  "save": "Kaydet",
-  "@save": {},
-  "select": "Seç",
-  "@select": {},
-  "saveChanges": "Değişiklikleri Kaydet",
-  "@saveChanges": {},
-  "upload": "Yükle",
-  "@upload": {},
-  "youreOffline": "Çevrimdışısınız.",
-  "@youreOffline": {},
-  "deleteDocument": "Delete document",
-  "@deleteDocument": {
-    "description": "Used as an action label on each inbox item"
-  },
-  "removeDocumentFromInbox": "Döküman gelen kutusundan kaldırıldı.",
-  "@removeDocumentFromInbox": {},
-  "areYouSureYouWantToMarkAllDocumentsAsSeen": "Tüm belgeleri görüntülendi olarak işaretlemek istediğinizden emin misiniz? Bu, tüm gelen kutusu etiketlerini belgelerden kaldırarak, toplu bir düzenleme işlemi gerçekleştirecektir. Bu eylem geri alınamaz! Devam etmek istediğine emin misiniz?",
-  "@areYouSureYouWantToMarkAllDocumentsAsSeen": {},
-  "markAllAsSeen": "Tümü görüntülendi olarak işaretlensin mi?",
-  "@markAllAsSeen": {},
-  "allSeen": "Hepsi görüntülendi",
-  "@allSeen": {},
-  "markAsSeen": "Görüntülendi olarak işaretle",
-  "@markAsSeen": {},
-  "refresh": "Yenile",
-  "@refresh": {},
-  "youDoNotHaveUnseenDocuments": "Görüntülenmemiş belgeniz yok.",
-  "@youDoNotHaveUnseenDocuments": {},
-  "quickAction": "Hızlı eylemler",
-  "@quickAction": {},
-  "suggestionSuccessfullyApplied": "Öneri başarıyla gönderildi.",
-  "@suggestionSuccessfullyApplied": {},
-  "today": "Bugün",
-  "@today": {},
-  "undo": "Geri al",
-  "@undo": {},
-  "nUnseen": "{count} görüntülenmemiş",
-  "@nUnseen": {
-    "placeholders": {
-      "count": {}
-    }
-  },
-  "swipeLeftToMarkADocumentAsSeen": "İpucu: Bir belgeyi görüntülendi olarak işaretlemek ve tüm gelen kutusu etiketlerini belgeden kaldırmak için sola kaydırın.",
-  "@swipeLeftToMarkADocumentAsSeen": {},
   "yesterday": "Dün",
   "@yesterday": {},
-  "anyAssigned": "Herhangi bir atanan",
-  "@anyAssigned": {},
-  "noItemsFound": "Hiç bir öğe bulunamadı!",
-  "@noItemsFound": {},
-  "caseIrrelevant": "İlişkisiz durum.",
-  "@caseIrrelevant": {},
-  "matchingAlgorithm": "Eşleştirme Algoritması",
-  "@matchingAlgorithm": {},
-  "match": "Match",
-  "@match": {},
-  "name": "İsim",
-  "@name": {},
-  "notAssigned": "Atanmadı",
-  "@notAssigned": {},
-  "addNewCorrespondent": "Yeni ek yazar ekle",
-  "@addNewCorrespondent": {},
-  "noCorrespondentsSetUp": "Herhangi bir ek yazar ayarlamamışsınız gibi görünüyor.",
-  "@noCorrespondentsSetUp": {},
-  "correspondents": "Correspondents",
-  "@correspondents": {},
-  "addNewDocumentType": "Yeni döküman türü ekle",
-  "@addNewDocumentType": {},
-  "noDocumentTypesSetUp": "Ayarlanmış herhangi bir döküman türünüz yok gibi görünüyor.",
-  "@noDocumentTypesSetUp": {},
-  "documentTypes": "Döküman Türleri",
-  "@documentTypes": {},
-  "addNewStoragePath": "Yeni depolama yolu ekle",
-  "@addNewStoragePath": {},
-  "noStoragePathsSetUp": "Ayarlanmış herhangi bir depolama yolunuz yok gibi görünüyor.",
-  "@noStoragePathsSetUp": {},
-  "storagePaths": "Depolama Yolları",
-  "@storagePaths": {},
-  "addNewTag": "Yeni etiket ekle",
-  "@addNewTag": {},
-  "noTagsSetUp": "Ayarlanmış herhangi bir etiketiniz yok gibi görünüyor.",
-  "@noTagsSetUp": {},
-  "linkedDocuments": "Bağlantılı Belgeler",
-  "@linkedDocuments": {},
-  "advancedSettings": "Gelişmiş Ayarlar",
-  "@advancedSettings": {},
-  "passphrase": "Gizli şifre",
-  "@passphrase": {},
-  "configureMutualTLSAuthentication": "Karşılıklı TLS Kimlik Doğrulamasını Yapılandırma",
-  "@configureMutualTLSAuthentication": {},
-  "invalidCertificateFormat": "Geçersiz sertifika biçimi, yalnızca .pfx'e izin verilir",
-  "@invalidCertificateFormat": {},
-  "clientcertificate": "İstemci Sertifikası",
-  "@clientcertificate": {},
-  "selectFile": "Dosya seç...",
-  "@selectFile": {},
-  "continueLabel": "Devam",
-  "@continueLabel": {},
-  "incorrectOrMissingCertificatePassphrase": "Yanlış veya eksik sertifika parolası.",
-  "@incorrectOrMissingCertificatePassphrase": {},
-  "connect": "Bağlan",
-  "@connect": {},
-  "password": "Parola",
-  "@password": {},
-  "passwordMustNotBeEmpty": "Şifre boş bırakılamaz.",
-  "@passwordMustNotBeEmpty": {},
-  "connectionTimedOut": "Bağlantı zaman aşımına uğradı.",
-  "@connectionTimedOut": {},
-  "loginPageReachabilityMissingClientCertificateText": "Bir istemci sertifikası bekleniyordu ancak gönderilmedi. Lütfen bir sertifika sağlayın.",
-  "@loginPageReachabilityMissingClientCertificateText": {},
-  "couldNotEstablishConnectionToTheServer": "Sunucuyla bağlantı kurulamadı.",
-  "@couldNotEstablishConnectionToTheServer": {},
-  "connectionSuccessfulylEstablished": "Bağlantı başarıyla kuruldu.",
-  "@connectionSuccessfulylEstablished": {},
-  "hostCouldNotBeResolved": "Ana bilgisayar çözülemedi. Lütfen sunucu adresini ve internet bağlantınızı kontrol edin.",
-  "@hostCouldNotBeResolved": {},
-  "serverAddress": "Sunucu adresi",
-  "@serverAddress": {},
-  "invalidAddress": "Geçersiz adres.",
-  "@invalidAddress": {},
-  "serverAddressMustIncludeAScheme": "Sunucu adresi bir şema içermelidir.",
-  "@serverAddressMustIncludeAScheme": {},
-  "serverAddressMustNotBeEmpty": "Sunucu adresi boş bırakılamaz.",
-  "@serverAddressMustNotBeEmpty": {},
-  "signIn": "Oturum Aç",
-  "@signIn": {},
-  "loginPageSignInTitle": "Oturum Aç",
-  "@loginPageSignInTitle": {},
-  "signInToServer": "{serverAddress} adresinde oturum aç",
-  "@signInToServer": {
-    "placeholders": {
-      "serverAddress": {}
-    }
-  },
-  "connectToPaperless": "Paperless'a Bağlan",
-  "@connectToPaperless": {},
-  "username": "Kullanıcı adı",
-  "@username": {},
-  "usernameMustNotBeEmpty": "Kullanıcı adı boş bırakılamaz.",
-  "@usernameMustNotBeEmpty": {},
-  "documentContainsAllOfTheseWords": "Document contains all of these words",
-  "@documentContainsAllOfTheseWords": {},
-  "all": "All",
-  "@all": {},
-  "documentContainsAnyOfTheseWords": "Document contains any of these words",
-  "@documentContainsAnyOfTheseWords": {},
-  "any": "Any",
-  "@any": {},
-  "learnMatchingAutomatically": "Learn matching automatically",
-  "@learnMatchingAutomatically": {},
-  "auto": "Auto",
-  "@auto": {},
-  "documentContainsThisString": "Document contains this string",
-  "@documentContainsThisString": {},
-  "exact": "Exact",
-  "@exact": {},
-  "documentContainsAWordSimilarToThisWord": "Document contains a word similar to this word",
-  "@documentContainsAWordSimilarToThisWord": {},
-  "fuzzy": "Fuzzy",
-  "@fuzzy": {},
-  "documentMatchesThisRegularExpression": "Document matches this regular expression",
-  "@documentMatchesThisRegularExpression": {},
-  "regularExpression": "Regular Expression",
-  "@regularExpression": {},
-  "anInternetConnectionCouldNotBeEstablished": "İnternet bağlantısı kurulamadı.",
-  "@anInternetConnectionCouldNotBeEstablished": {},
-  "done": "Bitti",
-  "@done": {},
-  "next": "İleri",
-  "@next": {},
-  "couldNotAccessReceivedFile": "Alınan dosyaya erişilemedi. Lütfen paylaşmadan önce uygulamayı açmayı deneyin.",
-  "@couldNotAccessReceivedFile": {},
-  "newView": "Yeni görünüm",
-  "@newView": {},
-  "createsASavedViewBasedOnTheCurrentFilterCriteria": "Geçerli filtre ölçütlerine göre yeni bir görünüm oluşturur.",
-  "@createsASavedViewBasedOnTheCurrentFilterCriteria": {},
-  "createViewsToQuicklyFilterYourDocuments": "Belgelerinizi hızla filtrelemek için görünümler oluşturun.",
-  "@createViewsToQuicklyFilterYourDocuments": {},
-  "nFiltersSet": "{count, plural, zero{{count} filters set} one{{count} filter set} other{{count} filters set}}",
-  "@nFiltersSet": {
-    "placeholders": {
-      "count": {}
-    }
-  },
-  "showInSidebar": "Kenar çubuğunda göster",
-  "@showInSidebar": {},
-  "showOnDashboard": "Kontrol panelinde göster",
-  "@showOnDashboard": {},
-  "views": "Kayıtlı Görünümler",
-  "@views": {},
-  "clearAll": "Clear all",
-  "@clearAll": {},
-  "scan": "Tara",
-  "@scan": {},
-  "previewScan": "Preview",
-  "@previewScan": {},
-  "scrollToTop": "Scroll to top",
-  "@scrollToTop": {},
-  "paperlessServerVersion": "Paperless sunucu versiyonu",
-  "@paperlessServerVersion": {},
-  "darkTheme": "Koyu Tema",
-  "@darkTheme": {},
-  "lightTheme": "Aydınlık Tema",
-  "@lightTheme": {},
-  "systemTheme": "Sistem temasını kullan",
-  "@systemTheme": {},
-  "appearance": "Görünüm",
-  "@appearance": {},
-  "languageAndVisualAppearance": "Dil ve görsel görünüm",
-  "@languageAndVisualAppearance": {},
-  "applicationSettings": "Uygulama",
-  "@applicationSettings": {},
-  "colorSchemeHint": "Choose between a classic color scheme inspired by a traditional Paperless green or use the dynamic color scheme based on your system theme.",
-  "@colorSchemeHint": {},
-  "colorSchemeNotSupportedWarning": "Dynamic theming is only supported for devices running Android 12 and above. Selecting the 'Dynamic' option might not have any effect depending on your OS implementation.",
-  "@colorSchemeNotSupportedWarning": {},
-  "colors": "Colors",
-  "@colors": {},
-  "language": "Dil",
-  "@language": {},
-  "security": "Güvenlik",
-  "@security": {},
-  "mangeFilesAndStorageSpace": "Dosyaları ve depolama alanını yönetin",
-  "@mangeFilesAndStorageSpace": {},
-  "storage": "Depolama",
-  "@storage": {},
-  "dark": "Koyu",
-  "@dark": {},
-  "light": "Aydınlık",
-  "@light": {},
-  "system": "Sistem",
-  "@system": {},
-  "ascending": "Ascending",
-  "@ascending": {},
-  "descending": "Descending",
-  "@descending": {},
-  "storagePathDay": "gün",
-  "@storagePathDay": {},
-  "storagePathMonth": "ay",
-  "@storagePathMonth": {},
-  "storagePathYear": "yıl",
-  "@storagePathYear": {},
-  "color": "Renkler",
-  "@color": {},
-  "filterTags": "Etiketleri filtrele...",
-  "@filterTags": {},
-  "inboxTag": "Gelen Kutusu-Etiketi",
-  "@inboxTag": {},
-  "uploadInferValuesHint": "Bu alanlar için değerler belirtirseniz, paperless örneğiniz otomatik olarak bir değer türetmeyecektir. Bu değerlerin sunucunuz tarafından otomatik olarak doldurulmasını istiyorsanız, alanları boş bırakın.",
-  "@uploadInferValuesHint": {},
-  "useTheConfiguredBiometricFactorToAuthenticate": "Belgelerinizin şifresini çözmek ve oturum açmak için biyometrik faktör kullanın.",
-  "@useTheConfiguredBiometricFactorToAuthenticate": {},
-  "verifyYourIdentity": "Kimliğinizi doğrulayın",
-  "@verifyYourIdentity": {},
-  "verifyIdentity": "Kimliği Doğrula",
-  "@verifyIdentity": {},
-  "detailed": "Detailed",
-  "@detailed": {},
-  "grid": "Grid",
-  "@grid": {},
-  "list": "List",
-  "@list": {},
-  "remove": "Remove",
-  "removeQueryFromSearchHistory": "Remove query from search history?",
-  "dynamicColorScheme": "Dynamic",
-  "@dynamicColorScheme": {},
-  "classicColorScheme": "Classic",
-  "@classicColorScheme": {},
-  "notificationDownloadComplete": "Download complete",
-  "@notificationDownloadComplete": {
-    "description": "Notification title when a download has been completed."
-  },
-  "notificationDownloadingDocument": "Downloading document",
-  "@notificationDownloadingDocument": {
-    "description": "Notification title shown when a document download is pending"
-  },
-  "archiveSerialNumberUpdated": "Archive Serial Number updated.",
-  "@archiveSerialNumberUpdated": {
-    "description": "Message shown when the ASN has been updated."
-  },
-  "donateCoffee": "Buy me a coffee",
-  "@donateCoffee": {
-    "description": "Label displayed in the app drawer"
-  },
-  "thisFieldIsRequired": "This field is required!",
-  "@thisFieldIsRequired": {
-    "description": "Message shown below the form field when a required field has not been filled out."
-  },
-  "confirm": "Confirm",
-  "confirmAction": "Confirm action",
-  "@confirmAction": {
-    "description": "Typically used as a title to confirm a previously selected action"
-  },
-  "areYouSureYouWantToContinue": "Are you sure you want to continue?",
-  "bulkEditTagsAddMessage": "{count, plural, one{This operation will add the tags {tags} to the selected document.} other{This operation will add the tags {tags} to {count} selected documents.}}",
-  "@bulkEditTagsAddMessage": {
-    "description": "Message of the confirmation dialog when bulk adding tags."
-  },
-  "bulkEditTagsRemoveMessage": "{count, plural, one{This operation will remove the tags {tags} from the selected document.} other{This operation will remove the tags {tags} from {count} selected documents.}}",
-  "@bulkEditTagsRemoveMessage": {
-    "description": "Message of the confirmation dialog when bulk removing tags."
-  },
-  "bulkEditTagsModifyMessage": "{count, plural, one{This operation will add the tags {addTags} and remove the tags {removeTags} from the selected document.} other{This operation will add the tags {addTags} and remove the tags {removeTags} from {count} selected documents.}}",
-  "@bulkEditTagsModifyMessage": {
-    "description": "Message of the confirmation dialog when both adding and removing tags."
-  },
-  "bulkEditCorrespondentAssignMessage": "{count, plural, one{This operation will assign the correspondent {correspondent} to the selected document.} other{This operation will assign the correspondent {correspondent} to {count} selected documents.}}",
-  "bulkEditDocumentTypeAssignMessage": "{count, plural, one{This operation will assign the document type {docType} to the selected document.} other{This operation will assign the documentType {docType} to {count} selected documents.}}",
-  "bulkEditStoragePathAssignMessage": "{count, plural, one{This operation will assign the storage path {path} to the selected document.} other{This operation will assign the storage path {path} to {count} selected documents.}}",
-  "bulkEditCorrespondentRemoveMessage": "{count, plural, one{This operation will remove the correspondent from the selected document.} other{This operation will remove the correspondent from {count} selected documents.}}",
-  "bulkEditDocumentTypeRemoveMessage": "{count, plural, one{This operation will remove the document type from the selected document.} other{This operation will remove the document type from {count} selected documents.}}",
-  "bulkEditStoragePathRemoveMessage": "{count, plural, one{This operation will remove the storage path from the selected document.} other{This operation will remove the storage path from {count} selected documents.}}",
-  "anyTag": "Any",
-  "@anyTag": {
-    "description": "Label shown when any tag should be filtered"
-  },
-  "allTags": "All",
-  "@allTags": {
-    "description": "Label shown when a document has to be assigned to all selected tags"
-  },
-  "switchingAccountsPleaseWait": "Switching accounts. Please wait...",
-  "@switchingAccountsPleaseWait": {
-    "description": "Message shown while switching accounts is in progress."
-  },
-  "testConnection": "Test connection",
-  "@testConnection": {
-    "description": "Button label shown on login page. Allows user to test whether the server is reachable or not."
-  },
-  "accounts": "Accounts",
-  "@accounts": {
-    "description": "Title of the account management dialog"
-  },
-  "addAccount": "Add account",
-  "@addAccount": {
-    "description": "Label of add account action"
-  },
-  "switchAccount": "Switch",
-  "@switchAccount": {
-    "description": "Label for switch account action"
-  },
-  "logout": "Logout",
-  "@logout": {
-    "description": "Generic Logout label"
-  },
-  "switchAccountTitle": "Switch account",
-  "@switchAccountTitle": {
-    "description": "Title of the dialog shown after adding an account, asking the user whether to switch to the newly added account or not."
-  },
-  "switchToNewAccount": "Do you want to switch to the new account? You can switch back at any time.",
-  "@switchToNewAccount": {
-    "description": "Content of the dialog shown after adding an account, asking the user whether to switch to the newly added account or not."
-  },
-  "sourceCode": "Source Code",
-  "findTheSourceCodeOn": "Find the source code on",
-  "@findTheSourceCodeOn": {
-    "description": "Text before link to Paperless Mobile GitHub"
-  },
-  "rememberDecision": "Remember my decision",
-  "defaultDownloadFileType": "Default Download File Type",
-  "@defaultDownloadFileType": {
-    "description": "Label indicating the default filetype to download (one of archived, original and always ask)"
-  },
-  "defaultShareFileType": "Default Share File Type",
-  "@defaultShareFileType": {
-    "description": "Label indicating the default filetype to share (one of archived, original and always ask)"
-  },
-  "alwaysAsk": "Always ask",
-  "@alwaysAsk": {
-    "description": "Option to choose when the app should always ask the user which filetype to use"
-  },
-  "disableMatching": "Do not tag documents automatically",
-  "@disableMatching": {
-    "description": "One of the options for automatic tagging of documents"
-  },
-  "none": "None",
-  "@none": {
-    "description": "One of available enum values of matching algorithm for tags"
-  },
-  "logInToExistingAccount": "Log in to existing account",
-  "@logInToExistingAccount": {
-    "description": "Title shown on login page if at least one user is already known to the app."
-  },
-  "print": "Print",
-  "@print": {
-    "description": "Tooltip for print button"
-  },
-  "managePermissions": "Manage permissions",
-  "@managePermissions": {
-    "description": "Button which leads user to manage permissions page"
-  },
-  "errorRetrievingServerVersion": "An error occurred trying to resolve the server version.",
-  "@errorRetrievingServerVersion": {
-    "description": "Message shown at the bottom of the settings page when the remote server version could not be resolved."
-  },
-  "resolvingServerVersion": "Resolving server version...",
-  "@resolvingServerVersion": {
-    "description": "Message shown while the app is loading the remote server version."
-  },
-  "goToLogin": "Go to login",
-  "@goToLogin": {
-    "description": "Label of the button shown on the login page to skip logging in to existing accounts and navigate user to login page"
-  },
-  "export": "Export",
-  "@export": {
-    "description": "Label for button that exports scanned images to pdf (before upload)"
-  },
-  "invalidFilenameCharacter": "Invalid character(s) found in filename: {characters}",
-  "@invalidFilenameCharacter": {
-    "description": "For validating filename in export dialogue"
-  },
-  "exportScansToPdf": "Export scans to PDF",
-  "@exportScansToPdf": {
-    "description": "title of the alert dialog when exporting scans to pdf"
-  },
-  "allScansWillBeMerged": "All scans will be merged into a single PDF file.",
-  "behavior": "Behavior",
-  "@behavior": {
-    "description": "Title of the settings concerning app beahvior"
-  },
-  "theme": "Theme",
-  "@theme": {
-    "description": "Title of the theme mode setting"
-  },
-  "clearCache": "Clear cache",
-  "@clearCache": {
-    "description": "Title of the clear cache setting"
-  },
-  "freeBytes": "Free {byteString}",
-  "@freeBytes": {
-    "description": "Text shown for clear storage settings"
-  },
-  "calculatingDots": "Calculating...",
-  "@calculatingDots": {
-    "description": "Text shown when the byte size is still being calculated"
-  },
-  "freedDiskSpace": "Successfully freed {bytes} of disk space.",
-  "@freedDiskSpace": {
-    "description": "Message shown after clearing storage"
-  },
-  "uploadScansAsPdf": "Upload scans as PDF",
-  "@uploadScansAsPdf": {
-    "description": "Title of the setting which toggles whether scans are always uploaded as pdf"
-  },
-  "convertSinglePageScanToPdf": "Always convert single page scans to PDF before uploading",
-  "@convertSinglePageScanToPdf": {
-    "description": "description of the upload scans as pdf setting"
-  },
-  "loginRequiredPermissionsHint": "Using Paperless Mobile requires a minimum set of user permissions since paperless-ngx 1.14.0 and higher. Therefore, please make sure that the user to be logged in has the permission to view other users (User → View) and the settings (UISettings → View). If you do not have these permissions, please contact an administrator of your paperless-ngx server.",
-  "@loginRequiredPermissionsHint": {
-    "description": "Hint shown on the login page informing the user of the required permissions to use the app."
-  },
-  "missingPermissions": "You do not have the necessary permissions to perform this action.",
-  "@missingPermissions": {
-    "description": "Message shown in a snackbar when a user without the reequired permissions performs an action."
-  },
-  "editView": "Edit View",
-  "@editView": {
-    "description": "Title of the edit saved view page"
-  },
-  "donate": "Donate",
-  "@donate": {
-    "description": "Label of the in-app donate button"
-  },
-  "donationDialogContent": "Thank you for considering to support this app! Due to both Google's and Apple's Payment Policies, no links leading to donations may be displayed in-app. Not even linking to the project's repository page appears to be allowed in this context. Therefore, maybe have a look at the 'Donations' section in the project's README. Your support is much appreciated and keeps the development of this app alive. Thanks!",
-  "@donationDialogContent": {
-    "description": "Text displayed in the donation dialog"
-  },
-  "noDocumentsFound": "No documents found.",
-  "@noDocumentsFound": {
-    "description": "Message shown when no documents were found."
-  },
-  "couldNotDeleteCorrespondent": "Could not delete correspondent, please try again.",
-  "@couldNotDeleteCorrespondent": {
-    "description": "Message shown in snackbar when a correspondent could not be deleted."
-  },
-  "couldNotDeleteDocumentType": "Could not delete document type, please try again.",
-  "@couldNotDeleteDocumentType": {
-    "description": "Message shown when a document type could not be deleted"
-  },
-  "couldNotDeleteTag": "Could not delete tag, please try again.",
-  "@couldNotDeleteTag": {
-    "description": "Message shown when a tag could not be deleted"
-  },
-  "couldNotDeleteStoragePath": "Could not delete storage path, please try again.",
-  "@couldNotDeleteStoragePath": {
-    "description": "Message shown when a storage path could not be deleted"
-  },
-  "couldNotUpdateCorrespondent": "Could not update correspondent, please try again.",
-  "@couldNotUpdateCorrespondent": {
-    "description": "Message shown when a correspondent could not be updated"
-  },
-  "couldNotUpdateDocumentType": "Could not update document type, please try again.",
-  "@couldNotUpdateDocumentType": {
-    "description": "Message shown when a document type could not be updated"
-  },
-  "couldNotUpdateTag": "Could not update tag, please try again.",
-  "@couldNotUpdateTag": {
-    "description": "Message shown when a tag could not be updated"
-  },
-  "couldNotLoadServerInformation": "Could not load server information.",
-  "@couldNotLoadServerInformation": {
-    "description": "Message shown when the server information could not be loaded"
-  },
-  "couldNotLoadStatistics": "Could not load server statistics.",
-  "@couldNotLoadStatistics": {
-    "description": "Message shown when the server statistics could not be loaded"
-  },
-  "couldNotLoadUISettings": "Could not load UI settings.",
-  "@couldNotLoadUISettings": {
-    "description": "Message shown when the UI settings could not be loaded"
-  },
-  "couldNotLoadTasks": "Could not load tasks.",
-  "@couldNotLoadTasks": {
-    "description": "Message shown when the tasks (e.g. document consumed) could not be loaded"
-  },
-  "userNotFound": "User could not be found.",
-  "@userNotFound": {
-    "description": "Message shown when the specified user (e.g. by id) could not be found"
-  },
-  "couldNotUpdateSavedView": "Could not update saved view, please try again.",
-  "@couldNotUpdateSavedView": {
-    "description": "Message shown when a saved view could not be updated"
-  },
-  "couldNotUpdateStoragePath": "Could not update storage path, please try again.",
-  "savedViewSuccessfullyUpdated": "Saved view successfully updated.",
-  "@savedViewSuccessfullyUpdated": {
-    "description": "Message shown when a saved view was successfully updated."
-  },
-  "discardChanges": "Discard changes?",
-  "@discardChanges": {
-    "description": "Title of the alert dialog shown when a user tries to close a view with unsaved changes."
-  },
-  "savedViewChangedDialogContent": "The filter conditions of the active view have changed. By resetting the filter, these changes will be lost. Do you still wish to continue?",
-  "@savedViewChangedDialogContent": {
-    "description": "Content of the alert dialog shown when all of the following applies:\r\n* User has saved view selected\r\n* User has performed changes to the current document filter\r\n* User now tries to reset this filter without having saved the changes to the view."
-  },
-  "createFromCurrentFilter": "Create from current filter",
-  "@createFromCurrentFilter": {
-    "description": "Tooltip of the \"New saved view\" button"
-  },
-  "home": "Home",
-  "@home": {
-    "description": "Label of the \"Home\" route"
-  },
-  "welcomeUser": "Welcome, {name}!",
-  "@welcomeUser": {
-    "description": "Top message shown on the home page"
-  },
-  "statistics": "Statistics",
-  "documentsInInbox": "Documents in inbox",
-  "totalDocuments": "Total documents",
-  "totalCharacters": "Total characters",
-  "showAll": "Show all",
-  "@showAll": {
-    "description": "Button label shown on a saved view preview to open this view in the documents page"
-  },
-  "userAlreadyExists": "This user already exists.",
-  "@userAlreadyExists": {
-    "description": "Error message shown when the user tries to add an already existing account."
-  },
-  "youDidNotSaveAnyViewsYet": "You did not save any views yet, create one and it will be shown here.",
+  "youAreCurrentlyOffline": "Şu anda çevrimdışısınız. Lütfen internete bağlı olduğunuzdan emin olun.",
+  "@youAreCurrentlyOffline": {},
+  "youDidNotSaveAnyViewsYet": "You did not save any views yet.",
   "@youDidNotSaveAnyViewsYet": {
     "description": "Message shown when there are no saved views yet."
   },
-  "tryAgain": "Try again",
-  "discardFile": "Discard file?",
-  "discard": "Discard",
-  "backToLogin": "Back to login",
-  "skipEditingReceivedFiles": "Skip editing received files",
-  "uploadWithoutPromptingUploadForm": "Always upload without prompting the upload form when sharing files with the app.",
-  "authenticatingDots": "Authenticating...",
-  "@authenticatingDots": {
-    "description": "Message shown when the app is authenticating the user"
-  },
-  "persistingUserInformation": "Persisting user information...",
-  "fetchingUserInformation": "Fetching user information...",
-  "@fetchingUserInformation": {
-    "description": "Message shown when the app loads user data from the server"
-  },
-  "restoringSession": "Restoring session...",
-  "@restoringSession": {
-    "description": "Message shown when the user opens the app and the previous user is tried to be authenticated and logged in"
-  },
-  "documentsAssigned": "{count, plural, zero{No documents} one{1 document} other{{count} documents}}",
-  "@documentsAssigned": {
-    "description": "Text shown with a correspondent, document type etc. to indicate the number of documents this filter will maximally yield."
-  },
-  "discardChangesWarning": "You have unsaved changes. By continuing, all changes will be lost. Do you want to discard these changes?",
-  "@discardChangesWarning": {
-    "description": "Warning message shown when the user tries to close a route without saving the changes."
-  },
-  "changelog": "Changelog",
-  "noLogsFoundOn": "No logs found on {date}.",
-  "logfileBottomReached": "You have reached the bottom of this logfile.",
-  "appLogs": "App logs {date}",
-  "saveLogsToFile": "Save logs to file",
-  "copyToClipboard": "Copy to clipboard",
-  "couldNotLoadLogfileFrom": "Could not load logfile from {date}.",
-  "loadingLogsFrom": "Loading logs from {date}...",
-  "clearLogs": "Clear logs from {date}",
-  "showPdf": "Show PDF",
-  "@showPdf": {
-    "description": "Tooltip shown on the \"show pdf\" button on the document edit page"
-  },
-  "hidePdf": "Hide PDF",
-  "@hidePdf": {
-    "description": "Tooltip shown on the \"show pdf\" icon button on the document edit page"
-  },
-  "misc": "Miscellaneous",
-  "loggingOut": "Logging out...",
-  "testingConnection": "Testing connection...",
-  "@testingConnection": {
-    "description": "Text shown while the app tries to establish a connection to the specified host."
-  },
-  "version": "Version {versionCode}",
-  "notes": "{count, plural, zero{Notes} one{Note} other{Notes}}",
-  "addNote": "Add note",
-  "newerVersionAvailable": "Newer version available:",
-  "dateOutOfRange": "Date must be between {firstDate} and {lastDate}.",
-  "@dateOutOfRange": {
-    "description": "Error message shown when the user tries to select a date outside of the allowed range.",
-    "placeholders": {
-      "firstDate": {
-        "type": "DateTime",
-        "format": "yMd"
-      },
-      "lastDate": {
-        "type": "DateTime",
-        "format": "yMd"
-      }
-    }
-  },
-  "permissions": "Permissions",
-  "newNote": "New note",
-  "notesMarkdownSyntaxSupportHint": "Paperless Mobile can render notes using basic markdown syntax. Try it out!"
+  "youDoNotHaveUnseenDocuments": "Görüntülenmemiş belgeniz yok.",
+  "@youDoNotHaveUnseenDocuments": {},
+  "youHaveNoViewsOnYourDashboardYet": "You have not added any views to your dashboard yet.",
+  "youreOffline": "Çevrimdışısınız.",
+  "@youreOffline": {}
 }

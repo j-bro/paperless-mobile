@@ -1,4 +1,4 @@
-import 'package:paperless_api/src/request_utils.dart';
+import 'package:paperless_api/src/utils/request_utils.dart';
 
 class PaperlessServerInformationModel {
   static const String versionHeader = 'x-version';
@@ -16,7 +16,8 @@ class PaperlessServerInformationModel {
   });
 
   int compareToOtherVersion(String other) {
-    return getExtendedVersionNumber(version)
-        .compareTo(getExtendedVersionNumber(other));
+    return getExtendedVersionNumber(
+      version,
+    ).compareTo(getExtendedVersionNumber(other));
   }
 }

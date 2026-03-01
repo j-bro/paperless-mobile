@@ -9,7 +9,7 @@ on:
         description: "Google Play Track"
         type: choice
         default: beta
-        options: 
+        options:
           - internal
           - alpha
           - beta
@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Create build directory
-        run: mkdir -p /tmp/build 
+        run: mkdir -p /tmp/build
 
       - name: Extract branch name
         shell: bash
@@ -42,7 +42,7 @@ jobs:
         with:
           fetch-depth: 0
           submodules: recursive
-          
+
       - name: Copy files to build directory
         run: |
           mkdir -p /tmp/build
@@ -50,7 +50,7 @@ jobs:
 
       - name: Set FLUTTER_ROOT environment variable
         run: echo "FLUTTER_ROOT=$(pwd)/flutter/bin" >> $GITHUB_ENV
-          
+
       - run: $FLUTTER_ROOT/flutter doctor -v
 
       - name: Setup signing config
@@ -71,16 +71,15 @@ jobs:
       - name: Setup Fastlane
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "2.6"
+          ruby-version: "3.2"
           bundler-cache: true
           working-directory: /tmp/build/android
-      
+
       - name: Build and publish artifacts
         run: |
-            cd /tmp/build/android
-            bundle exec fastlane publish_in_play_store track:${{ github.event.inputs.track }} is_draft:${{ github.event.inputs.is_draft }} 
-            bundle exec fastlane github branch:${{ steps.extract_branch.outputs.branch }} is_draft:${{ github.event.inputs.is_draft }}
+          cd /tmp/build/android
+          bundle exec fastlane publish_in_play_store track:${{ github.event.inputs.track }} is_draft:${{ github.event.inputs.is_draft }} 
+          bundle exec fastlane github branch:${{ steps.extract_branch.outputs.branch }} is_draft:${{ github.event.inputs.is_draft }}
         env:
           PLAY_STORE_CREDENTIALS: ${{ secrets.PLAY_STORE_CREDENTIALS }}
           GH_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
-  

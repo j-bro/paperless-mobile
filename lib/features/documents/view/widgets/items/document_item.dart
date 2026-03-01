@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:paperless_api/paperless_api.dart';
+import 'package:paperless_api/generated/lib/src/model/document.dart';
 
 abstract class DocumentItem extends StatelessWidget {
-  final DocumentModel document;
-  final void Function(DocumentModel)? onTap;
-  final void Function(DocumentModel)? onSelected;
+  final Document document;
+  final void Function(Document)? onTap;
+  final void Function(Document)? onSelected;
   final bool isSelected;
   final bool isSelectionActive;
   final bool isLabelClickable;

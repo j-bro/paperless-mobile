@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_mobile/accessibility/accessibility_utils.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/helpers/connectivity_aware_action_wrapper.dart';
 import 'package:paperless_mobile/routing/routes/documents_route.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +11,7 @@ import 'package:shimmer/shimmer.dart';
 class DocumentPreview extends StatelessWidget {
   final int documentId;
   final String? title;
+  final String? mimeType;
   final BoxFit fit;
   final Alignment alignment;
   final double borderRadius;
@@ -28,33 +29,39 @@ class DocumentPreview extends StatelessWidget {
     this.scale = 1.1,
     this.isClickable = true,
     this.title,
+    this.mimeType,
   });
 
   @override
   Widget build(BuildContext context) {
+    final currentUser = context.loggedInUser$.paperlessUser;
+    debugPrint(mimeType);
     return ConnectivityAwareActionWrapper(
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: isClickable
             ? () => DocumentPreviewRoute(
-                  id: documentId,
-                  title: title,
-                ).push(context)
+                documentId: documentId,
+                title: title,
+                mimeType: mimeType,
+              ).push(context)
             : null,
-        child: Builder(builder: (context) {
-          if (enableHero) {
-            return Hero(
-              tag: "thumb_$documentId",
-              child: _buildPreview(context),
-            ).accessible();
-          }
-          return _buildPreview(context);
-        }),
+        child: Builder(
+          builder: (context) {
+            if (enableHero) {
+              return Hero(
+                tag: "thumb_$documentId",
+                child: _buildPreview(context, currentUser),
+              );
+            }
+            return _buildPreview(context, currentUser);
+          },
+        ),
       ),
     );
   }
 
-  Widget _buildPreview(BuildContext context) {
+  Widget _buildPreview(BuildContext context, User currentUser) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(borderRadius),
       child: Transform.scale(
@@ -63,9 +70,13 @@ class DocumentPreview extends StatelessWidget {
           fit: fit,
           alignment: alignment,
           cacheKey: "thumb_$documentId",
-          imageUrl:
-              context.read<PaperlessDocumentsApi>().getThumbnailUrl(documentId),
-          errorWidget: (ctxt, msg, __) => Text(msg),
+
+          imageUrl: currentUser.canViewDocuments
+              ? context.read<PaperlessDocumentsApi>().getThumbnailUrl(
+                  documentId,
+                )
+              : '',
+          errorWidget: (ctxt, msg, __) => SizedBox.shrink(),
           placeholder: (context, value) => Shimmer.fromColors(
             baseColor: Colors.grey[300]!,
             highlightColor: Colors.grey[100]!,
