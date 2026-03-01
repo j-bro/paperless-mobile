@@ -150,7 +150,7 @@ class DocumentPreviewRoute extends GoRouteData with $DocumentPreviewRoute {
 }
 
 class BulkEditExtraWrapper {
-  final List<Document> selection;
+  final Iterable<Document> selection;
   final LabelType type;
 
   const BulkEditExtraWrapper(this.selection, this.type);

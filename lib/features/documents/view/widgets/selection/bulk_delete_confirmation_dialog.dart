@@ -6,7 +6,7 @@ import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
 class BulkDeleteConfirmationDialog extends StatelessWidget {
   const BulkDeleteConfirmationDialog({super.key, required this.selection});
-  final List<Document> selection;
+  final Iterable<Document> selection;
   @override
   Widget build(BuildContext context) {
     assert(selection.isNotEmpty);

@@ -10,7 +10,7 @@ import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 class FullscreenBulkEditLabelPage extends StatefulWidget {
   final String hintText;
   final Map<int, Label> options;
-  final List<Document> selection;
+  final Iterable<Document> selection;
   final int? Function(Document document) labelMapper;
   final Widget leadingIcon;
   final void Function(int id) onSubmit;
@@ -156,7 +156,7 @@ class _FullscreenBulkEditLabelPageState<T extends Label>
       }
       if (shouldPerformAction) {
         widget.onSubmit(_selection!.label!);
-        if (mounted) context.pop();
+        if (mounted) context.pop(true);
       }
     }
   }

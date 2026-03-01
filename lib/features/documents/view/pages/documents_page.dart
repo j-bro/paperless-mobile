@@ -54,7 +54,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
 
   final _savedViewsExpansionController = ExpansibleController();
   bool _showExtendedFab = true;
-  final List<Document> _selection = [];
+  final Set<Document> _selection = {};
 
   @override
   void initState() {
@@ -447,9 +447,15 @@ class _DocumentsPageState extends State<DocumentsPage> {
                         ).push(context);
                       },
                       onSelected: (document) {
-                        setState(() {
-                          _selection.add(document);
-                        });
+                        if (_selection.contains(document)) {
+                          setState(() {
+                            _selection.remove(document);
+                          });
+                        } else {
+                          setState(() {
+                            _selection.add(document);
+                          });
+                        }
                       },
                       onTagSelected: allowToggleFilter
                           ? _toggleTagInFilter

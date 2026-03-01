@@ -66,11 +66,11 @@ part 'authenticated_route.g.dart';
                     ),
                   ],
                 ),
-                TypedGoRoute<BulkEditDocumentsRoute>(
-                  path: "bulk-edit",
-                  name: R.bulkEditDocuments,
-                ),
               ],
+            ),
+            TypedGoRoute<BulkEditDocumentsRoute>(
+              path: "/bulk-edit",
+              name: R.bulkEditDocuments,
             ),
           ],
         ),

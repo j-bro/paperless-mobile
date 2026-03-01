@@ -14,7 +14,7 @@ import 'package:paperless_mobile/features/document_bulk_action/view/widgets/conf
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
 class FullscreenBulkEditTagsWidget extends StatefulWidget {
-  final List<Document> selection;
+  final Iterable<Document> selection;
 
   const FullscreenBulkEditTagsWidget({super.key, required this.selection});
 
@@ -181,7 +181,7 @@ class _FullscreenBulkEditTagsWidgetState
           ) ??
           false;
       if (shouldPerformAction) {
-        bulkEditMutation.mutate(
+        await bulkEditMutation.mutate(
           BulkEditRequest(
             documents: widget.selection.ids,
             method: MethodEnum.modifyTags,
@@ -191,7 +191,9 @@ class _FullscreenBulkEditTagsWidgetState
             },
           ),
         );
-        if (mounted) context.pop();
+        if (mounted) {
+          context.pop(bulkEditMutation.state.isSuccess);
+        }
       }
     }
   }

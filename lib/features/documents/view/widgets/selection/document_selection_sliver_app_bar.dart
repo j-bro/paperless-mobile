@@ -9,7 +9,7 @@ import 'package:paperless_mobile/helpers/message_helpers.dart';
 import 'package:paperless_mobile/routing/routes/documents_route.dart';
 
 class DocumentSelectionSliverAppBar extends StatelessWidget {
-  final List<Document> selection;
+  final Iterable<Document> selection;
   final VoidCallback onResetSelection;
   const DocumentSelectionSliverAppBar({
     super.key,
@@ -80,7 +80,11 @@ class DocumentSelectionSliverAppBar extends StatelessWidget {
                 onPressed: () {
                   BulkEditDocumentsRoute(
                     BulkEditExtraWrapper(selection, LabelType.correspondent),
-                  ).push(context);
+                  ).push<bool>(context).then((wasSuccessful) {
+                    if (wasSuccessful ?? false) {
+                      onResetSelection();
+                    }
+                  });
                 },
               ).paddedOnly(left: 8, right: 4),
               ActionChip(
@@ -89,7 +93,11 @@ class DocumentSelectionSliverAppBar extends StatelessWidget {
                 onPressed: () async {
                   BulkEditDocumentsRoute(
                     BulkEditExtraWrapper(selection, LabelType.documentType),
-                  ).push(context);
+                  ).push<bool>(context).then((wasSuccessful) {
+                    if (wasSuccessful ?? false) {
+                      onResetSelection();
+                    }
+                  });
                 },
               ).paddedOnly(left: 8, right: 4),
               ActionChip(
@@ -98,7 +106,11 @@ class DocumentSelectionSliverAppBar extends StatelessWidget {
                 onPressed: () async {
                   BulkEditDocumentsRoute(
                     BulkEditExtraWrapper(selection, LabelType.storagePath),
-                  ).push(context);
+                  ).push<bool>(context).then((wasSuccessful) {
+                    if (wasSuccessful ?? false) {
+                      onResetSelection();
+                    }
+                  });
                 },
               ).paddedOnly(left: 8, right: 4),
               _buildBulkEditTagsChip(context).paddedOnly(left: 4, right: 4),
@@ -116,7 +128,11 @@ class DocumentSelectionSliverAppBar extends StatelessWidget {
       onPressed: () {
         BulkEditDocumentsRoute(
           BulkEditExtraWrapper(selection, LabelType.tag),
-        ).push(context);
+        ).push<bool>(context).then((wasSuccessful) {
+          if (wasSuccessful ?? false) {
+            onResetSelection();
+          }
+        });
       },
     );
   }
