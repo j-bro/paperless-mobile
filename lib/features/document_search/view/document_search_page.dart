@@ -6,7 +6,6 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_mobile/accessibility/accessibility_utils.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/repository/search_repository.dart';
@@ -98,7 +97,7 @@ class _DocumentSearchPageState extends State<DocumentSearchPage> {
               });
             },
           ),
-        ).accessible(),
+        ),
         actions: [
           IconButton(
             color: theme.colorScheme.onSurfaceVariant,
@@ -138,7 +137,7 @@ class _DocumentSearchPageState extends State<DocumentSearchPage> {
 
   Widget _buildSuggestionsView() {
     final searchHistory =
-        context.loggedInUserData$.appState.documentSearchHistory ?? [];
+        context.loggedInUserData$.appState.documentSearchHistory;
     final historyMatches = searchHistory
         .where((element) => element.startsWith(_searchTerm))
         .toList();

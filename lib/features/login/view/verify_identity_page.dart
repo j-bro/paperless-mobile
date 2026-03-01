@@ -14,6 +14,7 @@ class VerifyIdentityPage extends StatelessWidget {
     return Material(
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           elevation: 0,
           backgroundColor: Theme.of(context).colorScheme.surface,
           title: Text(S.of(context)!.verifyYourIdentity),

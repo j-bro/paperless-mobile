@@ -11,7 +11,6 @@ import 'package:paperless_mobile/features/settings/view/widgets/clear_storage_se
 import 'package:paperless_mobile/features/settings/view/widgets/color_scheme_option_setting.dart';
 import 'package:paperless_mobile/features/settings/view/widgets/default_download_file_type_setting.dart';
 import 'package:paperless_mobile/features/settings/view/widgets/default_share_file_type_setting.dart';
-import 'package:paperless_mobile/features/settings/view/widgets/disable_animations_setting.dart';
 import 'package:paperless_mobile/features/settings/view/widgets/enforce_pdf_upload_setting.dart';
 import 'package:paperless_mobile/features/settings/view/widgets/language_selection_setting.dart';
 import 'package:paperless_mobile/features/settings/view/widgets/skip_document_prepraration_on_share_setting.dart';
@@ -42,8 +41,6 @@ class SettingsPage extends StatelessWidget {
           const SkipDocumentPreprationOnShareSetting(),
           _buildSectionHeader(context, S.of(context)!.storage),
           const ClearCacheSetting(),
-          _buildSectionHeader(context, 'Accessibility'),
-          const DisableAnimationsSetting(),
           _buildSectionHeader(context, S.of(context)!.misc),
           const AppLogsTile(),
           const ChangelogsTile(),

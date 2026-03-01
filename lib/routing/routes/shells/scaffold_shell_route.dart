@@ -10,7 +10,11 @@ class ScaffoldShellRoute extends StatefulShellRouteData {
     StatefulNavigationShell navigationShell,
     List<Widget> children,
   ) {
-    return children[navigationShell.currentIndex];
+    return IndexedStack(
+      index: navigationShell.currentIndex,
+      children: children,
+    );
+    // return children[navigationShell.currentIndex];
   }
 
   @override

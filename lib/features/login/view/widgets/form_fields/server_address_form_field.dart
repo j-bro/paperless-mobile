@@ -89,7 +89,6 @@ class _ServerAddressFormFieldState extends State<ServerAddressFormField>
                           )
                         : null,
                   ),
-                  autofocus: true,
                   onFieldSubmitted: (_) {
                     _formatInput(field);
                     onFieldSubmitted();

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_mobile/accessibility/accessibility_utils.dart';
 import 'package:paperless_mobile/core/bloc/connectivity_cubit.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
@@ -277,7 +276,7 @@ class _DocumentDetailsPageState extends State<DocumentDetailsPage> {
                   ],
                 ),
               ),
-            ).accessible();
+            );
           },
         ),
       ),

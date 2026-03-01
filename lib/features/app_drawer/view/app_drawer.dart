@@ -40,38 +40,69 @@ class AppDrawer extends StatelessWidget {
                   width: 32,
                   height: 32,
                 ),
-                Text(
-                  "Paperless Mobile",
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                Text(
-                  'v$appVersion',
-                  style: Theme.of(context).textTheme.labelSmall,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Paperless Mobile",
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    Text(
+                      "$appVersion",
+                      style: Theme.of(context).textTheme.labelMedium,
+                    ),
+                  ],
                 ),
               ],
             ).paddedLTRB(8, 8, 8, 16),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  S.of(context)!.loggedInAs(username),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.onSurface.withAlpha(128),
-                  ),
+                Row(
+                  spacing: 8,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.person,
+                      size: 18,
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withAlpha(128),
+                    ),
+                    Text(
+                      S.of(context)!.loggedInAs(username),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withAlpha(128),
+                      ),
+                    ),
+                  ],
                 ),
-                Text(
-                  serverUrl,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.onSurface.withAlpha(128),
-                  ),
+                Row(
+                  spacing: 8,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.dns,
+                      size: 16,
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withAlpha(128),
+                    ),
+                    Text(
+                      serverUrl,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withAlpha(128),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ).paddedSymmetrically(horizontal: 16),
@@ -278,56 +309,7 @@ class AppDrawer extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 16),
-        Text(
-          'Credits',
-          style: theme.textTheme.titleMedium?.copyWith(
-            color: colorScheme.onSurface,
-          ),
-        ),
-        RichText(
-          text: TextSpan(
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: colorScheme.onSurface,
-            ),
-            children: [
-              const TextSpan(text: 'Onboarding images by '),
-              TextSpan(
-                text: 'pch.vector',
-                style: const TextStyle(color: Colors.blue),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () {
-                    launchUrlString(
-                      'https://www.freepik.com/free-vector/business-team-working-cogwheel-mechanism-together_8270974.htm#query=setting&position=4&from_view=author',
-                    );
-                  },
-              ),
-              const TextSpan(text: ' on Freepik.'),
-            ],
-          ),
-        ),
       ],
-    );
-  }
-
-  Widget _buildOnboardingImageCredits() {
-    return RichText(
-      text: TextSpan(
-        children: [
-          const TextSpan(text: 'Onboarding images by '),
-          TextSpan(
-            text: 'pch.vector',
-            style: const TextStyle(color: Colors.blue),
-            recognizer: TapGestureRecognizer()
-              ..onTap = () {
-                launchUrlString(
-                  'https://www.freepik.com/free-vector/business-team-working-cogwheel-mechanism-together_8270974.htm#query=setting&position=4&from_view=author',
-                );
-              },
-          ),
-          const TextSpan(text: ' on Freepik.'),
-        ],
-      ),
     );
   }
 }

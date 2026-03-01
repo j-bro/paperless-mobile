@@ -1,2 +1,0 @@
-- Support for API v9
-- Many bugfixes

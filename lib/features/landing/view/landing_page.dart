@@ -166,7 +166,7 @@ class _LandingPageState extends State<LandingPage> {
           }
           final stats = state.data!;
           return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Card(
                 color: Theme.of(context).colorScheme.surfaceContainerHighest,
@@ -213,12 +213,9 @@ class _LandingPageState extends State<LandingPage> {
                 ),
               ),
               if (stats.documentFileTypeCounts.isNotEmpty)
-                AspectRatio(
-                  aspectRatio: 1.3,
-                  child: SizedBox(
-                    width: 300,
-                    child: MimeTypesPieChart(statistics: stats),
-                  ),
+                SizedBox(
+                  width: 300,
+                  child: Flexible(child: MimeTypesPieChart(statistics: stats)),
                 ),
             ],
           ).padded(16);

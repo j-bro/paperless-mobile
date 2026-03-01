@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/accessibility/accessible_page.dart';
-import 'package:paperless_mobile/core/store/local_store.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/features/home/view/home_shell_widget.dart';
 import 'package:paperless_mobile/features/sharing/cubit/receive_share_cubit.dart';
 import 'package:paperless_mobile/features/sharing/view/widgets/event_listener_shell.dart';
@@ -128,11 +128,9 @@ class AuthenticatedRoute extends ShellRouteData {
     return accessiblePlatformPage(
       child: Builder(
         builder: (context) {
-          final localStoreState = context.watch<LocalStore>().state;
-          final currentUserId = localStoreState.loggedInAppUserId;
-          final authenticatedUser =
-              localStoreState.localUserData[currentUserId]?.localUser;
-          if (currentUserId == null || authenticatedUser == null) {
+          final currentUserId = context.loggedInAppUserId$;
+          final authenticatedUser = context.loggedInUser$;
+          if (currentUserId == null) {
             return const SizedBox.shrink();
           }
           return HomeShellWidget(

@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:paperless_api/paperless_api.dart';
-import 'package:paperless_mobile/accessibility/accessibility_utils.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/helpers/connectivity_aware_action_wrapper.dart';
 import 'package:paperless_mobile/routing/routes/documents_route.dart';
@@ -53,7 +52,7 @@ class DocumentPreview extends StatelessWidget {
               return Hero(
                 tag: "thumb_$documentId",
                 child: _buildPreview(context, currentUser),
-              ).accessible();
+              );
             }
             return _buildPreview(context, currentUser);
           },

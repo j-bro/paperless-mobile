@@ -79,18 +79,6 @@ class _ServerConnectionPageState extends State<ServerConnectionPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  //TODO: Move additional headers and client cert to separate page
-                  // IconButton.filledTonal(
-                  //   onPressed: () {
-                  //     Navigator.of(context).push(
-                  //       MaterialPageRoute(builder: (context) {
-                  //         return LoginSettingsPage();
-                  //       }),
-                  //     );
-                  //   },
-                  //   icon: Icon(Icons.settings),
-                  // ),
-                  SizedBox(width: 8),
                   BlocConsumer<ServerConnectionCubit, ServerConnectionState>(
                     listener: (context, state) {
                       if (state is ServerConnectionSuccess) {
