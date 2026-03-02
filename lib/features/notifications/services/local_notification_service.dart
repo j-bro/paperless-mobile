@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:open_filex/open_filex.dart';
+import 'package:open_file/open_file.dart';
 import 'package:paperless_api/generated/lib/src/model/status_enum.dart';
 import 'package:paperless_api/generated/lib/src/model/tasks_view.dart';
 import 'package:paperless_mobile/features/notifications/converters/notification_tap_response_payload.dart';
@@ -293,7 +293,7 @@ class LocalNotificationService {
         final payload = OpenDirectoryNotificationResponsePayload.fromJson(
           jsonDecode(response.payload!),
         );
-        OpenFilex.open(payload.filePath);
+        OpenFile.open(payload.filePath);
         break;
     }
   }
