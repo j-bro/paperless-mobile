@@ -20,7 +20,7 @@ class DocumentScannerCubit extends Cubit<DocumentScannerState> {
   final LocalNotificationService _notificationService;
 
   DocumentScannerCubit(this._notificationService)
-      : super(const DocumentScannerState());
+    : super(const DocumentScannerState());
 
   Future<void> initialize() async {
     logger.fd(
@@ -30,9 +30,13 @@ class DocumentScannerCubit extends Cubit<DocumentScannerState> {
     );
     emit(const DocumentScannerState(status: LoadingStatus.loading));
     final tempDir = FileService.instance.temporaryScansDirectory;
+    if (!await tempDir.exists()) {
+      await tempDir.create(recursive: true);
+    }
     final allFiles = tempDir.list().whereType<File>();
-    final scans =
-        await allFiles.where((event) => event.path.endsWith(".jpeg")).toList();
+    final scans = await allFiles
+        .where((event) => event.path.endsWith(".jpeg"))
+        .toList();
     logger.fd(
       "Restored ${scans.length} scans.",
       className: runtimeType.toString(),
@@ -46,10 +50,12 @@ class DocumentScannerCubit extends Cubit<DocumentScannerState> {
   }
 
   void addScan(File file) async {
-    emit(DocumentScannerState(
-      status: LoadingStatus.loaded,
-      scans: [...state.scans, file],
-    ));
+    emit(
+      DocumentScannerState(
+        status: LoadingStatus.loaded,
+        scans: [...state.scans, file],
+      ),
+    );
   }
 
   Future<void> removeScan(File file) async {
@@ -57,6 +63,12 @@ class DocumentScannerCubit extends Cubit<DocumentScannerState> {
       if (await file.exists()) {
         await file.delete();
       }
+      final scans = state.scans.where((f) => f != file).toList();
+      emit(
+        scans.isEmpty
+            ? const DocumentScannerState()
+            : DocumentScannerState(status: LoadingStatus.loaded, scans: scans),
+      );
     } catch (error, stackTrace) {
       throw InfoMessageException(
         code: ErrorCode.scanRemoveFailed,
@@ -64,15 +76,6 @@ class DocumentScannerCubit extends Cubit<DocumentScannerState> {
         stackTrace: stackTrace,
       );
     }
-    final scans = state.scans.where((f) => f != file).toList();
-    emit(
-      scans.isEmpty
-          ? const DocumentScannerState()
-          : DocumentScannerState(
-              status: LoadingStatus.loaded,
-              scans: scans,
-            ),
-    );
   }
 
   Future<void> reset() async {

@@ -146,10 +146,12 @@ class FileService {
     );
     await consumptionDir.delete(recursive: true);
     logger.ft(
-      "Removed $consumptionDirSize...",
+      "Removed $consumptionDirSize. Re-creating directories...",
       className: runtimeType.toString(),
       methodName: "clearUserData",
     );
+
+    await initialize();
   }
 
   Future<int> clearDirectoryContent(
