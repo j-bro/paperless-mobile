@@ -50,6 +50,11 @@ class _MimeTypesPieChartState extends State<MimeTypesPieChart> {
         .sortedBy((m) => m.mimeTypeCount)
         .reversed
         .toList();
+
+    if (orderedMimeTypes.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
     return Column(
       children: [
         SizedBox(
