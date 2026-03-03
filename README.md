@@ -133,6 +133,10 @@ Want to contribute? Have a look at [the contributing guidelines and how to get s
 
 ## Troubleshooting
 
+#### Uploading the document silently fails for larger files
+
+Most users run paperless-ngx behind a reverse proxy. Typically, the default upload limit is too low to upload larger files. To resolve this, the upload limit has to be increased (e.g. to 16MB). Also see [#502](https://github.com/astubenbord/paperless-mobile/issues/502).
+
 #### I cannot log in since paperless-ngx 1.14.0 (and above)
 
 The app requires information about the current user from the paperless API. As a result, the `Users -> View` and the `UISettings -> View` permissions are required for each user trying to log into the app. Otherwise, the app has no way of obtaining your user id and other information required for the usage of most features.
