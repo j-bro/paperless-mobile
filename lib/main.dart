@@ -33,6 +33,7 @@ import 'package:paperless_mobile/core/service/file_service.dart';
 import 'package:paperless_mobile/core/store/encrypted_local_store.dart';
 import 'package:paperless_mobile/core/store/encrypted_local_store_secure_storage_impl.dart';
 import 'package:paperless_mobile/core/store/local_store.dart';
+import 'package:paperless_mobile/features/error_widget/error_fallback_card.dart';
 import 'package:paperless_mobile/features/logging/data/formatted_printer.dart';
 import 'package:paperless_mobile/features/logging/data/logger.dart';
 import 'package:paperless_mobile/features/logging/data/mirrored_file_output.dart';
@@ -92,6 +93,8 @@ Future<void> initializeDefaultParameters() async {
 void main() async {
   runZonedGuarded(
     () async {
+      ErrorWidget.builder = (errorDetails) =>
+          ErrorFallbackCard(errorDetails: errorDetails);
       final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
       final defaultLocale = defaultPreferredLocale.languageCode;
       await initializeDefaultParameters();

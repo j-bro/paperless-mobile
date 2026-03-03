@@ -213,10 +213,7 @@ class _LandingPageState extends State<LandingPage> {
                 ),
               ),
               if (stats.documentFileTypeCounts.isNotEmpty)
-                SizedBox(
-                  width: 300,
-                  child: Flexible(child: MimeTypesPieChart(statistics: stats)),
-                ),
+                MimeTypesPieChart(statistics: stats),
             ],
           ).padded(16);
         },
