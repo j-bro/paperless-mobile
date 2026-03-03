@@ -1,0 +1,1 @@
+- Statistics are correctly displayed again

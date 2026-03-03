@@ -1,0 +1,1 @@
+- Statistiken werden wieder korrekt angezeigt
