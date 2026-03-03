@@ -16,8 +16,9 @@ import 'package:paperless_mobile/features/documents/view/widgets/delete_document
 import 'package:paperless_mobile/features/documents/view/widgets/document_preview.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/placeholder/tags_placeholder.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/placeholder/text_placeholder.dart';
+import 'package:paperless_mobile/features/labels/correspondent/view/widgets/correspondent_widget.dart';
+import 'package:paperless_mobile/features/labels/document_type/view/widgets/document_type_widget.dart';
 import 'package:paperless_mobile/features/labels/tags/view/widgets/tags_widget.dart';
-import 'package:paperless_mobile/features/labels/view/widgets/label_text.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/helpers/connectivity_aware_action_wrapper.dart';
 import 'package:paperless_mobile/helpers/message_helpers.dart';
@@ -141,6 +142,11 @@ class _InboxItemState extends State<InboxItem> {
 
   @override
   Widget build(BuildContext context) {
+    final formattedCreatedDate = widget.document.created != null
+        ? DateFormat.yMMMMd(
+            Localizations.localeOf(context).toString(),
+          ).format(widget.document.created!)
+        : null;
     return ChipTheme(
       data: Theme.of(context).chipTheme.copyWith(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
@@ -156,7 +162,7 @@ class _InboxItemState extends State<InboxItem> {
           ).push(context);
         },
         child: SizedBox(
-          height: 200,
+          height: 220,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -177,54 +183,47 @@ class _InboxItemState extends State<InboxItem> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          CorrespondentWidget(
+                            id: widget.document.correspondent,
+                            isClickable: false,
+                          ).paddedOnly(left: 8, right: 8, top: 8),
                           Text(
                             widget.document.title ?? '-',
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                             style: Theme.of(context).textTheme.titleSmall,
-                          ).paddedOnly(left: 8, right: 8, top: 8),
+                          ).paddedOnly(left: 8, right: 8),
                           const Spacer(),
-                          _buildTextWithLeadingIcon(
-                            Icon(
-                              Icons.person_outline,
-                              size: Theme.of(
-                                context,
-                              ).textTheme.bodyMedium?.fontSize,
-                            ),
-                            QueryBuilder(
-                              query: context.correspondentRepository
-                                  .getAllQuery(),
-                              builder: (context, state) {
-                                return LabelText(
-                                  label:
-                                      state.data?.toIdMap()[widget
-                                          .document
-                                          .correspondent],
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                  placeholder: " - ",
-                                );
-                              },
-                            ),
+                          Row(
+                            spacing: 4,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.description,
+                                size: 18,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurface.withAlpha(200),
+                              ),
+                              DocumentTypeWidget(
+                                id: widget.document.documentType,
+                                isClickable: false,
+                              ),
+                            ],
                           ).paddedSymmetrically(horizontal: 8),
-                          _buildTextWithLeadingIcon(
-                            Icon(
-                              Icons.description_outlined,
-                              size: Theme.of(
-                                context,
-                              ).textTheme.bodyMedium?.fontSize,
-                            ),
-                            QueryBuilder(
-                              query: context.documentTypeRepository
-                                  .getAllQuery(),
-                              builder: (context, state) {
-                                return LabelText<DocumentType>(
-                                  label: state.data
-                                      ?.toIdMap()[widget.document.documentType],
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                  placeholder: " - ",
-                                );
-                              },
-                            ),
+                          Row(
+                            spacing: 4,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.calendar_today,
+                                size: 18,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurface.withAlpha(200),
+                              ),
+                              Text(formattedCreatedDate ?? '-'),
+                            ],
                           ).paddedSymmetrically(horizontal: 8),
                           const Spacer(),
                           TagsWidget(
@@ -379,18 +378,6 @@ class _InboxItemState extends State<InboxItem> {
     );
   }
 
-  Row _buildTextWithLeadingIcon(Icon icon, Widget child) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        icon,
-        const SizedBox(width: 2),
-        Flexible(child: child),
-      ],
-    );
-  }
-
   Widget _buildSuggestionChips(BuildContext context) {
     return QueryBuilder(
       query: context.documentRepository.getFieldSuggestionsQuery(
@@ -535,7 +522,7 @@ class _InboxItemState extends State<InboxItem> {
                 )
                 .map(
                   (e) => ActionChip(
-                    avatar: const Icon(Icons.calendar_today_outlined),
+                    avatar: const Icon(Icons.calendar_today),
                     label: Text(
                       "${S.of(context)!.createdAt}: ${DateFormat.yMd().format(e)}",
                     ),
