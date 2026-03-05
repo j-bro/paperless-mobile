@@ -6,7 +6,6 @@ import 'package:paperless_api/paperless_api.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/extensions/label_list_extension.dart';
-import 'package:paperless_mobile/core/workarounds/colored_chip.dart';
 import 'package:paperless_mobile/features/labels/tags/view/widgets/fullscreen_tags_form.dart';
 import 'package:paperless_mobile/features/labels/view/widgets/query_label_option_chip.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
@@ -274,18 +273,16 @@ class TagsFormField extends StatelessWidget {
               if (suggestion == null) {
                 return const SizedBox.shrink();
               }
-              return ColoredChipWrapper(
-                child: ActionChip(
-                  label: Text(suggestion.name),
-                  onPressed: () {
-                    field.didChange(switch (field.value) {
-                      IdsTagsQuery(include: var include) => IdsTagsQuery(
-                        include: [...include, suggestion.id],
-                      ),
-                      _ => IdsTagsQuery(include: [suggestion.id]),
-                    });
-                  },
-                ),
+              return ActionChip(
+                label: Text(suggestion.name),
+                onPressed: () {
+                  field.didChange(switch (field.value) {
+                    IdsTagsQuery(include: var include) => IdsTagsQuery(
+                      include: [...include, suggestion.id],
+                    ),
+                    _ => IdsTagsQuery(include: [suggestion.id]),
+                  });
+                },
               );
             },
             separatorBuilder: (BuildContext context, int index) =>

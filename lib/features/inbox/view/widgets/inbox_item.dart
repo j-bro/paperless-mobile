@@ -11,7 +11,6 @@ import 'package:paperless_mobile/core/extensions/label_list_extension.dart';
 import 'package:paperless_mobile/core/repository/document_repository.dart';
 import 'package:paperless_mobile/core/widgets/icon_loading_widget.dart';
 import 'package:paperless_mobile/core/widgets/shimmer_placeholder.dart';
-import 'package:paperless_mobile/core/workarounds/colored_chip.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/delete_document_confirmation_dialog.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/document_preview.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/placeholder/tags_placeholder.dart';
@@ -229,7 +228,6 @@ class _InboxItemState extends State<InboxItem> {
                           TagsWidget(
                             tagIds: widget.document.tags,
                             isClickable: false,
-                            showShortNames: true,
                           ).paddedOnly(left: 8, bottom: 8),
                           const Spacer(),
                         ],
@@ -256,30 +254,36 @@ class _InboxItemState extends State<InboxItem> {
     final canEdit = currentUser.canEditDocuments;
     final canDelete = currentUser.canDeleteDocuments;
     final actions = [
+      if (canEdit)
+        ActionChip(
+          avatar: const Icon(Icons.edit_outlined),
+          label: Text(S.of(context)!.editDocument),
+          onPressed: () {
+            EditDocumentRoute(documentId: widget.document.id).push(context);
+          },
+        ).paddedOnly(right: 4),
       if (canEdit) _buildAssignAsnAction(context),
       // if (canEdit && canDelete) const SizedBox(width: 8.0),
       if (canDelete)
-        ColoredChipWrapper(
-          child: ActionChip(
-            avatar: const Icon(Icons.delete_outline),
-            label: Text(S.of(context)!.deleteDocument),
-            onPressed: () async {
-              final shouldDelete =
-                  await showDialog<bool>(
-                    context: context,
-                    builder: (context) => DeleteDocumentConfirmationDialog(
-                      document: widget.document,
-                    ),
-                  ) ??
-                  false;
-              if (shouldDelete && context.mounted) {
-                await context.documentRepository
-                    .deleteDocumentMutation(widget.document.id)
-                    .mutate();
-              }
-            },
-          ).paddedOnly(right: 4),
-        ),
+        ActionChip(
+          avatar: const Icon(Icons.delete_outline),
+          label: Text(S.of(context)!.deleteDocument),
+          onPressed: () async {
+            final shouldDelete =
+                await showDialog<bool>(
+                  context: context,
+                  builder: (context) => DeleteDocumentConfirmationDialog(
+                    document: widget.document,
+                  ),
+                ) ??
+                false;
+            if (shouldDelete && context.mounted) {
+              await context.documentRepository
+                  .deleteDocumentMutation(widget.document.id)
+                  .mutate();
+            }
+          },
+        ).paddedOnly(right: 4),
     ].map((a) => SliverToBoxAdapter(child: a)).toList();
 
     if (actions.isEmpty) {
@@ -379,6 +383,8 @@ class _InboxItemState extends State<InboxItem> {
   }
 
   Widget _buildSuggestionChips(BuildContext context) {
+    final chipColor = Theme.of(context).colorScheme.secondary;
+    final chipForegroundColor = Theme.of(context).colorScheme.onSecondary;
     return QueryBuilder(
       query: context.documentRepository.getFieldSuggestionsQuery(
         widget.document.id,
@@ -394,6 +400,7 @@ class _InboxItemState extends State<InboxItem> {
           );
         }
         final suggestions = state.data!;
+
         return SliverList.list(
           children: [
             ...suggestions.correspondents
@@ -404,8 +411,15 @@ class _InboxItemState extends State<InboxItem> {
                     builder: (context, state) {
                       final correspondents = state.data?.toIdMap();
                       return ActionChip(
-                        avatar: const Icon(Icons.person_outline),
-                        label: Text(correspondents?[e]?.name ?? ''),
+                        backgroundColor: chipColor,
+                        avatar: Icon(
+                          Icons.person_outline,
+                          color: chipForegroundColor,
+                        ),
+                        label: Text(
+                          correspondents?[e]?.name ?? '',
+                          style: TextStyle(color: chipForegroundColor),
+                        ),
                         onPressed: () async {
                           await context.documentRepository
                               .patchDocumentMutation(widget.document.id)
@@ -433,8 +447,15 @@ class _InboxItemState extends State<InboxItem> {
                     builder: (context, state) {
                       final documentTypes = state.data?.toIdMap();
                       return ActionChip(
-                        avatar: const Icon(Icons.description_outlined),
-                        label: Text(documentTypes?[e]?.name ?? ''),
+                        backgroundColor: chipColor,
+                        avatar: Icon(
+                          Icons.description_outlined,
+                          color: chipForegroundColor,
+                        ),
+                        label: Text(
+                          documentTypes?[e]?.name ?? '',
+                          style: TextStyle(color: chipForegroundColor),
+                        ),
                         onPressed: () async {
                           await context.documentRepository
                               .patchDocumentMutation(widget.document.id)
@@ -462,8 +483,15 @@ class _InboxItemState extends State<InboxItem> {
                     builder: (context, state) {
                       final tags = state.data?.toIdMap();
                       return ActionChip(
-                        avatar: const Icon(Icons.label_outline),
-                        label: Text(tags?[e]?.name ?? ''),
+                        backgroundColor: chipColor,
+                        avatar: Icon(
+                          Icons.label_outline,
+                          color: chipForegroundColor,
+                        ),
+                        label: Text(
+                          tags?[e]?.name ?? '',
+                          style: TextStyle(color: chipForegroundColor),
+                        ),
                         onPressed: () async {
                           await context.documentRepository
                               .patchDocumentMutation(widget.document.id)
@@ -494,8 +522,16 @@ class _InboxItemState extends State<InboxItem> {
                     builder: (context, state) {
                       final storagePaths = state.data?.toIdMap();
                       return ActionChip(
-                        avatar: const Icon(Icons.label_outline),
-                        label: Text(storagePaths?[e]?.name ?? ''),
+                        avatar: Icon(
+                          Icons.label_outline,
+                          color: chipForegroundColor,
+                        ),
+                        label: Text(
+                          storagePaths?[e]?.name ?? '',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSecondary,
+                          ),
+                        ),
                         onPressed: () async {
                           await context.documentRepository
                               .patchDocumentMutation(widget.document.id)
@@ -522,9 +558,13 @@ class _InboxItemState extends State<InboxItem> {
                 )
                 .map(
                   (e) => ActionChip(
-                    avatar: const Icon(Icons.calendar_today),
+                    avatar: Icon(
+                      Icons.calendar_today,
+                      color: chipForegroundColor,
+                    ),
                     label: Text(
                       "${S.of(context)!.createdAt}: ${DateFormat.yMd().format(e)}",
+                      style: TextStyle(color: chipForegroundColor),
                     ),
                     onPressed: () async {
                       await context.documentRepository
