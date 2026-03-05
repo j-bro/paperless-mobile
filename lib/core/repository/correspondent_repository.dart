@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:paperless_api/paperless_api.dart';
+import 'package:paperless_mobile/api/paperless_api.dart';
 import 'package:paperless_mobile/core/repository/crud_repository.dart';
 
 class CorrespondentRepository

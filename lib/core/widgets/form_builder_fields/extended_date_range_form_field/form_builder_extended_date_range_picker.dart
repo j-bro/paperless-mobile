@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
-import 'package:paperless_api/paperless_api.dart';
+import 'package:paperless_mobile/api/paperless_api.dart';
 import 'package:paperless_mobile/core/widgets/form_builder_fields/extended_date_range_form_field/extended_date_range_dialog.dart';
 import 'package:paperless_mobile/core/widgets/form_builder_fields/extended_date_range_form_field/relative_date_range_picker_helper.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
@@ -44,8 +44,9 @@ class _FormBuilderExtendedDateRangePickerState
       name: widget.name,
       initialValue: widget.initialValue,
       onChanged: (query) {
-        _textEditingController.text =
-            _dateRangeQueryToString(query ?? const UnsetDateRangeQuery());
+        _textEditingController.text = _dateRangeQueryToString(
+          query ?? const UnsetDateRangeQuery(),
+        );
         widget.onChanged?.call(query);
       },
       builder: (field) {
@@ -74,7 +75,7 @@ class _FormBuilderExtendedDateRangePickerState
             RelativeDateRangePickerHelper(
               field: field,
               padding: widget.padding,
-            )
+            ),
             // MediaQuery.removePadding(
             //context: context,
             //removeLeft: true,

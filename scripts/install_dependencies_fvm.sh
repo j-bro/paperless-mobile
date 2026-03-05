@@ -4,20 +4,8 @@ set -Euo pipefail
 __script_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 readonly __script_dir
 
-pushd "$__script_dir/../"
+cd "$__script_dir/../"
 
-for dir in packages/*/     # list directories in the form "/tmp/dirname/"
-do
-    pushd $dir
-    echo "Installing dependencies for $dir"
-    fvm flutter packages pub get
-    if grep -Fxq "build_runner" pubspec.yaml
-    then
-        fvm dart run build_runner build --delete-conflicting-outputs 
-    fi
-    popd
-done
-
-fvm flutter packages pub get
+fvm dart pub get
 fvm flutter gen-l10n
 fvm dart run build_runner build --delete-conflicting-outputs

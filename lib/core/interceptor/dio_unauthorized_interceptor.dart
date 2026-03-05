@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:paperless_api/paperless_api.dart';
+import 'package:paperless_mobile/api/paperless_api.dart';
 
 class DioUnauthorizedInterceptor extends Interceptor {
   @override

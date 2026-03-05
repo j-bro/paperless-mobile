@@ -7,4 +7,4 @@ readonly __script_dir
 cd "$__script_dir/../"
 echo "Uploading source translation file..."
 crowdin upload sources --identity=crowdin_credentials.yml --preserve-hierarchy
-flutter packages pub get
+dart pub get

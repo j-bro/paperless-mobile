@@ -6,3 +6,6 @@ targets:
           - lib/**.dart
           - test/**.dart
           - integration_test/src/mocks/**.dart
+      json_serializable:
+        options:
+          field_rename: snake

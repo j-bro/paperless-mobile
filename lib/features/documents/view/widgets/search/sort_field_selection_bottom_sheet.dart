@@ -2,7 +2,7 @@ import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:paperless_api/paperless_api.dart';
+import 'package:paperless_mobile/api/paperless_api.dart';
 import 'package:paperless_mobile/core/repository/correspondent_repository.dart';
 import 'package:paperless_mobile/core/repository/document_type_repository.dart';
 import 'package:paperless_mobile/core/translation/sort_field_localization_mapper.dart';
