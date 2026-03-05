@@ -12,7 +12,7 @@ import 'package:paperless_mobile/features/login/server_connection/cubit/server_c
 import 'package:paperless_mobile/features/login/server_connection/model/header_entry.dart';
 import 'package:paperless_mobile/features/login/server_connection/view/server_connection_page.dart';
 import 'package:paperless_mobile/features/login/set_active_user/set_active_user_page.dart';
-import 'package:paperless_mobile/features/login/view/login_to_existing_account_page.dart';
+import 'package:paperless_mobile/features/login/view/select_account_page.dart';
 import 'package:paperless_mobile/features/login/view/verify_identity_page.dart';
 import 'package:paperless_mobile/features/login/view/widgets/login_transition_page.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
@@ -230,7 +230,7 @@ class LoginToExistingAccountRoute extends GoRouteData
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return const NoTransitionPage(child: LoginToExistingAccountPage());
+    return const NoTransitionPage(child: SelectAccountPage());
   }
 }
 

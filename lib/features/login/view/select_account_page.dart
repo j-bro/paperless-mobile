@@ -6,8 +6,8 @@ import 'package:paperless_mobile/features/users/view/widgets/user_account_list_t
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/routing/routes/auth_route.dart';
 
-class LoginToExistingAccountPage extends StatelessWidget {
-  const LoginToExistingAccountPage({super.key});
+class SelectAccountPage extends StatelessWidget {
+  const SelectAccountPage({super.key});
 
   @override
   Widget build(BuildContext context) {
