@@ -238,33 +238,33 @@
   "@couldNotAcknowledgeTasks": {},
   "couldNotAssignArchiveSerialNumber": "Arhivi ni možno dodeliti serijske številku.",
   "@couldNotAssignArchiveSerialNumber": {},
-  "couldNotBulkEditDocuments": "Could not bulk edit documents, please try again.",
+  "couldNotBulkEditDocuments": "Dokumentov ni bilo mogoče množično urejati, poskusite znova.",
   "@couldNotBulkEditDocuments": {},
   "couldNotCreateCorrespondent": "Dopisnika ni bilo mogoče ustvariti, poskusi znova.",
   "@couldNotCreateCorrespondent": {},
-  "couldNotCreateCustomField": "Could not create custom field, please try again.",
+  "couldNotCreateCustomField": "Polja po meri ni bilo mogoče ustvariti, poskusite znova.",
   "couldNotCreateDocument": "Ni možno ustvariti dokumenta, poskusi ponovno.",
   "@couldNotCreateDocument": {},
-  "couldNotCreateNote": "Could not create note, please try again.",
+  "couldNotCreateNote": "Zapiska ni bilo mogoče ustvariti, poskusite znova.",
   "couldNotCreateSavedView": "Shranjenega pogleda ni bilo mogoče ustvariti, poskusi znova.",
   "@couldNotCreateSavedView": {},
   "couldNotCreateStoragePath": "Ni možno ustvariti shranjevalnega mesta, poskusi ponovno.",
   "@couldNotCreateStoragePath": {},
   "couldNotCreateTag": "Ni možno ustvariti oznak, poskusi ponovno.",
   "@couldNotCreateTag": {},
-  "couldNotCreateUser": "Could not create user, please try again.",
+  "couldNotCreateUser": "Uporabnika ni bilo mogoče ustvariti, poskusite znova.",
   "couldNotDeleteCorrespondent": "Dopisnika ni bilo možno izbrisati, poskusi ponovno.",
   "@couldNotDeleteCorrespondent": {
     "description": "Message shown in snackbar when a correspondent could not be deleted."
   },
-  "couldNotDeleteCustomField": "Could not delete custom field, please try again.",
+  "couldNotDeleteCustomField": "Polja po meri ni bilo mogoče izbrisati. Poskusite znova.",
   "couldNotDeleteDocument": "Ni možno izbrisati dokumenta, poskusi ponovono.",
   "@couldNotDeleteDocument": {},
   "couldNotDeleteDocumentType": "Tipa dokumenta ni bilo možno izbrisati, poskusi ponovno.",
   "@couldNotDeleteDocumentType": {
     "description": "Message shown when a document type could not be deleted"
   },
-  "couldNotDeleteNote": "Could not delete note, please try again.",
+  "couldNotDeleteNote": "Zapiska ni bilo mogoče izbrisati, poskusite znova.",
   "couldNotDeleteSavedView": "Ni možno izbrisati shranjenega pogleda, poskusi znova",
   "@couldNotDeleteSavedView": {},
   "couldNotDeleteStoragePath": "Mesta shranjevanja ni bilo možno izbrisati, poskusi ponovno.",
@@ -275,13 +275,13 @@
   "@couldNotDeleteTag": {
     "description": "Message shown when a tag could not be deleted"
   },
-  "couldNotDeleteUser": "Could not delete user, please try again.",
-  "couldNotDownloadDocuments": "Could not download documents, please try again.",
+  "couldNotDeleteUser": "Uporabnika ni bilo mogoče izbrisati, poskusite znova.",
+  "couldNotDownloadDocuments": "Dokumentov ni bilo mogoče prenesti, poskusite znova.",
   "couldNotEstablishConnectionToTheServer": "Ni možno vzpostaviti povezave s strežnikom.",
   "@couldNotEstablishConnectionToTheServer": {},
   "couldNotLoadCorrespondents": "Dopisnikov ni bilo mogoče naložiti.",
   "@couldNotLoadCorrespondents": {},
-  "couldNotLoadCustomField": "Could not load custom field.",
+  "couldNotLoadCustomField": "Polja po meri ni bilo mogoče naložiti.",
   "couldNotLoadDocumentPreview": "Ni možno naložiti predogleda dokumenta.",
   "@couldNotLoadDocumentPreview": {},
   "couldNotLoadDocuments": "Ni možno naložiti dokumentov, poskusi ponovno.",
@@ -289,7 +289,7 @@
   "couldNotLoadDocumentTypes": "Ni možno naložiti tipov dokumentov, poskusi ponovno.",
   "@couldNotLoadDocumentTypes": {},
   "couldNotLoadLogfileFrom": "Ne morem naložiti dnevnika iz {date}.",
-  "couldNotLoadPermissions": "Could not load permissions.",
+  "couldNotLoadPermissions": "Dovoljenj ni bilo mogoče naložiti.",
   "couldNotLoadSavedViews": "Ni možno naložiti shranjenih pogledov.",
   "@couldNotLoadSavedViews": {},
   "couldNotLoadServerInformation": "Informacije strežnika ni bilo možno naložiti.",
@@ -316,8 +316,8 @@
   "@couldNotLoadUISettings": {
     "description": "Message shown when the UI settings could not be loaded"
   },
-  "couldNotLoadUser": "Could not load user, please try again.",
-  "couldNotLoadUsers": "Could not load users, please try again.",
+  "couldNotLoadUser": "Uporabnika ni bilo mogoče naložiti, poskusite znova.",
+  "couldNotLoadUsers": "Uporabnikov ni bilo mogoče naložiti, poskusite znova.",
   "couldNotOpenFilePermissionDenied": "Ni možno odpreti datoteke: Pravica zavrnjena.",
   "@couldNotOpenFilePermissionDenied": {},
   "couldNotReachYourPaperlessServer": "Paperless strežnik ni dosegljiv, ali je zagnan in dostopen?",
@@ -326,7 +326,7 @@
   "@couldNotUpdateCorrespondent": {
     "description": "Message shown when a correspondent could not be updated"
   },
-  "couldNotUpdateCustomField": "Could not delete custom field, please try again.",
+  "couldNotUpdateCustomField": "Polja po meri ni bilo mogoče izbrisati. Poskusite znova.",
   "couldNotUpdateDocument": "Ni možno posodobiti dokumenta, poskusi ponovno.",
   "@couldNotUpdateDocument": {},
   "couldNotUpdateDocumentType": "Tipa dokumenta ni bilo možno posodobiti, poskusi ponovno.",
@@ -342,7 +342,7 @@
   "@couldNotUpdateTag": {
     "description": "Message shown when a tag could not be updated"
   },
-  "couldNotUpdateUser": "Could not update user, please try again.",
+  "couldNotUpdateUser": "Uporabnika ni bilo mogoče posodobiti, poskusite znova.",
   "couldNotUploadDocument": "Ni možno naložiti dokumenta, poskusi ponovno.",
   "@couldNotUploadDocument": {},
   "countSelected": "{count} izbrano",
@@ -422,8 +422,8 @@
       "name": {}
     }
   },
-  "disableAnimations": "Disable animations",
-  "disableAnimationsDescription": "Disables page transitions and most animations. Temporary workaround until system accessibility settings can be used.",
+  "disableAnimations": "Onemogoči animacije",
+  "disableAnimationsDescription": "Onemogoči prehode med stranmi in večino animacij. Začasna rešitev, dokler ni mogoče uporabiti sistemskih nastavitev dostopnosti.",
   "disableMatching": "Ne označuj dokumentov samodejno",
   "@disableMatching": {
     "description": "One of the options for automatic tagging of documents"
@@ -474,7 +474,7 @@
   "@documentType": {},
   "documentTypes": "Tipi dokumentov",
   "@documentTypes": {},
-  "documentUploadUploading": "Uploading...",
+  "documentUploadUploading": "Nalaganje...",
   "donate": "Donacija",
   "@donate": {
     "description": "Label of the in-app donate button"
@@ -582,7 +582,7 @@
   "@hostCouldNotBeResolved": {},
   "inbox": "Prejeto",
   "@inbox": {},
-  "inboxItemReloadSuggestions": "Reload suggestions",
+  "inboxItemReloadSuggestions": "Ponovno naloži predloge",
   "inboxTag": "Oznaka predalnika",
   "@inboxTag": {},
   "include": "Vključi",
@@ -698,7 +698,7 @@
     "description": "Label shown in the tabbar on details page"
   },
   "mfaCodeInvalidLengthValidationMessage": "Koda mora imeti 6 mest.",
-  "mfaCodeRequired": "MFA Code required",
+  "mfaCodeRequired": "Zahtevana je koda MFA",
   "mfaCodeRequiredValidationMessage": "Prosimo, vnesite kodo MFA.",
   "mfaFormFieldHint": "Vaš račun je zaščiten z dvofaktorsko avtentikacijo. Vnesite avtentikacijsko kodo:",
   "misc": "Razno",
@@ -804,7 +804,7 @@
   "@overview": {
     "description": "Label shown in the tabbar on details page"
   },
-  "owner": "Owner",
+  "owner": "Lastnik",
   "paperlessServerVersion": "Verzija strežnika Paperless",
   "@paperlessServerVersion": {},
   "passphrase": "Geslo",
@@ -999,7 +999,7 @@
   "@theme": {
     "description": "Title of the theme mode setting"
   },
-  "thereAreNoPendingFiles": "There are no pending files.",
+  "thereAreNoPendingFiles": "Ni čakajočih datotek.",
   "thereSeemsToBeNothingHere": "Tukaj ni ničesar...",
   "@thereSeemsToBeNothingHere": {},
   "thisActionIsIrreversibleDoYouWishToProceedAnyway": "Ta ukaz je nepovraten. Želiš kljub temu nadaljevati?",
@@ -1034,7 +1034,7 @@
   "@uploadScansAsPdf": {
     "description": "Title of the setting which toggles whether scans are always uploaded as pdf"
   },
-  "uploadStatusDocumentReceived": "Document received",
+  "uploadStatusDocumentReceived": "Dokument prejet",
   "uploadWithoutPromptingUploadForm": "Ko delite datoteke z aplikacijo, vedno naložite brez poziva k obrazcu za nalaganje.",
   "userAlreadyExists": "Ta uprabnik že obstaja.",
   "@userAlreadyExists": {

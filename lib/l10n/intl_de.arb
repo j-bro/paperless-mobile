@@ -11,7 +11,7 @@
   "@accounts": {
     "description": "Title of the account management dialog"
   },
-  "aClientCertificateWasExpectedButNotSent": "Ein Client Zerfitikat wurde erwartet, aber nicht gesendet. Bitte konfiguriere ein gültiges Zertifikat.",
+  "aClientCertificateWasExpectedButNotSent": "Ein Client-Zertifikat wurde erwartet, aber nicht gesendet. Bitte konfiguriere ein gültiges Zertifikat.",
   "@aClientCertificateWasExpectedButNotSent": {},
   "add": "Hinzufügen",
   "addAccount": "Account hinzufügen",
@@ -423,7 +423,7 @@
     }
   },
   "disableAnimations": "Animationen deaktivieren",
-  "disableAnimationsDescription": "Disables page transitions and most animations. Temporary workaround until system accessibility settings can be used.",
+  "disableAnimationsDescription": "Deaktiviert Seitenübergänge und die meisten Animationen. Temporäre Problemumgehung, bis Systemeinstellungen verwendet werden können.",
   "disableMatching": "Deaktiviere automatische Zuweisung",
   "@disableMatching": {
     "description": "One of the options for automatic tagging of documents"
@@ -474,7 +474,7 @@
   "@documentType": {},
   "documentTypes": "Dokumenttypen",
   "@documentTypes": {},
-  "documentUploadUploading": "Uploading...",
+  "documentUploadUploading": "Wird hochgeladen...",
   "donate": "Spenden",
   "@donate": {
     "description": "Label of the in-app donate button"
@@ -582,7 +582,7 @@
   "@hostCouldNotBeResolved": {},
   "inbox": "Posteingang",
   "@inbox": {},
-  "inboxItemReloadSuggestions": "Reload suggestions",
+  "inboxItemReloadSuggestions": "Vorschläge neu laden",
   "inboxTag": "Posteingangs-Tag",
   "@inboxTag": {},
   "include": "Einschließen",
@@ -698,7 +698,7 @@
     "description": "Label shown in the tabbar on details page"
   },
   "mfaCodeInvalidLengthValidationMessage": "Der Code muss aus 6 Ziffern bestehen.",
-  "mfaCodeRequired": "MFA Code required",
+  "mfaCodeRequired": "MFA Code erforderlich",
   "mfaCodeRequiredValidationMessage": "Bitte gib den MFA Code ein.",
   "mfaFormFieldHint": "Dein Konto ist durch Zwei-Faktor-Authentifizierung geschützt. Bitte gib einen Authentifizierungscode ein:",
   "misc": "Sonstige",
@@ -804,7 +804,7 @@
   "@overview": {
     "description": "Label shown in the tabbar on details page"
   },
-  "owner": "Owner",
+  "owner": "Eigentümer",
   "paperlessServerVersion": "Paperless Server-Version",
   "@paperlessServerVersion": {},
   "passphrase": "Passphrase",
@@ -999,7 +999,7 @@
   "@theme": {
     "description": "Title of the theme mode setting"
   },
-  "thereAreNoPendingFiles": "There are no pending files.",
+  "thereAreNoPendingFiles": "Es gibt keine ausstehenden Dateien.",
   "thereSeemsToBeNothingHere": "Es scheint nichts hier zu sein...",
   "@thereSeemsToBeNothingHere": {},
   "thisActionIsIrreversibleDoYouWishToProceedAnyway": "Diese Aktion ist unwiderruflich. Möchtest Du trotzdem fortfahren?",
@@ -1034,7 +1034,7 @@
   "@uploadScansAsPdf": {
     "description": "Title of the setting which toggles whether scans are always uploaded as pdf"
   },
-  "uploadStatusDocumentReceived": "Document received",
+  "uploadStatusDocumentReceived": "Dokument empfangen",
   "uploadWithoutPromptingUploadForm": "Mit der App geteilte Dateien immer direkt hochladen, ohne das Upload-Formular anzuzeigen.",
   "userAlreadyExists": "Dieser Nutzer existiert bereits.",
   "@userAlreadyExists": {
