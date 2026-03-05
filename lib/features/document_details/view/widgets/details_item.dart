@@ -17,6 +17,7 @@ class DetailsItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 4,
       children: [
         Text(label, style: Theme.of(context).textTheme.bodySmall),
         content,

@@ -13,7 +13,6 @@ import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/repository/document_repository.dart';
 import 'package:paperless_mobile/core/widgets/dialog_utils/pop_with_unsaved_changes.dart';
 import 'package:paperless_mobile/core/widgets/form_builder_fields/form_builder_localized_date_picker.dart';
-import 'package:paperless_mobile/core/workarounds/colored_chip.dart';
 import 'package:paperless_mobile/features/documents/view/pages/document_view.dart';
 import 'package:paperless_mobile/features/labels/tags/view/widgets/tags_form_field.dart';
 import 'package:paperless_mobile/features/labels/view/widgets/single_label_form_field.dart';
@@ -506,9 +505,8 @@ class _DocumentEditPageState extends State<DocumentEditPage>
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemCount: suggestions.length,
-            itemBuilder: (context, index) => ColoredChipWrapper(
-              child: itemBuilder(context, suggestions.elementAt(index)),
-            ),
+            itemBuilder: (context, index) =>
+                itemBuilder(context, suggestions.elementAt(index)),
             separatorBuilder: (BuildContext context, int index) =>
                 const SizedBox(width: 4.0),
           ),
