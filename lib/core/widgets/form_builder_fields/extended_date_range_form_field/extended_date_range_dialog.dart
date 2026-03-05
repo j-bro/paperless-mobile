@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
-import 'package:paperless_api/paperless_api.dart';
+import 'package:paperless_mobile/api/paperless_api.dart';
 import 'package:paperless_mobile/core/widgets/form_builder_fields/extended_date_range_form_field/form_builder_relative_date_range_field.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
@@ -9,10 +9,7 @@ import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 class ExtendedDateRangeDialog extends StatefulWidget {
   final DateRangeQuery initialValue;
 
-  const ExtendedDateRangeDialog({
-    super.key,
-    required this.initialValue,
-  });
+  const ExtendedDateRangeDialog({super.key, required this.initialValue});
 
   @override
   State<ExtendedDateRangeDialog> createState() =>
@@ -69,11 +66,11 @@ class _ExtendedDateRangeDialogState extends State<ExtendedDateRangeDialog> {
                       name: _fkRelative,
                       initialValue:
                           widget.initialValue is RelativeDateRangeQuery
-                              ? widget.initialValue as RelativeDateRangeQuery
-                              : const RelativeDateRangeQuery(
-                                  1,
-                                  DateRangeUnit.month,
-                                ),
+                          ? widget.initialValue as RelativeDateRangeQuery
+                          : const RelativeDateRangeQuery(
+                              1,
+                              DateRangeUnit.month,
+                            ),
                     );
                 }
               },
@@ -203,7 +200,4 @@ class _ExtendedDateRangeDialogState extends State<ExtendedDateRangeDialog> {
   }
 }
 
-enum DateRangeType {
-  absolute,
-  relative;
-}
+enum DateRangeType { absolute, relative }

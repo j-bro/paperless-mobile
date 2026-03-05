@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:paperless_api/paperless_api.dart';
+import 'package:paperless_mobile/api/paperless_api.dart';
 import 'package:paperless_mobile/core/repository/document_repository.dart';
 import 'package:printing/printing.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:paperless_api/generated/lib/src/model/document.dart';
+import 'package:paperless_mobile/api/models/document.dart';
 import 'package:paperless_mobile/core/widgets/highlighted_text.dart';
 
 class DocumentContentWidget extends StatelessWidget {

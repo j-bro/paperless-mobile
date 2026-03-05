@@ -888,22 +888,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.5.0"
-  http_methods:
-    dependency: transitive
-    description:
-      name: http_methods
-      sha256: "6bccce8f1ec7b5d701e7921dca35e202d425b57e317ba1a37f2638590e29e566"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.1"
-  http_mock_adapter:
-    dependency: transitive
-    description:
-      name: http_mock_adapter
-      sha256: "46399c78bd4a0af071978edd8c502d7aeeed73b5fb9860bca86b5ed647a63c1b"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.6.1"
   http_multi_server:
     dependency: transitive
     description:
@@ -990,13 +974,13 @@ packages:
     source: hosted
     version: "0.2.2+1"
   jiffy:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: jiffy
-      sha256: "9bafbfe6d97587048bf449165e050029e716a12438f54a3d39e7e3a256decdac"
+      sha256: e6f3b2aaec032f95ae917268edcbf007a5b834b57a602d39eb0ab17995a9c64a
       url: "https://pub.dev"
     source: hosted
-    version: "6.4.3"
+    version: "6.4.4"
   js:
     dependency: transitive
     description:
@@ -1165,13 +1149,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
-  mock_server:
-    dependency: "direct dev"
-    description:
-      path: "packages/mock_server"
-      relative: true
-    source: path
-    version: "0.0.1"
   mockito:
     dependency: "direct dev"
     description:
@@ -1300,13 +1277,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.1"
-  paperless_api:
-    dependency: "direct main"
-    description:
-      path: "packages/paperless_api"
-      relative: true
-    source: path
-    version: "1.0.0+1"
   path:
     dependency: "direct main"
     description:
@@ -1691,14 +1661,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.2"
-  shelf_router:
-    dependency: transitive
-    description:
-      name: shelf_router
-      sha256: f5e5d492440a7fb165fe1e2e1a623f31f734d3370900070b2b1e0d0428d59864
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.4"
   shelf_web_socket:
     dependency: transitive
     description:

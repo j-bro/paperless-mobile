@@ -2,7 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:paperless_api/paperless_api.dart';
+import 'package:paperless_mobile/api/paperless_api.dart';
 import 'package:paperless_mobile/core/extensions/label_list_extension.dart';
 import 'package:paperless_mobile/features/labels/view/widgets/multi_label_form.dart';
 import 'package:paperless_mobile/features/labels/view/widgets/query_label_option_chip.dart';

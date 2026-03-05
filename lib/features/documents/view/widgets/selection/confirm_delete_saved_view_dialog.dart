@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:paperless_api/generated/lib/src/model/saved_view.dart';
+import 'package:paperless_mobile/api/models/saved_view.dart';
 import 'package:paperless_mobile/core/widgets/dialog_utils/dialog_cancel_button.dart';
 import 'package:paperless_mobile/core/widgets/dialog_utils/dialog_confirm_button.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';

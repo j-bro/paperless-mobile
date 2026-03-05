@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:paperless_api/paperless_api.dart';
+import 'package:paperless_mobile/api/paperless_api.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
 String translateMatchingAlgorithmDescription(

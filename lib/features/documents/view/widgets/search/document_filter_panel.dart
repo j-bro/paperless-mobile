@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:paperless_api/paperless_api.dart';
+import 'package:paperless_mobile/api/paperless_api.dart';
 import 'package:paperless_mobile/features/documents/view/pages/documents_page.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/search/document_filter_form.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
@@ -39,8 +39,10 @@ class _DocumentFilterPanelState extends State<DocumentFilterPanel> {
 
   void animateTitleByDrag() {
     setState(
-      () => _heightAnimationValue =
-          dp(((max(0.9, widget.draggableSheetController.size) - 0.9) / 0.1), 5),
+      () => _heightAnimationValue = dp(
+        ((max(0.9, widget.draggableSheetController.size) - 0.9) / 0.1),
+        5,
+      ),
     );
   }
 
@@ -158,17 +160,16 @@ class _DocumentFilterPanelState extends State<DocumentFilterPanel> {
 
   void _resetFilter() async {
     FocusScope.of(context).unfocus();
-    Navigator.pop(
-      context,
-      DocumentFilterIntent(shouldReset: true),
-    );
+    Navigator.pop(context, DocumentFilterIntent(shouldReset: true));
   }
 
   void _onApplyFilter() async {
     _formKey.currentState?.save();
     if (_formKey.currentState?.validate() ?? false) {
-      DocumentFilter newFilter =
-          DocumentFilterForm.assembleFilter(_formKey, widget.initialFilter);
+      DocumentFilter newFilter = DocumentFilterForm.assembleFilter(
+        _formKey,
+        widget.initialFilter,
+      );
       FocusScope.of(context).unfocus();
       Navigator.pop(context, DocumentFilterIntent(filter: newFilter));
     }

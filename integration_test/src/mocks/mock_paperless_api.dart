@@ -1,5 +1,5 @@
 // import 'package:dio/src/dio.dart';
-// import 'package:paperless_api/paperless_api.dart';
+// import 'package:paperless_mobile/api/paperless_api.dart';
 // import 'package:paperless_mobile/core/factory/paperless_api_factory.dart';
 // import 'package:mockito/annotations.dart';
 
