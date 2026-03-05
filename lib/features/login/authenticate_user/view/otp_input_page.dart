@@ -28,7 +28,14 @@ class OtpInputPage extends StatefulWidget {
 }
 
 class _OtpInputPageState extends State<OtpInputPage> {
-  final _formKey = GlobalKey<FormState>();
+  final _controller = TextEditingController();
+  final _focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.requestFocus();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,92 +52,90 @@ class _OtpInputPageState extends State<OtpInputPage> {
       ),
     );
 
-    return Form(
-      key: _formKey,
-      child: BlocListener<AuthenticateUserCubit, AuthenticateUserState>(
-        listener: (context, state) {
-          switch (state) {
-            case AuthenticateUserError error:
-              if (error.nonFieldError != null) {
-                showSnackBar(context, error.nonFieldError!);
-              } else {
-                showGenericError(context, error.genericError);
-              }
-              _formKey.currentState?.reset();
-              break;
-            case AuthenticateUserSuccess state:
-              SetActiveUserRoute(
-                serverUrl: state.serverUrl,
-                username: state.username,
-                token: state.token,
-                $extra: AuthRouteExtra(
-                  additionalHeaders: state.additionalHeaders,
-                  clientCertificate: state.clientCertificate,
-                ),
-              ).go(context);
-              break;
-            default:
-              break;
-          }
-        },
-        child: Scaffold(
-          persistentFooterButtons: [AppLogsFooterWidget().padded()],
-          persistentFooterAlignment: AlignmentDirectional.center,
-          persistentFooterDecoration: BoxDecoration(),
-          appBar: AppBar(),
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            spacing: 16,
-            children: [
-              Text(
-                S.of(context)!.mfaFormFieldHint,
-                style: Theme.of(context).textTheme.labelLarge,
-                textAlign: TextAlign.center,
+    return BlocListener<AuthenticateUserCubit, AuthenticateUserState>(
+      listener: (context, state) {
+        switch (state) {
+          case AuthenticateUserError error:
+            if (error.nonFieldError != null) {
+              showSnackBar(context, error.nonFieldError!);
+            } else {
+              showGenericError(context, error.genericError);
+            }
+            _controller.clear();
+            _focusNode.requestFocus();
+            break;
+          case AuthenticateUserSuccess state:
+            SetActiveUserRoute(
+              serverUrl: state.serverUrl,
+              username: state.username,
+              token: state.token,
+              $extra: AuthRouteExtra(
+                additionalHeaders: state.additionalHeaders,
+                clientCertificate: state.clientCertificate,
               ),
-              AutofillGroup(
-                child: Pinput(
-                  autofocus: true,
-                  showCursor: false,
-                  length: 6,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return S.of(context)!.mfaCodeRequiredValidationMessage;
-                    }
-                    if (value.length != 6) {
-                      return S
-                          .of(context)!
-                          .mfaCodeInvalidLengthValidationMessage;
-                    }
-                    return null;
-                  },
-                  focusedPinTheme: defaultPinTheme.copyWith(
-                    decoration: defaultPinTheme.decoration?.copyWith(
-                      color: Theme.of(context).colorScheme.primaryContainer,
-                    ),
-                    textStyle: defaultPinTheme.textStyle?.copyWith(
-                      color: Theme.of(context).colorScheme.onPrimaryContainer,
-                    ),
-                  ),
-                  defaultPinTheme: defaultPinTheme,
-                  onCompleted: (value) {
-                    _onSubmit(value);
-                  },
-                ),
-              ),
-
-              BlocBuilder<AuthenticateUserCubit, AuthenticateUserState>(
-                builder: (context, state) {
-                  if (state is AuthenticateUserChecking) {
-                    return CircularProgressIndicator();
+            ).go(context);
+            break;
+          default:
+            break;
+        }
+      },
+      child: Scaffold(
+        persistentFooterButtons: [AppLogsFooterWidget().padded()],
+        persistentFooterAlignment: AlignmentDirectional.center,
+        persistentFooterDecoration: BoxDecoration(),
+        appBar: AppBar(),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          spacing: 16,
+          children: [
+            Text(
+              S.of(context)!.mfaFormFieldHint,
+              style: Theme.of(context).textTheme.labelLarge,
+              textAlign: TextAlign.center,
+            ),
+            AutofillGroup(
+              child: Pinput(
+                focusNode: _focusNode,
+                controller: _controller,
+                autofocus: true,
+                showCursor: false,
+                length: 6,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return S.of(context)!.mfaCodeRequiredValidationMessage;
                   }
-                  return SizedBox.shrink();
+                  if (value.length != 6) {
+                    return S.of(context)!.mfaCodeInvalidLengthValidationMessage;
+                  }
+                  return null;
+                },
+                focusedPinTheme: defaultPinTheme.copyWith(
+                  decoration: defaultPinTheme.decoration?.copyWith(
+                    color: Theme.of(context).colorScheme.primaryContainer,
+                  ),
+                  textStyle: defaultPinTheme.textStyle?.copyWith(
+                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  ),
+                ),
+                defaultPinTheme: defaultPinTheme,
+                onCompleted: (value) {
+                  _onSubmit(value);
                 },
               ),
-            ],
-          ).padded(16),
-        ),
+            ),
+
+            BlocBuilder<AuthenticateUserCubit, AuthenticateUserState>(
+              builder: (context, state) {
+                if (state is AuthenticateUserChecking) {
+                  return CircularProgressIndicator();
+                }
+                return SizedBox.shrink();
+              },
+            ),
+          ],
+        ).padded(16),
       ),
     );
   }
