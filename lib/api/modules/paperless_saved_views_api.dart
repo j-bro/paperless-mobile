@@ -1,7 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:paperless_mobile/api/models/patched_saved_view_request.dart';
-import 'package:paperless_mobile/api/models/saved_view.dart';
-import 'package:paperless_mobile/api/models/saved_view_request.dart';
 import 'package:paperless_mobile/api/models/models.dart';
 import 'package:paperless_mobile/api/modules/base_crud_api_impl_mixin.dart';
 import 'package:paperless_mobile/api/modules/crud_api.dart';

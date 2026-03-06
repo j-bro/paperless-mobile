@@ -48,7 +48,7 @@ class AppDrawer extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     Text(
-                      "$appVersion",
+                      appVersion,
                       style: Theme.of(context).textTheme.labelMedium,
                     ),
                   ],

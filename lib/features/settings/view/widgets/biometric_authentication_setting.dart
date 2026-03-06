@@ -22,12 +22,12 @@ class BiometricAuthenticationSetting extends StatelessWidget {
               .authenticateToToggleBiometricAuthentication(
                 val ? 'enable' : 'disable',
               );
-
+          final updateUserData = context.localStore.updateUserData;
           final isAuthenticated = await context
               .read<LocalAuthenticationService>()
               .authenticateLocalUser(localizedReason);
           if (isAuthenticated) {
-            context.localStore.updateUserData(
+            updateUserData(
               account.userId,
               (state) => state.copyWith(isBiometricAuthenticationEnabled: val),
             );

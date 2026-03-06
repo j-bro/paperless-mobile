@@ -7,7 +7,6 @@ import 'package:equatable/src/equatable_utils.dart';
 import 'package:json_annotation/json_annotation.dart';
 // ignore_for_file: unused_element
 import 'package:paperless_mobile/api/models/models.dart';
-import 'package:paperless_mobile/api/models/models.dart';
 
 part 'search_result.g.dart';
 

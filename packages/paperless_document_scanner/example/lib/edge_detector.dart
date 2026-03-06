@@ -76,7 +76,6 @@ class EdgeDetector {
     var completer = Completer<T>();
 
     sub = port.listen((result) async {
-      print(result);
       await sub.cancel();
       completer.complete(await result);
     });
