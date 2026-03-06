@@ -8,7 +8,7 @@ part 'local_user_app_state.g.dart';
 @freezed
 abstract class LocalUserAppState with _$LocalUserAppState {
   const factory LocalUserAppState({
-    @Default(DocumentFilter()) DocumentFilter currentDocumentFilter,
+    @Default(DocumentFilter.initial) DocumentFilter currentDocumentFilter,
     @Default([]) List<String> documentSearchHistory,
     @Default(ViewType.list) ViewType documentsPageViewType,
     @Default(ViewType.list) ViewType savedViewsViewType,
