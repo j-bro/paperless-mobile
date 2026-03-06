@@ -25,11 +25,13 @@ import 'package:paperless_mobile/constants.dart';
 import 'package:paperless_mobile/core/bloc/connectivity_cubit.dart';
 import 'package:paperless_mobile/core/bloc/my_bloc_observer.dart';
 import 'package:paperless_mobile/core/exception/server_message_exception.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/interceptor/language_header.interceptor.dart';
 import 'package:paperless_mobile/core/security/session_manager.dart';
 import 'package:paperless_mobile/core/security/session_manager_impl.dart';
 import 'package:paperless_mobile/core/service/connectivity_status_service.dart';
 import 'package:paperless_mobile/core/service/file_service.dart';
+import 'package:paperless_mobile/core/store/bloc/global_settings_builder.dart';
 import 'package:paperless_mobile/core/store/encrypted_local_store.dart';
 import 'package:paperless_mobile/core/store/encrypted_local_store_secure_storage_impl.dart';
 import 'package:paperless_mobile/core/store/local_store.dart';
@@ -357,81 +359,80 @@ class _GoRouterShellState extends State<GoRouterShell> {
 
   @override
   Widget build(BuildContext context) {
-    final preferredLocaleSubtag = context.select<LocalStore, String>(
-      (store) => store.state.globalSettings.preferredLocaleSubtag,
-    );
-    final colorScheme = context.select<LocalStore, ColorSchemeOption>(
-      (store) => store.state.globalSettings.preferredColorSchemeOption,
-    );
-    final themeMode = context.select<LocalStore, ThemeMode>(
-      (store) => store.state.globalSettings.preferredThemeMode,
-    );
-    final locale = _stringToLocale(preferredLocaleSubtag);
-    return DynamicColorBuilder(
-      builder: (lightDynamic, darkDynamic) {
-        return MaterialApp.router(
-          builder: (context, child) {
-            return AnnotatedRegion<SystemUiOverlayStyle>(
-              value: buildOverlayStyle(
-                Theme.of(context),
-                systemNavigationBarColor: Theme.of(context).colorScheme.surface,
+    return GlobalSettingsBuilder(
+      builder: (context, settings) {
+        final locale = _stringToLocale(settings.preferredLocaleSubtag);
+        return DynamicColorBuilder(
+          builder: (lightDynamic, darkDynamic) {
+            return MaterialApp.router(
+              builder: (context, child) {
+                return AnnotatedRegion<SystemUiOverlayStyle>(
+                  value: buildOverlayStyle(
+                    Theme.of(context),
+                    systemNavigationBarColor: Theme.of(
+                      context,
+                    ).colorScheme.surface,
+                  ),
+                  child: child!,
+                );
+              },
+              routerConfig: _router,
+              debugShowCheckedModeBanner: false,
+              title: "Paperless Mobile",
+              theme: buildTheme(
+                brightness: Brightness.light,
+                dynamicScheme: lightDynamic,
+                preferredColorScheme: settings.preferredColorSchemeOption,
               ),
-              child: child!,
+              darkTheme: buildTheme(
+                brightness: Brightness.dark,
+                dynamicScheme: darkDynamic,
+                preferredColorScheme: settings.preferredColorSchemeOption,
+              ),
+              themeMode: settings.preferredThemeMode,
+              supportedLocales: const [
+                Locale('en'),
+                Locale('de'),
+                Locale('en', 'GB'),
+                Locale('ca'),
+                Locale('cs'),
+                Locale('es'),
+                Locale('fr'),
+                Locale('pl'),
+                Locale('ru'),
+                Locale('tr'),
+                Locale('it'),
+                Locale('sl'),
+              ],
+              localeResolutionCallback: (locale, supportedLocales) {
+                if (locale == null) {
+                  return supportedLocales.first;
+                }
+
+                final exactMatch = supportedLocales
+                    .where(
+                      (element) =>
+                          element.languageCode == locale.languageCode &&
+                          element.countryCode == locale.countryCode,
+                    )
+                    .toList();
+                if (exactMatch.isNotEmpty) {
+                  return exactMatch.first;
+                }
+                final superLanguageMatch = supportedLocales
+                    .where(
+                      (element) => element.languageCode == locale.languageCode,
+                    )
+                    .toList();
+                if (superLanguageMatch.isNotEmpty) {
+                  return superLanguageMatch.first;
+                }
+                return supportedLocales.first;
+              },
+              locale: locale,
+              localizationsDelegates: S.localizationsDelegates,
             );
           },
-          routerConfig: _router,
-          debugShowCheckedModeBanner: false,
-          title: "Paperless Mobile",
-          theme: buildTheme(
-            brightness: Brightness.light,
-            dynamicScheme: lightDynamic,
-            preferredColorScheme: colorScheme,
-          ),
-          darkTheme: buildTheme(
-            brightness: Brightness.dark,
-            dynamicScheme: darkDynamic,
-            preferredColorScheme: colorScheme,
-          ),
-          themeMode: themeMode,
-          supportedLocales: const [
-            Locale('en'),
-            Locale('de'),
-            Locale('en', 'GB'),
-            Locale('ca'),
-            Locale('cs'),
-            Locale('es'),
-            Locale('fr'),
-            Locale('pl'),
-            Locale('ru'),
-            Locale('tr'),
-            Locale('it'),
-            Locale('sl'),
-          ],
-          localeResolutionCallback: (locale, supportedLocales) {
-            if (locale == null) {
-              return supportedLocales.first;
-            }
-
-            final exactMatch = supportedLocales
-                .where(
-                  (element) =>
-                      element.languageCode == locale.languageCode &&
-                      element.countryCode == locale.countryCode,
-                )
-                .toList();
-            if (exactMatch.isNotEmpty) {
-              return exactMatch.first;
-            }
-            final superLanguageMatch = supportedLocales
-                .where((element) => element.languageCode == locale.languageCode)
-                .toList();
-            if (superLanguageMatch.isNotEmpty) {
-              return superLanguageMatch.first;
-            }
-            return supportedLocales.first;
-          },
-          locale: locale,
-          localizationsDelegates: S.localizationsDelegates,
         );
       },
     );
