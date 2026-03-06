@@ -1,5 +1,6 @@
 import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/extensions/label_list_extension.dart';
 import 'package:paperless_mobile/core/repository/tag_repository.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +21,7 @@ class DocumentTypeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return QueryBuilder(
-      query: context.read<TagRepository>().getAllQuery(),
+      query: context.documentTypeRepository.getAllQuery(),
       builder: (context, state) => AbsorbPointer(
         absorbing: !isClickable,
         child: Material(
