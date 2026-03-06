@@ -21,7 +21,7 @@ class UiSettingsViewSettingsUpdateChecking {
   UiSettingsViewSettingsUpdateChecking({this.backendSetting});
 
   @JsonKey(name: r'backend_setting', required: false, includeIfNull: false)
-  final String? backendSetting;
+  final dynamic backendSetting;
 
   @override
   bool operator ==(Object other) {
