@@ -15,33 +15,55 @@ class InboxData {
 }
 
 class InboxRepository {
-  static const List<String> inboxQueryKeys = ['inbox_documents', 'tags'];
+  static const List<String> inboxQueryKeys = [
+    'inbox_documents',
+    'tags_inbox',
+    'inbox',
+    'inbox_count',
+  ];
 
+  final PaperlessDocumentsApi _documentsApi;
+  final PaperlessTagsApi _tagsApi;
   final DocumentRepository _documentsRepo;
   final TagRepository _tagsRepo;
 
-  InboxRepository(this._documentsRepo, this._tagsRepo) {
-    _documentsRepo.registerQueryKeyForInvalidation('inbox');
+  InboxRepository(
+    this._documentsApi,
+    this._tagsApi,
+    this._documentsRepo,
+    this._tagsRepo,
+  ) {
+    _tagsRepo.addOnChangeListener(_onTagsChanged);
+    _documentsRepo.addOnChangeListener(_onDocumentsChanged);
+  }
+
+  /// Call when this repository is no longer needed (e.g. on logout).
+  void dispose() {
+    _tagsRepo.removeOnChangeListener(_onTagsChanged);
+    _documentsRepo.removeOnChangeListener(_onDocumentsChanged);
+  }
+
+  void _onTagsChanged() {
+    _invalidateAllInboxQueries();
+  }
+
+  void _onDocumentsChanged() {
+    _invalidateAllInboxQueries();
+  }
+
+  void _invalidateAllInboxQueries() {
+    for (final key in inboxQueryKeys) {
+      CachedQuery.instance.invalidateCache(key: key);
+    }
   }
 
   Query<List<Tag>> get inboxTagsQuery {
     return Query<List<Tag>>(
       key: 'tags_inbox',
       queryFn: () async {
-        final tags = await _tagsRepo.getAllQuery().fetch();
-        return tags.data?.where((tag) => tag.isInboxTag).toList() ?? [];
+        final tags = await _tagsApi.getAll();
+        return tags.where((tag) => tag.isInboxTag).toList();
       },
-    );
-  }
-
-  Future<DocumentFilter> buildInboxFilter([int page = 1]) async {
-    final inboxTags = await inboxTagsQuery.fetch().then(
-      (state) => state.data ?? <Tag>[],
-    );
-
-    return DocumentFilter(
-      page: page,
-      tags: AnyAssignedTagsQuery(tagIds: inboxTags.map((e) => e.id).toList()),
     );
   }
 
@@ -49,23 +71,28 @@ class InboxRepository {
     await CachedQuery.instance.refetchQueries(
       keys: InboxRepository.inboxQueryKeys,
     );
-    await inboxDocumentsQuery.refetch();
   }
 
   InfiniteQuery<PaginatedDocumentList, int> get inboxDocumentsQuery {
     return InfiniteQuery(
       key: 'inbox',
       queryFn: (page) async {
-        final filter = await buildInboxFilter(page);
-        final response = await _documentsRepo
-            .getAllQuery(filter: filter, overrideKey: 'inbox_documents')
-            .fetch();
-        return response.data!.lastPage!;
+        final inboxTags = await inboxTagsQuery.fetch();
+        if (inboxTags.data?.isEmpty ?? true) {
+          return PaginatedDocumentList(count: 0, results: []);
+        }
+        final filter = DocumentFilter(
+          page: page,
+          tags: AnyAssignedTagsQuery(
+            tagIds: inboxTags.data!.map((e) => e.id).toList(),
+          ),
+        );
+        return await _documentsApi.getAll(filter);
       },
       getNextArg: (state) {
         if (state == null) return 1;
         final currentCount = state.args.length * DocumentFilter().pageSize;
-        final totalCount = state.lastPage?.results.length ?? 0;
+        final totalCount = state.lastPage?.count ?? 0;
         if (currentCount >= totalCount) {
           return null;
         }
@@ -88,13 +115,8 @@ class InboxRepository {
           fields: ['id', 'tags'],
           tags: AnyAssignedTagsQuery(tagIds: inboxTags.toList()),
         );
-        final documentsResult = await _documentsRepo
-            .getAllQuery(filter: filter, overrideKey: 'inbox_documents_count')
-            .fetch();
-        if (documentsResult.isError) {
-          throw documentsResult.error!;
-        }
-        return documentsResult.data!.pages.first.count;
+        final result = await _documentsApi.getAll(filter);
+        return result.count;
       },
     );
   }
@@ -106,13 +128,26 @@ class InboxRepository {
     return Mutation(
       key: 'clear_inbox',
       mutationFn: (_) async {
-        final allDocuments = await _documentsRepo
-            .getAllQuery(filter: await buildInboxFilter())
-            .fetch();
         final inboxTags = await inboxTagsQuery.fetch().then(
           (state) => state.data ?? <Tag>[],
         );
-        final documentIds = allDocuments.data?.firstPage?.all ?? [];
+        if (inboxTags.isEmpty) {
+          logger.fw(
+            'No inbox tags found, skipping clear inbox mutation',
+            className: runtimeType.toString(),
+            methodName: 'clearInboxMutation',
+          );
+          return BulkEditDocumentsResult(result: '');
+        }
+        final allDocuments = await _documentsApi.getAll(
+          DocumentFilter(
+            fields: ['id', 'tags'],
+            tags: AnyAssignedTagsQuery(
+              tagIds: inboxTags.map((e) => e.id).toList(),
+            ),
+          ),
+        );
+        final documentIds = allDocuments.all ?? [];
         final request = BulkEditRequest(
           documents: documentIds,
           method: MethodEnum.modifyTags,
@@ -121,10 +156,7 @@ class InboxRepository {
             'add_tags': [],
           },
         );
-        final result = await _documentsRepo.bulkEditDocumentsMutation().mutate(
-          request,
-        );
-        return result.data!;
+        return await _documentsApi.bulkEditDocuments(request);
       },
       refetchQueries: ['inbox'],
       invalidateQueries: ['inbox_documents', 'inbox_count'],
@@ -144,7 +176,7 @@ class InboxRepository {
           document.tags.toSet(),
         );
 
-        await _documentsRepo.bulkEditDocumentsMutation().mutate(
+        await _documentsApi.bulkEditDocuments(
           BulkEditRequest(
             documents: [document.id],
             method: MethodEnum.modifyTags,
@@ -197,13 +229,12 @@ class InboxRepository {
           );
           return;
         }
-        await _documentsRepo
-            .patchDocumentMutation(doc.id)
-            .mutate(
-              PatchedDocumentRequest(
-                tags: PatchedValue(<int>{...doc.tags, ...removedTags}.toList()),
-              ),
-            );
+        await _documentsApi.patch(
+          doc.id,
+          PatchedDocumentRequest(
+            tags: PatchedValue(<int>{...doc.tags, ...removedTags}.toList()),
+          ),
+        );
       },
       refetchQueries: ['inbox_documents', 'inbox', 'inbox_count'],
     );

@@ -137,8 +137,13 @@ class HomeShellWidget extends StatelessWidget {
               create: (context) => CustomFieldsRepository(context.read()),
             ),
             Provider(
-              create: (context) =>
-                  InboxRepository(context.read(), context.read()),
+              create: (context) => InboxRepository(
+                context.read(),
+                context.read(),
+                context.read(),
+                context.read(),
+              ),
+              dispose: (_, repo) => repo.dispose(),
             ),
             ChangeNotifierProvider(
               create: (context) => PendingTasksNotifier(context.read()),

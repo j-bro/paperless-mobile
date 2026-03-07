@@ -11,7 +11,8 @@ import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
 class AddTagPage extends StatelessWidget {
   final String? initialName;
-  const AddTagPage({super.key, this.initialName});
+  final bool isInboxTag;
+  const AddTagPage({super.key, this.initialName, this.isInboxTag = false});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,7 @@ class AddTagPage extends StatelessWidget {
         ),
         FormBuilderField<bool>(
           name: Tag.isInboxTagKey,
-          initialValue: false,
+          initialValue: isInboxTag,
           builder: (field) {
             return CheckboxListTile(
               value: field.value,

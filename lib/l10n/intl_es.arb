@@ -360,6 +360,7 @@
   "@createFromCurrentFilter": {
     "description": "Tooltip of the \"New saved view\" button"
   },
+  "createInboxTag": "Create inbox tag",
   "createsASavedViewBasedOnTheCurrentFilterCriteria": "Crea una nueva vista basada en el actual criterio de filtrado.",
   "@createsASavedViewBasedOnTheCurrentFilterCriteria": {},
   "createViewsToQuicklyFilterYourDocuments": "Crea vistas para filtrar rápidamente tus documentos.",
@@ -652,8 +653,11 @@
   "loadFullContent": "Cargar el contenido completo",
   "@loadFullContent": {},
   "loadInboxItemSuggestions": "Load suggestions",
+  "@loadInboxItemSuggestions": {},
   "loadingLogsFrom": "Cargando registros desde {date}...",
+  "@loadingLogsFrom": {},
   "logfileBottomReached": "Has alcanzado el final del archivo de registro.",
+  "@logfileBottomReached": {},
   "loggedInAs": "Conectado como {name}",
   "@loggedInAs": {
     "placeholders": {
@@ -661,6 +665,7 @@
     }
   },
   "loggingOut": "Cerrando sesión...",
+  "@loggingOut": {},
   "loginPageReachabilityMissingClientCertificateText": "Se esperaba un certificado de cliente pero no se ha enviado. Proporcione un certificado de cliente válido.",
   "@loginPageReachabilityMissingClientCertificateText": {},
   "loginPageSignInTitle": "Iniciar sesión",
@@ -698,10 +703,15 @@
     "description": "Label shown in the tabbar on details page"
   },
   "mfaCodeInvalidLengthValidationMessage": "Code must be 6 digits.",
+  "@mfaCodeInvalidLengthValidationMessage": {},
   "mfaCodeRequired": "MFA Code required",
+  "@mfaCodeRequired": {},
   "mfaCodeRequiredValidationMessage": "Please enter the MFA code.",
+  "@mfaCodeRequiredValidationMessage": {},
   "mfaFormFieldHint": "Your account is protected by two-factor authentication. Please enter an authentication code:",
+  "@mfaFormFieldHint": {},
   "misc": "Otros",
+  "@misc": {},
   "missingPermissions": "No tiene los permisos necesarios para realizar esta acción.",
   "@missingPermissions": {
     "description": "Message shown in a snackbar when a user without the reequired permissions performs an action."
@@ -719,7 +729,9 @@
   "newDocumentAvailable": "¡Nuevo documento disponible!",
   "@newDocumentAvailable": {},
   "newerVersionAvailable": "Versión más reciente disponible:",
+  "@newerVersionAvailable": {},
   "newNote": "Nueva nota",
+  "@newNote": {},
   "newView": "Nueva vista",
   "@newView": {},
   "next": "Siguiente",
@@ -742,9 +754,12 @@
   "@noDocumentsScannedYet": {},
   "noDocumentTypesSetUp": "Parece que no tienes ningún tipo de documento configurado.",
   "@noDocumentTypesSetUp": {},
+  "noInboxTagsSetUpHint": "Inbox tags are automatically assigned to newly received documents. Create one and those documents will start appearing here for review.",
+  "@noInboxTagsSetUpHint": {},
   "noItemsFound": "¡No se han encontrado elementos!",
   "@noItemsFound": {},
   "noLogsFoundOn": "No se encontraron registros en {date}.",
+  "@noLogsFoundOn": {},
   "noMatchesFound": "No se encontraron documentos.",
   "@noMatchesFound": {
     "description": "Displayed when no documents were found in the document search."
@@ -912,6 +927,7 @@
   "@serverAddressMustNotBeEmpty": {},
   "settings": "Ajustes",
   "@settings": {},
+  "setUpYourInbox": "Set up your inbox first",
   "shareTooltip": "Compartir",
   "@shareTooltip": {
     "description": "Tooltip shown for the share button on details page"

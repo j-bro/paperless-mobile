@@ -101,7 +101,7 @@ class _DocumentNotesWidgetState extends State<DocumentNotesWidget> {
                           widget.documentId,
                         ),
                         builder: (context, state, addNote) {
-                          return ElevatedButton.icon(
+                          return FilledButton.tonalIcon(
                             icon: switch (state) {
                               MutationLoading() => SizedBox.square(
                                 dimension: 20,

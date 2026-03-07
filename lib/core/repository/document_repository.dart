@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:paperless_mobile/api/paperless_api.dart';
+import 'package:paperless_mobile/core/repository/change_notifier_mixin.dart';
 import 'package:paperless_mobile/core/service/file_service.dart';
 import 'package:paperless_mobile/features/logging/data/logger.dart';
 import 'package:path/path.dart' as p;
@@ -14,17 +15,11 @@ class AssignAsnRequest {
   AssignAsnRequest({this.asn, required this.auto});
 }
 
-class DocumentRepository {
+class DocumentRepository with ChangeNotifierMixin {
   final PaperlessDocumentsApi _api;
   final Set<String> _cachedDocumentQueriesToInvalidate = {};
 
   DocumentRepository(this._api);
-
-  /// Registers an external query key so it will be invalidated whenever
-  /// document-mutating operations (patch, put, bulk edit, delete, …) complete.
-  void registerQueryKeyForInvalidation(String key) {
-    _cachedDocumentQueriesToInvalidate.add(key);
-  }
 
   String queryKeyForFilter(DocumentFilter? filter, [String? overrideKey]) {
     if (overrideKey != null) {
@@ -48,7 +43,7 @@ class DocumentRepository {
       queryFn: (page) async {
         try {
           final response = await _api.getAll(
-            (filter ?? DocumentFilter()).copyWith(page: page),
+            (filter ?? DocumentFilter()).copyWith(page: page, pageSize: 25),
           );
           return response;
         } catch (e) {
@@ -175,6 +170,7 @@ class DocumentRepository {
           );
           query?.invalidate();
         }
+        notifyChangeListeners();
       },
       invalidateQueries: [..._cachedDocumentQueriesToInvalidate],
     );
@@ -218,6 +214,9 @@ class DocumentRepository {
       key: 'delete_document/$id',
       mutationFn: (_) {
         return _api.delete(id);
+      },
+      onSuccess: (res, arg) {
+        notifyChangeListeners();
       },
       invalidateQueries: [
         'document/$id',
@@ -347,7 +346,7 @@ class DocumentRepository {
         }
       },
       onSuccess: (res, arg) {
-        debugPrint('test');
+        notifyChangeListeners();
       },
       invalidateQueries: [
         'document/$id',
@@ -373,6 +372,9 @@ class DocumentRepository {
                 Document.fromJson({...currentData!.toJson(), ...arg.toJson()}),
           );
         }
+      },
+      onSuccess: (res, arg) {
+        notifyChangeListeners();
       },
       invalidateQueries: [
         'document/$id',

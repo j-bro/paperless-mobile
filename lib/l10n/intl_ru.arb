@@ -360,6 +360,7 @@
   "@createFromCurrentFilter": {
     "description": "Tooltip of the \"New saved view\" button"
   },
+  "createInboxTag": "Create inbox tag",
   "createsASavedViewBasedOnTheCurrentFilterCriteria": "Создает новый вид на основе текущих критериев фильтра.",
   "@createsASavedViewBasedOnTheCurrentFilterCriteria": {},
   "createViewsToQuicklyFilterYourDocuments": "Создавайте виды для быстрой фильтрации документов.",
@@ -652,8 +653,11 @@
   "loadFullContent": "Загрузить полный контент",
   "@loadFullContent": {},
   "loadInboxItemSuggestions": "Load suggestions",
+  "@loadInboxItemSuggestions": {},
   "loadingLogsFrom": "Загрузка логов за {date}...",
+  "@loadingLogsFrom": {},
   "logfileBottomReached": "Вы достигли конца лога.",
+  "@logfileBottomReached": {},
   "loggedInAs": "Вход выполнен как {name}",
   "@loggedInAs": {
     "placeholders": {
@@ -661,6 +665,7 @@
     }
   },
   "loggingOut": "Выполняется выход...",
+  "@loggingOut": {},
   "loginPageReachabilityMissingClientCertificateText": "Ожидался сертификат клиента, но он не отправлен. Пожалуйста, предоставьте сертификат.",
   "@loginPageReachabilityMissingClientCertificateText": {},
   "loginPageSignInTitle": "Войти",
@@ -698,10 +703,15 @@
     "description": "Label shown in the tabbar on details page"
   },
   "mfaCodeInvalidLengthValidationMessage": "Code must be 6 digits.",
+  "@mfaCodeInvalidLengthValidationMessage": {},
   "mfaCodeRequired": "MFA Code required",
+  "@mfaCodeRequired": {},
   "mfaCodeRequiredValidationMessage": "Please enter the MFA code.",
+  "@mfaCodeRequiredValidationMessage": {},
   "mfaFormFieldHint": "Your account is protected by two-factor authentication. Please enter an authentication code:",
+  "@mfaFormFieldHint": {},
   "misc": "Прочее",
+  "@misc": {},
   "missingPermissions": "У вас нет необходимых разрешений для выполнения этого действия.",
   "@missingPermissions": {
     "description": "Message shown in a snackbar when a user without the reequired permissions performs an action."
@@ -719,7 +729,9 @@
   "newDocumentAvailable": "Доступен новый документ!",
   "@newDocumentAvailable": {},
   "newerVersionAvailable": "Доступна новая версия:",
+  "@newerVersionAvailable": {},
   "newNote": "Новая заметка",
+  "@newNote": {},
   "newView": "Новый вид",
   "@newView": {},
   "next": "Следующее",
@@ -742,9 +754,12 @@
   "@noDocumentsScannedYet": {},
   "noDocumentTypesSetUp": "Похоже, у вас нет каких-либо типов документов.",
   "@noDocumentTypesSetUp": {},
+  "noInboxTagsSetUpHint": "Inbox tags are automatically assigned to newly received documents. Create one and those documents will start appearing here for review.",
+  "@noInboxTagsSetUpHint": {},
   "noItemsFound": "Элементы не найдены!",
   "@noItemsFound": {},
   "noLogsFoundOn": "Логи не найдены за {date}.",
+  "@noLogsFoundOn": {},
   "noMatchesFound": "Ничего не найдено.",
   "@noMatchesFound": {
     "description": "Displayed when no documents were found in the document search."
@@ -912,6 +927,7 @@
   "@serverAddressMustNotBeEmpty": {},
   "settings": "Настройки",
   "@settings": {},
+  "setUpYourInbox": "Set up your inbox first",
   "shareTooltip": "Поделиться",
   "@shareTooltip": {
     "description": "Tooltip shown for the share button on details page"

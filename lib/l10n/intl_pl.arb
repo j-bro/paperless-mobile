@@ -360,6 +360,7 @@
   "@createFromCurrentFilter": {
     "description": "Tooltip of the \"New saved view\" button"
   },
+  "createInboxTag": "Create inbox tag",
   "createsASavedViewBasedOnTheCurrentFilterCriteria": "Tworzy nowy widok oparty na aktualnych kryteriach filtrowania.",
   "@createsASavedViewBasedOnTheCurrentFilterCriteria": {},
   "createViewsToQuicklyFilterYourDocuments": "Utwórz widoki by szybko filtrować dokumenty.",
@@ -652,8 +653,11 @@
   "loadFullContent": "Załaduj pełną treść",
   "@loadFullContent": {},
   "loadInboxItemSuggestions": "Load suggestions",
+  "@loadInboxItemSuggestions": {},
   "loadingLogsFrom": "Ładowanie logów z {date}...",
+  "@loadingLogsFrom": {},
   "logfileBottomReached": "Osiągnąłeś dół tego pliku dziennika.",
+  "@logfileBottomReached": {},
   "loggedInAs": "Zalogowano jako {name}",
   "@loggedInAs": {
     "placeholders": {
@@ -661,6 +665,7 @@
     }
   },
   "loggingOut": "Wylogowywanie...",
+  "@loggingOut": {},
   "loginPageReachabilityMissingClientCertificateText": "Nie otrzymano oczekiwanego certyfikatu klienta. Proszę podać prawidłowy certyfikat.",
   "@loginPageReachabilityMissingClientCertificateText": {},
   "loginPageSignInTitle": "Zaloguj się",
@@ -698,10 +703,15 @@
     "description": "Label shown in the tabbar on details page"
   },
   "mfaCodeInvalidLengthValidationMessage": "Code must be 6 digits.",
+  "@mfaCodeInvalidLengthValidationMessage": {},
   "mfaCodeRequired": "MFA Code required",
+  "@mfaCodeRequired": {},
   "mfaCodeRequiredValidationMessage": "Please enter the MFA code.",
+  "@mfaCodeRequiredValidationMessage": {},
   "mfaFormFieldHint": "Your account is protected by two-factor authentication. Please enter an authentication code:",
+  "@mfaFormFieldHint": {},
   "misc": "Różne",
+  "@misc": {},
   "missingPermissions": "Nie masz uprawnień niezbędnych do wykonania tej czynności.",
   "@missingPermissions": {
     "description": "Message shown in a snackbar when a user without the reequired permissions performs an action."
@@ -719,7 +729,9 @@
   "newDocumentAvailable": "Nowy dokument dostępny!",
   "@newDocumentAvailable": {},
   "newerVersionAvailable": "Dostępna nowa wersja:",
+  "@newerVersionAvailable": {},
   "newNote": "Nowa notatka",
+  "@newNote": {},
   "newView": "Nowy widok",
   "@newView": {},
   "next": "Następne",
@@ -742,9 +754,12 @@
   "@noDocumentsScannedYet": {},
   "noDocumentTypesSetUp": "Nie masz skonfigurowanych typów dokumentów.",
   "@noDocumentTypesSetUp": {},
+  "noInboxTagsSetUpHint": "Inbox tags are automatically assigned to newly received documents. Create one and those documents will start appearing here for review.",
+  "@noInboxTagsSetUpHint": {},
   "noItemsFound": "Nie znaleziono żadnych rekordów!",
   "@noItemsFound": {},
   "noLogsFoundOn": "Nie znaleziono logów z {date}.",
+  "@noLogsFoundOn": {},
   "noMatchesFound": "Nie znaleziono pasujących elementów.",
   "@noMatchesFound": {
     "description": "Displayed when no documents were found in the document search."
@@ -912,6 +927,7 @@
   "@serverAddressMustNotBeEmpty": {},
   "settings": "Ustawienia",
   "@settings": {},
+  "setUpYourInbox": "Set up your inbox first",
   "shareTooltip": "Udostępnij",
   "@shareTooltip": {
     "description": "Tooltip shown for the share button on details page"

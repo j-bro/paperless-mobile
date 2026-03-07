@@ -360,6 +360,7 @@
   "@createFromCurrentFilter": {
     "description": "Tooltip of the \"New saved view\" button"
   },
+  "createInboxTag": "Create inbox tag",
   "createsASavedViewBasedOnTheCurrentFilterCriteria": "Creates a new view based on the current filter criteria.",
   "@createsASavedViewBasedOnTheCurrentFilterCriteria": {},
   "createViewsToQuicklyFilterYourDocuments": "Create views to quickly filter your documents.",
@@ -652,8 +653,11 @@
   "loadFullContent": "Încarcă tot conținutul",
   "@loadFullContent": {},
   "loadInboxItemSuggestions": "Load suggestions",
+  "@loadInboxItemSuggestions": {},
   "loadingLogsFrom": "Loading logs from {date}...",
+  "@loadingLogsFrom": {},
   "logfileBottomReached": "You have reached the bottom of this logfile.",
+  "@logfileBottomReached": {},
   "loggedInAs": "Autentificat ca {name}",
   "@loggedInAs": {
     "placeholders": {
@@ -661,6 +665,7 @@
     }
   },
   "loggingOut": "Logging out...",
+  "@loggingOut": {},
   "loginPageReachabilityMissingClientCertificateText": "A client certificate was expected but not sent. Please provide a certificate.",
   "@loginPageReachabilityMissingClientCertificateText": {},
   "loginPageSignInTitle": "Autentificare",
@@ -698,10 +703,15 @@
     "description": "Label shown in the tabbar on details page"
   },
   "mfaCodeInvalidLengthValidationMessage": "Code must be 6 digits.",
+  "@mfaCodeInvalidLengthValidationMessage": {},
   "mfaCodeRequired": "MFA Code required",
+  "@mfaCodeRequired": {},
   "mfaCodeRequiredValidationMessage": "Please enter the MFA code.",
+  "@mfaCodeRequiredValidationMessage": {},
   "mfaFormFieldHint": "Your account is protected by two-factor authentication. Please enter an authentication code:",
+  "@mfaFormFieldHint": {},
   "misc": "Miscellaneous",
+  "@misc": {},
   "missingPermissions": "You do not have the necessary permissions to perform this action.",
   "@missingPermissions": {
     "description": "Message shown in a snackbar when a user without the reequired permissions performs an action."
@@ -719,7 +729,9 @@
   "newDocumentAvailable": "Un nou document disponibil!",
   "@newDocumentAvailable": {},
   "newerVersionAvailable": "Newer version available:",
+  "@newerVersionAvailable": {},
   "newNote": "New note",
+  "@newNote": {},
   "newView": "Vizualizare nouă",
   "@newView": {},
   "next": "Mai departe",
@@ -742,9 +754,12 @@
   "@noDocumentsScannedYet": {},
   "noDocumentTypesSetUp": "Se pare că nu ai nici un tip de document salvat.",
   "@noDocumentTypesSetUp": {},
+  "noInboxTagsSetUpHint": "Inbox tags are automatically assigned to newly received documents. Create one and those documents will start appearing here for review.",
+  "@noInboxTagsSetUpHint": {},
   "noItemsFound": "Nu s-a găsit niciun articol!",
   "@noItemsFound": {},
   "noLogsFoundOn": "Nu există jurnale în data de {date}.",
+  "@noLogsFoundOn": {},
   "noMatchesFound": "Nu s-a găsit nicio potrivire.",
   "@noMatchesFound": {
     "description": "Displayed when no documents were found in the document search."
@@ -912,6 +927,7 @@
   "@serverAddressMustNotBeEmpty": {},
   "settings": "Setări",
   "@settings": {},
+  "setUpYourInbox": "Set up your inbox first",
   "shareTooltip": "Distribuie",
   "@shareTooltip": {
     "description": "Tooltip shown for the share button on details page"

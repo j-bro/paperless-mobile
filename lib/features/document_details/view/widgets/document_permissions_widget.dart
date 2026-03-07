@@ -52,54 +52,54 @@ class _DocumentPermissionsWidgetState extends State<DocumentPermissionsWidget> {
                 );
               },
             ),
-          QueryBuilder(
-            query: context.read<UserRepository>().getAllQuery(),
-            builder: (context, state) {
-              return ExpansionTile(
-                title: Text('View'),
-                children: [
-                  for (final userId
-                      in widget.document.permissions?.view?.users ?? [])
-                    state.isLoading
-                        ? Skeletonizer(
-                            child: ListTile(title: Text(BoneMock.words(1))),
-                          )
-                        : ListTile(
-                            title: Text(
-                              state.data
-                                      ?.firstWhere((u) => u.id == userId)
-                                      .username ??
-                                  '',
-                            ),
-                          ),
-                ],
-              );
-            },
-          ),
-          QueryBuilder(
-            query: context.read<UserRepository>().getAllQuery(),
-            builder: (context, state) {
-              return ExpansionTile(
-                title: Text('Change'),
-                children: [
-                  for (final userId
-                      in widget.document.permissions?.change?.users ?? [])
-                    state.isLoading
-                        ? Skeletonizer(
-                            child: ListTile(title: Text(BoneMock.words(1))),
-                          )
-                        : ListTile(
-                            title: Text(
-                              state.data
-                                      ?.firstWhere((u) => u.id == userId)
-                                      .username ??
-                                  '',
-                            ),
-                          ),
-                ],
-              );
-            },
-          ),
+          // QueryBuilder(
+          //   query: context.read<UserRepository>().getAllQuery(),
+          //   builder: (context, state) {
+          //     return ExpansionTile(
+          //       title: Text('View'),
+          //       children: [
+          //         for (final userId
+          //             in widget.document.permissions?.view?.users ?? [])
+          //           state.isLoading
+          //               ? Skeletonizer(
+          //                   child: ListTile(title: Text(BoneMock.words(1))),
+          //                 )
+          //               : ListTile(
+          //                   title: Text(
+          //                     state.data
+          //                             ?.firstWhere((u) => u.id == userId)
+          //                             .username ??
+          //                         '',
+          //                   ),
+          //                 ),
+          //       ],
+          //     );
+          //   },
+          // ),
+          // QueryBuilder(
+          //   query: context.read<UserRepository>().getAllQuery(),
+          //   builder: (context, state) {
+          //     return ExpansionTile(
+          //       title: Text('Change'),
+          //       children: [
+          //         for (final userId
+          //             in widget.document.permissions?.change?.users ?? [])
+          //           state.isLoading
+          //               ? Skeletonizer(
+          //                   child: ListTile(title: Text(BoneMock.words(1))),
+          //                 )
+          //               : ListTile(
+          //                   title: Text(
+          //                     state.data
+          //                             ?.firstWhere((u) => u.id == userId)
+          //                             .username ??
+          //                         '',
+          //                   ),
+          //                 ),
+          //       ],
+          //     );
+          //   },
+          // ),
         ],
       ),
     );
