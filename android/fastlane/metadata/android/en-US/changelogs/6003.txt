@@ -1,0 +1,1 @@
+- Fixed a bug displaying the inbox without inbox tags
