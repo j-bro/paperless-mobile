@@ -360,6 +360,7 @@
   "@createFromCurrentFilter": {
     "description": "Tooltip of the \"New saved view\" button"
   },
+  "createInboxTag": "Create inbox tag",
   "createsASavedViewBasedOnTheCurrentFilterCriteria": "Crea una nova vista basada en els filtres actuals.",
   "@createsASavedViewBasedOnTheCurrentFilterCriteria": {},
   "createViewsToQuicklyFilterYourDocuments": "Crea vistes per filtrar documents de manera ràpida.",
@@ -652,8 +653,11 @@
   "loadFullContent": "Carregar contingut",
   "@loadFullContent": {},
   "loadInboxItemSuggestions": "Carregar Suggerències",
+  "@loadInboxItemSuggestions": {},
   "loadingLogsFrom": "Carregant registres des de {date}...",
+  "@loadingLogsFrom": {},
   "logfileBottomReached": "Final d'aquest arxiu de registres.",
+  "@logfileBottomReached": {},
   "loggedInAs": "Logat com a {name}",
   "@loggedInAs": {
     "placeholders": {
@@ -661,6 +665,7 @@
     }
   },
   "loggingOut": "Sortint...",
+  "@loggingOut": {},
   "loginPageReachabilityMissingClientCertificateText": "Certificat de client esperat però no trobat. Proporciona un certificat.",
   "@loginPageReachabilityMissingClientCertificateText": {},
   "loginPageSignInTitle": "Entrar",
@@ -698,10 +703,15 @@
     "description": "Label shown in the tabbar on details page"
   },
   "mfaCodeInvalidLengthValidationMessage": "El codi ha de tenir 6 xifres.",
+  "@mfaCodeInvalidLengthValidationMessage": {},
   "mfaCodeRequired": "Codi MFA requerit",
+  "@mfaCodeRequired": {},
   "mfaCodeRequiredValidationMessage": "Entra el codi MFA.",
+  "@mfaCodeRequiredValidationMessage": {},
   "mfaFormFieldHint": "Compte està protegit per doble factor. Introduïu un codi d'autenticació:",
+  "@mfaFormFieldHint": {},
   "misc": "Divers",
+  "@misc": {},
   "missingPermissions": "No tens els permisos necessaris per a completar l'acció.",
   "@missingPermissions": {
     "description": "Message shown in a snackbar when a user without the reequired permissions performs an action."
@@ -719,7 +729,9 @@
   "newDocumentAvailable": "Nou document discponible!",
   "@newDocumentAvailable": {},
   "newerVersionAvailable": "Nova versió disponible:",
+  "@newerVersionAvailable": {},
   "newNote": "Nova nota",
+  "@newNote": {},
   "newView": "Nova Vista",
   "@newView": {},
   "next": "Següent",
@@ -742,9 +754,12 @@
   "@noDocumentsScannedYet": {},
   "noDocumentTypesSetUp": "No has afegit cap tipus de document.",
   "@noDocumentTypesSetUp": {},
+  "noInboxTagsSetUpHint": "Inbox tags are automatically assigned to newly received documents. Create one and those documents will start appearing here for review.",
+  "@noInboxTagsSetUpHint": {},
   "noItemsFound": "Elements no trobats!",
   "@noItemsFound": {},
   "noLogsFoundOn": "Sense logs trovats per {date}.",
+  "@noLogsFoundOn": {},
   "noMatchesFound": "Cap coincidència trobada.",
   "@noMatchesFound": {
     "description": "Displayed when no documents were found in the document search."
@@ -912,6 +927,7 @@
   "@serverAddressMustNotBeEmpty": {},
   "settings": "Opcions",
   "@settings": {},
+  "setUpYourInbox": "Set up your inbox first",
   "shareTooltip": "Compartir",
   "@shareTooltip": {
     "description": "Tooltip shown for the share button on details page"

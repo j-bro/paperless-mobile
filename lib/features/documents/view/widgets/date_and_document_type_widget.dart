@@ -45,12 +45,13 @@ class DateAndDocumentTypeLabelWidget extends StatelessWidget {
                           ? () => onDocumentTypeSelected!(document.documentType)
                           : null,
                       child: QueryBuilder(
-                        query: documentTypeRepository.getByIdQuery(
-                          document.documentType!,
-                        ),
+                        query: documentTypeRepository.getAllQuery(),
                         builder: (context, state) {
+                          final documentType = state.data?.firstWhere(
+                            (dt) => dt.id == document.documentType,
+                          );
                           return Text(
-                            state.data?.name ?? '',
+                            documentType?.name ?? '',
                             style: subtitleStyle,
                           );
                         },

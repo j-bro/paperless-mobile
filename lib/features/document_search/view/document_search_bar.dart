@@ -24,7 +24,7 @@ class _DocumentSearchBarState extends State<DocumentSearchBar> {
       closedElevation: 1,
       middleColor: Theme.of(context).colorScheme.surfaceContainerHighest,
       openColor: Theme.of(context).colorScheme.surface,
-      closedColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+      closedColor: Theme.of(context).colorScheme.secondaryContainer,
       closedShape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(56),
       ),

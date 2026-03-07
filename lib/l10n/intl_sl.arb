@@ -360,6 +360,7 @@
   "@createFromCurrentFilter": {
     "description": "Tooltip of the \"New saved view\" button"
   },
+  "createInboxTag": "Create inbox tag",
   "createsASavedViewBasedOnTheCurrentFilterCriteria": "Nov pogled ustvarjen na podlagi trenutnih kriterijev.",
   "@createsASavedViewBasedOnTheCurrentFilterCriteria": {},
   "createViewsToQuicklyFilterYourDocuments": "Ustvari poglede za hitrejše filtriranje dokumentov.",
@@ -652,8 +653,11 @@
   "loadFullContent": "Naloži celotno vsebin",
   "@loadFullContent": {},
   "loadInboxItemSuggestions": "Naloži predloge",
+  "@loadInboxItemSuggestions": {},
   "loadingLogsFrom": "Nalagam dnevnik iz {date}...",
+  "@loadingLogsFrom": {},
   "logfileBottomReached": "Prišel si do konca te dnevniške datoteke.",
+  "@logfileBottomReached": {},
   "loggedInAs": "Prijavljen/a kot {name}",
   "@loggedInAs": {
     "placeholders": {
@@ -661,6 +665,7 @@
     }
   },
   "loggingOut": "Odjava...",
+  "@loggingOut": {},
   "loginPageReachabilityMissingClientCertificateText": "Certifikat klienta je bil pričakovan, vendar in bil poslan. Posreduj veljaven certifikat.",
   "@loginPageReachabilityMissingClientCertificateText": {},
   "loginPageSignInTitle": "Prijava",
@@ -698,10 +703,15 @@
     "description": "Label shown in the tabbar on details page"
   },
   "mfaCodeInvalidLengthValidationMessage": "Koda mora imeti 6 mest.",
+  "@mfaCodeInvalidLengthValidationMessage": {},
   "mfaCodeRequired": "Zahtevana je koda MFA",
+  "@mfaCodeRequired": {},
   "mfaCodeRequiredValidationMessage": "Prosimo, vnesite kodo MFA.",
+  "@mfaCodeRequiredValidationMessage": {},
   "mfaFormFieldHint": "Vaš račun je zaščiten z dvofaktorsko avtentikacijo. Vnesite avtentikacijsko kodo:",
+  "@mfaFormFieldHint": {},
   "misc": "Razno",
+  "@misc": {},
   "missingPermissions": "Nimate potrebnih dovoljenj za izvedbo tega dejanja.",
   "@missingPermissions": {
     "description": "Message shown in a snackbar when a user without the reequired permissions performs an action."
@@ -719,7 +729,9 @@
   "newDocumentAvailable": "Nov dokument je na voljo!",
   "@newDocumentAvailable": {},
   "newerVersionAvailable": "Na voljo je novejša različica:",
+  "@newerVersionAvailable": {},
   "newNote": "Nova opomba",
+  "@newNote": {},
   "newView": "Nov pogled",
   "@newView": {},
   "next": "Naprej",
@@ -742,9 +754,12 @@
   "@noDocumentsScannedYet": {},
   "noDocumentTypesSetUp": "Ni nastavljenih tipov dokumentov.",
   "@noDocumentTypesSetUp": {},
+  "noInboxTagsSetUpHint": "Inbox tags are automatically assigned to newly received documents. Create one and those documents will start appearing here for review.",
+  "@noInboxTagsSetUpHint": {},
   "noItemsFound": "Ni elementov!",
   "@noItemsFound": {},
   "noLogsFoundOn": "Ne najdem dnevnika z dne {date}.",
+  "@noLogsFoundOn": {},
   "noMatchesFound": "Ni zadetkov.",
   "@noMatchesFound": {
     "description": "Displayed when no documents were found in the document search."
@@ -912,6 +927,7 @@
   "@serverAddressMustNotBeEmpty": {},
   "settings": "Nastavitve",
   "@settings": {},
+  "setUpYourInbox": "Set up your inbox first",
   "shareTooltip": "Deli",
   "@shareTooltip": {
     "description": "Tooltip shown for the share button on details page"

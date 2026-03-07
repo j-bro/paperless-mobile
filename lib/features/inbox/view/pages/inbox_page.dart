@@ -15,6 +15,7 @@ import 'package:paperless_mobile/core/widgets/hint_card.dart';
 import 'package:paperless_mobile/core/widgets/hint_state_builder.dart';
 import 'package:paperless_mobile/features/app_drawer/view/app_drawer.dart';
 import 'package:paperless_mobile/features/document_search/view/sliver_search_bar.dart';
+import 'package:paperless_mobile/features/inbox/view/no_inbox_tags_declared_widget.dart';
 import 'package:paperless_mobile/features/inbox/view/widgets/inbox_empty_widget.dart';
 import 'package:paperless_mobile/features/inbox/view/widgets/inbox_item.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
@@ -36,11 +37,14 @@ class _InboxPageState extends State<InboxPage> {
   final _emptyStateRefreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
   final _scrollController = ScrollController();
   bool _showExtendedFab = true;
+
   @override
   void initState() {
     super.initState();
-    context.inboxRepository.reload();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!context.inboxRepository.inboxDocumentsQuery.state.isInitial) {
+        context.inboxRepository.reload();
+      }
       _nestedScrollViewKey.currentState?.innerController.addListener(
         _scrollExtentChangedListener,
       );
@@ -72,89 +76,115 @@ class _InboxPageState extends State<InboxPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: const AppDrawer(),
-      floatingActionButton: ConnectivityAwareActionWrapper(
-        offlineBuilder: (context, child) => const SizedBox.shrink(),
-        child: QueryBuilder(
-          query: context.inboxRepository.inboxDocumentsQuery,
-          builder: (context, state) {
-            if (state.data == null) {
-              return const SizedBox.shrink();
-            }
-            final documents = state.data!.pages.flattened;
-            return FloatingActionButton.extended(
-              extendedPadding: _showExtendedFab
-                  ? null
-                  : const EdgeInsets.symmetric(horizontal: 16),
-              heroTag: "inbox_page_fab",
-              label: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 200),
-                transitionBuilder: (child, animation) {
-                  return FadeTransition(
-                    opacity: animation,
-                    child: SizeTransition(
-                      sizeFactor: animation,
-                      axis: Axis.horizontal,
-                      child: child,
-                    ),
+    return QueryBuilder(
+      query: context.inboxRepository.inboxTagsQuery,
+      builder: (context, inboxTagsState) {
+        return Scaffold(
+          drawer: const AppDrawer(),
+          floatingActionButton: ConnectivityAwareActionWrapper(
+            offlineBuilder: (context, child) => const SizedBox.shrink(),
+            child: QueryBuilder(
+              query: context.inboxRepository.inboxDocumentsQuery,
+              builder: (context, state) {
+                if (inboxTagsState.data?.isEmpty ?? true) {
+                  return const SizedBox.shrink();
+                }
+
+                if (state.isLoading && state.data == null) {
+                  return const InboxItemPlaceholder();
+                }
+
+                final documents = state.data!.pages.flattened;
+                return FloatingActionButton.extended(
+                  extendedPadding: _showExtendedFab
+                      ? null
+                      : const EdgeInsets.symmetric(horizontal: 16),
+                  heroTag: "inbox_page_fab",
+                  label: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 200),
+                    transitionBuilder: (child, animation) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: SizeTransition(
+                          sizeFactor: animation,
+                          axis: Axis.horizontal,
+                          child: child,
+                        ),
+                      );
+                    },
+                    child: _showExtendedFab
+                        ? Row(
+                            children: [
+                              const Icon(Icons.done_all),
+                              Text(S.of(context)!.allSeen),
+                            ],
+                          )
+                        : const Icon(Icons.done_all),
+                  ),
+                  onPressed: documents.isNotEmpty ? _onMarkAllAsSeen : null,
+                );
+              },
+            ),
+          ),
+          body: SafeArea(
+            top: true,
+            child: NestedScrollView(
+              key: _nestedScrollViewKey,
+              headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                SliverSearchBar(titleText: S.of(context)!.inbox),
+              ],
+              body: Builder(
+                builder: (context) {
+                  if (inboxTagsState.isLoading && inboxTagsState.data == null) {
+                    return _buildLoading();
+                  }
+
+                  if (inboxTagsState.data?.isEmpty ?? true) {
+                    return NoInboxTagsDeclaredWidget();
+                  }
+
+                  return QueryBuilder(
+                    query: context.inboxRepository.inboxDocumentsQuery,
+                    builder: (context, state) {
+                      if (state.isLoading && state.data == null) {
+                        return _buildLoading();
+                      }
+                      if (state.isError) {
+                        return Column(
+                          children: [
+                            Center(
+                              child: Text(
+                                'Could not load inbox',
+                                textAlign: TextAlign.center,
+                              ).padded(),
+                            ),
+                            Text(state.error.toString()).padded(),
+                            TextButton(
+                              onPressed: context.inboxRepository.reload,
+                              child: Text('Retry'), //TODO: INTL
+                            ),
+                          ],
+                        );
+                      }
+                      final documents = state.data!.pages.flattened;
+                      return _buildLoaded(documents);
+                    },
                   );
                 },
-                child: _showExtendedFab
-                    ? Row(
-                        children: [
-                          const Icon(Icons.done_all),
-                          Text(S.of(context)!.allSeen),
-                        ],
-                      )
-                    : const Icon(Icons.done_all),
               ),
-              onPressed: documents.isNotEmpty ? _onMarkAllAsSeen : null,
-            );
-          },
-        ),
-      ),
-      body: SafeArea(
-        top: true,
-        child: NestedScrollView(
-          key: _nestedScrollViewKey,
-          headerSliverBuilder: (context, innerBoxIsScrolled) => [
-            SliverSearchBar(titleText: S.of(context)!.inbox),
-          ],
-          body: QueryBuilder(
-            query: context.inboxRepository.inboxDocumentsQuery,
-            builder: (context, state) {
-              if (state.isLoading && state.data == null) {
-                return ListView.builder(
-                  padding: const EdgeInsets.only(top: 16, left: 16),
-                  physics: NeverScrollableScrollPhysics(),
-                  controller: _scrollController,
-                  itemBuilder: (context, index) => const InboxItemPlaceholder(),
-                );
-              }
-              if (state.isError) {
-                return Column(
-                  children: [
-                    Center(
-                      child: Text(
-                        'Could not load inbox',
-                        textAlign: TextAlign.center,
-                      ).padded(),
-                    ),
-                    Text(state.error.toString()).padded(),
-                    TextButton(
-                      onPressed: context.inboxRepository.reload,
-                      child: Text('Retry'), //TODO: INTL
-                    ),
-                  ],
-                );
-              }
-              final documents = state.data!.pages.flattened;
-              return _buildLoaded(documents);
-            },
+            ),
           ),
-        ),
-      ),
+        );
+      },
+    );
+  }
+
+  Widget _buildLoading() {
+    return ListView.builder(
+      padding: const EdgeInsets.only(top: 16, left: 16),
+      physics: const NeverScrollableScrollPhysics(),
+      controller: _scrollController,
+      itemBuilder: (context, index) => const InboxItemPlaceholder(),
     );
   }
 

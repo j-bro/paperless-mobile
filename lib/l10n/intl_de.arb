@@ -360,6 +360,7 @@
   "@createFromCurrentFilter": {
     "description": "Tooltip of the \"New saved view\" button"
   },
+  "createInboxTag": "Posteingangs-Tag erstellen",
   "createsASavedViewBasedOnTheCurrentFilterCriteria": "Erstellt eine neue Ansicht basierend auf den aktuellen Filterkriterien.",
   "@createsASavedViewBasedOnTheCurrentFilterCriteria": {},
   "createViewsToQuicklyFilterYourDocuments": "Lege Ansichten an, um Dokumente schneller zu finden.",
@@ -652,8 +653,11 @@
   "loadFullContent": "Lade gesamten Inhalt",
   "@loadFullContent": {},
   "loadInboxItemSuggestions": "Vorschläge laden",
+  "@loadInboxItemSuggestions": {},
   "loadingLogsFrom": "Lade Logs vom {date}...",
+  "@loadingLogsFrom": {},
   "logfileBottomReached": "Du hast das Ende dieser Logdatei erreicht.",
+  "@logfileBottomReached": {},
   "loggedInAs": "Eingeloggt als {name}",
   "@loggedInAs": {
     "placeholders": {
@@ -661,6 +665,7 @@
     }
   },
   "loggingOut": "Abmelden...",
+  "@loggingOut": {},
   "loginPageReachabilityMissingClientCertificateText": "Ein Client-Zertifikat wurde erwartet aber nicht gesendet. Bitte stelle ein Zertifikat zur Verfügung.",
   "@loginPageReachabilityMissingClientCertificateText": {},
   "loginPageSignInTitle": "Anmelden",
@@ -698,10 +703,15 @@
     "description": "Label shown in the tabbar on details page"
   },
   "mfaCodeInvalidLengthValidationMessage": "Der Code muss aus 6 Ziffern bestehen.",
+  "@mfaCodeInvalidLengthValidationMessage": {},
   "mfaCodeRequired": "MFA Code erforderlich",
+  "@mfaCodeRequired": {},
   "mfaCodeRequiredValidationMessage": "Bitte gib den MFA Code ein.",
+  "@mfaCodeRequiredValidationMessage": {},
   "mfaFormFieldHint": "Dein Konto ist durch Zwei-Faktor-Authentifizierung geschützt. Bitte gib einen Authentifizierungscode ein:",
+  "@mfaFormFieldHint": {},
   "misc": "Sonstige",
+  "@misc": {},
   "missingPermissions": "Sie besitzen nicht die benötigten Berechtigungen, um diese Aktion durchzuführen.",
   "@missingPermissions": {
     "description": "Message shown in a snackbar when a user without the reequired permissions performs an action."
@@ -719,7 +729,9 @@
   "newDocumentAvailable": "Neues Dokument verfügbar!",
   "@newDocumentAvailable": {},
   "newerVersionAvailable": "Neuere Version verfügbar:",
+  "@newerVersionAvailable": {},
   "newNote": "Neue Notiz",
+  "@newNote": {},
   "newView": "Neue Ansicht",
   "@newView": {},
   "next": "Weiter",
@@ -742,9 +754,12 @@
   "@noDocumentsScannedYet": {},
   "noDocumentTypesSetUp": "Es wurden noch keine Dokumenttypen angelegt.",
   "@noDocumentTypesSetUp": {},
+  "noInboxTagsSetUpHint": "Inbox-Tags werden automatisch neu hinzugefügten Dokumenten zugewiesen. Erstelle ein neues Posteingangs-Tag und neue Dokumente erscheinen hier zur Überprüfung.",
+  "@noInboxTagsSetUpHint": {},
   "noItemsFound": "Keine Treffer gefunden!",
   "@noItemsFound": {},
   "noLogsFoundOn": "Keine Logs am {date} gefunden.",
+  "@noLogsFoundOn": {},
   "noMatchesFound": "Keine Treffer.",
   "@noMatchesFound": {
     "description": "Displayed when no documents were found in the document search."
@@ -912,6 +927,7 @@
   "@serverAddressMustNotBeEmpty": {},
   "settings": "Einstellungen",
   "@settings": {},
+  "setUpYourInbox": "Richte deinen Posteingang ein",
   "shareTooltip": "Teilen",
   "@shareTooltip": {
     "description": "Tooltip shown for the share button on details page"

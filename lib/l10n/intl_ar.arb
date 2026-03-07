@@ -360,6 +360,7 @@
   "@createFromCurrentFilter": {
     "description": "Tooltip of the \"New saved view\" button"
   },
+  "createInboxTag": "Create inbox tag",
   "createsASavedViewBasedOnTheCurrentFilterCriteria": "ينشئ طريقة عرض جديدة استنادًا إلى معايير الفلتر الحالية.",
   "@createsASavedViewBasedOnTheCurrentFilterCriteria": {},
   "createViewsToQuicklyFilterYourDocuments": "إنشاء مشاهدات لفلترة مستنداتك بسرعة.",
@@ -652,8 +653,11 @@
   "loadFullContent": "تحميل كامل المحتوى",
   "@loadFullContent": {},
   "loadInboxItemSuggestions": "Load suggestions",
+  "@loadInboxItemSuggestions": {},
   "loadingLogsFrom": "جارٍ تحميل سجل الحركات من {date}...",
+  "@loadingLogsFrom": {},
   "logfileBottomReached": "لقد وصلت إلى نهاية سجل الحركات هذا.",
+  "@logfileBottomReached": {},
   "loggedInAs": "تم تسجيل الدخول باسم {name}",
   "@loggedInAs": {
     "placeholders": {
@@ -661,6 +665,7 @@
     }
   },
   "loggingOut": "جارٍ تسجيل الخروج...",
+  "@loggingOut": {},
   "loginPageReachabilityMissingClientCertificateText": "كان من المتوقع الحصول على شهادة مصادقة للعميل ولكن لم يتم إرسالها. الرجاء تقديم شهادة عميل صالحة.",
   "@loginPageReachabilityMissingClientCertificateText": {},
   "loginPageSignInTitle": "تسجيل الدخول",
@@ -698,10 +703,15 @@
     "description": "Label shown in the tabbar on details page"
   },
   "mfaCodeInvalidLengthValidationMessage": "Code must be 6 digits.",
+  "@mfaCodeInvalidLengthValidationMessage": {},
   "mfaCodeRequired": "MFA Code required",
+  "@mfaCodeRequired": {},
   "mfaCodeRequiredValidationMessage": "Please enter the MFA code.",
+  "@mfaCodeRequiredValidationMessage": {},
   "mfaFormFieldHint": "Your account is protected by two-factor authentication. Please enter an authentication code:",
+  "@mfaFormFieldHint": {},
   "misc": "متفرقات",
+  "@misc": {},
   "missingPermissions": "ليس لديك الصلاحيات اللازمة للقيام بهذا الإجراء.",
   "@missingPermissions": {
     "description": "Message shown in a snackbar when a user without the reequired permissions performs an action."
@@ -719,7 +729,9 @@
   "newDocumentAvailable": "مستند جديد متاح!",
   "@newDocumentAvailable": {},
   "newerVersionAvailable": "الإصدار الأحدث المتوفر:",
+  "@newerVersionAvailable": {},
   "newNote": "ملاجظة جديدة",
+  "@newNote": {},
   "newView": "عرض جديد",
   "@newView": {},
   "next": "التالي",
@@ -742,9 +754,12 @@
   "@noDocumentsScannedYet": {},
   "noDocumentTypesSetUp": "يبدو أنه لم تتم تهيئة أي نوع من المستندات لديك.",
   "@noDocumentTypesSetUp": {},
+  "noInboxTagsSetUpHint": "Inbox tags are automatically assigned to newly received documents. Create one and those documents will start appearing here for review.",
+  "@noInboxTagsSetUpHint": {},
   "noItemsFound": "لم يتم العثور على أي عناصر!",
   "@noItemsFound": {},
   "noLogsFoundOn": "لم يتم العثور على سجلات للحركة في {date}.",
+  "@noLogsFoundOn": {},
   "noMatchesFound": "لم يتم العثور على أي تطابقات.",
   "@noMatchesFound": {
     "description": "Displayed when no documents were found in the document search."
@@ -912,6 +927,7 @@
   "@serverAddressMustNotBeEmpty": {},
   "settings": "الإعدادات",
   "@settings": {},
+  "setUpYourInbox": "Set up your inbox first",
   "shareTooltip": "مشاركة",
   "@shareTooltip": {
     "description": "Tooltip shown for the share button on details page"

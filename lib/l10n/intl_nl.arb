@@ -360,6 +360,7 @@
   "@createFromCurrentFilter": {
     "description": "Tooltip of the \"New saved view\" button"
   },
+  "createInboxTag": "Create inbox tag",
   "createsASavedViewBasedOnTheCurrentFilterCriteria": "Maakt een nieuwe weergave aan op basis van de huidige filtercriteria.",
   "@createsASavedViewBasedOnTheCurrentFilterCriteria": {},
   "createViewsToQuicklyFilterYourDocuments": "Weergave maken om uw documenten snel te filteren.",
@@ -652,8 +653,11 @@
   "loadFullContent": "Volledige inhoud laden",
   "@loadFullContent": {},
   "loadInboxItemSuggestions": "Load suggestions",
+  "@loadInboxItemSuggestions": {},
   "loadingLogsFrom": "Logs van {date} ophalen...",
+  "@loadingLogsFrom": {},
   "logfileBottomReached": "Je hebt de onderkant van dit logbestand bereikt.",
+  "@logfileBottomReached": {},
   "loggedInAs": "Ingelogd als {name}",
   "@loggedInAs": {
     "placeholders": {
@@ -661,6 +665,7 @@
     }
   },
   "loggingOut": "Afmelden...",
+  "@loggingOut": {},
   "loginPageReachabilityMissingClientCertificateText": "Een clientcertificaat werd verwacht maar niet verzonden. Geef een geldig certificaat op.",
   "@loginPageReachabilityMissingClientCertificateText": {},
   "loginPageSignInTitle": "Aanmelden",
@@ -698,10 +703,15 @@
     "description": "Label shown in the tabbar on details page"
   },
   "mfaCodeInvalidLengthValidationMessage": "Code must be 6 digits.",
+  "@mfaCodeInvalidLengthValidationMessage": {},
   "mfaCodeRequired": "MFA Code required",
+  "@mfaCodeRequired": {},
   "mfaCodeRequiredValidationMessage": "Please enter the MFA code.",
+  "@mfaCodeRequiredValidationMessage": {},
   "mfaFormFieldHint": "Your account is protected by two-factor authentication. Please enter an authentication code:",
+  "@mfaFormFieldHint": {},
   "misc": "Overige",
+  "@misc": {},
   "missingPermissions": "Je hebt niet de benodigde rechten om deze actie uit te voeren.",
   "@missingPermissions": {
     "description": "Message shown in a snackbar when a user without the reequired permissions performs an action."
@@ -719,7 +729,9 @@
   "newDocumentAvailable": "Nieuw document beschikbaar!",
   "@newDocumentAvailable": {},
   "newerVersionAvailable": "Nieuwere versie beschikbaar:",
+  "@newerVersionAvailable": {},
   "newNote": "Nieuwe notitie",
+  "@newNote": {},
   "newView": "Nieuwe weergave",
   "@newView": {},
   "next": "Volgende",
@@ -742,9 +754,12 @@
   "@noDocumentsScannedYet": {},
   "noDocumentTypesSetUp": "Het lijkt erop dat je geen documenttypes hebt ingesteld.",
   "@noDocumentTypesSetUp": {},
+  "noInboxTagsSetUpHint": "Inbox tags are automatically assigned to newly received documents. Create one and those documents will start appearing here for review.",
+  "@noInboxTagsSetUpHint": {},
   "noItemsFound": "Geen items gevonden!",
   "@noItemsFound": {},
   "noLogsFoundOn": "Geen logs gevonden op {date}.",
+  "@noLogsFoundOn": {},
   "noMatchesFound": "Geen resultaten.",
   "@noMatchesFound": {
     "description": "Displayed when no documents were found in the document search."
@@ -912,6 +927,7 @@
   "@serverAddressMustNotBeEmpty": {},
   "settings": "Instellingen",
   "@settings": {},
+  "setUpYourInbox": "Set up your inbox first",
   "shareTooltip": "Delen",
   "@shareTooltip": {
     "description": "Tooltip shown for the share button on details page"

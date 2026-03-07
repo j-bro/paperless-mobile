@@ -47,9 +47,7 @@ class DocumentOverviewWidget extends StatelessWidget {
         ),
         if (document.documentType != null && user.canViewDocumentTypes)
           QueryBuilder(
-            query: context.documentTypeRepository.getByIdQuery(
-              document.documentType!,
-            ),
+            query: context.documentTypeRepository.getAllQuery(),
             builder: (context, state) {
               if (state.isLoading && state.data == null) {
                 return DetailsItemSkeleton(label: S.of(context)!.documentType);
@@ -57,11 +55,14 @@ class DocumentOverviewWidget extends StatelessWidget {
               if (state.isError) {
                 return SizedBox.shrink();
               }
+              final documentType = state.data?.firstWhere(
+                (dt) => dt.id == document.documentType,
+              );
               return DetailsItem(
                 label: S.of(context)!.documentType,
                 content: LabelText(
                   style: Theme.of(context).textTheme.bodyLarge,
-                  label: state.data,
+                  label: documentType,
                 ),
               );
             },
@@ -76,9 +77,7 @@ class DocumentOverviewWidget extends StatelessWidget {
           ),
         if (document.correspondent != null && user.canViewCorrespondents)
           QueryBuilder(
-            query: context.correspondentRepository.getByIdQuery(
-              document.correspondent!,
-            ),
+            query: context.correspondentRepository.getAllQuery(),
             builder: (context, state) {
               if (state.isLoading && state.data == null) {
                 return DetailsItemSkeleton(label: S.of(context)!.documentType);
@@ -86,11 +85,14 @@ class DocumentOverviewWidget extends StatelessWidget {
               if (state.isError) {
                 return SizedBox.shrink();
               }
+              final correspondent = state.data?.firstWhere(
+                (c) => c.id == document.correspondent,
+              );
               return DetailsItem(
                 label: S.of(context)!.correspondent,
                 content: LabelText(
                   style: Theme.of(context).textTheme.bodyLarge,
-                  label: state.data,
+                  label: correspondent,
                 ),
               );
             },
@@ -105,9 +107,7 @@ class DocumentOverviewWidget extends StatelessWidget {
           ),
         if (document.storagePath != null && user.canViewStoragePaths)
           QueryBuilder(
-            query: context.storagePathRepository.getByIdQuery(
-              document.storagePath!,
-            ),
+            query: context.storagePathRepository.getAllQuery(),
             builder: (context, state) {
               if (state.isLoading && state.data == null) {
                 return DetailsItemSkeleton(label: S.of(context)!.storagePath);
@@ -115,11 +115,15 @@ class DocumentOverviewWidget extends StatelessWidget {
               if (state.isError) {
                 return SizedBox.shrink();
               }
+
+              final storagePath = state.data?.firstWhere(
+                (s) => s.id == document.storagePath,
+              );
               return DetailsItem(
                 label: S.of(context)!.storagePath,
                 content: LabelText(
                   style: Theme.of(context).textTheme.bodyLarge,
-                  label: state.data,
+                  label: storagePath,
                 ),
               );
             },

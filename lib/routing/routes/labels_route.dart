@@ -51,15 +51,20 @@ class CreateLabelRoute extends GoRouteData with $CreateLabelRoute {
       outerShellNavigatorKey;
   final LabelType $extra;
   final String? name;
+  //TODO: Refactor, currently possible on all routes, but only relevant for tags
+  final bool? isInboxTag;
 
-  CreateLabelRoute(this.$extra, {this.name});
+  CreateLabelRoute(this.$extra, {this.name, this.isInboxTag});
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return switch ($extra) {
       LabelType.correspondent => AddCorrespondentPage(initialName: name),
       LabelType.documentType => AddDocumentTypePage(initialName: name),
-      LabelType.tag => AddTagPage(initialName: name),
+      LabelType.tag => AddTagPage(
+        initialName: name,
+        isInboxTag: isInboxTag ?? false,
+      ),
       LabelType.storagePath => AddStoragePathPage(initialName: name),
     };
   }

@@ -10,11 +10,14 @@ class ScaffoldShellRoute extends StatefulShellRouteData {
     StatefulNavigationShell navigationShell,
     List<Widget> children,
   ) {
-    return IndexedStack(
-      index: navigationShell.currentIndex,
-      children: children,
-    );
-    // return children[navigationShell.currentIndex];
+    // Uncommenting this will keep the state of all the children alive, but it also causes
+    // some weird side effects like multiple heros being active at the same time.
+
+    // return IndexedStack(
+    //   index: navigationShell.currentIndex,
+    //   children: children,
+    // );
+    return children[navigationShell.currentIndex];
   }
 
   @override

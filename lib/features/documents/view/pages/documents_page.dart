@@ -470,17 +470,9 @@ class _DocumentsPageState extends State<DocumentsPage> {
                           ? _addStoragePathToFilter
                           : null,
                       documents: documents,
-                      hasLoaded: state.isSuccess,
+                      hasLoaded: state.data != null,
                       isLabelClickable: true,
-                      isLoading: switch (state) {
-                        InfiniteQueryInitial() => true,
-                        InfiniteQueryLoading(
-                          :final isRefetching,
-                          :final isLoading,
-                        ) =>
-                          isLoading && !isRefetching,
-                        _ => false,
-                      },
+                      isLoading: state.isLoading && state.data != null,
                       selectedDocumentIds: _selection.ids,
                     );
                   },

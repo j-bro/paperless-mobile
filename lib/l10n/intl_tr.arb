@@ -360,6 +360,7 @@
   "@createFromCurrentFilter": {
     "description": "Tooltip of the \"New saved view\" button"
   },
+  "createInboxTag": "Create inbox tag",
   "createsASavedViewBasedOnTheCurrentFilterCriteria": "Geçerli filtre ölçütlerine göre yeni bir görünüm oluşturur.",
   "@createsASavedViewBasedOnTheCurrentFilterCriteria": {},
   "createViewsToQuicklyFilterYourDocuments": "Belgelerinizi hızla filtrelemek için görünümler oluşturun.",
@@ -652,8 +653,11 @@
   "loadFullContent": "Tüm içeriği yükle",
   "@loadFullContent": {},
   "loadInboxItemSuggestions": "Load suggestions",
+  "@loadInboxItemSuggestions": {},
   "loadingLogsFrom": "Loading logs from {date}...",
+  "@loadingLogsFrom": {},
   "logfileBottomReached": "You have reached the bottom of this logfile.",
+  "@logfileBottomReached": {},
   "loggedInAs": "Olarak giriş yapıldı {name}",
   "@loggedInAs": {
     "placeholders": {
@@ -661,6 +665,7 @@
     }
   },
   "loggingOut": "Logging out...",
+  "@loggingOut": {},
   "loginPageReachabilityMissingClientCertificateText": "Bir istemci sertifikası bekleniyordu ancak gönderilmedi. Lütfen bir sertifika sağlayın.",
   "@loginPageReachabilityMissingClientCertificateText": {},
   "loginPageSignInTitle": "Oturum Aç",
@@ -698,10 +703,15 @@
     "description": "Label shown in the tabbar on details page"
   },
   "mfaCodeInvalidLengthValidationMessage": "Code must be 6 digits.",
+  "@mfaCodeInvalidLengthValidationMessage": {},
   "mfaCodeRequired": "MFA Code required",
+  "@mfaCodeRequired": {},
   "mfaCodeRequiredValidationMessage": "Please enter the MFA code.",
+  "@mfaCodeRequiredValidationMessage": {},
   "mfaFormFieldHint": "Your account is protected by two-factor authentication. Please enter an authentication code:",
+  "@mfaFormFieldHint": {},
   "misc": "Miscellaneous",
+  "@misc": {},
   "missingPermissions": "You do not have the necessary permissions to perform this action.",
   "@missingPermissions": {
     "description": "Message shown in a snackbar when a user without the reequired permissions performs an action."
@@ -719,7 +729,9 @@
   "newDocumentAvailable": "Yeni döküman mevcut!",
   "@newDocumentAvailable": {},
   "newerVersionAvailable": "Newer version available:",
+  "@newerVersionAvailable": {},
   "newNote": "New note",
+  "@newNote": {},
   "newView": "Yeni görünüm",
   "@newView": {},
   "next": "İleri",
@@ -742,9 +754,12 @@
   "@noDocumentsScannedYet": {},
   "noDocumentTypesSetUp": "Ayarlanmış herhangi bir döküman türünüz yok gibi görünüyor.",
   "@noDocumentTypesSetUp": {},
+  "noInboxTagsSetUpHint": "Inbox tags are automatically assigned to newly received documents. Create one and those documents will start appearing here for review.",
+  "@noInboxTagsSetUpHint": {},
   "noItemsFound": "Hiç bir öğe bulunamadı!",
   "@noItemsFound": {},
   "noLogsFoundOn": "No logs found on {date}.",
+  "@noLogsFoundOn": {},
   "noMatchesFound": "No matches found.",
   "@noMatchesFound": {
     "description": "Displayed when no documents were found in the document search."
@@ -912,6 +927,7 @@
   "@serverAddressMustNotBeEmpty": {},
   "settings": "Ayarlar",
   "@settings": {},
+  "setUpYourInbox": "Set up your inbox first",
   "shareTooltip": "Share",
   "@shareTooltip": {
     "description": "Tooltip shown for the share button on details page"

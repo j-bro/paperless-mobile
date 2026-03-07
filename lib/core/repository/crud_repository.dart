@@ -1,8 +1,10 @@
 import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:paperless_mobile/api/paperless_api.dart';
+import 'package:paperless_mobile/core/repository/change_notifier_mixin.dart';
 import 'package:paperless_mobile/features/logging/data/logger.dart';
 
-abstract class CrudRepository<T, TRequest, TPatchedRequest, FindAllOptions> {
+abstract class CrudRepository<T, TRequest, TPatchedRequest, FindAllOptions>
+    with ChangeNotifierMixin {
   CrudApi<T, TRequest, TPatchedRequest, FindAllOptions> get api;
 
   CrudRepository() {
@@ -71,6 +73,7 @@ abstract class CrudRepository<T, TRequest, TPatchedRequest, FindAllOptions> {
           if (query == null) continue;
           query.update((old) => [...old ?? [], res]);
         }
+        notifyChangeListeners();
       },
       refetchQueries: [..._cachedGetAllQueries],
     );
@@ -107,6 +110,7 @@ abstract class CrudRepository<T, TRequest, TPatchedRequest, FindAllOptions> {
                 [],
           );
         }
+        notifyChangeListeners();
       },
     );
   }
@@ -142,6 +146,7 @@ abstract class CrudRepository<T, TRequest, TPatchedRequest, FindAllOptions> {
                 [],
           );
         }
+        notifyChangeListeners();
       },
     );
   }
@@ -173,6 +178,7 @@ abstract class CrudRepository<T, TRequest, TPatchedRequest, FindAllOptions> {
             (old) => old?.where((e) => extractId(e) != res).toList() ?? [],
           );
         }
+        notifyChangeListeners();
       },
     );
   }
