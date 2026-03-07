@@ -32,6 +32,11 @@ android {
         jvmTarget = JavaVersion.VERSION_11.toString()
     }
 
+    dependenciesInfo {
+        includeInApk = false
+        includeInBundle = false
+    }
+
     defaultConfig {
         applicationId = "de.astubenbord.paperless_mobile"
         // You can update the following values to match your application needs.
