@@ -19,7 +19,9 @@ class PopWithUnsavedChanges extends StatelessWidget {
         if (didPop) return;
 
         if (hasChangesPredicate()) {
-          final shouldPop = await showDialog<bool>(
+          final shouldPop =
+              await showDialog<bool>(
+                useRootNavigator: false,
                 context: context,
                 builder: (context) => const UnsavedChangesWarningDialog(),
               ) ??

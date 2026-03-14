@@ -1,4 +1,5 @@
 import 'package:cached_query_flutter/cached_query_flutter.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:paperless_mobile/api/models/document.dart';
@@ -47,7 +48,7 @@ class DateAndDocumentTypeLabelWidget extends StatelessWidget {
                       child: QueryBuilder(
                         query: documentTypeRepository.getAllQuery(),
                         builder: (context, state) {
-                          final documentType = state.data?.firstWhere(
+                          final documentType = state.data?.firstWhereOrNull(
                             (dt) => dt.id == document.documentType,
                           );
                           return Text(

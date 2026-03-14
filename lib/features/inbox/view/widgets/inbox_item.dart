@@ -271,6 +271,7 @@ class _InboxItemState extends State<InboxItem> {
           onPressed: () async {
             final shouldDelete =
                 await showDialog<bool>(
+                  useRootNavigator: false,
                   context: context,
                   builder: (context) => DeleteDocumentConfirmationDialog(
                     document: widget.document,

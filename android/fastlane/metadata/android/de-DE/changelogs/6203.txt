@@ -1,0 +1,1 @@
+- Beheben eines Fehlers beim Entfernen von einem Dokumenten zugewiesenen benutzerdefinierten Feldes

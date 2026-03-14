@@ -28,6 +28,7 @@ class DocumentDetailedItem extends DocumentItem {
     super.onStoragePathSelected,
     super.onTagSelected,
     super.onTap,
+    super.isEnabled,
   });
 
   @override
@@ -52,92 +53,103 @@ class DocumentDetailedItem extends DocumentItem {
     final maxHeight = highlights != null
         ? min(600.0, availableHeight)
         : min(500.0, availableHeight);
-    return Card(
-      color: isSelected ? Theme.of(context).colorScheme.inversePrimary : null,
-      child: InkWell(
-        enableFeedback: true,
-        borderRadius: BorderRadius.circular(12),
-        onTap: () {
-          if (isSelectionActive) {
-            onSelected?.call(document);
-          } else {
-            onTap?.call(document);
-          }
-        },
-        onLongPress: () {
-          onSelected?.call(document);
-        },
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ConstrainedBox(
-              constraints: BoxConstraints.tightFor(
-                width: double.infinity,
-                height: maxHeight / 2,
-              ),
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  DocumentPreview(
-                    documentId: document.id,
-                    title: document.title,
-                  ),
-                  if (paperlessUser.canViewTags)
-                    Align(
-                      alignment: Alignment.bottomLeft,
-                      child: TagsWidget(
-                        onTagSelected: onTagSelected,
-                        tagIds: document.tags,
-                      ).padded(),
-                    ),
-                ],
-              ),
-            ),
-            if (paperlessUser.canViewCorrespondents)
-              CorrespondentWidget(
-                id: document.correspondent,
-                onSelected: onCorrespondentSelected,
-                textStyle: Theme.of(context).textTheme.titleSmall?.apply(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
-              ).paddedLTRB(8, 8, 8, 0),
-            Text(
-              document.title ?? '-',
-              style: Theme.of(context).textTheme.titleMedium,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ).paddedLTRB(8, 8, 8, 4),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Opacity(
+      opacity: isEnabled ? 1.0 : 0.38,
+      child: IgnorePointer(
+        ignoring: !isEnabled,
+        child: Card(
+          color: isSelected
+              ? Theme.of(context).colorScheme.inversePrimary
+              : null,
+          child: InkWell(
+            enableFeedback: true,
+            borderRadius: BorderRadius.circular(12),
+            onTap: () {
+              if (isSelectionActive) {
+                onSelected?.call(document);
+              } else {
+                onTap?.call(document);
+              }
+            },
+            onLongPress: () {
+              onSelected?.call(document);
+            },
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: DateAndDocumentTypeLabelWidget(
-                    document: document,
-                    onDocumentTypeSelected: onDocumentTypeSelected,
+                ConstrainedBox(
+                  constraints: BoxConstraints.tightFor(
+                    width: double.infinity,
+                    height: maxHeight / 2,
+                  ),
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      DocumentPreview(
+                        documentId: document.id,
+                        title: document.title,
+                      ),
+                      if (paperlessUser.canViewTags)
+                        Align(
+                          alignment: Alignment.bottomLeft,
+                          child: TagsWidget(
+                            onTagSelected: onTagSelected,
+                            tagIds: document.tags,
+                          ).padded(),
+                        ),
+                    ],
                   ),
                 ),
-                if (document.archiveSerialNumber != null)
-                  Text(
-                    '#${document.archiveSerialNumber}',
-                    style: Theme.of(context).textTheme.bodySmall?.apply(
-                      color: Theme.of(context).hintColor,
+                if (paperlessUser.canViewCorrespondents)
+                  CorrespondentWidget(
+                    id: document.correspondent,
+                    onSelected: onCorrespondentSelected,
+                    textStyle: Theme.of(context).textTheme.titleSmall?.apply(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
-                  ),
+                  ).paddedLTRB(8, 8, 8, 0),
+                Text(
+                  document.title ?? '-',
+                  style: Theme.of(context).textTheme.titleMedium,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ).paddedLTRB(8, 8, 8, 4),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: DateAndDocumentTypeLabelWidget(
+                        document: document,
+                        onDocumentTypeSelected: onDocumentTypeSelected,
+                      ),
+                    ),
+                    if (document.archiveSerialNumber != null)
+                      Text(
+                        '#${document.archiveSerialNumber}',
+                        style: Theme.of(context).textTheme.bodySmall?.apply(
+                          color: Theme.of(context).hintColor,
+                        ),
+                      ),
+                  ],
+                ).paddedLTRB(8, 4, 8, 8),
+                if (highlights != null)
+                  Html(
+                    data: '<p>${highlights!}</p>',
+                    style: {
+                      "span": Style(
+                        backgroundColor: Colors.yellow,
+                        color: Colors.black,
+                      ),
+                      "p": Style(
+                        maxLines: 3,
+                        textOverflow: TextOverflow.ellipsis,
+                      ),
+                    },
+                  ).padded(),
               ],
-            ).paddedLTRB(8, 4, 8, 8),
-            if (highlights != null)
-              Html(
-                data: '<p>${highlights!}</p>',
-                style: {
-                  "span": Style(
-                    backgroundColor: Colors.yellow,
-                    color: Colors.black,
-                  ),
-                  "p": Style(maxLines: 3, textOverflow: TextOverflow.ellipsis),
-                },
-              ).padded(),
-          ],
+            ),
+          ),
         ),
       ),
     ).padded();

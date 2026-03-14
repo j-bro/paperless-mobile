@@ -8,10 +8,12 @@ import 'package:paperless_mobile/core/store/local_store.dart';
 import 'package:paperless_mobile/core/widgets/material/colored_tab_bar.dart';
 import 'package:paperless_mobile/features/app_drawer/view/app_drawer.dart';
 import 'package:paperless_mobile/features/document_search/view/sliver_search_bar.dart';
+import 'package:paperless_mobile/features/labels/custom_fields/view/widgets/custom_field_tab_view.dart';
 import 'package:paperless_mobile/features/labels/view/widgets/label_tab_view.dart';
 import 'package:paperless_mobile/features/logging/data/logger.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/helpers/connectivity_aware_action_wrapper.dart';
+import 'package:paperless_mobile/routing/routes/custom_field_route.dart';
 import 'package:paperless_mobile/routing/routes/labels_route.dart';
 
 class LabelsPage extends StatefulWidget {
@@ -37,6 +39,7 @@ class _LabelsPageState extends State<LabelsPage>
     user.canViewDocumentTypes,
     user.canViewTags,
     user.canViewStoragePaths,
+    user.canViewCustomFields,
   ].fold(0, (value, element) => value + (element ? 1 : 0));
 
   @override
@@ -66,10 +69,11 @@ class _LabelsPageState extends State<LabelsPage>
         storage.state.localUserData[currentUserId]!.localUser.paperlessUser;
 
     final fabLabel = [
-      S.of(context)!.addCorrespondent,
-      S.of(context)!.addDocumentType,
-      S.of(context)!.addTag,
-      S.of(context)!.addStoragePath,
+      if (user.canViewCorrespondents) S.of(context)!.addCorrespondent,
+      if (user.canViewDocumentTypes) S.of(context)!.addDocumentType,
+      if (user.canViewTags) S.of(context)!.addTag,
+      if (user.canViewStoragePaths) S.of(context)!.addStoragePath,
+      if (user.canViewCustomFields) S.of(context)!.addCustomField,
     ][_currentIndex];
     return BlocBuilder<ConnectivityCubit, ConnectivityState>(
       builder: (context, connectedState) {
@@ -79,7 +83,7 @@ class _LabelsPageState extends State<LabelsPage>
             floatingActionButton: ConnectivityAwareActionWrapper(
               offlineBuilder: (context, child) => const SizedBox.shrink(),
               child: FloatingActionButton.extended(
-                heroTag: "inbox_page_fab",
+                heroTag: "labels_page_fab",
                 label: Text(fabLabel),
                 icon: Icon(Icons.add),
                 onPressed: [
@@ -93,6 +97,8 @@ class _LabelsPageState extends State<LabelsPage>
                     () => CreateLabelRoute(LabelType.tag).push(context),
                   if (user.canViewStoragePaths)
                     () => CreateLabelRoute(LabelType.storagePath).push(context),
+                  if (user.canViewCustomFields)
+                    () => CreateCustomFieldRoute().push(context),
                 ][_currentIndex],
               ),
             ),
@@ -160,6 +166,18 @@ class _LabelsPageState extends State<LabelsPage>
                                   ),
                                 ),
                               ),
+                            if (user.canViewCustomFields)
+                              Tab(
+                                icon: Tooltip(
+                                  message: S.of(context)!.customFields,
+                                  child: Icon(
+                                    Icons.tune,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onPrimaryContainer,
+                                  ),
+                                ),
+                              ),
                           ],
                         ),
                       ),
@@ -193,15 +211,21 @@ class _LabelsPageState extends State<LabelsPage>
                   onRefresh: () async {
                     try {
                       await [
-                        context.correspondentRepository.getAllQuery().refetch,
-                        context.documentTypeRepository.getAllQuery().refetch,
-                        context.tagRepository.getAllQuery().refetch,
-                        context.storagePathRepository.getAllQuery().refetch,
+                        if (user.canViewCorrespondents)
+                          context.correspondentRepository.getAllQuery().refetch,
+                        if (user.canViewDocumentTypes)
+                          context.documentTypeRepository.getAllQuery().refetch,
+                        if (user.canViewTags)
+                          context.tagRepository.getAllQuery().refetch,
+                        if (user.canViewStoragePaths)
+                          context.storagePathRepository.getAllQuery().refetch,
+                        if (user.canViewCustomFields)
+                          context.customFieldRepository.getAllQuery().refetch,
                       ][_currentIndex].call();
                     } catch (error, stackTrace) {
                       logger.fe(
                         "An error ocurred while reloading "
-                        "${["correspondents", "document types", "tags", "storage paths"][_currentIndex]}.",
+                        "${[if (user.canViewCorrespondents) "correspondents", if (user.canViewDocumentTypes) "document types", if (user.canViewTags) "tags", if (user.canViewStoragePaths) "storage paths", if (user.canViewCustomFields) "custom fields"][_currentIndex]}.",
                         error: error,
                         stackTrace: stackTrace,
                         className: runtimeType.toString(),
@@ -218,6 +242,8 @@ class _LabelsPageState extends State<LabelsPage>
                         _buildDocumentTypesView(user),
                       if (user.canViewTags) _buildTagsView(user),
                       if (user.canViewStoragePaths) _buildStoragePathView(user),
+                      if (user.canViewCustomFields)
+                        _buildCustomFieldsView(user),
                     ],
                   ),
                 ),
@@ -249,6 +275,7 @@ class _LabelsPageState extends State<LabelsPage>
           onAddNew: () =>
               CreateLabelRoute(LabelType.correspondent).push(context),
         ),
+        SliverToBoxAdapter(child: SizedBox(height: 80)),
       ],
     );
   }
@@ -273,6 +300,7 @@ class _LabelsPageState extends State<LabelsPage>
           onAddNew: () =>
               CreateLabelRoute(LabelType.documentType).push(context),
         ),
+        SliverToBoxAdapter(child: SizedBox(height: 80)),
       ],
     );
   }
@@ -299,6 +327,7 @@ class _LabelsPageState extends State<LabelsPage>
           emptyStateDescription: S.of(context)!.noTagsSetUp,
           onAddNew: () => CreateLabelRoute(LabelType.tag).push(context),
         ),
+        SliverToBoxAdapter(child: SizedBox(height: 80)),
       ],
     );
   }
@@ -323,6 +352,28 @@ class _LabelsPageState extends State<LabelsPage>
           emptyStateDescription: S.of(context)!.noStoragePathsSetUp,
           onAddNew: () => CreateLabelRoute(LabelType.storagePath).push(context),
         ),
+        SliverToBoxAdapter(child: SizedBox(height: 80)),
+      ],
+    );
+  }
+
+  Widget _buildCustomFieldsView(User user) {
+    return CustomScrollView(
+      slivers: [
+        SliverOverlapInjector(handle: searchBarHandle),
+        SliverOverlapInjector(handle: tabBarHandle),
+        CustomFieldTabView(
+          query: context.customFieldRepository.getAllQuery(),
+          onEdit: (field) {
+            EditCustomFieldRoute(field).push(context);
+          },
+          canEdit: user.canEditCustomFields,
+          canAddNew: user.canCreateCustomFields,
+          emptyStateActionButtonLabel: S.of(context)!.addNewCustomField,
+          emptyStateDescription: S.of(context)!.noCustomFieldsSetUp,
+          onAddNew: () => CreateCustomFieldRoute().push(context),
+        ),
+        SliverToBoxAdapter(child: SizedBox(height: 80)),
       ],
     );
   }

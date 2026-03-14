@@ -24,6 +24,7 @@ class CustomFieldsRepository
 
   @override
   String? variableHash(GetFilterOptions? options) {
-    return jsonEncode(options?.copyWith(page: 1));
+    final normalized = options?.toJson()?..remove('page');
+    return jsonEncode(normalized);
   }
 }

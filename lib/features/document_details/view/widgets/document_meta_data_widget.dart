@@ -55,20 +55,22 @@ class DocumentMetaDataWidget extends StatelessWidget {
                 documentId: document.id,
                 initialValue: document.archiveSerialNumber,
               ).paddedOnly(bottom: itemSpacing),
-            DetailsItem.text(
-              DateFormat.yMMMMd(
-                Localizations.localeOf(context).toString(),
-              ).format(document.modified),
-              context: context,
-              label: S.of(context)!.modifiedAt,
-            ).paddedOnly(bottom: itemSpacing),
-            DetailsItem.text(
-              DateFormat.yMMMMd(
-                Localizations.localeOf(context).toString(),
-              ).format(document.added),
-              context: context,
-              label: S.of(context)!.addedAt,
-            ).paddedOnly(bottom: itemSpacing),
+            if (document.modified != null)
+              DetailsItem.text(
+                DateFormat.yMMMMd(
+                  Localizations.localeOf(context).toString(),
+                ).format(document.modified!),
+                context: context,
+                label: S.of(context)!.modifiedAt,
+              ).paddedOnly(bottom: itemSpacing),
+            if (document.added != null)
+              DetailsItem.text(
+                DateFormat.yMMMMd(
+                  Localizations.localeOf(context).toString(),
+                ).format(document.added!),
+                context: context,
+                label: S.of(context)!.addedAt,
+              ).paddedOnly(bottom: itemSpacing),
             DetailsItem.text(
               metadata.mediaFilename,
               context: context,

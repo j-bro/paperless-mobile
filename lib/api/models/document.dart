@@ -23,62 +23,40 @@ class Document {
   /// Returns a new [Document] instance.
   Document({
     required this.id,
-
-    required this.correspondent,
-
-    required this.documentType,
-
-    required this.storagePath,
-
+    this.correspondent,
+    this.documentType,
+    this.storagePath,
     this.title,
-
     this.content,
-
-    required this.tags,
-
+    this.tags = const [],
     this.created,
-
     this.createdDate,
-
-    required this.modified,
-
-    required this.added,
-
+    this.modified,
+    this.added,
     this.deletedAt,
-
     this.archiveSerialNumber,
-
-    required this.originalFileName,
-
-    required this.archivedFileName,
-
+    this.originalFileName,
+    this.archivedFileName,
     this.owner,
-
     this.permissions,
-
     this.userCanChange,
-
     this.isSharedByRequester,
-
-    required this.notes,
-
+    this.notes = const [],
     this.customFields,
-
-    required this.pageCount,
-
-    required this.mimeType,
+    this.pageCount,
+    this.mimeType,
   });
 
-  @JsonKey(name: r'id', required: true, includeIfNull: false)
+  @JsonKey(name: r'id', includeIfNull: false)
   final int id;
 
-  @JsonKey(name: r'correspondent', required: true, includeIfNull: true)
+  @JsonKey(name: r'correspondent', includeIfNull: true)
   final int? correspondent;
 
-  @JsonKey(name: r'document_type', required: true, includeIfNull: true)
+  @JsonKey(name: r'document_type', includeIfNull: true)
   final int? documentType;
 
-  @JsonKey(name: r'storage_path', required: true, includeIfNull: true)
+  @JsonKey(name: r'storage_path', includeIfNull: true)
   final int? storagePath;
 
   @JsonKey(name: r'title', required: false, includeIfNull: false)
@@ -88,7 +66,7 @@ class Document {
   @JsonKey(name: r'content', required: false, includeIfNull: false)
   final String? content;
 
-  @JsonKey(name: r'tags', required: true, includeIfNull: false)
+  @JsonKey(name: r'tags', includeIfNull: false)
   final List<int> tags;
 
   @JsonKey(name: r'created', required: false, includeIfNull: false)
@@ -98,11 +76,11 @@ class Document {
   @JsonKey(name: r'created_date', required: false, includeIfNull: false)
   final DateTime? createdDate;
 
-  @JsonKey(name: r'modified', required: true, includeIfNull: false)
-  final DateTime modified;
+  @JsonKey(name: r'modified', includeIfNull: false)
+  final DateTime? modified;
 
-  @JsonKey(name: r'added', required: true, includeIfNull: false)
-  final DateTime added;
+  @JsonKey(name: r'added', includeIfNull: false)
+  final DateTime? added;
 
   @JsonKey(name: r'deleted_at', required: false, includeIfNull: false)
   final DateTime? deletedAt;
@@ -117,10 +95,10 @@ class Document {
   )
   final int? archiveSerialNumber;
 
-  @JsonKey(name: r'original_file_name', required: true, includeIfNull: true)
+  @JsonKey(name: r'original_file_name', includeIfNull: true)
   final String? originalFileName;
 
-  @JsonKey(name: r'archived_file_name', required: true, includeIfNull: true)
+  @JsonKey(name: r'archived_file_name', includeIfNull: true)
   final String? archivedFileName;
 
   @JsonKey(name: r'owner', required: false, includeIfNull: false)
@@ -139,17 +117,17 @@ class Document {
   )
   final bool? isSharedByRequester;
 
-  @JsonKey(name: r'notes', required: true, includeIfNull: false)
+  @JsonKey(name: r'notes', includeIfNull: false)
   final List<Note> notes;
 
   @JsonKey(name: r'custom_fields', required: false, includeIfNull: false)
   final List<CustomFieldInstance>? customFields;
 
-  @JsonKey(name: r'page_count', required: true, includeIfNull: true)
+  @JsonKey(name: r'page_count', includeIfNull: true)
   final int? pageCount;
 
-  @JsonKey(name: r'mime_type', required: true, includeIfNull: false)
-  final String mimeType;
+  @JsonKey(name: r'mime_type', includeIfNull: false)
+  final String? mimeType;
 
   @override
   bool operator ==(Object other) {

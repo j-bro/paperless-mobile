@@ -59,6 +59,7 @@ class _DocumentShareButtonState extends State<DocumentShareButton> {
         FileDownloadType.original => Future.value(true),
         FileDownloadType.archived => Future.value(false),
         FileDownloadType.alwaysAsk => showDialog<bool>(
+          useRootNavigator: false,
           context: context,
           builder: (context) => SelectFileTypeDialog(
             onRememberSelection: (downloadType) {

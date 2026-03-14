@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:paperless_mobile/api/paperless_api.dart';
+import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/model/info_message_exception.dart';
 import 'package:paperless_mobile/core/translation/error_code_localization_mapper.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
@@ -13,43 +14,63 @@ class SnackBarActionConfig {
   SnackBarActionConfig({required this.label, required this.onPressed});
 }
 
+enum SnackbarType { error, info }
+
 void showSnackBar(
   BuildContext context,
   String message, {
   String? details,
   SnackBarActionConfig? action,
+  SnackbarType type = SnackbarType.info,
   Duration duration = const Duration(seconds: 5),
 }) {
+  final color = type == SnackbarType.error
+      ? Theme.of(context).colorScheme.errorContainer
+      : Theme.of(context).colorScheme.inverseSurface;
+  final foregroundColor = type == SnackbarType.error
+      ? Theme.of(context).colorScheme.onErrorContainer
+      : Theme.of(context).colorScheme.onInverseSurface;
   ScaffoldMessenger.of(context)
     ..hideCurrentSnackBar()
     ..showSnackBar(
       SnackBar(
         behavior: SnackBarBehavior.floating,
-        content: (details != null)
-            ? RichText(
-                maxLines: 5,
-                text: TextSpan(
-                  text: message,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.onInverseSurface,
-                  ),
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: "\n$details",
-                      style: const TextStyle(
-                        fontStyle: FontStyle.italic,
-                        fontSize: 10,
-                      ),
+        backgroundColor: color,
+        content: Row(
+          children: [
+            if (type == SnackbarType.error)
+              Icon(
+                Icons.error_outline,
+                color: foregroundColor,
+              ).paddedOnly(right: 8),
+            (details != null)
+                ? RichText(
+                    maxLines: 5,
+                    text: TextSpan(
+                      text: message,
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodyMedium?.copyWith(color: foregroundColor),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: "\n$details",
+                          style: TextStyle(
+                            color: foregroundColor,
+                            fontStyle: FontStyle.italic,
+                            fontSize: 10,
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              )
-            : Text(message),
+                  )
+                : Text(message),
+          ],
+        ),
         action: action != null
             ? SnackBarAction(
                 label: action.label,
                 onPressed: action.onPressed,
-                textColor: Theme.of(context).colorScheme.onInverseSurface,
+                textColor: foregroundColor,
               )
             : null,
         duration: duration,
@@ -66,6 +87,17 @@ void showGenericError(
     showErrorMessage(context, error, stackTrace);
     return;
   }
+
+  if (error is PaperlessFormValidationException) {
+    showGenericError(
+      context,
+      error.validationMessages.entries
+          .map((e) => "${e.key}: ${e.value}")
+          .join("\n"),
+      stackTrace,
+    );
+    return;
+  }
   if (error is PaperlessUnauthorizedException) {
     showLocalizedError(
       context,
@@ -78,17 +110,7 @@ void showGenericError(
     showInfoMessage(context, error, stackTrace);
     return;
   }
-  showSnackBar(
-    context,
-    error.toString(),
-    // action: SnackBarActionConfig(
-    //   label: S.of(context)!.report,
-    //   onPressed: () => GithubIssueService.createIssueFromError(
-    //     context,
-    //     stackTrace: stackTrace,
-    //   ),
-    // ),
-  );
+  showSnackBar(context, error.toString(), type: SnackbarType.error);
   log(
     "An error has occurred.",
     error: error,
@@ -102,7 +124,7 @@ void showLocalizedError(
   String localizedMessage, [
   StackTrace? stackTrace,
 ]) {
-  showSnackBar(context, localizedMessage);
+  showSnackBar(context, localizedMessage, type: SnackbarType.error);
   log(localizedMessage, stackTrace: stackTrace);
 }
 
@@ -115,6 +137,7 @@ void showErrorMessage(
     context,
     translateError(context, error.code),
     details: error.details,
+    type: SnackbarType.error,
   );
   log(
     "An error has occurred.",

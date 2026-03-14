@@ -34,6 +34,7 @@ class SliverSearchBar extends StatelessWidget {
               icon: UserAvatar(account: context.loggedInUser$),
               onPressed: () {
                 showDialog(
+                  useRootNavigator: false,
                   context: context,
                   builder: (_) => Provider.value(
                     value: context.loggedInUser,

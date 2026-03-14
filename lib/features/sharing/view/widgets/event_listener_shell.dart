@@ -63,6 +63,7 @@ class _EventListenerShellState extends State<EventListenerShell> {
 
       final shouldProcess =
           await showDialog<bool>(
+            useRootNavigator: false,
             context: context,
             builder: (context) =>
                 PendingFilesInfoDialog(pendingFiles: pendingFiles),
@@ -204,6 +205,7 @@ Future<void> consumeLocalFile(
     if (!context.mounted) return;
     final shouldDiscard =
         await showDialog<bool>(
+          useRootNavigator: false,
           context: context,
           builder: (context) => DiscardSharedFileDialog(bytes: bytes),
         ) ??

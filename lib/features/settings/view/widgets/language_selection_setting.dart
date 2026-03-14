@@ -36,6 +36,7 @@ class _LanguageSelectionSettingState extends State<LanguageSelectionSetting> {
         subtitle: Text(_languageOptions[settings.preferredLocaleSubtag]!.name),
         onTap: () =>
             showDialog<String>(
+              useRootNavigator: false,
               context: context,
               builder: (_) => RadioSettingsDialog<String>(
                 // footer: const Text(

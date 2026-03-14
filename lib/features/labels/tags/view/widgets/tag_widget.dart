@@ -24,6 +24,9 @@ class TagWidget extends StatelessWidget {
       child: AbsorbPointer(
         absorbing: !isClickable,
         child: FilterChip(
+          avatar: tag.isInboxTag
+              ? Icon(Icons.inbox, size: dense ? 16 : 18, color: tag.textColor)
+              : null,
           labelPadding: dense
               ? const EdgeInsets.symmetric(horizontal: 2)
               : null,

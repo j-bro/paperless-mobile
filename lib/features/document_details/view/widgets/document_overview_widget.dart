@@ -5,6 +5,7 @@ import 'package:paperless_mobile/api/paperless_api.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/widgets/highlighted_text.dart';
+import 'package:paperless_mobile/features/document_details/view/widgets/custom_field_widget.dart';
 import 'package:paperless_mobile/features/document_details/view/widgets/details_item.dart';
 import 'package:paperless_mobile/features/labels/tags/view/widgets/tags_widget.dart';
 import 'package:paperless_mobile/features/labels/view/widgets/label_text.dart';
@@ -148,6 +149,10 @@ class DocumentOverviewWidget extends StatelessWidget {
               style: Theme.of(context).textTheme.bodyLarge,
               label: null,
             ),
+          ),
+        if (document.customFields != null)
+          ...document.customFields!.map(
+            (instance) => CustomFieldWidget(instance: instance),
           ),
       ].map((e) => e.paddedOnly(bottom: itemSpacing)).toList(),
     );

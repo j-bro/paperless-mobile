@@ -21,30 +21,25 @@ class CustomField {
   /// Returns a new [CustomField] instance.
   CustomField({
     required this.id,
-
     required this.name,
-
     required this.dataType,
-
     this.extraData,
-
-    required this.documentCount,
+    this.documentCount = 0,
   });
 
-  @JsonKey(name: r'id', required: true, includeIfNull: false)
+  @JsonKey(name: r'id', includeIfNull: false)
   final int id;
 
-  @JsonKey(name: r'name', required: true, includeIfNull: false)
+  @JsonKey(name: r'name', includeIfNull: false)
   final String name;
 
-  @JsonKey(name: r'data_type', required: true, includeIfNull: false)
+  @JsonKey(name: r'data_type', includeIfNull: false)
   final DataTypeEnum dataType;
 
   /// Extra data for the custom field, such as select options
-  @JsonKey(name: r'extra_data', required: false, includeIfNull: false)
+  @JsonKey(name: r'extra_data', includeIfNull: false)
   final Object? extraData;
-
-  @JsonKey(name: r'document_count', required: true, includeIfNull: false)
+  @JsonKey(name: r'document_count', includeIfNull: false)
   final int documentCount;
 
   @override

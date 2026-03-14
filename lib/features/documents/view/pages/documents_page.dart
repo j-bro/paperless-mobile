@@ -395,6 +395,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
                       onDeleteView: (view) async {
                         HapticFeedback.mediumImpact();
                         final shouldRemove = await showDialog(
+                          useRootNavigator: false,
                           context: context,
                           builder: (context) =>
                               ConfirmDeleteSavedViewDialog(view: view),
@@ -627,6 +628,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
     if (viewHasChanged) {
       final discardChanges =
           await showDialog<bool>(
+            useRootNavigator: false,
             context: context,
             builder: (context) => const SavedViewChangedDialog(),
           ) ??

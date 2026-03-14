@@ -180,6 +180,7 @@ class _ScannerPageState extends State<ScannerPage>
   void _onSaveToFile() async {
     final globalSettings = context.localStore.state.globalSettings;
     final fileName = await showDialog<String>(
+      useRootNavigator: false,
       context: context,
       builder: (context) => const ExportScansDialog(),
     );

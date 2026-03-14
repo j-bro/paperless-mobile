@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:paperless_mobile/api/paperless_api.dart';
 
 extension SavedViewExtension on SavedView {
@@ -7,7 +8,9 @@ extension SavedViewExtension on SavedView {
         sortOrder: (sortReverse ?? false)
             ? SortOrder.descending
             : SortOrder.ascending,
-        sortField: SortField.values.firstWhere((e) => e.value == sortField),
+        sortField: SortField.values.firstWhereOrNull(
+          (e) => e.value == sortField,
+        ),
         selectedView: id,
       ),
       (filter, filterRule) => filterRule.applyToFilter(filter),

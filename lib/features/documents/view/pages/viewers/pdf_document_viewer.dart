@@ -120,11 +120,8 @@ class _PdfDocumentViewerState extends State<PdfDocumentViewer> {
           PdfPageNumber(
             controller: _controller,
             builder: (context, loadingState, page, pagesCount) {
-              if (loadingState != PdfLoadingState.success) {
-                return const Text("-/-");
-              }
               return Text(
-                "$page/$pagesCount",
+                pagesCount == null ? "-/-" : "$page/$pagesCount",
                 style: Theme.of(context).textTheme.titleMedium,
               ).padded();
             },

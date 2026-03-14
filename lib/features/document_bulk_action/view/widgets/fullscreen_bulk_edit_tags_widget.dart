@@ -172,6 +172,7 @@ class _FullscreenBulkEditTagsWidgetState
           .toList();
       final shouldPerformAction =
           await showDialog<bool>(
+            useRootNavigator: false,
             context: context,
             builder: (context) => ConfirmBulkModifyTagsDialog(
               selectionCount: widget.selection.length,

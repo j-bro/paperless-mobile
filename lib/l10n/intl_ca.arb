@@ -25,6 +25,9 @@
   "@addCorrespondent": {
     "description": "Title when adding a new correspondent"
   },
+  "addCustomField": "New Custom Field",
+  "@addCustomField": {},
+  "addCustomFieldToDocument": "Add custom field",
   "addDocumentType": "Nou tipus de document",
   "@addDocumentType": {
     "description": "Title when adding a new document type"
@@ -34,6 +37,8 @@
   "additionalHeaders": "Capçaleres Addicionals",
   "addNewCorrespondent": "Crear nou corresponsal",
   "@addNewCorrespondent": {},
+  "addNewCustomField": "Add new custom field",
+  "@addNewCustomField": {},
   "addNewDocumentType": "Crea nou tipus de document",
   "@addNewDocumentType": {},
   "addNewStoragePath": "Nova ruta emmagatzematge",
@@ -365,6 +370,56 @@
   "@createsASavedViewBasedOnTheCurrentFilterCriteria": {},
   "createViewsToQuicklyFilterYourDocuments": "Crea vistes per filtrar documents de manera ràpida.",
   "@createViewsToQuicklyFilterYourDocuments": {},
+  "customFieldCreatedSuccessfully": "Custom field created successfully.",
+  "@customFieldCreatedSuccessfully": {},
+  "customFieldDataType": "Data Type",
+  "@customFieldDataType": {},
+  "customFieldDeletedSuccessfully": "Custom field deleted successfully.",
+  "@customFieldDeletedSuccessfully": {},
+  "customFieldMonetaryDefaultCurrencyHelperText": "Enter the default currency (e.g., USD, EUR, GBP)",
+  "@customFieldMonetaryDefaultCurrencyHelperText": {
+    "description": "Helper text for the default currency field in a custom monetary field"
+  },
+  "customFieldMonetaryDefaultCurrencyHintText": "Refer to the default ISO currency code of your region (USD, EUR, GBP, ...)",
+  "@customFieldMonetaryDefaultCurrencyHintText": {
+    "description": "Hint text for the default currency field in a custom monetary field"
+  },
+  "customFieldMonetaryDefaultCurrencyLabel": "Default Currency",
+  "@customFieldMonetaryDefaultCurrencyLabel": {
+    "description": "Label for the default currency field in a custom monetary field"
+  },
+  "customFieldName": "Field Name",
+  "@customFieldName": {},
+  "customFields": "Custom Fields",
+  "@customFields": {},
+  "customFieldSelectAddOption": "Add option",
+  "@customFieldSelectAddOption": {
+    "description": "Label for the button to add a new option to a custom field with select data type"
+  },
+  "customFieldSelectOptionHintText": "Option {index}",
+  "@customFieldSelectOptionHintText": {
+    "description": "Hint text for the text field to add or edit an option of a custom field with select data type",
+    "placeholders": {
+      "index": {
+        "type": "int"
+      }
+    }
+  },
+  "customFieldSelectOptions": "Options",
+  "@customFieldSelectOptions": {
+    "description": "Label shown above the options of a custom field with select data type"
+  },
+  "customFieldTypeBoolean": "Boolean",
+  "customFieldTypeDate": "Date",
+  "customFieldTypeDocumentLink": "Document Link",
+  "customFieldTypeFloat": "Float",
+  "customFieldTypeInteger": "Integer",
+  "customFieldTypeMonetary": "Currency",
+  "customFieldTypeSelect": "Select",
+  "customFieldTypeText": "Text",
+  "customFieldTypeUrl": "URL",
+  "customFieldUpdatedSuccessfully": "Custom field updated successfully.",
+  "@customFieldUpdatedSuccessfully": {},
   "dark": "Fosc",
   "@dark": {},
   "darkTheme": "Tema fosc",
@@ -401,6 +456,8 @@
   "@delete": {},
   "deleteAllScans": "Esborra tots els escanejos",
   "@deleteAllScans": {},
+  "deleteCustomFieldWarningText": "This custom field contains references to other documents. By deleting this label, all references will be removed. Continue?",
+  "@deleteCustomFieldWarningText": {},
   "deleteDocument": "Esborra document",
   "@deleteDocument": {
     "description": "Used as an action label on each inbox item"
@@ -500,6 +557,8 @@
   "@dynamicColorScheme": {},
   "edit": "Edita",
   "@edit": {},
+  "editCustomField": "Edit Custom Field",
+  "@editCustomField": {},
   "editDocument": "Edita Document",
   "@editDocument": {},
   "editDocumentTooltip": "Edita",
@@ -746,6 +805,8 @@
   "@noAppToDisplayPDFFilesFound": {},
   "noCorrespondentsSetUp": "No has afegit cap corresponsal.",
   "@noCorrespondentsSetUp": {},
+  "noCustomFieldsSetUp": "You don't seem to have any custom fields set up.",
+  "@noCustomFieldsSetUp": {},
   "noDocumentsFound": "Sense Documents trobats.",
   "@noDocumentsFound": {
     "description": "Message shown when no documents were found."
@@ -909,6 +970,7 @@
   "@scrollToTop": {},
   "search": "Cerca",
   "@search": {},
+  "searchCustomFields": "Search custom fields",
   "searchDocuments": "Cerca documents",
   "@searchDocuments": {},
   "security": "Seguretat",
@@ -1103,6 +1165,7 @@
   "youDoNotHaveUnseenDocuments": "Sense document no vistos.",
   "@youDoNotHaveUnseenDocuments": {},
   "youHaveNoViewsOnYourDashboardYet": "No has afegit vistes al tauler encara.",
+  "@youHaveNoViewsOnYourDashboardYet": {},
   "youreOffline": "Sense connexió.",
   "@youreOffline": {}
 }

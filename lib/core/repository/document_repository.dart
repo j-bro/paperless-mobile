@@ -170,7 +170,7 @@ class DocumentRepository with ChangeNotifierMixin {
           );
           query?.invalidate();
         }
-        notifyChangeListeners();
+        notifyChangeListeners(ChangeType.update);
       },
       invalidateQueries: [..._cachedDocumentQueriesToInvalidate],
     );
@@ -216,7 +216,7 @@ class DocumentRepository with ChangeNotifierMixin {
         return _api.delete(id);
       },
       onSuccess: (res, arg) {
-        notifyChangeListeners();
+        notifyChangeListeners(ChangeType.delete);
       },
       invalidateQueries: [
         'document/$id',
@@ -346,7 +346,7 @@ class DocumentRepository with ChangeNotifierMixin {
         }
       },
       onSuccess: (res, arg) {
-        notifyChangeListeners();
+        notifyChangeListeners(ChangeType.update);
       },
       invalidateQueries: [
         'document/$id',
@@ -374,7 +374,7 @@ class DocumentRepository with ChangeNotifierMixin {
         }
       },
       onSuccess: (res, arg) {
-        notifyChangeListeners();
+        notifyChangeListeners(ChangeType.update);
       },
       invalidateQueries: [
         'document/$id',

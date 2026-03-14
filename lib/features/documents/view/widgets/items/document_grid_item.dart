@@ -23,132 +23,143 @@ class DocumentGridItem extends DocumentItem {
     super.onTagSelected,
     super.onTap,
     required super.enableHeroAnimation,
+    super.isEnabled,
   });
 
   @override
   Widget build(BuildContext context) {
     var currentUser = context.loggedInUser$.paperlessUser;
-    return Stack(
-      children: [
-        Card(
-          elevation: 1.0,
-          color: isSelected
-              ? Theme.of(context).colorScheme.inversePrimary
-              : Theme.of(context).cardColor,
-          child: InkWell(
-            borderRadius: BorderRadius.circular(12),
-            onTap: _onTap,
-            onLongPress: onSelected != null
-                ? () => onSelected!(document)
-                : null,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: AspectRatio(
-                    aspectRatio: 1,
-                    child: Stack(
-                      children: [
-                        Positioned.fill(
-                          child: DocumentPreview(
-                            documentId: document.id,
-                            borderRadius: 12.0,
-                            enableHero: enableHeroAnimation,
-                            title: document.title,
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.bottomLeft,
-                          child: SizedBox(
-                            height: kMinInteractiveDimension,
-                            child: NotificationListener<ScrollNotification>(
-                              // Prevents ancestor notification listeners to be notified when this widget scrolls
-                              onNotification: (notification) => true,
-                              child: TagsWidget(
-                                tagIds: document.tags,
-                                onTagSelected: onTagSelected,
-                              ).padded(),
-                              // child: CustomScrollView(
-                              //   scrollDirection: Axis.horizontal,
-                              //   slivers: [
-                              //     const SliverToBoxAdapter(
-                              //       child: SizedBox(width: 8),
-                              //     ),
-                              //     if (currentUser.canViewTags)
-                              //       TagsWidget.sliver(
-                              //         tagIds: document.tags,
-                              //         onTagSelected: onTagSelected,
-                              //       ),
-                              //     const SliverToBoxAdapter(
-                              //       child: SizedBox(width: 8),
-                              //     ),
-                              //   ],
-                              // ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (currentUser.canViewCorrespondents)
-                          CorrespondentWidget(
-                            id: document.correspondent,
-                            onSelected: onCorrespondentSelected,
-                          ),
-                        if (currentUser.canViewDocumentTypes)
-                          DocumentTypeWidget(
-                            id: document.documentType,
-                            onSelected: onDocumentTypeSelected,
-                          ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
-                          child: Text(
-                            document.title ?? '-',
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                        ),
-                        const Spacer(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Opacity(
+      opacity: isEnabled ? 1.0 : 0.38,
+      child: IgnorePointer(
+        ignoring: !isEnabled,
+        child: Stack(
+          children: [
+            Card(
+              elevation: 1.0,
+              color: isSelected
+                  ? Theme.of(context).colorScheme.inversePrimary
+                  : Theme.of(context).cardColor,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(12),
+                onTap: _onTap,
+                onLongPress: onSelected != null
+                    ? () => onSelected!(document)
+                    : null,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: Stack(
                           children: [
-                            if (document.created != null)
-                              Text(
-                                DateFormat.yMMMMd(
-                                  Localizations.localeOf(context).toString(),
-                                ).format(document.created!),
-                                style: Theme.of(context).textTheme.bodySmall,
+                            Positioned.fill(
+                              child: DocumentPreview(
+                                documentId: document.id,
+                                borderRadius: 12.0,
+                                enableHero: enableHeroAnimation,
+                                title: document.title,
                               ),
-                            if (document.archiveSerialNumber != null)
-                              Text(
-                                '#${document.archiveSerialNumber!}',
-                                style: Theme.of(context).textTheme.bodySmall
-                                    ?.copyWith(
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.onSurface,
-                                    ),
+                            ),
+                            Align(
+                              alignment: Alignment.bottomLeft,
+                              child: SizedBox(
+                                height: kMinInteractiveDimension,
+                                child: NotificationListener<ScrollNotification>(
+                                  // Prevents ancestor notification listeners to be notified when this widget scrolls
+                                  onNotification: (notification) => true,
+                                  child: TagsWidget(
+                                    tagIds: document.tags,
+                                    onTagSelected: onTagSelected,
+                                  ).padded(),
+                                  // child: CustomScrollView(
+                                  //   scrollDirection: Axis.horizontal,
+                                  //   slivers: [
+                                  //     const SliverToBoxAdapter(
+                                  //       child: SizedBox(width: 8),
+                                  //     ),
+                                  //     if (currentUser.canViewTags)
+                                  //       TagsWidget.sliver(
+                                  //         tagIds: document.tags,
+                                  //         onTagSelected: onTagSelected,
+                                  //       ),
+                                  //     const SliverToBoxAdapter(
+                                  //       child: SizedBox(width: 8),
+                                  //     ),
+                                  //   ],
+                                  // ),
+                                ),
                               ),
+                            ),
                           ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (currentUser.canViewCorrespondents)
+                              CorrespondentWidget(
+                                id: document.correspondent,
+                                onSelected: onCorrespondentSelected,
+                              ),
+                            if (currentUser.canViewDocumentTypes)
+                              DocumentTypeWidget(
+                                id: document.documentType,
+                                onSelected: onDocumentTypeSelected,
+                              ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: Text(
+                                document.title ?? '-',
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                            ),
+                            const Spacer(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                if (document.created != null)
+                                  Text(
+                                    DateFormat.yMMMMd(
+                                      Localizations.localeOf(
+                                        context,
+                                      ).toString(),
+                                    ).format(document.created!),
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodySmall,
+                                  ),
+                                if (document.archiveSerialNumber != null)
+                                  Text(
+                                    '#${document.archiveSerialNumber!}',
+                                    style: Theme.of(context).textTheme.bodySmall
+                                        ?.copyWith(
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.onSurface,
+                                        ),
+                                  ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
-      ],
+      ),
     );
   }
 

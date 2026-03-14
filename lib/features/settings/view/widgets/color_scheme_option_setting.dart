@@ -27,6 +27,7 @@ class ColorSchemeOptionSetting extends StatelessWidget {
         ),
         onTap: () =>
             showDialog<ColorSchemeOption>(
+              useRootNavigator: false,
               context: context,
               builder: (_) => RadioSettingsDialog<ColorSchemeOption>(
                 titleText: S.of(context)!.colors,

@@ -134,6 +134,7 @@ class _FullscreenBulkEditLabelPageState<T extends Label>
       if (_selection!.label == null) {
         shouldPerformAction =
             await showDialog<bool>(
+              useRootNavigator: false,
               context: context,
               builder: (context) => ConfirmBulkModifyLabelDialog(
                 content: widget.removeMessageBuilder(widget.selection.length),
@@ -144,6 +145,7 @@ class _FullscreenBulkEditLabelPageState<T extends Label>
         final labelName = widget.options[_selection!.label]!.name;
         shouldPerformAction =
             await showDialog<bool>(
+              useRootNavigator: false,
               context: context,
               builder: (context) => ConfirmBulkModifyLabelDialog(
                 content: widget.assignMessageBuilder(

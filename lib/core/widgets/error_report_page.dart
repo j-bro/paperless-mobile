@@ -27,10 +27,7 @@ class _ErrorReportPageState extends State<ErrorReportPage> {
       appBar: AppBar(
         title: const Text('Report error'),
         actions: [
-          TextButton(
-            onPressed: _onSubmit,
-            child: const Text('Submit'),
-          ),
+          TextButton(onPressed: _onSubmit, child: const Text('Submit')),
         ],
       ),
       body: FormBuilder(
@@ -51,9 +48,10 @@ Note: If you have the GitHub Android app installed, the descriptions will not be
             FormBuilderTextField(
               name: shortDescriptionKey,
               decoration: const InputDecoration(
-                  label: Text('Short Description'),
-                  hintText:
-                      'Please provide a brief description of what went wrong.'),
+                label: Text('Short Description'),
+                hintText:
+                    'Please provide a brief description of what went wrong.',
+              ),
             ).padded(),
             FormBuilderTextField(
               name: shortDescriptionKey,
@@ -88,7 +86,7 @@ Note: If you have the GitHub Android app installed, the descriptions will not be
                 widget.stackTrace.toString(),
                 style: Theme.of(context).textTheme.bodySmall,
               ).padded(),
-            ]
+            ],
           ],
         ),
       ),
@@ -98,27 +96,25 @@ Note: If you have the GitHub Android app installed, the descriptions will not be
   void _copyStackTrace() {
     Clipboard.setData(
       ClipboardData(text: '```${widget.stackTrace.toString()}```'),
-    ).then(
-      (_) {
-        setState(() => _stackTraceCopied = true);
-        if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(
-              'Stack trace copied to clipboard.',
-            ),
-            duration: Duration(seconds: 2),
-          ),
-        );
-      },
-    );
+    ).then((_) {
+      setState(() => _stackTraceCopied = true);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Stack trace copied to clipboard.'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    });
   }
 
   void _onSubmit() async {
     if (_formKey.currentState?.saveAndValidate() ?? false) {
       final fk = _formKey.currentState!.value;
       if (!_stackTraceCopied) {
-        final continueSubmission = await showDialog<bool>(
+        final continueSubmission =
+            await showDialog<bool>(
+              useRootNavigator: false,
               context: context,
               builder: (context) => AlertDialog(
                 title: const Text('Continue without stack trace?'),

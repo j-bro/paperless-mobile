@@ -82,7 +82,7 @@ class PatchedDocumentRequest {
   final CorrespondentRequestSetPermissions? setPermissions;
 
   @JsonKey(name: r'custom_fields')
-  final List<CustomFieldInstanceRequest>? customFields;
+  final PatchedValue<List<CustomFieldInstanceRequest>?>? customFields;
 
   @JsonKey(name: r'remove_inbox_tags')
   final bool? removeInboxTags;

@@ -4,20 +4,23 @@
 /// changes (e.g. after a successful create, update, or delete). Dependents can
 /// register via [addOnChangeListener] to react to those changes — for example
 /// by invalidating their own cached queries.
-mixin ChangeNotifierMixin {
-  final Set<void Function()> _onChangeListeners = {};
 
-  void addOnChangeListener(void Function() listener) {
+enum ChangeType { create, update, delete }
+
+mixin ChangeNotifierMixin {
+  final Set<void Function(ChangeType change)> _onChangeListeners = {};
+
+  void addOnChangeListener(void Function(ChangeType change) listener) {
     _onChangeListeners.add(listener);
   }
 
-  void removeOnChangeListener(void Function() listener) {
+  void removeOnChangeListener(void Function(ChangeType change) listener) {
     _onChangeListeners.remove(listener);
   }
 
-  void notifyChangeListeners() {
+  void notifyChangeListeners(ChangeType change) {
     for (final listener in _onChangeListeners) {
-      listener();
+      listener(change);
     }
   }
 }

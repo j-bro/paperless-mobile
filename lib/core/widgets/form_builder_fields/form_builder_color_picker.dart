@@ -198,6 +198,7 @@ class FormBuilderColorPickerFieldState
     if (effectiveFocusNode.hasFocus && enabled) {
       effectiveFocusNode.unfocus();
       final selected = await showDialog<bool>(
+        useRootNavigator: false,
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(

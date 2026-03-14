@@ -115,5 +115,15 @@ dynamic _serializeValue(dynamic value) {
   if (value is DateTime) {
     return const LocalDateTimeJsonConverter().toJson(value);
   }
-  return value;
+
+  if (value is List) {
+    return value.map(_serializeValue).toList();
+  }
+
+  try {
+    return value.toJson();
+  } on NoSuchMethodError {
+    // If toJson is not implemented, return the value as-is
+    return value;
+  }
 }

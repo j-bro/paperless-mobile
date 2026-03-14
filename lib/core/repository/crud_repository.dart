@@ -73,7 +73,7 @@ abstract class CrudRepository<T, TRequest, TPatchedRequest, FindAllOptions>
           if (query == null) continue;
           query.update((old) => [...old ?? [], res]);
         }
-        notifyChangeListeners();
+        notifyChangeListeners(ChangeType.create);
       },
       refetchQueries: [..._cachedGetAllQueries],
     );
@@ -110,7 +110,7 @@ abstract class CrudRepository<T, TRequest, TPatchedRequest, FindAllOptions>
                 [],
           );
         }
-        notifyChangeListeners();
+        notifyChangeListeners(ChangeType.update);
       },
     );
   }
@@ -146,7 +146,7 @@ abstract class CrudRepository<T, TRequest, TPatchedRequest, FindAllOptions>
                 [],
           );
         }
-        notifyChangeListeners();
+        notifyChangeListeners(ChangeType.update);
       },
     );
   }
@@ -178,7 +178,7 @@ abstract class CrudRepository<T, TRequest, TPatchedRequest, FindAllOptions>
             (old) => old?.where((e) => extractId(e) != res).toList() ?? [],
           );
         }
-        notifyChangeListeners();
+        notifyChangeListeners(ChangeType.delete);
       },
     );
   }

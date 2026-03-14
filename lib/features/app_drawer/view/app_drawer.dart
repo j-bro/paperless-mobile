@@ -119,6 +119,7 @@ class AppDrawer extends StatelessWidget {
               title: Text(S.of(context)!.donate),
               onTap: () {
                 showDialog(
+                  useRootNavigator: false,
                   context: context,
                   builder: (context) => AlertDialog(
                     icon: const Icon(Icons.favorite),

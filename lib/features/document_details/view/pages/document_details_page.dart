@@ -68,46 +68,49 @@ class _DocumentDetailsPageState extends State<DocumentDetailsPage> {
   @override
   Widget build(BuildContext context) {
     final currentUser = context.loggedInUser$;
-    return AnnotatedRegion(
-      value: buildOverlayStyle(
-        Theme.of(context),
-        systemNavigationBarColor: Theme.of(context).bottomAppBarTheme.color,
-      ),
-      child: QueryBuilder(
-        query: context.documentRepository.getDocumentQuery(widget.id),
-        builder: (context, state) {
-          return DefaultTabController(
-            length: 6,
-            child: Scaffold(
-              extendBodyBehindAppBar: false,
-              floatingActionButtonLocation:
-                  FloatingActionButtonLocation.endDocked,
-              floatingActionButton: state.data != null
-                  ? _buildEditButton(state.data!, currentUser)
-                  : null,
-              bottomNavigationBar: _buildBottomAppBar(state, currentUser),
-              body: NestedScrollView(
-                headerSliverBuilder: (context, innerBoxIsScrolled) => [
-                  SliverOverlapAbsorber(
-                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                      context,
+    return PopScope(
+      canPop: true,
+      child: AnnotatedRegion(
+        value: buildOverlayStyle(
+          Theme.of(context),
+          systemNavigationBarColor: Theme.of(context).bottomAppBarTheme.color,
+        ),
+        child: QueryBuilder(
+          query: context.documentRepository.getDocumentQuery(widget.id),
+          builder: (context, state) {
+            return DefaultTabController(
+              length: 6,
+              child: Scaffold(
+                extendBodyBehindAppBar: false,
+                floatingActionButtonLocation:
+                    FloatingActionButtonLocation.endDocked,
+                floatingActionButton: state.data != null
+                    ? _buildEditButton(state.data!, currentUser)
+                    : null,
+                bottomNavigationBar: _buildBottomAppBar(state, currentUser),
+                body: NestedScrollView(
+                  headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                    SliverOverlapAbsorber(
+                      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                        context,
+                      ),
+                      sliver: _buildSliverAppBar(
+                        state.data?.title ?? widget.title ?? '',
+                        innerBoxIsScrolled,
+                        state,
+                      ),
                     ),
-                    sliver: _buildSliverAppBar(
-                      state.data?.title ?? widget.title ?? '',
-                      innerBoxIsScrolled,
-                      state,
-                    ),
+                  ],
+                  body: Builder(
+                    builder: (context) {
+                      return _buildBody(context, state);
+                    },
                   ),
-                ],
-                body: Builder(
-                  builder: (context) {
-                    return _buildBody(context, state);
-                  },
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
@@ -446,6 +449,7 @@ class _DocumentDetailsPageState extends State<DocumentDetailsPage> {
   ) async {
     final shouldDelete =
         await showDialog(
+          useRootNavigator: false,
           context: context,
           builder: (context) =>
               DeleteDocumentConfirmationDialog(document: document),

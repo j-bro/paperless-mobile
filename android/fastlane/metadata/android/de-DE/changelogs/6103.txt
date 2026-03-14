@@ -1,0 +1,2 @@
+- Neu: Unterstützung für benutzerdefinierte Felder
+- Beheben von Fehler beim Anzeigen von gespeicherten Ansichten auf Startseite

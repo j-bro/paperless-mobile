@@ -18,6 +18,7 @@ class ThemeModeSetting extends StatelessWidget {
         ),
         onTap: () =>
             showDialog<ThemeMode>(
+              useRootNavigator: false,
               context: context,
               builder: (_) => RadioSettingsDialog<ThemeMode>(
                 titleText: S.of(context)!.appearance,

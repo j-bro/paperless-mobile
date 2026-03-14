@@ -1,4 +1,5 @@
 import 'package:cached_query_flutter/cached_query_flutter.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paperless_mobile/api/paperless_api.dart';
@@ -52,7 +53,7 @@ class _SavedViewsWidgetState extends State<SavedViewsWidget>
       query: context.read<SavedViewRepository>().getAllQuery(),
       builder: (context, state) {
         final selectedView = widget.filter.selectedView != null
-            ? state.data?.firstWhere(
+            ? state.data?.firstWhereOrNull(
                 (view) => view.id == widget.filter.selectedView!,
               )
             : null;

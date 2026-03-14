@@ -40,6 +40,7 @@ class DocumentSelectionSliverAppBar extends StatelessWidget {
 
             final shouldDelete =
                 await showDialog<bool>(
+                  useRootNavigator: false,
                   context: context,
                   builder: (context) =>
                       BulkDeleteConfirmationDialog(selection: selection),

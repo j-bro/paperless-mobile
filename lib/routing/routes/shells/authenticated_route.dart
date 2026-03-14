@@ -13,6 +13,7 @@ import 'package:paperless_mobile/routing/navigation_keys.dart';
 import 'package:paperless_mobile/routing/routes.dart';
 import 'package:paperless_mobile/routing/routes/documents_route.dart';
 import 'package:paperless_mobile/routing/routes/inbox_route.dart';
+import 'package:paperless_mobile/routing/routes/custom_field_route.dart';
 import 'package:paperless_mobile/routing/routes/labels_route.dart';
 import 'package:paperless_mobile/routing/routes/landing_route.dart';
 import 'package:paperless_mobile/routing/routes/saved_views_route.dart';
@@ -102,6 +103,14 @@ part 'authenticated_route.g.dart';
                 TypedGoRoute<LinkedDocumentsRoute>(
                   path: "linked-documents",
                   name: R.linkedDocuments,
+                ),
+                TypedGoRoute<CreateCustomFieldRoute>(
+                  path: "create-custom-field",
+                  name: R.createCustomField,
+                ),
+                TypedGoRoute<EditCustomFieldRoute>(
+                  path: "edit-custom-field",
+                  name: R.editCustomField,
                 ),
               ],
             ),

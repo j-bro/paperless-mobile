@@ -6,6 +6,7 @@ import 'package:paperless_mobile/features/settings/view/manage_accounts_dialog_c
 import 'package:paperless_mobile/features/settings/view/widgets/user_avatar.dart';
 import 'package:paperless_mobile/features/sharing/cubit/receive_share_cubit.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
+import 'package:paperless_mobile/routing/routes/documents_route.dart';
 import 'package:provider/provider.dart';
 
 class DocumentSearchBar extends StatefulWidget {
@@ -85,8 +86,20 @@ class _DocumentSearchBarState extends State<DocumentSearchBar> {
           ),
         );
       },
-      openBuilder: (_, action) {
-        return const DocumentSearchPage();
+      openBuilder: (_, close) {
+        return DocumentSearchPage(
+          close: close,
+          onItemSelected: (context, document) {
+            DocumentDetailsRoute(
+              title: document.title,
+              documentId: document.id,
+              isLabelClickable: false,
+              thumbnailUrl: context.documentRepository.getThumbnailUrl(
+                document.id,
+              ),
+            ).push(context);
+          },
+        );
       },
     );
   }
@@ -97,6 +110,7 @@ class _DocumentSearchBarState extends State<DocumentSearchBar> {
       icon: UserAvatar(account: context.loggedInUser),
       onPressed: () {
         showDialog(
+          useRootNavigator: false,
           context: context,
           builder: (_) => const ManageAccountsDialogContent(),
         );

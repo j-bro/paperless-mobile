@@ -124,6 +124,7 @@ class _FormBuilderExtendedDateRangePickerState
     FormFieldState<DateRangeQuery> field,
   ) async {
     final query = await showDialog<DateRangeQuery>(
+      useRootNavigator: false,
       context: context,
       builder: (context) => ExtendedDateRangeDialog(initialValue: field.value!),
     );

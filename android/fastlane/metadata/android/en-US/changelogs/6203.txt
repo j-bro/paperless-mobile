@@ -1,0 +1,1 @@
+- Fix issue removing assigned custom fields from documents

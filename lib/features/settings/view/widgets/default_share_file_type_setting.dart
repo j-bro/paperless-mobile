@@ -19,6 +19,7 @@ class DefaultShareFileTypeSetting extends StatelessWidget {
         ),
         onTap: () async {
           final selectedValue = await showDialog<FileDownloadType>(
+            useRootNavigator: false,
             context: context,
             builder: (context) {
               return RadioSettingsDialog<FileDownloadType>(

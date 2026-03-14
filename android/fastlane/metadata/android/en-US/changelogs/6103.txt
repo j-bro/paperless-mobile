@@ -1,0 +1,2 @@
+- New: Support for custom fields
+- Fix issue displaying saved views on start screen

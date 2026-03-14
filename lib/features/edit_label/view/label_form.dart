@@ -197,16 +197,6 @@ class _LabelFormState<T extends Label, TRequest extends LabelRequest>
       } on PaperlessApiException catch (error, stackTrace) {
         if (mounted) showErrorMessage(context, error, stackTrace);
       } on PaperlessFormValidationException catch (exception) {
-        if (exception.validationMessages.containsKey('error')) {
-          if (mounted) {
-            showGenericError(
-              context,
-              exception.validationMessages['error']!,
-              StackTrace.current,
-            );
-          }
-          return;
-        }
         setState(() => _errors = exception.validationMessages);
       } catch (error, stackTrace) {
         if (mounted) {

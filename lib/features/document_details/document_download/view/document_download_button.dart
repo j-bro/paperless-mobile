@@ -64,6 +64,7 @@ class _DocumentDownloadButtonState extends State<DocumentDownloadButton> {
           break;
         case FileDownloadType.alwaysAsk:
           final isOriginal = await showDialog<bool>(
+            useRootNavigator: false,
             context: context,
             builder: (context) => SelectFileTypeDialog(
               onRememberSelection: (downloadType) {

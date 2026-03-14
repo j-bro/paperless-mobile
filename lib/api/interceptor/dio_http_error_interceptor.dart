@@ -10,7 +10,21 @@ class DioHttpErrorInterceptor extends Interceptor {
   void onError(DioException err, ErrorInterceptorHandler handler) {
     if (err.response?.statusCode == 400) {
       final data = err.response!.data;
-      if (PaperlessServerMessageException.canParse(data)) {
+      if (data is Map && data.length == 1 && data.containsKey('error')) {
+        final message = data['error'] is List
+            ? (data['error'] as List).firstOrNull.toString()
+            : data['error'].toString();
+        handler.reject(
+          DioException(
+            requestOptions: err.requestOptions,
+            message: message,
+            error: PaperlessApiException.unknown(details: message),
+            response: err.response,
+            stackTrace: err.stackTrace,
+            type: DioExceptionType.badResponse,
+          ),
+        );
+      } else if (PaperlessServerMessageException.canParse(data)) {
         final exception = PaperlessServerMessageException.fromJson(data);
         final message = exception.detail;
         handler.reject(

@@ -235,6 +235,7 @@ class _TagsSkeletonWidget extends StatelessWidget {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
+          spacing: 4,
           children: List.generate(
             skeletonCount,
             (_) => _SkeletonTagChip(dense: dense),
@@ -304,7 +305,10 @@ class _SkeletonTagChip extends StatelessWidget {
     return Skeleton.shade(
       child: Chip(
         label: Text(BoneMock.words(1)),
-        visualDensity: dense ? VisualDensity.compact : null,
+        padding: dense ? const EdgeInsets.all(4) : null,
+        visualDensity: const VisualDensity(vertical: -2),
+        labelPadding: dense ? const EdgeInsets.symmetric(horizontal: 2) : null,
+        side: BorderSide.none,
       ),
     );
   }
