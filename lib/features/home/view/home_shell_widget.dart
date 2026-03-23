@@ -1,3 +1,4 @@
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:paperless_mobile/api/paperless_api.dart';
@@ -11,27 +12,27 @@ import 'package:paperless_mobile/core/repository/search_repository.dart';
 import 'package:paperless_mobile/core/repository/server_statistics_repository.dart';
 import 'package:paperless_mobile/core/repository/storage_path_repository.dart';
 import 'package:paperless_mobile/core/repository/tag_repository.dart';
+import 'package:paperless_mobile/core/repository/user_profile_repository.dart';
 import 'package:paperless_mobile/core/repository/user_repository.dart';
 import 'package:paperless_mobile/core/security/session_manager.dart';
 import 'package:paperless_mobile/core/service/dio_file_service.dart';
 import 'package:paperless_mobile/core/store/local_store.dart';
+import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
 import 'package:paperless_mobile/features/document_scan/cubit/document_scanner_cubit.dart';
 import 'package:paperless_mobile/features/tasks/model/pending_tasks_notifier.dart';
 import 'package:provider/provider.dart';
 
 class HomeShellWidget extends StatelessWidget {
   /// The id of the currently authenticated user (e.g. demo@paperless.example.com)
-  final String localUserId;
+  final String appUserId;
 
   /// The Paperless API version of the currently connected instance
-  final int paperlessApiVersion;
 
   final Widget child;
 
   const HomeShellWidget({
     super.key,
-    required this.paperlessApiVersion,
-    required this.localUserId,
+    required this.appUserId,
     required this.child,
   });
 
@@ -39,11 +40,8 @@ class HomeShellWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final localStoreState = context.watch<LocalStore>().state;
     final currentUserId = localStoreState.loggedInAppUserId;
-    if (currentUserId == null) {
-      //This only happens during logout...
-      //FIXME: Find way so this does not occur anymore
-      return const SizedBox.shrink();
-    }
+    final client = context.read<SessionManager>().client;
+
     return MultiProvider(
       key: ValueKey(currentUserId),
       providers: [
@@ -51,61 +49,43 @@ class HomeShellWidget extends StatelessWidget {
           create: (context) => CacheManager(
             Config(
               // Isolated cache per user.
-              localUserId,
-              fileService: DioFileService(
-                context.read<SessionManager>().client,
-              ),
+              appUserId,
+              fileService: DioFileService(client),
             ),
           ),
         ),
         Provider<PaperlessDocumentsApi>(
-          create: (context) =>
-              PaperlessDocumentsApiImpl(context.read<SessionManager>().client),
+          create: (context) => PaperlessDocumentsApiImpl(client),
         ),
         Provider<PaperlessSearchApi>(
-          create: (context) =>
-              PaperlessSearchApiImpl(context.read<SessionManager>().client),
+          create: (context) => PaperlessSearchApiImpl(client),
         ),
         Provider<PaperlessCorrespondentsApi>(
-          create: (context) => PaperlessCorrespondentsApiImpl(
-            context.read<SessionManager>().client,
-          ),
+          create: (context) => PaperlessCorrespondentsApiImpl(client),
         ),
         Provider<PaperlessDocumentTypesApi>(
-          create: (context) => PaperlessDocumentTypesApiImpl(
-            context.read<SessionManager>().client,
-          ),
+          create: (context) => PaperlessDocumentTypesApiImpl(client),
         ),
         Provider<PaperlessTagsApi>(
-          create: (context) =>
-              PaperlessTagsApiImpl(context.read<SessionManager>().client),
+          create: (context) => PaperlessTagsApiImpl(client),
         ),
         Provider<PaperlessStoragePathsApi>(
-          create: (context) => PaperlessStoragePathsApiImpl(
-            context.read<SessionManager>().client,
-          ),
+          create: (context) => PaperlessStoragePathsApiImpl(client),
         ),
         Provider<PaperlessSavedViewsApi>(
-          create: (context) =>
-              PaperlessSavedViewsApiImpl(context.read<SessionManager>().client),
+          create: (context) => PaperlessSavedViewsApiImpl(client),
         ),
         Provider<PaperlessCustomFieldsApi>(
-          create: (context) => PaperlessCustomFieldsApiImpl(
-            context.read<SessionManager>().client,
-          ),
+          create: (context) => PaperlessCustomFieldsApiImpl(client),
         ),
         Provider<PaperlessServerStatsApi>(
-          create: (context) => PaperlessServerStatsApiImpl(
-            context.read<SessionManager>().client,
-          ),
+          create: (context) => PaperlessServerStatsApiImpl(client),
         ),
         Provider<PaperlessTasksApi>(
-          create: (context) =>
-              PaperlessTasksApiImpl(context.read<SessionManager>().client),
+          create: (context) => PaperlessTasksApiImpl(client),
         ),
         Provider<PaperlessUserApi>(
-          create: (context) =>
-              PaperlessUserApiImpl(context.read<SessionManager>().client),
+          create: (context) => PaperlessUserApiImpl(client),
         ),
       ],
       builder: (context, _) {
@@ -145,11 +125,38 @@ class HomeShellWidget extends StatelessWidget {
               ),
               dispose: (_, repo) => repo.dispose(),
             ),
+            Provider(
+              create: (context) =>
+                  SessionDataRepository(context.read(), context.read()),
+            ),
             ChangeNotifierProvider(
               create: (context) => PendingTasksNotifier(context.read()),
             ),
           ],
-          child: child,
+          child: Builder(
+            builder: (context) => QueryBuilder(
+              query: context.read<SessionDataRepository>().userProfileQuery(
+                appUserId,
+              ),
+              builder: (context, state) {
+                if (state.isLoading) {
+                  return Scaffold(
+                    body: Center(child: CircularProgressIndicator()),
+                  );
+                } else if (state.isError) {
+                  return SizedBox.shrink(); // TODO: Show actual error
+                }
+                final sessionData = state.data!;
+                final localUserAccount = LocalUserAccount(
+                  appUserId: appUserId,
+                  serverUrl: client.options.baseUrl,
+                  apiVersion: sessionData.apiVersion,
+                  profile: sessionData.profile,
+                );
+                return Provider.value(value: localUserAccount, child: child);
+              },
+            ),
+          ),
         );
       },
     );

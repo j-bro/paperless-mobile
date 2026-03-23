@@ -1,49 +1,17 @@
-//
-// AUTO-GENERATED FILE, DO NOT MODIFY!
-//
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-// ignore_for_file: unused_element
-import 'package:copy_with_extension/copy_with_extension.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:equatable/src/equatable_utils.dart';
-
+part 'ui_settings_view_settings_update_checking.freezed.dart';
 part 'ui_settings_view_settings_update_checking.g.dart';
 
-@CopyWith()
-@JsonSerializable(
-  checked: true,
-  createToJson: true,
-  disallowUnrecognizedKeys: false,
-  explicitToJson: true,
-)
-class UiSettingsViewSettingsUpdateChecking {
-  /// Returns a new [UiSettingsViewSettingsUpdateChecking] instance.
-  UiSettingsViewSettingsUpdateChecking({this.backendSetting});
-
-  @JsonKey(name: r'backend_setting', required: false, includeIfNull: false)
-  final dynamic backendSetting;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        other is UiSettingsViewSettingsUpdateChecking &&
-            runtimeType == other.runtimeType &&
-            equals([backendSetting], [other.backendSetting]);
-  }
-
-  @override
-  int get hashCode =>
-      runtimeType.hashCode ^ mapPropsToHashCode([backendSetting]);
+@Freezed(toJson: true, fromJson: true)
+abstract class UiSettingsViewSettingsUpdateChecking
+    with _$UiSettingsViewSettingsUpdateChecking {
+  factory UiSettingsViewSettingsUpdateChecking({
+    /// This is dynamic because the backend can return either a string or a boolean due to a deprecated setting.
+    dynamic backendSetting,
+  }) = _UiSettingsViewSettingsUpdateChecking;
 
   factory UiSettingsViewSettingsUpdateChecking.fromJson(
     Map<String, dynamic> json,
   ) => _$UiSettingsViewSettingsUpdateCheckingFromJson(json);
-
-  Map<String, dynamic> toJson() =>
-      _$UiSettingsViewSettingsUpdateCheckingToJson(this);
-
-  @override
-  String toString() {
-    return toJson().toString();
-  }
 }

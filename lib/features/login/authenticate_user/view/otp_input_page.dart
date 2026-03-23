@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/widgets/app_logs_footer_widget.dart';
 import 'package:paperless_mobile/features/login/authenticate_user/cubit/authenticate_user_cubit.dart';
+import 'package:paperless_mobile/features/login/authenticate_user/model/authentication_credentials.dart';
 import 'package:paperless_mobile/features/login/model/client_certificate.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/helpers/message_helpers.dart';
@@ -11,15 +12,13 @@ import 'package:pinput/pinput.dart';
 
 class OtpInputPage extends StatefulWidget {
   final String serverUrl;
-  final String username;
-  final String password;
+  final AuthenticationCredentials credentials;
 
   final ClientCertificate? clientCertificate;
   const OtpInputPage({
     super.key,
     required this.serverUrl,
-    required this.username,
-    required this.password,
+    required this.credentials,
     this.clientCertificate,
   });
 
@@ -65,11 +64,10 @@ class _OtpInputPageState extends State<OtpInputPage> {
             _focusNode.requestFocus();
             break;
           case AuthenticateUserSuccess state:
-            SetActiveUserRoute(
+            AddUserRoute(
               serverUrl: state.serverUrl,
-              username: state.username,
-              token: state.token,
-              $extra: AuthRouteExtra(
+              $extra: AddUserRouteExtra(
+                token: state.token,
                 additionalHeaders: state.additionalHeaders,
                 clientCertificate: state.clientCertificate,
               ),
@@ -143,8 +141,7 @@ class _OtpInputPageState extends State<OtpInputPage> {
   void _onSubmit(String code) {
     context.read<AuthenticateUserCubit>().login(
       serverUrl: widget.serverUrl,
-      username: widget.username,
-      password: widget.password,
+      credentials: widget.credentials,
       otp: code,
       clientCertificate: widget.clientCertificate,
     );

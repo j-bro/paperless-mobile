@@ -14,14 +14,12 @@ class AuthenticateUserChecking extends AuthenticateUserState {
 
 class AuthenticateUserOtpRequired extends AuthenticateUserState {
   final String serverUrl;
-  final String username;
-  final String password;
+  final AuthenticationCredentials credentials;
   final ClientCertificate? clientCertificate;
   final List<HeaderEntry>? additionalHeaders;
   const AuthenticateUserOtpRequired({
     required this.serverUrl,
-    required this.username,
-    required this.password,
+    required this.credentials,
     this.clientCertificate,
     this.additionalHeaders,
   });
@@ -33,17 +31,15 @@ class AuthenticateUserFieldValidationError extends AuthenticateUserState {
 }
 
 class AuthenticateUserSuccess extends AuthenticateUserState {
-  final String token;
   final String serverUrl;
-  final String username;
+  final String token;
   final ClientCertificate? clientCertificate;
   final List<HeaderEntry>? additionalHeaders;
   const AuthenticateUserSuccess({
-    required this.token,
     required this.serverUrl,
-    required this.username,
-    this.clientCertificate,
+    required this.token,
     this.additionalHeaders,
+    this.clientCertificate,
   });
 }
 

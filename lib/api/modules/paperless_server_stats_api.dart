@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:paperless_mobile/api/models/ui_settings_view.dart';
 import 'package:paperless_mobile/api/extensions/extensions.dart';
 import 'package:paperless_mobile/api/models/exception/exception.dart';
 import 'package:paperless_mobile/api/models/paperless_server_information_model.dart';
@@ -14,7 +13,6 @@ import 'package:paperless_mobile/api/utils/request_utils.dart';
 abstract class PaperlessServerStatsApi {
   Future<PaperlessServerInformationModel> getServerInformation();
   Future<PaperlessServerStatisticsModel> getServerStatistics();
-  Future<UiSettingsView> getUiSettings();
 }
 
 class PaperlessServerStatsApiImpl implements PaperlessServerStatsApi {
@@ -65,20 +63,6 @@ class PaperlessServerStatsApiImpl implements PaperlessServerStatsApi {
     );
     if (result == null) {
       throw const PaperlessApiException(ErrorCode.serverStatisticsLoadFailed);
-    }
-    return result;
-  }
-
-  @override
-  Future<UiSettingsView> getUiSettings() async {
-    final result = await getSingleResult(
-      '/api/ui_settings/',
-      UiSettingsView.fromJson,
-      ErrorCode.uiSettingsLoadFailed,
-      client: client,
-    );
-    if (result == null) {
-      throw const PaperlessApiException(ErrorCode.uiSettingsLoadFailed);
     }
     return result;
   }

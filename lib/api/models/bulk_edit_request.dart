@@ -1,69 +1,14 @@
-//
-// AUTO-GENERATED FILE, DO NOT MODIFY!
-//
-
-// ignore_for_file: unused_element
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:paperless_mobile/api/models/method_enum.dart';
-import 'package:copy_with_extension/copy_with_extension.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:equatable/src/equatable_utils.dart';
 
+part 'bulk_edit_request.freezed.dart';
 part 'bulk_edit_request.g.dart';
 
-@CopyWith()
-@JsonSerializable(
-  checked: true,
-  createToJson: true,
-  disallowUnrecognizedKeys: false,
-  explicitToJson: true,
-)
-class BulkEditRequest {
-  /// Returns a new [BulkEditRequest] instance.
-  BulkEditRequest({
-    required this.documents,
-
-    required this.method,
-
-    this.parameters,
-  });
-
-  @JsonKey(name: r'documents', required: true, includeIfNull: false)
-  final List<int> documents;
-
-  @JsonKey(name: r'method', required: true, includeIfNull: false)
-  final MethodEnum method;
-
-  @JsonKey(
-    defaultValue: {},
-    name: r'parameters',
-    required: false,
-    includeIfNull: false,
-  )
-  final Map<String, Object>? parameters;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        other is BulkEditRequest &&
-            runtimeType == other.runtimeType &&
-            equals(
-              [documents, method, parameters],
-              [other.documents, other.method, other.parameters],
-            );
-  }
-
-  @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      mapPropsToHashCode([documents, method, parameters]);
-
-  factory BulkEditRequest.fromJson(Map<String, dynamic> json) =>
-      _$BulkEditRequestFromJson(json);
-
-  Map<String, dynamic> toJson() => _$BulkEditRequestToJson(this);
-
-  @override
-  String toString() {
-    return toJson().toString();
-  }
+@Freezed(toJson: true, fromJson: false)
+abstract class BulkEditRequest with _$BulkEditRequest {
+  factory BulkEditRequest({
+    required List<int> documents,
+    required MethodEnum method,
+    @Default({}) Map<String, Object>? parameters,
+  }) = _BulkEditRequest;
 }

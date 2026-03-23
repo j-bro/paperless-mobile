@@ -2,10 +2,13 @@ import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:paperless_mobile/constants.dart';
 import 'package:paperless_mobile/core/global/os_error_codes.dart';
 import 'package:paperless_mobile/core/interceptor/server_reachability_error_interceptor.dart';
 import 'package:paperless_mobile/core/security/session_manager.dart';
 import 'package:paperless_mobile/core/security/session_manager_impl.dart';
+import 'package:paperless_mobile/features/logging/data/logger.dart';
 import 'package:paperless_mobile/features/login/model/client_certificate.dart';
 import 'package:paperless_mobile/features/login/model/reachability_status.dart';
 import 'package:paperless_mobile/features/login/server_connection/model/header_entry.dart';
@@ -16,6 +19,11 @@ abstract class ConnectivityStatusService {
   Future<bool> isServerReachable(String serverAddress);
   Stream<bool> connectivityChanges();
   Future<ReachabilityStatus> isPaperlessServerReachable(
+    String serverAddress, [
+    ClientCertificate? clientCertificate,
+    List<HeaderEntry>? additionalHeaders,
+  ]);
+  Future<int> getPaperlessServerApiVersion(
     String serverAddress, [
     ClientCertificate? clientCertificate,
     List<HeaderEntry>? additionalHeaders,
@@ -90,13 +98,19 @@ class ConnectivityStatusServiceImpl implements ConnectivityStatusService {
       SessionManager manager =
           SessionManagerImpl([ServerReachabilityErrorInterceptor()])
             ..updateSettings(
+              baseUrl: serverAddress,
               clientCertificate: clientCertificate,
               additionalHeaders: additionalHeaders,
-            )
-            ..client.options.connectTimeout = const Duration(seconds: 5)
-            ..client.options.receiveTimeout = const Duration(seconds: 5);
+            );
 
-      final response = await manager.client.get('$serverAddress/api/');
+      final response = await manager.client.get(
+        '/api/remote_version/',
+        options: Options(
+          receiveTimeout: 5.seconds,
+          sendTimeout: 5.seconds,
+          followRedirects: true,
+        ),
+      );
       if (response.statusCode == 200) {
         return ReachabilityStatus.reachable;
       }
@@ -114,6 +128,35 @@ class ConnectivityStatusServiceImpl implements ConnectivityStatusService {
       }
     }
     return ReachabilityStatus.notReachable;
+  }
+
+  @override
+  Future<int> getPaperlessServerApiVersion(
+    String serverAddress, [
+    ClientCertificate? clientCertificate,
+    List<HeaderEntry>? additionalHeaders,
+  ]) async {
+    SessionManager manager = SessionManagerImpl()
+      ..updateSettings(
+        baseUrl: serverAddress,
+        clientCertificate: clientCertificate,
+        additionalHeaders: additionalHeaders,
+      );
+
+    final response = await manager.client.get("/api/remote_version/");
+    int apiVersion = int.parse(
+      response.headers.value('x-api-version') ?? '$latestSupportedApiVersion',
+    );
+
+    if (apiVersion > latestSupportedApiVersion) {
+      logger.fw(
+        'Server API version $apiVersion is newer than the latest supported version $latestSupportedApiVersion. Defaulting to latest supported version.',
+        className: runtimeType.toString(),
+        methodName: 'getPaperlessServerApiVersion',
+      );
+      apiVersion = latestSupportedApiVersion;
+    }
+    return apiVersion;
   }
 }
 
@@ -145,5 +188,14 @@ class ConnectivityStatusServiceMock implements ConnectivityStatusService {
   @override
   Future<bool> isServerReachable(String serverAddress) async {
     return isConnected;
+  }
+
+  @override
+  Future<int> getPaperlessServerApiVersion(
+    String serverAddress, [
+    ClientCertificate? clientCertificate,
+    List<HeaderEntry>? additionalHeaders,
+  ]) {
+    return Future.value(9);
   }
 }

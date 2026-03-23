@@ -1,0 +1,4 @@
+- New: Support for custom fields
+- New: API key authentication
+- Fix issue displaying saved views on start screen
+- Improved logging

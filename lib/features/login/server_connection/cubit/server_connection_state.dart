@@ -15,10 +15,12 @@ class ServerConnectionCheckingReachability extends ServerConnectionState {
 
 class ServerConnectionSuccess extends ServerConnectionState {
   final String serverUrl;
+  final int apiVersion;
   final ClientCertificate? clientCertificate;
   final List<HeaderEntry>? additionalHeaders;
   const ServerConnectionSuccess({
     required this.serverUrl,
+    required this.apiVersion,
     this.clientCertificate,
     this.additionalHeaders,
   });

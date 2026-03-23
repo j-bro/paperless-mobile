@@ -68,6 +68,7 @@ class SavedViewPreview extends StatelessWidget {
     if (documents.isEmpty) {
       return Text(S.of(context)!.noDocumentsFound).padded();
     }
+    final heroTagPrefix = 'saved_view_preview_${savedView.id}';
     return Column(
       children: [
         for (final document in documents)
@@ -76,11 +77,13 @@ class SavedViewPreview extends StatelessWidget {
             isLabelClickable: false,
             isSelected: false,
             isSelectionActive: false,
+            heroTagPrefix: heroTagPrefix,
             onTap: (document) {
               DocumentDetailsRoute(
                 title: document.title,
                 documentId: document.id,
                 thumbnailUrl: document.buildThumbnailUrl(context),
+                heroTagPrefix: heroTagPrefix,
               ).push(context);
             },
             onSelected: null,

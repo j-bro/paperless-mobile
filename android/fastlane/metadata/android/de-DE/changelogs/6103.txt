@@ -1,2 +1,3 @@
 - Neu: Unterstützung für benutzerdefinierte Felder
+- Neu: Api-Key Authentifizierung
 - Beheben von Fehler beim Anzeigen von gespeicherten Ansichten auf Startseite

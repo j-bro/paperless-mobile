@@ -47,9 +47,8 @@ class SwitchingAccounts extends AuthenticationState {
 
 class ConnectionFailure extends AuthenticationState {
   final String serverUrl;
-  final String username;
 
-  ConnectionFailure({required this.serverUrl, required this.username});
+  ConnectionFailure({required this.serverUrl});
 }
 
 class AuthenticationError extends AuthenticationState with EquatableMixin {
@@ -57,14 +56,14 @@ class AuthenticationError extends AuthenticationState with EquatableMixin {
   final String serverUrl;
   final ClientCertificate? clientCertificate;
   final List<HeaderEntry>? additionalHeaders;
-  final String username;
+  final String? username;
 
   const AuthenticationError({
     this.error,
     required this.serverUrl,
     this.clientCertificate,
     this.additionalHeaders,
-    required this.username,
+    this.username,
   });
 
   @override

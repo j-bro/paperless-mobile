@@ -1,7 +1,6 @@
 import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:paperless_mobile/api/models/document.dart';
-import 'package:paperless_mobile/api/models/paginated_document_list.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/items/document_detailed_item.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/items/document_grid_item.dart';
@@ -10,11 +9,12 @@ import 'package:paperless_mobile/features/documents/view/widgets/placeholder/doc
 import 'package:paperless_mobile/features/documents/view/widgets/placeholder/documents_list_loading_widget.dart';
 import 'package:paperless_mobile/features/settings/model/view_type.dart';
 
+import '../../../../api/paperless_api.dart';
+
 abstract class AdaptiveDocumentsView extends StatelessWidget {
   final List<Document> documents;
   final bool isLoading;
   final bool hasLoaded;
-  final bool enableHeroAnimation;
   final List<int> selectedDocumentIds;
   final List<int> disabledIds;
   final ViewType viewType;
@@ -25,7 +25,7 @@ abstract class AdaptiveDocumentsView extends StatelessWidget {
   final void Function(int? id)? onCorrespondentSelected;
   final void Function(int? id)? onDocumentTypeSelected;
   final void Function(int? id)? onStoragePathSelected;
-
+  final String? heroTagPrefix;
   bool get showLoadingPlaceholder => !hasLoaded && isLoading;
 
   const AdaptiveDocumentsView({
@@ -43,11 +43,11 @@ abstract class AdaptiveDocumentsView extends StatelessWidget {
     this.onStoragePathSelected,
     required this.isLoading,
     required this.hasLoaded,
-    this.enableHeroAnimation = true,
+    this.heroTagPrefix,
   });
 
   AdaptiveDocumentsView.fromPagedState(
-    InfiniteQueryStatus<PaginatedDocumentList, int> queryState, {
+    InfiniteQueryStatus<PaginatedResultList<Document>, int> queryState, {
     super.key,
     this.onSelected,
     this.onTap,
@@ -56,10 +56,10 @@ abstract class AdaptiveDocumentsView extends StatelessWidget {
     this.onStoragePathSelected,
     this.onTagSelected,
     this.isLabelClickable = true,
-    this.enableHeroAnimation = true,
     this.viewType = ViewType.list,
     this.selectedDocumentIds = const [],
     this.disabledIds = const [],
+    this.heroTagPrefix,
   }) : documents =
            queryState.data?.pages.expand((p) => p.results).toList() ?? [],
        isLoading = queryState.isLoading,
@@ -80,7 +80,7 @@ class SliverAdaptiveDocumentsView extends AdaptiveDocumentsView {
     super.selectedDocumentIds,
     super.disabledIds,
     super.viewType,
-    super.enableHeroAnimation,
+    super.heroTagPrefix,
     required super.isLoading,
     required super.hasLoaded,
   });
@@ -119,7 +119,6 @@ class SliverAdaptiveDocumentsView extends AdaptiveDocumentsView {
           onCorrespondentSelected: onCorrespondentSelected,
           onDocumentTypeSelected: onDocumentTypeSelected,
           onStoragePathSelected: onStoragePathSelected,
-          enableHeroAnimation: enableHeroAnimation,
         );
       }),
     );
@@ -148,7 +147,7 @@ class SliverAdaptiveDocumentsView extends AdaptiveDocumentsView {
           onCorrespondentSelected: onCorrespondentSelected,
           onDocumentTypeSelected: onDocumentTypeSelected,
           onStoragePathSelected: onStoragePathSelected,
-          enableHeroAnimation: enableHeroAnimation,
+          heroTagPrefix: heroTagPrefix,
         );
       }),
     );
@@ -180,7 +179,7 @@ class SliverAdaptiveDocumentsView extends AdaptiveDocumentsView {
           onCorrespondentSelected: onCorrespondentSelected,
           onDocumentTypeSelected: onDocumentTypeSelected,
           onStoragePathSelected: onStoragePathSelected,
-          enableHeroAnimation: enableHeroAnimation,
+          heroTagPrefix: heroTagPrefix,
         ).paddedSymmetrically(horizontal: 4);
       },
     );
@@ -205,7 +204,7 @@ class DefaultAdaptiveDocumentsView extends AdaptiveDocumentsView {
     super.selectedDocumentIds,
     super.disabledIds,
     super.viewType,
-    super.enableHeroAnimation = true,
+    super.heroTagPrefix,
   });
 
   @override
@@ -244,7 +243,7 @@ class DefaultAdaptiveDocumentsView extends AdaptiveDocumentsView {
           onCorrespondentSelected: onCorrespondentSelected,
           onDocumentTypeSelected: onDocumentTypeSelected,
           onStoragePathSelected: onStoragePathSelected,
-          enableHeroAnimation: enableHeroAnimation,
+          heroTagPrefix: heroTagPrefix,
         );
       },
     );
@@ -275,7 +274,7 @@ class DefaultAdaptiveDocumentsView extends AdaptiveDocumentsView {
           onCorrespondentSelected: onCorrespondentSelected,
           onDocumentTypeSelected: onDocumentTypeSelected,
           onStoragePathSelected: onStoragePathSelected,
-          enableHeroAnimation: enableHeroAnimation,
+          heroTagPrefix: heroTagPrefix,
         );
       },
     );
@@ -310,7 +309,7 @@ class DefaultAdaptiveDocumentsView extends AdaptiveDocumentsView {
           onCorrespondentSelected: onCorrespondentSelected,
           onDocumentTypeSelected: onDocumentTypeSelected,
           onStoragePathSelected: onStoragePathSelected,
-          enableHeroAnimation: enableHeroAnimation,
+          heroTagPrefix: heroTagPrefix,
         );
       },
     );

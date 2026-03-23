@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
 import 'package:paperless_mobile/api/paperless_api.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/translation/matching_algorithm_localization_mapper.dart';
 import 'package:paperless_mobile/core/widgets/icon_loading_widget.dart';
@@ -172,6 +173,8 @@ class _LabelFormState<T extends Label, TRequest extends LabelRequest>
   }
 
   void _onSubmit() async {
+    final owner = context.uiSettings.user.id;
+
     if (_formKey.currentState?.saveAndValidate() ?? false) {
       try {
         final formState = _formKey.currentState!;
@@ -184,7 +187,9 @@ class _LabelFormState<T extends Label, TRequest extends LabelRequest>
                 )
               : null,
           isInsensitive: formState.value[Label.isInsensitiveKey] as bool?,
-          owner: widget.initialValue?.owner,
+          owner: widget.initialValue != null
+              ? widget.initialValue?.owner
+              : owner,
         );
         final parsed = widget.buildRequest(commonValues, formState);
         final mutationResult = await widget.submitButtonConfig.mutation.mutate(

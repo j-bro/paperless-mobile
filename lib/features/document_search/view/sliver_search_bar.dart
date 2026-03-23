@@ -17,7 +17,7 @@ class SliverSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (context.loggedInUser$.paperlessUser.canViewDocuments) {
+    if (context.loggedInUser$.profile.uiSettings.canViewDocuments) {
       return const SliverAppBar(
         titleSpacing: 8,
         automaticallyImplyLeading: false,
@@ -31,7 +31,10 @@ class SliverSearchBar extends StatelessWidget {
             padding: const EdgeInsets.only(right: 12.0),
             child: IconButton(
               padding: const EdgeInsets.all(6),
-              icon: UserAvatar(account: context.loggedInUser$),
+              icon: UserAvatar(
+                appUserId: context.loggedInAppUserId$!,
+                displayName: context.loggedInUser$.displayName,
+              ),
               onPressed: () {
                 showDialog(
                   useRootNavigator: false,

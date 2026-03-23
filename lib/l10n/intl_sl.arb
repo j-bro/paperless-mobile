@@ -91,6 +91,10 @@
   "@anyTag": {
     "description": "Label shown when any tag should be filtered"
   },
+  "apiKey": "API ključ",
+  "@apiKey": {},
+  "apiKeyMustNotBeEmpty": "API ključ ne sme biti prazen.",
+  "@apiKeyMustNotBeEmpty": {},
   "appearance": "Videz",
   "@appearance": {},
   "applicationSettings": "Aplikacija",
@@ -226,6 +230,7 @@
   "@content": {
     "description": "Label shown in the tabbar on details page"
   },
+  "continueAnyway": "Continue anyway",
   "continueLabel": "Nadaljuj",
   "@continueLabel": {},
   "convertSinglePageScanToPdf": "Pred nalaganjem vedno pretvori enojni sken v PDF",
@@ -322,6 +327,10 @@
     "description": "Message shown when the UI settings could not be loaded"
   },
   "couldNotLoadUser": "Uporabnika ni bilo mogoče naložiti, poskusite znova.",
+  "couldNotLoadUserProfile": "Uporabniškega profila ni bilo mogoče naložiti, poskusite znova.",
+  "@couldNotLoadUserProfile": {
+    "description": "Message shown when the user profile could not be loaded from the server."
+  },
   "couldNotLoadUsers": "Uporabnikov ni bilo mogoče naložiti, poskusite znova.",
   "couldNotOpenFilePermissionDenied": "Ni možno odpreti datoteke: Pravica zavrnjena.",
   "@couldNotOpenFilePermissionDenied": {},
@@ -365,7 +374,7 @@
   "@createFromCurrentFilter": {
     "description": "Tooltip of the \"New saved view\" button"
   },
-  "createInboxTag": "Create inbox tag",
+  "createInboxTag": "Ustvari oznako mape Prejeto",
   "createsASavedViewBasedOnTheCurrentFilterCriteria": "Nov pogled ustvarjen na podlagi trenutnih kriterijev.",
   "@createsASavedViewBasedOnTheCurrentFilterCriteria": {},
   "createViewsToQuicklyFilterYourDocuments": "Ustvari poglede za hitrejše filtriranje dokumentov.",
@@ -650,6 +659,10 @@
   "@incorrectOrMissingCertificatePassphrase": {},
   "invalidAddress": "Neveljaven naslov.",
   "@invalidAddress": {},
+  "invalidApiKey": "Neveljaven API ključ.",
+  "@invalidApiKey": {
+    "description": "Message shown when the provided API key is invalid."
+  },
   "invalidCertificateFormat": "Neveljaven format certifikata, dovoljen je samo .pfx zapis",
   "@invalidCertificateFormat": {},
   "invalidCertificateOrMissingPassphrase": "Neveljaven certifikat ali manjkajoče geslo, poskusi ponovno",
@@ -815,7 +828,7 @@
   "@noDocumentsScannedYet": {},
   "noDocumentTypesSetUp": "Ni nastavljenih tipov dokumentov.",
   "@noDocumentTypesSetUp": {},
-  "noInboxTagsSetUpHint": "Inbox tags are automatically assigned to newly received documents. Create one and those documents will start appearing here for review.",
+  "noInboxTagsSetUpHint": "Oznake mape Prejeto se samodejno dodelijo novo prejetim dokumentom. Ustvarite eno in ti dokumenti se bodo začeli prikazovati tukaj za pregled.",
   "@noInboxTagsSetUpHint": {},
   "noItemsFound": "Ni elementov!",
   "@noItemsFound": {},
@@ -870,6 +883,7 @@
     "description": "Option to chose when downloading a document"
   },
   "originalFilename": "Izvirno ime datoteke",
+  "@originalFilename": {},
   "originalFileSize": "Izvirna velikost datoteke",
   "@originalFileSize": {},
   "originalMD5Checksum": "Izvirni MD5-Checksum",
@@ -881,6 +895,7 @@
     "description": "Label shown in the tabbar on details page"
   },
   "owner": "Lastnik",
+  "@owner": {},
   "paperlessServerVersion": "Verzija strežnika Paperless",
   "@paperlessServerVersion": {},
   "passphrase": "Geslo",
@@ -890,8 +905,13 @@
   "passwordMustNotBeEmpty": "Geslo ne sme biti prazno.",
   "@passwordMustNotBeEmpty": {},
   "pendingFiles": "Čakajoče datoteke",
+  "@pendingFiles": {},
   "permissions": "Dovoljenja",
+  "@permissions": {},
   "persistingUserInformation": "Trajanje uporabniških podatkov...",
+  "@persistingUserInformation": {},
+  "pleaseProvideCredentialsOrApiKey": "Prosimo, navedite uporabniško ime in geslo ali API ključ.",
+  "@pleaseProvideCredentialsOrApiKey": {},
   "prepareDocument": "Pripravi dokument",
   "@prepareDocument": {},
   "preview": "Predogled",
@@ -919,12 +939,19 @@
   "reload": "Ponovno naloži",
   "@reload": {},
   "rememberDecision": "Zapomni si to izbiro",
+  "@rememberDecision": {},
   "remove": "Odstrani",
+  "@remove": {},
   "removeDocumentFromInbox": "Dokument je odstranjen iz predalnika.",
   "@removeDocumentFromInbox": {},
   "removeFromSearchHistory": "Izbriši iz zgodovine iskanja?",
   "@removeFromSearchHistory": {},
   "removeQueryFromSearchHistory": "Izbriši iz zgodovine iskanja?",
+  "@removeQueryFromSearchHistory": {},
+  "removeUser": "Odstrani uporabnika",
+  "@removeUser": {},
+  "removeUserAndLogOut": "Odstrani uporabnika in se odjavi",
+  "@removeUserAndLogOut": {},
   "report": "POROČILO",
   "@report": {},
   "reportABug": "Sporoči napako",
@@ -981,6 +1008,7 @@
   "@selectDateRange": {},
   "selectFile": "Izberite datoteko...",
   "@selectFile": {},
+  "selectLogLevels": "Select log levels",
   "serverAddress": "Naslov strežnika",
   "@serverAddress": {},
   "serverAddressMustIncludeAScheme": "Naslov strežnika mora vsebovati shemo.",
@@ -989,7 +1017,7 @@
   "@serverAddressMustNotBeEmpty": {},
   "settings": "Nastavitve",
   "@settings": {},
-  "setUpYourInbox": "Set up your inbox first",
+  "setUpYourInbox": "Najprej nastavite mapo »Prejeto«",
   "shareTooltip": "Deli",
   "@shareTooltip": {
     "description": "Tooltip shown for the share button on details page"
@@ -1100,6 +1128,8 @@
   "unauthorizedErrorMessage": "Nimate dovoljenja za izvedbo tega dejanja. Obrnite se na skrbnika ali se prepričajte, da imate potrebna dovoljenja.",
   "undo": "Razveljavi",
   "@undo": {},
+  "unsupportedVersionTitle": "Unsupported API version",
+  "unsupportedVersionWarning": "The API version reported by your paperless-ngx instance ({apiVersion}) is not officially supported by this version of the app. The latest supported API version is {latestSupportedApiVersion}.\n\nThis may occur if your server is running an older version of paperless-ngx or if compatibility with that version was removed in a recent app update.\n\nAs a result, some features may not work correctly, and the app may behave unpredictably or even crash.\n\nFor the best experience, update your paperless-ngx instance to a supported version or install an older version from GitHub or F-Droid.",
   "upload": "Naloži",
   "@upload": {},
   "uploadADocumentFromThisDevice": "Naloži dokument s te naprave",

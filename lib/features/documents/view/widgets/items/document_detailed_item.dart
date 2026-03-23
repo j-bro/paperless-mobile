@@ -3,14 +3,13 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:paperless_mobile/api/paperless_api.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
-import 'package:paperless_mobile/core/store/local_store.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/date_and_document_type_widget.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/document_preview.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/items/document_item.dart';
 import 'package:paperless_mobile/features/labels/correspondent/view/widgets/correspondent_widget.dart';
 import 'package:paperless_mobile/features/labels/tags/view/widgets/tags_widget.dart';
-import 'package:provider/provider.dart';
 
 class DocumentDetailedItem extends DocumentItem {
   final String? highlights;
@@ -21,7 +20,7 @@ class DocumentDetailedItem extends DocumentItem {
     required super.isSelected,
     required super.isSelectionActive,
     required super.isLabelClickable,
-    required super.enableHeroAnimation,
+    super.heroTagPrefix,
     super.onCorrespondentSelected,
     super.onDocumentTypeSelected,
     super.onSelected,
@@ -33,12 +32,6 @@ class DocumentDetailedItem extends DocumentItem {
 
   @override
   Widget build(BuildContext context) {
-    final store = context.watch<LocalStore>();
-
-    final currentUserId = store.state.loggedInAppUserId!;
-    final paperlessUser =
-        store.state.localUserData[currentUserId]!.localUser.paperlessUser;
-
     final size = MediaQuery.of(context).size;
     final insets = MediaQuery.of(context).viewInsets;
     final padding = MediaQuery.of(context).viewPadding;
@@ -89,7 +82,7 @@ class DocumentDetailedItem extends DocumentItem {
                         documentId: document.id,
                         title: document.title,
                       ),
-                      if (paperlessUser.canViewTags)
+                      if (context.uiSettings$.canViewTags)
                         Align(
                           alignment: Alignment.bottomLeft,
                           child: TagsWidget(
@@ -100,7 +93,7 @@ class DocumentDetailedItem extends DocumentItem {
                     ],
                   ),
                 ),
-                if (paperlessUser.canViewCorrespondents)
+                if (context.uiSettings$.canViewCorrespondents)
                   CorrespondentWidget(
                     id: document.correspondent,
                     onSelected: onCorrespondentSelected,

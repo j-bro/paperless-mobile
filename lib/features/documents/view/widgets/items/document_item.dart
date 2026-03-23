@@ -8,9 +8,8 @@ abstract class DocumentItem extends StatelessWidget {
   final bool isSelected;
   final bool isSelectionActive;
   final bool isLabelClickable;
-  final bool enableHeroAnimation;
   final bool isEnabled;
-
+  final String? heroTagPrefix;
   final void Function(int tagId)? onTagSelected;
   final void Function(int? correspondentId)? onCorrespondentSelected;
   final void Function(int? documentTypeId)? onDocumentTypeSelected;
@@ -28,7 +27,7 @@ abstract class DocumentItem extends StatelessWidget {
     this.onCorrespondentSelected,
     this.onDocumentTypeSelected,
     this.onStoragePathSelected,
-    required this.enableHeroAnimation,
+    this.heroTagPrefix,
     this.isEnabled = true,
   });
 }

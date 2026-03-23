@@ -62,6 +62,7 @@ class _LinkedDocumentsPageState extends State<LinkedDocumentsPage> {
                         documentId: document.id,
                         isLabelClickable: false,
                         thumbnailUrl: document.buildThumbnailUrl(context),
+                        heroTagPrefix: 'linked_document',
                       ).push(context);
                     },
                   ),

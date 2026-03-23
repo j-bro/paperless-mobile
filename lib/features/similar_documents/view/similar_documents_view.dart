@@ -59,13 +59,14 @@ class _SimilarDocumentsViewState extends State<SimilarDocumentsView> {
           isLabelClickable: false,
           isLoading: state.isLoading,
           hasLoaded: data.isNotEmpty,
-          enableHeroAnimation: false,
+          heroTagPrefix: "similar_document",
           onTap: (document) {
             DocumentDetailsRoute(
               title: document.title,
               documentId: document.id,
               thumbnailUrl: document.buildThumbnailUrl(context),
               isLabelClickable: false,
+              heroTagPrefix: "similar_document",
             ).push(context);
           },
         );

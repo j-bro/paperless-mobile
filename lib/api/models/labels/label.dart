@@ -249,7 +249,7 @@ class StoragePath extends Label {
 }
 
 @HexColorJsonConverter()
-@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
+@JsonSerializable(fieldRename: FieldRename.snake)
 class Tag extends Label {
   static const colorKey = 'color';
   static const isInboxTagKey = 'is_inbox_tag';

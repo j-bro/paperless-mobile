@@ -36,7 +36,7 @@ class UnsetDateRangeQuery extends DateRangeQuery {
   const UnsetDateRangeQuery();
 
   @override
-  @JsonKey(includeToJson: true, includeFromJson: false, required: true)
+  @JsonKey(includeToJson: true, includeFromJson: false)
   final type = 'UnsetDateRangeQuery';
 
   @override

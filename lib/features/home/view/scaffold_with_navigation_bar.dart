@@ -20,7 +20,6 @@ class ScaffoldWithNavigationBar extends StatefulWidget {
 class ScaffoldWithNavigationBarState extends State<ScaffoldWithNavigationBar> {
   @override
   Widget build(BuildContext context) {
-    final authenticatedUser = context.loggedInUser$.paperlessUser;
     final theme = Theme.of(context);
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: buildOverlayStyle(theme),
@@ -51,7 +50,7 @@ class ScaffoldWithNavigationBarState extends State<ScaffoldWithNavigationBar> {
                 ),
                 label: S.of(context)!.documents,
               ),
-              disableWhen: !authenticatedUser.canViewDocuments,
+              disableWhen: !context.uiSettings$.canViewDocuments,
             ),
             _toggleDestination(
               NavigationDestination(
@@ -62,7 +61,7 @@ class ScaffoldWithNavigationBarState extends State<ScaffoldWithNavigationBar> {
                 ),
                 label: S.of(context)!.scanner,
               ),
-              disableWhen: !authenticatedUser.canCreateDocuments,
+              disableWhen: !context.uiSettings$.canCreateDocuments,
             ),
             _toggleDestination(
               NavigationDestination(
@@ -73,7 +72,7 @@ class ScaffoldWithNavigationBarState extends State<ScaffoldWithNavigationBar> {
                 ),
                 label: S.of(context)!.labels,
               ),
-              disableWhen: !authenticatedUser.canViewAnyLabel,
+              disableWhen: !context.uiSettings$.canViewAnyLabel,
             ),
             _toggleDestination(
               NavigationDestination(
@@ -98,7 +97,7 @@ class ScaffoldWithNavigationBarState extends State<ScaffoldWithNavigationBar> {
                     final count = state.data?.pages.flattened.length ?? 0;
                     return Badge.count(
                       isLabelVisible:
-                          count > 0 && authenticatedUser.canViewInbox,
+                          count > 0 && context.uiSettings$.canViewInbox,
                       count: count,
                       child: Icon(
                         Icons.inbox,
@@ -109,7 +108,7 @@ class ScaffoldWithNavigationBarState extends State<ScaffoldWithNavigationBar> {
                 ),
                 label: S.of(context)!.inbox,
               ),
-              disableWhen: !authenticatedUser.canViewInbox,
+              disableWhen: !context.uiSettings$.canViewInbox,
             ),
           ],
         ),

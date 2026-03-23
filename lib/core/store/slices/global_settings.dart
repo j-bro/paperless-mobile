@@ -1,32 +1,42 @@
 // ignore_for_file: invalid_annotation_target
 
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:paperless_mobile/features/settings/model/color_scheme_option.dart';
 import 'package:paperless_mobile/features/settings/model/file_download_type.dart';
 
-part 'global_settings.freezed.dart';
 part 'global_settings.g.dart';
 
-@freezed
-abstract class GlobalSettings with _$GlobalSettings {
-  const factory GlobalSettings({
-    required String preferredLocaleSubtag,
-    @Default(ThemeMode.system)
-    @JsonKey(fromJson: _themeModeFromJson, toJson: _themeModeToJson)
-    @Default(ThemeMode.system)
-    ThemeMode preferredThemeMode,
-    @Default(ColorSchemeOption.classic)
-    ColorSchemeOption preferredColorSchemeOption,
-    @Default(true) bool showOnboarding,
-    @Default(FileDownloadType.alwaysAsk) FileDownloadType defaultDownloadType,
-    @Default(FileDownloadType.alwaysAsk) FileDownloadType defaultShareType,
-    @Default(false) bool enforceSinglePagePdfUpload,
-    @Default(false) bool skipDocumentPreprarationOnUpload,
-    @Default(false) bool disableAnimations,
-    @Default([]) List<String> knownHosts,
-  }) = _GlobalSettings;
+@CopyWith()
+@JsonSerializable()
+class GlobalSettings {
+  const GlobalSettings({
+    required this.preferredLocaleSubtag,
+    this.preferredThemeMode = ThemeMode.system,
+    this.preferredColorSchemeOption = ColorSchemeOption.classic,
+    this.showOnboarding = true,
+    this.defaultDownloadType = FileDownloadType.alwaysAsk,
+    this.defaultShareType = FileDownloadType.alwaysAsk,
+    this.enforceSinglePagePdfUpload = false,
+    this.skipDocumentPreprarationOnUpload = false,
+    this.disableAnimations = false,
+    this.knownHosts = const [],
+  });
 
+  final String preferredLocaleSubtag;
+  @JsonKey(toJson: _themeModeToJson, fromJson: _themeModeFromJson)
+  final ThemeMode preferredThemeMode;
+  final ColorSchemeOption preferredColorSchemeOption;
+  final bool showOnboarding;
+  final FileDownloadType defaultDownloadType;
+  final FileDownloadType defaultShareType;
+  final bool enforceSinglePagePdfUpload;
+  final bool skipDocumentPreprarationOnUpload;
+  final bool disableAnimations;
+  final List<String> knownHosts;
+
+  Map<String, dynamic> toJson() => _$GlobalSettingsToJson(this);
   factory GlobalSettings.fromJson(Map<String, dynamic> json) =>
       _$GlobalSettingsFromJson(json);
 }

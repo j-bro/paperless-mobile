@@ -25,7 +25,7 @@ class EditDocumentTypePage extends StatelessWidget {
       deleteMutation: context.documentTypeRepository.deleteMutation(
         documentType.id,
       ),
-      canDelete: context.loggedInUser$.paperlessUser.canDeleteDocumentTypes,
+      canDelete: context.uiSettings$.canDeleteDocumentTypes,
     );
   }
 

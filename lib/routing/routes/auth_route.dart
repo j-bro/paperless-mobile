@@ -5,13 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:paperless_mobile/core/store/local_store.dart';
 import 'package:paperless_mobile/features/login/authenticate_user/cubit/authenticate_user_cubit.dart';
+import 'package:paperless_mobile/features/login/authenticate_user/model/authentication_credentials.dart';
 import 'package:paperless_mobile/features/login/authenticate_user/view/authenticate_user_page.dart';
 import 'package:paperless_mobile/features/login/authenticate_user/view/otp_input_page.dart';
 import 'package:paperless_mobile/features/login/model/client_certificate.dart';
 import 'package:paperless_mobile/features/login/server_connection/cubit/server_connection_cubit.dart';
 import 'package:paperless_mobile/features/login/server_connection/model/header_entry.dart';
 import 'package:paperless_mobile/features/login/server_connection/view/server_connection_page.dart';
-import 'package:paperless_mobile/features/login/set_active_user/set_active_user_page.dart';
+import 'package:paperless_mobile/features/login/view/add_user_loading_page.dart';
 import 'package:paperless_mobile/features/login/view/select_account_page.dart';
 import 'package:paperless_mobile/features/login/view/verify_identity_page.dart';
 import 'package:paperless_mobile/features/login/view/widgets/login_transition_page.dart';
@@ -25,11 +26,8 @@ part 'auth_route.g.dart';
   path: '/auth',
   name: R.loginConnectToServer,
   routes: [
-    TypedGoRoute<AuthenticateRoute>(
-      path: 'login',
-      name: R.loginAuthenticate,
-      routes: [TypedGoRoute<OtpRoute>(path: 'otp', name: R.loginOtp)],
-    ),
+    TypedGoRoute<AuthenticateRoute>(path: 'login', name: R.loginAuthenticate),
+    TypedGoRoute<OtpRoute>(path: 'otp', name: R.loginOtp),
     TypedGoRoute<SwitchingAccountsRoute>(
       path: "switching-account",
       name: R.switchingAccount,
@@ -46,10 +44,7 @@ part 'auth_route.g.dart';
       path: 'select-account',
       name: R.loginToExistingAccount,
     ),
-    TypedGoRoute<SetActiveUserRoute>(
-      path: 'set-active-user',
-      name: R.setActiveUser,
-    ),
+    TypedGoRoute<AddUserRoute>(path: 'set-active-user', name: R.setActiveUser),
     // TypedGoRoute<AddAcc>(path: 'add-account', name: R.addAccount),
   ],
 )
@@ -58,47 +53,50 @@ class AuthRoute extends GoRouteData with $AuthRoute {
 
   final String? initialHost;
 
-  /// The redirect chain determines the flow for authentication.
-  final AuthRouteExtra? $extra;
-
-  const AuthRoute({this.initialHost, this.$extra});
+  const AuthRoute({this.initialHost});
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return MaterialPage(
       child: BlocProvider(
         create: (context) => ServerConnectionCubit(context.read()),
-        child: ServerConnectionPage(
-          initialHost: initialHost,
-          initialClientCertificate: $extra?.clientCertificate,
-          initialAdditionalHeaders: $extra?.additionalHeaders,
-        ),
+        child: ServerConnectionPage(initialHost: initialHost),
       ),
     );
   }
 }
 
 class AuthRouteExtra {
+  final AuthenticationCredentials? credentials;
   final ClientCertificate? clientCertificate;
   final List<HeaderEntry>? additionalHeaders;
 
-  const AuthRouteExtra({this.clientCertificate, this.additionalHeaders});
+  const AuthRouteExtra({
+    this.clientCertificate,
+    this.additionalHeaders,
+    this.credentials,
+  });
+}
+
+class AddUserRouteExtra {
+  final String token;
+  final ClientCertificate? clientCertificate;
+  final List<HeaderEntry>? additionalHeaders;
+
+  const AddUserRouteExtra({
+    required this.token,
+    this.clientCertificate,
+    this.additionalHeaders,
+  });
 }
 
 class AuthenticateRoute extends GoRouteData with $AuthenticateRoute {
   static final $parentNavigatorKey = rootNavigatorKey;
 
   final String serverUrl;
-  final String? initialUsername;
-  final String? initialPassword;
   final AuthRouteExtra? $extra;
 
-  const AuthenticateRoute({
-    required this.serverUrl,
-    this.initialUsername,
-    this.initialPassword,
-    this.$extra,
-  });
+  const AuthenticateRoute({required this.serverUrl, this.$extra});
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
@@ -118,8 +116,7 @@ class AuthenticateRoute extends GoRouteData with $AuthenticateRoute {
         create: (context) => AuthenticateUserCubit(),
         child: AuthenticateUserPage(
           serverUrl: serverUrl,
-          initialUsername: initialUsername,
-          initialPassword: initialPassword,
+          initialCredentials: $extra?.credentials,
           clientCertificate: $extra?.clientCertificate,
           additionalHeaders: $extra?.additionalHeaders,
         ),
@@ -128,20 +125,20 @@ class AuthenticateRoute extends GoRouteData with $AuthenticateRoute {
   }
 }
 
+class OtpRouteExtra {
+  final AuthenticationCredentials credentials;
+  final ClientCertificate? clientCertificate;
+
+  const OtpRouteExtra({required this.credentials, this.clientCertificate});
+}
+
 class OtpRoute extends GoRouteData with $OtpRoute {
   static final $parentNavigatorKey = rootNavigatorKey;
 
   final String serverUrl;
-  final String username;
-  final String password;
-  final ClientCertificate? $extra;
+  final OtpRouteExtra $extra;
 
-  const OtpRoute({
-    required this.serverUrl,
-    required this.username,
-    required this.password,
-    this.$extra,
-  });
+  const OtpRoute({required this.serverUrl, required this.$extra});
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -149,9 +146,8 @@ class OtpRoute extends GoRouteData with $OtpRoute {
       create: (context) => AuthenticateUserCubit(),
       child: OtpInputPage(
         serverUrl: serverUrl,
-        username: username,
-        password: password,
-        clientCertificate: $extra,
+        clientCertificate: $extra.clientCertificate,
+        credentials: $extra.credentials,
       ),
     );
   }
@@ -172,27 +168,19 @@ class SwitchingAccountsRoute extends GoRouteData with $SwitchingAccountsRoute {
   }
 }
 
-class SetActiveUserRoute extends GoRouteData with $SetActiveUserRoute {
-  final String username;
+class AddUserRoute extends GoRouteData with $AddUserRoute {
   final String serverUrl;
-  final String token;
-  final AuthRouteExtra? $extra;
+  final AddUserRouteExtra $extra;
 
-  SetActiveUserRoute({
-    required this.username,
-    required this.serverUrl,
-    required this.token,
-    required this.$extra,
-  });
+  AddUserRoute({required this.serverUrl, required this.$extra});
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return SetActiveUserPage(
+    return AddUserLoadingPage(
       serverUrl: serverUrl,
-      username: username,
-      token: token,
-      clientCertificate: $extra?.clientCertificate,
-      additionalHeaders: $extra?.additionalHeaders,
+      token: $extra.token,
+      clientCertificate: $extra.clientCertificate,
+      additionalHeaders: $extra.additionalHeaders,
     );
   }
 }

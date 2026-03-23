@@ -53,8 +53,8 @@ class PaperlessTasksApiImpl implements PaperlessTasksApi {
       final task = tasks.firstWhere((t) => t.taskId == taskId);
       log("Found new task: ${task.taskId}, ${task.id}, ${task.status}");
       yield task;
-      if (task.status == StatusEnum.SUCCESS ||
-          task.status == StatusEnum.FAILURE) {
+      if (task.status == StatusEnum.success ||
+          task.status == StatusEnum.failure) {
         isCompleted = true;
       }
       await Future.delayed(const Duration(seconds: 2));

@@ -4,16 +4,15 @@ import 'dart:typed_data';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:paperless_mobile/api/paperless_api.dart';
-import 'package:paperless_mobile/accessibility/accessible_page.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/features/home/view/home_shell_widget.dart';
 import 'package:paperless_mobile/features/sharing/cubit/receive_share_cubit.dart';
 import 'package:paperless_mobile/features/sharing/view/widgets/event_listener_shell.dart';
 import 'package:paperless_mobile/routing/navigation_keys.dart';
 import 'package:paperless_mobile/routing/routes.dart';
+import 'package:paperless_mobile/routing/routes/custom_field_route.dart';
 import 'package:paperless_mobile/routing/routes/documents_route.dart';
 import 'package:paperless_mobile/routing/routes/inbox_route.dart';
-import 'package:paperless_mobile/routing/routes/custom_field_route.dart';
 import 'package:paperless_mobile/routing/routes/labels_route.dart';
 import 'package:paperless_mobile/routing/routes/landing_route.dart';
 import 'package:paperless_mobile/routing/routes/saved_views_route.dart';
@@ -129,30 +128,17 @@ class AuthenticatedRoute extends ShellRouteData {
   const AuthenticatedRoute();
 
   @override
-  Page<void> pageBuilder(
-    BuildContext context,
-    GoRouterState state,
-    Widget navigator,
-  ) {
-    return accessiblePlatformPage(
-      child: Builder(
-        builder: (context) {
-          final currentUserId = context.loggedInAppUserId$;
-          final authenticatedUser = context.loggedInUser$;
-          if (currentUserId == null) {
-            return const SizedBox.shrink();
-          }
-          return HomeShellWidget(
-            localUserId: currentUserId,
-            paperlessApiVersion: authenticatedUser.apiVersion,
-            child: ChangeNotifierProvider(
-              create: (context) =>
-                  ConsumptionChangeNotifier()
-                    ..loadFromConsumptionDirectory(userId: currentUserId),
-              child: EventListenerShell(child: navigator),
-            ),
-          );
-        },
+  Widget builder(BuildContext context, GoRouterState state, Widget navigator) {
+    final loggedInUser = context.loggedInUserData$;
+    final appUserId = '${loggedInUser.username}@${loggedInUser.serverUrl}';
+
+    return HomeShellWidget(
+      appUserId: appUserId,
+      child: ChangeNotifierProvider(
+        create: (context) =>
+            ConsumptionChangeNotifier()
+              ..loadFromConsumptionDirectory(userId: appUserId),
+        child: EventListenerShell(child: navigator),
       ),
     );
   }

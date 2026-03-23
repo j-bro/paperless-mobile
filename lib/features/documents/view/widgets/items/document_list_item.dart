@@ -22,8 +22,8 @@ class DocumentListItem extends DocumentItem {
     super.onStoragePathSelected,
     super.onTagSelected,
     super.onTap,
-    super.enableHeroAnimation = true,
     super.isEnabled,
+    super.heroTagPrefix,
   });
 
   @override
@@ -88,7 +88,7 @@ class DocumentListItem extends DocumentItem {
                 title: document.title,
                 fit: BoxFit.cover,
                 alignment: Alignment.topCenter,
-                enableHero: enableHeroAnimation,
+                heroTagPrefix: heroTagPrefix,
               ),
             ),
           ),

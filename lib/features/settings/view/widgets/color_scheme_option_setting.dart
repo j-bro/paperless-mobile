@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:paperless_mobile/constants.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/store/bloc/global_settings_builder.dart';
+import 'package:paperless_mobile/core/store/slices/global_settings.dart';
 import 'package:paperless_mobile/core/translation/color_scheme_option_localization_mapper.dart';
 import 'package:paperless_mobile/core/widgets/hint_card.dart';
 import 'package:paperless_mobile/features/settings/model/color_scheme_option.dart';

@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:paperless_mobile/api/paperless_api.dart';
 import 'package:paperless_mobile/core/security/session_manager_impl.dart';
+import 'package:paperless_mobile/features/login/authenticate_user/model/authentication_credentials.dart';
 import 'package:paperless_mobile/features/login/model/client_certificate.dart';
 import 'package:paperless_mobile/features/login/server_connection/model/header_entry.dart';
 
@@ -11,8 +12,7 @@ class AuthenticateUserCubit extends Cubit<AuthenticateUserState> {
 
   Future<void> login({
     required String serverUrl,
-    required String username,
-    required String password,
+    required AuthenticationCredentials credentials,
     String? otp,
     ClientCertificate? clientCertificate,
     List<HeaderEntry>? additionalHeaders,
@@ -25,19 +25,27 @@ class AuthenticateUserCubit extends Cubit<AuthenticateUserState> {
           baseUrl: serverUrl,
           additionalHeaders: additionalHeaders,
         );
-      final token = await PaperlessAuthenticationApiImpl(sessionManager.client)
-          .token(
+
+      final tempAuthApi = PaperlessAuthenticationApiImpl(sessionManager.client);
+      final token = switch (credentials) {
+        PasswordAuthenticationCredentials(:final username, :final password) =>
+          await tempAuthApi.token(
             PaperlessAuthTokenRequest(
               username: username,
               password: password,
               code: otp,
             ),
-          );
+          ),
+        ApiKeyAuthenticationCredentials(:final apiKey) =>
+          await tempAuthApi.validateToken(apiKey)
+              ? apiKey
+              : throw PaperlessApiException(ErrorCode.invalidApiKey),
+      };
+
       emit(
         AuthenticateUserSuccess(
           serverUrl: serverUrl,
           token: token,
-          username: username,
           clientCertificate: clientCertificate,
           additionalHeaders: additionalHeaders,
         ),
@@ -47,8 +55,7 @@ class AuthenticateUserCubit extends Cubit<AuthenticateUserState> {
         emit(
           AuthenticateUserOtpRequired(
             serverUrl: serverUrl,
-            username: username,
-            password: password,
+            credentials: credentials,
             clientCertificate: clientCertificate,
             additionalHeaders: additionalHeaders,
           ),

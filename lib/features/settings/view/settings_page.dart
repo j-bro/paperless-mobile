@@ -60,7 +60,7 @@ class SettingsPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            "${S.of(context)!.loggedInAs(currentUser.paperlessUser.username)}@$host",
+            "${S.of(context)!.loggedInAs(currentUser.profile.uiSettings.user.username)}@$host",
             style: Theme.of(context).textTheme.labelSmall,
             textAlign: TextAlign.center,
           ),

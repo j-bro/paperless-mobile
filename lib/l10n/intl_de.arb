@@ -91,11 +91,15 @@
   "@anyTag": {
     "description": "Label shown when any tag should be filtered"
   },
+  "apiKey": "API-Authentifizierungstoken",
+  "@apiKey": {},
+  "apiKeyMustNotBeEmpty": "Authentifizierungstoken darf nicht leer sein.",
+  "@apiKeyMustNotBeEmpty": {},
   "appearance": "Aussehen",
   "@appearance": {},
   "applicationSettings": "Anwendung",
   "@applicationSettings": {},
-  "appLogs": "App Logs {date}",
+  "appLogs": "App-Logs {date}",
   "apply": "Anwenden",
   "@apply": {},
   "archivedPdf": "Archiviert (pdf)",
@@ -226,6 +230,7 @@
   "@content": {
     "description": "Label shown in the tabbar on details page"
   },
+  "continueAnyway": "Trotzdem fortfahren",
   "continueLabel": "Fortfahren",
   "@continueLabel": {},
   "convertSinglePageScanToPdf": "Einseitige Scans vor dem Hochladen immer in PDF umwandeln",
@@ -322,6 +327,10 @@
     "description": "Message shown when the UI settings could not be loaded"
   },
   "couldNotLoadUser": "Benutzer konnte nicht geladen werden, bitte versuche es erneut.",
+  "couldNotLoadUserProfile": "Benutzerprofil konnten nicht geladen werden, bitte versuche es erneut.",
+  "@couldNotLoadUserProfile": {
+    "description": "Message shown when the user profile could not be loaded from the server."
+  },
   "couldNotLoadUsers": "Benutzer konnten nicht geladen werden, bitte versuche es erneut.",
   "couldNotOpenFilePermissionDenied": "Datei konnte nicht geöffnet werden: Zugriff verweigert.",
   "@couldNotOpenFilePermissionDenied": {},
@@ -380,7 +389,7 @@
   "@customFieldMonetaryDefaultCurrencyHelperText": {
     "description": "Helper text for the default currency field in a custom monetary field"
   },
-  "customFieldMonetaryDefaultCurrencyHintText": "Beziehe dich auf den Standard-ISO-Währungscode deiner Region (USD, EUR, GBP, ...)",
+  "customFieldMonetaryDefaultCurrencyHintText": "Nutze den Standard-ISO-Währungscode deiner Region (USD, EUR, GBP, ...)",
   "@customFieldMonetaryDefaultCurrencyHintText": {
     "description": "Hint text for the default currency field in a custom monetary field"
   },
@@ -650,6 +659,10 @@
   "@incorrectOrMissingCertificatePassphrase": {},
   "invalidAddress": "Ungültige Adresse.",
   "@invalidAddress": {},
+  "invalidApiKey": "Ungültiger API-Authentifizierungstoken.",
+  "@invalidApiKey": {
+    "description": "Message shown when the provided API key is invalid."
+  },
   "invalidCertificateFormat": "Ungültiges Zertifikatsformat, nur .pfx ist erlaubt.",
   "@invalidCertificateFormat": {},
   "invalidCertificateOrMissingPassphrase": "Ungültiges Zertifikat oder fehlende Passphrase, bitte versuche es erneut.",
@@ -870,6 +883,7 @@
     "description": "Option to chose when downloading a document"
   },
   "originalFilename": "Ursprünglicher Dateiname",
+  "@originalFilename": {},
   "originalFileSize": "Dateigröße Original",
   "@originalFileSize": {},
   "originalMD5Checksum": "MD5-Prüfsumme Original",
@@ -881,6 +895,7 @@
     "description": "Label shown in the tabbar on details page"
   },
   "owner": "Eigentümer",
+  "@owner": {},
   "paperlessServerVersion": "Paperless Server-Version",
   "@paperlessServerVersion": {},
   "passphrase": "Passphrase",
@@ -890,8 +905,13 @@
   "passwordMustNotBeEmpty": "Passwort darf nicht leer sein.",
   "@passwordMustNotBeEmpty": {},
   "pendingFiles": "Ausstehende Dateien",
+  "@pendingFiles": {},
   "permissions": "Berechtigungen",
+  "@permissions": {},
   "persistingUserInformation": "Nutzerinformationen werden gespeichert...",
+  "@persistingUserInformation": {},
+  "pleaseProvideCredentialsOrApiKey": "Bitte gebe entweder Benutzername und Passwort oder einen API-Authentifizierungstoken an.",
+  "@pleaseProvideCredentialsOrApiKey": {},
   "prepareDocument": "Dokument vorbereiten",
   "@prepareDocument": {},
   "preview": "Vorschau",
@@ -919,12 +939,19 @@
   "reload": "Neu laden",
   "@reload": {},
   "rememberDecision": "Meine Entscheidung merken",
+  "@rememberDecision": {},
   "remove": "Entfernen",
+  "@remove": {},
   "removeDocumentFromInbox": "Dokument aus Posteingang entfernt.",
   "@removeDocumentFromInbox": {},
   "removeFromSearchHistory": "Aus dem Suchverlauf entfernen?",
   "@removeFromSearchHistory": {},
   "removeQueryFromSearchHistory": "Aus Suchverlauf entfernen?",
+  "@removeQueryFromSearchHistory": {},
+  "removeUser": "Benutzer entfernen",
+  "@removeUser": {},
+  "removeUserAndLogOut": "Benutzer entfernen und abmelden",
+  "@removeUserAndLogOut": {},
   "report": "MELDEN",
   "@report": {},
   "reportABug": "Einen Fehler melden",
@@ -981,6 +1008,7 @@
   "@selectDateRange": {},
   "selectFile": "Datei auswählen...",
   "@selectFile": {},
+  "selectLogLevels": "Log-Level auswählen",
   "serverAddress": "Server-Adresse",
   "@serverAddress": {},
   "serverAddressMustIncludeAScheme": "Server-Adresse muss ein Schema enthalten.",
@@ -1100,6 +1128,8 @@
   "unauthorizedErrorMessage": "Du bist nicht berechtigt, diese Aktion durchzuführen. Bitte kontaktiere einen Administrator oder stelle sicher, dass Du über die erforderlichen Berechtigungen verfügst.",
   "undo": "Undo",
   "@undo": {},
+  "unsupportedVersionTitle": "Nicht unterstützte API-Version",
+  "unsupportedVersionWarning": "Die von deiner paperless-ngx-Instanz gemeldete API-Version ({apiVersion}) wird von dieser App-Version offiziell nicht unterstützt. Die neueste unterstützte API-Version ist {latestSupportedApiVersion}. \n\nDas kann passieren, wenn auf deinem Server eine ältere Version von paperless-ngx läuft oder wenn die Unterstützung für diese Version in einem neueren App-Update entfernt wurde.\n\nDadurch funktionieren manche Features möglicherweise nicht richtig, und die App kann sich unvorhersehbar verhalten oder sogar abstürzen.\n\nFür die beste Nutzungserfahrung aktualisiere deine paperless-ngx-Instanz auf eine unterstützte Version oder installiere eine ältere App-Version über GitHub oder F-Droid.",
   "upload": "Hochladen",
   "@upload": {},
   "uploadADocumentFromThisDevice": "Lade ein Dokument von diesem Gerät hoch",

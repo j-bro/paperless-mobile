@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:paperless_mobile/api/paperless_api.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
-import 'package:paperless_mobile/features/document_edit/view/custom_field_selection_page.dart';
 import 'package:paperless_mobile/features/labels/custom_fields/view/pages/add_custom_field_page.dart';
 import 'package:paperless_mobile/features/labels/custom_fields/view/pages/edit_custom_field_page.dart';
 import 'package:paperless_mobile/routing/navigation_keys.dart';
@@ -40,7 +39,7 @@ class EditCustomFieldRoute extends GoRouteData with $EditCustomFieldRoute {
       customField: $extra,
       editMutation: context.customFieldRepository.putMutation($extra.id),
       deleteMutation: context.customFieldRepository.deleteMutation($extra.id),
-      canDelete: context.loggedInUser$.paperlessUser.canDeleteCustomFields,
+      canDelete: context.uiSettings$.canDeleteCustomFields,
     );
   }
 }

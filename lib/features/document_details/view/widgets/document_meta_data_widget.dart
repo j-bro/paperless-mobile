@@ -21,7 +21,7 @@ class DocumentMetaDataWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentUser = context.loggedInUser$.paperlessUser;
+    final uiSettings = context.loggedInUser$.profile.uiSettings;
     return QueryBuilder(
       query: context.documentRepository.getMetaDataQuery(document.id),
       builder: (context, state) {
@@ -47,7 +47,7 @@ class DocumentMetaDataWidget extends StatelessWidget {
         final metadata = state.data!;
         return SliverList.list(
           children: [
-            if (currentUser.canEditDocuments)
+            if (uiSettings.canEditDocuments)
               ArchiveSerialNumberField(
                 key: ValueKey(
                   'asn_field_${document.id}_${document.archiveSerialNumber}',
@@ -55,22 +55,20 @@ class DocumentMetaDataWidget extends StatelessWidget {
                 documentId: document.id,
                 initialValue: document.archiveSerialNumber,
               ).paddedOnly(bottom: itemSpacing),
-            if (document.modified != null)
-              DetailsItem.text(
-                DateFormat.yMMMMd(
-                  Localizations.localeOf(context).toString(),
-                ).format(document.modified!),
-                context: context,
-                label: S.of(context)!.modifiedAt,
-              ).paddedOnly(bottom: itemSpacing),
-            if (document.added != null)
-              DetailsItem.text(
-                DateFormat.yMMMMd(
-                  Localizations.localeOf(context).toString(),
-                ).format(document.added!),
-                context: context,
-                label: S.of(context)!.addedAt,
-              ).paddedOnly(bottom: itemSpacing),
+            DetailsItem.text(
+              DateFormat.yMMMMd(
+                Localizations.localeOf(context).toString(),
+              ).format(document.modified),
+              context: context,
+              label: S.of(context)!.modifiedAt,
+            ).paddedOnly(bottom: itemSpacing),
+            DetailsItem.text(
+              DateFormat.yMMMMd(
+                Localizations.localeOf(context).toString(),
+              ).format(document.added),
+              context: context,
+              label: S.of(context)!.addedAt,
+            ).paddedOnly(bottom: itemSpacing),
             DetailsItem.text(
               metadata.mediaFilename,
               context: context,

@@ -5,8 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:paperless_mobile/api/paperless_api.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/widgets/icon_loading_widget.dart';
-import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/features/labels/custom_fields/view/custom_field_conditional_form_fields.dart';
+import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/helpers/custom_field_icon_mappings.dart';
 import 'package:paperless_mobile/helpers/message_helpers.dart';
 

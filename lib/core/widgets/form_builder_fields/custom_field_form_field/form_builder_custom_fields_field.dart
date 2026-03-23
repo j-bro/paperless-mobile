@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:paperless_mobile/api/paperless_api.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
+import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/widgets/form_builder_fields/custom_field_form_field/form_builder_custom_field_instance.dart';
 
 /// A single [FormBuilderField] that manages a [List<CustomFieldInstance>].
@@ -74,7 +75,10 @@ class FormBuilderCustomFieldsField extends StatelessWidget {
                           ),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.delete_outline),
+                          icon: Icon(
+                            Icons.delete_outline,
+                            color: Theme.of(context).colorScheme.error,
+                          ),
                           tooltip: MaterialLocalizations.of(
                             context,
                           ).deleteButtonTooltip,
@@ -84,7 +88,7 @@ class FormBuilderCustomFieldsField extends StatelessWidget {
                                 .toList();
                             field.didChange(updated);
                           },
-                        ),
+                        ).paddedSymmetrically(horizontal: 4),
                       ],
                     ),
               ],

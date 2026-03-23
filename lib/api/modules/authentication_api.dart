@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
+import 'package:paperless_mobile/api/models/paperless_auth_token.dart';
 import 'package:paperless_mobile/api/paperless_api.dart';
 
 abstract class PaperlessAuthenticationApi {
   Future<String> token(PaperlessAuthTokenRequest request);
+  Future<bool> validateToken(String token);
   String getOAuthCallback();
 }
 
@@ -21,7 +23,6 @@ class PaperlessAuthenticationApiImpl implements PaperlessAuthenticationApi {
           sendTimeout: const Duration(seconds: 5),
           receiveTimeout: const Duration(seconds: 5),
           followRedirects: false,
-          headers: {"Accept": "application/json"},
         ),
       );
       return PaperlessAuthToken.fromJson(response.data).token;
@@ -38,5 +39,18 @@ class PaperlessAuthenticationApiImpl implements PaperlessAuthenticationApi {
   @override
   String getOAuthCallback() {
     return "${client.options.baseUrl}/oauth/callback/";
+  }
+
+  @override
+  Future<bool> validateToken(String token) async {
+    final response = await client.get(
+      '/api/profile/',
+      options: Options(
+        headers: {"Authorization": "Token $token"},
+        validateStatus: (status) => true,
+      ),
+    );
+
+    return response.statusCode != 401;
   }
 }

@@ -77,12 +77,7 @@ class TagsFormField extends StatelessWidget {
                     onSubmit: closeForm,
                     initialValue: field.value,
                     allowCreation:
-                        allowCreation &&
-                        context
-                            .loggedInUserData$
-                            .localUser
-                            .paperlessUser
-                            .canCreateTags,
+                        allowCreation && context.uiSettings$.canCreateTags,
                     allowExclude: allowExclude,
                   ),
                   onClosed: (data) {

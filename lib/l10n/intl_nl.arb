@@ -91,6 +91,10 @@
   "@anyTag": {
     "description": "Label shown when any tag should be filtered"
   },
+  "apiKey": "API Key",
+  "@apiKey": {},
+  "apiKeyMustNotBeEmpty": "API Key must not be empty.",
+  "@apiKeyMustNotBeEmpty": {},
   "appearance": "Uiterlijk",
   "@appearance": {},
   "applicationSettings": "Applicatie",
@@ -226,6 +230,7 @@
   "@content": {
     "description": "Label shown in the tabbar on details page"
   },
+  "continueAnyway": "Continue anyway",
   "continueLabel": "Doorgaan",
   "@continueLabel": {},
   "convertSinglePageScanToPdf": "Enkelvoudige pagina voor het uploaden altijd naar PDF converteren",
@@ -322,6 +327,10 @@
     "description": "Message shown when the UI settings could not be loaded"
   },
   "couldNotLoadUser": "Could not load user, please try again.",
+  "couldNotLoadUserProfile": "Could not load user profile, please try again.",
+  "@couldNotLoadUserProfile": {
+    "description": "Message shown when the user profile could not be loaded from the server."
+  },
   "couldNotLoadUsers": "Could not load users, please try again.",
   "couldNotOpenFilePermissionDenied": "Kon bestand niet openen: Toegang geweigerd.",
   "@couldNotOpenFilePermissionDenied": {},
@@ -650,6 +659,10 @@
   "@incorrectOrMissingCertificatePassphrase": {},
   "invalidAddress": "Ongeldig adres.",
   "@invalidAddress": {},
+  "invalidApiKey": "Invalid API key.",
+  "@invalidApiKey": {
+    "description": "Message shown when the provided API key is invalid."
+  },
   "invalidCertificateFormat": "Ongeldig certificaat formaat, alleen .pfx is toegestaan",
   "@invalidCertificateFormat": {},
   "invalidCertificateOrMissingPassphrase": "Ongeldig certificaat of ontbrekend wachtwoord, probeer het opnieuw",
@@ -870,6 +883,7 @@
     "description": "Option to chose when downloading a document"
   },
   "originalFilename": "Original Filename",
+  "@originalFilename": {},
   "originalFileSize": "Originele bestandsgrootte",
   "@originalFileSize": {},
   "originalMD5Checksum": "Originele MD5-Checksum",
@@ -881,6 +895,7 @@
     "description": "Label shown in the tabbar on details page"
   },
   "owner": "Owner",
+  "@owner": {},
   "paperlessServerVersion": "Paperless server-versie",
   "@paperlessServerVersion": {},
   "passphrase": "Wachtwoordzin",
@@ -890,8 +905,13 @@
   "passwordMustNotBeEmpty": "Wachtwoord mag niet leeg zijn.",
   "@passwordMustNotBeEmpty": {},
   "pendingFiles": "Pending Files",
+  "@pendingFiles": {},
   "permissions": "Machtigingen",
+  "@permissions": {},
   "persistingUserInformation": "Gebruikersinformatie wordt opgeslagen...",
+  "@persistingUserInformation": {},
+  "pleaseProvideCredentialsOrApiKey": "Please provide either username & password or an API key.",
+  "@pleaseProvideCredentialsOrApiKey": {},
   "prepareDocument": "Document voorbereiden",
   "@prepareDocument": {},
   "preview": "Voorbeeld",
@@ -919,12 +939,19 @@
   "reload": "Herladen",
   "@reload": {},
   "rememberDecision": "Onthoud mijn beslissing",
+  "@rememberDecision": {},
   "remove": "Verwijder",
+  "@remove": {},
   "removeDocumentFromInbox": "Document verwijderd uit inbox.",
   "@removeDocumentFromInbox": {},
   "removeFromSearchHistory": "Uit de zoekgeschiedenis verwijderen?",
   "@removeFromSearchHistory": {},
   "removeQueryFromSearchHistory": "Uit de zoekgeschiedenis verwijderen?",
+  "@removeQueryFromSearchHistory": {},
+  "removeUser": "Remove user",
+  "@removeUser": {},
+  "removeUserAndLogOut": "Remove user and log out",
+  "@removeUserAndLogOut": {},
   "report": "RAPPORTEER",
   "@report": {},
   "reportABug": "Rapporteer een fout",
@@ -981,6 +1008,7 @@
   "@selectDateRange": {},
   "selectFile": "Bestand selecteren...",
   "@selectFile": {},
+  "selectLogLevels": "Select log levels",
   "serverAddress": "Serveradres",
   "@serverAddress": {},
   "serverAddressMustIncludeAScheme": "Serveradres moet een schema bevatten.",
@@ -1100,6 +1128,8 @@
   "unauthorizedErrorMessage": "You are not authorized to perform this action. Please contact your admin or make sure you have the necessary permissions.",
   "undo": "Ongedaan maken",
   "@undo": {},
+  "unsupportedVersionTitle": "Unsupported API version",
+  "unsupportedVersionWarning": "The API version reported by your paperless-ngx instance ({apiVersion}) is not officially supported by this version of the app. The latest supported API version is {latestSupportedApiVersion}.\n\nThis may occur if your server is running an older version of paperless-ngx or if compatibility with that version was removed in a recent app update.\n\nAs a result, some features may not work correctly, and the app may behave unpredictably or even crash.\n\nFor the best experience, update your paperless-ngx instance to a supported version or install an older version from GitHub or F-Droid.",
   "upload": "Uploaden",
   "@upload": {},
   "uploadADocumentFromThisDevice": "Document uploaden van dit apparaat",

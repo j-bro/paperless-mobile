@@ -91,6 +91,10 @@
   "@anyTag": {
     "description": "Label shown when any tag should be filtered"
   },
+  "apiKey": "API Key",
+  "@apiKey": {},
+  "apiKeyMustNotBeEmpty": "API Key must not be empty.",
+  "@apiKeyMustNotBeEmpty": {},
   "appearance": "المظهر",
   "@appearance": {},
   "applicationSettings": "التطبيق",
@@ -226,6 +230,7 @@
   "@content": {
     "description": "Label shown in the tabbar on details page"
   },
+  "continueAnyway": "Continue anyway",
   "continueLabel": "إستمِر",
   "@continueLabel": {},
   "convertSinglePageScanToPdf": "دائمًا قم بتحويل ممسوحات الصفحة الواحدة إلى PDF قبل الرفع",
@@ -322,6 +327,10 @@
     "description": "Message shown when the UI settings could not be loaded"
   },
   "couldNotLoadUser": "Could not load user, please try again.",
+  "couldNotLoadUserProfile": "Could not load user profile, please try again.",
+  "@couldNotLoadUserProfile": {
+    "description": "Message shown when the user profile could not be loaded from the server."
+  },
   "couldNotLoadUsers": "Could not load users, please try again.",
   "couldNotOpenFilePermissionDenied": "تعذر فتح الملف: تم رفض الإذن.",
   "@couldNotOpenFilePermissionDenied": {},
@@ -650,6 +659,10 @@
   "@incorrectOrMissingCertificatePassphrase": {},
   "invalidAddress": "عنوان غير صالح.",
   "@invalidAddress": {},
+  "invalidApiKey": "Invalid API key.",
+  "@invalidApiKey": {
+    "description": "Message shown when the provided API key is invalid."
+  },
   "invalidCertificateFormat": "تنسيق الشهادة غير صالح. تنسيق .pfx فقط مسموح به",
   "@invalidCertificateFormat": {},
   "invalidCertificateOrMissingPassphrase": "شهادة مصادقة غير صالحة أو عبارة مرور مفقودة، الرجاء المحاولة مرة أخرى",
@@ -870,6 +883,7 @@
     "description": "Option to chose when downloading a document"
   },
   "originalFilename": "Original Filename",
+  "@originalFilename": {},
   "originalFileSize": "حجم الملف الأصلي",
   "@originalFileSize": {},
   "originalMD5Checksum": "فحص كتلة MD5 الأصلية",
@@ -881,6 +895,7 @@
     "description": "Label shown in the tabbar on details page"
   },
   "owner": "Owner",
+  "@owner": {},
   "paperlessServerVersion": "رقم إصدار خادوم Paperless",
   "@paperlessServerVersion": {},
   "passphrase": "كلمة المرور",
@@ -890,8 +905,13 @@
   "passwordMustNotBeEmpty": "كلمة المرور يجب أن لا تكون فارغة.",
   "@passwordMustNotBeEmpty": {},
   "pendingFiles": "Pending Files",
+  "@pendingFiles": {},
   "permissions": "الأذونات",
+  "@permissions": {},
   "persistingUserInformation": "حفظ معلومات المستخدم...",
+  "@persistingUserInformation": {},
+  "pleaseProvideCredentialsOrApiKey": "Please provide either username & password or an API key.",
+  "@pleaseProvideCredentialsOrApiKey": {},
   "prepareDocument": "تحضير المستند",
   "@prepareDocument": {},
   "preview": "معاينة",
@@ -919,12 +939,19 @@
   "reload": "إعادة التحميل",
   "@reload": {},
   "rememberDecision": "تذكرّ اختياري",
+  "@rememberDecision": {},
   "remove": "ازالة",
+  "@remove": {},
   "removeDocumentFromInbox": "تمت إزالة المستند من صندوق الوارد.",
   "@removeDocumentFromInbox": {},
   "removeFromSearchHistory": "إزالة من سجل البحث؟",
   "@removeFromSearchHistory": {},
   "removeQueryFromSearchHistory": "إزالة الاستعلام من سجل البحث؟",
+  "@removeQueryFromSearchHistory": {},
+  "removeUser": "Remove user",
+  "@removeUser": {},
+  "removeUserAndLogOut": "Remove user and log out",
+  "@removeUserAndLogOut": {},
   "report": "تقرير",
   "@report": {},
   "reportABug": "الإبلاغ عن خلل",
@@ -981,6 +1008,7 @@
   "@selectDateRange": {},
   "selectFile": "حدّد الملف...",
   "@selectFile": {},
+  "selectLogLevels": "Select log levels",
   "serverAddress": "عنوان الخادوم",
   "@serverAddress": {},
   "serverAddressMustIncludeAScheme": "يجب أن يتضمن عنوان الخادوم خطة scheme.",
@@ -1100,6 +1128,8 @@
   "unauthorizedErrorMessage": "You are not authorized to perform this action. Please contact your admin or make sure you have the necessary permissions.",
   "undo": "تراجع",
   "@undo": {},
+  "unsupportedVersionTitle": "Unsupported API version",
+  "unsupportedVersionWarning": "The API version reported by your paperless-ngx instance ({apiVersion}) is not officially supported by this version of the app. The latest supported API version is {latestSupportedApiVersion}.\n\nThis may occur if your server is running an older version of paperless-ngx or if compatibility with that version was removed in a recent app update.\n\nAs a result, some features may not work correctly, and the app may behave unpredictably or even crash.\n\nFor the best experience, update your paperless-ngx instance to a supported version or install an older version from GitHub or F-Droid.",
   "upload": "رفع",
   "@upload": {},
   "uploadADocumentFromThisDevice": "رفع مستند من هذا الجهاز",

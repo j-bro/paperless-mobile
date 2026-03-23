@@ -1,17 +1,16 @@
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'search_hit.freezed.dart';
 part 'search_hit.g.dart';
 
-@JsonSerializable()
-class SearchHit {
-  final double? score;
-  final String? highlights;
-  final int? rank;
-
-  SearchHit({this.score, required this.highlights, required this.rank});
+@Freezed(toJson: false, fromJson: true)
+abstract class SearchHit with _$SearchHit {
+  factory SearchHit({
+    double? score,
+    required String? highlights,
+    required int? rank,
+  }) = _SearchHit;
 
   factory SearchHit.fromJson(Map<String, dynamic> json) =>
       _$SearchHitFromJson(json);
-
-  Map<String, dynamic> toJson() => _$SearchHitToJson(this);
 }

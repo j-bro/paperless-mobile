@@ -5,5 +5,5 @@ export 'label_extensions.dart';
 export 'pagination_extensions.dart';
 export 'saved_view_extensions.dart';
 export 'suggestions_extensions.dart';
-export 'user_extension.dart';
+export 'profile_extension.dart';
 export 'user_permission_extension.dart';

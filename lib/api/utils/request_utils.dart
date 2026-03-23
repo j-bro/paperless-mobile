@@ -13,10 +13,7 @@ Future<T?> getSingleResult<T>(
     final response = await client.get(
       url,
       queryParameters: removeNullValues(queryParams),
-      options: Options(
-        headers: {'accept': 'application/json; version=9'},
-        validateStatus: (status) => status == 200,
-      ),
+      options: Options(validateStatus: (status) => status == 200),
     );
     return fromJson(response.data as Map<String, dynamic>);
   } on DioException catch (exception) {
@@ -35,7 +32,6 @@ Future<List<T>> getCollection<T>(
     final response = await client.get(
       url,
       options: Options(
-        headers: {'accept': 'application/json; version=9'},
         validateStatus: (status) => status == 200,
         listFormat: ListFormat.csv,
       ),
@@ -91,8 +87,7 @@ class _CollectionFromJsonSerializationParams<T> {
 }
 
 int getExtendedVersionNumber(String version) {
-  List versionCells = version.split('.');
-  versionCells = versionCells.map((i) => int.parse(i)).toList();
+  var versionCells = version.split('.').map((i) => int.parse(i)).toList();
   return versionCells[0] * 100000 + versionCells[1] * 1000 + versionCells[2];
 }
 

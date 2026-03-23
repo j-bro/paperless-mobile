@@ -25,7 +25,7 @@ class DocumentOverviewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = context.loggedInUser$.paperlessUser;
+    final uiSettings = context.loggedInUser$.profile.uiSettings;
     return SliverList.list(
       children: [
         if (document.title?.isNotEmpty ?? false)
@@ -46,7 +46,7 @@ class DocumentOverviewWidget extends StatelessWidget {
           context: context,
           label: S.of(context)!.createdAt,
         ),
-        if (document.documentType != null && user.canViewDocumentTypes)
+        if (document.documentType != null && uiSettings.canViewDocumentTypes)
           QueryBuilder(
             query: context.documentTypeRepository.getAllQuery(),
             builder: (context, state) {
@@ -76,7 +76,7 @@ class DocumentOverviewWidget extends StatelessWidget {
               label: null,
             ),
           ),
-        if (document.correspondent != null && user.canViewCorrespondents)
+        if (document.correspondent != null && uiSettings.canViewCorrespondents)
           QueryBuilder(
             query: context.correspondentRepository.getAllQuery(),
             builder: (context, state) {
@@ -106,7 +106,7 @@ class DocumentOverviewWidget extends StatelessWidget {
               label: null,
             ),
           ),
-        if (document.storagePath != null && user.canViewStoragePaths)
+        if (document.storagePath != null && uiSettings.canViewStoragePaths)
           QueryBuilder(
             query: context.storagePathRepository.getAllQuery(),
             builder: (context, state) {
@@ -137,7 +137,7 @@ class DocumentOverviewWidget extends StatelessWidget {
               label: null,
             ),
           ),
-        if (document.tags.isNotEmpty && user.canViewTags)
+        if (document.tags.isNotEmpty && uiSettings.canViewTags)
           DetailsItem(
             label: S.of(context)!.tags,
             content: TagsWidget(isClickable: false, tagIds: document.tags),

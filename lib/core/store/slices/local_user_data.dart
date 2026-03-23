@@ -1,19 +1,41 @@
+// ignore_for_file: invalid_annotation_target
+
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:paperless_mobile/core/store/slices/local_user_account.dart';
 import 'package:paperless_mobile/core/store/slices/local_user_app_state.dart';
 
-part 'local_user_data.freezed.dart';
 part 'local_user_data.g.dart';
 
-@freezed
-abstract class LocalUserData with _$LocalUserData {
-  const factory LocalUserData({
-    required String userId,
-    required LocalUserAccount localUser,
-    @Default(false) bool isBiometricAuthenticationEnabled,
-    @Default(LocalUserAppState()) LocalUserAppState appState,
-  }) = _UserSettings;
+@CopyWith()
+@JsonSerializable()
+class LocalUserData {
+  final String userId;
+  final String serverUrl;
+  final String username;
+  final String? firstName;
+  final String? lastName;
+  final bool isBiometricAuthenticationEnabled;
+  final LocalUserAppState appState;
 
+  const LocalUserData({
+    required this.userId,
+    required this.serverUrl,
+    required this.username,
+    this.firstName,
+    this.lastName,
+    this.isBiometricAuthenticationEnabled = false,
+    this.appState = const LocalUserAppState(),
+  });
+
+  Map<String, dynamic> toJson() => _$LocalUserDataToJson(this);
   factory LocalUserData.fromJson(Map<String, dynamic> json) =>
       _$LocalUserDataFromJson(json);
+
+  String get displayName {
+    if (firstName != null && lastName != null) {
+      return '$firstName $lastName';
+    } else {
+      return username;
+    }
+  }
 }

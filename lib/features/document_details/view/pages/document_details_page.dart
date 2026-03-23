@@ -32,7 +32,7 @@ class DocumentDetailsPage extends StatefulWidget {
   final bool isLabelClickable;
   final String? titleAndContentQueryString;
   final String? thumbnailUrl;
-  final String? heroTag;
+  final String? heroTagPrefix;
 
   const DocumentDetailsPage({
     super.key,
@@ -40,7 +40,7 @@ class DocumentDetailsPage extends StatefulWidget {
     this.titleAndContentQueryString,
     this.thumbnailUrl,
     required this.id,
-    this.heroTag,
+    this.heroTagPrefix,
     this.title,
   });
 
@@ -233,51 +233,46 @@ class _DocumentDetailsPageState extends State<DocumentDetailsPage> {
       flexibleSpace: FlexibleSpaceBar(
         background: Builder(
           builder: (context) {
-            return Hero(
-              tag: widget.heroTag ?? "thumb_${widget.id}",
-              child: GestureDetector(
-                onTap: canPreviewMimeType(state.data?.mimeType)
-                    ? () {
-                        DocumentPreviewRoute(
-                          documentId: widget.id,
-                          title: title,
-                          mimeType: state.data?.mimeType,
-                        ).push(context);
-                      }
-                    : null,
-                child: Stack(
-                  alignment: Alignment.topCenter,
-                  children: [
-                    Positioned.fill(
-                      child: DocumentPreview(
+            return GestureDetector(
+              onTap: canPreviewMimeType(state.data?.mimeType)
+                  ? () {
+                      DocumentPreviewRoute(
                         documentId: widget.id,
                         title: title,
-                        enableHero: false,
-                        fit: BoxFit.cover,
-                        alignment: Alignment.topCenter,
-                      ),
+                        mimeType: state.data?.mimeType,
+                      ).push(context);
+                    }
+                  : null,
+              child: Stack(
+                alignment: Alignment.topCenter,
+                children: [
+                  Positioned.fill(
+                    child: DocumentPreview(
+                      documentId: widget.id,
+                      title: title,
+                      fit: BoxFit.cover,
+                      alignment: Alignment.topCenter,
+                      heroTagPrefix: widget.heroTagPrefix,
                     ),
-                    Positioned.fill(
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            stops: [0.2, 0.4],
-                            colors: [
-                              Theme.of(
-                                context,
-                              ).colorScheme.surface.withAlpha(153),
-                              Theme.of(
-                                context,
-                              ).colorScheme.surface.withAlpha(77),
-                            ],
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                          ),
+                  ),
+                  Positioned.fill(
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          stops: [0.2, 0.4],
+                          colors: [
+                            Theme.of(
+                              context,
+                            ).colorScheme.surface.withAlpha(153),
+                            Theme.of(context).colorScheme.surface.withAlpha(77),
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             );
           },
@@ -356,7 +351,7 @@ class _DocumentDetailsPageState extends State<DocumentDetailsPage> {
   Widget _buildEditButton(Document document, LocalUserAccount currentUser) {
     bool canEdit =
         context.internetConnection$ &&
-        currentUser.paperlessUser.canEditDocuments;
+        currentUser.profile.uiSettings.canEditDocuments;
     if (!canEdit) {
       return const SizedBox.shrink();
     }
@@ -391,7 +386,7 @@ class _DocumentDetailsPageState extends State<DocumentDetailsPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               ConnectivityAwareActionWrapper(
-                disabled: !currentUser.paperlessUser.canDeleteDocuments,
+                disabled: !currentUser.profile.uiSettings.canDeleteDocuments,
                 offlineBuilder: (context, child) {
                   return const IconButton(
                     icon: Icon(Icons.delete),

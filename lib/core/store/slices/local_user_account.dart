@@ -1,18 +1,22 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:paperless_mobile/api/models/user.dart';
+import 'package:paperless_mobile/core/store/slices/user_profile.dart';
 
-part 'local_user_account.freezed.dart';
-part 'local_user_account.g.dart';
+class LocalUserAccount {
+  final String appUserId;
+  final String serverUrl;
+  final int apiVersion;
+  final UserProfile profile;
 
-@freezed
-abstract class LocalUserAccount with _$LocalUserAccount {
-  const factory LocalUserAccount({
-    required String appUserId,
-    required String serverUrl,
-    required User paperlessUser,
-    required int apiVersion,
-  }) = _LocalUserAccount;
+  LocalUserAccount({
+    required this.appUserId,
+    required this.serverUrl,
+    required this.apiVersion,
+    required this.profile,
+  });
 
-  factory LocalUserAccount.fromJson(Map<String, dynamic> json) =>
-      _$LocalUserAccountFromJson(json);
+  String get displayName {
+    final firstName = profile.profile.firstName ?? '';
+    final lastName = profile.profile.lastName ?? '';
+    final fullName = '$firstName $lastName'.trim();
+    return fullName.isNotEmpty ? fullName : profile.uiSettings.user.username;
+  }
 }

@@ -107,12 +107,12 @@ class _SortFieldSelectionBottomSheetState
                     showSelectedIcon: false,
                     segments: [
                       ButtonSegment(
-                        icon: const FaIcon(FontAwesomeIcons.arrowDownAZ),
+                        icon: const FaIcon(FontAwesomeIcons.arrowDownZA),
                         value: SortOrder.descending,
                         label: Text(S.of(context)!.descending),
                       ),
                       ButtonSegment(
-                        icon: const FaIcon(FontAwesomeIcons.arrowUpZA),
+                        icon: const FaIcon(FontAwesomeIcons.arrowDownAZ),
                         value: SortOrder.ascending,
                         label: Text(S.of(context)!.ascending),
                       ),

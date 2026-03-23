@@ -91,6 +91,10 @@
   "@anyTag": {
     "description": "Label shown when any tag should be filtered"
   },
+  "apiKey": "Clau API",
+  "@apiKey": {},
+  "apiKeyMustNotBeEmpty": "Clau APi no pot estar buida.",
+  "@apiKeyMustNotBeEmpty": {},
   "appearance": "Aparença",
   "@appearance": {},
   "applicationSettings": "Aplicació",
@@ -226,6 +230,7 @@
   "@content": {
     "description": "Label shown in the tabbar on details page"
   },
+  "continueAnyway": "Continue anyway",
   "continueLabel": "Continua",
   "@continueLabel": {},
   "convertSinglePageScanToPdf": "Coverteix únics escanejos a PDF abans de pujar",
@@ -322,6 +327,10 @@
     "description": "Message shown when the UI settings could not be loaded"
   },
   "couldNotLoadUser": "No es pot carregar usuari, prova de nou.",
+  "couldNotLoadUserProfile": "No es pot carregar el perfil d'usuari, torna a provar.",
+  "@couldNotLoadUserProfile": {
+    "description": "Message shown when the user profile could not be loaded from the server."
+  },
   "couldNotLoadUsers": "No es poden carregar usuaris, prova de nou.",
   "couldNotOpenFilePermissionDenied": "No es pot obrir arxiu: Accés denegat.",
   "@couldNotOpenFilePermissionDenied": {},
@@ -365,7 +374,7 @@
   "@createFromCurrentFilter": {
     "description": "Tooltip of the \"New saved view\" button"
   },
-  "createInboxTag": "Create inbox tag",
+  "createInboxTag": "Crea etiqueta d'entrada",
   "createsASavedViewBasedOnTheCurrentFilterCriteria": "Crea una nova vista basada en els filtres actuals.",
   "@createsASavedViewBasedOnTheCurrentFilterCriteria": {},
   "createViewsToQuicklyFilterYourDocuments": "Crea vistes per filtrar documents de manera ràpida.",
@@ -650,6 +659,10 @@
   "@incorrectOrMissingCertificatePassphrase": {},
   "invalidAddress": "Adreça Invàlida.",
   "@invalidAddress": {},
+  "invalidApiKey": "Clau API invàlida.",
+  "@invalidApiKey": {
+    "description": "Message shown when the provided API key is invalid."
+  },
   "invalidCertificateFormat": "Format de certificat invàlid, només s'accepta .pfx",
   "@invalidCertificateFormat": {},
   "invalidCertificateOrMissingPassphrase": "Certificat invàlid o sense paraula de pas",
@@ -815,7 +828,7 @@
   "@noDocumentsScannedYet": {},
   "noDocumentTypesSetUp": "No has afegit cap tipus de document.",
   "@noDocumentTypesSetUp": {},
-  "noInboxTagsSetUpHint": "Inbox tags are automatically assigned to newly received documents. Create one and those documents will start appearing here for review.",
+  "noInboxTagsSetUpHint": "Etiquetes d'entrada s'assignen automàticament a nous documents. Crea'n una i els documents començaran a apareixer aquí per a revisar.",
   "@noInboxTagsSetUpHint": {},
   "noItemsFound": "Elements no trobats!",
   "@noItemsFound": {},
@@ -870,6 +883,7 @@
     "description": "Option to chose when downloading a document"
   },
   "originalFilename": "Nom d'arxiu original",
+  "@originalFilename": {},
   "originalFileSize": "Mida arxiu original",
   "@originalFileSize": {},
   "originalMD5Checksum": "Original MD5-Checksum",
@@ -881,6 +895,7 @@
     "description": "Label shown in the tabbar on details page"
   },
   "owner": "Propietari",
+  "@owner": {},
   "paperlessServerVersion": "Versió servidor Paperless",
   "@paperlessServerVersion": {},
   "passphrase": "Contrasenya",
@@ -890,8 +905,13 @@
   "passwordMustNotBeEmpty": "Contrasenya no pot ser buida.",
   "@passwordMustNotBeEmpty": {},
   "pendingFiles": "Arxius Pendents",
+  "@pendingFiles": {},
   "permissions": "Permisos",
+  "@permissions": {},
   "persistingUserInformation": "Informació de l'usuari persistent...",
+  "@persistingUserInformation": {},
+  "pleaseProvideCredentialsOrApiKey": "Si us plau proveeix o un usuari i password o una clau API.",
+  "@pleaseProvideCredentialsOrApiKey": {},
   "prepareDocument": "Prepara document",
   "@prepareDocument": {},
   "preview": "Previsualitza",
@@ -919,12 +939,19 @@
   "reload": "Recarrega",
   "@reload": {},
   "rememberDecision": "Recorda la selecció",
+  "@rememberDecision": {},
   "remove": "Esborra",
+  "@remove": {},
   "removeDocumentFromInbox": "Document esborrat de la safata d'entrada.",
   "@removeDocumentFromInbox": {},
   "removeFromSearchHistory": "Elimina de l'historial de cerca?",
   "@removeFromSearchHistory": {},
   "removeQueryFromSearchHistory": "Elimina consulta de l'historial de cerca?",
+  "@removeQueryFromSearchHistory": {},
+  "removeUser": "Elimina usuari",
+  "@removeUser": {},
+  "removeUserAndLogOut": "Esborra l'usuari i desloga'l",
+  "@removeUserAndLogOut": {},
   "report": "REPORT",
   "@report": {},
   "reportABug": "Informa error",
@@ -981,6 +1008,7 @@
   "@selectDateRange": {},
   "selectFile": "Selecciona Fitxer...",
   "@selectFile": {},
+  "selectLogLevels": "Select log levels",
   "serverAddress": "Adreça Servidor",
   "@serverAddress": {},
   "serverAddressMustIncludeAScheme": "Adreça del servidor ha d'incloure esquema.",
@@ -989,7 +1017,7 @@
   "@serverAddressMustNotBeEmpty": {},
   "settings": "Opcions",
   "@settings": {},
-  "setUpYourInbox": "Set up your inbox first",
+  "setUpYourInbox": "Configura la safata d'entrada",
   "shareTooltip": "Compartir",
   "@shareTooltip": {
     "description": "Tooltip shown for the share button on details page"
@@ -1100,6 +1128,8 @@
   "unauthorizedErrorMessage": "No estàs autoritzat per dur a terme aquesta acció. Poseu-vos en contacte amb el vostre administrador o assegureu-vos que teniu els permisos necessaris.",
   "undo": "Desfer",
   "@undo": {},
+  "unsupportedVersionTitle": "Unsupported API version",
+  "unsupportedVersionWarning": "The API version reported by your paperless-ngx instance ({apiVersion}) is not officially supported by this version of the app. The latest supported API version is {latestSupportedApiVersion}.\n\nThis may occur if your server is running an older version of paperless-ngx or if compatibility with that version was removed in a recent app update.\n\nAs a result, some features may not work correctly, and the app may behave unpredictably or even crash.\n\nFor the best experience, update your paperless-ngx instance to a supported version or install an older version from GitHub or F-Droid.",
   "upload": "Carrega",
   "@upload": {},
   "uploadADocumentFromThisDevice": "Puja document des d'aquest dispositiu",

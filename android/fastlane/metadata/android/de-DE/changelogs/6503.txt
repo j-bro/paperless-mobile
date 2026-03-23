@@ -1,0 +1,4 @@
+- Neu: Unterstützung für benutzerdefinierte Felder
+- Neu: API-Key-Authentifizierung
+- Fehler bei der Anzeige gespeicherter Ansichten auf dem Startbildschirm behoben
+- Verbessertes Logging

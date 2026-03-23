@@ -1,32 +1,15 @@
-//
-// AUTO-GENERATED FILE, DO NOT MODIFY!
-//
-
-// ignore_for_file: unused_element
 import 'package:json_annotation/json_annotation.dart';
 
-/// * `consume_file` - Consume File * `train_classifier` - Train Classifier * `check_sanity` - Check Sanity * `index_optimize` - Index Optimize
+@JsonEnum(fieldRename: FieldRename.snake)
 enum TaskNameEnum {
-  /// * `consume_file` - Consume File * `train_classifier` - Train Classifier * `check_sanity` - Check Sanity * `index_optimize` - Index Optimize
-  @JsonValue(r'consume_file')
-  consumeFile(r'consume_file'),
+  consumeFile,
 
-  /// * `consume_file` - Consume File * `train_classifier` - Train Classifier * `check_sanity` - Check Sanity * `index_optimize` - Index Optimize
-  @JsonValue(r'train_classifier')
-  trainClassifier(r'train_classifier'),
+  trainClassifier,
 
-  /// * `consume_file` - Consume File * `train_classifier` - Train Classifier * `check_sanity` - Check Sanity * `index_optimize` - Index Optimize
-  @JsonValue(r'check_sanity')
-  checkSanity(r'check_sanity'),
+  checkSanity,
 
-  /// * `consume_file` - Consume File * `train_classifier` - Train Classifier * `check_sanity` - Check Sanity * `index_optimize` - Index Optimize
-  @JsonValue(r'index_optimize')
-  indexOptimize(r'index_optimize');
-
-  const TaskNameEnum(this.value);
-
-  final String value;
+  indexOptimize;
 
   @override
-  String toString() => value;
+  String toString() => name;
 }

@@ -1,23 +1,10 @@
-//
-// AUTO-GENERATED FILE, DO NOT MODIFY!
-//
-
-// ignore_for_file: unused_element
 import 'package:json_annotation/json_annotation.dart';
 
-/// * `clean` - clean * `clean-final` - clean-final * `none` - none
+@JsonEnum(valueField: 'value')
 enum UnpaperCleanEnum {
-  /// * `clean` - clean * `clean-final` - clean-final * `none` - none
-  @JsonValue(r'clean')
-  clean(r'clean'),
-
-  /// * `clean` - clean * `clean-final` - clean-final * `none` - none
-  @JsonValue(r'clean-final')
-  cleanFinal(r'clean-final'),
-
-  /// * `clean` - clean * `clean-final` - clean-final * `none` - none
-  @JsonValue(r'none')
-  none(r'none');
+  clean('clean'),
+  cleanFinal('clean-final'),
+  none('none');
 
   const UnpaperCleanEnum(this.value);
 

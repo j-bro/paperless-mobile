@@ -22,13 +22,12 @@ class DocumentGridItem extends DocumentItem {
     super.onStoragePathSelected,
     super.onTagSelected,
     super.onTap,
-    required super.enableHeroAnimation,
+    super.heroTagPrefix,
     super.isEnabled,
   });
 
   @override
   Widget build(BuildContext context) {
-    var currentUser = context.loggedInUser$.paperlessUser;
     return Opacity(
       opacity: isEnabled ? 1.0 : 0.38,
       child: IgnorePointer(
@@ -36,10 +35,9 @@ class DocumentGridItem extends DocumentItem {
         child: Stack(
           children: [
             Card(
-              elevation: 1.0,
               color: isSelected
                   ? Theme.of(context).colorScheme.inversePrimary
-                  : Theme.of(context).cardColor,
+                  : null,
               child: InkWell(
                 borderRadius: BorderRadius.circular(12),
                 onTap: _onTap,
@@ -59,7 +57,7 @@ class DocumentGridItem extends DocumentItem {
                               child: DocumentPreview(
                                 documentId: document.id,
                                 borderRadius: 12.0,
-                                enableHero: enableHeroAnimation,
+                                heroTagPrefix: heroTagPrefix,
                                 title: document.title,
                               ),
                             ),
@@ -103,12 +101,12 @@ class DocumentGridItem extends DocumentItem {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            if (currentUser.canViewCorrespondents)
+                            if (context.uiSettings$.canViewCorrespondents)
                               CorrespondentWidget(
                                 id: document.correspondent,
                                 onSelected: onCorrespondentSelected,
                               ),
-                            if (currentUser.canViewDocumentTypes)
+                            if (context.uiSettings$.canViewDocumentTypes)
                               DocumentTypeWidget(
                                 id: document.documentType,
                                 onSelected: onDocumentTypeSelected,

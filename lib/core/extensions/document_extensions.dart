@@ -19,3 +19,54 @@ extension SessionAwareDownloadIdExtension on Document {
   String buildThumbnailUrl(BuildContext context) =>
       context.read<PaperlessDocumentsApi>().getThumbnailUrl(id);
 }
+
+extension MergeRequestIntoDocumentExtension on Document {
+  Document mergePatchedRequest(PatchedDocumentRequest arg) {
+    return copyWith(
+      title: arg.title != null ? arg.title!.value : title,
+      documentType: arg.documentType != null
+          ? arg.documentType!.value
+          : documentType,
+      correspondent: arg.correspondent != null
+          ? arg.correspondent!.value
+          : correspondent,
+      storagePath: arg.storagePath != null
+          ? arg.storagePath!.value
+          : storagePath,
+      customFields: arg.customFields != null
+          ? (arg.customFields!.value
+                    ?.map(
+                      (e) =>
+                          CustomFieldInstance(value: e.value, field: e.field),
+                    )
+                    .toList() ??
+                [])
+          : customFields,
+      tags: arg.tags != null ? (arg.tags!.value ?? []) : tags,
+      created: arg.created != null ? arg.created!.value : created,
+      content: arg.content != null ? arg.content!.value : content,
+      owner: arg.owner != null ? arg.owner!.value : owner,
+      archiveSerialNumber: arg.archiveSerialNumber != null
+          ? arg.archiveSerialNumber!.value
+          : archiveSerialNumber,
+      deletedAt: arg.deletedAt != null ? arg.deletedAt!.value : deletedAt,
+    );
+  }
+
+  Document mergeRequest(DocumentRequest arg) {
+    return copyWith(
+      title: arg.title,
+      documentType: arg.documentType,
+      correspondent: arg.correspondent,
+      storagePath: arg.storagePath,
+      customFields: arg.customFields
+          ?.map((e) => CustomFieldInstance(value: e.value, field: e.field))
+          .toList(),
+      tags: arg.tags,
+      created: arg.created,
+      content: arg.content,
+      owner: arg.owner,
+      archiveSerialNumber: arg.archiveSerialNumber,
+    );
+  }
+}

@@ -1,0 +1,2 @@
+- Beheben von ungewolltem Logout nach Update
+- Kleinere UI-Verbesserungen

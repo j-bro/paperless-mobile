@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:paperless_mobile/api/paperless_api.dart';
+import 'package:paperless_mobile/core/extensions/document_extensions.dart';
 import 'package:paperless_mobile/core/repository/change_notifier_mixin.dart';
 import 'package:paperless_mobile/core/service/file_service.dart';
 import 'package:paperless_mobile/features/logging/data/logger.dart';
@@ -32,13 +33,13 @@ class DocumentRepository with ChangeNotifierMixin {
   /// Gets an infinite query for documents with optional filtering.
   /// [key] is the unique key for the query, e.g. the screen where the query is executed.
   /// [filter] is an optional DocumentFilter to apply.
-  InfiniteQuery<PaginatedDocumentList, int> getAllQuery({
+  InfiniteQuery<PaginatedResultList<Document>, int> getAllQuery({
     DocumentFilter? filter,
     String? overrideKey,
   }) {
     // Page is always set to 1 to ensure it does not alter the cache key.
     final queryKey = queryKeyForFilter(filter, overrideKey);
-    return InfiniteQuery<PaginatedDocumentList, int>(
+    return InfiniteQuery<PaginatedResultList<Document>, int>(
       key: queryKey,
       queryFn: (page) async {
         try {
@@ -254,11 +255,11 @@ class DocumentRepository with ChangeNotifierMixin {
     );
   }
 
-  InfiniteQuery<PaginatedLogEntryList, int> getLogsQuery(
+  InfiniteQuery<PaginatedResultList<LogEntry>, int> getLogsQuery(
     int id, {
     int? pageSize,
   }) {
-    return InfiniteQuery<PaginatedLogEntryList, int>(
+    return InfiniteQuery<PaginatedResultList<LogEntry>, int>(
       key: 'document_logs/$id',
       queryFn: (page) async {
         return _api.getLogs(id, page: page, pageSize: pageSize);
@@ -338,11 +339,7 @@ class DocumentRepository with ChangeNotifierMixin {
           'document/$id',
         );
         if (query?.state.data != null) {
-          final patchedJson = arg.toJson();
-          query!.update(
-            (currentData) =>
-                Document.fromJson({...currentData!.toJson(), ...patchedJson}),
-          );
+          query!.update((currentData) => currentData!.mergePatchedRequest(arg));
         }
       },
       onSuccess: (res, arg) {
@@ -367,10 +364,7 @@ class DocumentRepository with ChangeNotifierMixin {
           'document/$id',
         );
         if (query?.state.data != null) {
-          query!.update(
-            (currentData) =>
-                Document.fromJson({...currentData!.toJson(), ...arg.toJson()}),
-          );
+          query!.update((currentData) => currentData!.mergeRequest(arg));
         }
       },
       onSuccess: (res, arg) {

@@ -1,39 +1,14 @@
-//
-// AUTO-GENERATED FILE, DO NOT MODIFY!
-//
-
-// ignore_for_file: unused_element
 import 'package:json_annotation/json_annotation.dart';
 
-/// * `FAILURE` - FAILURE * `PENDING` - PENDING * `RECEIVED` - RECEIVED * `RETRY` - RETRY * `REVOKED` - REVOKED * `STARTED` - STARTED * `SUCCESS` - SUCCESS
+@JsonEnum(valueField: 'value')
 enum StatusEnum {
-  /// * `FAILURE` - FAILURE * `PENDING` - PENDING * `RECEIVED` - RECEIVED * `RETRY` - RETRY * `REVOKED` - REVOKED * `STARTED` - STARTED * `SUCCESS` - SUCCESS
-  @JsonValue(r'FAILURE')
-  FAILURE(r'FAILURE'),
-
-  /// * `FAILURE` - FAILURE * `PENDING` - PENDING * `RECEIVED` - RECEIVED * `RETRY` - RETRY * `REVOKED` - REVOKED * `STARTED` - STARTED * `SUCCESS` - SUCCESS
-  @JsonValue(r'PENDING')
-  PENDING(r'PENDING'),
-
-  /// * `FAILURE` - FAILURE * `PENDING` - PENDING * `RECEIVED` - RECEIVED * `RETRY` - RETRY * `REVOKED` - REVOKED * `STARTED` - STARTED * `SUCCESS` - SUCCESS
-  @JsonValue(r'RECEIVED')
-  RECEIVED(r'RECEIVED'),
-
-  /// * `FAILURE` - FAILURE * `PENDING` - PENDING * `RECEIVED` - RECEIVED * `RETRY` - RETRY * `REVOKED` - REVOKED * `STARTED` - STARTED * `SUCCESS` - SUCCESS
-  @JsonValue(r'RETRY')
-  RETRY(r'RETRY'),
-
-  /// * `FAILURE` - FAILURE * `PENDING` - PENDING * `RECEIVED` - RECEIVED * `RETRY` - RETRY * `REVOKED` - REVOKED * `STARTED` - STARTED * `SUCCESS` - SUCCESS
-  @JsonValue(r'REVOKED')
-  REVOKED(r'REVOKED'),
-
-  /// * `FAILURE` - FAILURE * `PENDING` - PENDING * `RECEIVED` - RECEIVED * `RETRY` - RETRY * `REVOKED` - REVOKED * `STARTED` - STARTED * `SUCCESS` - SUCCESS
-  @JsonValue(r'STARTED')
-  STARTED(r'STARTED'),
-
-  /// * `FAILURE` - FAILURE * `PENDING` - PENDING * `RECEIVED` - RECEIVED * `RETRY` - RETRY * `REVOKED` - REVOKED * `STARTED` - STARTED * `SUCCESS` - SUCCESS
-  @JsonValue(r'SUCCESS')
-  SUCCESS(r'SUCCESS');
+  failure(r'FAILURE'),
+  pending(r'PENDING'),
+  received(r'RECEIVED'),
+  retry(r'RETRY'),
+  revoked(r'REVOKED'),
+  started(r'STARTED'),
+  success(r'SUCCESS');
 
   const StatusEnum(this.value);
 

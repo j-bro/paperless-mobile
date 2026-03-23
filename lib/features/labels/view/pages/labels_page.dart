@@ -4,7 +4,6 @@ import 'package:paperless_mobile/api/paperless_api.dart';
 import 'package:paperless_mobile/core/bloc/connectivity_cubit.dart';
 import 'package:paperless_mobile/core/delegate/customizable_sliver_persistent_header_delegate.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
-import 'package:paperless_mobile/core/store/local_store.dart';
 import 'package:paperless_mobile/core/widgets/material/colored_tab_bar.dart';
 import 'package:paperless_mobile/features/app_drawer/view/app_drawer.dart';
 import 'package:paperless_mobile/features/document_search/view/sliver_search_bar.dart';
@@ -34,23 +33,25 @@ class _LabelsPageState extends State<LabelsPage>
 
   int _currentIndex = 0;
 
-  int _calculateTabCount(User user) => [
-    user.canViewCorrespondents,
-    user.canViewDocumentTypes,
-    user.canViewTags,
-    user.canViewStoragePaths,
-    user.canViewCustomFields,
+  int _calculateTabCount(BuildContext context) => [
+    context.uiSettings.canViewCorrespondents,
+    context.uiSettings.canViewDocumentTypes,
+    context.uiSettings.canViewTags,
+    context.uiSettings.canViewStoragePaths,
+    context.uiSettings.canViewCustomFields,
   ].fold(0, (value, element) => value + (element ? 1 : 0));
 
   @override
   void initState() {
     super.initState();
-    final user = context.loggedInUser.paperlessUser;
-
     context.refetchLabels();
+  }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     _tabController = TabController(
-      length: _calculateTabCount(user),
+      length: _calculateTabCount(context),
       vsync: this,
     )..addListener(() => setState(() => _currentIndex = _tabController.index));
   }
@@ -63,17 +64,16 @@ class _LabelsPageState extends State<LabelsPage>
 
   @override
   Widget build(BuildContext context) {
-    final storage = context.watch<LocalStore>();
-    final currentUserId = storage.state.loggedInAppUserId!;
-    final user =
-        storage.state.localUserData[currentUserId]!.localUser.paperlessUser;
-
     final fabLabel = [
-      if (user.canViewCorrespondents) S.of(context)!.addCorrespondent,
-      if (user.canViewDocumentTypes) S.of(context)!.addDocumentType,
-      if (user.canViewTags) S.of(context)!.addTag,
-      if (user.canViewStoragePaths) S.of(context)!.addStoragePath,
-      if (user.canViewCustomFields) S.of(context)!.addCustomField,
+      if (context.uiSettings$.canViewCorrespondents)
+        S.of(context)!.addCorrespondent,
+      if (context.uiSettings$.canViewDocumentTypes)
+        S.of(context)!.addDocumentType,
+      if (context.uiSettings$.canViewTags) S.of(context)!.addTag,
+      if (context.uiSettings$.canViewStoragePaths)
+        S.of(context)!.addStoragePath,
+      if (context.uiSettings$.canViewCustomFields)
+        S.of(context)!.addCustomField,
     ][_currentIndex];
     return BlocBuilder<ConnectivityCubit, ConnectivityState>(
       builder: (context, connectedState) {
@@ -87,17 +87,17 @@ class _LabelsPageState extends State<LabelsPage>
                 label: Text(fabLabel),
                 icon: Icon(Icons.add),
                 onPressed: [
-                  if (user.canViewCorrespondents)
+                  if (context.uiSettings$.canViewCorrespondents)
                     () =>
                         CreateLabelRoute(LabelType.correspondent).push(context),
-                  if (user.canViewDocumentTypes)
+                  if (context.uiSettings$.canViewDocumentTypes)
                     () =>
                         CreateLabelRoute(LabelType.documentType).push(context),
-                  if (user.canViewTags)
+                  if (context.uiSettings$.canViewTags)
                     () => CreateLabelRoute(LabelType.tag).push(context),
-                  if (user.canViewStoragePaths)
+                  if (context.uiSettings$.canViewStoragePaths)
                     () => CreateLabelRoute(LabelType.storagePath).push(context),
-                  if (user.canViewCustomFields)
+                  if (context.uiSettings$.canViewCustomFields)
                     () => CreateCustomFieldRoute().push(context),
                 ][_currentIndex],
               ),
@@ -118,7 +118,7 @@ class _LabelsPageState extends State<LabelsPage>
                         tabBar: TabBar(
                           controller: _tabController,
                           tabs: [
-                            if (user.canViewCorrespondents)
+                            if (context.uiSettings$.canViewCorrespondents)
                               Tab(
                                 icon: Tooltip(
                                   message: S.of(context)!.correspondents,
@@ -130,7 +130,7 @@ class _LabelsPageState extends State<LabelsPage>
                                   ),
                                 ),
                               ),
-                            if (user.canViewDocumentTypes)
+                            if (context.uiSettings$.canViewDocumentTypes)
                               Tab(
                                 icon: Tooltip(
                                   message: S.of(context)!.documentTypes,
@@ -142,7 +142,7 @@ class _LabelsPageState extends State<LabelsPage>
                                   ),
                                 ),
                               ),
-                            if (user.canViewTags)
+                            if (context.uiSettings$.canViewTags)
                               Tab(
                                 icon: Tooltip(
                                   message: S.of(context)!.tags,
@@ -154,7 +154,7 @@ class _LabelsPageState extends State<LabelsPage>
                                   ),
                                 ),
                               ),
-                            if (user.canViewStoragePaths)
+                            if (context.uiSettings$.canViewStoragePaths)
                               Tab(
                                 icon: Tooltip(
                                   message: S.of(context)!.storagePaths,
@@ -166,7 +166,7 @@ class _LabelsPageState extends State<LabelsPage>
                                   ),
                                 ),
                               ),
-                            if (user.canViewCustomFields)
+                            if (context.uiSettings$.canViewCustomFields)
                               Tab(
                                 icon: Tooltip(
                                   message: S.of(context)!.customFields,
@@ -211,21 +211,21 @@ class _LabelsPageState extends State<LabelsPage>
                   onRefresh: () async {
                     try {
                       await [
-                        if (user.canViewCorrespondents)
+                        if (context.uiSettings$.canViewCorrespondents)
                           context.correspondentRepository.getAllQuery().refetch,
-                        if (user.canViewDocumentTypes)
+                        if (context.uiSettings$.canViewDocumentTypes)
                           context.documentTypeRepository.getAllQuery().refetch,
-                        if (user.canViewTags)
+                        if (context.uiSettings$.canViewTags)
                           context.tagRepository.getAllQuery().refetch,
-                        if (user.canViewStoragePaths)
+                        if (context.uiSettings$.canViewStoragePaths)
                           context.storagePathRepository.getAllQuery().refetch,
-                        if (user.canViewCustomFields)
+                        if (context.uiSettings$.canViewCustomFields)
                           context.customFieldRepository.getAllQuery().refetch,
                       ][_currentIndex].call();
                     } catch (error, stackTrace) {
                       logger.fe(
                         "An error ocurred while reloading "
-                        "${[if (user.canViewCorrespondents) "correspondents", if (user.canViewDocumentTypes) "document types", if (user.canViewTags) "tags", if (user.canViewStoragePaths) "storage paths", if (user.canViewCustomFields) "custom fields"][_currentIndex]}.",
+                        "${[if (context.uiSettings$.canViewCorrespondents) "correspondents", if (context.uiSettings$.canViewDocumentTypes) "document types", if (context.uiSettings$.canViewTags) "tags", if (context.uiSettings$.canViewStoragePaths) "storage paths", if (context.uiSettings$.canViewCustomFields) "custom fields"][_currentIndex]}.",
                         error: error,
                         stackTrace: stackTrace,
                         className: runtimeType.toString(),
@@ -236,14 +236,15 @@ class _LabelsPageState extends State<LabelsPage>
                   child: TabBarView(
                     controller: _tabController,
                     children: [
-                      if (user.canViewCorrespondents)
-                        _buildCorrespondentsView(user),
-                      if (user.canViewDocumentTypes)
-                        _buildDocumentTypesView(user),
-                      if (user.canViewTags) _buildTagsView(user),
-                      if (user.canViewStoragePaths) _buildStoragePathView(user),
-                      if (user.canViewCustomFields)
-                        _buildCustomFieldsView(user),
+                      if (context.uiSettings$.canViewCorrespondents)
+                        _buildCorrespondentsView(),
+                      if (context.uiSettings$.canViewDocumentTypes)
+                        _buildDocumentTypesView(),
+                      if (context.uiSettings$.canViewTags) _buildTagsView(),
+                      if (context.uiSettings$.canViewStoragePaths)
+                        _buildStoragePathView(),
+                      if (context.uiSettings$.canViewCustomFields)
+                        _buildCustomFieldsView(),
                     ],
                   ),
                 ),
@@ -255,7 +256,7 @@ class _LabelsPageState extends State<LabelsPage>
     );
   }
 
-  Widget _buildCorrespondentsView(User user) {
+  Widget _buildCorrespondentsView() {
     return CustomScrollView(
       slivers: [
         SliverOverlapInjector(handle: searchBarHandle),
@@ -265,8 +266,8 @@ class _LabelsPageState extends State<LabelsPage>
           filterBuilder: (label) => DocumentFilter(
             correspondent: IdQueryParameter.include(ids: [label.id]),
           ),
-          canEdit: user.canEditCorrespondents,
-          canAddNew: user.canCreateCorrespondents,
+          canEdit: context.uiSettings$.canEditCorrespondents,
+          canAddNew: context.uiSettings$.canCreateCorrespondents,
           onEdit: (correspondent) {
             EditLabelRoute(correspondent).push(context);
           },
@@ -280,7 +281,7 @@ class _LabelsPageState extends State<LabelsPage>
     );
   }
 
-  Widget _buildDocumentTypesView(User user) {
+  Widget _buildDocumentTypesView() {
     return CustomScrollView(
       slivers: [
         SliverOverlapInjector(handle: searchBarHandle),
@@ -290,8 +291,8 @@ class _LabelsPageState extends State<LabelsPage>
           filterBuilder: (label) => DocumentFilter(
             documentType: IdQueryParameter.include(ids: [label.id]),
           ),
-          canEdit: user.canEditDocumentTypes,
-          canAddNew: user.canCreateDocumentTypes,
+          canEdit: context.uiSettings$.canEditDocumentTypes,
+          canAddNew: context.uiSettings$.canCreateDocumentTypes,
           onEdit: (label) {
             EditLabelRoute(label).push(context);
           },
@@ -305,7 +306,7 @@ class _LabelsPageState extends State<LabelsPage>
     );
   }
 
-  Widget _buildTagsView(User user) {
+  Widget _buildTagsView() {
     return CustomScrollView(
       slivers: [
         SliverOverlapInjector(handle: searchBarHandle),
@@ -314,8 +315,8 @@ class _LabelsPageState extends State<LabelsPage>
           query: context.tagRepository.getAllQuery(),
           filterBuilder: (label) =>
               DocumentFilter(tags: IdsTagsQuery(include: [label.id])),
-          canEdit: user.canEditTags,
-          canAddNew: user.canCreateTags,
+          canEdit: context.uiSettings$.canEditTags,
+          canAddNew: context.uiSettings$.canCreateTags,
           onEdit: (label) {
             EditLabelRoute(label).push(context);
           },
@@ -332,7 +333,7 @@ class _LabelsPageState extends State<LabelsPage>
     );
   }
 
-  Widget _buildStoragePathView(User user) {
+  Widget _buildStoragePathView() {
     return CustomScrollView(
       slivers: [
         SliverOverlapInjector(handle: searchBarHandle),
@@ -345,8 +346,8 @@ class _LabelsPageState extends State<LabelsPage>
           filterBuilder: (label) => DocumentFilter(
             storagePath: IdQueryParameter.include(ids: [label.id]),
           ),
-          canEdit: user.canEditStoragePaths,
-          canAddNew: user.canCreateStoragePaths,
+          canEdit: context.uiSettings$.canEditStoragePaths,
+          canAddNew: context.uiSettings$.canCreateStoragePaths,
           contentBuilder: (path) => Text(path.path),
           emptyStateActionButtonLabel: S.of(context)!.addNewStoragePath,
           emptyStateDescription: S.of(context)!.noStoragePathsSetUp,
@@ -357,7 +358,7 @@ class _LabelsPageState extends State<LabelsPage>
     );
   }
 
-  Widget _buildCustomFieldsView(User user) {
+  Widget _buildCustomFieldsView() {
     return CustomScrollView(
       slivers: [
         SliverOverlapInjector(handle: searchBarHandle),
@@ -367,8 +368,8 @@ class _LabelsPageState extends State<LabelsPage>
           onEdit: (field) {
             EditCustomFieldRoute(field).push(context);
           },
-          canEdit: user.canEditCustomFields,
-          canAddNew: user.canCreateCustomFields,
+          canEdit: context.uiSettings$.canEditCustomFields,
+          canAddNew: context.uiSettings$.canCreateCustomFields,
           emptyStateActionButtonLabel: S.of(context)!.addNewCustomField,
           emptyStateDescription: S.of(context)!.noCustomFieldsSetUp,
           onAddNew: () => CreateCustomFieldRoute().push(context),

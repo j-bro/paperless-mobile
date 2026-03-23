@@ -5,8 +5,10 @@ import 'package:dio/io.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:paperless_mobile/api/paperless_api.dart';
+import 'package:paperless_mobile/core/interceptor/api_version_header.interceptor.dart';
 import 'package:paperless_mobile/core/interceptor/dio_offline_interceptor.dart';
 import 'package:paperless_mobile/core/interceptor/dio_unauthorized_interceptor.dart';
+import 'package:paperless_mobile/core/interceptor/persistent_logging_interceptor.dart';
 import 'package:paperless_mobile/core/interceptor/retry_on_connection_change_interceptor.dart';
 import 'package:paperless_mobile/core/security/session_manager.dart';
 import 'package:paperless_mobile/features/login/model/client_certificate.dart';
@@ -16,6 +18,7 @@ import 'package:paperless_mobile/features/login/server_connection/model/header_e
 /// an underlying [Dio] client which is injected into all services
 /// requiring authenticated access to the Paperless REST API.
 class SessionManagerImpl extends ValueNotifier<Dio> implements SessionManager {
+  static int? _apiVersion;
   @override
   Dio get client => value;
 
@@ -32,19 +35,22 @@ class SessionManagerImpl extends ValueNotifier<Dio> implements SessionManager {
       ),
     );
     dio.options
-      ..receiveTimeout = const Duration(seconds: 30)
-      ..sendTimeout = const Duration(seconds: 60)
+      ..receiveTimeout = const Duration(seconds: 10)
+      ..sendTimeout = const Duration(seconds: 10)
       ..responseType = ResponseType.json;
     (dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () =>
         HttpClient()
           ..idleTimeout = 15.seconds
           ..badCertificateCallback = (cert, host, port) => true;
+
     dio.interceptors.addAll([
       ...interceptors,
+      ApiVersionHeaderInterceptor(() => _apiVersion),
       DioUnauthorizedInterceptor(),
       DioHttpErrorInterceptor(),
       DioOfflineInterceptor(),
       RetryOnConnectionChangeInterceptor(dio: dio),
+      PersistentLoggingInterceptor(),
     ]);
     return dio;
   }
@@ -53,6 +59,7 @@ class SessionManagerImpl extends ValueNotifier<Dio> implements SessionManager {
   void updateSettings({
     String? baseUrl,
     String? authToken,
+    int? apiVersion,
     ClientCertificate? clientCertificate,
     List<HeaderEntry>? additionalHeaders,
     bool broadcast = true,
@@ -96,6 +103,9 @@ class SessionManagerImpl extends ValueNotifier<Dio> implements SessionManager {
         MapEntry(HttpHeaders.authorizationHeader, 'Token $authToken'),
       ]);
     }
+
+    SessionManagerImpl._apiVersion = apiVersion;
+
     if (broadcast) {
       notifyListeners();
     }

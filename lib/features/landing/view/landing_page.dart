@@ -34,7 +34,6 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   Widget build(BuildContext context) {
-    final currentUser = context.loggedInUser$.paperlessUser;
     return SafeArea(
       child: Scaffold(
         drawer: const AppDrawer(),
@@ -56,7 +55,11 @@ class _LandingPageState extends State<LandingPage> {
               slivers: [
                 SliverToBoxAdapter(
                   child: Text(
-                    S.of(context)!.welcomeUser(currentUser.displayName),
+                    S
+                        .of(context)!
+                        .welcomeUser(
+                          context.loggedInUser$.profile.profile.displayName,
+                        ),
                     textAlign: TextAlign.center,
                     style: Theme.of(
                       context,
@@ -64,7 +67,7 @@ class _LandingPageState extends State<LandingPage> {
                   ).padded(24),
                 ),
                 SliverToBoxAdapter(child: _buildStatisticsCard(context)),
-                if (currentUser.canViewSavedViews) ...[
+                if (context.uiSettings$.canViewSavedViews) ...[
                   SliverPadding(
                     padding: const EdgeInsets.fromLTRB(16, 16, 0, 8),
                     sliver: SliverToBoxAdapter(
@@ -144,7 +147,6 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   Widget _buildStatisticsCard(BuildContext context) {
-    final currentUser = context.loggedInUser.paperlessUser;
     return ExpansionCard(
       initiallyExpanded: false,
       title: Text(
@@ -174,7 +176,7 @@ class _LandingPageState extends State<LandingPage> {
                   shape: Theme.of(context).cardTheme.shape,
                   titleTextStyle: Theme.of(context).textTheme.labelLarge,
                   title: Text(S.of(context)!.documentsInInbox),
-                  onTap: currentUser.canViewInbox
+                  onTap: context.uiSettings$.canViewInbox
                       ? () => InboxRoute().go(context)
                       : null,
                   trailing: Text(
@@ -189,7 +191,7 @@ class _LandingPageState extends State<LandingPage> {
                   shape: Theme.of(context).cardTheme.shape,
                   titleTextStyle: Theme.of(context).textTheme.labelLarge,
                   title: Text(S.of(context)!.totalDocuments),
-                  onTap: currentUser.canViewDocuments
+                  onTap: context.uiSettings$.canViewDocuments
                       ? () {
                           DocumentsRoute().go(context);
                         }

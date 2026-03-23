@@ -1,19 +1,12 @@
+import 'package:copy_with_extension/copy_with_extension.dart';
+
+part 'login_form_credentials.g.dart';
+
+@CopyWith()
 class LoginFormCredentials {
   final String? username;
   final String? password;
-  final String? otp;
+  final String? apiKey;
 
-  LoginFormCredentials({this.username, this.password, this.otp});
-
-  LoginFormCredentials copyWith({
-    String? username,
-    String? password,
-    String? otp,
-  }) {
-    return LoginFormCredentials(
-      username: username ?? this.username,
-      password: password ?? this.password,
-      otp: otp ?? this.otp,
-    );
-  }
+  LoginFormCredentials({this.username, this.password, this.apiKey});
 }

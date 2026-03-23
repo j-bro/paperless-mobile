@@ -1,32 +1,27 @@
 import 'package:paperless_mobile/api/paperless_api.dart';
 
-extension UserPermissionExtension on User {
+extension UserPermissionExtension on UiSettingsView {
   bool hasPermission(PermissionAction action, PermissionTarget target) {
-    if (isSuperuser ?? false) {
+    if (user.isSuperuser ?? false) {
       return true;
     }
     final permission = [action.value, target.value].join("_");
 
-    return (userPermissions?.any((p) => p == permission) ?? false) ||
-        inheritedPermissions.any((p) => p.split(".").last == permission);
+    return (permissions?.any((p) => p == permission) ?? false);
   }
 
   bool hasPermissions(
     List<PermissionAction> actions,
     List<PermissionTarget> targets,
   ) {
-    if (isSuperuser ?? false) {
+    if (user.isSuperuser ?? false) {
       return true;
     }
     final permissions = [
       for (var action in actions)
         for (var target in targets) [action, target].join("_"),
     ];
-    return permissions.every(
-      (p) =>
-          (userPermissions?.contains(p) ?? false) ||
-          inheritedPermissions.any((ip) => ip.split(".").last == p),
-    );
+    return permissions.every((p) => permissions.contains(p));
   }
 
   bool get canViewDocuments =>

@@ -247,28 +247,19 @@ class _DocumentUploadPreparationPageState
                           allowUnset: true,
                         ),
                         // Correspondent
-                        if (context
-                            .loggedInUser$
-                            .paperlessUser
-                            .canViewCorrespondents)
+                        if (context.uiSettings$.canViewCorrespondents)
                           SingleLabelFormField<Correspondent>(
                             query: context.correspondentRepository
                                 .getAllQuery(),
                             onAddLabel:
-                                context
-                                    .loggedInUser$
-                                    .paperlessUser
-                                    .canCreateCorrespondents
+                                context.uiSettings$.canCreateCorrespondents
                                 ? (initialName) => CreateLabelRoute(
                                     LabelType.correspondent,
                                     name: initialName,
                                   ).push<Correspondent>(context)
                                 : null,
                             addLabelText:
-                                context
-                                    .loggedInUser$
-                                    .paperlessUser
-                                    .canCreateCorrespondents
+                                context.uiSettings$.canCreateCorrespondents
                                 ? S.of(context)!.addCorrespondent
                                 : null,
                             labelText: "${S.of(context)!.correspondent} *",
@@ -276,26 +267,17 @@ class _DocumentUploadPreparationPageState
                             prefixIcon: const Icon(Icons.person_outline),
                           ),
                         // Document type
-                        if (context
-                            .loggedInUser$
-                            .paperlessUser
-                            .canViewDocumentTypes)
+                        if (context.uiSettings$.canViewDocumentTypes)
                           SingleLabelFormField<DocumentType>(
                             onAddLabel:
-                                context
-                                    .loggedInUser$
-                                    .paperlessUser
-                                    .canCreateDocumentTypes
+                                context.uiSettings$.canCreateDocumentTypes
                                 ? (initialName) => CreateLabelRoute(
                                     LabelType.documentType,
                                     name: initialName,
                                   ).push<DocumentType>(context)
                                 : null,
                             addLabelText:
-                                context
-                                    .loggedInUser$
-                                    .paperlessUser
-                                    .canCreateDocumentTypes
+                                context.uiSettings$.canCreateDocumentTypes
                                 ? S.of(context)!.addDocumentType
                                 : null,
                             labelText: "${S.of(context)!.documentType} *",
@@ -303,7 +285,7 @@ class _DocumentUploadPreparationPageState
                             query: context.documentTypeRepository.getAllQuery(),
                             prefixIcon: const Icon(Icons.description_outlined),
                           ),
-                        if (context.loggedInUser$.paperlessUser.canViewTags)
+                        if (context.uiSettings$.canViewTags)
                           TagsFormField(
                             name: 'tags',
                             allowCreation: true,

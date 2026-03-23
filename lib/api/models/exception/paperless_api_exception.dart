@@ -92,4 +92,6 @@ enum ErrorCode {
   userDeleteError,
   bulkDownloadFailed,
   bulkEditDocumentsFailed,
+  profileGetError,
+  invalidApiKey,
 }

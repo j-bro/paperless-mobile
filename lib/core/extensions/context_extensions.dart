@@ -20,27 +20,18 @@ extension ContextExtensions on BuildContext {
   LocalStore get localStore => read<LocalStore>();
   LocalStore get localStore$ => watch<LocalStore>();
 
-  String? get loggedInAppUserId$ =>
-      select<LocalStore, String?>((state) => state.state.loggedInAppUserId);
+  String? get loggedInAppUserId$ => localStore$.state.loggedInAppUserId;
   String? get loggedInAppUserId => localStore.state.loggedInAppUserId;
 
-  GlobalSettings get globalSettings$ =>
-      select<LocalStore, GlobalSettings>((state) => state.state.globalSettings);
+  GlobalSettings get globalSettings$ => localStore$.state.globalSettings;
 
   Map<String, LocalUserData> get localUserData$ =>
-      select<LocalStore, Map<String, LocalUserData>>(
-        (state) => state.state.localUserData,
-      );
+      localStore$.state.localUserData;
   Map<String, LocalUserData> get localUserData =>
       localStore.state.localUserData;
 
   LocalUserData get loggedInUserData$ => localUserData$[loggedInAppUserId$]!;
   LocalUserData get loggedInUserData => localUserData[loggedInAppUserId]!;
-  LocalUserAccount get loggedInUser$ =>
-      localUserData$[loggedInAppUserId$]!.localUser;
-
-  LocalUserAccount get loggedInUser =>
-      localUserData[loggedInAppUserId]!.localUser;
 
   DocumentRepository get documentRepository => read<DocumentRepository>();
   SavedViewRepository get savedViewRepository => read<SavedViewRepository>();
@@ -64,6 +55,13 @@ extension ContextExtensions on BuildContext {
       .localUserData[loggedInAppUserId]!
       .appState
       .currentDocumentFilter;
+
+  LocalUserAccount get loggedInUser$ => watch<LocalUserAccount>();
+  LocalUserAccount get loggedInUser => read<LocalUserAccount>();
+
+  UiSettingsView get uiSettings$ =>
+      watch<LocalUserAccount>().profile.uiSettings;
+  UiSettingsView get uiSettings => read<LocalUserAccount>().profile.uiSettings;
 
   void refetchLabels() {
     tagRepository.getAllQuery().refetch();

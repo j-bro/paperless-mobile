@@ -8,12 +8,7 @@ import 'package:paperless_mobile/api/models/tasks_view_type_enum.dart';
 part 'task_filter_options.g.dart';
 
 @CopyWith()
-@JsonSerializable(
-  checked: true,
-  createFactory: false,
-  explicitToJson: true,
-  includeIfNull: false,
-)
+@JsonSerializable(createFactory: false, includeIfNull: false)
 class TaskFilterOptions with EquatableMixin {
   final bool? acknowledged;
   final StatusEnum? status;

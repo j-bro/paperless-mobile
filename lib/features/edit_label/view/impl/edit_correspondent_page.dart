@@ -29,8 +29,7 @@ class EditCorrespondentPage extends StatelessWidget {
           deleteMutation: context.correspondentRepository.deleteMutation(
             correspondent.id,
           ),
-          canDelete:
-              context.loggedInUser$.paperlessUser.canDeleteCorrespondents,
+          canDelete: context.uiSettings$.canDeleteCorrespondents,
         );
       },
     );

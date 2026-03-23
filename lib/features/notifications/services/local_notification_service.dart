@@ -171,25 +171,25 @@ class LocalNotificationService {
     late String? body;
     late int timestampMillis;
     bool showProgress =
-        status == StatusEnum.STARTED || status == StatusEnum.PENDING;
+        status == StatusEnum.started || status == StatusEnum.pending;
     dynamic payload;
     switch (status) {
-      case StatusEnum.STARTED:
+      case StatusEnum.started:
         title = 'Document received';
         body = task.taskFileName;
         timestampMillis = task.dateCreated?.millisecondsSinceEpoch ?? 0;
         break;
-      case StatusEnum.PENDING:
+      case StatusEnum.pending:
         title = "Processing document...";
         body = task.taskFileName;
         timestampMillis = task.dateCreated?.millisecondsSinceEpoch ?? 0;
         break;
-      case StatusEnum.FAILURE:
+      case StatusEnum.failure:
         title = "Failed to process document";
         body = task.result ?? 'Rejected by the server.';
         timestampMillis = task.dateCreated?.millisecondsSinceEpoch ?? 0;
         break;
-      case StatusEnum.SUCCESS:
+      case StatusEnum.success:
         title = "Document successfully created";
         body = task.taskFileName;
         timestampMillis = task.dateDone?.millisecondsSinceEpoch ?? 0;
@@ -214,7 +214,7 @@ class LocalNotificationService {
           maxProgress: 100,
           when: timestampMillis,
           indeterminate: true,
-          actions: status == StatusEnum.SUCCESS
+          actions: status == StatusEnum.success
               ? [
                   //TODO: Implement once moved to new routing
                   // AndroidNotificationAction(

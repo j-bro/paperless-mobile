@@ -91,6 +91,10 @@
   "@anyTag": {
     "description": "Label shown when any tag should be filtered"
   },
+  "apiKey": "API Key",
+  "@apiKey": {},
+  "apiKeyMustNotBeEmpty": "API Key must not be empty.",
+  "@apiKeyMustNotBeEmpty": {},
   "appearance": "Apparence",
   "@appearance": {},
   "applicationSettings": "Application",
@@ -226,6 +230,7 @@
   "@content": {
     "description": "Label shown in the tabbar on details page"
   },
+  "continueAnyway": "Continue anyway",
   "continueLabel": "Continuer",
   "@continueLabel": {},
   "convertSinglePageScanToPdf": "Toujours convertir les scans d'une page en PDF avant de charger le document",
@@ -322,6 +327,10 @@
     "description": "Message shown when the UI settings could not be loaded"
   },
   "couldNotLoadUser": "Could not load user, please try again.",
+  "couldNotLoadUserProfile": "Could not load user profile, please try again.",
+  "@couldNotLoadUserProfile": {
+    "description": "Message shown when the user profile could not be loaded from the server."
+  },
   "couldNotLoadUsers": "Could not load users, please try again.",
   "couldNotOpenFilePermissionDenied": "Impossible d'ouvrir le fichier : permission refusée.",
   "@couldNotOpenFilePermissionDenied": {},
@@ -650,6 +659,10 @@
   "@incorrectOrMissingCertificatePassphrase": {},
   "invalidAddress": "Adresse invalide.",
   "@invalidAddress": {},
+  "invalidApiKey": "Invalid API key.",
+  "@invalidApiKey": {
+    "description": "Message shown when the provided API key is invalid."
+  },
   "invalidCertificateFormat": "Format de certificat invalide, seul le format .pfx est supporté",
   "@invalidCertificateFormat": {},
   "invalidCertificateOrMissingPassphrase": "Certificat invalide ou phrase de passe manquante, veuillez réessayer",
@@ -870,6 +883,7 @@
     "description": "Option to chose when downloading a document"
   },
   "originalFilename": "Original Filename",
+  "@originalFilename": {},
   "originalFileSize": "Taille de fichier de l'original",
   "@originalFileSize": {},
   "originalMD5Checksum": "Somme de contrôle MD5 de l'original",
@@ -881,6 +895,7 @@
     "description": "Label shown in the tabbar on details page"
   },
   "owner": "Owner",
+  "@owner": {},
   "paperlessServerVersion": "Version du serveur Paperless",
   "@paperlessServerVersion": {},
   "passphrase": "Phrase de passe",
@@ -890,8 +905,13 @@
   "passwordMustNotBeEmpty": "Le mot de passe ne doit pas être vide.",
   "@passwordMustNotBeEmpty": {},
   "pendingFiles": "Pending Files",
+  "@pendingFiles": {},
   "permissions": "Autorisations",
+  "@permissions": {},
   "persistingUserInformation": "Sauvegarde des informations utilisateur...",
+  "@persistingUserInformation": {},
+  "pleaseProvideCredentialsOrApiKey": "Please provide either username & password or an API key.",
+  "@pleaseProvideCredentialsOrApiKey": {},
   "prepareDocument": "Préparer le document",
   "@prepareDocument": {},
   "preview": "Prévisualisation",
@@ -919,12 +939,19 @@
   "reload": "Recharger",
   "@reload": {},
   "rememberDecision": "Se souvenir de mon choix",
+  "@rememberDecision": {},
   "remove": "Retirer",
+  "@remove": {},
   "removeDocumentFromInbox": "Document retiré de la boîte de réception.",
   "@removeDocumentFromInbox": {},
   "removeFromSearchHistory": "Supprimer de l'historique des recherches ?",
   "@removeFromSearchHistory": {},
   "removeQueryFromSearchHistory": "Retirer la requête de l'historique de recherche ?",
+  "@removeQueryFromSearchHistory": {},
+  "removeUser": "Remove user",
+  "@removeUser": {},
+  "removeUserAndLogOut": "Remove user and log out",
+  "@removeUserAndLogOut": {},
   "report": "RAPPORT",
   "@report": {},
   "reportABug": "Signaler un bug",
@@ -981,6 +1008,7 @@
   "@selectDateRange": {},
   "selectFile": "Sélectionner un fichier...",
   "@selectFile": {},
+  "selectLogLevels": "Select log levels",
   "serverAddress": "Adresse du Serveur",
   "@serverAddress": {},
   "serverAddressMustIncludeAScheme": "L'adresse du serveur doit respecter le schéma.",
@@ -1100,6 +1128,8 @@
   "unauthorizedErrorMessage": "You are not authorized to perform this action. Please contact your admin or make sure you have the necessary permissions.",
   "undo": "Annuler",
   "@undo": {},
+  "unsupportedVersionTitle": "Unsupported API version",
+  "unsupportedVersionWarning": "The API version reported by your paperless-ngx instance ({apiVersion}) is not officially supported by this version of the app. The latest supported API version is {latestSupportedApiVersion}.\n\nThis may occur if your server is running an older version of paperless-ngx or if compatibility with that version was removed in a recent app update.\n\nAs a result, some features may not work correctly, and the app may behave unpredictably or even crash.\n\nFor the best experience, update your paperless-ngx instance to a supported version or install an older version from GitHub or F-Droid.",
   "upload": "Charger le document",
   "@upload": {},
   "uploadADocumentFromThisDevice": "Charger un document depuis cet appareil",

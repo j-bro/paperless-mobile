@@ -28,7 +28,7 @@ class EditTagPage extends StatelessWidget {
       buildRequest: _buildRequest,
       editMutation: context.tagRepository.putMutation(tag.id),
       deleteMutation: context.tagRepository.deleteMutation(tag.id),
-      canDelete: context.loggedInUser$.paperlessUser.canDeleteTags,
+      canDelete: context.uiSettings$.canDeleteTags,
       additionalFields: [
         FormBuilderColorPickerField(
           initialValue: tag.color,

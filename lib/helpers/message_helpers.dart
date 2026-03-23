@@ -43,27 +43,29 @@ void showSnackBar(
                 Icons.error_outline,
                 color: foregroundColor,
               ).paddedOnly(right: 8),
-            (details != null)
-                ? RichText(
-                    maxLines: 5,
-                    text: TextSpan(
-                      text: message,
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodyMedium?.copyWith(color: foregroundColor),
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: "\n$details",
-                          style: TextStyle(
-                            color: foregroundColor,
-                            fontStyle: FontStyle.italic,
-                            fontSize: 10,
-                          ),
+            Flexible(
+              child: (details != null)
+                  ? RichText(
+                      maxLines: 5,
+                      text: TextSpan(
+                        text: message,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: foregroundColor,
                         ),
-                      ],
-                    ),
-                  )
-                : Text(message),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: "\n$details",
+                            style: TextStyle(
+                              color: foregroundColor,
+                              fontStyle: FontStyle.italic,
+                              fontSize: 10,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : Text(message),
+            ),
           ],
         ),
         action: action != null

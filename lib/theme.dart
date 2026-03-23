@@ -10,6 +10,7 @@ const _defaultListTileTheme = ListTileThemeData(tileColor: Colors.transparent);
 
 final _defaultCardTheme = CardThemeData(
   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+  elevation: 2,
 );
 
 final _defaultInputDecorationTheme = InputDecorationTheme(

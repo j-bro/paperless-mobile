@@ -5,7 +5,6 @@ import 'package:paperless_mobile/api/models/document.dart';
 import 'package:paperless_mobile/core/repository/user_repository.dart';
 import 'package:paperless_mobile/features/document_details/view/widgets/details_item.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 class DocumentPermissionsWidget extends StatefulWidget {
   final Document document;

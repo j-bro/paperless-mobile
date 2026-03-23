@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
-import 'package:paperless_mobile/features/logging/cubit/app_logs_cubit.dart';
-import 'package:paperless_mobile/features/logging/models/parsed_log_message.dart';
 import 'package:paperless_mobile/core/extensions/dart_extensions.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
+import 'package:paperless_mobile/features/logging/cubit/app_logs_cubit.dart';
+import 'package:paperless_mobile/features/logging/models/parsed_log_message.dart';
+import 'package:paperless_mobile/features/logging/view/app_logs_level_filter_dialog.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
 class AppLogsPage extends StatefulWidget {
@@ -19,12 +20,19 @@ class AppLogsPage extends StatefulWidget {
 class _AppLogsPageState extends State<AppLogsPage> {
   final ScrollController _scrollController = ScrollController();
 
-  bool autoScroll = true;
+  Set<Level> _selectedLevels = {
+    Level.error,
+    Level.warning,
+    Level.info,
+    Level.debug,
+    // Level.trace,
+  };
 
   @override
   Widget build(BuildContext context) {
     final locale = Localizations.localeOf(context).toString();
     final theme = Theme.of(context);
+
     return BlocBuilder<AppLogsCubit, AppLogsState>(
       builder: (context, state) {
         final formattedDate = DateFormat.yMMMd(locale).format(state.date);
@@ -60,15 +68,36 @@ class _AppLogsPageState extends State<AppLogsPage> {
                       color: Theme.of(context).colorScheme.error,
                     ),
                   ).padded(),
+                  Spacer(),
+                  Badge(
+                    label: Text('${_selectedLevels.length}/5'),
+                    child: IconButton(
+                      tooltip: S.of(context)!.selectLogLevels,
+                      onPressed: () {
+                        showDialog<Set<Level>>(
+                          context: context,
+                          useRootNavigator: false,
+                          builder: (context) => AppLogsLevelFilterDialog(
+                            initialValue: _selectedLevels,
+                          ),
+                        ).then((value) {
+                          if (value != null) {
+                            setState(() {
+                              _selectedLevels = value;
+                            });
+                          }
+                        });
+                      },
+                      icon: Icon(Icons.filter_list),
+                    ),
+                  ).padded(),
                 ],
                 _ => [],
               },
             ),
           ),
           appBar: AppBar(
-            title: Text(
-              S.of(context)!.appLogs(formattedDate),
-            ), //TODO: CHange to App-Logs in german
+            title: Text(S.of(context)!.appLogs(formattedDate)),
             actions: [
               if (state is AppLogsStateLoaded)
                 IconButton(
@@ -88,14 +117,23 @@ class _AppLogsPageState extends State<AppLogsPage> {
                       context.read<AppLogsCubit>().loadLogs(selectedDate);
                     }
                   },
-                  icon: const Icon(Icons.calendar_today),
+                  icon: const Icon(Icons.calendar_month),
                 ).padded(),
             ],
           ),
           body: switch (state) {
             AppLogsStateLoaded(logs: var logs) => Builder(
               builder: (context) {
-                if (state.logs.isEmpty) {
+                final filteredLogs = logs
+                    .where(
+                      (log) => switch (log) {
+                        UnformattedLogMessage() => true,
+                        ParsedFormattedLogMessage(:final level) =>
+                          _selectedLevels.contains(level),
+                      },
+                    )
+                    .toList();
+                if (filteredLogs.isEmpty) {
                   return Center(
                     child: Text(S.of(context)!.noLogsFoundOn(formattedDate)),
                   );
@@ -114,7 +152,7 @@ class _AppLogsPageState extends State<AppLogsPage> {
                         ),
                       ).padded(24);
                     }
-                    final messages = state.logs;
+                    final messages = filteredLogs;
                     final logMessage = messages[index - 1];
                     final altColor = CupertinoDynamicColor.withBrightness(
                       color: Colors.grey.shade200,
@@ -127,7 +165,7 @@ class _AppLogsPageState extends State<AppLogsPage> {
                           : altColor,
                     );
                   },
-                  itemCount: logs.length + 1,
+                  itemCount: filteredLogs.length + 1,
                 );
               },
             ),
@@ -192,26 +230,8 @@ class FormattedLogMessageWidget extends StatelessWidget {
   static final _timeFormat = DateFormat("HH:mm:ss.SSS");
   @override
   Widget build(BuildContext context) {
-    final c = Theme.of(context).colorScheme;
-
-    final icon = switch (message.level) {
-      Level.trace => Icons.troubleshoot,
-      Level.debug => Icons.bug_report,
-      Level.info => Icons.info_outline,
-      Level.warning => Icons.warning,
-      Level.error => Icons.error,
-      Level.fatal => Icons.error_outline,
-      _ => null,
-    };
-    final color = switch (message.level) {
-      Level.trace => c.onSurface.withAlpha(191),
-      Level.warning => Colors.yellow.shade600,
-      Level.error => Colors.red,
-      Level.fatal => Colors.red.shade900,
-      Level.info => Colors.blue,
-      _ => c.onSurface,
-    };
-
+    final color = mapLevelToColor(context, message.level);
+    final icon = mapLevelToIcon(message.level);
     final logStyle = Theme.of(
       context,
     ).textTheme.bodyMedium?.copyWith(fontFamily: 'monospace', fontSize: 12);
@@ -280,4 +300,25 @@ class FormattedLogMessageWidget extends StatelessWidget {
       return [];
     }
   }
+}
+
+IconData? mapLevelToIcon(Level level) => switch (level) {
+  Level.trace => Icons.troubleshoot,
+  Level.debug => Icons.bug_report,
+  Level.info => Icons.info_outline,
+  Level.warning => Icons.warning,
+  Level.error => Icons.error,
+  Level.fatal => Icons.error_outline,
+  _ => null,
+};
+Color? mapLevelToColor(BuildContext context, Level level) {
+  final c = Theme.of(context).colorScheme;
+  return switch (level) {
+    Level.trace => c.onSurface.withAlpha(191),
+    Level.warning => Colors.yellow.shade600,
+    Level.error => Colors.red,
+    Level.fatal => Colors.red.shade900,
+    Level.info => Colors.blue,
+    _ => c.onSurface,
+  };
 }

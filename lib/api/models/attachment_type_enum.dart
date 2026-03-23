@@ -1,24 +1,14 @@
-//
-// AUTO-GENERATED FILE, DO NOT MODIFY!
-//
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-// ignore_for_file: unused_element
-import 'package:json_annotation/json_annotation.dart';
-
-/// * `1` - Only process attachments. * `2` - Process all files, including 'inline' attachments.
+@JsonEnum(valueField: 'value')
 enum AttachmentTypeEnum {
-  /// * `1` - Only process attachments. * `2` - Process all files, including 'inline' attachments.
-  @JsonValue(1)
-  number1('1'),
-
-  /// * `1` - Only process attachments. * `2` - Process all files, including 'inline' attachments.
-  @JsonValue(2)
-  number2('2');
+  attachmentsOnly(1),
+  all(2);
 
   const AttachmentTypeEnum(this.value);
 
-  final String value;
+  final int value;
 
   @override
-  String toString() => value;
+  String toString() => name;
 }

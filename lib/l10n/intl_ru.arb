@@ -91,6 +91,10 @@
   "@anyTag": {
     "description": "Label shown when any tag should be filtered"
   },
+  "apiKey": "API Key",
+  "@apiKey": {},
+  "apiKeyMustNotBeEmpty": "API Key must not be empty.",
+  "@apiKeyMustNotBeEmpty": {},
   "appearance": "Оформление",
   "@appearance": {},
   "applicationSettings": "Применение",
@@ -226,6 +230,7 @@
   "@content": {
     "description": "Label shown in the tabbar on details page"
   },
+  "continueAnyway": "Continue anyway",
   "continueLabel": "Продолжить",
   "@continueLabel": {},
   "convertSinglePageScanToPdf": "Всегда конвертировать одну страницу в PDF перед загрузкой",
@@ -322,6 +327,10 @@
     "description": "Message shown when the UI settings could not be loaded"
   },
   "couldNotLoadUser": "Could not load user, please try again.",
+  "couldNotLoadUserProfile": "Could not load user profile, please try again.",
+  "@couldNotLoadUserProfile": {
+    "description": "Message shown when the user profile could not be loaded from the server."
+  },
   "couldNotLoadUsers": "Could not load users, please try again.",
   "couldNotOpenFilePermissionDenied": "Не удалось открыть файл: Отказано в разрешении.",
   "@couldNotOpenFilePermissionDenied": {},
@@ -650,6 +659,10 @@
   "@incorrectOrMissingCertificatePassphrase": {},
   "invalidAddress": "Неверный адрес.",
   "@invalidAddress": {},
+  "invalidApiKey": "Invalid API key.",
+  "@invalidApiKey": {
+    "description": "Message shown when the provided API key is invalid."
+  },
   "invalidCertificateFormat": "Неверный формат сертификата, разрешено только .pfx",
   "@invalidCertificateFormat": {},
   "invalidCertificateOrMissingPassphrase": "Неверный сертификат или отсутствующая ключевая фраза, пожалуйста попробуйте еще раз",
@@ -870,6 +883,7 @@
     "description": "Option to chose when downloading a document"
   },
   "originalFilename": "",
+  "@originalFilename": {},
   "originalFileSize": "Оригинальный размер файла",
   "@originalFileSize": {},
   "originalMD5Checksum": "Оригинальная MD5-контрольная сумма",
@@ -881,6 +895,7 @@
     "description": "Label shown in the tabbar on details page"
   },
   "owner": "Owner",
+  "@owner": {},
   "paperlessServerVersion": "Версия сервера Paperless",
   "@paperlessServerVersion": {},
   "passphrase": "Ключевая фраза",
@@ -890,8 +905,13 @@
   "passwordMustNotBeEmpty": "Пароль не может быть пустым.",
   "@passwordMustNotBeEmpty": {},
   "pendingFiles": "Pending Files",
+  "@pendingFiles": {},
   "permissions": "Права доступа",
+  "@permissions": {},
   "persistingUserInformation": "Сохранение информации о пользователе...",
+  "@persistingUserInformation": {},
+  "pleaseProvideCredentialsOrApiKey": "Please provide either username & password or an API key.",
+  "@pleaseProvideCredentialsOrApiKey": {},
   "prepareDocument": "Подготовить документ",
   "@prepareDocument": {},
   "preview": "Предпросмотр",
@@ -919,12 +939,19 @@
   "reload": "Перезагрузить",
   "@reload": {},
   "rememberDecision": "Запомните мой выбор",
+  "@rememberDecision": {},
   "remove": "Удалить",
+  "@remove": {},
   "removeDocumentFromInbox": "Документ удален из \"Входящие\".",
   "@removeDocumentFromInbox": {},
   "removeFromSearchHistory": "Удалить из истории поиска?",
   "@removeFromSearchHistory": {},
   "removeQueryFromSearchHistory": "Удалить запрос из истории поиска?",
+  "@removeQueryFromSearchHistory": {},
+  "removeUser": "Remove user",
+  "@removeUser": {},
+  "removeUserAndLogOut": "Remove user and log out",
+  "@removeUserAndLogOut": {},
   "report": "СООБЩИТЬ",
   "@report": {},
   "reportABug": "Сообщить об ошибке",
@@ -981,6 +1008,7 @@
   "@selectDateRange": {},
   "selectFile": "Выберите файл...",
   "@selectFile": {},
+  "selectLogLevels": "Select log levels",
   "serverAddress": "Адрес сервера",
   "@serverAddress": {},
   "serverAddressMustIncludeAScheme": "Адрес сервера должен включать схему.",
@@ -1100,6 +1128,8 @@
   "unauthorizedErrorMessage": "You are not authorized to perform this action. Please contact your admin or make sure you have the necessary permissions.",
   "undo": "Отменить",
   "@undo": {},
+  "unsupportedVersionTitle": "Unsupported API version",
+  "unsupportedVersionWarning": "The API version reported by your paperless-ngx instance ({apiVersion}) is not officially supported by this version of the app. The latest supported API version is {latestSupportedApiVersion}.\n\nThis may occur if your server is running an older version of paperless-ngx or if compatibility with that version was removed in a recent app update.\n\nAs a result, some features may not work correctly, and the app may behave unpredictably or even crash.\n\nFor the best experience, update your paperless-ngx instance to a supported version or install an older version from GitHub or F-Droid.",
   "upload": "Загрузить",
   "@upload": {},
   "uploadADocumentFromThisDevice": "Загрузить документ с этого устройства",

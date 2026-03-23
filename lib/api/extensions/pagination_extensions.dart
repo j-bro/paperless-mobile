@@ -1,8 +1,7 @@
-import 'package:paperless_mobile/api/models/document.dart';
-import 'package:paperless_mobile/api/models/paginated_document_list.dart';
+import 'package:paperless_mobile/api/models/models.dart';
 
-extension PaginationExtensions on List<PaginatedDocumentList> {
-  List<Document> get flattened {
+extension PaginationExtensions<T> on List<PaginatedResultList<T>> {
+  List<T> get flattened {
     return expand((e) => e.results).toList();
   }
 

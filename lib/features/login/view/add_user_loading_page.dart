@@ -4,33 +4,30 @@ import 'package:paperless_mobile/features/login/cubit/authentication_cubit.dart'
 import 'package:paperless_mobile/features/login/model/client_certificate.dart';
 import 'package:paperless_mobile/features/login/server_connection/model/header_entry.dart';
 
-class SetActiveUserPage extends StatefulWidget {
+class AddUserLoadingPage extends StatefulWidget {
   final String serverUrl;
-  final String username;
   final String token;
   final ClientCertificate? clientCertificate;
   final List<HeaderEntry>? additionalHeaders;
 
-  const SetActiveUserPage({
+  const AddUserLoadingPage({
     super.key,
     required this.serverUrl,
-    required this.username,
     required this.token,
     this.clientCertificate,
     this.additionalHeaders,
   });
 
   @override
-  State<SetActiveUserPage> createState() => _SetActiveUserPageState();
+  State<AddUserLoadingPage> createState() => _AddUserLoadingPageState();
 }
 
-class _SetActiveUserPageState extends State<SetActiveUserPage> {
+class _AddUserLoadingPageState extends State<AddUserLoadingPage> {
   @override
   void initState() {
     super.initState();
-    context.read<AuthenticationCubit>().setActiveUser(
+    context.read<AuthenticationCubit>().addUser(
       serverUrl: widget.serverUrl,
-      username: widget.username,
       token: widget.token,
       clientCertificate: widget.clientCertificate,
       additionalHeaders: widget.additionalHeaders,

@@ -9,6 +9,7 @@ import 'package:paperless_mobile/api/paperless_api.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/repository/search_repository.dart';
+import 'package:paperless_mobile/core/store/slices/local_user_app_state.dart';
 import 'package:paperless_mobile/features/document_search/view/remove_history_entry_dialog.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/adaptive_documents_view.dart';
 import 'package:paperless_mobile/features/documents/view/widgets/selection/view_type_selection_widget.dart';
@@ -18,6 +19,7 @@ import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 enum SearchView { suggestions, results }
 
 class DocumentSearchPage extends StatefulWidget {
+  static String heroPrefix = "search_hero";
   final VoidCallback close;
   final void Function(BuildContext context, Document document) onItemSelected;
   final List<int> disabledIds;
@@ -88,25 +90,22 @@ class _DocumentSearchPageState extends State<DocumentSearchPage> {
             }
           },
         ),
-        title: Hero(
-          tag: "search_hero_tag",
-          child: TextField(
-            autofocus: true,
-            // style: theme.textTheme.bodyLarge?.apply(
-            //   color: theme.colorScheme.onSurface,
-            // ),
-            focusNode: _queryFocusNode,
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.zero,
-              hintText: S.of(context)!.searchDocuments,
-              border: InputBorder.none,
-            ),
-            controller: _queryController,
-            textInputAction: TextInputAction.search,
-            onSubmitted: (query) {
-              _onSubmit(context, query);
-            },
+        title: TextField(
+          autofocus: true,
+          // style: theme.textTheme.bodyLarge?.apply(
+          //   color: theme.colorScheme.onSurface,
+          // ),
+          focusNode: _queryFocusNode,
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.zero,
+            hintText: S.of(context)!.searchDocuments,
+            border: InputBorder.none,
           ),
+          controller: _queryController,
+          textInputAction: TextInputAction.search,
+          onSubmitted: (query) {
+            _onSubmit(context, query);
+          },
         ),
         actions: [
           IconButton(
@@ -306,12 +305,12 @@ class _DocumentSearchPageState extends State<DocumentSearchPage> {
               )
             else ...[
               SliverAdaptiveDocumentsView(
+                heroTagPrefix: DocumentSearchPage.heroPrefix,
                 viewType: _documentViewType,
                 documents: documents,
                 isLabelClickable: false,
                 isLoading: state.isLoading,
                 hasLoaded: state.isSuccess,
-                enableHeroAnimation: false,
                 disabledIds: widget.disabledIds,
                 onTap: (document) {
                   widget.onItemSelected(context, document);

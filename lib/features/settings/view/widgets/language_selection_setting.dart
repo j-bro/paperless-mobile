@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/store/bloc/global_settings_builder.dart';
+import 'package:paperless_mobile/core/store/slices/global_settings.dart';
 import 'package:paperless_mobile/features/settings/view/widgets/radio_settings_dialog.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 
@@ -25,6 +26,11 @@ class _LanguageSelectionSettingState extends State<LanguageSelectionSetting> {
     'ca': LanguageOption('Català', true),
     'ru': LanguageOption('Русский', true),
     'it': LanguageOption('Italiano', true),
+    'ar': LanguageOption('العربية', false),
+    'pt': LanguageOption('Português', false),
+    'ro': LanguageOption('Română', false),
+    'sl': LanguageOption('Slovenščina', false),
+    'nl': LanguageOption('Nederlands', false),
   };
 
   @override

@@ -1,28 +1,15 @@
-//
-// AUTO-GENERATED FILE, DO NOT MODIFY!
-//
-
-// ignore_for_file: unused_element
 import 'package:json_annotation/json_annotation.dart';
 
-/// * `1` - Use subject as title * `2` - Use attachment filename as title * `3` - Do not assign title from rule
+@JsonEnum(valueField: 'value')
 enum AssignTitleFromEnum {
-  /// * `1` - Use subject as title * `2` - Use attachment filename as title * `3` - Do not assign title from rule
-  @JsonValue(1)
-  number1('1'),
-
-  /// * `1` - Use subject as title * `2` - Use attachment filename as title * `3` - Do not assign title from rule
-  @JsonValue(2)
-  number2('2'),
-
-  /// * `1` - Use subject as title * `2` - Use attachment filename as title * `3` - Do not assign title from rule
-  @JsonValue(3)
-  number3('3');
+  subject(1),
+  attachmentFilename(2),
+  doNotAssign(3);
 
   const AssignTitleFromEnum(this.value);
 
-  final String value;
+  final int value;
 
   @override
-  String toString() => value;
+  String toString() => name;
 }

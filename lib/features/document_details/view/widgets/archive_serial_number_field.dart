@@ -49,7 +49,7 @@ class _ArchiveSerialNumberFieldState extends State<ArchiveSerialNumberField> {
   @override
   Widget build(BuildContext context) {
     final userCanEditDocument =
-        context.loggedInUser$.paperlessUser.canEditDocuments;
+        context.loggedInUser$.profile.uiSettings.canEditDocuments;
     return MutationConsumer(
       mutation: context.documentRepository.assignAsnMutation(widget.documentId),
       listenWhen: (oldState, newState) {

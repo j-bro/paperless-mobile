@@ -1,16 +1,16 @@
 import 'package:collection/collection.dart';
-import 'package:copy_with_extension/copy_with_extension.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:paperless_mobile/api/paperless_api.dart';
 import 'package:paperless_mobile/api/models/query_parameters/asn_query_parameter.dart';
 
+part 'document_filter.freezed.dart';
 part 'document_filter.g.dart';
 
-@CopyWith()
-@JsonSerializable()
-class DocumentFilter extends Equatable {
+@Freezed(toJson: true, fromJson: true)
+abstract class DocumentFilter with _$DocumentFilter {
+  const DocumentFilter._();
+
   static const DocumentFilter initial = DocumentFilter();
 
   static const DocumentFilter latestDocument = DocumentFilter(
@@ -20,45 +20,26 @@ class DocumentFilter extends Equatable {
     page: 1,
   );
 
-  final int pageSize;
-  final int page;
-  final IdQueryParameter documentType;
-  final IdQueryParameter correspondent;
-  final IdQueryParameter storagePath;
-  final AsnQueryParameter? archiveSerialNumber;
-  final TagsQuery tags;
-  final SortField? sortField;
-  final SortOrder sortOrder;
-  final DateRangeQuery created;
-  final DateRangeQuery added;
-  final DateRangeQuery modified;
-  final TextQuery query;
-  final int? moreLike;
-  final int? selectedView;
-  final List<String>? fields;
-  final IdQueryParameter owner;
-  final List<int>? documentIds;
-
-  const DocumentFilter({
-    this.documentType = const IdQueryParameter.unset(),
-    this.correspondent = const IdQueryParameter.unset(),
-    this.storagePath = const IdQueryParameter.unset(),
-    this.archiveSerialNumber,
-    this.tags = const IdsTagsQuery(),
-    this.sortField = SortField.created,
-    this.sortOrder = SortOrder.descending,
-    this.page = 1,
-    this.pageSize = 25,
-    this.query = const TextQuery(),
-    this.added = const UnsetDateRangeQuery(),
-    this.created = const UnsetDateRangeQuery(),
-    this.modified = const UnsetDateRangeQuery(),
-    this.owner = const IdQueryParameter.unset(),
-    this.moreLike,
-    this.selectedView,
-    this.fields,
-    this.documentIds,
-  });
+  const factory DocumentFilter({
+    @Default(IdQueryParameter.unset()) IdQueryParameter documentType,
+    @Default(IdQueryParameter.unset()) IdQueryParameter correspondent,
+    @Default(IdQueryParameter.unset()) IdQueryParameter storagePath,
+    AsnQueryParameter? archiveSerialNumber,
+    @Default(IdsTagsQuery()) TagsQuery tags,
+    @Default(SortField.created) SortField? sortField,
+    @Default(SortOrder.descending) SortOrder sortOrder,
+    @Default(1) int page,
+    @Default(25) int pageSize,
+    @Default(TextQuery()) TextQuery query,
+    @Default(UnsetDateRangeQuery()) DateRangeQuery added,
+    @Default(UnsetDateRangeQuery()) DateRangeQuery created,
+    @Default(UnsetDateRangeQuery()) DateRangeQuery modified,
+    @Default(IdQueryParameter.unset()) IdQueryParameter owner,
+    int? moreLike,
+    int? selectedView,
+    List<String>? fields,
+    List<int>? documentIds,
+  }) = _DocumentFilter;
 
   bool get forceExtendedQuery {
     debugPrint(
@@ -146,30 +127,6 @@ class DocumentFilter extends Equatable {
     },
     (query.queryText?.isNotEmpty ?? false) ? 1 : 0,
   ].fold(0, (previousValue, element) => previousValue + element);
-
-  @override
-  List<Object?> get props => [
-    pageSize,
-    page,
-    documentType,
-    correspondent,
-    storagePath,
-    archiveSerialNumber,
-    tags,
-    sortField,
-    sortOrder,
-    added,
-    created,
-    modified,
-    query,
-    moreLike,
-    selectedView,
-    owner,
-    fields,
-    documentIds,
-  ];
-
-  Map<String, dynamic> toJson() => _$DocumentFilterToJson(this);
 
   factory DocumentFilter.fromJson(Map<String, dynamic> json) =>
       _$DocumentFilterFromJson(json);

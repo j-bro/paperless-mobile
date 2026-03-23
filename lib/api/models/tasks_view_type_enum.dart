@@ -1,28 +1,13 @@
-//
-// AUTO-GENERATED FILE, DO NOT MODIFY!
-//
-
-// ignore_for_file: unused_element
 import 'package:json_annotation/json_annotation.dart';
 
-/// * `auto_task` - Auto Task * `scheduled_task` - Scheduled Task * `manual_task` - Manual Task
+@JsonEnum(fieldRename: FieldRename.snake)
 enum TasksViewTypeEnum {
-  /// * `auto_task` - Auto Task * `scheduled_task` - Scheduled Task * `manual_task` - Manual Task
-  @JsonValue(r'auto_task')
-  autoTask(r'auto_task'),
+  autoTask,
 
-  /// * `auto_task` - Auto Task * `scheduled_task` - Scheduled Task * `manual_task` - Manual Task
-  @JsonValue(r'scheduled_task')
-  scheduledTask(r'scheduled_task'),
+  scheduledTask,
 
-  /// * `auto_task` - Auto Task * `scheduled_task` - Scheduled Task * `manual_task` - Manual Task
-  @JsonValue(r'manual_task')
-  manualTask(r'manual_task');
-
-  const TasksViewTypeEnum(this.value);
-
-  final String value;
+  manualTask;
 
   @override
-  String toString() => value;
+  String toString() => name;
 }

@@ -50,6 +50,7 @@ class DocumentDetailsRoute extends GoRouteData with $DocumentDetailsRoute {
   final String? queryString;
   final String? thumbnailUrl;
   final String? title;
+  final String? heroTagPrefix;
 
   const DocumentDetailsRoute({
     required this.documentId,
@@ -57,6 +58,7 @@ class DocumentDetailsRoute extends GoRouteData with $DocumentDetailsRoute {
     this.queryString,
     this.thumbnailUrl,
     this.title,
+    this.heroTagPrefix,
   });
 
   @override
@@ -99,6 +101,7 @@ class DocumentDetailsRoute extends GoRouteData with $DocumentDetailsRoute {
         titleAndContentQueryString: queryString,
         thumbnailUrl: thumbnailUrl,
         title: title,
+        heroTagPrefix: heroTagPrefix,
       ),
     );
   }

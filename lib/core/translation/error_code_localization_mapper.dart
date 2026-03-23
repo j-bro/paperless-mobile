@@ -94,5 +94,7 @@ String translateError(BuildContext context, ErrorCode code) {
     ErrorCode.bulkDownloadFailed => S.of(context)!.couldNotDownloadDocuments,
     ErrorCode.bulkEditDocumentsFailed =>
       S.of(context)!.couldNotBulkEditDocuments,
+    ErrorCode.profileGetError => S.of(context)!.couldNotLoadUserProfile,
+    ErrorCode.invalidApiKey => S.of(context)!.invalidApiKey,
   };
 }
