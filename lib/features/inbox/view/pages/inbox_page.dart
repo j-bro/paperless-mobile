@@ -2,7 +2,6 @@ import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:paperless_mobile/api/paperless_api.dart';
 import 'package:paperless_mobile/core/exception/server_message_exception.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
@@ -94,7 +93,7 @@ class _InboxPageState extends State<InboxPage> {
                   return const InboxItemPlaceholder();
                 }
 
-                final documents = state.data!.pages.flattened;
+                final documents = state.data?.pages.flattened ?? [];
                 return FloatingActionButton.extended(
                   extendedPadding: _showExtendedFab
                       ? null
@@ -357,15 +356,16 @@ class _InboxPageState extends State<InboxPage> {
 
   Map<String, List<Document>> _groupByDate(Iterable<Document> documents) {
     return groupBy<Document, String>(documents, (doc) {
-      if (doc.added.isToday) {
+      if (doc.added == null) {
+        return S.of(context)!.notAssigned;
+      }
+      if (doc.added!.isToday) {
         return S.of(context)!.today;
       }
-      if (doc.added.isYesterday) {
+      if (doc.added!.isYesterday) {
         return S.of(context)!.yesterday;
       }
-      return DateFormat.yMMMMd(
-        Localizations.localeOf(context).toString(),
-      ).format(doc.added);
+      return context.displayDateFormat.format(doc.added!);
     });
   }
 }

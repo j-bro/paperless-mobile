@@ -1,0 +1,6 @@
+- New: Synchronized date format configured in Paperless
+- Fixed issues with date formatting
+- Fixed bugs with the "Mark all as read" functionality in the inbox
+- Fixed various error displays in the UI
+- Saved views in the sidebar are now scrollable
+- Correct processing of files opened with the app

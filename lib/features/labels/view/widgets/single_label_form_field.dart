@@ -59,7 +59,7 @@ class SingleLabelFormField<T extends Label> extends StatelessWidget {
             final options = state.data?.toIdMap() ?? {};
             final enabled = options.isNotEmpty || onAddLabel != null;
             final displayText = field.value != null
-                ? (options[field.value]?.name ?? '')
+                ? (options[field.value]?.name ?? '?')
                 : '';
             final displayedSuggestions = suggestions
                 .whereNot((id) => field.value == id)
@@ -178,9 +178,7 @@ class SingleLabelFormField<T extends Label> extends StatelessWidget {
                 : null,
           ),
           isEmpty: !hasValue,
-          child: hasValue
-              ? Text(displayText, style: theme.textTheme.titleMedium)
-              : null,
+          child: Text(displayText, style: theme.textTheme.titleMedium),
         ),
       ),
     );

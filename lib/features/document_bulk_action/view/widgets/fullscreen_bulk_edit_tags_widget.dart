@@ -42,14 +42,14 @@ class _FullscreenBulkEditTagsWidgetState
     super.initState();
     final tags = context.read<TagRepository>().getAllQuery().state.data ?? [];
     _sharedTags = widget.selection
-        .map((e) => e.tags.toSet())
+        .map((e) => e.tags?.toSet() ?? {})
         .fold(
           tags.map((e) => e.id).toSet(),
           (previousValue, element) => previousValue.intersection(element),
         )
         .toList();
     _nonSharedTags = widget.selection
-        .map((e) => e.tags)
+        .map((e) => e.tags?.toSet() ?? {})
         .flattened
         .toSet()
         .difference(_sharedTags.toSet())

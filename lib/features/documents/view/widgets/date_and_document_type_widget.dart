@@ -1,8 +1,8 @@
 import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:paperless_mobile/api/models/document.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/repository/document_type_repository.dart';
 import 'package:provider/provider.dart';
 
@@ -24,9 +24,7 @@ class DateAndDocumentTypeLabelWidget extends StatelessWidget {
     ).textTheme.labelMedium?.apply(color: Colors.grey);
 
     final dateText = document.created != null
-        ? DateFormat.yMMMMd(
-            Localizations.localeOf(context).toString(),
-          ).format(document.created!)
+        ? context.displayDateFormat.format(document.created!)
         : null;
     return RichText(
       maxLines: 1,

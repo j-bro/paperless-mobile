@@ -242,7 +242,6 @@ class _DocumentUploadPreparationPageState
                           name: 'created',
                           firstDate: DateTime(1970, 1, 1),
                           lastDate: DateTime(2100, 1, 1),
-                          locale: Localizations.localeOf(context),
                           labelText: "${S.of(context)!.createdAt} *",
                           allowUnset: true,
                         ),

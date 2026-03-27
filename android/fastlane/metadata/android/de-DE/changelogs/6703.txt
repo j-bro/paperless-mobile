@@ -1,0 +1,6 @@
+- Neu: Nutzung des in Paperless festgelegten Datumsformats
+- Beheben von Fehlern mit der Datumsformatierung
+- Fehlers mit der "Alle als gelesen markieren" Funktion im Posteingang behoben
+- Diverse Fehleranzeigen in der UI behoben
+- Gespeicherte Ansichten in der Seitenleiste sind jetzt scrollbar
+- Korrekte Verarbeitung von mit der App geöffneten Dateien

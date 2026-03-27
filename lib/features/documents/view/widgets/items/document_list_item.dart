@@ -79,7 +79,7 @@ class DocumentListItem extends DocumentItem {
               onDocumentTypeSelected: onDocumentTypeSelected,
             ),
           ),
-          isThreeLine: document.tags.isNotEmpty,
+          isThreeLine: document.tags?.isNotEmpty ?? false,
           leading: AspectRatio(
             aspectRatio: _a4AspectRatio,
             child: GestureDetector(

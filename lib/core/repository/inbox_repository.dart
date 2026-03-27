@@ -140,14 +140,13 @@ class InboxRepository {
           );
           return BulkEditDocumentsResult(result: '');
         }
-        final allDocuments = await _documentsApi.getAll(
-          DocumentFilter(
-            fields: ['id', 'tags'],
-            tags: AnyAssignedTagsQuery(
-              tagIds: inboxTags.map((e) => e.id).toList(),
-            ),
+        final filter = DocumentFilter(
+          fields: ['id', 'tags'],
+          tags: AnyAssignedTagsQuery(
+            tagIds: inboxTags.map((e) => e.id).toList(),
           ),
         );
+        final allDocuments = await _documentsApi.getAll(filter);
         final documentIds = allDocuments.all ?? [];
         final request = BulkEditRequest(
           documents: documentIds,
@@ -174,7 +173,7 @@ class InboxRepository {
             .then((inboxTags) => inboxTags.map((e) => e.id).toList());
 
         final removeTags = inboxTagIds.toSet().intersection(
-          document.tags.toSet(),
+          document.tags?.toSet() ?? {},
         );
 
         await _documentsApi.bulkEditDocuments(
@@ -233,7 +232,7 @@ class InboxRepository {
         await _documentsApi.patch(
           doc.id,
           PatchedDocumentRequest(
-            tags: PatchedValue(<int>{...doc.tags, ...removedTags}.toList()),
+            tags: PatchedValue(<int>{...?doc.tags, ...removedTags}.toList()),
           ),
         );
       },

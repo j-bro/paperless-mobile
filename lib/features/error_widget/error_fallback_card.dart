@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -53,36 +54,41 @@ class _ErrorFallbackCardState extends State<ErrorFallbackCard> {
               Text(firstStackElement ?? ""),
             ],
           ),
-          Align(
-            alignment: Alignment.centerRight,
-            child: ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.error,
-                foregroundColor: Theme.of(context).colorScheme.onError,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                onPressed: () {
+                  Clipboard.setData(ClipboardData(text: issueBodyDescription));
+                },
+                icon: const Icon(Icons.copy),
               ),
-              onPressed: () {
-                final uri = Uri(
-                  host: 'github.com',
-                  path: '/astubenbord/paperless-mobile/issues/new',
-                  scheme: 'https',
-                  queryParameters: {
-                    'assignees': 'astubenbord',
-                    'labels': 'bug,triage,corrupt-element',
-                    'projects': '',
-                    'template': 'bug-report.yml',
-                    'title':
-                        '[Bug]: Rending a widget caused an error: ${widget.errorDetails.summary.toDescription()}',
-                    'body': issueBodyDescription,
-                  },
-                );
-                launchUrlString(
-                  uri.toString(),
-                  mode: LaunchMode.externalApplication,
-                );
-              },
-              icon: const Icon(Icons.open_in_new),
-              label: const Text("Report Bug"),
-            ),
+              ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.error,
+                  foregroundColor: Theme.of(context).colorScheme.onError,
+                ),
+                onPressed: () {
+                  final uri = Uri(
+                    host: 'github.com',
+                    path: '/astubenbord/paperless-mobile/issues/new',
+                    scheme: 'https',
+                    queryParameters: {
+                      'assignees': 'astubenbord',
+                      'labels': 'bug,triage,corrupt-element',
+                      'projects': '',
+                      'template': 'bug-report.yml',
+                    },
+                  );
+                  launchUrlString(
+                    uri.toString(),
+                    mode: LaunchMode.externalApplication,
+                  );
+                },
+                icon: const Icon(Icons.open_in_new),
+                label: const Text("Report Bug"),
+              ),
+            ],
           ),
         ],
       ).padded(16),

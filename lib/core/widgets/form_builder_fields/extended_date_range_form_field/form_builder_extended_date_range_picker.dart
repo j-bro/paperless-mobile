@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:intl/intl.dart';
 import 'package:paperless_mobile/api/paperless_api.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/widgets/form_builder_fields/extended_date_range_form_field/extended_date_range_dialog.dart';
 import 'package:paperless_mobile/core/widgets/form_builder_fields/extended_date_range_form_field/relative_date_range_picker_helper.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
@@ -89,7 +89,7 @@ class _FormBuilderExtendedDateRangePickerState
   }
 
   String _dateRangeQueryToString(DateRangeQuery query) {
-    final df = DateFormat.yMd(Localizations.localeOf(context).toString());
+    final df = context.displayDateFormat;
     if (query is UnsetDateRangeQuery) {
       return '';
     } else if (query is AbsoluteDateRangeQuery) {

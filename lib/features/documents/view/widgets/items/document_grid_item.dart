@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:paperless_mobile/api/paperless_api.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
@@ -126,11 +125,9 @@ class DocumentGridItem extends DocumentItem {
                               children: [
                                 if (document.created != null)
                                   Text(
-                                    DateFormat.yMMMMd(
-                                      Localizations.localeOf(
-                                        context,
-                                      ).toString(),
-                                    ).format(document.created!),
+                                    context.displayDateFormat.format(
+                                      document.created!,
+                                    ),
                                     style: Theme.of(
                                       context,
                                     ).textTheme.bodySmall,

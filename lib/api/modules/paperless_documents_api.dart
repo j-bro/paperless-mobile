@@ -153,20 +153,25 @@ class PaperlessDocumentsApiImpl implements PaperlessDocumentsApi {
     final filterParams = options?.toQueryParameters() ?? {}
       ..putIfAbsent('truncate_content', () => "true");
     try {
-      return client.get("/api/documents/", queryParameters: filterParams).then((
-        response,
-      ) {
-        return PaginatedResultList<Document>.fromJson(
-          response.data,
-          (arg) => Document.fromJson(arg),
-        );
-      });
+      final response = await client.get(
+        "/api/documents/",
+        queryParameters: filterParams,
+      );
+      return PaginatedResultList<Document>.fromJson(
+        response.data,
+        (arg) => Document.fromJson(arg),
+      );
     } on DioException catch (exception) {
       throw exception.unravel(
         orElse: PaperlessApiException(
           ErrorCode.documentLoadFailed,
           details: exception.message,
         ),
+      );
+    } catch (exception) {
+      throw PaperlessApiException(
+        ErrorCode.documentLoadFailed,
+        details: exception.toString(),
       );
     }
   }

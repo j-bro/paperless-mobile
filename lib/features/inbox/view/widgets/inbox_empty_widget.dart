@@ -17,6 +17,7 @@ class InboxEmptyWidget extends StatelessWidget {
       onRefresh: context.inboxRepository.reload,
       child: Center(
         child: Column(
+          spacing: 8,
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,

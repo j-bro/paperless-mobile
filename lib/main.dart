@@ -287,6 +287,13 @@ class _GoRouterShellState extends State<GoRouterShell> {
   late final _router = GoRouter(
     debugLogDiagnostics: kDebugMode,
     initialLocation: "/auth",
+    onException: (context, state, router) {
+      // content:// and file:// URIs from file-open intents are
+      // not app routes. GoRouter sees them as deep links. so we ignore them and
+      // fall back to the initial location. The actual file is received
+      // separately through the share intent listener.
+      router.go('/auth');
+    },
     routes: [
       ShellRoute(
         pageBuilder: (context, state, child) {

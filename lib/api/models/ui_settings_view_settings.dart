@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:paperless_mobile/api/models/ui_settings_view_settings_update_checking.dart';
 
 part 'ui_settings_view_settings.freezed.dart';
 part 'ui_settings_view_settings.g.dart';
@@ -14,9 +13,65 @@ abstract class UiSettingsViewSettings with _$UiSettingsViewSettings {
     bool? emailEnabled,
     bool? tourComplete,
     UiSettingsViewSettingsUpdateChecking? updateChecking,
+    UiSettingsViewSettingsPermissions? permissions,
+    UiSettingsViewSettingsDateDisplay? dateDisplay,
     bool? auditlogEnabled,
   }) = _UiSettingsViewSettings;
 
   factory UiSettingsViewSettings.fromJson(Map<String, dynamic> json) =>
       _$UiSettingsViewSettingsFromJson(json);
+}
+
+@Freezed(toJson: true, fromJson: true)
+abstract class UiSettingsViewSettingsUpdateChecking
+    with _$UiSettingsViewSettingsUpdateChecking {
+  factory UiSettingsViewSettingsUpdateChecking({
+    /// This is dynamic because the backend can return either a string or a boolean due to a deprecated setting.
+    dynamic backendSetting,
+  }) = _UiSettingsViewSettingsUpdateChecking;
+
+  factory UiSettingsViewSettingsUpdateChecking.fromJson(
+    Map<String, dynamic> json,
+  ) => _$UiSettingsViewSettingsUpdateCheckingFromJson(json);
+}
+
+@Freezed(toJson: true, fromJson: true)
+abstract class UiSettingsViewSettingsPermissions
+    with _$UiSettingsViewSettingsPermissions {
+  factory UiSettingsViewSettingsPermissions({
+    /// This is dynamic because the backend can return either a string or a boolean due to a deprecated setting.
+    int? defaultOwner,
+    @Default([]) List<int>? defaultEditUsers,
+    @Default([]) List<int>? defaultViewUsers,
+    @Default([]) List<int>? defaultEditGroups,
+    @Default([]) List<int>? defaultViewGroups,
+  }) = _UiSettingsViewSettingsPermissions;
+
+  factory UiSettingsViewSettingsPermissions.fromJson(
+    Map<String, dynamic> json,
+  ) => _$UiSettingsViewSettingsPermissionsFromJson(json);
+}
+
+@JsonEnum(valueField: 'value')
+enum UiSettingsViewSettingsDateDisplayFormat {
+  short('shortDate'),
+  medium('mediumDate'),
+  long('longDate');
+
+  final String value;
+  const UiSettingsViewSettingsDateDisplayFormat(this.value);
+}
+
+@Freezed(toJson: true, fromJson: true)
+abstract class UiSettingsViewSettingsDateDisplay
+    with _$UiSettingsViewSettingsDateDisplay {
+  factory UiSettingsViewSettingsDateDisplay({
+    @Default(UiSettingsViewSettingsDateDisplayFormat.medium)
+    UiSettingsViewSettingsDateDisplayFormat? dateFormat,
+    String? dateLocale,
+  }) = _UiSettingsViewSettingsDateDisplay;
+
+  factory UiSettingsViewSettingsDateDisplay.fromJson(
+    Map<String, dynamic> json,
+  ) => _$UiSettingsViewSettingsDateDisplayFromJson(json);
 }

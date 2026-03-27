@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:paperless_mobile/api/paperless_api.dart';
 import 'package:paperless_mobile/core/repository/correspondent_repository.dart';
 import 'package:paperless_mobile/core/repository/custom_field_repository.dart';
@@ -62,6 +63,39 @@ extension ContextExtensions on BuildContext {
   UiSettingsView get uiSettings$ =>
       watch<LocalUserAccount>().profile.uiSettings;
   UiSettingsView get uiSettings => read<LocalUserAccount>().profile.uiSettings;
+
+  String get dateLocale {
+    final remoteLocale = uiSettings.settings?.dateDisplay?.dateLocale;
+    if (remoteLocale == null || remoteLocale.isEmpty) {
+      return Localizations.localeOf(this).toLanguageTag();
+    }
+
+    return remoteLocale;
+  }
+
+  ///
+  /// Returns the date format to be used for displaying dates in the app, based on the user's UI settings.
+  /// If the date is not set in the UI settings, it falls back to a default date format.
+  ///
+  DateFormat get displayDateFormat {
+    if (dateLocale == 'iso-8601') {
+      return apiDateFormat;
+    }
+    final type =
+        uiSettings.settings?.dateDisplay?.dateFormat ??
+        UiSettingsViewSettingsDateDisplayFormat.medium;
+    return switch (type) {
+      UiSettingsViewSettingsDateDisplayFormat.short => DateFormat.yMd(
+        dateLocale,
+      ),
+      UiSettingsViewSettingsDateDisplayFormat.medium => DateFormat.yMMMd(
+        dateLocale,
+      ),
+      UiSettingsViewSettingsDateDisplayFormat.long => DateFormat.yMMMMd(
+        dateLocale,
+      ),
+    };
+  }
 
   void refetchLabels() {
     tagRepository.getAllQuery().refetch();

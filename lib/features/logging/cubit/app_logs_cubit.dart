@@ -4,23 +4,20 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
-import 'package:paperless_mobile/features/logging/models/parsed_log_message.dart';
+import 'package:paperless_mobile/api/constants/constants.dart';
 import 'package:paperless_mobile/core/service/file_service.dart';
+import 'package:paperless_mobile/features/logging/models/parsed_log_message.dart';
 import 'package:paperless_mobile/features/notifications/services/local_notification_service.dart';
 import 'package:path/path.dart' as p;
 import 'package:rxdart/rxdart.dart';
-part 'app_logs_state.dart';
 
-final _fileNameFormat = DateFormat("yyyy-MM-dd");
+part 'app_logs_state.dart';
 
 class AppLogsCubit extends Cubit<AppLogsState> {
   StreamSubscription? _fileChangesSubscription;
   final LocalNotificationService _localNotificationService;
-  AppLogsCubit(
-    DateTime date,
-    this._localNotificationService,
-  ) : super(AppLogsStateInitial(date: date));
+  AppLogsCubit(DateTime date, this._localNotificationService)
+    : super(AppLogsStateInitial(date: date));
 
   Future<void> loadLogs(DateTime date) async {
     if (date == state.date) {
@@ -29,21 +26,22 @@ class AppLogsCubit extends Cubit<AppLogsState> {
     _fileChangesSubscription?.cancel();
     emit(AppLogsStateLoading(date: date));
     final logDir = FileService.instance.logDirectory;
-    final availableLogs = (await logDir
-            .list()
-            .whereType<File>()
-            .where((event) => event.path.endsWith('.log'))
-            .map((e) =>
-                _fileNameFormat.parse(p.basenameWithoutExtension(e.path)))
-            .toList())
-        .sorted();
+    final availableLogs =
+        (await logDir
+                .list()
+                .whereType<File>()
+                .where((event) => event.path.endsWith('.log'))
+                .map(
+                  (e) =>
+                      apiDateFormat.parse(p.basenameWithoutExtension(e.path)),
+                )
+                .toList())
+            .sorted();
     final logFile = _getLogfile(date);
     if (!await logFile.exists()) {
-      emit(AppLogsStateLoaded(
-        date: date,
-        logs: [],
-        availableLogs: availableLogs,
-      ));
+      emit(
+        AppLogsStateLoaded(date: date, logs: [], availableLogs: availableLogs),
+      );
     }
     try {
       _updateLogsFromFile(logFile, date, availableLogs);
@@ -53,22 +51,24 @@ class AppLogsCubit extends Cubit<AppLogsState> {
         }
       });
     } catch (e) {
-      emit(AppLogsStateError(
-        error: e,
-        date: date,
-      ));
+      emit(AppLogsStateError(error: e, date: date));
     }
   }
 
   void _updateLogsFromFile(
-      File file, DateTime date, List<DateTime> availableLogs) async {
+    File file,
+    DateTime date,
+    List<DateTime> availableLogs,
+  ) async {
     final logs = await file.readAsLines();
     final parsedLogs = ParsedLogMessage.parse(logs).reversed.toList();
-    emit(AppLogsStateLoaded(
-      date: date,
-      logs: parsedLogs,
-      availableLogs: availableLogs,
-    ));
+    emit(
+      AppLogsStateLoaded(
+        date: date,
+        logs: parsedLogs,
+        availableLogs: availableLogs,
+      ),
+    );
   }
 
   Future<void> clearLogs(DateTime date) async {
@@ -87,7 +87,7 @@ class AppLogsCubit extends Cubit<AppLogsState> {
   }
 
   Future<void> saveLogs(DateTime date, String locale) async {
-    var formattedDate = _fileNameFormat.format(date);
+    var formattedDate = apiDateFormat.format(date);
     final filename = 'paperless_mobile_logs_$formattedDate.log';
     // final parentDir = await FilePicker.platform.getDirectoryPath(
     //   dialogTitle: "Save log from ${DateFormat.yMd(locale).format(date)}",
@@ -105,8 +105,12 @@ class AppLogsCubit extends Cubit<AppLogsState> {
   }
 
   File _getLogfile(DateTime date) {
-    return File(p.join(FileService.instance.logDirectory.path,
-        '${_fileNameFormat.format(date)}.log'));
+    return File(
+      p.join(
+        FileService.instance.logDirectory.path,
+        '${apiDateFormat.format(date)}.log',
+      ),
+    );
   }
 
   @override

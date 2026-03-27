@@ -64,7 +64,7 @@ void showSnackBar(
                         ],
                       ),
                     )
-                  : Text(message),
+                  : Text(message, style: TextStyle(color: foregroundColor)),
             ),
           ],
         ),

@@ -325,10 +325,10 @@ class _DocumentDetailsPageState extends State<DocumentDetailsPage> {
                       color: Theme.of(context).colorScheme.onPrimaryContainer,
                     ),
                   ),
-                  if ((state.data?.notes.length ?? 0) > 0)
+                  if ((state.data?.notes?.length ?? 0) > 0)
                     Card(
                       child: Text(
-                        state.data!.notes.length.toString(),
+                        state.data!.notes!.length.toString(),
                       ).paddedSymmetrically(horizontal: 8, vertical: 2),
                     ),
                 ],

@@ -39,9 +39,7 @@ class DocumentOverviewWidget extends StatelessWidget {
           ),
         DetailsItem.text(
           document.created != null
-              ? DateFormat.yMMMMd(
-                  Localizations.localeOf(context).toString(),
-                ).format(document.created!)
+              ? context.displayDateFormat.format(document.created!)
               : null,
           context: context,
           label: S.of(context)!.createdAt,
@@ -137,7 +135,7 @@ class DocumentOverviewWidget extends StatelessWidget {
               label: null,
             ),
           ),
-        if (document.tags.isNotEmpty && uiSettings.canViewTags)
+        if ((document.tags?.isNotEmpty ?? false) && uiSettings.canViewTags)
           DetailsItem(
             label: S.of(context)!.tags,
             content: TagsWidget(isClickable: false, tagIds: document.tags),

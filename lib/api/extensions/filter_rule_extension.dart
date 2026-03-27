@@ -1,8 +1,8 @@
-import 'package:flutter/foundation.dart';
-import 'package:paperless_mobile/api/paperless_api.dart';
 import 'package:paperless_mobile/api/constants/filter_rules.dart';
 import 'package:paperless_mobile/api/converters/local_date_time_json_converter.dart';
 import 'package:paperless_mobile/api/models/query_parameters/asn_query_parameter.dart';
+import 'package:paperless_mobile/api/paperless_api.dart';
+import 'package:paperless_mobile/features/logging/data/logger.dart';
 
 extension FilterRuleToDocumentFilterExtension on SavedViewFilterRule {
   static const _dateTimeConverter = LocalDateTimeJsonConverter();
@@ -237,34 +237,47 @@ extension FilterRuleToDocumentFilterExtension on SavedViewFilterRule {
             ),
           );
         case RuleTypeEnum.createdTo:
-          return filter.copyWith(
-            created: AbsoluteDateRangeQuery(
-              after: _dateTimeConverter.fromJson(value!),
-            ),
-          );
+          if (filter.created is AbsoluteDateRangeQuery) {
+            return filter.copyWith(
+              created: (filter.created as AbsoluteDateRangeQuery).copyWith(
+                before: _dateTimeConverter.fromJson(value!),
+              ),
+            );
+          } else {
+            return filter.copyWith(
+              created: AbsoluteDateRangeQuery(
+                before: _dateTimeConverter.fromJson(value!),
+              ),
+            );
+          }
         case RuleTypeEnum.createdFrom:
-          return filter.copyWith(
-            created: AbsoluteDateRangeQuery(
-              before: _dateTimeConverter.fromJson(value!),
-            ),
-          );
-        case RuleTypeEnum.addedTo:
-          // TODO: Handle this case.
-          throw UnimplementedError();
-        case RuleTypeEnum.addedFrom:
-          // TODO: Handle this case.
-          throw UnimplementedError();
-        case RuleTypeEnum.mimeTypeIs:
-          // TODO: Handle this case.
-          throw UnimplementedError();
+          if (filter.created is AbsoluteDateRangeQuery) {
+            return filter.copyWith(
+              created: (filter.created as AbsoluteDateRangeQuery).copyWith(
+                after: _dateTimeConverter.fromJson(value!),
+              ),
+            );
+          } else {
+            return filter.copyWith(
+              created: AbsoluteDateRangeQuery(
+                after: _dateTimeConverter.fromJson(value!),
+              ),
+            );
+          }
         default:
-          debugPrint(
+          logger.fw(
             'Unsupported filter rule: ${ruleType.name} (#${ruleType.value})',
+            className: runtimeType.toString(),
+            methodName: 'applyToFilter',
           );
           return filter;
       }
     } catch (e) {
-      debugPrint('Error applying filter rule $ruleType with value $value: $e');
+      logger.fe(
+        'Error applying filter rule $ruleType with value $value: $e',
+        className: runtimeType.toString(),
+        methodName: 'applyToFilter',
+      );
       return filter;
     }
   }

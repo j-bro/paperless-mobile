@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 
 class DateFieldValue extends StatelessWidget {
   final Object? value;
@@ -16,10 +17,9 @@ class DateFieldValue extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (value == null) return placeholder;
-    final locale = Localizations.localeOf(context).toString();
     try {
       final date = DateTime.parse('$value');
-      return Text(DateFormat.yMMMMd(locale).format(date), style: style);
+      return Text(context.displayDateFormat.format(date), style: style);
     } catch (_) {
       return Text('$value', style: style);
     }

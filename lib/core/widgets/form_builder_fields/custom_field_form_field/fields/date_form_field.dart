@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:paperless_mobile/api/constants/api_date_format.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 
 /// A form field for editing a date custom field value.
 ///
@@ -28,9 +29,8 @@ class DateFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final date = _parseDate();
-    final locale = Localizations.localeOf(context).toString();
     final displayText = date != null
-        ? DateFormat.yMMMMd(locale).format(date)
+        ? context.displayDateFormat.format(date)
         : '';
 
     return InkWell(
@@ -45,7 +45,7 @@ class DateFormField extends StatelessWidget {
               );
               if (picked != null) {
                 // Store as ISO 8601 date string (yyyy-MM-dd).
-                onChanged(DateFormat('yyyy-MM-dd').format(picked));
+                onChanged(apiDateFormat.format(picked));
               }
             }
           : null,

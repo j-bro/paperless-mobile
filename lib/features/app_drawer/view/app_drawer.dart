@@ -28,192 +28,200 @@ class AppDrawer extends StatelessWidget {
       RegExp(r'https?://'),
       '',
     );
+    final topInset = MediaQuery.paddingOf(context).top;
     return SafeArea(
+      top: false,
       child: Drawer(
-        child: ListView(
-          children: [
-            Row(
-              spacing: 8,
-              children: [
-                const $AssetsLogosGen().paperlessLogoGreenSvg.svg(
-                  width: 32,
-                  height: 32,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Paperless Mobile",
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    Text(
-                      appVersion,
-                      style: Theme.of(context).textTheme.labelMedium,
-                    ),
-                  ],
-                ),
-              ],
-            ).paddedLTRB(8, 8, 8, 16),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  spacing: 8,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.person,
-                      size: 16,
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.onSurface.withAlpha(128),
-                    ),
-                    Text(
-                      S.of(context)!.loggedInAs(username),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.onSurface.withAlpha(128),
+        child: Padding(
+          padding: EdgeInsets.only(top: topInset),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                spacing: 8,
+                children: [
+                  const $AssetsLogosGen().paperlessLogoGreenSvg.svg(
+                    width: 32,
+                    height: 32,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Paperless Mobile",
+                        style: Theme.of(context).textTheme.titleMedium,
                       ),
-                    ),
-                  ],
-                ),
-                Row(
-                  spacing: 8,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.dns,
-                      size: 16,
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.onSurface.withAlpha(128),
-                    ),
-                    Text(
-                      serverUrl,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.onSurface.withAlpha(128),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ).paddedSymmetrically(horizontal: 16),
-            const Divider(),
-            ListTile(
-              dense: true,
-              title: Text(S.of(context)!.aboutThisApp),
-              leading: const Icon(Icons.info_outline),
-              onTap: () => _showAboutDialog(context),
-            ),
-            ListTile(
-              dense: true,
-              leading: const Icon(Icons.favorite_outline),
-              title: Text(S.of(context)!.donate),
-              onTap: () {
-                showDialog(
-                  useRootNavigator: false,
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    icon: const Icon(Icons.favorite),
-                    title: Text(S.of(context)!.donate),
-                    content: Text(S.of(context)!.donationDialogContent),
-                    actionsAlignment: MainAxisAlignment.spaceBetween,
-                    actions: [
-                      const Text("~ Anton"),
-                      TextButton(
-                        onPressed: Navigator.of(context).pop,
-                        child: Text(S.of(context)!.gotIt),
+                      Text(
+                        appVersion,
+                        style: Theme.of(context).textTheme.labelMedium,
                       ),
                     ],
                   ),
-                );
-              },
-            ),
-            ListTile(
-              dense: true,
-              leading: const Icon(Icons.bug_report_outlined),
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(S.of(context)!.reportABug),
-                  const Icon(Icons.open_in_new, size: 16),
                 ],
-              ),
-              onTap: () {
-                launchUrlString(
-                  'https://github.com/astubenbord/paperless-mobile/issues/new?assignees=astubenbord&labels=bug%2Ctriage&projects=&template=bug-report.yml&title=%5BBug%5D%3A+',
-                  mode: LaunchMode.externalApplication,
-                );
-              },
-            ),
-            ListTile(
-              dense: true,
-              leading: Assets.images.githubMark.svg(
-                colorFilter: ColorFilter.mode(
-                  Theme.of(context).colorScheme.onSurface,
-                  BlendMode.srcIn,
-                ),
-                height: 24,
-                width: 24,
-              ),
-              title: Text(S.of(context)!.sourceCode),
-              trailing: const Icon(Icons.open_in_new, size: 16),
-              onTap: () {
-                launchUrlString(
-                  "https://github.com/astubenbord/paperless-mobile",
-                  mode: LaunchMode.externalApplication,
-                );
-              },
-            ),
-            Consumer<ConsumptionChangeNotifier>(
-              builder: (context, value, child) {
-                final files = value.pendingFiles;
-                final child = ListTile(
-                  dense: true,
-                  leading: const Icon(Icons.drive_folder_upload_outlined),
-                  title: Text(S.of(context)!.pendingFiles),
-                  onTap: () {
-                    UploadQueueRoute().push(context);
-                  },
-                  trailing: Text(
-                    '${files.length}',
-                    style: Theme.of(context).textTheme.bodyMedium,
+              ).paddedLTRB(8, 8, 8, 16),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    spacing: 8,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.person,
+                        size: 16,
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withAlpha(128),
+                      ),
+                      Text(
+                        S.of(context)!.loggedInAs(username),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.labelMedium
+                            ?.copyWith(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onSurface.withAlpha(128),
+                            ),
+                      ),
+                    ],
                   ),
-                );
-                if (files.isEmpty) {
-                  return child;
-                }
-                return child
-                    .animate(
-                      onPlay: (c) => c.repeat(reverse: true),
-                      autoPlay: !MediaQuery.disableAnimationsOf(context),
-                    )
-                    .fade(duration: 1.seconds, begin: 1, end: 0.3);
-              },
-            ),
-            ListTile(
-              dense: true,
-              leading: const Icon(Icons.settings_outlined),
-              title: Text(S.of(context)!.settings),
-              onTap: () => SettingsRoute().push(context),
-            ),
-            const Divider(),
-            if (uiSettings.canViewSavedViews) ...[
-              Text(
-                S.of(context)!.views,
-                textAlign: TextAlign.left,
-                style: Theme.of(context).textTheme.labelLarge,
-              ).padded(16),
-              _buildSavedViews(context, uiSettings),
+                  Row(
+                    spacing: 8,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.dns,
+                        size: 16,
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withAlpha(128),
+                      ),
+                      Text(
+                        serverUrl,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.labelMedium
+                            ?.copyWith(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onSurface.withAlpha(128),
+                            ),
+                      ),
+                    ],
+                  ),
+                ],
+              ).paddedSymmetrically(horizontal: 16),
+              const Divider(),
+              ListTile(
+                dense: true,
+                title: Text(S.of(context)!.aboutThisApp),
+                leading: const Icon(Icons.info_outline),
+                onTap: () => _showAboutDialog(context),
+              ),
+              ListTile(
+                dense: true,
+                leading: const Icon(Icons.favorite_outline),
+                title: Text(S.of(context)!.donate),
+                onTap: () {
+                  showDialog(
+                    useRootNavigator: false,
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      icon: const Icon(Icons.favorite),
+                      title: Text(S.of(context)!.donate),
+                      content: Text(S.of(context)!.donationDialogContent),
+                      actionsAlignment: MainAxisAlignment.spaceBetween,
+                      actions: [
+                        const Text("~ Anton"),
+                        TextButton(
+                          onPressed: Navigator.of(context).pop,
+                          child: Text(S.of(context)!.gotIt),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                dense: true,
+                leading: const Icon(Icons.bug_report_outlined),
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(S.of(context)!.reportABug),
+                    const Icon(Icons.open_in_new, size: 16),
+                  ],
+                ),
+                onTap: () {
+                  launchUrlString(
+                    'https://github.com/astubenbord/paperless-mobile/issues/new?assignees=astubenbord&labels=bug%2Ctriage&projects=&template=bug-report.yml&title=%5BBug%5D%3A+',
+                    mode: LaunchMode.externalApplication,
+                  );
+                },
+              ),
+              ListTile(
+                dense: true,
+                leading: Assets.images.githubMark.svg(
+                  colorFilter: ColorFilter.mode(
+                    Theme.of(context).colorScheme.onSurface,
+                    BlendMode.srcIn,
+                  ),
+                  height: 24,
+                  width: 24,
+                ),
+                title: Text(S.of(context)!.sourceCode),
+                trailing: const Icon(Icons.open_in_new, size: 16),
+                onTap: () {
+                  launchUrlString(
+                    "https://github.com/astubenbord/paperless-mobile",
+                    mode: LaunchMode.externalApplication,
+                  );
+                },
+              ),
+              Consumer<ConsumptionChangeNotifier>(
+                builder: (context, value, child) {
+                  final files = value.pendingFiles;
+                  final child = ListTile(
+                    dense: true,
+                    leading: const Icon(Icons.drive_folder_upload_outlined),
+                    title: Text(S.of(context)!.pendingFiles),
+                    onTap: () {
+                      UploadQueueRoute().push(context);
+                    },
+                    trailing: Text(
+                      '${files.length}',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  );
+                  if (files.isEmpty) {
+                    return child;
+                  }
+                  return child
+                      .animate(
+                        onPlay: (c) => c.repeat(reverse: true),
+                        autoPlay: !MediaQuery.disableAnimationsOf(context),
+                      )
+                      .fade(duration: 1.seconds, begin: 1, end: 0.3);
+                },
+              ),
+              ListTile(
+                dense: true,
+                leading: const Icon(Icons.settings_outlined),
+                title: Text(S.of(context)!.settings),
+                onTap: () => SettingsRoute().push(context),
+              ),
+              const Divider(),
+              if (uiSettings.canViewSavedViews) ...[
+                Text(
+                  S.of(context)!.views,
+                  textAlign: TextAlign.left,
+                  style: Theme.of(context).textTheme.labelLarge,
+                ).padded(16),
+                _buildSavedViews(context, uiSettings),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );
@@ -250,24 +258,25 @@ class AppDrawer extends StatelessWidget {
           ).paddedOnly(left: 16, right: 16);
         }
 
-        return ListView.builder(
-          shrinkWrap: true,
-          itemBuilder: (context, index) {
-            final view = sidebarViews[index];
-            return ListTile(
-              enabled: uiSettings.canViewDocuments,
-              title: Text(view.name),
-              trailing: const Icon(Icons.arrow_forward),
-              onTap: () {
-                Scaffold.of(context).closeDrawer();
-                context.localStore.updateCurrentDocumentFilter(
-                  (_) => view.toDocumentFilter(),
-                );
-                DocumentsRoute().go(context);
-              },
-            );
-          },
-          itemCount: sidebarViews.length,
+        return Expanded(
+          child: ListView.builder(
+            itemBuilder: (context, index) {
+              final view = sidebarViews[index];
+              return ListTile(
+                enabled: uiSettings.canViewDocuments,
+                title: Text(view.name),
+                trailing: const Icon(Icons.arrow_forward),
+                onTap: () {
+                  Scaffold.of(context).closeDrawer();
+                  context.localStore.updateCurrentDocumentFilter(
+                    (_) => view.toDocumentFilter(),
+                  );
+                  DocumentsRoute().go(context);
+                },
+              );
+            },
+            itemCount: sidebarViews.length,
+          ),
         );
       },
     );

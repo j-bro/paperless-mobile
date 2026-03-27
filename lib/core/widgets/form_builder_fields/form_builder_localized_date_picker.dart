@@ -7,9 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/features/landing/view/widgets/mime_types_pie_chart.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
+
+final _separatorRegex = RegExp(r'\d+(?<separator>\D+).*');
 
 class FormDateTime {
   final int? day;
@@ -19,9 +22,9 @@ class FormDateTime {
   FormDateTime({this.day, this.month, this.year});
 
   FormDateTime.fromDateTime(DateTime date)
-      : day = date.day,
-        month = date.month,
-        year = date.year;
+    : day = date.day,
+      month = date.month,
+      year = date.year;
 
   FormDateTime copyWith({int? day, int? month, int? year}) {
     return FormDateTime(
@@ -34,11 +37,8 @@ class FormDateTime {
   bool get isComplete => day != null && month != null && year != null;
 
   DateTime? toDateTime() {
-    if (day == null && month == null && year == null) {
+    if (day == null || month == null || year == null) {
       return null;
-    }
-    if (!isComplete) {
-      throw ArgumentError.notNull("day, month and year must be set together");
     }
     return DateTime(year!, month!, day!);
   }
@@ -47,7 +47,6 @@ class FormDateTime {
 /// A localized, segmented date input field.
 class FormBuilderLocalizedDatePicker extends StatefulWidget {
   final String name;
-  final Locale locale;
   final String labelText;
   final Widget? prefixIcon;
   final DateTime? initialValue;
@@ -64,7 +63,6 @@ class FormBuilderLocalizedDatePicker extends StatefulWidget {
     this.initialValue,
     required this.firstDate,
     required this.lastDate,
-    required this.locale,
     required this.labelText,
     this.prefixIcon,
     this.allowUnset = false,
@@ -78,18 +76,26 @@ class FormBuilderLocalizedDatePicker extends StatefulWidget {
 
 class _FormBuilderLocalizedDatePickerState
     extends State<FormBuilderLocalizedDatePicker> {
+  bool _initialized = false;
   late final String _separator;
   late final String _format;
 
   final _textFieldControls =
       LinkedList<_NeighbourAwareDateInputSegmentControls>();
   bool _temporarilyDisableListeners = false;
+
   @override
-  void initState() {
-    super.initState();
-    final format =
-        DateFormat.yMd(widget.locale.toString()).format(DateTime(1000, 11, 22));
-    _separator = format.replaceAll(RegExp(r'\d'), '').characters.first;
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_initialized) {
+      return;
+    }
+    _initialized = true;
+    final format = DateFormat.yMd(
+      context.dateLocale,
+    ).format(DateTime(1000, 11, 22));
+    _separator =
+        _separatorRegex.firstMatch(format)?.namedGroup('separator') ?? '.';
     _format = format
         .replaceAll("1000", "yyyy")
         .replaceAll("11", "MM")
@@ -97,13 +103,17 @@ class _FormBuilderLocalizedDatePickerState
 
     final components = _format.split(_separator);
     for (int i = 0; i < components.length; i++) {
-      final formatString = components[i];
+      final formatString = components[i].replaceAll(
+        RegExp('[${RegExp.escape(_separator)}]'),
+        '',
+      );
       final initialText = widget.initialValue != null
           ? DateFormat(formatString).format(widget.initialValue!)
           : null;
       final defaultFocusNode = FocusNode(debugLabel: formatString);
-      final focusNode =
-          i == 0 ? (widget.focusNode ?? defaultFocusNode) : defaultFocusNode;
+      final focusNode = i == 0
+          ? (widget.focusNode ?? defaultFocusNode)
+          : defaultFocusNode;
       final controls = _NeighbourAwareDateInputSegmentControls(
         node: focusNode,
         controller: TextEditingController(text: initialText),
@@ -174,8 +184,9 @@ class _FormBuilderLocalizedDatePickerState
           // When the change is requested from external sources, such as calling
           // field.didChange(value), then we want to update the text fields individually
           // without causing the either field to gain focus (as defined above).
-          final isChangeRequestedFromOutside =
-              _textFieldControls.none((element) => element.node.hasFocus);
+          final isChangeRequestedFromOutside = _textFieldControls.none(
+            (element) => element.node.hasFocus,
+          );
 
           if (isChangeRequestedFromOutside) {
             _updateInputsWithDate(value, disableListeners: true);
@@ -214,8 +225,9 @@ class _FormBuilderLocalizedDatePickerState
                           initialEntryMode: DatePickerEntryMode.calendarOnly,
                         );
                         if (selectedDate != null) {
-                          final formDate =
-                              FormDateTime.fromDateTime(selectedDate);
+                          final formDate = FormDateTime.fromDateTime(
+                            selectedDate,
+                          );
                           _temporarilyDisableListeners = true;
                           _updateInputsWithDate(formDate);
                           field.didChange(formDate);
@@ -249,7 +261,7 @@ class _FormBuilderLocalizedDatePickerState
             ),
           );
         },
-      ),
+      ).paddedOnly(top: 4),
     );
   }
 
@@ -302,15 +314,34 @@ class _FormBuilderLocalizedDatePickerState
       },
       style: const TextStyle(fontFamily: 'RobotoMono'),
       keyboardType: TextInputType.datetime,
-      textInputAction:
-          controls.position < 2 ? TextInputAction.next : TextInputAction.done,
+      textInputAction: controls.position < 2
+          ? TextInputAction.next
+          : TextInputAction.done,
       controller: controls.controller,
       focusNode: _textFieldControls.elementAt(controls.position).node,
       maxLength: controls.format.length,
       maxLengthEnforcement: MaxLengthEnforcement.enforced,
       enableInteractiveSelection: false,
       onChanged: (value) {
-        if (value.length == controls.format.length) {
+        if (value.isEmpty) {
+          final fieldValue = field.value ?? FormDateTime();
+
+          final newValue = switch (controls.type) {
+            _DateInputSegment.day => FormDateTime(
+              year: fieldValue.year,
+              month: fieldValue.month,
+            ),
+            _DateInputSegment.month => FormDateTime(
+              year: fieldValue.year,
+              day: fieldValue.day,
+            ),
+            _DateInputSegment.year => FormDateTime(
+              month: fieldValue.month,
+              day: fieldValue.day,
+            ),
+          };
+          field.setValue(newValue);
+        } else if (value.length == controls.format.length) {
           final number = int.tryParse(value);
           if (number == null) {
             return;
@@ -327,14 +358,11 @@ class _FormBuilderLocalizedDatePickerState
       },
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,
-        RangeLimitedInputFormatter(
-          1,
-          switch (controls.type) {
-            _DateInputSegment.day => 31,
-            _DateInputSegment.month => 12,
-            _DateInputSegment.year => 9999,
-          },
-        ),
+        RangeLimitedInputFormatter(1, switch (controls.type) {
+          _DateInputSegment.day => 31,
+          _DateInputSegment.month => 12,
+          _DateInputSegment.year => 9999,
+        }),
       ],
       onEditingComplete: () {
         if (field.value != null) {
@@ -357,11 +385,8 @@ class _FormBuilderLocalizedDatePickerState
         hintText: controls.format,
         hintStyle: const TextStyle(fontFamily: "RobotoMono"),
         border: Theme.of(context).inputDecorationTheme.border?.copyWith(
-              borderSide: const BorderSide(
-                width: 0,
-                style: BorderStyle.none,
-              ),
-            ),
+          borderSide: const BorderSide(width: 0, style: BorderStyle.none),
+        ),
       ),
     );
   }
@@ -401,10 +426,8 @@ final class _NeighbourAwareDateInputSegmentControls
 }
 
 class RangeLimitedInputFormatter extends TextInputFormatter {
-  RangeLimitedInputFormatter(
-    this.minimum,
-    this.maximum,
-  ) : assert(minimum < maximum);
+  RangeLimitedInputFormatter(this.minimum, this.maximum)
+    : assert(minimum < maximum);
 
   final int minimum;
   final int maximum;

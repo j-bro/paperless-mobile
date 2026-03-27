@@ -30,12 +30,11 @@ class _AppLogsPageState extends State<AppLogsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final locale = Localizations.localeOf(context).toString();
     final theme = Theme.of(context);
 
     return BlocBuilder<AppLogsCubit, AppLogsState>(
       builder: (context, state) {
-        final formattedDate = DateFormat.yMMMd(locale).format(state.date);
+        final formattedDate = DateFormat.yMMMd().format(state.date);
         return Scaffold(
           bottomNavigationBar: BottomAppBar(
             child: Row(
@@ -54,7 +53,10 @@ class _AppLogsPageState extends State<AppLogsPage> {
                   IconButton(
                     tooltip: S.of(context)!.saveLogsToFile,
                     onPressed: () {
-                      context.read<AppLogsCubit>().saveLogs(state.date, locale);
+                      context.read<AppLogsCubit>().saveLogs(
+                        state.date,
+                        Localizations.localeOf(context).toLanguageTag(),
+                      );
                     },
                     icon: const Icon(Icons.download),
                   ).padded(),
@@ -182,9 +184,7 @@ class _AppLogsPageState extends State<AppLogsPage> {
   }
 
   Widget _buildLoadingLogs(DateTime date) {
-    final formattedDate = DateFormat.yMd(
-      Localizations.localeOf(context).toString(),
-    ).format(date);
+    final formattedDate = DateFormat.yMd().format(date);
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,

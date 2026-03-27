@@ -164,9 +164,7 @@ class _DocumentNotesWidgetState extends State<DocumentNotesWidget> {
                         children: [
                           if (note.created != null)
                             Text(
-                              DateFormat.yMMMd(
-                                    Localizations.localeOf(context).toString(),
-                                  )
+                              DateFormat.yMMMd(context.dateLocale)
                                   .addPattern('\u2014')
                                   .add_jm()
                                   .format(note.created!),

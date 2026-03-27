@@ -25,9 +25,9 @@
   "@addCorrespondent": {
     "description": "Title when adding a new correspondent"
   },
-  "addCustomField": "New Custom Field",
+  "addCustomField": "Nou Camp Personalitzat",
   "@addCustomField": {},
-  "addCustomFieldToDocument": "Add custom field",
+  "addCustomFieldToDocument": "Afegir Camp Personalitzat",
   "addDocumentType": "Nou tipus de document",
   "@addDocumentType": {
     "description": "Title when adding a new document type"
@@ -37,7 +37,7 @@
   "additionalHeaders": "Capçaleres Addicionals",
   "addNewCorrespondent": "Crear nou corresponsal",
   "@addNewCorrespondent": {},
-  "addNewCustomField": "Add new custom field",
+  "addNewCustomField": "Afegir Nou Camp Personalitzat",
   "@addNewCustomField": {},
   "addNewDocumentType": "Crea nou tipus de document",
   "@addNewDocumentType": {},
@@ -230,7 +230,7 @@
   "@content": {
     "description": "Label shown in the tabbar on details page"
   },
-  "continueAnyway": "Continue anyway",
+  "continueAnyway": "Continua igualment",
   "continueLabel": "Continua",
   "@continueLabel": {},
   "convertSinglePageScanToPdf": "Coverteix únics escanejos a PDF abans de pujar",
@@ -379,33 +379,33 @@
   "@createsASavedViewBasedOnTheCurrentFilterCriteria": {},
   "createViewsToQuicklyFilterYourDocuments": "Crea vistes per filtrar documents de manera ràpida.",
   "@createViewsToQuicklyFilterYourDocuments": {},
-  "customFieldCreatedSuccessfully": "Custom field created successfully.",
+  "customFieldCreatedSuccessfully": "Camp personalitzat creat.",
   "@customFieldCreatedSuccessfully": {},
-  "customFieldDataType": "Data Type",
+  "customFieldDataType": "Tipus de camp",
   "@customFieldDataType": {},
-  "customFieldDeletedSuccessfully": "Custom field deleted successfully.",
+  "customFieldDeletedSuccessfully": "Camp personalitzat esborrat.",
   "@customFieldDeletedSuccessfully": {},
-  "customFieldMonetaryDefaultCurrencyHelperText": "Enter the default currency (e.g., USD, EUR, GBP)",
+  "customFieldMonetaryDefaultCurrencyHelperText": "Moneda predeterminada (per exemple, USD, EUR, GBP)",
   "@customFieldMonetaryDefaultCurrencyHelperText": {
     "description": "Helper text for the default currency field in a custom monetary field"
   },
-  "customFieldMonetaryDefaultCurrencyHintText": "Refer to the default ISO currency code of your region (USD, EUR, GBP, ...)",
+  "customFieldMonetaryDefaultCurrencyHintText": "Consulta el codi de moneda ISO per defecte de la vostra regió (USD, EUR, GBP, ...)",
   "@customFieldMonetaryDefaultCurrencyHintText": {
     "description": "Hint text for the default currency field in a custom monetary field"
   },
-  "customFieldMonetaryDefaultCurrencyLabel": "Default Currency",
+  "customFieldMonetaryDefaultCurrencyLabel": "Moneda per defecte",
   "@customFieldMonetaryDefaultCurrencyLabel": {
     "description": "Label for the default currency field in a custom monetary field"
   },
-  "customFieldName": "Field Name",
+  "customFieldName": "Nom del camp",
   "@customFieldName": {},
-  "customFields": "Custom Fields",
+  "customFields": "Camps personalitzats",
   "@customFields": {},
-  "customFieldSelectAddOption": "Add option",
+  "customFieldSelectAddOption": "Afegir opció",
   "@customFieldSelectAddOption": {
     "description": "Label for the button to add a new option to a custom field with select data type"
   },
-  "customFieldSelectOptionHintText": "Option {index}",
+  "customFieldSelectOptionHintText": "Opció {index}",
   "@customFieldSelectOptionHintText": {
     "description": "Hint text for the text field to add or edit an option of a custom field with select data type",
     "placeholders": {
@@ -414,20 +414,20 @@
       }
     }
   },
-  "customFieldSelectOptions": "Options",
+  "customFieldSelectOptions": "Opcions",
   "@customFieldSelectOptions": {
     "description": "Label shown above the options of a custom field with select data type"
   },
-  "customFieldTypeBoolean": "Boolean",
-  "customFieldTypeDate": "Date",
-  "customFieldTypeDocumentLink": "Document Link",
-  "customFieldTypeFloat": "Float",
-  "customFieldTypeInteger": "Integer",
-  "customFieldTypeMonetary": "Currency",
-  "customFieldTypeSelect": "Select",
+  "customFieldTypeBoolean": "Booleà",
+  "customFieldTypeDate": "Data",
+  "customFieldTypeDocumentLink": "Link a Document",
+  "customFieldTypeFloat": "Flotant",
+  "customFieldTypeInteger": "Integral",
+  "customFieldTypeMonetary": "Moneda",
+  "customFieldTypeSelect": "Selecciona",
   "customFieldTypeText": "Text",
   "customFieldTypeUrl": "URL",
-  "customFieldUpdatedSuccessfully": "Custom field updated successfully.",
+  "customFieldUpdatedSuccessfully": "Camp personalitzat actualitzat.",
   "@customFieldUpdatedSuccessfully": {},
   "dark": "Fosc",
   "@dark": {},
@@ -465,7 +465,7 @@
   "@delete": {},
   "deleteAllScans": "Esborra tots els escanejos",
   "@deleteAllScans": {},
-  "deleteCustomFieldWarningText": "This custom field contains references to other documents. By deleting this label, all references will be removed. Continue?",
+  "deleteCustomFieldWarningText": "Aquest camp personalitzat conté referències a d'altres documents. Esborrant l'etiqueta s'esborraran les referències. Continuar?",
   "@deleteCustomFieldWarningText": {},
   "deleteDocument": "Esborra document",
   "@deleteDocument": {
@@ -566,7 +566,7 @@
   "@dynamicColorScheme": {},
   "edit": "Edita",
   "@edit": {},
-  "editCustomField": "Edit Custom Field",
+  "editCustomField": "Edita camp personalitzat",
   "@editCustomField": {},
   "editDocument": "Edita Document",
   "@editDocument": {},
@@ -818,7 +818,7 @@
   "@noAppToDisplayPDFFilesFound": {},
   "noCorrespondentsSetUp": "No has afegit cap corresponsal.",
   "@noCorrespondentsSetUp": {},
-  "noCustomFieldsSetUp": "You don't seem to have any custom fields set up.",
+  "noCustomFieldsSetUp": "No sembla que tinguis cap camp personalitzat.",
   "@noCustomFieldsSetUp": {},
   "noDocumentsFound": "Sense Documents trobats.",
   "@noDocumentsFound": {
@@ -997,7 +997,7 @@
   "@scrollToTop": {},
   "search": "Cerca",
   "@search": {},
-  "searchCustomFields": "Search custom fields",
+  "searchCustomFields": "Cerca camps personalitzats",
   "searchDocuments": "Cerca documents",
   "@searchDocuments": {},
   "security": "Seguretat",
@@ -1008,7 +1008,7 @@
   "@selectDateRange": {},
   "selectFile": "Selecciona Fitxer...",
   "@selectFile": {},
-  "selectLogLevels": "Select log levels",
+  "selectLogLevels": "Nivells de registre",
   "serverAddress": "Adreça Servidor",
   "@serverAddress": {},
   "serverAddressMustIncludeAScheme": "Adreça del servidor ha d'incloure esquema.",
@@ -1128,8 +1128,8 @@
   "unauthorizedErrorMessage": "No estàs autoritzat per dur a terme aquesta acció. Poseu-vos en contacte amb el vostre administrador o assegureu-vos que teniu els permisos necessaris.",
   "undo": "Desfer",
   "@undo": {},
-  "unsupportedVersionTitle": "Unsupported API version",
-  "unsupportedVersionWarning": "The API version reported by your paperless-ngx instance ({apiVersion}) is not officially supported by this version of the app. The latest supported API version is {latestSupportedApiVersion}.\n\nThis may occur if your server is running an older version of paperless-ngx or if compatibility with that version was removed in a recent app update.\n\nAs a result, some features may not work correctly, and the app may behave unpredictably or even crash.\n\nFor the best experience, update your paperless-ngx instance to a supported version or install an older version from GitHub or F-Droid.",
+  "unsupportedVersionTitle": "Versió d'API no suportada",
+  "unsupportedVersionWarning": "La versió d'API reportada per instancia de paperless-ngx ({apiVersion}) no és suportada oficialment per aquesta versió de l'aplicació. La darrera versió d'API suportada és {latestSupportedApiVersion}.\n\nAixò no succeeix si el servidor executa una versió de paperless-ngx o compatibility s la versió que es remourà a la recent aplicació update.\n\nCom a resultat, algune sopcions no funcionaran correctament i l'app pot fallar.\n\nPer a la millor experiència, actualitza la instància de paperless-ngx per a una versió suportada o instal·la una versió antiga de GitHub o F-Droid.",
   "upload": "Carrega",
   "@upload": {},
   "uploadADocumentFromThisDevice": "Puja document des d'aquest dispositiu",

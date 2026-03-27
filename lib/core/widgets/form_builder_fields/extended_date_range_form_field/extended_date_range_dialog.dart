@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
 import 'package:paperless_mobile/api/paperless_api.dart';
+import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/widgets/form_builder_fields/extended_date_range_form_field/form_builder_relative_date_range_field.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
@@ -143,7 +144,7 @@ class _ExtendedDateRangeDialogState extends State<ExtendedDateRangeDialog> {
                   )
                 : null,
           ),
-          format: DateFormat.yMd(Localizations.localeOf(context).toString()),
+          format: DateFormat.yMd(context.dateLocale),
           lastDate: _dateTimeMax(_before, DateTime.now()),
           inputType: InputType.date,
           onChanged: (after) {
@@ -171,7 +172,7 @@ class _ExtendedDateRangeDialogState extends State<ExtendedDateRangeDialog> {
                   )
                 : null,
           ),
-          format: DateFormat.yMd(Localizations.localeOf(context).toString()),
+          format: DateFormat.yMd(context.dateLocale),
           firstDate: _after,
           lastDate: DateTime.now(),
           onChanged: (before) {

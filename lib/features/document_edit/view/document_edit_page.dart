@@ -7,7 +7,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:paperless_mobile/api/paperless_api.dart';
 import 'package:paperless_mobile/core/extensions/context_extensions.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
@@ -125,7 +124,7 @@ class _DocumentEditPageState extends State<DocumentEditPage>
               fkCorrespondent: state.data!.correspondent,
               fkDocumentType: state.data!.documentType,
               fkStoragePath: state.data!.storagePath,
-              fkTags: IdsTagsQuery(include: state.data!.tags),
+              fkTags: IdsTagsQuery(include: state.data!.tags ?? []),
               fkCreatedDate: state.data!.created,
               fkContent: state.data!.content,
               fkCustomFields:
@@ -316,12 +315,12 @@ class _DocumentEditPageState extends State<DocumentEditPage>
                               allowCreation: true,
                               allowExclude: false,
                               suggestions:
-                                  fieldSuggestions?.tags.whereNot(
-                                    document.tags.contains,
+                                  fieldSuggestions?.tags.toSet().difference(
+                                    document.tags?.toSet() ?? {},
                                   ) ??
-                                  [],
+                                  {},
                               initialValue: IdsTagsQuery(
-                                include: document.tags,
+                                include: document.tags ?? [],
                               ),
                             ),
                           SizedBox(height: 24),
@@ -337,7 +336,7 @@ class _DocumentEditPageState extends State<DocumentEditPage>
                           ).paddedOnly(top: 16),
                           const SizedBox(height: 140),
                         ]
-                        .expand((child) => [child, const SizedBox(height: 8)])
+                        .expand((child) => [child, const SizedBox(height: 16)])
                         .toList(),
               ),
             ),
@@ -497,6 +496,7 @@ class _DocumentEditPageState extends State<DocumentEditPage>
     DateTime? initialCreatedAtDate,
     Suggestions? filteredSuggestions,
   ) {
+    final hasSuggestedDates = filteredSuggestions?.dates.isNotEmpty ?? false;
     return Column(
       children: [
         FormBuilderLocalizedDatePicker(
@@ -505,18 +505,14 @@ class _DocumentEditPageState extends State<DocumentEditPage>
           labelText: S.of(context)!.createdAt,
           firstDate: DateTime(1970, 1, 1),
           lastDate: DateTime(2100, 1, 1),
-          locale: Localizations.localeOf(context),
           prefixIcon: Icon(Icons.calendar_today),
+          allowUnset: false,
         ),
-        if (filteredSuggestions?.hasSuggestedDates ?? false)
+        if (hasSuggestedDates)
           _buildSuggestionsSkeleton<DateTime>(
             suggestions: filteredSuggestions!.dates.map(DateTime.parse),
             itemBuilder: (context, itemData) => ActionChip(
-              label: Text(
-                DateFormat.yMMMMd(
-                  Localizations.localeOf(context).toString(),
-                ).format(itemData),
-              ),
+              label: Text(context.displayDateFormat.format(itemData)),
               onPressed: () => _formKey.currentState?.fields[fkCreatedDate]
                   ?.didChange(FormDateTime.fromDateTime(itemData)),
             ),

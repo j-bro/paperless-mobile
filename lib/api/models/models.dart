@@ -131,7 +131,6 @@ export 'trash_request.dart';
 export 'ui_settings_view.dart';
 export 'ui_settings_view_request.dart';
 export 'ui_settings_view_settings.dart';
-export 'ui_settings_view_settings_update_checking.dart';
 export 'ui_settings_view_user.dart';
 export 'unpaper_clean_enum.dart';
 export 'user.dart';

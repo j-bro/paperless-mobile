@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
+import 'package:paperless_mobile/api/constants/api_date_format.dart';
 import 'package:paperless_mobile/core/service/file_service.dart';
 import 'package:path/path.dart' as p;
 import 'package:synchronized/synchronized.dart';
@@ -17,7 +17,7 @@ class MirroredFileOutput extends LogOutput {
 
   @override
   Future<void> init() async {
-    final today = DateFormat("yyyy-MM-dd").format(DateTime.now());
+    final today = apiDateFormat.format(DateTime.now());
     final logDir = FileService.instance.logDirectory;
     file = File(p.join(logDir.path, '$today.log'));
     debugPrint("Logging files to ${file.path}.");

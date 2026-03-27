@@ -68,6 +68,7 @@ class _ServerAddressFormFieldState extends State<ServerAddressFormField>
           },
           onSelected: (option) {
             _formatInput(field);
+            FocusScope.of(context).unfocus();
           },
           fieldViewBuilder:
               (context, textEditingController, focusNode, onFieldSubmitted) {
