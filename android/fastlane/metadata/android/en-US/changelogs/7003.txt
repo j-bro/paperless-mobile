@@ -1,0 +1,4 @@
+- Fixed empty scan files not being cleaned up on app initialization
+- Change endpoint to check server reachability (fixes timeout/not reachable issues)
+- Change target directory for downloads and unified notification channels
+- Fixed a filter error when the user has no permissions for certain entities

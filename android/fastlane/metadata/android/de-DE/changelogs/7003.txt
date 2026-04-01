@@ -1,0 +1,4 @@
+- Leere Scan-Dateien werden beim App-Start jetzt korrekt bereinigt
+- Änderung des Endpoints für Abfrage bei Prüfung der Serveradresse
+- Zielordner für Downloads korrigiert und Benachrichtigungskanäle vereinheitlicht
+- Fehler beim Filtern behoben, der auftrat, wenn keine Berechtigungen für bestimmte Entitäten vorhanden waren
