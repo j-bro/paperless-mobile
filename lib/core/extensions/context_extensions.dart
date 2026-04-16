@@ -80,7 +80,7 @@ extension ContextExtensions on BuildContext {
   ///
   DateFormat get displayDateFormat {
     if (dateLocale == 'iso-8601') {
-      return apiDateFormat;
+      return DateFormat(apiDateFormat.pattern);
     }
     final type =
         uiSettings.settings?.dateDisplay?.dateFormat ??
