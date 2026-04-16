@@ -1,0 +1,9 @@
+- Camera hardware is no longer required to use the app
+- Date inputs now accept a wider range of dates
+- Fixed date format being changed globally when editing notes
+- Add support for multiline storage paths
+- Fixed version checking with updated server endpoints
+- Fixed incorrect values being used for custom fields
+- Search results now respect the "search more link" UI setting
+- Fixed floating action button on labels page showing incorrect tab name
+- Fixed incorrect display names being shown

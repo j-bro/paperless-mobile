@@ -1,0 +1,9 @@
+- Kamera-Hardware ist nicht mehr erforderlich, um die App zu verwenden
+- Datumseingaben akzeptieren jetzt einen größeren Datumsbereich
+- Datumsformat wird beim Bearbeiten von Notizen nicht mehr global geändert
+- Mehrzeilige Speicherpfade werden jetzt unterstützt
+- Versionsprüfung mit aktualisierten Server-Endpunkten behoben
+- Falsche Werte für benutzerdefinierte Felder behoben
+- Suchergebnisse berücksichtigen jetzt die Einstellung „Vollständige Suche führt zu"
+- Floating-Action-Button auf der Label-Seite zeigt wieder korrekten Tab-Namen an
+- Nutzername wird wieder korrekt angezeigt
