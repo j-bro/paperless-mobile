@@ -15,6 +15,7 @@ import 'package:paperless_mobile/features/document_details/view/dialogs/select_f
 import 'package:paperless_mobile/features/document_details/document_share/cubit/document_share_cubit.dart';
 import 'package:paperless_mobile/features/document_details/document_share/view/document_link_actions.dart';
 import 'package:paperless_mobile/features/document_details/document_share/view/document_share_options_sheet.dart';
+import 'package:paperless_mobile/features/document_details/document_share_links/view/document_share_links_sheet.dart';
 import 'package:paperless_mobile/features/settings/model/file_download_type.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/helpers/message_helpers.dart';
@@ -101,8 +102,12 @@ class _DocumentShareButtonState extends State<DocumentShareButton> {
       return;
     }
     if (option == ShareOption.publicShare) {
-      // Task 4 placeholder: show snackbar until manager lands
-      if (mounted) showSnackBar(context, 'Public share coming in PR2');
+      if (!mounted) return;
+      await showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (_) => DocumentShareLinksSheet(documentId: documentId),
+      );
       return;
     }
     // shareFile requires network (downloads + platform share).
