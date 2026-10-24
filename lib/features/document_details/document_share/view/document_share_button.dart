@@ -35,7 +35,8 @@ class _DocumentShareButtonState extends State<DocumentShareButton> {
   Widget build(BuildContext context) {
     // NOTE: intentionally NOT wrapped in ConnectivityAwareActionWrapper.
     // Copy-details / copy-preview are pure string builds and must work
-    // offline. The share-file path is gated inside _onShare instead.
+    // offline. Network-only options (share file, public share links) are
+    // gated inside _onShare with an offline snackbar.
     return BlocConsumer<DocumentShareCubit, DocumentShareState>(
       listener: (context, state) {
         if (state is DocumentShareError) {
@@ -103,6 +104,15 @@ class _DocumentShareButtonState extends State<DocumentShareButton> {
     }
     if (option == ShareOption.publicShare) {
       if (!mounted) return;
+      final isConnected = await context
+          .read<ConnectivityStatusService>()
+          .isConnectedToInternet();
+      if (!isConnected) {
+        if (mounted) {
+          showSnackBar(context, S.of(context)!.youAreCurrentlyOffline);
+        }
+        return;
+      }
       await showModalBottomSheet(
         context: context,
         isScrollControlled: true,

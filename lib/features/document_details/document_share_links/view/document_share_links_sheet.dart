@@ -104,9 +104,23 @@ class _DocumentShareLinksSheetState extends State<DocumentShareLinksSheet> {
                               tooltip: S.of(context)!.copyToClipboard,
                               icon: const Icon(Icons.copy),
                               onPressed: () async {
-                                await Clipboard.setData(
-                                  ClipboardData(text: url),
-                                );
+                                if (serverUrl.trim().isEmpty) {
+                                  showGenericError(
+                                    context,
+                                    StateError('Server URL is empty'),
+                                  );
+                                  return;
+                                }
+                                try {
+                                  await Clipboard.setData(
+                                    ClipboardData(text: url),
+                                  );
+                                } catch (error) {
+                                  if (context.mounted) {
+                                    showGenericError(context, error);
+                                  }
+                                  return;
+                                }
                                 if (context.mounted) {
                                   showSnackBar(
                                     context,
@@ -124,7 +138,20 @@ class _DocumentShareLinksSheetState extends State<DocumentShareLinksSheet> {
                                   icon: delState.isLoading
                                       ? IconLoadingWidget()
                                       : const Icon(Icons.delete),
-                                  onPressed: () => deleteLink(link.id),
+                                  onPressed: delState.isLoading
+                                      ? null
+                                      : () async {
+                                          try {
+                                            await deleteLink(link.id);
+                                          } catch (error) {
+                                            if (context.mounted) {
+                                              showGenericError(
+                                                context,
+                                                error,
+                                              );
+                                            }
+                                          }
+                                        },
                                 );
                               },
                             ),
@@ -194,13 +221,26 @@ class _DocumentShareLinksSheetState extends State<DocumentShareLinksSheet> {
                                   if (!context.mounted) return;
                                   final slug = result.data?.slug ?? '';
                                   if (slug.isNotEmpty) {
+                                    if (serverUrl.trim().isEmpty) {
+                                      showGenericError(
+                                        context,
+                                        StateError('Server URL is empty'),
+                                      );
+                                      return;
+                                    }
                                     final url = buildPublicShareUrl(
                                       serverUrl,
                                       slug,
                                     );
-                                    await Clipboard.setData(
-                                      ClipboardData(text: url),
-                                    );
+                                    try {
+                                      await Clipboard.setData(
+                                        ClipboardData(text: url),
+                                      );
+                                    } catch (error) {
+                                      if (!context.mounted) return;
+                                      showGenericError(context, error);
+                                      return;
+                                    }
                                     if (!context.mounted) return;
                                     showSnackBar(
                                       context,
