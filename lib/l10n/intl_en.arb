@@ -1022,6 +1022,11 @@
   "@shareTooltip": {
     "description": "Tooltip shown for the share button on details page"
   },
+  "shareFile": "Share file",
+  "copyDetailsLink": "Copy details link",
+  "copyPreviewLink": "Copy preview link",
+  "publicShareLinks": "Public share links",
+  "linkCopiedToClipboard": "Link copied to clipboard",
   "showAll": "Show all",
   "@showAll": {
     "description": "Button label shown on a saved view preview to open this view in the documents page"
