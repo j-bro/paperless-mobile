@@ -1,12 +1,13 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paperless_mobile/api/modules/oidc_api.dart';
-import 'package:paperless_mobile/core/security/session_manager_impl.dart';
 import 'package:paperless_mobile/features/login/model/client_certificate.dart';
 import 'package:paperless_mobile/features/login/oidc/cubit/oidc_cubit.dart';
 import 'package:paperless_mobile/features/login/oidc/model/oidc_provider.dart';
 import 'package:paperless_mobile/features/login/oidc/service/appauth_oidc_facade.dart';
 import 'package:paperless_mobile/features/login/server_connection/model/header_entry.dart';
+import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/routing/routes/auth_route.dart';
 
 class OidcLoginButton extends StatelessWidget {
@@ -30,8 +31,11 @@ class OidcLoginButton extends StatelessWidget {
       return const SizedBox.shrink();
     }
     return BlocProvider(
+      // Fresh server-scoped Dio: the token exchange runs before any session
+      // exists, so it must not depend on the shared SessionManager client
+      // (wrong baseUrl, auth headers, offline/retry interceptors).
       create: (_) => OidcCubit(
-        OidcApi(SessionManagerImpl().client),
+        OidcApi(Dio(BaseOptions(baseUrl: serverUrl))),
         AppAuthOidcFacade(),
       ),
       child: BlocConsumer<OidcCubit, OidcState>(
@@ -46,10 +50,13 @@ class OidcLoginButton extends StatelessWidget {
               ),
             ).replace(context);
           } else if (state is OidcError) {
+            final l10n = S.of(context)!;
+            final message =
+                state.canRetry ? state.message : l10n.ssoAccountNotLinked;
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
-                  '${state.message}\nIf your IdP requires a client secret, use an API key instead.',
+                  '$message\n${l10n.ssoSecretRequiredFallback}',
                 ),
               ),
             );
@@ -70,7 +77,7 @@ class OidcLoginButton extends StatelessWidget {
                         child: CircularProgressIndicator(strokeWidth: 2),
                       )
                     : const Icon(Icons.key),
-                label: const Text('Continue with SSO'),
+                label: Text(S.of(context)!.continueWithSso),
               ),
               if (state is OidcOtpRequired)
                 Padding(

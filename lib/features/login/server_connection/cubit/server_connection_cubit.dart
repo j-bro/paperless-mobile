@@ -1,6 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paperless_mobile/api/modules/oidc_api.dart';
-import 'package:paperless_mobile/core/security/session_manager_impl.dart';
 import 'package:paperless_mobile/core/service/connectivity_status_service.dart';
 import 'package:paperless_mobile/features/logging/data/logger.dart';
 import 'package:paperless_mobile/features/login/model/client_certificate.dart';
@@ -37,8 +37,18 @@ class ServerConnectionCubit extends Cubit<ServerConnectionState> {
         // providers endpoint yield [] and the login UI stays unchanged.
         List<OidcProvider> providers = const [];
         try {
+          // Fresh server-scoped Dio: never mutate the shared SessionManager
+          // client's baseUrl (or inherit its offline/retry interceptor
+          // stack, which can stall unauthenticated discovery) for
+          // best-effort provider fetching.
           final oidcApi = OidcApi(
-            SessionManagerImpl().client..options.baseUrl = address,
+            Dio(
+              BaseOptions(
+                baseUrl: address,
+                connectTimeout: const Duration(seconds: 5),
+                receiveTimeout: const Duration(seconds: 5),
+              ),
+            ),
           );
           providers = await oidcApi.fetchProviders(address);
         } catch (error, stackTrace) {
