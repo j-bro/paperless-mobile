@@ -6,6 +6,7 @@ import 'package:paperless_mobile/features/login/model/client_certificate.dart';
 import 'package:paperless_mobile/features/login/oidc/cubit/oidc_cubit.dart';
 import 'package:paperless_mobile/features/login/oidc/model/oidc_provider.dart';
 import 'package:paperless_mobile/features/login/oidc/service/appauth_oidc_facade.dart';
+import 'package:paperless_mobile/features/login/oidc/view/sso_web_login_page.dart';
 import 'package:paperless_mobile/features/login/server_connection/model/header_entry.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/routing/routes/auth_route.dart';
@@ -17,6 +18,11 @@ class OidcLoginButton extends StatelessWidget {
   final ClientCertificate? clientCertificate;
   final List<HeaderEntry>? additionalHeaders;
   final bool forceVisibleForTest;
+
+  /// Test seam for the WebView fallback entry point: production code pushes
+  /// [SsoWebLoginPage] and awaits the `String?` token result. Tests inject a
+  /// fake here to avoid instantiating a platform WebView.
+  final Future<String?> Function(BuildContext context)? openWebSsoPage;
   const OidcLoginButton({
     super.key,
     required this.serverUrl,
@@ -25,7 +31,31 @@ class OidcLoginButton extends StatelessWidget {
     this.clientCertificate,
     this.additionalHeaders,
     this.forceVisibleForTest = false,
+    this.openWebSsoPage,
   });
+
+  Future<String?> _defaultOpenWebSso(BuildContext context) {
+    return Navigator.of(context).push<String>(
+      MaterialPageRoute(
+        builder: (_) =>
+            SsoWebLoginPage(serverUrl: serverUrl, providers: providers),
+      ),
+    );
+  }
+
+  Future<void> _openWebFallback(BuildContext context) async {
+    final runner = openWebSsoPage ?? _defaultOpenWebSso;
+    final token = await runner(context);
+    if (!context.mounted || token == null) return;
+    AddUserRoute(
+      serverUrl: serverUrl,
+      $extra: AddUserRouteExtra(
+        token: token,
+        clientCertificate: clientCertificate,
+        additionalHeaders: additionalHeaders,
+      ),
+    ).replace(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,13 +97,13 @@ class OidcLoginButton extends StatelessWidget {
         },
         builder: (context, state) {
           final busy = state is OidcExchanging;
-          // WebView fallback entry point is wired in Task 8; until then the
-          // button is visible but inert for webFallback.
+          // Direct flow uses the AppAuth system-browser cubit; webFallback
+          // pushes the WebView-session page and forwards its token result.
           final onPressed = busy
               ? null
               : flow == OidcFlow.direct
                   ? () => context.read<OidcCubit>().start(providers.first)
-                  : () {};
+                  : () => _openWebFallback(context);
           return Column(
             children: [
               FilledButton.tonalIcon(

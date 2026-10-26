@@ -46,4 +46,36 @@ void main() {
     )));
     expect(find.textContaining('SSO'), findsOneWidget);
   });
+
+  testWidgets('webFallback tap routes to the web SSO page', (t) async {
+    var opened = false;
+    await t.pumpWidget(_harness(OidcLoginButton(
+      serverUrl: 'https://x.example.com',
+      providers: const [OidcProvider(id: 'p', name: 'Authentik')],
+      flow: OidcFlow.webFallback,
+      openWebSsoPage: (_) async {
+        opened = true;
+        return null; // user cancelled
+      },
+    )));
+    await t.tap(find.textContaining('SSO'));
+    await t.pumpAndSettle();
+    expect(opened, isTrue);
+  });
+
+  testWidgets('direct tap does not route to the web SSO page', (t) async {
+    var opened = false;
+    await t.pumpWidget(_harness(OidcLoginButton(
+      serverUrl: 'https://x.example.com',
+      providers: const [OidcProvider(id: 'p', name: 'Authentik')],
+      flow: OidcFlow.direct,
+      openWebSsoPage: (_) async {
+        opened = true;
+        return null;
+      },
+    )));
+    await t.tap(find.textContaining('SSO'));
+    await t.pump();
+    expect(opened, isFalse);
+  });
 }
