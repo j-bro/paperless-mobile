@@ -321,6 +321,30 @@ class DocumentRepository with ChangeNotifierMixin {
     );
   }
 
+  Mutation<ShareLink, Map<String, dynamic>> createShareLinkMutation(
+    int documentId,
+  ) {
+    return Mutation<ShareLink, Map<String, dynamic>>(
+      key: 'create_share_link/$documentId',
+      mutationFn: (args) => _api.createShareLink(
+        document: documentId,
+        fileVersion: args['fileVersion'] as String? ?? 'archive',
+        expiration: args['expiration'] as DateTime?,
+      ),
+      invalidateQueries: ['document_share_links/$documentId'],
+      onSuccess: (res, arg) => notifyChangeListeners(ChangeType.update),
+    );
+  }
+
+  Mutation<void, int> deleteShareLinkMutation(int documentId) {
+    return Mutation<void, int>(
+      key: 'delete_share_link/$documentId',
+      mutationFn: (linkId) => _api.deleteShareLink(linkId),
+      invalidateQueries: ['document_share_links/$documentId'],
+      onSuccess: (res, arg) => notifyChangeListeners(ChangeType.update),
+    );
+  }
+
   String getThumbnailUrl(int documentId) {
     return _api.getThumbnailUrl(documentId);
   }
