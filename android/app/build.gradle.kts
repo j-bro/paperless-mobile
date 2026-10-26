@@ -48,6 +48,7 @@ android {
 
         // Required for flutter_local_notifications
         multiDexEnabled = true
+        manifestPlaceholders["appAuthRedirectScheme"] = "paperlessmobile"
     }
 
     signingConfigs {
