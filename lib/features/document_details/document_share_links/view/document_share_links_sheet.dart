@@ -33,17 +33,37 @@ class _DocumentShareLinksSheetState extends State<DocumentShareLinksSheet> {
         padding: EdgeInsets.only(
           bottom: MediaQuery.of(context).viewInsets.bottom,
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
-              child: Text(
-                S.of(context)!.publicShareLinks,
-                style: Theme.of(context).textTheme.titleLarge,
+        // Bound the height: with a Flexible list inside a min-sized Column
+        // the sheet otherwise expands to full screen and the title slides
+        // under the status bar.
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height * 0.75,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(height: 8),
+              Center(
+                child: Container(
+                  width: 32,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(2),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurfaceVariant.withAlpha(102),
+                  ),
+                ),
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                child: Text(
+                  S.of(context)!.publicShareLinks,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ),
             Flexible(
               child: QueryBuilder(
                 query: context.documentRepository.getShareLinksQuery(
@@ -261,6 +281,7 @@ class _DocumentShareLinksSheetState extends State<DocumentShareLinksSheet> {
             ),
           ],
         ),
+      ),
       ),
     );
   }
