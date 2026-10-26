@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:logger/logger.dart';
 import 'package:paperless_mobile/api/modules/oidc_api.dart';
+import 'package:paperless_mobile/features/logging/data/logger.dart' as app_log;
 import 'package:paperless_mobile/features/login/oidc/model/oidc_provider.dart';
 import 'package:paperless_mobile/features/login/oidc/view/oidc_login_button.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
@@ -12,6 +14,11 @@ Widget _harness(Widget body) => MaterialApp(
     );
 
 void main() {
+  setUpAll(() {
+    // OidcLoginButton logs web-fallback results (length only); init the
+    // global logger so widget tests don't hit LateInitializationError.
+    app_log.logger = Logger(level: Level.warning);
+  });
   testWidgets('shows SSO button when providers present', (t) async {
     await t.pumpWidget(_harness(const OidcLoginButton(
       serverUrl: 'https://x.example.com',

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:paperless_mobile/features/login/oidc/service/web_session_token_service.dart';
 
@@ -42,10 +44,57 @@ void main() {
     );
   });
   test('parses quoted token response', () {
-    expect(parseGenerateTokenResponse('"abc123"'), 'abc123');
+    final token = 'a' * 40;
+    expect(parseMintResult(200, '"$token"'), token);
+  });
+  test('short token rejected', () {
+    expect(parseMintResult(200, '"abc123"'), isNull);
   });
   test('empty response -> null', () {
-    expect(parseGenerateTokenResponse(''), isNull);
+    expect(parseMintResult(200, ''), isNull);
+  });
+  test('non-200 mint result -> null even with body', () {
+    expect(parseMintResult(403, '{"detail":"CSRF Failed"}'), isNull);
+  });
+  test('200 HTML error page -> null', () {
+    expect(parseMintResult(200, '<html>nope</html>'), isNull);
+  });
+  test('200 40-hex token (quoted) -> token', () {
+    expect(parseMintResult(200, '"${'a' * 40}"'), 'a' * 40);
+  });
+  test('mint JS bridge single-encoded success -> token', () {
+    final token = 'b' * 40;
+    final raw = jsonEncode({'status': 200, 'body': '"$token"'});
+    expect(parseMintJsResult(raw), token);
+  });
+  test('mint JS bridge double-encoded success -> token', () {
+    final token = 'c' * 40;
+    final inner = jsonEncode({'status': 200, 'body': token});
+    final raw = jsonEncode(inner);
+    expect(parseMintJsResult(raw), token);
+  });
+  test('mint JS bridge 403 -> null', () {
+    final raw = jsonEncode({'status': 403, 'body': '{"detail":"CSRF Failed"}'});
+    expect(parseMintJsResult(raw), isNull);
+  });
+  test('mint JS bridge malformed -> null', () {
+    expect(parseMintJsResult('not json'), isNull);
+    expect(parseMintJsResult('"just a string"'), isNull);
+  });
+  test('mint status extracted for logging (int only)', () {
+    final token = 'd' * 40;
+    final raw = jsonEncode({'status': 200, 'body': token});
+    expect(tryParseMintStatus(raw), 200);
+    expect(tryParseMintStatus(jsonEncode(raw)), 200);
+    final bad = jsonEncode({'status': 403, 'body': 'nope'});
+    expect(tryParseMintStatus(bad), 403);
+    expect(tryParseMintStatus('not json'), isNull);
+  });
+  test('buildGenerateTokenJs returns status-gated JSON', () {
+    final js = buildGenerateTokenJs();
+    expect(js, contains('JSON.stringify'));
+    expect(js, contains('status'));
+    expect(js, contains('generate_auth_token'));
   });
   test('buildSsoLoginUrl normalizes trailing slash', () {
     expect(

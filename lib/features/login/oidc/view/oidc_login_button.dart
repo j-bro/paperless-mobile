@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paperless_mobile/api/modules/oidc_api.dart';
+import 'package:paperless_mobile/features/logging/data/logger.dart';
 import 'package:paperless_mobile/features/login/model/client_certificate.dart';
 import 'package:paperless_mobile/features/login/oidc/cubit/oidc_cubit.dart';
 import 'package:paperless_mobile/features/login/oidc/model/oidc_provider.dart';
@@ -46,7 +47,20 @@ class OidcLoginButton extends StatelessWidget {
   Future<void> _openWebFallback(BuildContext context) async {
     final runner = openWebSsoPage ?? _defaultOpenWebSso;
     final token = await runner(context);
-    if (!context.mounted || token == null) return;
+    if (!context.mounted || token == null) {
+      logger.fd(
+        'SSO web fallback returned no token (cancelled or mint failed).',
+        className: runtimeType.toString(),
+        methodName: '_openWebFallback',
+      );
+      return;
+    }
+    // Log length only — never the token value.
+    logger.fi(
+      'SSO web fallback returned token (length ${token.length}).',
+      className: runtimeType.toString(),
+      methodName: '_openWebFallback',
+    );
     AddUserRoute(
       serverUrl: serverUrl,
       $extra: AddUserRouteExtra(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:paperless_mobile/features/logging/data/logger.dart';
 import 'package:paperless_mobile/features/login/oidc/model/oidc_provider.dart';
 import 'package:paperless_mobile/features/login/oidc/service/web_session_token_service.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
@@ -80,16 +81,39 @@ class _SsoWebLoginPageState extends State<SsoWebLoginPage> {
       _error = null;
     });
     try {
-      // Token via JS bridge only; never logged.
+      // Log host only — never url query, html, cookies, or token value.
+      final host = Uri.tryParse(url)?.host ?? 'unknown';
+      logger.fd(
+        'SSO WebView session active on host $host; minting token.',
+        className: runtimeType.toString(),
+        methodName: '_maybeFinish',
+      );
+      // Token via JS bridge only; never logged (status int + length only).
       final raw = await _controller.runJavaScriptReturningResult(
         buildGenerateTokenJs(),
       );
-      final token = parseGenerateTokenResponse(raw.toString());
+      final status = tryParseMintStatus(raw.toString());
+      logger.fd(
+        'SSO mint HTTP status ${status ?? 'unknown'}.',
+        className: runtimeType.toString(),
+        methodName: '_maybeFinish',
+      );
+      final token = parseMintJsResult(raw.toString());
       if (!mounted) return;
       if (token != null) {
+        logger.fi(
+          'SSO mint succeeded (token length ${token.length}).',
+          className: runtimeType.toString(),
+          methodName: '_maybeFinish',
+        );
         Navigator.of(context).pop(token);
         return;
       }
+      logger.fw(
+        'SSO mint failed: no valid token in bridge result.',
+        className: runtimeType.toString(),
+        methodName: '_maybeFinish',
+      );
       _setTokenFailed();
     } catch (_) {
       _setTokenFailed();
