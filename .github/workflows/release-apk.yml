@@ -53,10 +53,23 @@ jobs:
       - name: Generate localizations
         run: flutter gen-l10n
 
+      # Probe once whether real signing secrets exist; the `secrets`
+      # context can't be used directly in `if:` conditions.
+      - name: Check for release signing secrets
+        id: signing
+        env:
+          RELEASE_KEYSTORE: ${{ secrets.RELEASE_KEYSTORE }}
+        run: |
+          if [ -n "${RELEASE_KEYSTORE:-}" ]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+          fi
+
       # Reuse the existing signing action when the fork has
       # real release secrets configured.
       - name: Setup signing config
-        if: ${{ secrets.RELEASE_KEYSTORE != '' }}
+        if: steps.signing.outputs.available == 'true'
         uses: ./.github/actions/setup-android-signing-config
         with:
           keystore-key-alias: ${{ secrets.KEYSTORE_KEY_ALIAS }}
@@ -70,7 +83,7 @@ jobs:
       # keystore so `flutter build apk --release` still succeeds.
       # APKs built this way cannot update Play Store / upstream installs.
       - name: Setup ephemeral signing (no secrets)
-        if: ${{ secrets.RELEASE_KEYSTORE == '' }}
+        if: steps.signing.outputs.available != 'true'
         run: |
           keytool -genkeypair -v \
             -keystore android/app/fork-release.jks \
