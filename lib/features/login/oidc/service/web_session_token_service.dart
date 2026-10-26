@@ -58,6 +58,46 @@ int? tryParseMintStatus(String raw) {
 /// only (never values — values never leave the WebView).
 typedef MintJsResult = ({int status, String body, List<String> cookieNames});
 
+/// Shared core: decodes an already-`jsonDecode`d value into
+/// `{status, body, cookieNames}`. `cookieNames` defaults to `[]` when absent
+/// (older bridge shape); entries are sanitized to names only (split on '=',
+/// trim, drop empties) so cookie values can never leak.
+MintJsResult? _parseMintDecoded(dynamic decoded) {
+  // Channel bridge delivers a raw JSON string; tolerate one extra layer of
+  // encoding for legacy `runJavaScriptReturningResult` return values.
+  if (decoded is String) {
+    try {
+      decoded = jsonDecode(decoded);
+    } catch (_) {
+      return null;
+    }
+  }
+  if (decoded is Map) {
+    final statusDyn = decoded['status'];
+    final bodyDyn = decoded['body'];
+    int? status;
+    if (statusDyn is int) {
+      status = statusDyn;
+    } else if (statusDyn is num) {
+      // Status may arrive as num (e.g. from JS number); coerce safely.
+      status = statusDyn.toInt();
+    }
+    if (status == null || bodyDyn is! String) return null;
+    final cookieNames = <String>[];
+    final rawNames = decoded['cookieNames'];
+    if (rawNames is List) {
+      for (final e in rawNames) {
+        if (e is String) {
+          final name = e.split('=').first.trim();
+          if (name.isNotEmpty) cookieNames.add(name);
+        }
+      }
+    }
+    return (status: status, body: bodyDyn, cookieNames: cookieNames);
+  }
+  return null;
+}
+
 /// Decodes the raw `runJavaScriptReturningResult` value of
 /// [buildGenerateTokenJs] into `{status, body, cookieNames}`.
 ///
@@ -67,37 +107,30 @@ typedef MintJsResult = ({int status, String body, List<String> cookieNames});
 /// Returns null on any shape/status failure. `cookieNames` defaults to `[]`
 /// when absent (older bridge shape); entries are sanitized to names only
 /// (split on '=', trim, drop empties) so cookie values can never leak.
+///
+/// Kept for the legacy return-value bridge; the channel bridge
+/// ([parseMintChannelMessage]) is preferred because `runJavaScriptReturningResult`
+/// serializes the unsettled `Promise` of an async IIFE instead of awaiting it.
 MintJsResult? parseMintJsResult2(String raw) {
   try {
-    dynamic decoded = jsonDecode(raw);
-    // Bridge double-encodes: first decode may yield the inner JSON string.
-    if (decoded is String) {
-      decoded = jsonDecode(decoded);
-    }
-    if (decoded is Map) {
-      final statusDyn = decoded['status'];
-      final bodyDyn = decoded['body'];
-      int? status;
-      if (statusDyn is int) {
-        status = statusDyn;
-      } else if (statusDyn is num) {
-        // Status may arrive as num (e.g. from JS number); coerce safely.
-        status = statusDyn.toInt();
-      }
-      if (status == null || bodyDyn is! String) return null;
-      final cookieNames = <String>[];
-      final rawNames = decoded['cookieNames'];
-      if (rawNames is List) {
-        for (final e in rawNames) {
-          if (e is String) {
-            final name = e.split('=').first.trim();
-            if (name.isNotEmpty) cookieNames.add(name);
-          }
-        }
-      }
-      return (status: status, body: bodyDyn, cookieNames: cookieNames);
-    }
+    return _parseMintDecoded(jsonDecode(raw));
+  } catch (_) {
     return null;
+  }
+}
+
+/// Decodes a `SsoMint` JavaScriptChannel message into
+/// `{status, body, cookieNames}`.
+///
+/// Channel messages arrive as a raw (single-encoded) JSON string, NOT the
+/// double-encoded value `runJavaScriptReturningResult` produces — so [message]
+/// needs a single `jsonDecode` before the shared core (which still tolerates
+/// one legacy extra layer). Returns null on any shape failure.
+/// Values are never logged.
+MintJsResult? parseMintChannelMessage(String message) {
+  if (message.isEmpty) return null;
+  try {
+    return _parseMintDecoded(jsonDecode(message));
   } catch (_) {
     return null;
   }
@@ -116,15 +149,29 @@ String? parseMintJsResult(String raw) {
   return parseMintResult(r.status, r.body);
 }
 
+/// JS statement (NOT an expression) that POSTs
+/// `/api/profile/generate_auth_token/` and delivers the settled result via
+/// the `SsoMint` JavaScriptChannel.
+///
+/// A `return` value must NOT be relied on here: an async IIFE returns a
+/// `Promise` and `runJavaScriptReturningResult` serializes the unsettled
+/// promise object instead of awaiting settlement, so the mint result is never
+/// readable that way (live failure: resolves in ~27ms with an unparseable
+/// value on every attempt). Fire-and-forget this with `runJavaScript` and
+/// read the result from the channel.
 String buildGenerateTokenJs() => '''
 (async () => {
-  const m = document.cookie.match(/(?:^|; )csrftoken=([^;]*)/);
-  const r = await fetch('/api/profile/generate_auth_token/', {
-    method: 'POST',
-    credentials: 'same-origin',
-    headers: {'Content-Type': 'application/json', ...(m ? {'X-CSRFToken': decodeURIComponent(m[1])} : {})},
-  });
-  const cookieNames = document.cookie.split(';').map(s=>s.split('=')[0].trim());
-  return JSON.stringify({status: r.status, body: await r.text(), cookieNames});
+  try {
+    const m = document.cookie.match(/(?:^|; )csrftoken=([^;]*)/);
+    const r = await fetch('/api/profile/generate_auth_token/', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: {'Content-Type': 'application/json', ...(m ? {'X-CSRFToken': decodeURIComponent(m[1])} : {})},
+    });
+    const cookieNames = document.cookie.split(';').map(s=>s.split('=')[0].trim());
+    SsoMint.postMessage(JSON.stringify({status: r.status, body: await r.text(), cookieNames}));
+  } catch (e) {
+    try { SsoMint.postMessage(JSON.stringify({status: 0, body: '', cookieNames: []})); } catch (_) {}
+  }
 })()
 ''';

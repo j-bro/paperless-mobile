@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:paperless_mobile/features/logging/data/logger.dart';
 import 'package:paperless_mobile/features/login/oidc/model/oidc_provider.dart';
@@ -19,8 +21,11 @@ import 'package:webview_flutter/webview_flutter.dart';
 /// - The WebView loads ONLY `serverUrl`-origin pages initially. IdP
 ///   redirects arise from the server's own login links; there is deliberately
 ///   no URL bar so the user cannot navigate to arbitrary origins.
-/// - The token travels via the JS bridge (`runJavaScriptReturningResult`)
-///   only. Never log page HTML, cookies, or the token.
+/// - The token travels via the `SsoMint` JavaScriptChannel only. Never log
+///   page HTML, cookies, or the token. (`runJavaScriptReturningResult` must
+///   NOT be relied on: it serializes the unsettled `Promise` of the async
+///   mint IIFE instead of awaiting it, so the mint result is never readable
+///   that way.)
 /// - `JavaScriptMode.unrestricted` is REQUIRED for the fetch bridge below;
 ///   without it the token exchange cannot run in-page.
 class SsoWebLoginPage extends StatefulWidget {
@@ -42,6 +47,13 @@ class _SsoWebLoginPageState extends State<SsoWebLoginPage> {
   bool _busy = false;
   String? _error;
 
+  /// Per-attempt mint bridge: the channel handler completes the current
+  /// attempt's completer; late/duplicate messages after pop/timeout are
+  /// ignored via the attempt id + `Completer.isCompleted` guard.
+  int _mintAttempt = 0;
+  Completer<MintJsResult?>? _mintCompleter;
+  int _mintCompleterAttempt = 0;
+
   @override
   void initState() {
     super.initState();
@@ -49,6 +61,10 @@ class _SsoWebLoginPageState extends State<SsoWebLoginPage> {
     // (see class docs); the bridge only POSTs to the server origin.
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..addJavaScriptChannel(
+        'SsoMint',
+        onMessageReceived: _onMintMessage,
+      )
       ..setNavigationDelegate(
         NavigationDelegate(
           onPageFinished: (url) => _maybeFinish(url),
@@ -56,6 +72,15 @@ class _SsoWebLoginPageState extends State<SsoWebLoginPage> {
         ),
       )
       ..loadRequest(buildSsoLoginUrl(widget.serverUrl));
+  }
+
+  /// Channel entry point: completes the current attempt only. Late messages
+  /// (after pop/timeout/superseding attempt) and duplicates are dropped.
+  void _onMintMessage(JavaScriptMessage message) {
+    final completer = _mintCompleter;
+    if (completer == null || completer.isCompleted) return;
+    if (_mintCompleterAttempt != _mintAttempt) return;
+    completer.complete(parseMintChannelMessage(message.message));
   }
 
   void _onLoadError() {
@@ -81,6 +106,11 @@ class _SsoWebLoginPageState extends State<SsoWebLoginPage> {
       _busy = true;
       _error = null;
     });
+    // New mint attempt: the channel handler below completes this completer.
+    _mintAttempt++;
+    final attempt = _mintAttempt;
+    final completer = _mintCompleter = Completer<MintJsResult?>();
+    _mintCompleterAttempt = attempt;
     try {
       // Log host only — never url query, html, cookies, or token value.
       final host = Uri.tryParse(url)?.host ?? 'unknown';
@@ -89,29 +119,48 @@ class _SsoWebLoginPageState extends State<SsoWebLoginPage> {
         className: runtimeType.toString(),
         methodName: '_maybeFinish',
       );
-      // Token via JS bridge only; never log cookie values, HTML, page URL
-      // query, or the token — status int + body length + cookie names only.
-      final raw = await _controller.runJavaScriptReturningResult(
-        buildGenerateTokenJs(),
+      // Token via SsoMint channel only; fire-and-forget (the JS is a
+      // statement that posts the settled result — its return value, an
+      // unsettled Promise, is meaningless). Never log cookie values, HTML,
+      // page URL query, or the token — status int + body length + cookie
+      // names only.
+      unawaited(
+        _controller.runJavaScript(buildGenerateTokenJs()).catchError(
+              // ignore: avoid_catches_without_on_clauses
+              (_) => null,
+            ),
       );
-      final mint = parseMintJsResult2(raw.toString());
-      final status = mint?.status ?? tryParseMintStatus(raw.toString());
-      logger.fd(
-        'SSO mint HTTP status ${status ?? 'unknown'}.',
-        className: runtimeType.toString(),
-        methodName: '_maybeFinish',
+      // 20s timeout → plain mint-failure path (no status).
+      final mint = await completer.future.timeout(
+        const Duration(seconds: 20),
+        onTimeout: () => null,
       );
-      if (mint != null) {
-        logger.fd(
-          'SSO mint diagnostics: body length ${mint.body.length}, '
-          'cookies: ${mint.cookieNames.join(',')}.',
+      // Superseded by a newer attempt, or widget gone: drop silently.
+      if (!mounted || attempt != _mintAttempt) return;
+      // Detach so late/duplicate channel messages are ignored.
+      if (identical(_mintCompleter, completer)) _mintCompleter = null;
+      if (mint == null) {
+        logger.fw(
+          'SSO mint timed out or bridge delivered no result.',
           className: runtimeType.toString(),
           methodName: '_maybeFinish',
         );
+        _setTokenFailed();
+        return;
       }
-      final token = mint == null
-          ? null
-          : parseMintResult(mint.status, mint.body);
+      final status = mint.status;
+      logger.fd(
+        'SSO mint HTTP status $status.',
+        className: runtimeType.toString(),
+        methodName: '_maybeFinish',
+      );
+      logger.fd(
+        'SSO mint diagnostics: body length ${mint.body.length}, '
+        'cookies: ${mint.cookieNames.join(',')}.',
+        className: runtimeType.toString(),
+        methodName: '_maybeFinish',
+      );
+      final token = parseMintResult(mint.status, mint.body);
       if (!mounted) return;
       if (token != null) {
         logger.fi(
@@ -119,18 +168,22 @@ class _SsoWebLoginPageState extends State<SsoWebLoginPage> {
           className: runtimeType.toString(),
           methodName: '_maybeFinish',
         );
+        // Invalidate so late/duplicate channel messages are ignored.
+        _mintAttempt++;
+        _mintCompleter = null;
         Navigator.of(context).pop(token);
         return;
       }
       logger.fw(
-        'SSO mint failed: status ${status ?? 'unknown'}, '
-        'body length ${mint?.body.length ?? 'unknown'}, '
-        'cookies: ${mint?.cookieNames.join(',') ?? 'unknown'}.',
+        'SSO mint failed: status $status, '
+        'body length ${mint.body.length}, '
+        'cookies: ${mint.cookieNames.join(',')}.',
         className: runtimeType.toString(),
         methodName: '_maybeFinish',
       );
       _setTokenFailed(status);
     } catch (_) {
+      if (identical(_mintCompleter, completer)) _mintCompleter = null;
       _setTokenFailed();
     }
   }

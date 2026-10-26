@@ -156,6 +156,39 @@ void main() {
     expect(js, contains('cookieNames'));
     expect(js, contains("split('=')[0]"));
   });
+  test('parseMintChannelMessage parses raw channel payload', () {
+    final token = 'e' * 40;
+    final message = jsonEncode({
+      'status': 200,
+      'body': '"$token"',
+      'cookieNames': ['csrftoken', 'sessionid'],
+    });
+    final r = parseMintChannelMessage(message);
+    expect(r, isNotNull);
+    expect(r!.status, 200);
+    expect(r.body, '"$token"');
+    expect(r.cookieNames, ['csrftoken', 'sessionid']);
+    expect(parseMintResult(r.status, r.body), token);
+  });
+  test('parseMintChannelMessage legacy double-encoded still parses', () {
+    final token = 'f' * 40;
+    final inner = jsonEncode({'status': 200, 'body': token});
+    final r = parseMintChannelMessage(jsonEncode(inner));
+    expect(r, isNotNull);
+    expect(parseMintResult(r!.status, r.body), token);
+  });
+  test('parseMintChannelMessage garbage/empty -> null', () {
+    expect(parseMintChannelMessage(''), isNull);
+    expect(parseMintChannelMessage('not json'), isNull);
+    expect(parseMintChannelMessage(jsonEncode({'status': 'x'})), isNull);
+    expect(parseMintChannelMessage(jsonEncode({'nonsense': 1})), isNull);
+  });
+  test('buildGenerateTokenJs posts via SsoMint channel (no return-value bridge)', () {
+    final js = buildGenerateTokenJs();
+    expect(js, contains('SsoMint.postMessage'));
+    expect(js, contains('generate_auth_token'));
+    expect(js, contains('cookieNames'));
+  });
   test('buildSsoLoginUrl normalizes trailing slash', () {
     expect(
       buildSsoLoginUrl('https://s.example.com/').toString(),
