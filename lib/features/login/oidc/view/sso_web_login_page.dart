@@ -51,16 +51,34 @@ class _SsoWebLoginPageState extends State<SsoWebLoginPage> {
       ..setNavigationDelegate(
         NavigationDelegate(
           onPageFinished: (url) => _maybeFinish(url),
+          onWebResourceError: (error) => _onLoadError(),
         ),
       )
-      ..loadRequest(
-        Uri.parse('${widget.serverUrl}/accounts/login/?next=/dashboard/'),
-      );
+      ..loadRequest(buildSsoLoginUrl(widget.serverUrl));
+  }
+
+  void _onLoadError() {
+    if (!mounted) return;
+    setState(() {
+      _busy = false;
+      _error = S.of(context)!.ssoPageLoadFailed;
+    });
+  }
+
+  void _setTokenFailed() {
+    if (!mounted) return;
+    setState(() {
+      _busy = false;
+      _error = S.of(context)!.ssoTokenFailed;
+    });
   }
 
   Future<void> _maybeFinish(String url) async {
-    if (!isSsoSessionActive(url) || _busy) return;
-    setState(() => _busy = true);
+    if (!isSsoSessionActive(url, widget.serverUrl) || _busy) return;
+    setState(() {
+      _busy = true;
+      _error = null;
+    });
     try {
       // Token via JS bridge only; never logged.
       final raw = await _controller.runJavaScriptReturningResult(
@@ -72,17 +90,19 @@ class _SsoWebLoginPageState extends State<SsoWebLoginPage> {
         Navigator.of(context).pop(token);
         return;
       }
-      setState(() {
-        _busy = false;
-        _error = 'Could not create an API token.';
-      });
+      _setTokenFailed();
     } catch (_) {
-      if (!mounted) return;
-      setState(() {
-        _busy = false;
-        _error = 'Could not create an API token.';
-      });
+      _setTokenFailed();
     }
+  }
+
+  /// Help text that surfaces the available IdP provider names when known,
+  /// so the `providers` constructor param is actually used.
+  String _helpText(BuildContext context) {
+    final base = S.of(context)!.ssoWebLoginHelp;
+    if (widget.providers.isEmpty) return base;
+    final names = widget.providers.map((p) => p.name).join(', ');
+    return '$base\n$names';
   }
 
   @override
@@ -101,13 +121,15 @@ class _SsoWebLoginPageState extends State<SsoWebLoginPage> {
         children: [
           WebViewWidget(controller: _controller),
           if (_busy) const Center(child: CircularProgressIndicator()),
-          Align(
-            alignment: Alignment.topCenter,
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: Text(
-                S.of(context)!.ssoWebLoginHelp,
-                textAlign: TextAlign.center,
+          IgnorePointer(
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Text(
+                  _helpText(context),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
           ),

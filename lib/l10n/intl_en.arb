@@ -1226,5 +1226,13 @@
   "ssoWebLoginHelp": "Complete your organization's sign-in above. The app will continue automatically once your server session is ready.",
   "@ssoWebLoginHelp": {
     "description": "Help text shown on the WebView SSO login page"
+  },
+  "ssoTokenFailed": "Could not create an API token.",
+  "@ssoTokenFailed": {
+    "description": "Error shown on the WebView SSO page when the token exchange fails"
+  },
+  "ssoPageLoadFailed": "Could not load the sign-in page. Check your connection and try again.",
+  "@ssoPageLoadFailed": {
+    "description": "Error shown on the WebView SSO page when the login page fails to load (e.g. airplane mode)"
   }
 }
