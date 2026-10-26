@@ -12,5 +12,6 @@ class OidcSuccess extends OidcState {
 }
 class OidcError extends OidcState {
   final String message;
-  const OidcError(this.message);
+  final bool canRetry;
+  const OidcError(this.message, {this.canRetry = true});
 }

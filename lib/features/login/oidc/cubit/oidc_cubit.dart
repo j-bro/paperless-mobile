@@ -15,12 +15,13 @@ class OidcCubit extends Cubit<OidcState> {
   OidcCubit(this._api, this._facade) : super(const OidcInitial());
 
   Future<void> start(OidcProvider provider) async {
+    _sessionToken = null;
     emit(const OidcExchanging());
     try {
       final r = await _facade.authorize(provider: provider, redirectUrl: redirectUrl);
       if (r == null) { emit(const OidcCancelled()); return; }
       final ex = await _api.exchangeProviderToken(providerId: provider.id, idToken: r.idToken, accessToken: r.accessToken);
-      if (ex.accessToken != null) { emit(OidcSuccess(ex.accessToken!)); return; }
+      if (ex.accessToken != null) { _sessionToken = null; emit(OidcSuccess(ex.accessToken!)); return; }
       if (ex.mfaRequired && ex.sessionToken != null) {
         _sessionToken = ex.sessionToken;
         emit(OidcOtpRequired(ex.sessionToken!));
@@ -28,26 +29,31 @@ class OidcCubit extends Cubit<OidcState> {
       }
       emit(const OidcError('OIDC exchange did not return a token.'));
     } on OidcSignupRequired {
-      emit(const OidcError('Account is not linked. Log in via web UI once to link your SSO identity, then retry.'));
+      emit(const OidcError('Account is not linked. Log in via web UI once to link your SSO identity, then retry.', canRetry: false));
     } on OidcSessionExpired {
-      emit(const OidcError('Session expired. Please retry.'));
-    } catch (e) {
-      emit(OidcError(e.toString()));
+      emit(const OidcError('Session expired. Please retry.', canRetry: true));
+    } catch (_) {
+      emit(const OidcError('OIDC sign-in failed. Please try again.', canRetry: true));
     }
   }
 
   Future<void> confirmMfa(String code) async {
     final s = _sessionToken;
-    if (s == null) { emit(const OidcError('No pending session.')); return; }
+    if (s == null) { emit(const OidcError('No pending session.', canRetry: false)); return; }
     emit(const OidcExchanging());
     try {
       final ex = await _api.confirmMfa(code: code, sessionToken: s);
-      if (ex.accessToken != null) { emit(OidcSuccess(ex.accessToken!)); return; }
-      emit(const OidcError('Invalid code.'));
+      if (ex.accessToken != null) { _sessionToken = null; emit(OidcSuccess(ex.accessToken!)); return; }
+      emit(const OidcError('Invalid code.', canRetry: true));
     } on OidcSessionExpired {
-      emit(const OidcError('Session expired. Please retry.'));
-    } catch (e) {
-      emit(OidcError(e.toString()));
+      emit(const OidcError('Session expired. Please retry.', canRetry: true));
+    } catch (_) {
+      emit(const OidcError('OIDC sign-in failed. Please try again.', canRetry: true));
     }
+  }
+
+  void cancel() {
+    _sessionToken = null;
+    emit(const OidcCancelled());
   }
 }
