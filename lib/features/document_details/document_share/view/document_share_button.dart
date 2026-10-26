@@ -55,7 +55,10 @@ class _DocumentShareButtonState extends State<DocumentShareButton> {
   }
 
   Future<void> _onShare() async {
-    final serverUrl = context.loggedInUser$.serverUrl;
+    // NOTE: read (listen:false). The $-suffixed watch variant throws when
+    // called from an event handler outside of build ("tried to listen ...
+    // from outside of the widget tree"), which left the button dead.
+    final serverUrl = context.loggedInUser.serverUrl;
     final documentId = context.read<DocumentShareCubit>().documentId;
     if (!mounted) return;
     final option = await showModalBottomSheet<ShareOption>(
