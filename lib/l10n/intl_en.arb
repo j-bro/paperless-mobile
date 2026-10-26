@@ -1232,6 +1232,16 @@
   "@ssoTokenFailed": {
     "description": "Error shown on the WebView SSO page when the token exchange fails"
   },
+  "ssoTokenFailedWithStatus": "Could not create an API token (HTTP {status}).",
+  "@ssoTokenFailedWithStatus": {
+    "description": "Error shown on the WebView SSO page when the token exchange fails, including the HTTP status for diagnostics",
+    "placeholders": {
+      "status": {
+        "type": "int",
+        "example": "403"
+      }
+    }
+  },
   "ssoPageLoadFailed": "Could not load the sign-in page. Check your connection and try again.",
   "@ssoPageLoadFailed": {
     "description": "Error shown on the WebView SSO page when the login page fails to load (e.g. airplane mode)"

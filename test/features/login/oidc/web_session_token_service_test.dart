@@ -96,6 +96,66 @@ void main() {
     expect(js, contains('status'));
     expect(js, contains('generate_auth_token'));
   });
+  test('parseMintJsResult2 parses cookie names (values excluded)', () {
+    final raw = jsonEncode({
+      'status': 403,
+      'body': '{"detail":"CSRF Failed"}',
+      'cookieNames': ['csrftoken', 'sessionid'],
+    });
+    final r = parseMintJsResult2(raw);
+    expect(r, isNotNull);
+    expect(r!.status, 403);
+    expect(r.body, '{"detail":"CSRF Failed"}');
+    expect(r.cookieNames, ['csrftoken', 'sessionid']);
+    // Names only: no '=' and no values leak into names.
+    for (final n in r.cookieNames) {
+      expect(n.contains('='), isFalse);
+    }
+  });
+  test('parseMintJsResult2 strips values from cookie entries defensively', () {
+    final raw = jsonEncode({
+      'status': 200,
+      'body': 'x',
+      'cookieNames': ['csrftoken=abc123', ' sessionid '],
+    });
+    final r = parseMintJsResult2(raw);
+    expect(r, isNotNull);
+    expect(r!.cookieNames, ['csrftoken', 'sessionid']);
+  });
+  test('parseMintJsResult2 double-encoded with cookie names', () {
+    final inner = jsonEncode({
+      'status': 200,
+      'body': 'tok',
+      'cookieNames': ['csrftoken'],
+    });
+    final r = parseMintJsResult2(jsonEncode(inner));
+    expect(r, isNotNull);
+    expect(r!.status, 200);
+    expect(r.cookieNames, ['csrftoken']);
+  });
+  test('parseMintJsResult2 missing cookieNames -> empty list', () {
+    final raw = jsonEncode({'status': 200, 'body': 'tok'});
+    final r = parseMintJsResult2(raw);
+    expect(r, isNotNull);
+    expect(r!.cookieNames, isEmpty);
+  });
+  test('parseMintJsResult2 malformed -> null', () {
+    expect(parseMintJsResult2('not json'), isNull);
+    expect(parseMintJsResult2(jsonEncode({'status': 'x'})), isNull);
+  });
+  test('parseMintJsResult2 surfaces status for diagnostics', () {
+    final raw = jsonEncode({
+      'status': 403,
+      'body': 'forbidden',
+      'cookieNames': <String>[],
+    });
+    expect(parseMintJsResult2(raw)!.status, 403);
+  });
+  test('buildGenerateTokenJs exposes cookie names only (no values)', () {
+    final js = buildGenerateTokenJs();
+    expect(js, contains('cookieNames'));
+    expect(js, contains("split('=')[0]"));
+  });
   test('buildSsoLoginUrl normalizes trailing slash', () {
     expect(
       buildSsoLoginUrl('https://s.example.com/').toString(),

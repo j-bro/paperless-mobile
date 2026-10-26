@@ -66,11 +66,12 @@ class _SsoWebLoginPageState extends State<SsoWebLoginPage> {
     });
   }
 
-  void _setTokenFailed() {
+  void _setTokenFailed([int? status]) {
     if (!mounted) return;
     setState(() {
       _busy = false;
-      _error = S.of(context)!.ssoTokenFailed;
+      final s = S.of(context)!;
+      _error = status == null ? s.ssoTokenFailed : s.ssoTokenFailedWithStatus(status);
     });
   }
 
@@ -88,17 +89,29 @@ class _SsoWebLoginPageState extends State<SsoWebLoginPage> {
         className: runtimeType.toString(),
         methodName: '_maybeFinish',
       );
-      // Token via JS bridge only; never logged (status int + length only).
+      // Token via JS bridge only; never log cookie values, HTML, page URL
+      // query, or the token — status int + body length + cookie names only.
       final raw = await _controller.runJavaScriptReturningResult(
         buildGenerateTokenJs(),
       );
-      final status = tryParseMintStatus(raw.toString());
+      final mint = parseMintJsResult2(raw.toString());
+      final status = mint?.status ?? tryParseMintStatus(raw.toString());
       logger.fd(
         'SSO mint HTTP status ${status ?? 'unknown'}.',
         className: runtimeType.toString(),
         methodName: '_maybeFinish',
       );
-      final token = parseMintJsResult(raw.toString());
+      if (mint != null) {
+        logger.fd(
+          'SSO mint diagnostics: body length ${mint.body.length}, '
+          'cookies: ${mint.cookieNames.join(',')}.',
+          className: runtimeType.toString(),
+          methodName: '_maybeFinish',
+        );
+      }
+      final token = mint == null
+          ? null
+          : parseMintResult(mint.status, mint.body);
       if (!mounted) return;
       if (token != null) {
         logger.fi(
@@ -110,11 +123,13 @@ class _SsoWebLoginPageState extends State<SsoWebLoginPage> {
         return;
       }
       logger.fw(
-        'SSO mint failed: no valid token in bridge result.',
+        'SSO mint failed: status ${status ?? 'unknown'}, '
+        'body length ${mint?.body.length ?? 'unknown'}, '
+        'cookies: ${mint?.cookieNames.join(',') ?? 'unknown'}.',
         className: runtimeType.toString(),
         methodName: '_maybeFinish',
       );
-      _setTokenFailed();
+      _setTokenFailed(status);
     } catch (_) {
       _setTokenFailed();
     }

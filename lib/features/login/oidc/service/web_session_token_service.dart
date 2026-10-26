@@ -54,14 +54,20 @@ int? tryParseMintStatus(String raw) {
   }
 }
 
+/// Decoded mint bridge result: HTTP status, raw body, and cookie NAMES
+/// only (never values — values never leave the WebView).
+typedef MintJsResult = ({int status, String body, List<String> cookieNames});
+
 /// Decodes the raw `runJavaScriptReturningResult` value of
-/// [buildGenerateTokenJs] into a token.
+/// [buildGenerateTokenJs] into `{status, body, cookieNames}`.
 ///
 /// The WebView bridge returns a JSON-encoded string, so [raw] may need one
 /// or two `jsonDecode` passes before yielding
-/// `{status: int, body: String}`. Returns null on any shape/status failure.
-/// Never logs or returns the token value itself (callers log lengths only).
-String? parseMintJsResult(String raw) {
+/// `{status: int, body: String, cookieNames: List<String>}`.
+/// Returns null on any shape/status failure. `cookieNames` defaults to `[]`
+/// when absent (older bridge shape); entries are sanitized to names only
+/// (split on '=', trim, drop empties) so cookie values can never leak.
+MintJsResult? parseMintJsResult2(String raw) {
   try {
     dynamic decoded = jsonDecode(raw);
     // Bridge double-encodes: first decode may yield the inner JSON string.
@@ -69,20 +75,45 @@ String? parseMintJsResult(String raw) {
       decoded = jsonDecode(decoded);
     }
     if (decoded is Map) {
-      final status = decoded['status'];
-      final body = decoded['body'];
-      if (status is int && body is String) {
-        return parseMintResult(status, body);
+      final statusDyn = decoded['status'];
+      final bodyDyn = decoded['body'];
+      int? status;
+      if (statusDyn is int) {
+        status = statusDyn;
+      } else if (statusDyn is num) {
+        // Status may arrive as num (e.g. from JS number); coerce safely.
+        status = statusDyn.toInt();
       }
-      // Status may arrive as num (e.g. from JS number); coerce safely.
-      if (status is num && body is String) {
-        return parseMintResult(status.toInt(), body);
+      if (status == null || bodyDyn is! String) return null;
+      final cookieNames = <String>[];
+      final rawNames = decoded['cookieNames'];
+      if (rawNames is List) {
+        for (final e in rawNames) {
+          if (e is String) {
+            final name = e.split('=').first.trim();
+            if (name.isNotEmpty) cookieNames.add(name);
+          }
+        }
       }
+      return (status: status, body: bodyDyn, cookieNames: cookieNames);
     }
     return null;
   } catch (_) {
     return null;
   }
+}
+
+/// Decodes the raw `runJavaScriptReturningResult` value of
+/// [buildGenerateTokenJs] into a token.
+///
+/// Delegates to [parseMintJsResult2] for bridge decoding, then applies the
+/// strict [parseMintResult] validator. Returns null on any shape/status
+/// failure. Never logs or returns the token value itself (callers log
+/// lengths only).
+String? parseMintJsResult(String raw) {
+  final r = parseMintJsResult2(raw);
+  if (r == null) return null;
+  return parseMintResult(r.status, r.body);
 }
 
 String buildGenerateTokenJs() => '''
@@ -93,6 +124,7 @@ String buildGenerateTokenJs() => '''
     credentials: 'same-origin',
     headers: {'Content-Type': 'application/json', ...(m ? {'X-CSRFToken': decodeURIComponent(m[1])} : {})},
   });
-  return JSON.stringify({status: r.status, body: await r.text()});
+  const cookieNames = document.cookie.split(';').map(s=>s.split('=')[0].trim());
+  return JSON.stringify({status: r.status, body: await r.text(), cookieNames});
 })()
 ''';
