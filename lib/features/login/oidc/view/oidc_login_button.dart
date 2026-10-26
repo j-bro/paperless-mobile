@@ -83,8 +83,8 @@ class OidcLoginButton extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 8),
                   child: TextField(
-                    decoration: const InputDecoration(
-                      labelText: 'Authenticator code (SSO second factor)',
+                    decoration: InputDecoration(
+                      labelText: S.of(context)!.ssoSecondFactorCode,
                     ),
                     keyboardType: TextInputType.number,
                     maxLength: 8,

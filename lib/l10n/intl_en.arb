@@ -1214,5 +1214,9 @@
   "ssoSecretRequiredFallback": "If your IdP requires a client secret, use an API key instead.",
   "@ssoSecretRequiredFallback": {
     "description": "Fallback hint when the IdP requires a client secret"
+  },
+  "ssoSecondFactorCode": "Authenticator code (SSO second factor)",
+  "@ssoSecondFactorCode": {
+    "description": "Label for the TOTP input shown after SSO login when the server requires a second factor"
   }
 }
