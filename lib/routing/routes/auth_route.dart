@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:paperless_mobile/api/modules/oidc_api.dart';
 import 'package:paperless_mobile/core/store/local_store.dart';
 import 'package:paperless_mobile/features/login/authenticate_user/cubit/authenticate_user_cubit.dart';
 import 'package:paperless_mobile/features/login/authenticate_user/model/authentication_credentials.dart';
@@ -70,11 +71,13 @@ class AuthRouteExtra {
   final AuthenticationCredentials? credentials;
   final ClientCertificate? clientCertificate;
   final List<HeaderEntry>? additionalHeaders;
+  final OidcCapability oidcCapability;
 
   const AuthRouteExtra({
     this.clientCertificate,
     this.additionalHeaders,
     this.credentials,
+    this.oidcCapability = const OidcCapability(flow: OidcFlow.none),
   });
 }
 
@@ -119,6 +122,9 @@ class AuthenticateRoute extends GoRouteData with $AuthenticateRoute {
           initialCredentials: $extra?.credentials,
           clientCertificate: $extra?.clientCertificate,
           additionalHeaders: $extra?.additionalHeaders,
+          oidcCapability:
+              $extra?.oidcCapability ??
+              const OidcCapability(flow: OidcFlow.none),
         ),
       ),
     );

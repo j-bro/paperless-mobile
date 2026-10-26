@@ -9,3 +9,4 @@ export 'paperless_search_api.dart';
 export 'paperless_server_stats_api.dart';
 export 'paperless_tasks_api.dart';
 export 'paperless_user_api.dart';
+export 'oidc_api.dart';

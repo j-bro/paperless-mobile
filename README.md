@@ -131,6 +131,15 @@ Made with [contrib.rocks](https://contrib.rocks).
 
 Want to contribute? Have a look at [the contributing guidelines and how to get started](https://github.com/astubenbord/paperless-mobile/blob/development/CONTRIBUTING.md).
 
+## SSO (OIDC) login
+
+Requires paperless-ngx with allauth headless (PR #11756).
+IdP must be true OIDC with discovery, allow public client + PKCE (no secret), and link to Paperless user. Tested: Authentik, Authelia, PocketID, Keycloak.
+Register callback URLs on the IdP:
+- `https://<server>/accounts/oidc/<provider>/login/callback/`
+- `paperlessmobile://oidc-callback`
+If your IdP requires a client secret (Google/Microsoft/GitHub), use Profile → API key instead.
+
 ## Troubleshooting
 
 #### Uploading the document silently fails for larger files
