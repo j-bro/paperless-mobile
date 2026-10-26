@@ -38,6 +38,12 @@ abstract class PaperlessDocumentsApi {
   String getPreviewUrl(int id);
   Future<Uint8List> getPreview(int documentId);
   Future<Iterable<ShareLink>> getShareLinks(int documentId);
+  Future<ShareLink> createShareLink({
+    required int document,
+    String fileVersion = 'archive',
+    DateTime? expiration,
+  });
+  Future<void> deleteShareLink(int id);
   Future<Suggestions> getFieldSuggestions(int documentId);
   String getThumbnailUrl(int documentId);
   Future<BulkDownload> bulkDownload(BulkDownloadRequest request);
@@ -438,6 +444,37 @@ class PaperlessDocumentsApiImpl implements PaperlessDocumentsApi {
         "/api/documents/$documentId/share_links/",
       );
       return response.data?.map((e) => ShareLink.fromJson(e)) ?? [];
+    } on DioException catch (exception) {
+      throw exception.unravel(orElse: const PaperlessApiException.unknown());
+    }
+  }
+
+  @override
+  Future<ShareLink> createShareLink({
+    required int document,
+    String fileVersion = 'archive',
+    DateTime? expiration,
+  }) async {
+    try {
+      final response = await client.post(
+        '/api/share_links/',
+        data: {
+          'document': document,
+          'file_version': fileVersion,
+          if (expiration != null)
+            'expiration': expiration.toUtc().toIso8601String(),
+        },
+      );
+      return ShareLink.fromJson(response.data);
+    } on DioException catch (exception) {
+      throw exception.unravel(orElse: const PaperlessApiException.unknown());
+    }
+  }
+
+  @override
+  Future<void> deleteShareLink(int id) async {
+    try {
+      await client.delete('/api/share_links/$id/');
     } on DioException catch (exception) {
       throw exception.unravel(orElse: const PaperlessApiException.unknown());
     }
