@@ -13,6 +13,7 @@ import 'package:paperless_mobile/routing/routes/auth_route.dart';
 class OidcLoginButton extends StatelessWidget {
   final String serverUrl;
   final List<OidcProvider> providers;
+  final OidcFlow flow;
   final ClientCertificate? clientCertificate;
   final List<HeaderEntry>? additionalHeaders;
   final bool forceVisibleForTest;
@@ -20,6 +21,7 @@ class OidcLoginButton extends StatelessWidget {
     super.key,
     required this.serverUrl,
     required this.providers,
+    this.flow = OidcFlow.direct,
     this.clientCertificate,
     this.additionalHeaders,
     this.forceVisibleForTest = false,
@@ -27,7 +29,8 @@ class OidcLoginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (providers.isEmpty && !forceVisibleForTest) {
+    if ((flow == OidcFlow.none || providers.isEmpty) &&
+        !forceVisibleForTest) {
       return const SizedBox.shrink();
     }
     return BlocProvider(
@@ -64,12 +67,17 @@ class OidcLoginButton extends StatelessWidget {
         },
         builder: (context, state) {
           final busy = state is OidcExchanging;
+          // WebView fallback entry point is wired in Task 8; until then the
+          // button is visible but inert for webFallback.
+          final onPressed = busy
+              ? null
+              : flow == OidcFlow.direct
+                  ? () => context.read<OidcCubit>().start(providers.first)
+                  : () {};
           return Column(
             children: [
               FilledButton.tonalIcon(
-                onPressed: busy
-                    ? null
-                    : () => context.read<OidcCubit>().start(providers.first),
+                onPressed: onPressed,
                 icon: busy
                     ? const SizedBox(
                         width: 20,

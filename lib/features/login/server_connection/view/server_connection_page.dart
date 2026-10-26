@@ -88,7 +88,7 @@ class _ServerConnectionPageState extends State<ServerConnectionPage> {
                           $extra: AuthRouteExtra(
                             clientCertificate: state.clientCertificate,
                             additionalHeaders: state.additionalHeaders,
-                            oidcProviders: state.oidcProviders,
+                            oidcCapability: state.oidcCapability,
                           ),
                         ).push(context);
                       }

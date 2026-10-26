@@ -33,14 +33,14 @@ class ServerConnectionCubit extends Cubit<ServerConnectionState> {
             additionalHeaders,
           );
       if (status == ReachabilityStatus.reachable) {
-        // Best-effort OIDC provider discovery: older servers without the
-        // providers endpoint yield [] and the login UI stays unchanged.
-        List<OidcProvider> providers = const [];
+        // Best-effort OIDC capability detection (unauthenticated): servers
+        // without SSO yield OidcFlow.none and the login UI stays unchanged.
+        OidcCapability capability = const OidcCapability(flow: OidcFlow.none);
         try {
           // Fresh server-scoped Dio: never mutate the shared SessionManager
           // client's baseUrl (or inherit its offline/retry interceptor
           // stack, which can stall unauthenticated discovery) for
-          // best-effort provider fetching.
+          // best-effort capability detection.
           final oidcApi = OidcApi(
             Dio(
               BaseOptions(
@@ -50,10 +50,10 @@ class ServerConnectionCubit extends Cubit<ServerConnectionState> {
               ),
             ),
           );
-          providers = await oidcApi.fetchProviders(address);
+          capability = await oidcApi.detectCapabilities(address);
         } catch (error, stackTrace) {
           logger.fw(
-            'OIDC provider discovery failed, continuing without SSO',
+            'OIDC capability detection failed, continuing without SSO',
             className: runtimeType.toString(),
             methodName: 'checkReachability',
             error: error,
@@ -65,7 +65,7 @@ class ServerConnectionCubit extends Cubit<ServerConnectionState> {
             serverUrl: address,
             clientCertificate: clientCertificate,
             additionalHeaders: additionalHeaders,
-            oidcProviders: providers,
+            oidcCapability: capability,
           ),
         );
       } else {

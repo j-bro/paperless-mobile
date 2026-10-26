@@ -17,12 +17,13 @@ class ServerConnectionSuccess extends ServerConnectionState {
   final String serverUrl;
   final ClientCertificate? clientCertificate;
   final List<HeaderEntry>? additionalHeaders;
-  final List<OidcProvider> oidcProviders;
+  final OidcCapability oidcCapability;
+  List<OidcProvider> get oidcProviders => oidcCapability.providers;
   const ServerConnectionSuccess({
     required this.serverUrl,
     this.clientCertificate,
     this.additionalHeaders,
-    this.oidcProviders = const [],
+    this.oidcCapability = const OidcCapability(flow: OidcFlow.none),
   });
 
   static bool _listEquals<T>(List<T>? a, List<T>? b) {
@@ -42,7 +43,7 @@ class ServerConnectionSuccess extends ServerConnectionState {
           serverUrl == other.serverUrl &&
           clientCertificate == other.clientCertificate &&
           _listEquals(additionalHeaders, other.additionalHeaders) &&
-          _listEquals(oidcProviders, other.oidcProviders);
+          oidcCapability == other.oidcCapability;
 
   @override
   int get hashCode => Object.hash(
@@ -51,7 +52,7 @@ class ServerConnectionSuccess extends ServerConnectionState {
         additionalHeaders == null
             ? null
             : Object.hashAll(additionalHeaders!),
-        Object.hashAll(oidcProviders),
+        oidcCapability,
       );
 }
 

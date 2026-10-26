@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:paperless_mobile/api/modules/oidc_api.dart';
 import 'package:paperless_mobile/features/login/oidc/model/oidc_provider.dart';
 import 'package:paperless_mobile/features/login/oidc/view/oidc_login_button.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
@@ -24,6 +25,24 @@ void main() {
       serverUrl: 'https://x.example.com',
       providers: [],
       forceVisibleForTest: true,
+    )));
+    expect(find.textContaining('SSO'), findsOneWidget);
+  });
+
+  testWidgets('hides button when flow is none', (t) async {
+    await t.pumpWidget(_harness(const OidcLoginButton(
+      serverUrl: 'https://x.example.com',
+      providers: [OidcProvider(id: 'p', name: 'Authentik')],
+      flow: OidcFlow.none,
+    )));
+    expect(find.textContaining('SSO'), findsNothing);
+  });
+
+  testWidgets('shows SSO button for webFallback flow', (t) async {
+    await t.pumpWidget(_harness(const OidcLoginButton(
+      serverUrl: 'https://x.example.com',
+      providers: [OidcProvider(id: 'p', name: 'Authentik')],
+      flow: OidcFlow.webFallback,
     )));
     expect(find.textContaining('SSO'), findsOneWidget);
   });

@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
+import 'package:paperless_mobile/api/modules/oidc_api.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/widgets/app_logs_footer_widget.dart';
 import 'package:paperless_mobile/features/login/authenticate_user/cubit/authenticate_user_cubit.dart';
 import 'package:paperless_mobile/features/login/authenticate_user/model/authentication_credentials.dart';
 import 'package:paperless_mobile/features/login/helper/guard_unsupported_api_version.dart';
 import 'package:paperless_mobile/features/login/model/client_certificate.dart';
-import 'package:paperless_mobile/features/login/oidc/model/oidc_provider.dart';
 import 'package:paperless_mobile/features/login/oidc/view/oidc_login_button.dart';
 import 'package:paperless_mobile/features/login/server_connection/model/header_entry.dart';
 import 'package:paperless_mobile/features/login/view/widgets/form_fields/authentication_credentials_form_field.dart';
@@ -22,7 +22,7 @@ class AuthenticateUserPage extends StatefulWidget {
   final ClientCertificate? clientCertificate;
   final List<HeaderEntry>? additionalHeaders;
   final AuthenticationCredentials? initialCredentials;
-  final List<OidcProvider> oidcProviders;
+  final OidcCapability oidcCapability;
 
   const AuthenticateUserPage({
     super.key,
@@ -30,7 +30,7 @@ class AuthenticateUserPage extends StatefulWidget {
     this.initialCredentials,
     this.clientCertificate,
     this.additionalHeaders,
-    this.oidcProviders = const [],
+    this.oidcCapability = const OidcCapability(flow: OidcFlow.none),
   });
   @override
   State<AuthenticateUserPage> createState() => _AuthenticateUserPageState();
@@ -114,7 +114,8 @@ class _AuthenticateUserPageState extends State<AuthenticateUserPage> {
                     // against a live server, so SSO-only mode is out of scope.
                     OidcLoginButton(
                       serverUrl: widget.serverUrl,
-                      providers: widget.oidcProviders,
+                      providers: widget.oidcCapability.providers,
+                      flow: widget.oidcCapability.flow,
                       clientCertificate: widget.clientCertificate,
                       additionalHeaders: widget.additionalHeaders,
                     ),
