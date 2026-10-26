@@ -64,8 +64,11 @@ class _DocumentShareLinksSheetState extends State<DocumentShareLinksSheet> {
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
               ),
-            Flexible(
-              child: QueryBuilder(
+            // No Flexible here: the Column sizes to its content and the
+            // populated list is internally capped (see ConstrainedBox
+            // below), so the empty state stays compact instead of
+            // stretching to the max sheet height.
+            QueryBuilder(
                 query: context.documentRepository.getShareLinksQuery(
                   widget.documentId,
                 ),
@@ -74,7 +77,11 @@ class _DocumentShareLinksSheetState extends State<DocumentShareLinksSheet> {
                     return const Center(
                       child: Padding(
                         padding: EdgeInsets.all(24),
-                        child: CircularProgressIndicator(),
+                        child: SizedBox(
+                          width: 32,
+                          height: 32,
+                          child: CircularProgressIndicator(),
+                        ),
                       ),
                     );
                   }
@@ -88,17 +95,19 @@ class _DocumentShareLinksSheetState extends State<DocumentShareLinksSheet> {
                   }
                   final links = state.data?.toList() ?? [];
                   if (links.isEmpty) {
-                    return Center(
+                    return const Center(
                       child: Padding(
-                        padding: const EdgeInsets.all(24),
+                        padding: EdgeInsets.all(24),
                         child: Text('No share links yet.'),
                       ),
                     );
                   }
-                  return ListView.separated(
-                    shrinkWrap: true,
-                    itemCount: links.length,
-                    separatorBuilder: (_, _) => const Divider(height: 1),
+                  return ConstrainedBox(
+                    constraints: const BoxConstraints(maxHeight: 320),
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      itemCount: links.length,
+                      separatorBuilder: (_, _) => const Divider(height: 1),
                     itemBuilder: (context, index) {
                       final link = links[index];
                       final url = buildPublicShareUrl(serverUrl, link.slug);
@@ -179,10 +188,10 @@ class _DocumentShareLinksSheetState extends State<DocumentShareLinksSheet> {
                         ),
                       );
                     },
+                    ),
                   );
                 },
               ),
-            ),
             const Divider(height: 1),
             Padding(
               padding: const EdgeInsets.all(16),
