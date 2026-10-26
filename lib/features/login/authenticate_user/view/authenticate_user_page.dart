@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
+import 'package:paperless_mobile/api/modules/oidc_api.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/widgets/app_logs_footer_widget.dart';
+import 'package:paperless_mobile/core/widgets/or_divider.dart';
 import 'package:paperless_mobile/features/login/authenticate_user/cubit/authenticate_user_cubit.dart';
 import 'package:paperless_mobile/features/login/authenticate_user/model/authentication_credentials.dart';
 import 'package:paperless_mobile/features/login/helper/guard_unsupported_api_version.dart';
 import 'package:paperless_mobile/features/login/model/client_certificate.dart';
+import 'package:paperless_mobile/features/login/oidc/view/oidc_login_button.dart';
 import 'package:paperless_mobile/features/login/server_connection/model/header_entry.dart';
 import 'package:paperless_mobile/features/login/view/widgets/form_fields/authentication_credentials_form_field.dart';
 import 'package:paperless_mobile/generated/assets.gen.dart';
@@ -20,6 +23,7 @@ class AuthenticateUserPage extends StatefulWidget {
   final ClientCertificate? clientCertificate;
   final List<HeaderEntry>? additionalHeaders;
   final AuthenticationCredentials? initialCredentials;
+  final OidcCapability oidcCapability;
 
   const AuthenticateUserPage({
     super.key,
@@ -27,6 +31,7 @@ class AuthenticateUserPage extends StatefulWidget {
     this.initialCredentials,
     this.clientCertificate,
     this.additionalHeaders,
+    this.oidcCapability = const OidcCapability(flow: OidcFlow.none),
   });
   @override
   State<AuthenticateUserPage> createState() => _AuthenticateUserPageState();
@@ -105,6 +110,18 @@ class _AuthenticateUserPageState extends State<AuthenticateUserPage> {
               Expanded(
                 child: Column(
                   children: [
+                    // v1: show both SSO and password login when providers are
+                    // present. No regularLoginDisabled signal was confirmed
+                    // against a live server, so SSO-only mode is out of scope.
+                    OidcLoginButton(
+                      serverUrl: widget.serverUrl,
+                      providers: widget.oidcCapability.providers,
+                      flow: widget.oidcCapability.flow,
+                      clientCertificate: widget.clientCertificate,
+                      additionalHeaders: widget.additionalHeaders,
+                    ),
+                    if (widget.oidcCapability.flow != OidcFlow.none)
+                      const OrDivider().padded(),
                     AuthenticationCredentialsFormField(
                       formKey: _formKey,
                       onSubmitted: _onSubmit,

@@ -303,6 +303,13 @@
 
             <!-- END Snippet from https://github.com/qcasey/paperless_share -->
 
+            <!-- OIDC custom-scheme callback: paperlessmobile://oidc-callback -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="paperlessmobile" android:host="oidc-callback" />
+            </intent-filter>
 
         </activity>
         <!-- Don't delete the meta-data below.

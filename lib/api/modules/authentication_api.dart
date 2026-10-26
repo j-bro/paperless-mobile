@@ -10,7 +10,6 @@ abstract class PaperlessAuthenticationApi {
     PaperlessAuthTokenRequest request,
   );
   Future<ResponseValueWithApiVersion<bool>> validateToken(String token);
-  String getOAuthCallback();
 }
 
 class PaperlessAuthenticationApiImpl implements PaperlessAuthenticationApi {
@@ -57,11 +56,6 @@ class PaperlessAuthenticationApiImpl implements PaperlessAuthenticationApi {
         stackTrace: stackTrace,
       );
     }
-  }
-
-  @override
-  String getOAuthCallback() {
-    return "${client.options.baseUrl}/oauth/callback/";
   }
 
   @override

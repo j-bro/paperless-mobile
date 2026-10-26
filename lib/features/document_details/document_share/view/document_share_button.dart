@@ -15,7 +15,6 @@ import 'package:paperless_mobile/features/document_details/view/dialogs/select_f
 import 'package:paperless_mobile/features/document_details/document_share/cubit/document_share_cubit.dart';
 import 'package:paperless_mobile/features/document_details/document_share/view/document_link_actions.dart';
 import 'package:paperless_mobile/features/document_details/document_share/view/document_share_options_sheet.dart';
-import 'package:paperless_mobile/features/document_details/document_share_links/view/document_share_links_sheet.dart';
 import 'package:paperless_mobile/features/settings/model/file_download_type.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/helpers/message_helpers.dart';
@@ -35,8 +34,7 @@ class _DocumentShareButtonState extends State<DocumentShareButton> {
   Widget build(BuildContext context) {
     // NOTE: intentionally NOT wrapped in ConnectivityAwareActionWrapper.
     // Copy-details / copy-preview are pure string builds and must work
-    // offline. Network-only options (share file, public share links) are
-    // gated inside _onShare with an offline snackbar.
+    // offline. The share-file path is gated inside _onShare instead.
     return BlocConsumer<DocumentShareCubit, DocumentShareState>(
       listener: (context, state) {
         if (state is DocumentShareError) {
@@ -103,21 +101,8 @@ class _DocumentShareButtonState extends State<DocumentShareButton> {
       return;
     }
     if (option == ShareOption.publicShare) {
-      if (!mounted) return;
-      final isConnected = await context
-          .read<ConnectivityStatusService>()
-          .isConnectedToInternet();
-      if (!isConnected) {
-        if (mounted) {
-          showSnackBar(context, S.of(context)!.youAreCurrentlyOffline);
-        }
-        return;
-      }
-      await showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        builder: (_) => DocumentShareLinksSheet(documentId: documentId),
-      );
+      // Task 4 placeholder: show snackbar until manager lands
+      if (mounted) showSnackBar(context, 'Public share coming in PR2');
       return;
     }
     // shareFile requires network (downloads + platform share).
