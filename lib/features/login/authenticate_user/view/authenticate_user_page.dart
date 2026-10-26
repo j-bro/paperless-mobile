@@ -8,6 +8,8 @@ import 'package:paperless_mobile/features/login/authenticate_user/cubit/authenti
 import 'package:paperless_mobile/features/login/authenticate_user/model/authentication_credentials.dart';
 import 'package:paperless_mobile/features/login/helper/guard_unsupported_api_version.dart';
 import 'package:paperless_mobile/features/login/model/client_certificate.dart';
+import 'package:paperless_mobile/features/login/oidc/model/oidc_provider.dart';
+import 'package:paperless_mobile/features/login/oidc/view/oidc_login_button.dart';
 import 'package:paperless_mobile/features/login/server_connection/model/header_entry.dart';
 import 'package:paperless_mobile/features/login/view/widgets/form_fields/authentication_credentials_form_field.dart';
 import 'package:paperless_mobile/generated/assets.gen.dart';
@@ -20,6 +22,7 @@ class AuthenticateUserPage extends StatefulWidget {
   final ClientCertificate? clientCertificate;
   final List<HeaderEntry>? additionalHeaders;
   final AuthenticationCredentials? initialCredentials;
+  final List<OidcProvider> oidcProviders;
 
   const AuthenticateUserPage({
     super.key,
@@ -27,6 +30,7 @@ class AuthenticateUserPage extends StatefulWidget {
     this.initialCredentials,
     this.clientCertificate,
     this.additionalHeaders,
+    this.oidcProviders = const [],
   });
   @override
   State<AuthenticateUserPage> createState() => _AuthenticateUserPageState();
@@ -105,6 +109,15 @@ class _AuthenticateUserPageState extends State<AuthenticateUserPage> {
               Expanded(
                 child: Column(
                   children: [
+                    // v1: show both SSO and password login when providers are
+                    // present. No regularLoginDisabled signal was confirmed
+                    // against a live server, so SSO-only mode is out of scope.
+                    OidcLoginButton(
+                      serverUrl: widget.serverUrl,
+                      providers: widget.oidcProviders,
+                      clientCertificate: widget.clientCertificate,
+                      additionalHeaders: widget.additionalHeaders,
+                    ),
                     AuthenticationCredentialsFormField(
                       formKey: _formKey,
                       onSubmitted: _onSubmit,

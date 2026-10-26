@@ -17,10 +17,12 @@ class ServerConnectionSuccess extends ServerConnectionState {
   final String serverUrl;
   final ClientCertificate? clientCertificate;
   final List<HeaderEntry>? additionalHeaders;
+  final List<OidcProvider> oidcProviders;
   const ServerConnectionSuccess({
     required this.serverUrl,
     this.clientCertificate,
     this.additionalHeaders,
+    this.oidcProviders = const [],
   });
 }
 

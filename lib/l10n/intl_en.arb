@@ -1202,5 +1202,17 @@
   "youHaveNoViewsOnYourDashboardYet": "You have not added any views to your dashboard yet.",
   "@youHaveNoViewsOnYourDashboardYet": {},
   "youreOffline": "You're offline.",
-  "@youreOffline": {}
+  "@youreOffline": {},
+  "continueWithSso": "Continue with SSO",
+  "@continueWithSso": {
+    "description": "OIDC login button"
+  },
+  "ssoAccountNotLinked": "Account is not linked. Log in via web UI once to link your SSO identity, then retry.",
+  "@ssoAccountNotLinked": {
+    "description": "Shown when the SSO identity is not linked to a Paperless account"
+  },
+  "ssoSecretRequiredFallback": "If your IdP requires a client secret, use an API key instead.",
+  "@ssoSecretRequiredFallback": {
+    "description": "Fallback hint when the IdP requires a client secret"
+  }
 }

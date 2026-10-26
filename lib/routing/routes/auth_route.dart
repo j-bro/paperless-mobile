@@ -9,6 +9,7 @@ import 'package:paperless_mobile/features/login/authenticate_user/model/authenti
 import 'package:paperless_mobile/features/login/authenticate_user/view/authenticate_user_page.dart';
 import 'package:paperless_mobile/features/login/authenticate_user/view/otp_input_page.dart';
 import 'package:paperless_mobile/features/login/model/client_certificate.dart';
+import 'package:paperless_mobile/features/login/oidc/model/oidc_provider.dart';
 import 'package:paperless_mobile/features/login/server_connection/cubit/server_connection_cubit.dart';
 import 'package:paperless_mobile/features/login/server_connection/model/header_entry.dart';
 import 'package:paperless_mobile/features/login/server_connection/view/server_connection_page.dart';
@@ -70,11 +71,13 @@ class AuthRouteExtra {
   final AuthenticationCredentials? credentials;
   final ClientCertificate? clientCertificate;
   final List<HeaderEntry>? additionalHeaders;
+  final List<OidcProvider> oidcProviders;
 
   const AuthRouteExtra({
     this.clientCertificate,
     this.additionalHeaders,
     this.credentials,
+    this.oidcProviders = const [],
   });
 }
 
@@ -119,6 +122,7 @@ class AuthenticateRoute extends GoRouteData with $AuthenticateRoute {
           initialCredentials: $extra?.credentials,
           clientCertificate: $extra?.clientCertificate,
           additionalHeaders: $extra?.additionalHeaders,
+          oidcProviders: $extra?.oidcProviders ?? const [],
         ),
       ),
     );
