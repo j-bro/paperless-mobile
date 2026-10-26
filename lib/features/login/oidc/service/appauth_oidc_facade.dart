@@ -24,12 +24,41 @@ class AppAuthOidcFacade implements OidcAuthFacade {
           scopes: const ['openid', 'profile', 'email'],
         ),
       );
-    } on PlatformException {
-      // User cancelled the browser flow (flutter_appauth v7 throws instead of
-      // returning null). Surface as null per the OidcAuthFacade contract.
+    } on FlutterAppAuthUserCancelledException {
+      // Canonical v7 user-cancel signal (user closed the system browser).
+      // Surface as null per the OidcAuthFacade contract.
       return null;
+    } on PlatformException catch (e) {
+      // Fallback for raw channel errors that never got mapped to the typed
+      // exception above: only treat genuine cancel codes/messages as cancel.
+      if (_isUserCancel(e)) return null;
+      rethrow;
     }
     if (result.idToken == null) throw StateError('IdP did not return an id_token.');
     return OidcBrowserResult(idToken: result.idToken!, accessToken: result.accessToken);
   }
+}
+
+/// True only for genuine user-cancel signals on the raw [PlatformException]
+/// path. The typed [FlutterAppAuthUserCancelledException] is handled first;
+/// this covers legacy/unmapped channel errors (e.g. `user_cancel`,
+/// `USER_CANCELED_AUTH_FLOW`, `cancelled`/`canceled` variants).
+bool _isUserCancel(PlatformException e) {
+  final code = e.code.toLowerCase();
+  const cancelCodeFragments = [
+    'user_cancel',
+    'user-cancel',
+    'user_canceled',
+    'user_cancelled',
+    'cancelled',
+    'canceled',
+  ];
+  if (cancelCodeFragments.any(code.contains)) return true;
+  final message = (e.message ?? '').toLowerCase();
+  if (message.contains('user cancel') ||
+      message.contains('user cancelled') ||
+      message.contains('user canceled')) {
+    return true;
+  }
+  return false;
 }
