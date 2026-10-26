@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/store/local_store.dart';
+import 'package:paperless_mobile/core/widgets/or_divider.dart';
 import 'package:paperless_mobile/features/login/authenticate_user/model/authentication_credentials.dart';
 import 'package:paperless_mobile/features/login/view/widgets/form_fields/obscured_input_text_form_field.dart';
 import 'package:paperless_mobile/features/login/view/widgets/form_fields/server_address_form_field.dart';
@@ -153,13 +154,7 @@ class _AuthenticationCredentialsFormFieldState
               ],
             ),
           ),
-          Row(
-            children: [
-              Flexible(child: Divider(indent: 24, endIndent: 16, height: 24)),
-              Text('OR'),
-              Flexible(child: Divider(indent: 16, endIndent: 24, height: 24)),
-            ],
-          ),
+          const OrDivider(),
           ObscuredInputTextFormField(
             key: const ValueKey('login-api-key'),
             enabled: !_credentialsActive,

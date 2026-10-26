@@ -29,10 +29,25 @@ class OidcCapability {
 }
 
 final _oidcLoginAction = RegExp(r'/accounts/oidc/([A-Za-z0-9_-]+)/login/');
+final _oidcButtonText = RegExp(r'<button[^>]*>([^<]*)</button>', caseSensitive: false);
+final _oidcFormBoundary = RegExp(r'<form|</li>', caseSensitive: false);
 
 List<OidcProvider> parseLoginPageProviders(String html) {
-  final ids = _oidcLoginAction.allMatches(html).map((m) => m.group(1)!).toSet();
-  return ids.map((id) => OidcProvider(id: id, name: id[0].toUpperCase() + id.substring(1))).toList();
+  final seen = <String>{};
+  final out = <OidcProvider>[];
+  for (final m in _oidcLoginAction.allMatches(html)) {
+    final id = m.group(1)!;
+    if (!seen.add(id)) continue;
+    // Constrain button search to this form: stop before next <form or </li>.
+    final rest = html.substring(m.end);
+    final boundary = _oidcFormBoundary.firstMatch(rest);
+    final segment = boundary == null ? rest : rest.substring(0, boundary.start);
+    final button = _oidcButtonText.firstMatch(segment);
+    final text = button?.group(1)?.trim() ?? '';
+    final name = text.isNotEmpty ? text : id[0].toUpperCase() + id.substring(1);
+    out.add(OidcProvider(id: id, name: name));
+  }
+  return out;
 }
 
 class OidcApi {

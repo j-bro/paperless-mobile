@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:paperless_mobile/api/modules/oidc_api.dart';
 import 'package:paperless_mobile/core/extensions/flutter_extensions.dart';
 import 'package:paperless_mobile/core/widgets/app_logs_footer_widget.dart';
+import 'package:paperless_mobile/core/widgets/or_divider.dart';
 import 'package:paperless_mobile/features/login/authenticate_user/cubit/authenticate_user_cubit.dart';
 import 'package:paperless_mobile/features/login/authenticate_user/model/authentication_credentials.dart';
 import 'package:paperless_mobile/features/login/helper/guard_unsupported_api_version.dart';
@@ -119,6 +120,8 @@ class _AuthenticateUserPageState extends State<AuthenticateUserPage> {
                       clientCertificate: widget.clientCertificate,
                       additionalHeaders: widget.additionalHeaders,
                     ),
+                    if (widget.oidcCapability.flow != OidcFlow.none)
+                      const OrDivider().padded(),
                     AuthenticationCredentialsFormField(
                       formKey: _formKey,
                       onSubmitted: _onSubmit,

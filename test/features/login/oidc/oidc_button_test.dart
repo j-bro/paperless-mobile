@@ -24,7 +24,7 @@ void main() {
       serverUrl: 'https://x.example.com',
       providers: [OidcProvider(id: 'p', name: 'Authentik')],
     )));
-    expect(find.textContaining('SSO'), findsOneWidget);
+    expect(find.text('Continue with Authentik'), findsOneWidget);
   });
 
   testWidgets('shows fallback hint for secret-required IdP error', (t) async {
@@ -33,7 +33,7 @@ void main() {
       providers: [],
       forceVisibleForTest: true,
     )));
-    expect(find.textContaining('SSO'), findsOneWidget);
+    expect(find.text('Continue with SSO'), findsOneWidget);
   });
 
   testWidgets('hides button when flow is none', (t) async {
@@ -42,7 +42,7 @@ void main() {
       providers: [OidcProvider(id: 'p', name: 'Authentik')],
       flow: OidcFlow.none,
     )));
-    expect(find.textContaining('SSO'), findsNothing);
+    expect(find.text('Continue with Authentik'), findsNothing);
   });
 
   testWidgets('shows SSO button for webFallback flow', (t) async {
@@ -51,7 +51,7 @@ void main() {
       providers: [OidcProvider(id: 'p', name: 'Authentik')],
       flow: OidcFlow.webFallback,
     )));
-    expect(find.textContaining('SSO'), findsOneWidget);
+    expect(find.text('Continue with Authentik'), findsOneWidget);
   });
 
   testWidgets('webFallback tap routes to the web SSO page', (t) async {
@@ -65,7 +65,7 @@ void main() {
         return null; // user cancelled
       },
     )));
-    await t.tap(find.textContaining('SSO'));
+    await t.tap(find.text('Continue with Authentik'));
     await t.pumpAndSettle();
     expect(opened, isTrue);
   });
@@ -81,7 +81,7 @@ void main() {
         return null;
       },
     )));
-    await t.tap(find.textContaining('SSO'));
+    await t.tap(find.text('Continue with Authentik'));
     await t.pump();
     expect(opened, isFalse);
   });

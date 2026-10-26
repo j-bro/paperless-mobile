@@ -47,4 +47,16 @@ void main() {
     final cap = await api.detectCapabilities('https://down.example.com');
     expect(cap.flow, OidcFlow.none);
   });
+
+  test('uses web button text as provider name', () {
+    const html = '<form method="POST" action="/accounts/oidc/authentik/login/?process=">'
+        '<button type="submit" class="btn btn-secondary">b-b.one</button></form>';
+    final ps = parseLoginPageProviders(html);
+    expect(ps.single.id, 'authentik');
+    expect(ps.single.name, 'b-b.one');
+  });
+  test('falls back to capitalized id without button text', () {
+    const html = '<form action="/accounts/oidc/foo/login/">x</form>';
+    expect(parseLoginPageProviders(html).single.name, 'Foo');
+  });
 }

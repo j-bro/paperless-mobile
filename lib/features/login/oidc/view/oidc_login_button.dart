@@ -129,7 +129,11 @@ class OidcLoginButton extends StatelessWidget {
                         child: CircularProgressIndicator(strokeWidth: 2),
                       )
                     : const Icon(Icons.key),
-                label: Text(S.of(context)!.continueWithSso),
+                label: Text(
+                  S.of(context)!.continueWithSso(
+                    providers.isNotEmpty ? providers.first.name : 'SSO',
+                  ),
+                ),
               ),
               if (state is OidcOtpRequired)
                 Padding(
