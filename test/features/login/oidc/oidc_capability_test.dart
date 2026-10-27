@@ -35,7 +35,7 @@ void main() {
     final api = OidcApi(_stub([
       (path: '/api/auth/headless/app/v1/config', status: 200,
           data: {'status': 200, 'data': {'socialaccount': {'providers': [
-            {'id': 'authentik', 'name': 'example.com', 'client_id': 'c1', 'openid_configuration_url': 'https://id.example/.well-known/openid-configuration'}
+            {'id': 'authentik', 'name': 'Example SSO', 'client_id': 'c1', 'openid_configuration_url': 'https://id.example/.well-known/openid-configuration'}
           ]}}},
           contentType: 'application/json'),
       (path: '/accounts/login/', status: 200, data: _loginHtml, contentType: 'text/html'),
@@ -66,10 +66,10 @@ void main() {
 
   test('uses web button text as provider name', () {
     const html = '<form method="POST" action="/accounts/oidc/authentik/login/?process=">'
-        '<button type="submit" class="btn btn-secondary">example.com</button></form>';
+        '<button type="submit" class="btn btn-secondary">Example SSO</button></form>';
     final ps = parseLoginPageProviders(html);
     expect(ps.single.id, 'authentik');
-    expect(ps.single.name, 'example.com');
+    expect(ps.single.name, 'Example SSO');
   });
   test('falls back to capitalized id without button text', () {
     const html = '<form action="/accounts/oidc/foo/login/">x</form>';
