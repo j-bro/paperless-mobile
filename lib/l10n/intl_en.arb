@@ -1206,7 +1206,7 @@
   "continueWithSso": "Continue with {provider}",
   "@continueWithSso": {
     "description": "OIDC login button with provider name",
-    "placeholders": {"provider": {"type": "String", "example": "b-b.one"}}
+    "placeholders": {"provider": {"type": "String", "example": "Example SSO"}}
   },
   "ssoAccountNotLinked": "Account is not linked. Log in via web UI once to link your SSO identity, then retry.",
   "@ssoAccountNotLinked": {
