@@ -109,6 +109,7 @@ class _DocumentShareButtonState extends State<DocumentShareButton> {
     final isConnected = await context
         .read<ConnectivityStatusService>()
         .isConnectedToInternet();
+    if (!mounted) return;
     if (!isConnected) {
       if (mounted) {
         showSnackBar(context, S.of(context)!.youAreCurrentlyOffline);

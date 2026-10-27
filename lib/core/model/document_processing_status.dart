@@ -1,5 +1,9 @@
 enum ProcessingStatus { starting, working, success, error }
 
+// Server-serialized task messages are snake_case and parsed via
+// `ProcessingMessage.values.byName`, so the enum values intentionally
+// keep their wire-format names.
+// ignore: constant_identifier_names
 enum ProcessingMessage {
   new_file,
   parsing_document,

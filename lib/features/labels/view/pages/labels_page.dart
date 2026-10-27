@@ -230,6 +230,7 @@ class _LabelsPageState extends State<LabelsPage> with TickerProviderStateMixin {
                           context.customFieldRepository.getAllQuery().refetch,
                       ][_currentIndex].call();
                     } catch (error, stackTrace) {
+                      if (!mounted) return;
                       logger.fe(
                         "An error ocurred while reloading "
                         "${[if (context.uiSettings$.canViewCorrespondents) "correspondents", if (context.uiSettings$.canViewDocumentTypes) "document types", if (context.uiSettings$.canViewTags) "tags", if (context.uiSettings$.canViewStoragePaths) "storage paths", if (context.uiSettings$.canViewCustomFields) "custom fields"][_currentIndex]}.",

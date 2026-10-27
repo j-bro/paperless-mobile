@@ -57,6 +57,7 @@ class _EventListenerShellState extends State<EventListenerShell> {
       final userId = context.loggedInUser.appUserId;
       final notifier = context.read<ConsumptionChangeNotifier>();
       await notifier.isInitialized;
+      if (!mounted) return;
       final pendingFiles = notifier.pendingFiles;
       if (pendingFiles.isEmpty) {
         return;
@@ -164,6 +165,7 @@ Future<void> consumeLocalFile(
     }
     return;
   }
+  if (!context.mounted) return;
 
   final bytes = file.readAsBytes();
   // if () {
