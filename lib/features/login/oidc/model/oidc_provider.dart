@@ -9,7 +9,11 @@ class OidcProvider {
     return OidcProvider(
       id: json['id'] as String? ?? json['provider_id'] as String? ?? '',
       name: json['name'] as String? ?? json['provider'] as String? ?? '',
-      discoveryUrl: json['discovery_url'] as String? ?? json['server_url'] as String?,
+      discoveryUrl:
+          json['discovery_url'] as String? ??
+          // allauth headless config names it openid_configuration_url.
+          json['openid_configuration_url'] as String? ??
+          json['server_url'] as String?,
       clientId: json['client_id'] as String?,
     );
   }

@@ -46,11 +46,19 @@ class ParsedErrorLogMessage {
     int currentLine =
         1; // Skip first because we know that the first line is ---BEGIN ERROR---
 
-    while (!_errorEndPattern.hasMatch(log[currentLine])) {
+    // Bounded: the log file can end mid-block (partial flush, app killed
+    // mid-write). A viewer must degrade to unformatted text, never throw
+    // RangeError out of a fire-and-forget file watcher.
+    while (currentLine < log.length &&
+        !_errorEndPattern.hasMatch(log[currentLine])) {
       errorText += log[currentLine] + _newLine;
       currentLine++;
     }
-    currentLine++;
+    if (currentLine >= log.length) {
+      // Truncated block: no ---END ERROR---. Keep what we have.
+      return (log.length, ParsedErrorLogMessage(error: errorText));
+    }
+    currentLine++; // Skip ---END ERROR---
     if (log.length == currentLine) {
       return (currentLine, ParsedErrorLogMessage(error: errorText));
     }
@@ -60,14 +68,18 @@ class ParsedErrorLogMessage {
       currentLine++;
       String stackTraceText = '';
 
-      while (!_stackTraceEndPattern.hasMatch(log[currentLine])) {
+      while (currentLine < log.length &&
+          !_stackTraceEndPattern.hasMatch(log[currentLine])) {
         stackTraceText += log[currentLine] + _newLine;
         currentLine++;
       }
       stackTrace = stackTraceText;
+      if (currentLine < log.length) {
+        currentLine++; // Skip ---END STACKTRACE---
+      }
     }
     return (
-      currentLine + 1,
+      currentLine,
       ParsedErrorLogMessage(error: errorText, stackTrace: stackTrace)
     );
   }

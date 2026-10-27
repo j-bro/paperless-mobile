@@ -10,8 +10,11 @@ abstract class SavedView with _$SavedView {
   factory SavedView({
     required int id,
     required String name,
-    required bool showOnDashboard,
-    required bool showInSidebar,
+    // paperless-ngx v3+ returns null (or omits) these flags for views
+    // that don't override dashboard/sidebar visibility. Default to false
+    // so parsing never throws `Null is not a subtype of bool`.
+    @Default(false) bool showOnDashboard,
+    @Default(false) bool showInSidebar,
     String? sortField,
     bool? sortReverse,
     required List<SavedViewFilterRule> filterRules,

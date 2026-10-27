@@ -31,6 +31,22 @@ void main() {
     expect(cap.providers.first.clientId, 'c1');
   });
 
+  test('paperless v3 headless mount with client data -> direct', () async {
+    final api = OidcApi(_stub([
+      (path: '/api/auth/headless/app/v1/config', status: 200,
+          data: {'status': 200, 'data': {'socialaccount': {'providers': [
+            {'id': 'authentik', 'name': 'b-b.one', 'client_id': 'c1', 'openid_configuration_url': 'https://id.example/.well-known/openid-configuration'}
+          ]}}},
+          contentType: 'application/json'),
+      (path: '/accounts/login/', status: 200, data: _loginHtml, contentType: 'text/html'),
+    ]));
+    final cap = await api.detectCapabilities('https://x.example.com');
+    expect(cap.flow, OidcFlow.direct);
+    expect(cap.providers.single.id, 'authentik');
+    expect(cap.providers.single.clientId, 'c1');
+    expect(cap.providers.single.discoveryUrl, contains('openid-configuration'));
+  });
+
   test('login page lists providers but no headless -> webFallback', () async {
     final api = OidcApi(_stub([
       (path: '/_allauth/app/v1/config', status: 302, data: '<html></html>', contentType: 'text/html'),
