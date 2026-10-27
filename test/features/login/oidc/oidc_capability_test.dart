@@ -31,6 +31,22 @@ void main() {
     expect(cap.providers.first.clientId, 'c1');
   });
 
+  test('paperless v3 headless mount with client data -> direct', () async {
+    final api = OidcApi(_stub([
+      (path: '/api/auth/headless/app/v1/config', status: 200,
+          data: {'status': 200, 'data': {'socialaccount': {'providers': [
+            {'id': 'authentik', 'name': 'Example SSO', 'client_id': 'c1', 'openid_configuration_url': 'https://id.example/.well-known/openid-configuration'}
+          ]}}},
+          contentType: 'application/json'),
+      (path: '/accounts/login/', status: 200, data: _loginHtml, contentType: 'text/html'),
+    ]));
+    final cap = await api.detectCapabilities('https://x.example.com');
+    expect(cap.flow, OidcFlow.direct);
+    expect(cap.providers.single.id, 'authentik');
+    expect(cap.providers.single.clientId, 'c1');
+    expect(cap.providers.single.discoveryUrl, contains('openid-configuration'));
+  });
+
   test('login page lists providers but no headless -> webFallback', () async {
     final api = OidcApi(_stub([
       (path: '/_allauth/app/v1/config', status: 302, data: '<html></html>', contentType: 'text/html'),
@@ -50,10 +66,10 @@ void main() {
 
   test('uses web button text as provider name', () {
     const html = '<form method="POST" action="/accounts/oidc/authentik/login/?process=">'
-        '<button type="submit" class="btn btn-secondary">example.com</button></form>';
+        '<button type="submit" class="btn btn-secondary">Example SSO</button></form>';
     final ps = parseLoginPageProviders(html);
     expect(ps.single.id, 'authentik');
-    expect(ps.single.name, 'example.com');
+    expect(ps.single.name, 'Example SSO');
   });
   test('falls back to capitalized id without button text', () {
     const html = '<form action="/accounts/oidc/foo/login/">x</form>';

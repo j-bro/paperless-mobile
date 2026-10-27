@@ -32,6 +32,19 @@ final _oidcLoginAction = RegExp(r'/accounts/oidc/([A-Za-z0-9_-]+)/login/');
 final _oidcButtonText = RegExp(r'<button[^>]*>([^<]*)</button>', caseSensitive: false);
 final _oidcFormBoundary = RegExp(r'<form|</li>', caseSensitive: false);
 
+/// Mounts probed (in order) for the allauth headless `app/v1/config`
+/// document. paperless-ngx v3 serves it at `/api/auth/headless/`; a
+/// standalone allauth install defaults to `/_allauth/`.
+const _headlessConfigPaths = [
+  '/api/auth/headless/app/v1/config',
+  '/_allauth/app/v1/config',
+];
+
+/// POST mounts probed (in order) for the headless token/MFA exchange.
+/// Same two mounts as [_headlessConfigPaths], with the exchange sub-path.
+List<String> _headlessPostPaths(String subPath) =>
+    [for (final base in ['/api/auth/headless', '/_allauth']) '$base$subPath'];
+
 List<OidcProvider> parseLoginPageProviders(String html) {
   final seen = <String>{};
   final out = <OidcProvider>[];
@@ -98,14 +111,19 @@ class OidcApi {
   }
 
   Future<bool> _headlessAvailable(String serverUrl) async {
-    try {
-      final res = await _dio.get('$serverUrl/_allauth/app/v1/config',
-          options: Options(headers: {'Accept': 'application/json'}, validateStatus: (s) => s != null && s < 500));
-      final ct = res.headers.value('content-type') ?? '';
-      return ct.contains('application/json') && res.data is Map;
-    } catch (_) {
-      return false;
+    // paperless-ngx v3 mounts allauth headless at /api/auth/headless/
+    // (see paperless urls.py); generic allauth installs use /_allauth/.
+    for (final path in _headlessConfigPaths) {
+      try {
+        final res = await _dio.get('$serverUrl$path',
+            options: Options(headers: {'Accept': 'application/json'}, validateStatus: (s) => s != null && s < 500));
+        final ct = res.headers.value('content-type') ?? '';
+        if (ct.contains('application/json') && res.data is Map) return true;
+      } catch (_) {
+        continue;
+      }
     }
+    return false;
   }
 
   Future<List<OidcProvider>> _fetchLoginPageProviders(String serverUrl) async {
@@ -121,11 +139,53 @@ class OidcApi {
     }
   }
 
+  /// Public client data published by the allauth headless config document
+  /// (`data.socialaccount.providers[]` with `client_id` +
+  /// `openid_configuration_url`). This is the direct-flow signal on
+  /// paperless-ngx v3, whose own `/api/profile/social_account_providers/`
+  /// is auth-gated and carries no client data.
+  Future<List<OidcProvider>> _fetchHeadlessProviders(String serverUrl) async {
+    for (final path in _headlessConfigPaths) {
+      try {
+        final res = await _dio.get(
+          '$serverUrl$path',
+          options: Options(
+            headers: {'Accept': 'application/json'},
+            validateStatus: (s) => s != null && s < 500,
+          ),
+        );
+        final data = res.data;
+        final inner = data is Map ? data['data'] : null;
+        final social = inner is Map ? inner['socialaccount'] : null;
+        final list = social is Map ? social['providers'] : null;
+        if (list is List && list.isNotEmpty) {
+          final providers = list
+              .whereType<Map>()
+              .map((e) => OidcProvider.fromJson(Map<String, dynamic>.from(e)))
+              .toList();
+          if (providers.isNotEmpty) return providers;
+        }
+      } catch (_) {
+        // Best-effort probing: any failure means "try the next mount".
+        continue;
+      }
+    }
+    return [];
+  }
+
+  static bool _hasClientData(OidcProvider p) =>
+      (p.clientId?.isNotEmpty ?? false) &&
+      (p.discoveryUrl?.isNotEmpty ?? false);
+
   Future<OidcCapability> detectCapabilities(String serverUrl) async {
     try {
       final headless = await _headlessAvailable(serverUrl);
+      final headlessProviders = await _fetchHeadlessProviders(serverUrl);
+      if (headless && headlessProviders.any(_hasClientData)) {
+        return OidcCapability(flow: OidcFlow.direct, providers: headlessProviders);
+      }
       final metaProviders = await _fetchProvidersAny(serverUrl);
-      if (headless && metaProviders.any((p) => (p.clientId?.isNotEmpty ?? false) && (p.discoveryUrl?.isNotEmpty ?? false))) {
+      if (headless && metaProviders.any(_hasClientData)) {
         return OidcCapability(flow: OidcFlow.direct, providers: metaProviders);
       }
       final pageProviders = await _fetchLoginPageProviders(serverUrl);
@@ -158,6 +218,30 @@ extension OidcHeadlessApi on OidcApi {
   Map<String, String> _headers(String? sessionToken) =>
       sessionToken == null ? {} : {'X-Session-Token': sessionToken};
 
+  /// POSTs to the paperless-ngx v3 headless mount first, falling back to
+  /// the generic allauth mount when the server answers 404. A 404 means
+  /// "wrong mount", any other status is a real answer from that mount.
+  Future<Response<dynamic>> _postHeadless(
+    String subPath, {
+    required Map<String, dynamic> data,
+    required Map<String, String> headers,
+  }) async {
+    Response<dynamic>? notFound;
+    for (final path in _headlessPostPaths(subPath)) {
+      final res = await _dio.post(
+        path,
+        data: data,
+        options: Options(
+          headers: headers,
+          validateStatus: (s) => s != null && s < 500,
+        ),
+      );
+      if (res.statusCode != 404) return res;
+      notFound = res;
+    }
+    return notFound!;
+  }
+
   OidcExchangeResult _parse(dynamic data) {
     final Map<dynamic, dynamic> root = data is Map ? data : const {};
     final meta = root['meta'] as Map? ?? {};
@@ -179,20 +263,20 @@ extension OidcHeadlessApi on OidcApi {
     String? accessToken,
     String? sessionToken,
   }) async {
-    final res = await _dio.post(
-      '/_allauth/app/v1/auth/provider/token',
+    final res = await _postHeadless(
+      '/app/v1/auth/provider/token',
       data: {'provider': providerId, 'token': {'id_token': idToken, if (accessToken != null) 'access_token': accessToken}},
-      options: Options(headers: _headers(sessionToken), validateStatus: (s) => s != null && s < 500),
+      headers: _headers(sessionToken),
     );
     if (res.statusCode == 410) throw OidcSessionExpired();
     return _parse(res.data);
   }
 
   Future<OidcExchangeResult> confirmMfa({required String code, required String sessionToken}) async {
-    final res = await _dio.post(
-      '/_allauth/app/v1/auth/mfa/authenticate',
+    final res = await _postHeadless(
+      '/app/v1/auth/mfa/authenticate',
       data: {'code': code},
-      options: Options(headers: _headers(sessionToken), validateStatus: (s) => s != null && s < 500),
+      headers: _headers(sessionToken),
     );
     if (res.statusCode == 410) throw OidcSessionExpired();
     return _parse(res.data);
