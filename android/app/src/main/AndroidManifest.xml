@@ -1,4 +1,5 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <uses-feature
         android:name="android.hardware.camera.any"
         android:required="false" />
@@ -303,14 +304,23 @@
 
             <!-- END Snippet from https://github.com/qcasey/paperless_share -->
 
-            <!-- OIDC custom-scheme callback: paperlessmobile://oidc-callback -->
+        </activity>
+        <!-- flutter_appauth redirect capture: the OIDC custom-scheme
+             callback (paperlessmobile://oidc-callback) MUST be delivered to
+             RedirectUriReceiverActivity, which completes the pending
+             authorization. Routing it to MainActivity instead cold-starts
+             the app and drops the auth result. tools:node="replace"
+             overrides the library's node="remove" placeholder entry. -->
+        <activity
+            android:name="net.openid.appauth.RedirectUriReceiverActivity"
+            android:exported="true"
+            tools:node="replace">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="paperlessmobile" android:host="oidc-callback" />
             </intent-filter>
-
         </activity>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
