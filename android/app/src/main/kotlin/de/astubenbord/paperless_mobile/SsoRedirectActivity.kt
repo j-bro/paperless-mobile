@@ -19,25 +19,21 @@ import org.json.JSONObject
  * pending state, finishes instantly — and Android falls back to the browser.
  * The user sees the app flash and vanish with no error and no way forward.
  *
- * This relay runs first instead: it always brings the visible app forward
- * AND forwards the redirect to the stock receiver, so the alive case keeps
- * working exactly as before while the dead case lands in [MainActivity],
- * where startup recovery ([resumeInterruptedSso], driven by the persisted
- * attempt flag) takes over.
+ * This relay runs first instead: it records the receipt (see below) and
+ * forwards the redirect to the stock receiver, then gets out of the way.
  *
- * Critical subtlety: [MainActivity] is relaunched ONLY on a true cold
- * start ([isTaskRoot]). When the task already exists, relaunching with
- * CLEAR_TOP would finish the still-working AuthorizationManagementActivity
- * above it, whose cancellation propagates as a null result and drops the
- * just-arrived response. The implicit VIEW intent foregrounds the existing
- * task by itself, so no explicit launch is needed there.
- *
- * Equally critical: this activity shares [MainActivity]'s empty
- * `taskAffinity`, so it joins the app task and [isTaskRoot] is meaningful.
- * With the default (package) affinity it would land alone in its own task,
- * be trivially root on every receipt, and murder Management on every
- * receipt. The forward to the stock receiver carries no NEW_TASK flag for
- * the same reason: same-task delivery disturbs nothing.
+ * Deliberately, it does NOTHING else — in particular it never launches or
+ * finishes any other activity. History of why, so nobody re-adds it: an
+ * earlier version relaunched MainActivity with CLEAR_TOP to make cold
+ * starts visible, but empty taskAffinity never joins empty taskAffinity,
+ * so the relay always sat alone, the "cold start" gate was always true,
+ * and every receipt murdered the still-working
+ * AuthorizationManagementActivity — surfacing as a null result ~130ms
+ * after every redirect. Foregrounding is left to the implicit VIEW intent
+ * (existing task comes forward by itself); cold starts fall back to the
+ * browser, and reopening the app runs the persisted-attempt recovery
+ * ([resumeInterruptedSso]). A relay that only observes and forwards cannot
+ * break the handoff by construction.
  *
  * Diagnostics: every receipt is recorded (logcat `SsoRedirect`, plus
  * `cacheDir/sso_redirect_observation.json` drained and logged by
@@ -54,28 +50,10 @@ class SsoRedirectActivity : Activity() {
         super.onCreate(savedInstanceState)
         try {
             val redirect = intent?.data
-            recordRedirectObservation(this, redirect, isTaskRoot)
-            if (isTaskRoot) {
-                // Cold start: no task exists, so nothing would ever become
-                // visible. Launch MainActivity so restore + resume logic run.
-                // When the task already exists this must be skipped: the
-                // VIEW intent foregrounds it by itself, and an explicit
-                // CLEAR_TOP relaunch would finish the AuthorizationManagement
-                // activity that is still processing this very redirect,
-                // turning it into a cancellation with no result.
-                val main = Intent(this, MainActivity::class.java).apply {
-                    action = Intent.ACTION_MAIN
-                    addCategory(Intent.CATEGORY_LAUNCHER)
-                    addFlags(
-                        Intent.FLAG_ACTIVITY_NEW_TASK or
-                            Intent.FLAG_ACTIVITY_CLEAR_TOP or
-                            Intent.FLAG_ACTIVITY_SINGLE_TOP,
-                    )
-                }
-                startActivity(main)
-            }
-            // 2. Stock AppAuth delivery for the alive case (explicit intent,
-            //    so it works even though the library receiver has no filter).
+            recordRedirectObservation(this, redirect)
+            // Stock AppAuth delivery (explicit intent, so it works even
+            // though the library receiver declares no filter). Nothing
+            // else is touched: no activity is launched or finished here.
             if (redirect != null) {
                 val forward = Intent().apply {
                     setClassName(
@@ -105,11 +83,7 @@ class SsoRedirectActivity : Activity() {
          * The Dart side drains and logs the file; a stale file means the
          * redirect arrived but the app never processed it.
          */
-        fun recordRedirectObservation(
-            activity: Activity,
-            redirect: Uri?,
-            coldStart: Boolean,
-        ) {
+        fun recordRedirectObservation(activity: Activity, redirect: Uri?) {
             try {
                 val error = redirect?.getQueryParameter("error")
                 val detail =
@@ -123,7 +97,6 @@ class SsoRedirectActivity : Activity() {
                         .put("receivedAtMillis", System.currentTimeMillis())
                         .put("scheme", redirect?.scheme)
                         .put("host", redirect?.host)
-                        .put("coldStart", coldStart)
                         .put(
                             "hasCode",
                             redirect?.getQueryParameter("code") != null,

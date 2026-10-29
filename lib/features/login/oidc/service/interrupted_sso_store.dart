@@ -158,17 +158,12 @@ class RedirectObservation {
   final bool hasError;
   final String? error;
 
-  /// True when the relay was the only activity in the task, i.e. the app
-  /// process was dead and this redirect cold-started it.
-  final bool coldStart;
-
   const RedirectObservation({
     required this.receivedAt,
     required this.hasCode,
     required this.hasState,
     required this.hasError,
     this.error,
-    required this.coldStart,
   });
 }
 
@@ -185,7 +180,6 @@ RedirectObservation? parseRedirectObservationJson(String raw) {
       hasState: json['hasState'] == true,
       hasError: json['hasError'] == true,
       error: json['error'] as String?,
-      coldStart: json['coldStart'] == true,
     );
   } catch (_) {
     return null;
@@ -209,7 +203,6 @@ Future<RedirectObservation?> drainRedirectObservation() async {
     logger.fi(
       'SSO redirect observed at ${observation.receivedAt.toIso8601String()} '
       '(code: ${observation.hasCode}, state: ${observation.hasState}, '
-      'coldStart: ${observation.coldStart}, '
       'error: ${observation.hasError}'
       '${observation.error == null ? '' : ' (${observation.error})'}).',
       className: 'InterruptedSsoStore',
