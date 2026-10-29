@@ -1,0 +1,117 @@
+# Native SSO (system-browser direct flow) — debugging record
+
+Goal: log in via the system browser (AppAuth PKCE, no secrets in the app)
+against paperless-ngx v3 + authentik, instead of the in-app WebView fallback.
+
+**Status (2026-10-29):** redirect reaches the phone with a valid `code`+`state`
+(proven by relay logs), but the AppAuth chain resolves it as
+cancel-without-data (`null_intent`) ~1s after tap. WebView fallback login
+works on the same phone. All other reported bugs on this branch are fixed
+(public share wiring, saved-views null flags, log-parser crash,
+Continue-button spinner — the spinner was already present).
+
+Conventions below: `paperless.example.com` = paperless server,
+`idp.example.com` = authentik IdP. Server is paperless-ngx v3 (latest),
+IdP is authentik with an OIDC provider for paperless. Test device uses
+Firefox (95 tabs) as default browser; Chrome behaves the same (see §5).
+
+## 1. Verified facts (probed, not guessed)
+
+- Headless auth needs **no server config**: upstream mounts allauth
+  headless unconditionally at `/api/auth/headless/` (verified in
+  `src/paperless/urls.py`). Live probe of
+  `/api/auth/headless/app/v1/config` returns providers with `client_id` +
+  `openid_configuration_url` + `provider_token` flow. The app previously
+  probed `/_allauth/...` paths that don't exist on paperless — fixed in
+  `lib/api/modules/oidc_api.dart` (paperless mount first, legacy fallback).
+- `redirect_uri` (`paperlessmobile://oidc-callback`) **is registered** at
+  the IdP: unauthenticated authorize requests 302 to the login flow
+  instead of erroring (probed).
+- IdP chain healthy from outside: authorize → 302 (0.09s) → login flow
+  page 200 + valid HTML; discovery doc valid; TLS chain valid, hostname
+  covered. Both hosts resolve to the same internal IP that the app's
+  working API calls already reach.
+- Intent resolution works: the OS offers "Open in Paperless Mobile app?"
+  for the callback URL (observed on-device).
+- The APK's merged manifest was inspected per build (`aapt dump
+  xmltree`): receiver/relay declarations verified in the shipped binary,
+  including the duplicate-filter bug (§3.4) before it shipped again.
+
+## 2. Attempt timeline (build → symptom → evidence → verdict)
+
+- **B0 (`new-features` APK): filter on MainActivity.** Redirect bounced
+  to the app's start screen, flow stuck. Verdict: MainActivity received
+  the redirect but AppAuth was never wired to it — result undeliverable.
+- **B1 (receiver-only declaration):** blank browser tab, no return.
+  Verdict: redirect went to the transparent receiver with nothing
+  pending/visible; task emptied back to the browser.
+- **B2 (+ tapping/cancel/startup logging):** logs showed tap → browser →
+  *nothing* (user had quit to export logs), then tap → close → clean
+  `cancelled by user`. Verdict: instrumentation works; cancel path honest.
+- **B3 (relay launching MainActivity with CLEAR_TOP):** `null_intent`
+  ~130ms after every redirect *that carried code+state* (relay log proves
+  receipt). Verdict: **self-inflicted** — CLEAR_TOP finished the
+  still-working AuthorizationManagementActivity; cancel beat response.
+- **B4 (`isTaskRoot` gate):** same nulls. Verdict: gate never engaged —
+  empty `taskAffinity` never joins empty `taskAffinity`, so the relay sat
+  alone and was trivially root on every receipt.
+- **B5 (same-task affinity):** same nulls. Verdict: superseded before it
+  could matter — see §4.
+- **B6 (current): relay observes + forwards only; MainActivity foregrounded
+  with REORDER_TO_FRONT (no finishing anything).** Pending device test.
+
+## 3. Mechanisms established (from shipped sources, not memory)
+
+- `flutter_appauth` 7.0.1 Android completes via
+  `MainActivity.startActivityForResult(MANAGEMENT, RC_AUTH_EXCHANGE_CODE)`
+  (`FlutterAppauthPlugin.java:355-356`).
+- `null_intent` = `onActivityResult` with a **null intent** (same file,
+  `NULL_INTENT_ERROR_CODE`). AppAuth-Android documents exactly when that
+  happens: *"If the user presses the back button or closes the browser
+  tab, the launched activity will call setResult with RESULT_CANCELED
+  **without a data Intent**"* (`AuthorizationService.java:407-411`).
+- Browser selection is AppAuth's own: `BrowserSelector.select` returns the
+  **first Custom-Tab-capable match** (`BrowserSelector.java:152`) — the
+  user's default-browser setting is irrelevant. "Powered by Firefox" UI in
+  screenshots proves Firefox is selected on the test phone, so a "Chrome
+  test" that doesn't disable Firefox likely still exercises Firefox.
+- A received `code` is useless without the in-memory PKCE verifier (held
+  inside the plugin call stack). Any path that clears the pending
+  operation first (cancel, error, process death) orphans the code
+  permanently. There is no resume-the-code path; only retry or fallback.
+
+## 4. Ruled out (with evidence)
+
+- Server missing headless → fixed paths, live-verified JSON.
+- `redirect_uri` unregistered → disproven (redirects fire).
+- Broken IdP / TLS / DNS → probed healthy; same IP:port serves working API.
+- Firefox-vs-Chrome engine difference → same symptom both.
+- Missing receiver declaration → binary-verified present (twice, see below).
+- Duplicate intent filters (library receiver + relay both claimed the
+  scheme) → found via `aapt`, fixed by stripping the library filter.
+- User back-press as the 1.4s nulls → timing + prompt evidence point at
+  automatic tab teardown on external navigation instead.
+- "Don't keep activities" → never confirmed; process demonstrably alive
+  (continuous Dart logs across attempts).
+
+## 5. Open questions
+
+1. Does the current build (observe-only relay + REORDER_TO_FRONT) complete
+   a live pass? Predicted yes; pending device run.
+2. Which browser does AppAuth actually launch if Firefox is disabled?
+   (Validates §3 selection claim; also the fastest workaround if needed.)
+3. If nulls persist with zero app-side finishing: `adb logcat` during the
+   tap (ActivityManager START lines + AppAuth tags) and
+   `adb shell dumpsys activity activities` for task contents.
+
+## Appendix: log fingerprints
+
+- Clean cancel: `browser flow started` → `cancelled by user` →
+  `browser step cancelled, no token to exchange`.
+- Race/drop: `browser flow started` → `failed with platform error
+  null_intent` (+ `Failed to authorize: Null intent received`), no
+  lifecycle gap (alive) or with cold start (dead).
+- Relay receipt: `SSO redirect observed at <ts> (code: true, state:
+  true, error: false)` — proves arrival with a redeemable code.
+- Interruption resume: `Resuming interrupted SSO for <id> in WebView
+  fallback mode` + `ssoLoginInterrupted` notice on next cold start.

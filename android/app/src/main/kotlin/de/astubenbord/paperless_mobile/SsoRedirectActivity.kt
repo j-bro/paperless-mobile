@@ -19,21 +19,18 @@ import org.json.JSONObject
  * pending state, finishes instantly — and Android falls back to the browser.
  * The user sees the app flash and vanish with no error and no way forward.
  *
- * This relay runs first instead: it records the receipt (see below) and
- * forwards the redirect to the stock receiver, then gets out of the way.
- *
- * Deliberately, it does NOTHING else — in particular it never launches or
- * finishes any other activity. History of why, so nobody re-adds it: an
- * earlier version relaunched MainActivity with CLEAR_TOP to make cold
- * starts visible, but empty taskAffinity never joins empty taskAffinity,
- * so the relay always sat alone, the "cold start" gate was always true,
- * and every receipt murdered the still-working
- * AuthorizationManagementActivity — surfacing as a null result ~130ms
- * after every redirect. Foregrounding is left to the implicit VIEW intent
- * (existing task comes forward by itself); cold starts fall back to the
- * browser, and reopening the app runs the persisted-attempt recovery
- * ([resumeInterruptedSso]). A relay that only observes and forwards cannot
- * break the handoff by construction.
+ * This relay runs first instead: it records the receipt (see below),
+ * brings the existing [MainActivity] forward WITHOUT disturbing the stack
+ * (REORDER_TO_FRONT), and forwards the redirect to the stock receiver.
+ * Foregrounding matters: after the handoff the user must watch the
+ * spinner/outcome instead of a blank browser tab, which they back out of —
+ * cancelling an exchange that was about to succeed. CLEAR_TOP must never
+ * be used here: it would finish the still-working
+ * AuthorizationManagementActivity, whose cancellation propagates as a null
+ * result and drops the just-arrived response (observed: null ~130ms after
+ * every receipt while the redirect itself carried code+state). Cold start
+ * simply creates [MainActivity], after which restore + resume logic
+ * ([resumeInterruptedSso]) run as usual.
  *
  * Diagnostics: every receipt is recorded (logcat `SsoRedirect`, plus
  * `cacheDir/sso_redirect_observation.json` drained and logged by
@@ -51,9 +48,25 @@ class SsoRedirectActivity : Activity() {
         try {
             val redirect = intent?.data
             recordRedirectObservation(this, redirect)
+            // Bring the existing MainActivity forward WITHOUT disturbing
+            // the stack: the user must watch the spinner/outcome instead
+            // of a blank browser tab (which they back out of, cancelling
+            // an exchange that was about to succeed). REORDER_TO_FRONT
+            // reuses the instance; CLEAR_TOP must never be used here — it
+            // would finish AuthorizationManagementActivity mid-processing.
+            // Cold start simply creates MainActivity (restore + resume run).
+            val main = Intent(this, MainActivity::class.java).apply {
+                action = Intent.ACTION_MAIN
+                addCategory(Intent.CATEGORY_LAUNCHER)
+                addFlags(
+                    Intent.FLAG_ACTIVITY_NEW_TASK or
+                        Intent.FLAG_ACTIVITY_SINGLE_TOP or
+                        Intent.FLAG_ACTIVITY_REORDER_TO_FRONT,
+                )
+            }
+            startActivity(main)
             // Stock AppAuth delivery (explicit intent, so it works even
-            // though the library receiver declares no filter). Nothing
-            // else is touched: no activity is launched or finished here.
+            // though the library receiver has no filter).
             if (redirect != null) {
                 val forward = Intent().apply {
                     setClassName(
