@@ -316,7 +316,6 @@
             android:name=".SsoRedirectActivity"
             android:exported="true"
             android:excludeFromRecents="true"
-            android:launchMode="singleInstance"
             android:noHistory="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
