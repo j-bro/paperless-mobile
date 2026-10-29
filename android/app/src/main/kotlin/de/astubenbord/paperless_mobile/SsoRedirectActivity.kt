@@ -55,7 +55,7 @@ class SsoRedirectActivity : Activity() {
                 }
                 startActivity(forward)
             }
-        } catch (_) {
+        } catch (_: Exception) {
             // Best-effort only: never crash the login handoff.
         } finally {
             finish()
