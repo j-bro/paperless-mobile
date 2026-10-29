@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paperless_mobile/api/modules/oidc_api.dart';
+import 'package:paperless_mobile/core/interceptor/persistent_logging_interceptor.dart';
 import 'package:paperless_mobile/features/logging/data/logger.dart';
 import 'package:paperless_mobile/features/login/model/client_certificate.dart';
 import 'package:paperless_mobile/features/login/oidc/cubit/oidc_cubit.dart';
@@ -112,8 +113,13 @@ class OidcLoginButton extends StatelessWidget {
       // Fresh server-scoped Dio: the token exchange runs before any session
       // exists, so it must not depend on the shared SessionManager client
       // (wrong baseUrl, auth headers, offline/retry interceptors).
+      // PersistentLoggingInterceptor only logs method+path+status (never
+      // bodies/headers), so tokens stay out of the logs.
       create: (_) => OidcCubit(
-        OidcApi(Dio(BaseOptions(baseUrl: serverUrl))),
+        OidcApi(
+          Dio(BaseOptions(baseUrl: serverUrl))
+            ..interceptors.add(PersistentLoggingInterceptor()),
+        ),
         AppAuthOidcFacade(),
       ),
       child: BlocConsumer<OidcCubit, OidcState>(
