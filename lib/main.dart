@@ -248,10 +248,12 @@ class GoRouterShell extends StatefulWidget {
   State<GoRouterShell> createState() => _GoRouterShellState();
 }
 
-class _GoRouterShellState extends State<GoRouterShell> {
+class _GoRouterShellState extends State<GoRouterShell>
+    with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     if (Platform.isAndroid) {
       _setOptimalDisplayMode();
     }
@@ -260,6 +262,34 @@ class _GoRouterShellState extends State<GoRouterShell> {
       context.read<AuthenticationCubit>().restoreSession();
       FlutterNativeSplash.remove();
     });
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  /// Foreground/background transitions around the system-browser SSO
+  /// round-trip. A `paused` with no matching `resumed` before the next
+  /// cold start proves the OS (or the user) ended the process mid-flow;
+  /// draining here surfaces redirects that arrived while backgrounded.
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.resumed) {
+      logger.fd(
+        'App lifecycle: $state.',
+        className: runtimeType.toString(),
+        methodName: 'didChangeAppLifecycleState',
+      );
+    }
+    if (state == AppLifecycleState.resumed) {
+      // Best-effort: surfaces (and consumes) any redirect the native
+      // relay recorded while this task was backgrounded.
+      unawaited(drainRedirectObservation());
+    }
   }
 
   /// Activates the highest supported refresh rate on the device.

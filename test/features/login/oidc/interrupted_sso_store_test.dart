@@ -51,8 +51,7 @@ void main() {
     );
   });
 
-  test('fromJson rejects malformed data', () async {
-    expect(InterruptedSsoAttempt.fromJson({}), isNull);
+  test('fromJson rejects malformed data', () async {    expect(InterruptedSsoAttempt.fromJson({}), isNull);
     expect(
       InterruptedSsoAttempt.fromJson({
         'serverUrl': '',
@@ -69,5 +68,34 @@ void main() {
       }),
       isNull,
     );
+  });
+
+  test('parseRedirectObservationJson parses relay metadata', () {
+    final obs = parseRedirectObservationJson(
+      '{"receivedAtMillis":1761600000000,"scheme":"paperlessmobile",'
+      '"host":"oidc-callback","hasCode":true,"hasState":true,'
+      '"hasError":false,"error":null}',
+    );
+    expect(obs?.hasCode, isTrue);
+    expect(obs?.hasState, isTrue);
+    expect(obs?.hasError, isFalse);
+    expect(obs?.error, isNull);
+    expect(
+      obs?.receivedAt,
+      DateTime.fromMillisecondsSinceEpoch(1761600000000, isUtc: true),
+    );
+  });
+
+  test('parseRedirectObservationJson rejects malformed input', () {
+    expect(parseRedirectObservationJson(''), isNull);
+    expect(parseRedirectObservationJson('not json'), isNull);
+    expect(parseRedirectObservationJson('[]'), isNull);
+    expect(parseRedirectObservationJson('{"hasCode":true}'), isNull);
+  });
+
+  test('drainRedirectObservation returns null without platform channels',
+      () async {
+    // No path_provider mock: must degrade gracefully, never throw.
+    expect(await drainRedirectObservation(), isNull);
   });
 }

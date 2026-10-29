@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:paperless_mobile/api/modules/oidc_api.dart';
@@ -7,6 +9,7 @@ import 'package:paperless_mobile/features/login/oidc/model/oidc_provider.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
 import 'package:paperless_mobile/helpers/message_helpers.dart';
 import 'package:paperless_mobile/routing/routes/auth_route.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// An SSO attempt that left the app for the system browser and may never
@@ -145,11 +148,79 @@ class InterruptedSsoStore {
   }
 }
 
+/// Metadata about an SSO redirect observed by the native relay, as
+/// recorded in `sso_redirect_observation.json`. Presence flags only —
+/// secret values never touch disk.
+class RedirectObservation {
+  final DateTime receivedAt;
+  final bool hasCode;
+  final bool hasState;
+  final bool hasError;
+  final String? error;
+
+  const RedirectObservation({
+    required this.receivedAt,
+    required this.hasCode,
+    required this.hasState,
+    required this.hasError,
+    this.error,
+  });
+}
+
+/// Pure parse of the relay's observation file. Null on any malformed input.
+RedirectObservation? parseRedirectObservationJson(String raw) {
+  try {
+    final json = jsonDecode(raw);
+    if (json is! Map) return null;
+    final millis = json['receivedAtMillis'];
+    if (millis is! int) return null;
+    return RedirectObservation(
+      receivedAt: DateTime.fromMillisecondsSinceEpoch(millis, isUtc: true),
+      hasCode: json['hasCode'] == true,
+      hasState: json['hasState'] == true,
+      hasError: json['hasError'] == true,
+      error: json['error'] as String?,
+    );
+  } catch (_) {
+    return null;
+  }
+}
+
+/// Reads, logs and deletes the native relay's observation file, if present.
+/// Null when there is none (or it is unreadable). Never throws.
+Future<RedirectObservation?> drainRedirectObservation() async {
+  try {
+    final dir = await getTemporaryDirectory();
+    final file = File('${dir.path}/sso_redirect_observation.json');
+    if (!await file.exists()) return null;
+    final observation = parseRedirectObservationJson(await file.readAsString());
+    try {
+      await file.delete();
+    } catch (_) {
+      // Best-effort cleanup.
+    }
+    if (observation == null) return null;
+    logger.fi(
+      'SSO redirect observed at ${observation.receivedAt.toIso8601String()} '
+      '(code: ${observation.hasCode}, state: ${observation.hasState}, '
+      'error: ${observation.hasError}'
+      '${observation.error == null ? '' : ' (${observation.error})'}).',
+      className: 'InterruptedSsoStore',
+      methodName: 'drainRedirectObservation',
+    );
+    return observation;
+  } catch (_) {
+    return null;
+  }
+}
+
 /// Startup recovery: if a previous SSO attempt never finished and there is
 /// still no session, land directly on that server's login page in WebView
 /// fallback mode (one tap resumes via the in-process flow) instead of a
 /// dead, empty connect screen. Returns true when it navigated.
 Future<bool> resumeInterruptedSso(BuildContext context) async {
+  // Drain first: a redirect may have arrived just before the process died.
+  await drainRedirectObservation();
   InterruptedSsoAttempt? attempt;
   try {
     attempt = await (await InterruptedSsoStore.load()).takeIfFresh();
