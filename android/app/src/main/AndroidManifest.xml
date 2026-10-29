@@ -305,16 +305,20 @@
             <!-- END Snippet from https://github.com/qcasey/paperless_share -->
 
         </activity>
-        <!-- flutter_appauth redirect capture: the OIDC custom-scheme
-             callback (paperlessmobile://oidc-callback) MUST be delivered to
-             RedirectUriReceiverActivity, which completes the pending
-             authorization. Routing it to MainActivity instead cold-starts
-             the app and drops the auth result. tools:node="replace"
-             overrides the library's node="remove" placeholder entry. -->
+        <!-- SSO redirect relay (see SsoRedirectActivity): the custom-scheme
+             callback MUST land the user in the visible app. The stock
+             AppAuth receiver is transparent, so on a cold start it finishes
+             instantly and Android bounces straight back to the browser,
+             dropping the login with no error. The relay brings MainActivity
+             forward and then forwards to the stock receiver, keeping the
+             alive case working exactly as before. -->
         <activity
-            android:name="net.openid.appauth.RedirectUriReceiverActivity"
+            android:name=".SsoRedirectActivity"
             android:exported="true"
-            tools:node="replace">
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:noHistory="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
