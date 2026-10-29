@@ -2,13 +2,19 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:logger/logger.dart';
 import 'package:paperless_mobile/api/modules/oidc_api.dart';
 import 'package:paperless_mobile/core/service/connectivity_status_service.dart';
+import 'package:paperless_mobile/features/logging/data/logger.dart' as app_log;
 import 'package:paperless_mobile/features/login/oidc/model/oidc_provider.dart';
 import 'package:paperless_mobile/features/login/server_connection/cubit/server_connection_cubit.dart';
 
 void main() {
-  test('success states with equal capabilities are equal', () {
+  setUpAll(() {
+    // Capability detection logs through the global logger; init it so
+    // tests don't hit LateInitializationError.
+    app_log.logger = Logger(level: Level.warning);
+  });  test('success states with equal capabilities are equal', () {
     // NOTE: intentionally non-const: const instances are canonicalized and
     // would compare equal even with identity equality.
     final a = ServerConnectionSuccess(serverUrl: 'https://x.example.com');
