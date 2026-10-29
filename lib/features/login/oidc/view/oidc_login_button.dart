@@ -7,6 +7,7 @@ import 'package:paperless_mobile/features/login/model/client_certificate.dart';
 import 'package:paperless_mobile/features/login/oidc/cubit/oidc_cubit.dart';
 import 'package:paperless_mobile/features/login/oidc/model/oidc_provider.dart';
 import 'package:paperless_mobile/features/login/oidc/service/appauth_oidc_facade.dart';
+import 'package:paperless_mobile/features/login/oidc/service/interrupted_sso_store.dart';
 import 'package:paperless_mobile/features/login/oidc/view/sso_web_login_page.dart';
 import 'package:paperless_mobile/features/login/server_connection/model/header_entry.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
@@ -46,7 +47,12 @@ class OidcLoginButton extends StatelessWidget {
 
   Future<void> _openWebFallback(BuildContext context) async {
     final runner = openWebSsoPage ?? _defaultOpenWebSso;
+    // Persist so a process death mid-flow can resume (see
+    // resumeInterruptedSso); cleared below on every outcome.
+    await _markAttempt(providers.first);
+    if (!context.mounted) return;
     final token = await runner(context);
+    await _clearAttempt();
     if (!context.mounted || token == null) {
       logger.fd(
         'SSO web fallback returned no token (cancelled or mint failed).',
@@ -71,6 +77,31 @@ class OidcLoginButton extends StatelessWidget {
     ).replace(context);
   }
 
+  /// Best-effort persistence of the in-flight attempt: if the OS kills
+  /// the app during the browser round-trip, the next cold start resumes
+  /// instead of stranding the user. Never throws.
+  Future<void> _markAttempt(OidcProvider provider) async {
+    try {
+      await (await InterruptedSsoStore.load()).save(
+        InterruptedSsoAttempt(
+          serverUrl: serverUrl,
+          provider: provider,
+          startedAt: DateTime.now(),
+        ),
+      );
+    } catch (_) {
+      // Persistence must never break login itself.
+    }
+  }
+
+  Future<void> _clearAttempt() async {
+    try {
+      await (await InterruptedSsoStore.load()).clear();
+    } catch (_) {
+      // Best-effort only.
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if ((flow == OidcFlow.none || providers.isEmpty) &&
@@ -86,8 +117,10 @@ class OidcLoginButton extends StatelessWidget {
         AppAuthOidcFacade(),
       ),
       child: BlocConsumer<OidcCubit, OidcState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state is OidcSuccess) {
+            await _clearAttempt();
+            if (!context.mounted) return;
             AddUserRoute(
               serverUrl: serverUrl,
               $extra: AddUserRouteExtra(
@@ -97,6 +130,8 @@ class OidcLoginButton extends StatelessWidget {
               ),
             ).replace(context);
           } else if (state is OidcError) {
+            await _clearAttempt();
+            if (!context.mounted) return;
             final l10n = S.of(context)!;
             final message =
                 state.canRetry ? state.message : l10n.ssoAccountNotLinked;
@@ -107,6 +142,8 @@ class OidcLoginButton extends StatelessWidget {
                 ),
               ),
             );
+          } else if (state is OidcCancelled) {
+            await _clearAttempt();
           }
         },
         builder: (context, state) {
@@ -116,12 +153,15 @@ class OidcLoginButton extends StatelessWidget {
           final onPressed = busy
               ? null
               : flow == OidcFlow.direct
-                  ? () {
+                  ? () async {
                       logger.fi(
                         'SSO button tapped (direct flow, provider ${providers.first.id}).',
                         className: runtimeType.toString(),
                         methodName: 'build',
                       );
+                      // Persist before leaving the app; cleared on outcome.
+                      await _markAttempt(providers.first);
+                      if (!context.mounted) return;
                       context.read<OidcCubit>().start(providers.first);
                     }
                   : () => _openWebFallback(context);

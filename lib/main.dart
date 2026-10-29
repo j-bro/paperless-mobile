@@ -39,6 +39,7 @@ import 'package:paperless_mobile/features/logging/data/formatted_printer.dart';
 import 'package:paperless_mobile/features/logging/data/logger.dart';
 import 'package:paperless_mobile/features/logging/data/mirrored_file_output.dart';
 import 'package:paperless_mobile/features/login/cubit/authentication_cubit.dart';
+import 'package:paperless_mobile/features/login/oidc/service/interrupted_sso_store.dart';
 import 'package:paperless_mobile/features/login/services/authentication_service.dart';
 import 'package:paperless_mobile/features/notifications/services/local_notification_service.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
@@ -299,11 +300,16 @@ class _GoRouterShellState extends State<GoRouterShell> {
         pageBuilder: (context, state, child) {
           return accessiblePlatformPage(
             child: BlocListener<AuthenticationCubit, AuthenticationState>(
-              listener: (context, state) {
+              listener: (context, state) async {
                 switch (state) {
                   case Unauthenticated(
                     redirectToAccountSelection: var shouldRedirect,
                   ):
+                    // A previous SSO attempt may have died with the app
+                    // (OS kill during the browser round-trip). Resume it
+                    // instead of stranding the user on an empty screen.
+                    if (await resumeInterruptedSso(context)) break;
+                    if (!context.mounted) break;
                     if (shouldRedirect) {
                       const LoginToExistingAccountRoute().go(context);
                     } else {
@@ -322,6 +328,10 @@ class _GoRouterShellState extends State<GoRouterShell> {
                     const SwitchingAccountsRoute().go(context);
                     break;
                   case Authenticated():
+                    // Any successful login invalidates a stale interruption.
+                    unawaited(
+                      InterruptedSsoStore.load().then((s) => s.clear()),
+                    );
                     const LandingRoute().go(context);
                     break;
                   case LoggingOutState():

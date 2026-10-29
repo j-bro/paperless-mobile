@@ -6,6 +6,7 @@ import 'package:paperless_mobile/features/logging/data/logger.dart' as app_log;
 import 'package:paperless_mobile/features/login/oidc/model/oidc_provider.dart';
 import 'package:paperless_mobile/features/login/oidc/view/oidc_login_button.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Widget _harness(Widget body) => MaterialApp(
       localizationsDelegates: S.localizationsDelegates,
@@ -18,6 +19,9 @@ void main() {
     // OidcLoginButton logs web-fallback results (length only); init the
     // global logger so widget tests don't hit LateInitializationError.
     app_log.logger = Logger(level: Level.warning);
+    // The button persists SSO attempts via SharedPreferences; the platform
+    // channel never resolves in tests, so use the in-memory mock.
+    SharedPreferences.setMockInitialValues({});
   });
   testWidgets('shows SSO button when providers present', (t) async {
     await t.pumpWidget(_harness(const OidcLoginButton(

@@ -1245,5 +1245,9 @@
   "ssoPageLoadFailed": "Could not load the sign-in page. Check your connection and try again.",
   "@ssoPageLoadFailed": {
     "description": "Error shown on the WebView SSO page when the login page fails to load (e.g. airplane mode)"
+  },
+  "ssoLoginInterrupted": "The browser sign-in didn't finish. Continue with the in-app login instead.",
+  "@ssoLoginInterrupted": {
+    "description": "Shown when a previous system-browser SSO attempt was interrupted (e.g. the app was closed during login) and the user is taken to the in-app login to retry"
   }
 }
