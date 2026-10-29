@@ -1,4 +1,6 @@
 // test/features/login/oidc/oidc_cubit_test.dart
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:logger/logger.dart';
@@ -13,6 +15,12 @@ class _FakeFacade implements OidcAuthFacade {
   _FakeFacade(this.result);
   @override
   Future<OidcBrowserResult?> authorize({required OidcProvider provider, required String redirectUrl}) async => result;
+}
+
+class _TimeoutFacade implements OidcAuthFacade {
+  @override
+  Future<OidcBrowserResult?> authorize({required OidcProvider provider, required String redirectUrl}) async =>
+      throw TimeoutException('SSO browser step produced no result within 180s.');
 }
 
 Dio _ok(String token) {
@@ -135,6 +143,15 @@ void main() {
     await cubit.start(_provider);
     expect(cubit.state, isA<OidcError>());
     expect((cubit.state as OidcError).message, contains('did not return a token'));
+  });
+
+  test('browser step timeout maps to retryable error', () async {
+    final cubit = OidcCubit(OidcApi(_ok('x')), _TimeoutFacade());
+    await cubit.start(_provider);
+    expect(cubit.state, isA<OidcError>());
+    final err = cubit.state as OidcError;
+    expect(err.message, 'OIDC sign-in failed. Please try again.');
+    expect(err.canRetry, isTrue);
   });
 
   test('generic failure maps to user message without internals', () async {

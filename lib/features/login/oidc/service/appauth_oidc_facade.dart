@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:paperless_mobile/features/logging/data/logger.dart';
@@ -5,6 +7,12 @@ import 'package:paperless_mobile/features/login/oidc/model/oidc_provider.dart';
 import 'package:paperless_mobile/features/login/oidc/service/oidc_auth_facade.dart';
 
 class AppAuthOidcFacade implements OidcAuthFacade {
+  /// Hard ceiling for the whole browser round-trip. Generous on purpose:
+  /// slow logins (password managers, TOTP/email-code hunts) must survive,
+  /// but a hung chain must surface as an error with retry instead of an
+  /// eternal spinner. Observed hangs never resolve on their own.
+  static const browserStepTimeout = Duration(seconds: 180);
+
   final FlutterAppAuth _appAuth;
   AppAuthOidcFacade([FlutterAppAuth? appAuth]) : _appAuth = appAuth ?? const FlutterAppAuth();
 
@@ -25,14 +33,22 @@ class AppAuthOidcFacade implements OidcAuthFacade {
         className: runtimeType.toString(),
         methodName: 'authorize',
       );
-      result = await _appAuth.authorizeAndExchangeCode(
-        AuthorizationTokenRequest(
-          clientId,
-          redirectUrl,
-          discoveryUrl: discoveryUrl,
-          scopes: const ['openid', 'profile', 'email'],
-        ),
-      );
+      result = await _appAuth
+          .authorizeAndExchangeCode(
+            AuthorizationTokenRequest(
+              clientId,
+              redirectUrl,
+              discoveryUrl: discoveryUrl,
+              scopes: const ['openid', 'profile', 'email'],
+            ),
+          )
+          .timeout(
+            browserStepTimeout,
+            onTimeout: () => throw TimeoutException(
+              'SSO browser step produced no result within '
+              '${browserStepTimeout.inSeconds}s.',
+            ),
+          );
     } on FlutterAppAuthUserCancelledException {
       // Canonical v7 user-cancel signal (user closed the system browser).
       // Surface as null per the OidcAuthFacade contract.
