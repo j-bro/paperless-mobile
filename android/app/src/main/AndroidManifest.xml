@@ -326,6 +326,15 @@
                 <data android:scheme="paperlessmobile" android:host="oidc-callback" />
             </intent-filter>
         </activity>
+        <!-- Strip the stock AppAuth receiver's own filter (replaced with a
+             filter-less declaration): implicit redirects must resolve ONLY
+             to SsoRedirectActivity above (two matching activities would pop
+             a system chooser). The receiver stays declarable for the
+             relay's explicit forward, same as AuthorizationManagementActivity. -->
+        <activity
+            android:name="net.openid.appauth.RedirectUriReceiverActivity"
+            android:exported="false"
+            tools:node="replace" />
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data
