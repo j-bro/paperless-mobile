@@ -29,10 +29,15 @@ import org.json.JSONObject
  * start ([isTaskRoot]). When the task already exists, relaunching with
  * CLEAR_TOP would finish the still-working AuthorizationManagementActivity
  * above it, whose cancellation propagates as a null result and drops the
- * just-arrived response — the exact failure this relay must not cause.
- * The implicit VIEW intent already foregrounds the existing task, so no
- * explicit launch is needed there. singleInstance is deliberately NOT
- * used: the relay must share the app task for [isTaskRoot] to be meaningful.
+ * just-arrived response. The implicit VIEW intent foregrounds the existing
+ * task by itself, so no explicit launch is needed there.
+ *
+ * Equally critical: this activity shares [MainActivity]'s empty
+ * `taskAffinity`, so it joins the app task and [isTaskRoot] is meaningful.
+ * With the default (package) affinity it would land alone in its own task,
+ * be trivially root on every receipt, and murder Management on every
+ * receipt. The forward to the stock receiver carries no NEW_TASK flag for
+ * the same reason: same-task delivery disturbs nothing.
  *
  * Diagnostics: every receipt is recorded (logcat `SsoRedirect`, plus
  * `cacheDir/sso_redirect_observation.json` drained and logged by
@@ -79,7 +84,6 @@ class SsoRedirectActivity : Activity() {
                     )
                     action = Intent.ACTION_VIEW
                     data = redirect
-                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 }
                 startActivity(forward)
             }
