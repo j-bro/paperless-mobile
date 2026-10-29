@@ -135,10 +135,19 @@ class OidcLoginButton extends StatelessWidget {
             final l10n = S.of(context)!;
             final message =
                 state.canRetry ? state.message : l10n.ssoAccountNotLinked;
+            // The system-browser round-trip is fragile (browser handoff
+            // gates, background kills): always offer the in-process
+            // fallback flow, which needs no round-trip, as the next step.
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
                   '$message\n${l10n.ssoSecretRequiredFallback}',
+                ),
+                action: SnackBarAction(
+                  label: l10n.useInAppLogin,
+                  onPressed: () {
+                    if (context.mounted) _openWebFallback(context);
+                  },
                 ),
               ),
             );
