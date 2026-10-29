@@ -1,7 +1,9 @@
 // test/features/login/oidc/oidc_cubit_test.dart
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:logger/logger.dart';
 import 'package:paperless_mobile/api/modules/oidc_api.dart';
+import 'package:paperless_mobile/features/logging/data/logger.dart' as app_log;
 import 'package:paperless_mobile/features/login/oidc/cubit/oidc_cubit.dart';
 import 'package:paperless_mobile/features/login/oidc/model/oidc_provider.dart';
 import 'package:paperless_mobile/features/login/oidc/service/oidc_auth_facade.dart';
@@ -34,6 +36,11 @@ Dio _seq(List<Map<String, dynamic>> bodies, {List<int> statuses = const []}) {
 const _provider = OidcProvider(id: 'p', name: 'P');
 
 void main() {
+  setUpAll(() {
+    // OidcCubit logs state transitions; init the global logger so unit
+    // tests don't hit LateInitializationError.
+    app_log.logger = Logger(level: Level.warning);
+  });
   test('cancelled browser emits OidcCancelled', () async {
     final cubit = OidcCubit(OidcApi(_ok('x')), _FakeFacade(null));
     await cubit.start(_provider);

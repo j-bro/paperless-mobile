@@ -116,7 +116,14 @@ class OidcLoginButton extends StatelessWidget {
           final onPressed = busy
               ? null
               : flow == OidcFlow.direct
-                  ? () => context.read<OidcCubit>().start(providers.first)
+                  ? () {
+                      logger.fi(
+                        'SSO button tapped (direct flow, provider ${providers.first.id}).',
+                        className: runtimeType.toString(),
+                        methodName: 'build',
+                      );
+                      context.read<OidcCubit>().start(providers.first);
+                    }
                   : () => _openWebFallback(context);
           return Column(
             children: [
