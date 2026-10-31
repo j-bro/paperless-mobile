@@ -145,6 +145,20 @@ response time (fresh stateless instance → silent finish, no result).
 ADB discriminators: `dumpsys` task contents at hang time + AppAuth's own
 `W/AppAuth` logcat lines (`No stored state` proves it).
 
+## Final relay design + outcome notifications (current)
+
+Live `dumpsys` + `am start` probes proved the response must reach the
+*tap-time* Management instance in the package-affinity task; anything
+else spawns a stateless instance that silently drops it. So the relay
+does exactly three things — record, forward (NEW_TASK, joining
+Management's task), finish — and launches/finishes nothing else: every
+MainActivity-launch variant tried (CLEAR_TOP, REORDER, plain) either
+murdered Management or forked a duplicate MainActivity into a second
+task. Since outcomes can now complete while the app task stays
+backgrounded, the SSO button also posts system notifications on success,
+failure, and second-factor-required (no-op in tests where the service is
+absent), so an invisible completion still brings the user back.
+
 ## Single shared task (current)
 
 ADB `dumpsys` showed the price of split tasks live: one task holding
