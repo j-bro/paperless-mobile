@@ -28,9 +28,9 @@ import org.json.JSONObject
  *    touches MainActivity: every variant tried (CLEAR_TOP, REORDER, plain
  *    launch) either finished the working Management or forked a second
  *    MainActivity/second task, splitting response and waiter apart. The
- *    VIEW intent itself foregrounds whatever task needs it; outcomes
- *    surface through the app UI when foreground and through system
- *    notifications ([notifyStatus]) when backgrounded.
+  *    VIEW intent itself foregrounds whatever task needs it; outcomes
+  *    surface through the app UI (navigation when foreground, snackbar
+  *    fallback prompt on errors).
  * What it must NEVER do (each burned us once, proven by device logs):
  * - CLEAR_TOP anything: finishes the still-working ManagementActivity,
  *   whose cancellation propagates as a null result (~130ms after receipt).
@@ -62,7 +62,7 @@ class SsoRedirectActivity : Activity() {
             // still-working Management or forked a second MainActivity into
             // a second task, splitting response and waiter apart. Terminal
             // outcomes surface through the app's own channels (navigation
-            // when foreground, system notification when backgrounded).
+            // when foreground, snackbar fallback prompt on errors).
             if (redirect != null) {
                 val forward = Intent().apply {
                     setClassName(
