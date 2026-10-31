@@ -19,19 +19,18 @@ import org.json.JSONObject
  * pending state, finishes instantly — and Android falls back to the browser.
  * The user sees the app flash and vanish with no error and no way forward.
  *
- * This relay runs first instead: it records the receipt (see below),
- * brings the existing [MainActivity] forward WITHOUT disturbing the stack
- * (REORDER_TO_FRONT), and forwards the redirect to the stock receiver.
- * Foregrounding matters: after the handoff the user must watch the
- * spinner/outcome instead of a blank browser tab, which they back out of —
- * cancelling an exchange that was about to succeed. CLEAR_TOP must never
- * be used here: it would finish the still-working
- * AuthorizationManagementActivity, whose cancellation propagates as a null
- * result and drops the just-arrived response (observed: null ~130ms after
- * every receipt while the redirect itself carried code+state). Cold start
- * simply creates [MainActivity], after which restore + resume logic
- * ([resumeInterruptedSso]) run as usual.
- *
+ * This relay runs first instead: it records the receipt (see below) and
+ * forwards the redirect to the stock receiver, then finishes. It launches
+ * NOTHING and finishes NOTHING else — and that is load-bearing. Any
+ * MainActivity launch here (even REORDER_TO_FRONT) risks creating a second
+ * MainActivity in a second task while the original (holding the pending
+ * Dart future) sits elsewhere: the response and its waiter end up in
+ * different tasks/activities and never meet (observed live via dumpsys:
+ * Management + browser tab + a second MainActivity stacked together while
+ * the original waited in another task). Task switching happens naturally
+ * through the VIEW intent and the response-handling CLEAR_TOP; cold
+ * starts fall back to the browser, and reopening the app then runs the
+ * persisted-attempt recovery ([resumeInterruptedSso]).
  * Diagnostics: every receipt is recorded (logcat `SsoRedirect`, plus
  * `cacheDir/sso_redirect_observation.json` drained and logged by
  * [drainRedirectObservation] on the Dart side). Only redirect *metadata*
@@ -48,25 +47,11 @@ class SsoRedirectActivity : Activity() {
         try {
             val redirect = intent?.data
             recordRedirectObservation(this, redirect)
-            // Bring the existing MainActivity forward WITHOUT disturbing
-            // the stack: the user must watch the spinner/outcome instead
-            // of a blank browser tab (which they back out of, cancelling
-            // an exchange that was about to succeed). REORDER_TO_FRONT
-            // reuses the instance; CLEAR_TOP must never be used here — it
-            // would finish AuthorizationManagementActivity mid-processing.
-            // Cold start simply creates MainActivity (restore + resume run).
-            val main = Intent(this, MainActivity::class.java).apply {
-                action = Intent.ACTION_MAIN
-                addCategory(Intent.CATEGORY_LAUNCHER)
-                addFlags(
-                    Intent.FLAG_ACTIVITY_NEW_TASK or
-                        Intent.FLAG_ACTIVITY_SINGLE_TOP or
-                        Intent.FLAG_ACTIVITY_REORDER_TO_FRONT,
-                )
-            }
-            startActivity(main)
-            // Stock AppAuth delivery (explicit intent, so it works even
-            // though the library receiver has no filter).
+            // Stock AppAuth delivery ONLY (explicit intent, so it works
+            // even though the library receiver has no filter). Deliberately
+            // no MainActivity launch of any kind: any relaunch risks a
+            // second MainActivity/second task while the original instance
+            // (holding the pending Dart future) waits elsewhere.
             if (redirect != null) {
                 val forward = Intent().apply {
                     setClassName(
