@@ -11,32 +11,34 @@ import org.json.JSONObject
 /**
  * Relay for the OIDC custom-scheme callback (`paperlessmobile://oidc-callback`).
  *
- * Stock AppAuth delivers the redirect to `RedirectUriReceiverActivity`,
- * which is transparent: when the app process is still alive that is fine
- * (the visible [MainActivity] is already there and the pending Dart future
- * completes). But when the OS killed the app during the browser round-trip,
- * the redirect cold-starts *only* the transparent receiver, which finds no
- * pending state, finishes instantly — and Android falls back to the browser.
- * The user sees the app flash and vanish with no error and no way forward.
+ * Why this exists at all: the implicit VIEW intent must resolve to exactly
+ * one activity (verified via `aapt dump xmltree`: this relay is the sole
+ * filter holder; the stock receiver is kept filter-less).
  *
- * This relay runs first instead: it records the receipt (see below) and
- * forwards the redirect to the stock receiver, then finishes. It launches
- * NOTHING and finishes NOTHING else — and that is load-bearing. Any
- * MainActivity launch here (even REORDER_TO_FRONT) risks creating a second
- * MainActivity in a second task while the original (holding the pending
- * Dart future) sits elsewhere: the response and its waiter end up in
- * different tasks/activities and never meet (observed live via dumpsys:
- * Management + browser tab + a second MainActivity stacked together while
- * the original waited in another task). Task switching happens naturally
- * through the VIEW intent and the response-handling CLEAR_TOP; cold
- * starts fall back to the browser, and reopening the app then runs the
- * persisted-attempt recovery ([resumeInterruptedSso]).
- * Diagnostics: every receipt is recorded (logcat `SsoRedirect`, plus
- * `cacheDir/sso_redirect_observation.json` drained and logged by
- * [drainRedirectObservation] on the Dart side). Only redirect *metadata*
- * is recorded — presence of code/state, error code — never secret values.
- * The file is diagnostic only: without the in-memory PKCE verifier the
- * code cannot be redeemed, so it must never be treated as completion data.
+ * What it does, in order — and just as importantly what it does NOT do:
+ * 1. Records the receipt (logcat `SsoRedirect` + `sso_redirect_observation.json`,
+ *    drained by [drainRedirectObservation]). Metadata only, never secrets.
+ * 2. Foregrounds the existing MainActivity with a plain launch (no flags
+ *    that finish anything): after the handoff the user must watch the
+ *    spinner/outcome, not a blank browser tab they back out of.
+ * 3. Forwards the redirect to the stock receiver WITH new-task semantics so
+ *    the receiver lands in the package-affinity task — the same task the
+ *    singleTask AuthorizationManagementActivity always lives in. That is the
+ *    load-bearing detail (proven live via dumpsys): without it the response
+ *    spawns a fresh stateless Management in a stray task that silently
+ *    drops it, while the stateful instance waits forever in another task.
+ *
+ * What it must NEVER do (each burned us once, proven by device logs):
+ * - CLEAR_TOP anything: finishes the still-working ManagementActivity,
+ *   whose cancellation propagates as a null result (~130ms after receipt).
+ * - Rely on task affinity matching: empty affinity never joins empty
+ *   affinity, so "same task" assumptions and isTaskRoot gates lie.
+ * - Treat the observation file as completion data: without the in-memory
+ *   PKCE verifier the code cannot be redeemed; diagnosis only.
+ *
+ * Cold start (no app task at all): MainActivity boots fresh and the
+ * persisted-attempt recovery ([resumeInterruptedSso]) takes over on
+ * restore; the stateless Management drops the response as designed.
  *
  * Never throws: a crashing redirect handler would strand the login the
  * same way the old behavior did.
@@ -47,11 +49,24 @@ class SsoRedirectActivity : Activity() {
         try {
             val redirect = intent?.data
             recordRedirectObservation(this, redirect)
-            // Stock AppAuth delivery ONLY (explicit intent, so it works
-            // even though the library receiver has no filter). Deliberately
-            // no MainActivity launch of any kind: any relaunch risks a
-            // second MainActivity/second task while the original instance
-            // (holding the pending Dart future) waits elsewhere.
+            // 1. Foreground the app WITHOUT disturbing the stack (plain
+            //    launch: no CLEAR_TOP, no reorder that could create a
+            //    second MainActivity — the response and its waiter must
+            //    stay in the tasks they are already in).
+            val main = Intent(this, MainActivity::class.java).apply {
+                action = Intent.ACTION_MAIN
+                addCategory(Intent.CATEGORY_LAUNCHER)
+                addFlags(
+                    Intent.FLAG_ACTIVITY_NEW_TASK or
+                        Intent.FLAG_ACTIVITY_SINGLE_TOP,
+                )
+            }
+            startActivity(main)
+            // 2. Stock AppAuth delivery, routed to Management's task: the
+            //    NEW_TASK flag joins the receiver to the package-affinity
+            //    task where the singleTask Management instance lives, so
+            //    the response CLEAR_TOP finds the stateful instance instead
+            //    of spawning a stateless one that silently drops it.
             if (redirect != null) {
                 val forward = Intent().apply {
                     setClassName(
@@ -60,6 +75,7 @@ class SsoRedirectActivity : Activity() {
                     )
                     action = Intent.ACTION_VIEW
                     data = redirect
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 }
                 startActivity(forward)
             }
