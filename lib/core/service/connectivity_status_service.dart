@@ -94,15 +94,14 @@ class ConnectivityStatusServiceImpl implements ConnectivityStatusService {
     if (!RegExp(r"^https?://.*").hasMatch(serverAddress)) {
       return ReachabilityStatus.unknown;
     }
+    SessionManager manager =
+        SessionManagerImpl([ServerReachabilityErrorInterceptor()])
+          ..updateSettings(
+            baseUrl: serverAddress,
+            clientCertificate: clientCertificate,
+            additionalHeaders: additionalHeaders,
+          );
     try {
-      SessionManager manager =
-          SessionManagerImpl([ServerReachabilityErrorInterceptor()])
-            ..updateSettings(
-              baseUrl: serverAddress,
-              clientCertificate: clientCertificate,
-              additionalHeaders: additionalHeaders,
-            );
-
       final response = await manager.client.head(
         '/api/schema/',
         options: Options(
@@ -125,6 +124,13 @@ class ConnectivityStatusServiceImpl implements ConnectivityStatusService {
       );
       return ReachabilityStatus.notReachable;
     } on DioException catch (error) {
+      if (_shouldConfirmLiveness(error) &&
+          await _statisticsReachable(manager)) {
+        // /api/schema/ generation can stall while the server is otherwise
+        // healthy (observed: instant login pages, hanging schema). A live
+        // answer from a cheap endpoint still proves reachability.
+        return ReachabilityStatus.reachable;
+      }
       if (error.type == DioExceptionType.unknown &&
           error.error is ReachabilityStatus) {
         logger.fw(
@@ -151,6 +157,46 @@ class ConnectivityStatusServiceImpl implements ConnectivityStatusService {
       );
     }
     return ReachabilityStatus.notReachable;
+  }
+
+  /// Decides whether a failed schema probe is worth double-checking with
+  /// a cheap endpoint. Only slowness qualifies: the reachability
+  /// interceptor already normalizes errors, mapping timeouts to
+  /// [ReachabilityStatus.connectionTimeout] and everything else slow-ish
+  /// to [ReachabilityStatus.notReachable] (all with type `unknown`), so
+  /// both the raw Dio types and the mapped statuses must be accepted.
+  /// DNS/TLS misconfiguration ([ReachabilityStatus.unknownHost], cert
+  /// errors) fails fast and must keep failing fast.
+  static bool _shouldConfirmLiveness(DioException error) {
+    if (error.type == DioExceptionType.connectionTimeout ||
+        error.type == DioExceptionType.sendTimeout ||
+        error.type == DioExceptionType.receiveTimeout) {
+      return true;
+    }
+    return error.error == ReachabilityStatus.connectionTimeout ||
+        error.error == ReachabilityStatus.notReachable;
+  }
+
+  /// Liveness check that avoids schema generation: any HTTP answer —
+  /// including the 401/403 an unauthenticated call gets — proves the API
+  /// stack is up. Only connection-level failures return false.
+  static Future<bool> _statisticsReachable(SessionManager manager) async {
+    try {
+      await manager.client.get(
+        '/api/statistics/',
+        options: Options(
+          receiveTimeout: 5.seconds,
+          sendTimeout: 5.seconds,
+          followRedirects: true,
+          // Accept everything: status codes are irrelevant, only the
+          // fact that the server answered matters.
+          validateStatus: (_) => true,
+        ),
+      );
+      return true;
+    } catch (_) {
+      return false;
+    }
   }
 
   @override

@@ -2,11 +2,14 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paperless_mobile/api/modules/oidc_api.dart';
+import 'package:paperless_mobile/core/interceptor/persistent_logging_interceptor.dart';
 import 'package:paperless_mobile/features/logging/data/logger.dart';
 import 'package:paperless_mobile/features/login/model/client_certificate.dart';
 import 'package:paperless_mobile/features/login/oidc/cubit/oidc_cubit.dart';
 import 'package:paperless_mobile/features/login/oidc/model/oidc_provider.dart';
 import 'package:paperless_mobile/features/login/oidc/service/appauth_oidc_facade.dart';
+import 'package:paperless_mobile/features/login/oidc/service/interrupted_sso_store.dart';
+import 'package:paperless_mobile/features/notifications/services/local_notification_service.dart';
 import 'package:paperless_mobile/features/login/oidc/view/sso_web_login_page.dart';
 import 'package:paperless_mobile/features/login/server_connection/model/header_entry.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
@@ -46,7 +49,12 @@ class OidcLoginButton extends StatelessWidget {
 
   Future<void> _openWebFallback(BuildContext context) async {
     final runner = openWebSsoPage ?? _defaultOpenWebSso;
+    // Persist so a process death mid-flow can resume (see
+    // resumeInterruptedSso); cleared below on every outcome.
+    await _markAttempt(providers.first);
+    if (!context.mounted) return;
     final token = await runner(context);
+    await _clearAttempt();
     if (!context.mounted || token == null) {
       logger.fd(
         'SSO web fallback returned no token (cancelled or mint failed).',
@@ -71,6 +79,51 @@ class OidcLoginButton extends StatelessWidget {
     ).replace(context);
   }
 
+  /// Best-effort persistence of the in-flight attempt: if the OS kills
+  /// the app during the browser round-trip, the next cold start resumes
+  /// instead of stranding the user. Never throws.
+  Future<void> _markAttempt(OidcProvider provider) async {
+    try {
+      await (await InterruptedSsoStore.load()).save(
+        InterruptedSsoAttempt(
+          serverUrl: serverUrl,
+          provider: provider,
+          startedAt: DateTime.now(),
+        ),
+      );
+    } catch (_) {
+      // Persistence must never break login itself.
+    }
+  }
+
+  Future<void> _clearAttempt() async {
+    try {
+      await (await InterruptedSsoStore.load()).clear();
+    } catch (_) {
+      // Best-effort only.
+    }
+  }
+
+  /// Pings a system notification for terminal SSO outcomes. The browser
+  /// round-trip can complete while the app task stays backgrounded, in
+  /// which case in-app UI (snackbars, navigation) is invisible — the
+  /// notification is what brings the user back. Absent in tests (service
+  /// not provided), silently skips.
+  Future<void> _notifySsoOutcome(
+    BuildContext context, {
+    required String title,
+    required String body,
+    required int id,
+  }) async {
+    try {
+      await context
+          .read<LocalNotificationService?>()
+          ?.notifyStatus(id: id, title: title, body: body);
+    } catch (_) {
+      // Best-effort only.
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if ((flow == OidcFlow.none || providers.isEmpty) &&
@@ -81,13 +134,28 @@ class OidcLoginButton extends StatelessWidget {
       // Fresh server-scoped Dio: the token exchange runs before any session
       // exists, so it must not depend on the shared SessionManager client
       // (wrong baseUrl, auth headers, offline/retry interceptors).
+      // PersistentLoggingInterceptor only logs method+path+status (never
+      // bodies/headers), so tokens stay out of the logs.
       create: (_) => OidcCubit(
-        OidcApi(Dio(BaseOptions(baseUrl: serverUrl))),
+        OidcApi(
+          Dio(BaseOptions(baseUrl: serverUrl))
+            ..interceptors.add(PersistentLoggingInterceptor()),
+        ),
         AppAuthOidcFacade(),
       ),
       child: BlocConsumer<OidcCubit, OidcState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state is OidcSuccess) {
+            await _clearAttempt();
+            if (!context.mounted) return;
+            final l10n = S.of(context)!;
+            await _notifySsoOutcome(
+              context,
+              id: 9101,
+              title: l10n.ssoNotificationTitle,
+              body: l10n.ssoNotificationSignedIn,
+            );
+            if (!context.mounted) return;
             AddUserRoute(
               serverUrl: serverUrl,
               $extra: AddUserRouteExtra(
@@ -97,15 +165,44 @@ class OidcLoginButton extends StatelessWidget {
               ),
             ).replace(context);
           } else if (state is OidcError) {
+            await _clearAttempt();
+            if (!context.mounted) return;
             final l10n = S.of(context)!;
             final message =
                 state.canRetry ? state.message : l10n.ssoAccountNotLinked;
+            // The system-browser round-trip is fragile (browser handoff
+            // gates, background kills): always offer the in-process
+            // fallback flow, which needs no round-trip, as the next step.
+            await _notifySsoOutcome(
+              context,
+              id: 9102,
+              title: l10n.ssoNotificationTitle,
+              body: l10n.ssoNotificationFailed,
+            );
+            if (!context.mounted) return;
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
                   '$message\n${l10n.ssoSecretRequiredFallback}',
                 ),
+                action: SnackBarAction(
+                  label: l10n.useInAppLogin,
+                  onPressed: () {
+                    if (context.mounted) _openWebFallback(context);
+                  },
+                ),
               ),
+            );
+          } else if (state is OidcCancelled) {
+            await _clearAttempt();
+          } else if (state is OidcOtpRequired) {
+            if (!context.mounted) return;
+            final l10n = S.of(context)!;
+            await _notifySsoOutcome(
+              context,
+              id: 9103,
+              title: l10n.ssoNotificationTitle,
+              body: l10n.ssoNotificationSecondFactor,
             );
           }
         },
@@ -116,7 +213,17 @@ class OidcLoginButton extends StatelessWidget {
           final onPressed = busy
               ? null
               : flow == OidcFlow.direct
-                  ? () => context.read<OidcCubit>().start(providers.first)
+                  ? () async {
+                      logger.fi(
+                        'SSO button tapped (direct flow, provider ${providers.first.id}).',
+                        className: runtimeType.toString(),
+                        methodName: 'build',
+                      );
+                      // Persist before leaving the app; cleared on outcome.
+                      await _markAttempt(providers.first);
+                      if (!context.mounted) return;
+                      context.read<OidcCubit>().start(providers.first);
+                    }
                   : () => _openWebFallback(context);
           return Column(
             children: [

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paperless_mobile/api/modules/oidc_api.dart';
+import 'package:paperless_mobile/core/interceptor/persistent_logging_interceptor.dart';
 import 'package:paperless_mobile/core/service/connectivity_status_service.dart';
 import 'package:paperless_mobile/features/logging/data/logger.dart';
 import 'package:paperless_mobile/features/login/model/client_certificate.dart';
@@ -40,7 +41,8 @@ class ServerConnectionCubit extends Cubit<ServerConnectionState> {
           // Fresh server-scoped Dio: never mutate the shared SessionManager
           // client's baseUrl (or inherit its offline/retry interceptor
           // stack, which can stall unauthenticated discovery) for
-          // best-effort capability detection.
+          // best-effort capability detection. Logging interceptor only
+          // records method+path+status (no bodies/headers).
           final oidcApi = OidcApi(
             Dio(
               BaseOptions(
@@ -48,7 +50,7 @@ class ServerConnectionCubit extends Cubit<ServerConnectionState> {
                 connectTimeout: const Duration(seconds: 5),
                 receiveTimeout: const Duration(seconds: 5),
               ),
-            ),
+            )..interceptors.add(PersistentLoggingInterceptor()),
           );
           capability = await oidcApi.detectCapabilities(address);
         } catch (error, stackTrace) {

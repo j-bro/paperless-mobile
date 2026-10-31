@@ -1245,5 +1245,29 @@
   "ssoPageLoadFailed": "Could not load the sign-in page. Check your connection and try again.",
   "@ssoPageLoadFailed": {
     "description": "Error shown on the WebView SSO page when the login page fails to load (e.g. airplane mode)"
+  },
+  "ssoLoginInterrupted": "The browser sign-in didn't finish. Continue with the in-app login instead.",
+  "@ssoLoginInterrupted": {
+    "description": "Shown when a previous system-browser SSO attempt was interrupted (e.g. the app was closed during login) and the user is taken to the in-app login to retry"
+  },
+  "useInAppLogin": "Use in-app login",
+  "@useInAppLogin": {
+    "description": "Action on the SSO error message that retries login through the in-app browser flow"
+  },
+  "ssoNotificationTitle": "Single sign-on",
+  "@ssoNotificationTitle": {
+    "description": "Title of the system notification posted for SSO login outcomes"
+  },
+  "ssoNotificationSignedIn": "Single sign-on completed. You are signed in.",
+  "@ssoNotificationSignedIn": {
+    "description": "Notification body shown when SSO login succeeds while the app is backgrounded"
+  },
+  "ssoNotificationFailed": "Single sign-on did not complete. Open the app to retry.",
+  "@ssoNotificationFailed": {
+    "description": "Notification body shown when SSO login fails while the app is backgrounded"
+  },
+  "ssoNotificationSecondFactor": "Single sign-on needs your authenticator code. Open the app to continue.",
+  "@ssoNotificationSecondFactor": {
+    "description": "Notification body shown when SSO login requires a second factor while the app is backgrounded"
   }
 }

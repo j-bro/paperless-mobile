@@ -1,7 +1,11 @@
 // test/features/login/oidc/oidc_cubit_test.dart
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:logger/logger.dart';
 import 'package:paperless_mobile/api/modules/oidc_api.dart';
+import 'package:paperless_mobile/features/logging/data/logger.dart' as app_log;
 import 'package:paperless_mobile/features/login/oidc/cubit/oidc_cubit.dart';
 import 'package:paperless_mobile/features/login/oidc/model/oidc_provider.dart';
 import 'package:paperless_mobile/features/login/oidc/service/oidc_auth_facade.dart';
@@ -11,6 +15,12 @@ class _FakeFacade implements OidcAuthFacade {
   _FakeFacade(this.result);
   @override
   Future<OidcBrowserResult?> authorize({required OidcProvider provider, required String redirectUrl}) async => result;
+}
+
+class _TimeoutFacade implements OidcAuthFacade {
+  @override
+  Future<OidcBrowserResult?> authorize({required OidcProvider provider, required String redirectUrl}) async =>
+      throw TimeoutException('SSO browser step produced no result within 180s.');
 }
 
 Dio _ok(String token) {
@@ -31,9 +41,14 @@ Dio _seq(List<Map<String, dynamic>> bodies, {List<int> statuses = const []}) {
   return dio;
 }
 
-const _provider = OidcProvider(id: 'p', name: 'P');
+const _provider = OidcProvider(id: 'p', name: 'P', clientId: 'c1');
 
 void main() {
+  setUpAll(() {
+    // OidcCubit logs state transitions; init the global logger so unit
+    // tests don't hit LateInitializationError.
+    app_log.logger = Logger(level: Level.warning);
+  });
   test('cancelled browser emits OidcCancelled', () async {
     final cubit = OidcCubit(OidcApi(_ok('x')), _FakeFacade(null));
     await cubit.start(_provider);
@@ -128,6 +143,15 @@ void main() {
     await cubit.start(_provider);
     expect(cubit.state, isA<OidcError>());
     expect((cubit.state as OidcError).message, contains('did not return a token'));
+  });
+
+  test('browser step timeout maps to retryable error', () async {
+    final cubit = OidcCubit(OidcApi(_ok('x')), _TimeoutFacade());
+    await cubit.start(_provider);
+    expect(cubit.state, isA<OidcError>());
+    final err = cubit.state as OidcError;
+    expect(err.message, 'OIDC sign-in failed. Please try again.');
+    expect(err.canRetry, isTrue);
   });
 
   test('generic failure maps to user message without internals', () async {

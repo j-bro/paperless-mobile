@@ -257,15 +257,31 @@ extension OidcHeadlessApi on OidcApi {
     );
   }
 
+  /// Exchanges OIDC tokens for a paperless (allauth headless) session.
+  ///
+  /// allauth contract (probed live 2026-10-31): both `process: "login"` and
+  /// `token.client_id` are REQUIRED — the server answers 400 with
+  /// `required/param:process` and `client_id_required/param:token` when
+  /// omitted. allauth needs the client_id to select the provider's app
+  /// entry to validate the id_token's audience against.
   Future<OidcExchangeResult> exchangeProviderToken({
     required String providerId,
+    required String clientId,
     required String idToken,
     String? accessToken,
     String? sessionToken,
   }) async {
     final res = await _postHeadless(
       '/app/v1/auth/provider/token',
-      data: {'provider': providerId, 'token': {'id_token': idToken, if (accessToken != null) 'access_token': accessToken}},
+      data: {
+        'process': 'login',
+        'provider': providerId,
+        'token': {
+          'client_id': clientId,
+          'id_token': idToken,
+          if (accessToken != null) 'access_token': accessToken,
+        },
+      },
       headers: _headers(sessionToken),
     );
     if (res.statusCode == 410) throw OidcSessionExpired();

@@ -1,4 +1,5 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <uses-feature
         android:name="android.hardware.camera.any"
         android:required="false" />
@@ -16,7 +17,6 @@
             android:name=".MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
-            android:taskAffinity=""
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
@@ -303,15 +303,45 @@
 
             <!-- END Snippet from https://github.com/qcasey/paperless_share -->
 
-            <!-- OIDC custom-scheme callback: paperlessmobile://oidc-callback -->
+        </activity>
+        <!-- SSO redirect relay (see SsoRedirectActivity): the sole
+             resolver for the custom-scheme callback. Shares the default
+             package task affinity with everything else, so the whole auth
+             chain (MainActivity, relay, receiver, management) lives in ONE
+             task the way AppAuth's back-stack design assumes. -->
+        <activity
+            android:name=".SsoRedirectActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="paperlessmobile" android:host="oidc-callback" />
             </intent-filter>
-
         </activity>
+        <!-- Strip the stock AppAuth receiver's own filter (replaced with a
+             filter-less declaration): implicit redirects must resolve ONLY
+             to SsoRedirectActivity above (two matching activities would pop
+             a system chooser). The receiver stays declarable for the
+             relay's explicit forward, same as AuthorizationManagementActivity. -->
+        <activity
+            android:name="net.openid.appauth.RedirectUriReceiverActivity"
+            android:exported="false"
+            tools:node="replace" />
+        <!-- AppAuth's stock activities keep their library defaults (package
+             task affinity, singleTask management): with MainActivity also on
+             the default affinity, the entire auth chain shares ONE task.
+             All other attributes copied verbatim from the library manifest. -->
+        <activity
+            android:name="net.openid.appauth.AuthorizationManagementActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation|keyboard|keyboardHidden"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.Translucent.NoTitleBar"
+            tools:node="replace" />
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data
