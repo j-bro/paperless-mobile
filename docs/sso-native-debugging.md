@@ -145,6 +145,21 @@ response time (fresh stateless instance → silent finish, no result).
 ADB discriminators: `dumpsys` task contents at hang time + AppAuth's own
 `W/AppAuth` logcat lines (`No stored state` proves it).
 
+## Single shared task (current)
+
+ADB `dumpsys` showed the price of split tasks live: one task holding
+Management + browser tab + a *second* MainActivity while the original
+(with the pending Dart future) waited in another task — response and
+waiter never meeting. Root: `MainActivity` used the Flutter template's
+empty `taskAffinity`, which provably never merges (three separate
+observations), while AppAuth's `singleTask` activities default to package
+affinity. Fix: dropped all empty affinities (MainActivity, relay;
+Management keeps library defaults), so the entire auth chain shares ONE
+task as AppAuth's back-stack design assumes. Verified in the merged
+manifest (zero `taskAffinity` attributes). Watch-out: share-receive and
+deep-link flows need a manual retest, since task placement for incoming
+intents changed with MainActivity's affinity.
+
 ## Appendix: log fingerprints- Clean cancel: `browser flow started` → `cancelled by user` →
   `browser step cancelled, no token to exchange`.
 - Race/drop: `browser flow started` → `failed with platform error
