@@ -174,6 +174,48 @@ manifest (zero `taskAffinity` attributes). Watch-out: share-receive and
 deep-link flows need a manual retest, since task placement for incoming
 intents changed with MainActivity's affinity.
 
+## ADB era verdict: stateless Management at response time (current end state)
+
+With the phone on ADB, the full chain was watched live: tap →
+Management STARTs → browser opens → instant redirect → relay records
+`code+state, no error` → forwards → receiver → Management response →
+**`W/AppAuth: No stored state - unable to handle response`** → silent
+finish. No cancel, no crash, no tokens, process and MainActivity alive
+throughout. The tap-time Management instance is gone within ~1–2s every
+run; the response always meets a fresh stateless one. "Don't keep
+activities" is OFF and exit history shows no kills, so the destroyer is
+still unidentified — translucent-background reclaim on this device/OS
+build is the leading suspect, unproven.
+
+## Verdict table (entire investigation)
+
+| Hypothesis | Verdict |
+|---|---|
+| Server missing headless | FALSE — serves config with client data, no flag needed |
+| `redirect_uri` unregistered | FALSE — redirects fire every attempt |
+| Missing receiver declaration | FALSE — binary-verified, exactly one resolver |
+| MainActivity hijack (original bug) | TRUE, fixed (receiver declaration) |
+| CLEAR_TOP murder by relay | TRUE, fixed (no finishing launches) |
+| Duplicate MainActivity/tasks | TRUE, fixed (no MainActivity launches at all) |
+| Affinity-split tasks | TRUE as observed; mitigated via shared package affinity |
+| Firefox tab death | UNPROVEN — every null traced to our own launches instead |
+| OS memory kill | FALSE for test windows (exit history clean, process alive) |
+| Don't-keep-activities | FALSE (off on device) |
+| IdP rejecting exchange (confidential client) | UNTESTED — exchange never starts, so never reached |
+| Management dead at response time | TRUE in effect (stateless instance meets every response) |
+
+## Open questions (next session)
+
+1. What destroys tap-time Management ~1–2s after tap with process and
+   MainActivity alive? Discriminators: `dumpsys` captured *between tap
+   and redirect*; `exit-info` immediately after a run; disable-Firefox
+   run (forces Chrome, tests browser-specific teardown).
+2. If Management survival is confirmed unfixable from here: retire
+   direct flow on this device profile rather than more manifest surgery
+   — every launch variant has now cost more than it fixed. Do NOT add
+   launches, affinities, or flags without a dumpsys showing the exact
+   stack first.
+
 ## Appendix: log fingerprints- Clean cancel: `browser flow started` → `cancelled by user` →
   `browser step cancelled, no token to exchange`.
 - Race/drop: `browser flow started` → `failed with platform error
