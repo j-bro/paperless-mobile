@@ -104,8 +104,32 @@ Firefox (95 tabs) as default browser; Chrome behaves the same (see §5).
    tap (ActivityManager START lines + AppAuth tags) and
    `adb shell dumpsys activity activities` for task contents.
 
-## Appendix: log fingerprints
+## Unrelated finding (same night): reachability vs slow schema endpoint
 
+Symptom: "Could not establish a connection" while the web UI looked
+fine. Server-side (traefik access logs): `/` → 302 and
+`/accounts/login/` → 200 instantly, but **every** `/api/schema/` hit died
+at exactly the client's timeout (5.0s app, 10s/15s curl) with the backend
+never answering — while `/api/statistics/` answered 401 in 0.4s. So the
+server was up with a working API layer; only drf-spectacular schema
+generation wedged (post-v3-upgrade behavior). The app exclusively trusted
+`HEAD /api/schema/`, hence the false unreachable.
+
+Fix (`connectivity_status_service.dart`): on a failed schema probe that
+smells like slowness, confirm liveness with cheap `GET /api/statistics/`
+(any HTTP answer, incl. 401/403, counts as reachable). Subtlety that bit
+once: `ServerReachabilityErrorInterceptor` rewrites all errors to type
+`unknown` with a mapped `ReachabilityStatus` payload, so the gate must
+match mapped `connectionTimeout`/`notReachable` — not just raw Dio
+timeout types. DNS/TLS errors still fail fast. Covered by
+`test/core/service/connectivity_status_service_test.dart` (hanging-schema
+fake server + refused-connection cases).
+
+Deliberately NOT done: raising the 5s schema timeout. Schema generation
+observably exceeds 15s when wedged, while statistics answers in <1s, so
+waiting longer only delays dead-server detection for zero gain.
+
+## Appendix: log fingerprints
 - Clean cancel: `browser flow started` → `cancelled by user` →
   `browser step cancelled, no token to exchange`.
 - Race/drop: `browser flow started` → `failed with platform error
