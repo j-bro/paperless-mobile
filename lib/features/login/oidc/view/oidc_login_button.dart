@@ -9,6 +9,7 @@ import 'package:paperless_mobile/features/login/oidc/cubit/oidc_cubit.dart';
 import 'package:paperless_mobile/features/login/oidc/model/oidc_provider.dart';
 import 'package:paperless_mobile/features/login/oidc/service/appauth_oidc_facade.dart';
 import 'package:paperless_mobile/features/login/oidc/service/interrupted_sso_store.dart';
+import 'package:paperless_mobile/features/notifications/services/local_notification_service.dart';
 import 'package:paperless_mobile/features/login/oidc/view/sso_web_login_page.dart';
 import 'package:paperless_mobile/features/login/server_connection/model/header_entry.dart';
 import 'package:paperless_mobile/generated/l10n/app_localizations.dart';
@@ -103,6 +104,26 @@ class OidcLoginButton extends StatelessWidget {
     }
   }
 
+  /// Pings a system notification for terminal SSO outcomes. The browser
+  /// round-trip can complete while the app task stays backgrounded, in
+  /// which case in-app UI (snackbars, navigation) is invisible — the
+  /// notification is what brings the user back. Absent in tests (service
+  /// not provided), silently skips.
+  Future<void> _notifySsoOutcome(
+    BuildContext context, {
+    required String title,
+    required String body,
+    required int id,
+  }) async {
+    try {
+      await context
+          .read<LocalNotificationService?>()
+          ?.notifyStatus(id: id, title: title, body: body);
+    } catch (_) {
+      // Best-effort only.
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if ((flow == OidcFlow.none || providers.isEmpty) &&
@@ -127,6 +148,14 @@ class OidcLoginButton extends StatelessWidget {
           if (state is OidcSuccess) {
             await _clearAttempt();
             if (!context.mounted) return;
+            final l10n = S.of(context)!;
+            await _notifySsoOutcome(
+              context,
+              id: 9101,
+              title: l10n.ssoNotificationTitle,
+              body: l10n.ssoNotificationSignedIn,
+            );
+            if (!context.mounted) return;
             AddUserRoute(
               serverUrl: serverUrl,
               $extra: AddUserRouteExtra(
@@ -144,6 +173,13 @@ class OidcLoginButton extends StatelessWidget {
             // The system-browser round-trip is fragile (browser handoff
             // gates, background kills): always offer the in-process
             // fallback flow, which needs no round-trip, as the next step.
+            await _notifySsoOutcome(
+              context,
+              id: 9102,
+              title: l10n.ssoNotificationTitle,
+              body: l10n.ssoNotificationFailed,
+            );
+            if (!context.mounted) return;
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
@@ -159,6 +195,15 @@ class OidcLoginButton extends StatelessWidget {
             );
           } else if (state is OidcCancelled) {
             await _clearAttempt();
+          } else if (state is OidcOtpRequired) {
+            if (!context.mounted) return;
+            final l10n = S.of(context)!;
+            await _notifySsoOutcome(
+              context,
+              id: 9103,
+              title: l10n.ssoNotificationTitle,
+              body: l10n.ssoNotificationSecondFactor,
+            );
           }
         },
         builder: (context, state) {

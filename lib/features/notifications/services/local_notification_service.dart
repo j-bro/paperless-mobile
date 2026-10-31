@@ -71,6 +71,30 @@ class LocalNotificationService {
     );
   }
 
+  /// Generic status ping (login outcomes, etc.). Tapping it just opens the
+  /// app, which lands correctly by auth state — no payload routing needed.
+  Future<void> notifyStatus({
+    required int id,
+    required String title,
+    required String body,
+  }) async {
+    await _plugin.show(
+      id,
+      title,
+      body,
+      NotificationDetails(
+        android: AndroidNotificationDetails(
+          NotificationChannel.status.id,
+          NotificationChannel.status.name,
+          importance: Importance.high,
+          priority: Priority.high,
+          when: DateTime.now().millisecondsSinceEpoch,
+          category: AndroidNotificationCategory.status,
+        ),
+      ),
+    );
+  }
+
   Future<void> notifyDocumentDownload({
     required int documentId,
     required String filename,

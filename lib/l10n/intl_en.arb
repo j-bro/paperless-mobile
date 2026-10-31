@@ -1253,5 +1253,21 @@
   "useInAppLogin": "Use in-app login",
   "@useInAppLogin": {
     "description": "Action on the SSO error message that retries login through the in-app browser flow"
+  },
+  "ssoNotificationTitle": "Single sign-on",
+  "@ssoNotificationTitle": {
+    "description": "Title of the system notification posted for SSO login outcomes"
+  },
+  "ssoNotificationSignedIn": "Single sign-on completed. You are signed in.",
+  "@ssoNotificationSignedIn": {
+    "description": "Notification body shown when SSO login succeeds while the app is backgrounded"
+  },
+  "ssoNotificationFailed": "Single sign-on did not complete. Open the app to retry.",
+  "@ssoNotificationFailed": {
+    "description": "Notification body shown when SSO login fails while the app is backgrounded"
+  },
+  "ssoNotificationSecondFactor": "Single sign-on needs your authenticator code. Open the app to continue.",
+  "@ssoNotificationSecondFactor": {
+    "description": "Notification body shown when SSO login requires a second factor while the app is backgrounded"
   }
 }
