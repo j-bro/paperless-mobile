@@ -8,6 +8,16 @@ on:
         required: true
         default: true
         type: boolean
+      is_prerelease:
+        description: "Mark as prerelease"
+        required: true
+        default: true
+        type: boolean
+      tag:
+        description: "Release tag (default: v<version_name> from pubspec)"
+        required: false
+        default: ""
+        type: string
 
 # Declare default permissions as read only.
 permissions: read-all
@@ -66,6 +76,6 @@ jobs:
       - name: Build and publish GitHub release
         run: |
           cd /tmp/build/android
-          bundle exec fastlane github branch:${{ steps.extract_branch.outputs.branch }} is_draft:${{ github.event.inputs.is_draft }}
+          bundle exec fastlane github branch:${{ steps.extract_branch.outputs.branch }} is_draft:${{ github.event.inputs.is_draft }} is_prerelease:${{ github.event.inputs.is_prerelease }} tag:${{ github.event.inputs.tag }}
         env:
           GH_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}

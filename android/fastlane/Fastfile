@@ -52,15 +52,18 @@ platform :android do |options|
 
   desc "Builds apks and creates a new release on GitHub"
   lane :github do |options|
+    version_tag = "v" + flutter_version()["version_name"]
+    tag = options[:tag].to_s.empty? ? version_tag : options[:tag]
     sh "$FLUTTER_ROOT/flutter build apk --split-per-abi --release"
     sh "$FLUTTER_ROOT/flutter build apk --release"
     set_github_release(
-      repository_name: "astubenbord/paperless-mobile",
+      repository_name: "j-bro/paperless-mobile",
       api_token: ENV["GH_ACCESS_TOKEN"],
-      name: "v" + flutter_version()["version_name"],
-      tag_name: "v" + flutter_version()["version_name"],
+      name: tag,
+      tag_name: tag,
       is_generate_release_notes: true,
       is_draft: options[:is_draft],
+      is_prerelease: options[:is_prerelease],
       commitish: options[:branch],
       upload_assets: [
         "../build/app/outputs/flutter-apk/app-x86_64-release.apk",
