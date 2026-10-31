@@ -41,7 +41,7 @@ Dio _seq(List<Map<String, dynamic>> bodies, {List<int> statuses = const []}) {
   return dio;
 }
 
-const _provider = OidcProvider(id: 'p', name: 'P');
+const _provider = OidcProvider(id: 'p', name: 'P', clientId: 'c1');
 
 void main() {
   setUpAll(() {

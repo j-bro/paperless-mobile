@@ -39,7 +39,19 @@ class OidcCubit extends Cubit<OidcState> {
         className: runtimeType.toString(),
         methodName: 'start',
       );
-      final ex = await _api.exchangeProviderToken(providerId: provider.id, idToken: r.idToken, accessToken: r.accessToken);
+      // The exchange needs the provider's published client_id (allauth
+      // validates the id_token audience against the matching app entry).
+      final clientId = provider.clientId;
+      if (clientId == null || clientId.isEmpty) {
+        logger.fw(
+          'SSO provider ${provider.id} published no client id; cannot exchange.',
+          className: runtimeType.toString(),
+          methodName: 'start',
+        );
+        emit(const OidcError('OIDC sign-in failed. Please try again.', canRetry: true));
+        return;
+      }
+      final ex = await _api.exchangeProviderToken(providerId: provider.id, clientId: clientId, idToken: r.idToken, accessToken: r.accessToken);
       if (ex.accessToken != null) {
         _sessionToken = null;
         logger.fi(
