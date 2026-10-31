@@ -3,8 +3,15 @@
 Goal: log in via the system browser (AppAuth PKCE, no secrets in the app)
 against paperless-ngx v3 + authentik, instead of the in-app WebView fallback.
 
-**Status (2026-10-29):** redirect reaches the phone with a valid `code`+`state`
-(proven by relay logs), but the AppAuth chain resolves it as
+**Status (2026-10-31, session 2):** the app-side redirect chain is FIXED and
+proven end-to-end on a clean task: the response now reaches the tap-time
+Management via `onNewIntent` and the token exchange starts. The sole
+remaining blocker is server-side: authentik's `paperless` OIDC client is
+CONFIDENTIAL and rejects the app's public-PKCE exchange with
+`invalid_client` (reproduced standalone via curl; see §"Session 2").
+A bbone-infra subagent has been dispatched to flip the client to Public.
+Session-1 status, for the record (2026-10-29): redirect reached the phone
+with a valid `code`+`state`, but the chain resolved it as
 cancel-without-data (`null_intent`) ~1s after tap. WebView fallback login
 works on the same phone. All other reported bugs on this branch are fixed
 (public share wiring, saved-views null flags, log-parser crash,
@@ -174,7 +181,7 @@ manifest (zero `taskAffinity` attributes). Watch-out: share-receive and
 deep-link flows need a manual retest, since task placement for incoming
 intents changed with MainActivity's affinity.
 
-## ADB era verdict: stateless Management at response time (current end state)
+## ADB era verdict: stateless Management at response time (session 1 end state — RETRACTED, see "Session 2")
 
 With the phone on ADB, the full chain was watched live: tap →
 Management STARTs → browser opens → instant redirect → relay records
@@ -187,6 +194,98 @@ activities" is OFF and exit history shows no kills, so the destroyer is
 still unidentified — translucent-background reclaim on this device/OS
 build is the leading suspect, unproven.
 
+## Session 2 (2026-10-31): no destroyer exists — split task was stale-state; real wall is authentik
+
+Full instrumentation (unfiltered logcat + ~0.7s-cadence on-device
+`dumpsys activity activities` loop) across three live runs gave a complete
+event spine. Two findings closed every open question from session 1:
+
+**1. The "destroyer of tap-time Management" was a phantom.** Management is
+never destroyed. In the failing runs the response chain simply ran in a
+*different task* than the stateful Management:
+
+- Tap → Management (with extras) + Firefox custom tab land in the app task
+  (#29780) — `dumpsys` snapshots during the browser window show the
+  stateful instance alive under the tab the whole time.
+- Redirect → Firefox fires the VIEW intent with `flg=0x14000000`
+  (NEW_TASK|CLEAR_TOP) from the custom tab. In failing runs Android
+  **created a brand-new task (#29782)** for `SsoRedirectActivity` instead
+  of joining the app task; relay → receiver → response-Management (all
+  affinity-placid) then stayed in #29782, so `createResponseHandlingIntent`
+  (CLEAR_TOP|SINGLE_TOP, no NEW_TASK) spawned a stateless clone there →
+  `W/AppAuth: No stored state` → silent finish → user back-press closes
+  the tab → *real* Management resumes with no data → honest
+  `cancelled by user`. Every session-1 fingerprint explained.
+
+- Why the new task: the app task in those runs was **#29780, a stale task
+  created before the shared-affinity fix** (root = MainActivity with the
+  old empty `taskAffinity`, born from a PDF SEND share). Firefox's
+  NEW_TASK affinity search found no root-affinity match → new task.
+  After `am force-stop` (fresh task #29783, root affinity = package),
+  the SAME build routes the redirect **into the app task**: receiver
+  START, then `START … AuthorizationManagementActivity … result code=3`
+  (START_DELIVERED_TO_TOP = onNewIntent to the live stateful instance!),
+  no "No stored state", and MainActivity received the result. The
+  session-1 "final relay design" is correct as shipped — it was being
+  tested on a poisoned task.
+
+- Practical consequence: any app task whose root predates the affinity
+  fix (or any task whose root affinity ≠ package) still maroons the
+  redirect. `am force-stop` / app restart clears it. A hardening option
+  exists if this ever matters for upgrading users: have the relay forward
+  *directly* to Management via
+  `AuthorizationManagementActivity.createResponseHandlingIntent(...)` plus
+  `FLAG_ACTIVITY_NEW_TASK` — singleTask *instance* lookup routes to the
+  live Management regardless of task affinity. Not implemented: current
+  build is proven on clean tasks and the change couldn't be live-tested
+  in isolation (any real flow now completes to the exchange step).
+
+**2. The real wall: authentik rejects the token exchange — `invalid_client`.**
+With routing fixed, the flow reached the PKCE code exchange for the first
+time, and authentik answered:
+
+```
+Failed to authorize: [error: invalid_client, description: Client
+authentication failed (e.g., unknown client, no client authentication
+included, or unsupported authentication method)]
+```
+
+Standalone reproduction (no app involved):
+
+```
+curl -s -X POST "https://idp.example.com/application/o/token/" \
+  -d grant_type=authorization_code \
+  -d client_id=<client_id-from-headless-config> \
+  -d code=fakecode -d redirect_uri=paperlessmobile://oidc-callback \
+  -d code_verifier=fakeverifier…
+# → {"error": "invalid_client", … } HTTP 400
+```
+
+Root cause: discovery for the application
+(`https://idp.example.com/application/o/paperless/.well-known/openid-configuration`)
+advertises `token_endpoint_auth_methods_supported:
+['client_secret_post', 'client_secret_basic']` — a confidential client
+requiring a secret. The app is (correctly, by design) a public PKCE S256
+client with no secret; flutter_appauth's `authorizeAndExchangeCode`
+exchanges with `client_id` form-param only. Authentik supports S256 PKCE
+server-wide, so the fix is to make the client Public (authentik then
+enforces PKCE — fine, the app already sends S256 challenges).
+
+Decision (Jeremy): flip the authentik `paperless` provider to Public via a
+bbone-infra subagent (branch `authentik-paperless-public-client`), keep
+everything else untouched, record the old client secret for revert, then:
+(a) retest the app's direct flow end-to-end, (b) retest the paperless-ngx
+web SSO login (its server-side flow uses the secret and may break →
+revert if so).
+
+Post-flip success fingerprint to watch for (logcat):
+
+- `START … AuthorizationManagementActivity … result code=3` (delivered to
+  top, no "No stored state")
+- flutter: `AppAuth browser flow returned tokens (id …, access …)`
+- flutter: `SSO exchange succeeded.` → `OidcSuccess` (paperless headless
+  `/app/v1/auth/provider/token` mints the DRF token)
+
 ## Verdict table (entire investigation)
 
 | Hypothesis | Verdict |
@@ -198,25 +297,33 @@ build is the leading suspect, unproven.
 | CLEAR_TOP murder by relay | TRUE, fixed (no finishing launches) |
 | Duplicate MainActivity/tasks | TRUE, fixed (no MainActivity launches at all) |
 | Affinity-split tasks | TRUE as observed; mitigated via shared package affinity |
-| Firefox tab death | UNPROVEN — every null traced to our own launches instead |
+| Firefox tab death | FALSE — every null traced to task splits or our own launches |
 | OS memory kill | FALSE for test windows (exit history clean, process alive) |
 | Don't-keep-activities | FALSE (off on device) |
-| IdP rejecting exchange (confidential client) | UNTESTED — exchange never starts, so never reached |
-| Management dead at response time | TRUE in effect (stateless instance meets every response) |
+| IdP rejecting exchange (confidential client) | TRUE — session 2: exchange reached, `invalid_client`, curl-reproduced; discovery advertises secret-only auth methods |
+| Management dead at response time | FALSE — session 2: never destroyed; stateless clone in a split task met the response. Session-1 conclusion retracted |
+| Translucent-background reclaim (session-1 suspect) | FALSE — no destroyer exists |
+| Firefox-vs-Chrome engine difference | MOOT — clean-task routing works with Firefox; browser is not a variable |
+| Stale pre-fix app task breaks redirect routing | TRUE — proven live; cleared by force-stop/restart (see session 2 §1) |
 
 ## Open questions (next session)
 
-1. What destroys tap-time Management ~1–2s after tap with process and
-   MainActivity alive? Discriminators: `dumpsys` captured *between tap
-   and redirect*; `exit-info` immediately after a run; disable-Firefox
-   run (forces Chrome, tests browser-specific teardown).
-2. If Management survival is confirmed unfixable from here: retire
-   direct flow on this device profile rather than more manifest surgery
-   — every launch variant has now cost more than it fixed. Do NOT add
-   launches, affinities, or flags without a dumpsys showing the exact
-   stack first.
+1. Authentik client flip (bbone-infra subagent, branch
+   `authentik-paperless-public-client`): applied and verified against the
+   discovery doc? If yes →
+2. Retest the app's direct flow end-to-end on the phone (expect
+   `SSO exchange succeeded.` + `OidcSuccess`).
+3. Retest paperless-ngx **web** SSO login after the flip (its server-side
+   flow uses the client secret; revert instructions should be in the
+   subagent's report if it breaks).
+4. Optional hardening (not urgent, see session 2 §1): relay forwards
+   directly to Management (`createResponseHandlingIntent` + NEW_TASK) so
+   redirect routing survives any task-affinity oddity. Needs a live test
+   plan before implementing.
 
-## Appendix: log fingerprints- Clean cancel: `browser flow started` → `cancelled by user` →
+## Appendix: log fingerprints
+
+- Clean cancel: `browser flow started` → `cancelled by user` →
   `browser step cancelled, no token to exchange`.
 - Race/drop: `browser flow started` → `failed with platform error
   null_intent` (+ `Failed to authorize: Null intent received`), no
@@ -225,3 +332,12 @@ build is the leading suspect, unproven.
   true, error: false)` — proves arrival with a redeemable code.
 - Interruption resume: `Resuming interrupted SSO for <id> in WebView
   fallback mode` + `ssoLoginInterrupted` notice on next cold start.
+- Split-task drop (session 1, stale task): Firefox START of
+  `SsoRedirectActivity` resolved into a NEW task id ≠ app task →
+  `W/AppAuth: No stored state - unable to handle response`.
+- Delivered-to-top success (session 2, clean task): `START …
+  AuthorizationManagementActivity … result code=3` with no
+  `No stored state`, followed by the exchange outcome in flutter logs.
+- Exchange rejected by IdP: `Failed to authorize: [error: invalid_client,
+  description: Client authentication failed …]` — routing is healthy;
+  authentik client type is the problem.
