@@ -129,8 +129,23 @@ Deliberately NOT done: raising the 5s schema timeout. Schema generation
 observably exceeds 15s when wedged, while statistics answers in <1s, so
 waiting longer only delays dead-server detection for zero gain.
 
-## Appendix: log fingerprints
-- Clean cancel: `browser flow started` → `cancelled by user` →
+## ADB findings: split tasks, then the hanging Management
+
+With the phone on ADB, `dumpsys activity activities` showed the live
+stack at receipt time: one task held Management + the Firefox tab + a
+**second** MainActivity, while the original MainActivity (holding the
+pending Dart future) waited in another task. Cause: the relay's
+MainActivity relaunch — any flags — risks a second instance/second task,
+so response and waiter never meet. The relay now launches nothing:
+record + forward + finish, letting the VIEW intent and the
+response-handling CLEAR_TOP do all task movement.
+
+Remaining hypothesis if hangs persist: Management itself dead at
+response time (fresh stateless instance → silent finish, no result).
+ADB discriminators: `dumpsys` task contents at hang time + AppAuth's own
+`W/AppAuth` logcat lines (`No stored state` proves it).
+
+## Appendix: log fingerprints- Clean cancel: `browser flow started` → `cancelled by user` →
   `browser step cancelled, no token to exchange`.
 - Race/drop: `browser flow started` → `failed with platform error
   null_intent` (+ `Failed to authorize: Null intent received`), no
