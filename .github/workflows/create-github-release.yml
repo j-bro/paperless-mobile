@@ -80,9 +80,22 @@ jobs:
           bundler-cache: true
           working-directory: /tmp/build/android
 
-      - name: Build and publish GitHub release
+      - name: Build signed release APKs
         run: |
           cd /tmp/build/android
-          bundle exec fastlane github branch:${{ steps.extract_branch.outputs.branch }} is_draft:${{ github.event.inputs.is_draft }} is_prerelease:${{ github.event.inputs.is_prerelease }} tag:${{ github.event.inputs.tag }}
+          bundle exec fastlane github
+
+      - name: Publish GitHub release with APKs
+        run: |
+          cd /tmp/build/android
+          TAG="${{ github.event.inputs.tag }}"
+          if [ -z "$TAG" ]; then
+            TAG="v$(grep '^version:' /tmp/build/pubspec.yaml | cut -d' ' -f2 | cut -d+ -f1)"
+          fi
+          FLAGS="--target ${{ steps.extract_branch.outputs.branch }} --generate-notes"
+          [ "${{ github.event.inputs.is_draft }}" = "true" ] && FLAGS="$FLAGS --draft"
+          [ "${{ github.event.inputs.is_prerelease }}" = "true" ] && FLAGS="$FLAGS --prerelease"
+          # shellcheck disable=SC2086
+          gh release create "$TAG" $FLAGS ../build/app/outputs/flutter-apk/app-release.apk ../build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk ../build/app/outputs/flutter-apk/app-arm64-v8a-release.apk ../build/app/outputs/flutter-apk/app-x86_64-release.apk
         env:
-          GH_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
