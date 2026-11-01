@@ -50,27 +50,9 @@ platform :android do |options|
     )
   end
 
-  desc "Builds apks and creates a new release on GitHub"
+  desc "Builds signed release apks (release publishing happens in CI via gh)"
   lane :github do |options|
-    version_tag = "v" + flutter_version()["version_name"]
-    tag = options[:tag].to_s.empty? ? version_tag : options[:tag]
     sh "$FLUTTER_ROOT/flutter build apk --split-per-abi --release"
     sh "$FLUTTER_ROOT/flutter build apk --release"
-    set_github_release(
-      repository_name: "j-bro/paperless-mobile",
-      api_token: ENV["GH_ACCESS_TOKEN"],
-      name: tag,
-      tag_name: tag,
-      is_generate_release_notes: true,
-      is_draft: options[:is_draft],
-      is_prerelease: options[:is_prerelease],
-      commitish: options[:branch],
-      upload_assets: [
-        "../build/app/outputs/flutter-apk/app-x86_64-release.apk",
-        "../build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk", 
-        "../build/app/outputs/flutter-apk/app-arm64-v8a-release.apk", 
-        "../build/app/outputs/flutter-apk/app-release.apk"
-      ],
-    )
   end
 end
