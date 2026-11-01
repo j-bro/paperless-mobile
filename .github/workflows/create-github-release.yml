@@ -19,8 +19,9 @@ on:
         default: ""
         type: string
 
-# Declare default permissions as read only.
-permissions: read-all
+# Release creation + asset upload needs write; everything else stays none.
+permissions:
+  contents: write
 
 jobs:
   create-github-release:
@@ -78,4 +79,4 @@ jobs:
           cd /tmp/build/android
           bundle exec fastlane github branch:${{ steps.extract_branch.outputs.branch }} is_draft:${{ github.event.inputs.is_draft }} is_prerelease:${{ github.event.inputs.is_prerelease }} tag:${{ github.event.inputs.tag }}
         env:
-          GH_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+          GH_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
